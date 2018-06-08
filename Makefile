@@ -44,11 +44,12 @@ clean:
 # along with a README
 
 publish:
+	mkdir -p $(PUBLISHDIR)
 	rm -fr $(PUBLISHDIR)/*
 	cp -r $(BUILDDIR)/html/* $(PUBLISHDIR)
 	cp scripts/publish-README.md $(PUBLISHDIR)/../README.md
 	cp scripts/publish-index.html $(PUBLISHDIR)/../index.html
-	cd $(PUBLISHDIR)/..; git add -A; git commit -s -m "publish $(RELEASE)"; git push origin master;
+	cd $(PUBLISHDIR)/..; git add -A; git commit -s -m "publish $(RELEASE)"; git push upstream master;
 
 
 # Catch-all target: route all unknown targets to Sphinx using the new
