@@ -147,8 +147,8 @@ html_context = {
 #
 # html_theme_options = {}
 
-html_logo = 'images/logo_sof_dark.png'
-#html_favicon = 'images/ACRN-favicon-32x32.png'
+html_logo = 'images/logo_sof_white_200w.png'
+html_favicon = 'images/sof-favicon-16x16.png'
 
 numfig = True
 #numfig_secnum_depth = (2)
