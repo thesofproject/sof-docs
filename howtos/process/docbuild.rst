@@ -67,6 +67,8 @@ upstream project repos (though https clones work too):
 #. Use your browser to visit https://github.com/thesofproject and do a
    fork of the ``sof-docs`` repo to your personal GitHub account.)
 
+   .. image:: images/fork-sof-docs.png
+
 #. At a command prompt, create the working folder and clone the acrn-hypervisor
    repository to your local computer (and if you have publishing rights, the
    projectacrn.github.io repo).  If you don't have publishing rights
@@ -100,16 +102,16 @@ Our documentation processing has been tested to run with:
 
 * Python 3.6.3
 * Doxygen version 1.8.13
-* Sphinx version 1.6.7
-* Breathe version 4.7.3
+* Sphinx version 1.7.5
+* Breathe version 4.9.1
 * docutils version 0.14
-* sphinx_rtd_theme version 0.2.4
+* sphinx_rtd_theme version 0.4.0
 
 The SOF documentation makes use of additional Sphinx extensions used for
 creating drawings:
 
 * sphinxcontrib-plantuml
-* sphinx.ext.graphviz
+* sphinx.ext.graphviz  (included with Sphinx)
 
 .. note::  The plantuml extension uses Java to render the uml drawing
    syntax into an image. You'll need to have a Java runtime environment
