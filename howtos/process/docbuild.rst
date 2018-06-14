@@ -123,13 +123,15 @@ Depending on your Linux version, install the needed tools:
 
   .. code-block:: bash
 
-     sudo apt-get install doxygen python3-pip python3-wheel make default-jre
+     sudo apt-get install doxygen python3-pip python3-wheel make \
+        default-jre graphviz
 
 * For Fedora use:
 
   .. code-block:: bash
 
-     sudo dnf install doxygen python3-pip python3-wheel make default-jre
+     sudo dnf install doxygen python3-pip python3-wheel make \
+        default-jre graphviz
 
 And for either Linux environment, install the remaining python-based
 tools:
