@@ -1,0 +1,68 @@
+digraph G {
+  node [fontsize=10, shape="record"]
+  edge [fontsize=10]
+  rankdir=LR
+  splines=ortho
+
+  subgraph clusterDsp { fontsize=10 color=grey
+    dsp_1 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_2 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_3 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_4 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_5 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_6 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_7 [label="DSP" style=filled color="#f0f0f0"]
+    dsp_8 [label="DSP" style=filled color="#f0f0f0"]
+  }
+
+  subgraph clusterL1 { fontsize=10 color=grey
+    l1_1 [label="L1" style=filled color="#e0e0e0"]
+    l1_2 [label="L1" style=filled color="#e0e0e0"]
+    l1_5 [label="L1" style=filled color="#e0e0e0"]
+    l1_7 [label="L1" style=filled color="#e0e0e0"]
+  }
+
+    hpsram_l2_1 [label="HPSRAM L2" style=filled color="#d0d0d0"]
+    hpsram_l2_3 [label="HPSRAM L2" style=filled color="#d0d0d0"]
+    hpsram_local_5 [label="HPSRAM\nLocal mem" style=filled color="#d0d0d0"]
+    hpsram_local_6 [label="HPSRAM\nLocal mem" style=filled color="#d0d0d0"]
+
+    lpsram_local_7 [label="LPSRAM\nLocal mem" style=filled color="#d0d0d0"]
+    lpsram_local_8 [label="LPSRAM\nLocal mem" style=filled color="#d0d0d0"]
+
+  subgraph clusterImr { fontsize=10 color=grey
+    imr_1 [label="IMR" style=filled color="#c0c0c0"]
+    imr_2 [label="IMR" style=filled color="#c0c0c0"]
+    imr_4 [label="IMR" style=filled color="#c0c0c0"]
+    imr_3 [label="IMR" style=filled color="#c0c0c0"]
+  }
+
+  /* L1 -> L2 -> IMR */
+  dsp_1 -> l1_1 -> hpsram_l2_1
+  hpsram_l2_1 -> imr_1 [label="@ A000 0000"]
+
+  /* L1 -> IMR */
+  dsp_2 -> l1_2
+  l1_2 -> imr_2 [label="@ B000 0000"]
+
+  /* L2 -> IMR */
+  dsp_3 -> hpsram_l2_3
+  hpsram_l2_3 -> imr_3 [label="@ 8000 0000"]
+
+  /* -> IMR */
+  dsp_4 -> imr_4 [label="@ 9000 0000"]
+
+  /* DSP -> L1 -> HPSRAM */
+  dsp_5 -> l1_5
+  l1_5 -> hpsram_local_5 [label="@ BE00 0000"]
+
+  /* DSP -> HPSRAM */
+  dsp_6 -> hpsram_local_6 [label="@ 9E00 0000"]
+
+  /* DSP -> L1 -> LPSRAM */
+  dsp_7 -> l1_7
+  l1_7 -> lpsram_local_7 [label = "@BE80 0000"]
+
+  /* DSP -> LPSRAM */
+  dsp_8 -> lpsram_local_8 [label = "@9E80 0000"]
+}
