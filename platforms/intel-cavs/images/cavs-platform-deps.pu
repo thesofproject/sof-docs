@@ -1,0 +1,21 @@
+package cavs {
+   package 1.5
+   package 1.8
+}
+
+package arch {
+   component host
+   component xtensa
+   component xtensa_smp
+}
+
+1.5 ..> xtensa_smp
+1.8 ..> xtensa_smp
+
+package platform {
+   component apollolake
+   component cannonlake
+}
+
+apollolake ..> 1.5
+cannonlake ..> 1.8
