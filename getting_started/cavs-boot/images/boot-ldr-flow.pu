@@ -1,0 +1,28 @@
+actor "ROM" as rom
+box "boot_ldr @IMR" #LightBlue
+	participant ".boot_entry.text" as bup_be
+	participant ".text" as bup
+end box
+participant "sof" as fw
+
+rom -> bup_be : boot_entry() @boot_ldr.ep (boot_entry.S)
+	activate bup_be
+	bup_be -> bup_be : j boot_init:
+	note right: Platform specific actions (compilation flags)\n\
+- reset MHE\n\
+- disable L2$
+	bup_be -> bup : call8 boot_pri_core() (boot_loader.c)
+		activate bup
+		bup -> bup : hp_sram_init()
+		opt defined(CONFIG_BOOT_LOADER)
+			bup -> bup : parse_manifest()
+			note right: copying of FW IMR -> SRAM done here
+		end
+
+	bup -> bup : _ResetVector()
+		activate bup
+		bup -> fw : _MainEntry() @SOF_TEXT_START
+			fw -> fw : call0 _start
+				activate fw
+				fw -> fw : call main
+					activate fw
