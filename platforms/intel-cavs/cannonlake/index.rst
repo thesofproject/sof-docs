@@ -1,3 +1,4 @@
+.. _platform-cannonlake:
 
 Intel Cannon Lake
 #################

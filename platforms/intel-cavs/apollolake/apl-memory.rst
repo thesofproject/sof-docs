@@ -1,3 +1,5 @@
+.. _apl-memory:
+
 APL Memory
 ##########
 

@@ -1,3 +1,5 @@
+.. _cnl-memory:
+
 CNL Memory
 ##########
 

@@ -1,3 +1,4 @@
+.. _platforms-intel-cavs:
 
 Intel CAVS Platforms
 ####################

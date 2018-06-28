@@ -1,3 +1,4 @@
+.. _platform-apollolake:
 
 Intel Apollo Lake
 #################
