@@ -1,3 +1,4 @@
+.. _cavs-dsp-boot-overview:
 
 Overview
 ########
@@ -26,9 +27,9 @@ sending IPC message, and the DSP core unstall operations. It is assumed that
 the following order is required unless specified otherwise by Boot Path
 Control Message in case of a specific platform:
 
-1.	Power up and reset the DSP Core 0,
-#.	Send ROM Control IPC,
-#.	Unstall DSP Core 0.
+1. Power up and reset the DSP Core 0,
+#. Send ROM Control IPC,
+#. Unstall DSP Core 0.
 
 The ROM Control IPC message includes “purge” parameter that should be set to 1
 in case of the cold boot. Otherwise it may be set to 0 after coming out of
@@ -57,11 +58,11 @@ The ADSP FW binary code may be divided into:
 
 There are two main parts of the main binary:
 
-*	Manifest,
-*	Modules binary code.
+* Manifest,
+* Modules binary code.
 
 Determining Part of Binary to be Loaded
----------------------------------------
+=======================================
 
 The binary begins with the Manifest that is loaded into the DSP memory. The
 Manifest contains ``preload_page_count`` parameter that determines part of the
@@ -89,7 +90,7 @@ of the binary file.
    relatively to the beginning of the Manifest.
 
 Preparing DMA to Transfer Binaries
-----------------------------------
+==================================
 
 The driver programs the DMA engine that is used to transfer the binaries into
 the DSP memory. It is either dedicated Code Load DMA if available, or one of
@@ -101,7 +102,7 @@ Note that the DMA buffers are managed independently on the host side and the
 DSP side.
 
 Loading Binaries
-----------------
+================
 
 Once the DMA is ready, the driver loads the Base FW binary, waits for the FW
 Ready IPC notification and then loads additional binaries (libraries/modules).

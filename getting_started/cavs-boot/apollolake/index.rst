@@ -1,3 +1,4 @@
+.. _cavs-boot-apl:
 
 Apollolake Boot Process
 #######################

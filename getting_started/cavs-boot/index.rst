@@ -1,3 +1,4 @@
+.. _cavs-boot:
 
 Booting up CAVS ADSP
 ####################

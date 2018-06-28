@@ -1,3 +1,4 @@
+.. _apl-boot-rom:
 
 Apollolake Boot ROM
 ###################
@@ -39,14 +40,14 @@ helpful for driver writers hence documented in this specification.
 
    union fw_status_reg
    {
-   	int32_t full;
-   	struct Bits
-   	{
-   		uint32_t state      : 24;
-   		uint32_t wait_state : 4;
-   		uint32_t module     : 3;
-   		uint32_t running    : 1;
-   	} bits;
+           int32_t full;
+           struct Bits
+           {
+                   uint32_t state      : 24;
+                   uint32_t wait_state : 4;
+                   uint32_t module     : 3;
+                   uint32_t running    : 1;
+           } bits;
    };
 
 running

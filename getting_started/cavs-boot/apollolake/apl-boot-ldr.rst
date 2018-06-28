@@ -1,3 +1,4 @@
+.. _apl-boot-ldr:
 
 Apollolake Boot Loader
 ######################
