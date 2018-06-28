@@ -35,7 +35,7 @@ Developer Certification of Origin (DCO)
 ***************************************
 
 To make a good faith effort to ensure licensing criteria are met,
-project ACRN requires the Developer Certificate of Origin (DCO) process
+project SOF requires the Developer Certificate of Origin (DCO) process
 to be followed.
 
 The DCO is an attestation attached to every contribution made by every

@@ -69,9 +69,9 @@ upstream project repos (though https clones work too):
 
    .. image:: images/fork-sof-docs.png
 
-#. At a command prompt, create the working folder and clone the acrn-hypervisor
+#. At a command prompt, create the working folder and clone the sof-docs
    repository to your local computer (and if you have publishing rights, the
-   projectacrn.github.io repo).  If you don't have publishing rights
+   thesofproject.github.io repo).  If you don't have publishing rights
    you'll still be able to generate the docs locally, but not publish them:
 
    .. code-block:: bash
