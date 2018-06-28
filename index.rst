@@ -1,4 +1,4 @@
-.. _ACRN_home:
+.. _SOF_home:
 
 SOF Project documentation
 #########################
