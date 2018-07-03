@@ -187,7 +187,10 @@ rst_epilog = """
 
 
 breathe_projects = {
-	"SOF Project" : "doxygen/xml",
+   "SOF Project" : "doxygen/xml",
 }
 breathe_default_project = "SOF Project"
 breathe_default_members = ('members', 'undoc-members', 'content-only')
+breathe_domain_by_extension = {
+   "h" : "c",
+}

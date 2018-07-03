@@ -1,0 +1,22 @@
+participant client
+participant lib
+participant dma
+
+== Obtaining Reference to DMAC ==
+client -> lib : dma_get(capabilities)
+client <-- lib : dma
+
+== Start ==
+client -> dma : dma_channel_get( stream tag )
+client <-- dma : ch#
+
+client -> dma : dma_set_cb( ch#, client.cb() )
+client -> dma : dma_set_config( ch#, config )
+client -> dma : dma_start( ch# )
+
+== Transmission ==
+...
+
+== Stop ==
+client -> dma : dma_stop( ch# )
+client -> dma : dma_channel_put( ch# )
