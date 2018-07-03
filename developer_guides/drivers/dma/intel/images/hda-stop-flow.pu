@@ -1,0 +1,30 @@
+box "Host" #ffffff
+    participant "Host\nDriver" as drv
+end box
+box "HD/A HW"
+	participant hda_sw
+	participant hda_fw
+end box
+box "DSP" #ffffff
+    participant host
+    participant hda_dma
+end box
+
+note over hda_sw, hda_fw: "DMA in RUNNING state"
+
+-> drv : Stop?
+
+    drv -> host : COMP_TRIGGER_PAUSE ?
+            note right : No more FPI touching at this point
+        drv <-- host
+
+    drv -> hda_sw : RUN := 0
+
+    drv -> host : COMP_TRIGGER_STOP
+        host -> hda_dma : dma_stop()
+            hda_fw <- hda_dma : GEN := 0
+            hda_fw <- hda_dma : FIFORDY := 0
+            host <-- hda_dma
+        drv <-- host
+
+    drv -> hda_sw : Flush DMA,\nset SRST (stream reset)

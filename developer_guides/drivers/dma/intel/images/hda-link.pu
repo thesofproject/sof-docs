@@ -1,0 +1,31 @@
+actor client as "dai\ncomponent"
+participant hda_dma
+participant work_queue
+
+client -> hda_dma : dma_start()
+	activate hda_dma
+	note right: GEN := 1 -> transfer starts
+
+	hda_dma -> work_queue : work_schedule_default(&hda_work, HDA_LINK_1MS_US)
+	hda_dma <-- work_queue
+client <-- hda_dma
+deactivate hda_dma
+
+... 1 ms elapsed ...
+
+work_queue -> hda_dma : hda_work->cb()
+	activate hda_dma
+
+   hda_dma -> hda_dma : update FPI by 'bytes'
+   note right: 'commit' is always true in this scenario
+
+	hda_dma -> hda_dma : wait for next period to be available (w/ short t/o)
+
+	hda_dma -> client : callback()
+		activate client
+		client -> client : comp_update_buffer_produce/consume()
+	hda_dma <-- client
+	deactivate client
+
+work_queue <-- hda_dma : 1MS_TIMEOUT (to re-arm the timer)
+deactivate hda_dma

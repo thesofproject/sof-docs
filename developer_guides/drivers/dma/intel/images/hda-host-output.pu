@@ -1,0 +1,67 @@
+actor drv as "Host\nDriver"
+participant ppl as "pipeline"
+participant host as "host\ncomponent"
+participant hda_dma
+participant hda_hw as "HD/A HW"
+
+== Start Trigger ==
+
+drv -> ppl : <<IPC>> trigger (START)
+   activate ppl
+
+   ppl -> host : trigger (START)
+      activate host
+
+      host -> hda_dma : dma_start()
+         activate hda_dma
+      host <-- hda_dma
+      deactivate hda_dma
+
+      host -> hda_dma : copy(flags = PRELOAD)
+         activate hda_dma
+         note right: Do not expect Buffer Full yet.
+         hda_dma -> hda_dma : state += PRELOAD
+         hda_dma -> hda_dma : preload()
+            activate hda_dma
+            note right : First non-blocking BF test
+         deactivate hda_dma
+         hda_dma -> hda_dma : state += BF_WAIT
+      host <-- hda_dma
+      deactivate hda_dma
+   ppl <-- host
+   deactivate host
+
+   ppl -> ppl : schedule_copy_idle()
+      activate ppl
+      note right: Scheduler got a ppl task (pre-loader)\n to run in idle
+   deactivate ppl
+drv <-- ppl
+deactivate ppl
+
+== Pre-load ==
+
+-> ppl : pipeline_task
+   activate ppl
+   ppl -> ppl : pipeline_copy
+      activate ppl
+      ppl -> host : copy()
+         activate host
+         host -> hda_dma : copy()
+            activate hda_dma
+            hda_dma -> hda_dma : preload()
+               activate hda_dma
+               note right : Blocking BF wait this time
+               host <- hda_dma : callback() /for each period/
+                  activate host
+                  host -> host : comp_update_buffer_produce()
+               host --> hda_dma
+               deactivate host
+               hda_dma -> hda_dma : clear state flags
+note right: Switching to normal on demand mode.\n\
+Rptr (FPI) advanced on the next copy()\n\
+Once the first period is processed.
+            deactivate hda_dma
+         host <-- hda_dma
+         deactivate hda_dma
+      ppl <-- host
+      deactivate host

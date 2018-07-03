@@ -1,0 +1,51 @@
+box "Host" #ffffff
+    participant "Host\nDriver" as drv
+end box
+box "HD/A HW"
+	participant hda_sw
+	participant hda_fw
+end box
+box "DSP" #ffffff
+    participant host
+    participant hda_dma
+end box
+
+note over hda_sw, hda_fw: "DMA in RESET state"
+
+-> drv : Create Stream
+    drv -> host : new()
+        host -> hda_dma : dma_get(dmac_id)
+            host <-- hda_dma : dmac
+
+        drv <-- host
+    <-- drv
+
+-> drv : Stream Params
+    drv -> hda_sw : setup DMA (format & BDL)
+
+    drv -> host : params()
+        host -> hda_dma : dma_channel_get(dmac, params.stream_tag)
+            host <-- hda_dma : chan
+
+        host -> hda_dma : dma_set_config(dmac, chan, config)
+            hda_fw <- hda_dma : DGBBA, DGBS
+            hda_fw <- hda_dma : DGMBS := buffer size [host dma]
+            hda_fw <- hda_dma : GEN := 0
+            hda_fw <- hda_dma : SCS := 1 [bit_depth != 32]
+            hda_fw <- hda_dma : FWCB : = 1
+            hda_fw <- hda_dma : FIFORDY := 0
+            host <-- hda_dma
+
+        drv <-- host
+    <-- drv
+
+-> drv : RUN
+    drv -> hda_sw : RUN := 1
+
+    drv -> host : trigger(COMP_TRIGGER_START)
+        host -> hda_dma : dma_start()
+            hda_fw <- hda_dma : GEN := 1
+            hda_fw <- hda_dma : FIFORDY := 1
+            host <-- hda_dma
+        drv <-- host
+    <-- drv
