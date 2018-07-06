@@ -9,13 +9,8 @@ Architecture Porting Guide
 Platform Porting Guide
 **********************
 
-Platform Interface
-==================
+The SOF infrastructure requires every platform to provide certain interfaces.
 
-Location: *src/platform*
+Refer to :ref:`platform-api` for documentation.
 
-Main Interface
---------------
-
-Clock Interface
-----------------
+.. TODO: reference to flows that illustrate calls to platform api.
