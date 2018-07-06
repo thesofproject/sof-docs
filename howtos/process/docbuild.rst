@@ -87,6 +87,10 @@ upstream project repos (though https clones work too):
    .. code-block:: bash
 
       git clone git@github.com:thesofproject/sof.git
+      # use next until merged back to master
+      cd sof
+      git checkout next
+      cd ..
 
 #. For the cloned local repos, tell git about the upstream repo:
 
