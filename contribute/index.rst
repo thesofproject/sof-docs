@@ -11,3 +11,4 @@ patches for code, documentation, tests, and more, directly to the project.
 
    contribute_guidelines.rst
    doc_guidelines.rst
+   dox-source-code.rst
