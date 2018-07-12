@@ -1,0 +1,33 @@
+participant host as "Host"
+participant ipc
+participant platform
+participant dai_comp as "audio/dai"
+participant dai
+participant dai_hw
+
+host -> ipc : ipc_dai_config(config)
+   activate ipc
+
+   ipc -> platform : dai_get(config->type, config->id)
+      activate platform
+   ipc <-- platform : dai ptr
+   deactivate platform
+
+   ipc -> dai : dai_set_config(config)
+      activate dai
+      dai -> dai_hw : setup
+      activate dai_hw
+   ipc <-- dai
+   deactivate dai
+
+host <-- ipc
+deactivate ipc
+
+host -> dai_comp : dai_comp_trigger(cmd)
+   note right: Full call path includes parent pipeline
+   activate dai_comp
+   dai_comp -> dai : dai_trigger(cmd)
+      activate dai
+      dai -> dai_hw : update
+   dai_comp <-- dai
+host <-- dai_comp

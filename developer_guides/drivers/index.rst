@@ -9,3 +9,4 @@ Location: *src/drivers*
    :maxdepth: 1
 
    dma/index
+   dai/index

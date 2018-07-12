@@ -1,0 +1,45 @@
+class dai {
+   struct dai *dai_get(uint32_t type, uint32_t index)
+}
+hide dai attributes
+
+class dai_ops {
+   set_config()
+   trigger()
+   pm_context_restore()
+   pm_context_store()
+   probe()
+   set_loopback_mode()
+}
+hide dai_ops attributes
+
+class "struct dai" as s_dai {
+   type : uint32_t
+   index : uint32_t
+   plat_data : dai_plat_data
+   ops : const dai_ops *
+   private : void *
+}
+hide s_dai methods
+
+class "struct dai_plat_data" as s_dai_plat_data {
+   base : uint32_t
+   irq : uint32_t
+   flags : uint32_t
+   fifo : struct dai_plat_fifo_data[2]
+}
+hide s_dai_plat_data methods
+
+class "struct dai_plat_fifo_data" as s_dai_plat_fifo_data {
+   offset : uint32_t
+   width : uint32_t
+   depth : uint32_t
+   watermark : uint32_t
+   handshake : uint32_t
+}
+hide s_dai_plat_fifo_data methods
+
+dai_ops - s_dai
+s_dai -- s_dai_plat_data
+s_dai_plat_data -- s_dai_plat_fifo_data
+s_dai <- dai : provides
