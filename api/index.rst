@@ -7,5 +7,6 @@ API Documentation
    :maxdepth: 1
 
    dma-drivers-api
+   dai-drivers-api
    platform-api
    uapi
