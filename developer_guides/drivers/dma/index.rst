@@ -18,8 +18,8 @@ the DMA clients to setup and run DMA transmission.
 .. uml:: images/dma-ops.pu
    :caption: DMA Driver API
 
-Flows
-*****
+Programming Flows
+*****************
 
 DMAC Initialization
 ===================
@@ -27,6 +27,13 @@ DMAC Initialization
 There is one-time initialization phase when the ADSP goes to D0 state. Each
 platform registers its DMA drivers in the list maintained by the *lib* at
 startup.
+
+It is important to keep bare minimum of early initialization code in the probe
+implementation, with no power impact.
+
+.. note:: A static array of ``dma`` instances declared in the platform's code
+   may be replaced with a dynamic discovery of the DMA resources available
+   on the platform, using capability registers if provided by the HW.
 
 Any component from the *audio* package may use a DMA engine by obtaining a
 reference to the ``dma_ops`` interface from the *lib*'s list. This flow may
@@ -41,6 +48,10 @@ Channel Initialization & Data Transfer
 .. uml:: images/dma-transfer.pu
    :caption: Channel Initialization & Data Transfer
 
+In case the host co-manages the DMA HW and the channel is "allocated" by the
+host side, the FW component has to wait until its ``params()`` API is called
+in order to learn the channel ID and pass it to the ``channel_get()`` request.
+
 Using DMA Driver API
 ********************
 
@@ -49,29 +60,6 @@ See :ref:`dma-drivers-api`
 .. note:: The API is accessed through a common structure however an
    implementation may keep some specific private data, attached to the
    ``dma.private`` pointer.
-
-Initialization of DMACs
-=======================
-
-The probing is done during the platform initialization by calling
-``dma_probe()`` on each ``dma`` instance inside the ``platform_init()``::
-
-   int (*probe)(struct dma *dma);
-
-More aggressive power optimization approach may require to probe the devices on
-demand, right before use.
-
-A static array of ``dma`` instances declared in the platform's code for
-*library/dma* may need replacement with a dynamic method that discovers the
-quantities available on the platform using capability registers provided by the
-HW.
-
-Requesting a Channel
-====================
-
-In case the host co-manages the DMA HW and the channel is "allocated" by the
-host side, the FW component has to wait until its ``params()`` API is called
-in order to learn the channel ID and pass it to the ``channel_get()`` request.
 
 .. _dma-drivers-supported-devices:
 
