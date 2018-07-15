@@ -41,7 +41,7 @@ graphviz_dot_args=[
 
 plantuml = 'java -jar ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.jar') \
     + ' -config ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.cfg')
-plantuml_output_format = 'png'
+plantuml_output_format = 'svg'
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
