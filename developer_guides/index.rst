@@ -8,4 +8,5 @@ Developer Guides
 
    porting
    drivers/index
+   kernel/index
    unit_tests

@@ -1,0 +1,99 @@
+scale max 800 height
+
+skinparam rectangle {
+   backgroundColor<<dai>> #6fccdd
+   backgroundColor<<dma>> #f6ed80
+   backgroundColor<<stream>> #d6d6de
+   borderColor<<stream>> #d6d6de
+   borderColor<<ppl>> #a1a1ca
+
+   backgroundColor<<event>> #f05772
+   stereotypeFontColor<<event>> #ffffff
+   fontColor<<event>> #ffffff
+
+   backgroundColor<<cpu>> #f0f0f0
+}
+
+together {
+   ' ssp dais
+   rectangle "ssp-dai #0" as ssp_0 <<dai>>
+   rectangle "ssp-dai #1" as ssp_1 <<dai>>
+   ' hda dais
+   rectangle "hda-dai #0" as hda_0 <<dai>>
+}
+
+rectangle "core #0" <<cpu>> {
+
+   together {
+      rectangle "hda-dma\nhost output #0" as hda_dma_ho_0 <<dma>>
+      rectangle "hda-dma\nhost input #0" as hda_dma_hi_0 <<dma>>
+   }
+   together {
+      rectangle "dw-dma #0" as dw_dma_0 <<dma>>
+      rectangle "dw-dma #1" as dw_dma_1 <<dma>>
+   }
+
+   rectangle "playback #0" <<stream>> {
+
+      rectangle "ppl #0" as ppl_0 <<ppl>> {
+         rectangle "host comp" as host_0
+         rectangle "vol" as vol_0
+         rectangle "mix-in" as mix_in_0
+
+         host_0 --> vol_0
+         vol_0 --> mix_in_0
+      }
+
+      rectangle "ppl #1" as ppl_1 <<ppl>> {
+         rectangle "mix-out" as mix_out_1
+         rectangle "dai comp" as dai_1
+
+         mix_out_1 --> dai_1
+      }
+      mix_in_0 --> mix_out_1
+   }
+   hda_dma_ho_0 --> host_0
+
+   dai_1 --> dw_dma_0
+   dw_dma_0 --> ssp_0
+
+   rectangle "capture #0" <<stream>> {
+      rectangle "ppl #3" as ppl_3 <<ppl>> {
+         rectangle "host comp" as host_3
+         rectangle "dai comp" as dai_3
+         host_3 <-- dai_3
+      }
+   }
+   hda_dma_hi_0 <-- host_3
+   dai_3 <-- dw_dma_1
+   dw_dma_1 <-- ssp_1
+
+   ' now let's show who's driving
+   rectangle "work queue #0\n@core_0" as wq_0 <<event>>
+   wq_0 .[#green]> mix_in_0
+   wq_0 .[#green]> dw_dma_0 : new
+   wq_0 .[#green]> dw_dma_1 : new
+}
+
+rectangle "core #1" <<cpu>> {
+
+   rectangle "hda-dma\nhost output #1" as hda_dma_ho_1 <<dma>>
+   rectangle "hda-dma\nlink input #0" as hda_dma_li_0 <<dma>>
+
+
+   rectangle "playback #1" <<stream>> {
+      rectangle "ppl #2" as ppl_2 <<ppl>> {
+
+         rectangle "host comp" as host_2
+         rectangle "dai comp" as dai_2
+
+         host_2 --> dai_2
+      }
+   }
+   hda_dma_ho_1 --> host_2
+   dai_2 --> hda_dma_li_0
+   hda_dma_li_0 --> hda_0
+
+   rectangle "work queue #1\n@core_1" as wq_1 <<event>>
+   wq_1 .[#green]> hda_dma_li_0
+}

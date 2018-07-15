@@ -1,0 +1,26 @@
+actor client as c
+
+participant work_queue as wq
+participant timer as t
+
+-> wq : work_new_queue
+   wq -> t : timer_register(queue_run)
+<-- wq
+
+c -> wq : work_schedule(&work)
+   activate wq
+
+   wq -> wq : queue_reschedule()
+   activate wq
+      wq -> wq : queue_get_next_timeout() : timeout
+      wq -> t : work_set_timer(timeout)
+   deactivate wq
+c <-- wq
+deactivate wq
+...
+wq <- t : queue_run()
+   activate wq
+   loop is_work_pending()
+      wq -> wq : run_work()
+   end loop
+   wq -> wq : queue_reschedule()

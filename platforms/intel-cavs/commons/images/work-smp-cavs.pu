@@ -1,0 +1,47 @@
+participant ipc
+participant "core 0" as core_0
+participant "core 1" as core_1
+participant wallclk
+
+ipc -> core_0 : new pipeline 0 (@core 0)
+   activate core_0
+   core_0 -> wallclk : timer_register()
+   core_0 -> core_0 : work_schedule(ppl 0 dai, +1ms)
+   core_0 -> wallclk : work_set_timer(period = +1ms)
+ipc <-- core_0
+deactivate core_0
+
+wallclk -> core_0 : cb() @ next ms
+   activate core_0
+   core_0 -> core_0 : ppl 0 dai cb()
+      activate core_0
+         core_0 -> core_0 : ppl 0 copy
+         core_0 -> core_0 : work_schedule(ppl 0 dai, +1ms)
+      deactivate core_0
+   core_0 -> wallclk : work_set_timer()
+   deactivate core_0
+
+ipc -> core_0 : new pipeline 1 (@core 1)
+   core_0 -> core_1
+   activate core_1
+      core_1 -> wallclk : timer_register()
+      core_1 -> core_1 : work_schedule(ppl 1 dai)
+   core_0 <-- core_1
+   deactivate core_1
+
+wallclk -> core_0 : cb() @ next ms
+   activate core_0
+   activate core_1
+   core_0 -> core_0 : ppl 0 dai cb()
+      activate core_0
+         core_0 -> core_0 : ppl 0 copy
+         core_0 -> core_0 : work_schedule(ppl 0 dai, +1ms)
+      deactivate core_0
+   core_1 -> core_1 : ppl 1 dai cb()
+      activate core_1
+         core_1 -> core_1 : ppl 1 copy
+         core_1 -> core_1 : work_schedule(ppl 1 dai, +1ms)
+      deactivate core_1
+   deactivate core_1
+   core_0 -> wallclk : work_set_timer()
+   deactivate core_0
