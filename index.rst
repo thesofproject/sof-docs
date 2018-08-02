@@ -17,6 +17,7 @@ license.
 
 .. _SOF Project GitHub repo: https://github.com/thesofproject
 
+These are some changes I made that are really cool.
 
 Sections
 ********
