@@ -12,6 +12,10 @@ The firmware and SDK are intended for developers who are interested in audio or 
 
 SOF currently targets the Cadence xtensa architecture DSPs found on some Intel-based devices such as the Minnowboard MAX. |SOF| is modular and generic so it can be ported to other DSP architectures or host platforms.
 
+.. contents:: 
+   :local:
+   :depth: 3
+
 Components
 ==========
 

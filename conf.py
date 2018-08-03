@@ -30,7 +30,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml']
+extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml','sphinx.ext.todo']
 
 graphviz_output_format='png'
 graphviz_dot_args=[
@@ -88,7 +88,7 @@ exclude_patterns = ['_build' ]
 pygments_style = 'sphinx'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = False
+todo_include_todos =False 
 
 # -- Options for HTML output ----------------------------------------------
 
