@@ -1,6 +1,6 @@
 package cavs {
-   package 1.5
-   package 1.8
+   component 1.5
+   component 1.8
 }
 
 package arch {
