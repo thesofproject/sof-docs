@@ -1,5 +1,5 @@
 actor "ROM" as rom
-box "boot_ldr @IMR" #LightBlue
+box "boot_ldr @IMR" #6fccdd
 	participant ".boot_entry.text" as bup_be
 	participant ".text" as bup
 end box
