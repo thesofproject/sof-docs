@@ -9,3 +9,4 @@ Getting Started Guide
 
    cavs-boot/index
    build/*
+   setup/*
