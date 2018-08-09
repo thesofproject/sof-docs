@@ -3,6 +3,12 @@
    <br />
 
 .. |SOF| replace:: Sound Open Firmware
+.. |BYT| replace:: Bay Trail
+.. |CHT| replace:: Cherry Trail
+.. |HSW| replace:: Haswell
+.. |BDW| replace:: Broadwell
+.. |APL| replace:: Apollo Lake
+.. |CNL| replace:: Cannon Lake
 
 .. These are replacement strings for non-ASCII characters used within the project
    using the same name as the html entity names (e.g., &copy;) for that character
