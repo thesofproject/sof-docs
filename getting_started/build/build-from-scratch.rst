@@ -27,7 +27,8 @@ The following steps describe how to install the |SOF| development
 environment on Ubuntu 16.04.
 
 This WIKI example code take ~/work/sof/ as the working dir. We keep
-most of the git repos in this folder and think they are siblings.
+most of the git repos in this folder and assume they are part of the
+same workpace.
 
 Create the build environment
 ============================
@@ -213,7 +214,7 @@ Install the image builder
 
 Checkout and install the ELF firmware image builder (called rimage). 
 rimage converts ELF executables to binary audio DSP images using the
-CoE file format.
+required file format.
 
 Enter your sof folder and run:
 
@@ -228,7 +229,7 @@ Enter your sof folder and run:
 
 .. note:: 
    
-   If building the topology files fails there is need to git clone
+   If building the topology files fails there is a need to git clone
    the alsa-lib, build it, but omit the last "make install" step to avoid
    audio issues on your development computer. For example if alsa-lib was
    build under ~/sof-sdk/alsa-lib run the rimage make with command
@@ -265,7 +266,7 @@ Run:
     $ make
     $ make bin
 
-The last make bin step converts the ELF binary to CoE binary format
+The last make bin step converts the ELF binary to the binary format
 using rimage.
 
 Copy the firmware binary(e.g. sof-byt.ri) to /lib/firmware/intel/ onto your
@@ -300,7 +301,7 @@ Goto your sof workspace folder.
 
 The make will create tplg files in topology folder
 
-Copy the firmware binary(e.g. sof-byt.ri) to /lib/firmware/intel/ on your
+Copy the firmware topology (e.g. sof-byt-rt5651.ri) to /lib/firmware/intel/ on your
 target machine
 
 .. code-block:: bash
@@ -316,16 +317,16 @@ or VM (make sure the VM is booted after #10, then run the following command on S
 Build your kernel
 =================
 
-Use this branch: https://github.com/plbossart/sound/tree/topic/sof-v4.14
+Use this branch: https://github.com/thesofproject/linux/tree/topic/sof-dev
 
 Go to your sof workspace folder
 
 .. code-block:: bash
 
-    $ git clone https://github.com/plbossart/sound.git
-    $ cd sound
+    $ git clone https://github.com/thesofproject/linux.git
+    $ cd linux
 
-Recommended branch for the following is topic/sof-v4.14
+Recommended branch for the following is topic/sof-dev
 
 .. code-block:: bash
 
@@ -339,6 +340,24 @@ drivers or to add them into blacklist)
 |image0|
 
 Exit and save the config
+
+Alternatively you can start using configurations maintained by SOF developers
+
+.. code-block:: bash
+
+    $ cd ..
+    $ git clone https://github.com/thesofproject/kconfig.git
+    $ cd linux
+    $ make defconfig
+    $ scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig
+
+Then compile the kernel, either natively with
+
+.. code-block:: bash
+
+    $ make -j8
+
+Or by creating a package (e.g. Debian) as follows
 
 .. code-block:: bash
 
