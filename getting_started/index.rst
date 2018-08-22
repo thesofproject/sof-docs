@@ -14,5 +14,4 @@ Getting Started Guide
    :glob:
 
    cavs-boot/index
-   build/*
    setup/*
