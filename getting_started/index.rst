@@ -7,6 +7,6 @@ Getting Started Guide
    :maxdepth: 2
    :glob:
 
-   cavs-boot/index
    build-guide/*
+   cavs-boot/index
    setup/*
