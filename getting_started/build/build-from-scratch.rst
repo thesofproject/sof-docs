@@ -26,8 +26,9 @@ Build SOF binaries
 The following steps describe how to install the |SOF| development
 environment on Ubuntu 16.04.
 
-This WIKI example code take ~/work/reef/ as the working dir. We keep
-most of the git repos in this folder and think they are siblings.
+This WIKI example code take ~/work/sof/ as the working dir. We keep
+most of the git repos in this folder and assume they are part of the
+same workpace.
 
 Create the build environment
 ============================
@@ -73,7 +74,7 @@ code. please contact with ying.huang@intel.com to get the right.
 TODO: Merge access request wiki into one.
 
 Now in SOF folder scp
-`user@bee.sh.intel.com:/git/audio/reef-archive/\*.bz2 <mailto:user@bee.sh.intel.com:/git/audio/reef/*.bz2>`__
+`user@bee.sh.intel.com:/git/audio/sof-archive/\*.bz2 <mailto:user@bee.sh.intel.com:/git/audio/sof/*.bz2>`__
 you will see six tar packages:
 
 .. code-block:: console 
@@ -147,7 +148,7 @@ Build the headers
 
 .. code-block:: bash
 
-  $ cd ~/work/reef/
+  $ cd ~/work/sof/
   $ git clone https://github.com/jcmvbkbc/newlib-xtensa.git
   $ cd newlib-xtensa.git
   $ git checkout -b xtensa origin/xtensa
@@ -213,7 +214,7 @@ Install the image builder
 
 Checkout and install the ELF firmware image builder (called rimage). 
 rimage converts ELF executables to binary audio DSP images using the
-CoE file format.
+required file format.
 
 Enter your sof folder and run:
 
@@ -228,7 +229,7 @@ Enter your sof folder and run:
 
 .. note:: 
    
-   If building the topology files fails there is need to git clone
+   If building the topology files fails there is a need to git clone
    the alsa-lib, build it, but omit the last "make install" step to avoid
    audio issues on your development computer. For example if alsa-lib was
    build under ~/sof-sdk/alsa-lib run the rimage make with command
@@ -265,7 +266,7 @@ Run:
     $ make
     $ make bin
 
-The last make bin step converts the ELF binary to CoE binary format
+The last make bin step converts the ELF binary to the binary format
 using rimage.
 
 Copy the firmware binary(e.g. sof-byt.ri) to /lib/firmware/intel/ onto your
@@ -276,7 +277,7 @@ target machine
     $ scp src/arch/xtensa/sof-byt.ri root@targethost:/lib/firmware/intel/
 
 or VM (make sure the VM is booted after #10, then run the following command
-on reef source):
+on SOF source):
 
 .. code-block:: bash
 
@@ -300,14 +301,14 @@ Goto your sof workspace folder.
 
 The make will create tplg files in topology folder
 
-Copy the firmware binary(e.g. sof-byt.ri) to /lib/firmware/intel/ on your
+Copy the firmware topology (e.g. sof-byt-rt5651.ri) to /lib/firmware/intel/ on your
 target machine
 
 .. code-block:: bash
 
     $ scp topology/sof-byt-rt5651.tplg root@targethost:/lib/firmware/intel/
 
-or VM (make sure the VM is booted after #10, then run the following command on reef source folder):
+or VM (make sure the VM is booted after #10, then run the following command on SOF source folder):
 
 .. code-block:: bash
 
@@ -316,16 +317,16 @@ or VM (make sure the VM is booted after #10, then run the following command on r
 Build your kernel
 =================
 
-Use this branch: https://github.com/plbossart/sound/tree/topic/sof-v4.14
+Use this branch: https://github.com/thesofproject/linux/tree/topic/sof-dev
 
 Go to your sof workspace folder
 
 .. code-block:: bash
 
-    $ git clone https://github.com/plbossart/sound.git
-    $ cd sound
+    $ git clone https://github.com/thesofproject/linux.git
+    $ cd linux
 
-Recommended branch for the following is topic/sof-v4.14
+Recommended branch for the following is topic/sof-dev
 
 .. code-block:: bash
 
@@ -340,6 +341,24 @@ drivers or to add them into blacklist)
 
 Exit and save the config
 
+Alternatively you can start using configurations maintained by SOF developers
+
+.. code-block:: bash
+
+    $ cd ..
+    $ git clone https://github.com/thesofproject/kconfig.git
+    $ cd linux
+    $ make defconfig
+    $ scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig
+
+Then compile the kernel, either natively with
+
+.. code-block:: bash
+
+    $ make -j8
+
+Or by creating a package (e.g. Debian) as follows
+
 .. code-block:: bash
 
     $ make deb-pkg -j8
@@ -351,7 +370,7 @@ Copy the deb packages to you target machine
 
     $ scp linux-*_amd64.deb  root@targethost:~/debs/
 
-or VM (make sure the VM is booted after #10, then run the following command on reef source folder):
+or VM (make sure the VM is booted after #10, then run the following command on SOF source folder):
 
 .. code-block:: bash
 
@@ -418,7 +437,7 @@ firmware on real hardware.
 .. code-block:: bash
 
     $ cd ../sof
-    $ git clone user@bee.sh.intel.com:/git/audio/reef/qemu-xtensa
+    $ git clone user@bee.sh.intel.com:/git/audio/sof/qemu-xtensa
     $ git checkout embargo
     $ ./configure --prefix=. --target-list=xtensa-softmmu,x86_64-softmmu --enable-gtk --enable-sdl --enable-spice --audio-drv-list=alsa --enable-libusb --enable-usb-redir --enable-coroutine-pool --disable-opengl --enable-fdt
     $ make
@@ -440,7 +459,7 @@ of environment setup in stage
    size to 2GB 
 
 After the VM has been created you will need to copy the file system
-image file to your local reef directory and own it as your user.
+image file to your local sof directory and own it as your user.
 
 .. code-block:: bash
 
@@ -453,9 +472,9 @@ Update the qemu scripts
 =======================
 
 Update the qemu init scripts to point to your VM
-image file and reef image. This wont be required in the future, but
+image file and SOF image. This wont be required in the future, but
 please edit the following files, and make sure they point to your
-VM image and reef firmware image files.
+VM image and SOF firmware image files.
 
 .. code-block:: bash
 
@@ -467,7 +486,7 @@ Update the kernel on your VM
 ============================
 
 Update the default kernel to use your kernel with
-Reef firmware support.
+SOF firmware support.
 
 .. code-block:: bash
    
