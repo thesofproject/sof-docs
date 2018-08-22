@@ -26,7 +26,7 @@ Build SOF binaries
 The following steps describe how to install the |SOF| development
 environment on Ubuntu 16.04.
 
-This WIKI example code take ~/work/reef/ as the working dir. We keep
+This WIKI example code take ~/work/sof/ as the working dir. We keep
 most of the git repos in this folder and think they are siblings.
 
 Create the build environment
@@ -73,7 +73,7 @@ code. please contact with ying.huang@intel.com to get the right.
 TODO: Merge access request wiki into one.
 
 Now in SOF folder scp
-`user@bee.sh.intel.com:/git/audio/reef-archive/\*.bz2 <mailto:user@bee.sh.intel.com:/git/audio/reef/*.bz2>`__
+`user@bee.sh.intel.com:/git/audio/sof-archive/\*.bz2 <mailto:user@bee.sh.intel.com:/git/audio/sof/*.bz2>`__
 you will see six tar packages:
 
 .. code-block:: console 
@@ -147,7 +147,7 @@ Build the headers
 
 .. code-block:: bash
 
-  $ cd ~/work/reef/
+  $ cd ~/work/sof/
   $ git clone https://github.com/jcmvbkbc/newlib-xtensa.git
   $ cd newlib-xtensa.git
   $ git checkout -b xtensa origin/xtensa
@@ -276,7 +276,7 @@ target machine
     $ scp src/arch/xtensa/sof-byt.ri root@targethost:/lib/firmware/intel/
 
 or VM (make sure the VM is booted after #10, then run the following command
-on reef source):
+on SOF source):
 
 .. code-block:: bash
 
@@ -307,7 +307,7 @@ target machine
 
     $ scp topology/sof-byt-rt5651.tplg root@targethost:/lib/firmware/intel/
 
-or VM (make sure the VM is booted after #10, then run the following command on reef source folder):
+or VM (make sure the VM is booted after #10, then run the following command on SOF source folder):
 
 .. code-block:: bash
 
@@ -351,7 +351,7 @@ Copy the deb packages to you target machine
 
     $ scp linux-*_amd64.deb  root@targethost:~/debs/
 
-or VM (make sure the VM is booted after #10, then run the following command on reef source folder):
+or VM (make sure the VM is booted after #10, then run the following command on SOF source folder):
 
 .. code-block:: bash
 
@@ -418,7 +418,7 @@ firmware on real hardware.
 .. code-block:: bash
 
     $ cd ../sof
-    $ git clone user@bee.sh.intel.com:/git/audio/reef/qemu-xtensa
+    $ git clone user@bee.sh.intel.com:/git/audio/sof/qemu-xtensa
     $ git checkout embargo
     $ ./configure --prefix=. --target-list=xtensa-softmmu,x86_64-softmmu --enable-gtk --enable-sdl --enable-spice --audio-drv-list=alsa --enable-libusb --enable-usb-redir --enable-coroutine-pool --disable-opengl --enable-fdt
     $ make
@@ -440,7 +440,7 @@ of environment setup in stage
    size to 2GB 
 
 After the VM has been created you will need to copy the file system
-image file to your local reef directory and own it as your user.
+image file to your local sof directory and own it as your user.
 
 .. code-block:: bash
 
@@ -453,9 +453,9 @@ Update the qemu scripts
 =======================
 
 Update the qemu init scripts to point to your VM
-image file and reef image. This wont be required in the future, but
+image file and SOF image. This wont be required in the future, but
 please edit the following files, and make sure they point to your
-VM image and reef firmware image files.
+VM image and SOF firmware image files.
 
 .. code-block:: bash
 
@@ -467,7 +467,7 @@ Update the kernel on your VM
 ============================
 
 Update the default kernel to use your kernel with
-Reef firmware support.
+SOF firmware support.
 
 .. code-block:: bash
    
