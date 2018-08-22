@@ -7,68 +7,69 @@ Build from scratch
    :local:
    :depth: 3
 
-You may enable and test |SOF| on a target machine or VM.
-The target platforms now are Intel platform |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
+You may enable and test |SOF| on a target machine or VM. Current target
+Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
 
 Build SOF binaries
 ******************
-The following steps describe how to install the sof development environment on Ubuntu 16.04 or 18.04.
+The following steps describe how to install the sof development environment
+on Ubuntu 16.04 or 18.04.
 
 .. note::
 
-        The example codes take ~/work/sof/ as the working dir. We keep most of the git repos in this folder and think they are siblings.
+   The code examples assume ~/work/sof/ as the working directory, and
+   all git repos should be added to this directory.
 
 Set up build environment
 ========================
 
-.. code-block:: bash
-
-       sudo apt-get install libgtk-3-dev libsdl-dev libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev \
-                            libtool-bin iasl valgrind texinfo virt-manager kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config
-.. note::
-
-        For Ubuntu 16.04, the gcc need to be upgrade to gcc 7.3+ for ALSA build
+Install package dependencies.
 
 .. code-block:: bash
 
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt-get update
-        sudo apt-get install gcc-7 g++-7
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
+   $ sudo apt-get install libgtk-3-dev libsdl-dev libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev \
+                        libtool-bin iasl valgrind texinfo virt-manager kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config
+
+If you are using Ubuntu 16.04, the gcc must be updated to gcc 7.3+ 
+for the Advanced Linux Sound Architecture (ALSA) to build.
+
+.. code-block:: bash
+
+   $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+   $ sudo apt-get update
+   $ sudo apt-get install gcc-7 g++-7
+   $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 
 Build alsa-lib and alsa-utils
 -----------------------------
 
-We used some new features in alsa-lib and alsa-utils, so we need to build the newest alsa from source code.
-
-
-.. code-block:: bash
-
-        cd ~/work/sof/
-        git clone git://git.alsa-project.org/alsa-lib.git
-        cd alsa-lib
-        ./gitcompile
-        sudo make install
-
-
-.. note::
-
-        Ubuntu have native alsa-lib in different path, we need to replace them with the built one
+This project requires some new features in alsa-lib and alsa-utils, so build
+the newest ALSA from source code.
 
 .. code-block:: bash
 
-        sudo cp /usr/lib/libasound.*    /usr/lib/x86_64-linux-gnu/
-        sudo cp /usr/lib/alsa_lib/*    /usr/lib/x86_64-linux-gnu/alsa-lib
+   $ cd ~/work/sof/
+   $ git clone git://git.alsa-project.org/alsa-lib.git
+   $ cd alsa-lib
+   $ ./gitcompile
+   $ sudo make install
 
-Then for the alsa-utils
+Replace the default Ubuntu alsa-lib with the one we just built.
 
 .. code-block:: bash
 
-        cd ~/work/sof/
-        git clone git://git.alsa-project.org/alsa-utils.git
-        cd alsa-utils
-        ./gitcompile
-        sudo make install
+   $ sudo cp /usr/lib/libasound.*    /usr/lib/x86_64-linux-gnu/
+   $ sudo cp /usr/lib/alsa_lib/*    /usr/lib/x86_64-linux-gnu/alsa-lib
+
+Clone, build, and install alsa-utils.
+
+.. code-block:: bash
+
+   $ cd ~/work/sof/
+   $ git clone git://git.alsa-project.org/alsa-utils.git
+   $ cd alsa-utils
+   $ ./gitcompile
+   $ sudo make install
 
 Build toolchain from source
 ===========================
@@ -76,142 +77,140 @@ Build toolchain from source
 Build cross-compiler
 --------------------
 
-Build the xtensa cross compiler with crosstool-ng for Intel platform |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|
+Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
+|CHT|, |HSW|, |BDW|, |APL|, and |CNL| platforms.
 
-Clone both repos and checkout to sof-gcc8.1 branch
-
-.. code-block:: bash
-
-        cd ~/work/sof/
-        git clone https://github.com/thesofproject/xtensa-overlay.git
-        cd xtensa-overlay
-        git checkout sof-gcc8.1
-        cd ~/work/sof/
-        git clone https://github.com/thesofproject/crosstool-ng.git
-        cd crosstool-ng
-        git checkout sof-gcc8.1
-
-Build and install the ct-ng tools in the local folder
+Clone both repos and checkout the sof-gcc8.1 branch.
 
 .. code-block:: bash
 
-        ./bootstrap
-        ./configure --prefix=`pwd`
-        make
-        make install
+   $ cd ~/work/sof/
+   $ git clone https://github.com/thesofproject/xtensa-overlay.git
+   $ cd xtensa-overlay
+   $ git checkout sof-gcc8.1
+   $ cd ~/work/sof/
+   $ git clone https://github.com/thesofproject/crosstool-ng.git
+   $ cd crosstool-ng
+   $ git checkout sof-gcc8.1
 
-Now build the cross compiler for different platforms, you need to cp config files to .config first
-Take |BYT| as example here.
-
-.. code-block:: bash
-
-        cp config-byt-gcc8.1-gdb8.1 .config
-        ./ct-ng build
-
-For other platforms copy the config file to .config and then run ./ct-ng build
+Build and install the ct-ng tools in the local folder.
 
 .. code-block:: bash
 
-        cp config-hsw-gcc8.1-gdb8.1 .config
-        ./ct-ng build
+   $ ./bootstrap
+   $ ./configure --prefix=`pwd`
+   $ make
+   $ make install
 
-        cp config-apl-gcc8.1-gdb8.1 .config
-        ./ct-ng build
+Copy the config files to the .config directory, and build the cross compiler
+for your target platforms. 
 
-        cp config-cnl-gcc8.1-gdb8.1 .config
-        ./ct-ng build
+.. code-block:: bash
+   
+   #Baytrail
+   $ cp config-byt-gcc8.1-gdb8.1 .config
+   $ ./ct-ng build
+   #Haswell
+   $ cp config-hsw-gcc8.1-gdb8.1 .config
+   $    ./ct-ng build
+   #Apollo Lake
+   $ cp config-apl-gcc8.1-gdb8.1 .config
+   $ ./ct-ng build
+   #Cannon Lake
+   $ cp config-cnl-gcc8.1-gdb8.1 .config
+   $ ./ct-ng build
 
-
-After repeat the steps you will get all four cross-compiler toolchain, copy them to ~/work/sof/
-
+Copy all four cross-compiler toolchains to ~/work/sof/.
 
 .. code-block:: bash
 
-        ls builds/
-        xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
-        cp -r builds/* ~/work/sof/
+   $ ls builds/
+   xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
+   $ cp -r builds/* ~/work/sof/
 
 .. note::
 
         |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
 
-Then add these compilers to PATH
+Add these compilers to your PATH variable.
 
 .. code-block:: bash
 
-        export PATH=~/work/sof/xtensa-byt-elf/bin/:$PATH
-        export PATH=~/work/sof/xtensa-hsw-elf/bin/:$PATH
-        export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
-        export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
+   $ export PATH=~/work/sof/xtensa-byt-elf/bin/:$PATH
+   $ export PATH=~/work/sof/xtensa-hsw-elf/bin/:$PATH
+   $ export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
+   $ export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
 
-
-Now build headers, here take xtensa-byt-elf as example
-
-.. code-block:: bash
-
-        cd ~/work/sof/
-        git clone https://github.com/jcmvbkbc/newlib-xtensa.git
-        cd newlib-xtensa
-        git checkout -b xtensa origin/xtensa
-        ./configure --target=xtensa-byt-elf --prefix=~/work/sof/xtensa-root
-        make
-        make install
-
-Then repeat for other platforms
+Clone header repository.
 
 .. code-block:: bash
 
-        ./configure --target=xtensa-hsw-elf --prefix=~/work/sof/xtensa-root
-        make
-        make install
+   $ cd ~/work/sof/
+   $ git clone https://github.com/jcmvbkbc/newlib-xtensa.git
+   $ cd newlib-xtensa
+   $ git checkout -b xtensa origin/xtensa
 
-        ./configure --target=xtensa-hsw-elf --prefix=~/work/sof/xtensa-root
-        make
-        make install
+Build and install the headers for each platform.
 
-        ./configure --target=xtensa-hsw-elf --prefix=~/work/sof/xtensa-root
-        make
-        make install
+.. code-block:: bash
 
-Now the needed headers is in ~/work/sof/xtensa-root, and we have set up a cross compiler toolchain for xtensa DSPs.
+   #Baytrail
+   $ ./configure --target=xtensa-byt-elf --prefix=~/work/sof/xtensa-root
+   $ make
+   $ make install
+   #Haswell
+   $ ./configure --target=xtensa-hsw-elf --prefix=~/work/sof/xtensa-root
+   $ make
+   $ make install
+   #Apollo Lake
+   $ ./configure --target=xtensa-apl-elf --prefix=~/work/sof/xtensa-root
+   $ make
+   $ make install
+   #Cannon Lake
+   $ ./configure --target=xtensa-cnl-elf --prefix=~/work/sof/xtensa-root
+   $ make
+   $ make install
+
+The required headers are now in ~/work/sof/xtensa-root, and we have set up a
+cross compiler toolchain for xtensa DSPs.
 
 Build firmware binaries
 =======================
 
-After the SOF environment is set we can clone the sof and soft repo.
+After the SOF environment is set up, we can clone the sof and soft repos.
 
 .. code-block:: bash
 
-        cd ~/work/sof/
-        git clone https://github.com/thesofproject/sof.git
-        git clone https://github.com/thesofproject/soft.git
+   $ cd ~/work/sof/
+   $ git clone https://github.com/thesofproject/sof.git
+   $ git clone https://github.com/thesofproject/soft.git
 
 
 Build with scripts
 ------------------
 
-After setting up the build environment and cross compilers with the above guide. We can easily use the scripts for quick build.
-First build the firmware:
+To quickly build |SOF| use the built-in scripts after setting up the
+environment.
+
+Build the firmware.
 
 .. code-block:: bash
 
-        cd ~/work/sof/sof/
-        ./scripts/xtensa-build-all.sh
+   $ cd ~/work/sof/sof/
+   $ ./scripts/xtensa-build-all.sh
 
 .. note::
 
-        This scrpit will only work with PATH setting include crosscompiler and xtensa-root is the sibling of the sof and soft repo.
+   This script will only work if the PATH includes both crosscompiler and
+   xtensa-root and they are siblings of the sof and soft repos.
 
-For single or mutiple platforms build, you can use
+You may specify one or more of the following platform arguments: 
+``byt``, ``cht``, ``hsw``, ``bdw``, ``apl``, and ``cnl``
 
 .. code-block:: bash
 
-        ./scripts/xtensa-build-all.sh byt
-        ./scripts/xtensa-build-all.sh byt apl
-
-.. note::
-        The support platforms arguments are byt, cht, hsw, bdw, apl and cnl.
-
+   $ ./scripts/xtensa-build-all.sh byt
+   $ ./scripts/xtensa-build-all.sh byt apl
 
 Build with command
 ------------------

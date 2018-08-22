@@ -7,12 +7,6 @@ Getting Started Guide
    :maxdepth: 2
    :glob:
 
-   build-guide/*
-
-.. toctree::
-   :maxdepth: 1
-   :glob:
-
    cavs-boot/index
-   build/*
+   build-guide/*
    setup/*
