@@ -49,7 +49,7 @@ Install Ubuntu: https://minnowboard.org/tutorials/installing-ubuntu-lts/
 Set Up SOF
 ==========
 
-Please follow the build from scratch :ref:`instructions <build_from_scratch>`
+Please follow the build from scratch :ref:`instructions <build-from-scratch>`
 for generic set up steps.
 
 Set up Xtensa config to build with xt-xcc:

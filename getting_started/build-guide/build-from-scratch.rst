@@ -1,7 +1,7 @@
 .. _build-from-scratch:
 
-Build from scratch
-##################
+Build SOF from scratch
+######################
 
 .. contents::
    :local:

@@ -1,7 +1,7 @@
 .. _build-with-docker:
 
-Build with Docker
-#################
+Build SOF with Docker
+#####################
 
 .. contents::
    :local:
