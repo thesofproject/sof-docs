@@ -177,7 +177,8 @@ cross compiler toolchain for xtensa DSPs.
 Build firmware binaries
 =======================
 
-After the SOF environment is set up, we can clone the sof and soft repos.
+After the SOF environment is set up, we can clone the *sof* and *soft*
+repos.
 
 .. code-block:: bash
 
@@ -189,7 +190,7 @@ After the SOF environment is set up, we can clone the sof and soft repos.
 Build with scripts
 ------------------
 
-To quickly build |SOF| use the built-in scripts after setting up the
+To build |SOF| quickly use the built-in scripts after setting up the
 environment.
 
 Build the firmware.
@@ -212,19 +213,19 @@ You may specify one or more of the following platform arguments:
    $ ./scripts/xtensa-build-all.sh byt
    $ ./scripts/xtensa-build-all.sh byt apl
 
-Build with command
-------------------
+Build with commands
+-------------------
 
-This part is some expand and detail build guide for sof and soft repo.
+This is a detailed build guide for the *sof* and *soft* repos.
 
-For sof firmware build, we first need to build riamge
+Build *rimage* before building the *sof* firmware.
 
 .. code-block:: bash
 
-        ./autogen.sh
-        ./configure --enable-rimage
-        make
-        sudo make instal
+   $ ./autogen.sh
+   $ ./configure --enable-rimage
+   $ make
+   $ sudo make instal
 
 Then configure and make
 
@@ -232,56 +233,56 @@ for |BYT|:
 
 .. code-block:: bash
 
-        ./configure --with-arch=xtensa --with-platform=baytrail --with-root-dir=`pwd`/../xtensa-root/xtensa-byt-elf --host=xtensa-byt-elf
-        make
-        make bin
+   $ ./configure --with-arch=xtensa --with-platform=baytrail --with-root-dir=`pwd`/../xtensa-root/xtensa-byt-elf --host=xtensa-byt-elf
+   $ make
+   $ make bin
 
 for |CHT|:
 
 .. code-block:: bash
 
-        ./configure --with-arch=xtensa --with-platform=herrytrail --with-root-dir=`pwd`/../xtensa-root/xtensa-byt-elf --host=xtensa-byt-elf
-        make
-        make bin
+    $ ./configure --with-arch=xtensa --with-platform=cherrytrail --with-root-dir=`pwd`/../xtensa-root/xtensa-cht-elf --host=xtensa-cht-elf
+    $ make
+    $ make bin
 
 
 for |HSW|:
 
 .. code-block:: bash
 
-        ./configure --with-arch=xtensa --with-platform=haswell --with-root-dir=`pwd`/../xtensa-root/xtensa-hsw-elf --host=xtensa-hsw-elf
-        make
-        make bin
+   $ ./configure --with-arch=xtensa --with-platform=haswell --with-root-dir=`pwd`/../xtensa-root/xtensa-hsw-elf --host=xtensa-hsw-elf
+   $ make
+   $ make bin
 
 for |BDW|:
 
 .. code-block:: bash
 
-        ./configure --with-arch=xtensa --with-platform=broadwell --with-root-dir=`pwd`/../xtensa-root/xtensa-hsw-elf --host=xtensa-hsw-elf
-        make
-        make bin
-
+    $ ./configure --with-arch=xtensa --with-platform=broadwell --with-root-dir=`pwd`/../xtensa-root/xtensa-hsw-elf --host=xtensa-hsw-elf
+    $ make
+    $ make bin
 
 for |APL|:
 
 .. code-block:: bash
 
-        ./configure --with-arch=xtensa --with-platform=broxton --with-root-dir=`pwd`/../xtensa-root/xtensa-bxt-elf --host=xtensa-bxt-elf
-        make
-        make bin
+    $ ./configure --with-arch=xtensa --with-platform=broxton --with-root-dir=`pwd`/../xtensa-root/xtensa-bxt-elf --host=xtensa-bxt-elf
+    $ make
+    $ make bin
 
 for |CNL|:
 
 .. code-block:: bash
 
-        ./configure --with-arch=xtensa --with-platform=cannonlake --with-root-dir=`pwd`/../xtensa-root/xtensa-cnl-elf --host=xtensa-cnl-elf
-        make
-        make bin
+    $ ./configure --with-arch=xtensa --with-platform=cannonlake --with-root-dir=`pwd`/../xtensa-root/xtensa-cnl-elf --host=xtensa-cnl-elf
+    $ make
+    $ make bin
 
-Build result
-------------
+Firmware build results
+----------------------
 
-We will get .ri file in src/arch/xtensa/. These files are needed to copy to target machine /lib/firmware/intel/ folder.
+The firmware binary files are located in src/arch/xtensa/. Copy them to
+your target machine's /lib/firmware/intel/ folder.
 
 .. code-block:: bash
 
@@ -294,55 +295,57 @@ Build topology and tools
 Build with scripts
 ------------------
 
-To build the soft tools and topology files
+.. code-block:: bash
+
+   $ cd ~/work/sof/sof/
+   $ ./scripts/build-soft.sh
+
+Build with commands
+-------------------
 
 .. code-block:: bash
 
-        cd ~/work/sof/sof/
-        ./scripts/build-soft.sh
+   $ cd ~/work/sof/soft/
+   $ ./autogen.sh
+   $ ./configure
+   $ make
 
-Build with command
-------------------
+Topology and tools build results
+--------------------------------
 
-.. code-block:: bash
+The topology files are all in the topology folder. Copy them to the target
+machine's /lib/firmware/intel/ folder. 
 
-        cd ~/work/sof/soft/
-        ./autogen.sh
-        ./configure
-        make
-
-Build result
-------------
-
-The topology files are all in topology folder. These files are needed to copy to target machine /lib/firmware/intel/ folder. 
-
-The rmbox tool is in rmbox folder. It need to be copied to targe machine /usr/bin.
+The *rmbox* tool is in the *rmbox* folder. Copy it to the target machine's
+/usr/bin directory.
 
 Build Linux kernel
 ******************
 
-|SOF| has the Linux kernel dev branch, we need this branch to work with other dev branch firmware and topology.
+|SOF| uses the Linux kernel dev branch, and we need it to work with other
+dev branch firmware and topology.
 
-Now we need to build the kernel with this branch:
+#. Build the kernel with this branch.
 
-.. code-block:: bash
+   .. code-block:: bash
 
-        cd ~/work/sof/
-        git clone https://github.com/thesofproject/linux.git
-        cd linux
-        git checkout sof-dev
-        make menuconfig
+      $ cd ~/work/sof/
+      $ git clone https://github.com/thesofproject/linux.git
+      $ cd linux
+      $ git checkout sof-dev
+      $ make menuconfig
 
-We need to select SOF driver support here and disable SST drivers.
+   Select SOF driver support and disable SST drivers.
 
-Then we make the kernel deb package to install on the target machine.
+#. Make the kernel deb package to install on the target machine.
 
-.. code-block:: bash
+   .. code-block:: bash
 
-        make deb-pkg -j 4
+      $ make deb-pkg -j 4
 
-.. note::
+   .. note::
 
-        -j 4 here is an example, you can take any number fit your build machine.
+       The *-j* argument indicites the number of cores to use in the build
+       process. Select a value that matches your build system.
 
-Copy these debs to target machine and install them
+#. Copy resulting *.deb* files to the target machine and install them.
