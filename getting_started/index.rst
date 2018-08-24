@@ -4,7 +4,7 @@ Getting Started Guides
 ######################
 
 Building SOF
-============
+************
 
 .. toctree::
    :maxdepth: 1
@@ -13,7 +13,7 @@ Building SOF
    build-guide/*
 
 Setting up SOF on hardware
-==========================
+**************************
 
 .. toctree::
    :maxdepth: 1
@@ -23,7 +23,7 @@ Setting up SOF on hardware
    setup/setup_ktest_environment
 
 Other guides
-============
+************
 
 .. toctree::
    :maxdepth: 1

@@ -55,8 +55,7 @@ for generic set up steps.
 Set up Xtensa config to build with xt-xcc:
 
 #. Install the RD-2012.5 version of Xtensa tools from Xplorer.
-#. Download the Xtensa core config for BYT from:
-   https://drive.google.com/open?id=1i5Ynk2VMNTIOwXkZMoKIYzds68sVxkC7
+#. Download the Xtensa `core config <https://drive.google.com/open?id=1i5Ynk2VMNTIOwXkZMoKIYzds68sVxkC7>`__ for BYT.
 #. Save the core config tarball (Intel\_HiFiEP\_linux.tgz) in your
    <xtensa-tools-root>/XtDevTools/downloads directory.
 #. Unzip and install the tarball.
@@ -67,39 +66,38 @@ Set up Xtensa config to build with xt-xcc:
       $ cd Intel\_HiFiEP
       $ ./install
 
-#. When prompted enter the Xtensa tools directory as follows:
-   <xtensa-tools-root>/XtDevTools/install/tools/RD-2012.5-linux/XtensaTools
+#. When prompted, enter the Xtensa tools directory.
+
+   .. code-block:: console
+
+      <xtensa-tools-root>/XtDevTools/install/tools/RD-2012.5-linux/XtensaTools
 
 After you have built and setup SOF:
 
-#. copy the sof-byt.ri to /lib/firmware/intel/ on Minnow Turbot FS
-#. copy the below supported topology file to /lib/firmware/intel/ as
-   sof-byt-"codec name".tplg(like 'sof-byt-rt5651.tplg' or
-   'sof-byt-da7213.tplg' ) on Minnow Turbot FS.
+#. Copy the*sof-byt.ri* to /lib/firmware/intel/ on Minnow Turbot FS
+#. Clone the |SOF| firmware tools from git://git.alsa-project.org/sound-open-firmware-tools.git and select a topology file like one of the following:
 
-Topology
---------
+   .. code-block:: console
 
-We only support pass-through topology in SOF 1.0.
+      test-ssp2-passthrough-s16le-s16le-48k-codec.tplg
+      test-ssp2-passthrough-s24le-s24le-48k-codec.tplg
+      test-ssp2-volume-s16le-s16le-48k-codec.tplg
+      test-ssp2-volume-s24le-s24le-48k-codec.tplg
 
-URL:\ git://git.alsa-project.org/sound-open-firmware-tools.git
+   .. note:: 
 
-Such like:
+      We only support pass-through topology in SOF 1.0. 
 
--  Test-ssp2-passthrough-s16le-s16le-48k-codec.tplg
--  Test-ssp2-passthrough-s24le-s24le-48k-codec.tplg
--  Test-ssp2-volume-s16le-s16le-48k-codec.tplg
--  test-ssp2-volume-s24le-s24le-48k-codec.tplg
+#. Copy the topology file to /lib/firmware/intel/ as
+   sof-byt-"codec name".tplg (e.g. sof-byt-rt5651.tplg) to the
+   Minnow Turbot FS.
 
 UCM
 ---
 
-This UCM file is provided by Pierre and work fine for us. it suppot both
-headset mode and line in/out mode.
+Pierre Brossart provides a `UCM repository <https://github.com/plbossart/UCM.git>`__ that supports both headset mode and line in/out mode.
 
-URL: https://github.com/plbossart/UCM.git
-
-You can also use alsactl to restore a recommanded asound.state file for
+You can also use alsactl to restore a recommended asound.state file for
 the amixer setting.
 
 asound.state files:
@@ -112,11 +110,16 @@ Kernel udpate
 -------------
 
 Repo: https://github.com/plbossart/sound.git
+
 Branch: heads/topic/sof-v4.14
 
-#. Select the machine and codec driver in kernel config (Device Drivers >
-   Sound card support > Advanced Linux Sound Architecture > ALSA for SoC
-   audio support) and make sure ASoC SOF Baytrail and codec RT5651/DA7212
+#. Select the machine and codec driver in kernel config 
+
+   :: 
+
+      Device Drivers > Sound card support > Advanced Linux Sound Architecture > ALSA for SoC audio support
+
+   Make sure ASoC SOF Baytrail and codec RT5651/DA7212
    are selected.
 
    |image1|
@@ -125,13 +128,13 @@ Branch: heads/topic/sof-v4.14
 
    .. code-block:: bash
 
-      make -j8 && make -j8 deb-pkg
+      $ make -j8 && make -j8 deb-pkg
 
-#. Package all the \*.deb files for Minnowboard and install all deb files.
+#. Package all the \*.deb files for Minnowboard, and install all deb files.
 
    .. code-block:: bash
 
-      dpkg -i \*.deb
+      $ dpkg -i \*.deb
 
 #. Reboot your system.
 
@@ -140,8 +143,12 @@ EFI API
 
 Repo: https://github.com/plbossart/MinnowBoardMaxFirmware.git
 
-Clone the repo and build the source code. AudioSsdtUpdate.efi and
-associated .aml files are avaible as pre-compiled binaries under X64/
+Clone the repo and build the source code. 
+
+.. note:: 
+
+   AudioSsdtUpdate.efi and associated .aml files are avaible as
+   pre-compiled binaries under X64/
 
 Steps:
 
@@ -149,24 +156,24 @@ Steps:
    
    .. code-block:: bash
 
-      vim startup.nsh
+      $ vim startup.nsh
 
    Add the following:
 
    .. code-block:: bash
 
-      fs0:
-      cd EFI
-      AudioSsdtUpdate.efi "codecname".aml(like RT5651.aml or DA7212.aml)
-      cd ubuntu
-      grubx64.efi
+      $ fs0:
+      $ cd EFI
+      $ AudioSsdtUpdate.efi "codecname".aml(like RT5651.aml or DA7212.aml)
+      $ cd ubuntu
+      $ grubx64.efi
 
 #. Move .aml and .efi  files to EFI directory.
 
    .. code-block:: bash
 
-      cp \*.aml /boot/efi/EFI
-      cp AudioSsdtUpdate.efi /boot/efi/EFI
+      $ cp \*.aml /boot/efi/EFI
+      $ cp AudioSsdtUpdate.efi /boot/efi/EFI
 
 #. Configure the BIOS.
 
@@ -177,11 +184,6 @@ Steps:
 
    EFI shell will automatically run the startup.nsh shell script.
    
-Contact for Help
-================
-
-Xiuli Pan xiuli.pan@intel.com
-
 .. |image1| image:: images/minnow_turbot.png
    :class: confluence-embedded-image
    :height: 250px
