@@ -3,7 +3,8 @@
 Drivers
 #######
 
-Location: *src/drivers*
+All drivers are located at: *src/drivers*
+The following drivers are available:
 
 .. toctree::
    :maxdepth: 1
