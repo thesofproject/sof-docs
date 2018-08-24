@@ -3,12 +3,11 @@
 Documenting the Source Code
 ###########################
 
-All functions, globals, defines etc. should be documented. Declarations that
-appears in the API headers must be documented.
+All source code items such as functions, globals, and defines must be documented. Declarations that appear in the API headers must be documented.
 
-The source code documentation follows Doxygen (dox) annotation format. It
+The source code documentation follows the Doxygen (dox) annotation format. It
 enables generation of documentation in HTML/XML formats directly from the
-annotated source files. There are many Doxygen annotation flavors, the FW code
+annotated source files. Doxygen has many annotation flavors; the FW code
 uses the one used by Alsa Project.
 
 Refer to :ref:`sof_doc` to learn how to generate the documentation.
@@ -19,14 +18,14 @@ Basic Rules
 1. All dox comments begin with ``/**`` and end with ``*/``.
 
 #. Short comments appended to structure members begin with ``/**<``.
-   Keep them short while adding more details to the parent's documentation if
+   Keep them short while adding more details to the parent documentation if
    needed.
 
-#. If there is a brief description followed by a detailed description, the
-   first one begins with ``\brief`` tag and the detailed section is separated
+#. If a brief description is followed by a detailed description, the
+   first one begins with the ``\brief`` tag and the detailed section is separated
    with an empty line.
 
-#. Use ``\brief`` tag if you want to make sure the first line is inlined inside
+#. Use the ``\brief`` tag if you want to make sure the first line is inlined inside
    the basic description in HTML output (see *#define* example below).
 
 Examples

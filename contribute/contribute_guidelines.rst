@@ -4,7 +4,7 @@ Contribution Guidelines
 #######################
 
 As an open-source project, we welcome and encourage the community to
-submit patches directly to the SOF project.  In our collaborative open
+submit patches directly to the SOF project. In our collaborative open
 source environment, standards and methods for submitting changes help
 reduce the chaos that can result from an active development community.
 
@@ -44,7 +44,7 @@ fully later in this document), the developer simply adds a
 ``Signed-off-by`` statement and thereby agrees to the DCO.
 
 When a developer submits a patch, it is a commitment that the
-contributor has the right to submit the patch per the license.  The DCO
+contributor has the right to submit the patch per the license. The DCO
 agreement is shown below and at http://developercertificate.org/.
 
 .. code-block:: none
@@ -86,9 +86,8 @@ appears on each commit in the pull request::
 
 The DCO text can either be manually added to your commit body, or you can add
 either ``-s`` or ``--signoff`` to your usual Git commit commands. If you forget
-to add the sign-off you can also amend a previous commit with the sign-off by
-running ``git commit --amend -s``. If you've pushed your changes to GitHub
-already you'll need to force push your branch after this with ``git push -f``.
+to add the sign-off, you can also amend a previous commit with the sign-off by
+running ``git commit --amend -s``. If you have already pushed your changes to GitHub, you will need to force push your branch after this with ``git push -f``.
 
 .. note::
    The name and email address of the account you use to submit your PR must
@@ -100,7 +99,7 @@ Prerequisites
 
 .. _SOF project website: https://thesofproject.org
 
-As a contributor, you'll want to be familiar with the SOF project, how to
+As a contributor, familiarize yourself with the SOF project, how to
 configure, install, and use it as explained on the
 `SOF project website`_, and how to set up your development environment
 as introduced in the project's :ref:`getting_started`.
@@ -108,7 +107,7 @@ as introduced in the project's :ref:`getting_started`.
 You should be familiar with common developer tools such as Git and
 platforms such as GitHub.
 
-If you haven't already done so, you'll need to create a (free) GitHub account
+If you have not already done so, create a (free) GitHub account
 on https://github.com and have Git tools available on your development system.
 
-Etc...
+
