@@ -20,7 +20,7 @@ Prerequisites on the target device
 **********************************
 
 The target device can be any of the SOF-supported platforms,
-e.g. Minnowboard, Up^2, Asus T100, Chromebooks)
+e.g. MinnowBoard, Up^2, Asus T100, Chromebooks)
 
 1. Install OS on target
 -----------------------
