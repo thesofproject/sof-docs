@@ -44,6 +44,7 @@ clean:
 # along with a README
 
 publish:
+	cd $(PUBLISHDIR)/..; git pull origin master
 	mkdir -p $(PUBLISHDIR)
 	rm -fr $(PUBLISHDIR)/*
 	cp -r $(BUILDDIR)/html/* $(PUBLISHDIR)
