@@ -65,3 +65,8 @@ See :ref:`dma-drivers-api`
 
 Supported Devices
 *****************
+
+.. toctree::
+   :maxdepth: 2
+
+   intel/index
