@@ -46,7 +46,7 @@ Get Docker image
 ================
 
 To easily build SOF binaries, we need a Docker image containing all
-of the cross-compiler and build environment dependenices. We can either
+of the cross-compiler and build environment dependencies. We can either
 build a Docker image from a DockerFile or pull an image binary from
 Docker Hub.
 

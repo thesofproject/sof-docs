@@ -1,13 +1,13 @@
 .. _setup_minnowboard_turbot:
 
-Set up SOF on Minnowboard Turbot
+Set up SOF on MinnowBoard Turbot
 ################################
 
 .. contents::
    :local:
    :depth: 3
 
-Minnowboard resources
+MinnowBoard resources
 *********************
 
 About Turbot
@@ -39,7 +39,7 @@ Hardware Rework & Connect External Audio Codec
 Update BIOS and Insert OEM Key
 ==============================
 
-Minnowborad does not need key signing, so no OEM key is needed.
+MinnowBoard does not need key signing, so no OEM key is needed.
 
 Install Linux
 =============
@@ -106,7 +106,7 @@ user@\ `bee:/git/audio/reef/board-int <http://bee/git/audio/reef/board-int>`__
 Kernel build
 ============
 
-Kernel udpate
+Kernel update
 -------------
 
 Repo: https://github.com/plbossart/sound.git
@@ -130,7 +130,7 @@ Branch: heads/topic/sof-v4.14
 
       $ make -j8 && make -j8 deb-pkg
 
-#. Package all the \*.deb files for Minnowboard, and install all deb files.
+#. Package all the \*.deb files for MinnowBoard, and install all deb files.
 
    .. code-block:: bash
 
