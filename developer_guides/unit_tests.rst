@@ -90,14 +90,14 @@ Preparing cmocka package
 Wrapping objects for unit tests
 *******************************
 
-If you need to mock a symbol, define it in a unit test and include the .h file. 
+If you need to mock a symbol, define it in a unit test and include the .h file.
 There are 2 cases where this isn't possible:
 
 * Static functions in headers(those most probably are inline short functions
   and don't have to be mocked)
 
-* Static functions that are in the same file as tested functionality and are
-  exceedingly large so they can't be tested as one functionality. 
+*	Static functions that are in the same file as tested functionality and are
+	exceedingly large so they can't be tested as one functionality.
 
 Whatever the reason, mocking of those symbols can be done by using --wrap linker
 functionality. To wrap the symbol follow these steps:
