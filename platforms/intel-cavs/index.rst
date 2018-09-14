@@ -3,18 +3,22 @@
 Intel CAVS Platforms
 ####################
 
-SOF implementation for Intel CAVS HW family.
+Intel CAVS platforms supported by the |SOF|.
 
 +---------+----------+--------------------+
 |cAVS     |ver. 1.5  | Apollo Lake        |
 |         +----------+--------------------+
 |         |ver. 1.8  | Cannon Lake        |
+|         +----------+--------------------+
+|         |ver. 2.0  | Ice Lake           |
 +---------+----------+--------------------+
 
 .. uml:: images/cavs-platform-deps.pu
+   :caption: CAVS Platforms
 
 .. toctree::
    :maxdepth: 1
 
    apollolake/index
    cannonlake/index
+   icelake/index
