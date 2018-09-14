@@ -23,7 +23,9 @@ To use a 32-bit toolchain, enable 32-bit binaries by following these steps.
 
       sudo apt update
       sudo apt install qemu-user-static
-      sudo update-binfmts --install i386 /usr/bin/qemu-i386-static \ --magic '\x7fELF\x01\x01\x01\x03\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x03\x00\x01\x00\x00\x00' \ --mask '\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\xff\xf8\xff\xff\xff\xff\xff\xff\xff'
+      sudo update-binfmts --install i386 /usr/bin/qemu-i386-static \
+       --magic '\x7fELF\x01\x01\x01\x03\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x03\x00\x01\x00\x00\x00' \
+       --mask '\xff\xff\xff\xff\xff\xff\xff\xfc\xff\xff\xff\xff\xff\xff\xff\xff\xf8\xff\xff\xff\xff\xff\xff\xff'
 
 #. Start the service that enables 32-bit support. Start it **every time** you want to enable 32-bit support; you can also add it to startup scripts if you want it to be enabled on every WSL launch.
 
