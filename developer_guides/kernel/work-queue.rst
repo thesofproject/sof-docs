@@ -3,9 +3,7 @@
 Work Queue
 ##########
 
-Work queue service provides timer API for other FW parts. A timer API client (a
-component, device, ...) registers a callback and specifies when the callback
-should be invoked.
+A work queue service provides a timer API for other FW parts. A timer API client (a component, device, etc.) registers a callback and specifies when the callback should be invoked.
 
 Refer to TBD for full API specification.
 
@@ -25,6 +23,5 @@ Basic Work Queue Flow
 Extensions for SMP Architectures
 ********************************
 
-There is one instance of the work queue per CPU, created on platforms built
-upon SMP architectures. A client registers its callback in the queue instance
-that is running on the CPU the callback is supposed to run.
+CPUs with platforms built on the SMP architecture contain only one work queue instance. A client registers its callback in the queue instance
+that is running on the CPU that the callback is supposed to run.

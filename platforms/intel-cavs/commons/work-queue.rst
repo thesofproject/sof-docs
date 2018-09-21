@@ -3,43 +3,27 @@
 Work Queues
 ###########
 
-On CAVS platforms, the wallclock is used as a time source for multiple work
-queues (one instance of the work queue per active core).
+On CAVS platforms, the wall clock is used as a time source for multiple work
+queues (one work queue instance per active core).
 
-Since there are not enough comparators available, all instances register to a
-shared interrupt (one comparator is used to wake up all). Master core is
-responsible for re-programming of wallclock to the next wake event. Its work
-queue is working in *master mode* while work queues running on other cores are
-attached to the shared time source (so configured to *slave mode*) on CAVS SMP
-platforms. On other SMP platforms, with multiple independent time sources
-available, all queues may be configured in *master mode*.
+Since enough comparators are not available, all instances register to a
+shared interrupt where one comparator is used to wake up all. The master core re-programs the wall clock to the next wake event. Its work queue operates in *master mode*. Work queues running on other cores are
+attached to the shared time source on CAVS SMP platforms; these are configured to the *slave mode*. On other SMP platforms where multiple independent time sources are available, all queues can be configured in *master mode*.
 
-Synchronous Systick on All Cores
+Synchronous SysTick on All Cores
 ********************************
 
-Shared time source aligns scheduling of works on all the cores as they are all
-synchronously waken up on the same periodic event (aka *systick*).
+The shared time source aligns work scheduling on all cores as all synchronously wake up on the same periodic event via a system tick timer, or *SysTick*.
 
-Period of the systick should be configurable (by default it is 1ms). There is
-no better resolution of timeouts guaranteed but this should be acceptable for
-works that are typically scheduled on this system. Specifically low latency
-works are enabled and may be run on multiple cores in sync.
+SysTick periods are configurable. While no resolution is guaranteed, the default value of 1ms is acceptable for works that are typically scheduled on this system, specifically low latency works that are enabled and can be run on multiple cores in sync. For ultra low latency configurations, the SysTick period can be configured to a value of < 1ms.
 
-For ultra low latency configurations, the systick period may be configured to a
-value < 1ms.
+An HD/A DMA running in circular buffer mode (@ dai) is already registered in the work queue with a specified timeout period of 1ms. Other DMAs can be switched from their individual interrupt sources (buffer completion) to work queues, thus making pipelines scheduling fully *systick aligned*.
 
-HD/A DMA running in circular buffer mode (@ dai), is already registered  in the
-work queue, specifying their period as the timeout value (1ms).
+In the case of more complex topologies, pipelines that start/terminate with a
+component other then dai can be also driven by work queues.
 
-Other DMAs may be switched from their individual interrupt sources (buffer
-completion) to work queues making pipelines scheduling fully *systick aligned*.
-
-In case of more complex topologies, pipelines started/terminated with a
-component other then dai, may be also driven by the work queues.
-
-.. note:: Work queue Master/slave mode vs. independent mode configurable by
-   CONFIG @ compile time. Work queue min tick (1ms/0.33ms/1us) configurable
-   @ run-time. So that the current mode is still fully supported.
+.. note:: Work queue master/slave mode vs. independent mode configurable by
+   CONFIG @ compile time. The work queue min tick (1ms/0.33ms/1us) is configurable @ run-time so that the current mode is still fully supported.
 
 .. uml:: images/work-st.pu
 
