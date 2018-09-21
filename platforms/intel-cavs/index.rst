@@ -19,6 +19,7 @@ Intel CAVS platforms supported by the |SOF|.
 .. toctree::
    :maxdepth: 1
 
+   commons/index
    apollolake/index
    cannonlake/index
    icelake/index
