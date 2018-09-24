@@ -1,0 +1,19 @@
+digraph memory_zones {
+   compound = true;
+   node [shape = record];
+   rankdir = LR;
+   size=3;
+
+   clients [label = "<apps>applications
+                     |<sys>kernel
+                     |<drv>drivers"];
+
+   zones [label = "<rt>runtime zone
+                  |<buf>buffer zone
+                  |{<sys>system zone |<sys_rt>sys rt?}"];
+
+   clients:apps -> zones:rt;
+   clients:apps -> zones:buf;
+   clients:kernel -> zones:sys;
+   clients:drv -> zones:sys_rt [style = dotted];
+}

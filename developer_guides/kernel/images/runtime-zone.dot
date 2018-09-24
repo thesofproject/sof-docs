@@ -1,0 +1,33 @@
+digraph runtime_zone {
+   compound = true;
+   node [shape = record];
+   rankdir = LR;
+   size=2.5;
+
+   subgraph cluster_rt_0 {
+      label = "RUNTIME HEAP #0";
+
+      map0 [label = "map"];
+
+      rt0 [label = "{<1>64B|<2>64B|...}
+                  |{<10>128B|<11>128B|...}
+                  |{<20>256B|<22>256B|...}
+                  |{....}"];
+   }
+
+   subgraph cluster_core_0 {
+      style = filled;
+      color = "#f0f0f0";
+      label = "";
+
+      comp_0;
+      comp_1;
+      comp_2;
+   }
+
+   comp_0 -> rt0:2:nw;
+   comp_0 -> rt0:10:nw;
+   comp_1 -> rt0:22:nw;
+   comp_2 -> rt0:1:nw;
+
+}
