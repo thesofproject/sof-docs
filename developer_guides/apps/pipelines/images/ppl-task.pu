@@ -1,0 +1,15 @@
+participant "pipeline" as ppl
+
+-> ppl : pipeline_task()
+   activate ppl
+   ppl -> ppl : pipeline_copy()
+      activate ppl
+      ppl -> ppl : pipeline_copy_from_upstream()
+         activate ppl
+         deactivate ppl
+      ppl -> ppl : pipeline_copy_to_downstream()
+         activate ppl
+         deactivate ppl
+   deactivate ppl
+<-- ppl
+deactivate ppl

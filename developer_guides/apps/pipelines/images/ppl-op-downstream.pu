@@ -1,0 +1,22 @@
+participant "pipeline" as ppl
+participant "component" as comp
+-> ppl : comp_op_downstream(op_data,\nstart, current, previous)
+   note right: start, current, and previous are struct *comp_dev
+   alt op_data->op == COMP_OPS_PARAMS
+      ppl -> comp : comp_install_params(current)
+      ppl -> comp : comp_params(current)
+   else COMP_OPS_CMD
+      ppl -> comp : comp_cmd(current)
+      ppl -> ppl : pipeline_cmd_update(current)
+   else COMP_OPS_PREPARE
+      ppl -> comp : comp_prepare(current)
+   else COMP_OPS_RESET
+      ppl -> comp : comp_reset(current)
+   else COMP_OPS_BUFFER
+      note right: error, handled by other API calls
+   end
+   loop for each current's sink
+      ppl -> ppl : component_op_downstream(..., current = consumer @ sink/source)
+      note right: recursive call
+   end
+<-- ppl

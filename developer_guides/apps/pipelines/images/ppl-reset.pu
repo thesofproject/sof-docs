@@ -1,0 +1,5 @@
+participant "pipeline" as ppl
+
+-> ppl : pipeline_reset()
+   ppl -> ppl : <pipeline operation> (COMP_OPS_RESET)
+<-- ppl
