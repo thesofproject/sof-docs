@@ -1,0 +1,31 @@
+package component {
+
+   class comp_driver {
+   	type : uint32_t
+   	module_id : uint32_t
+   	ops : comp_ops
+   }
+   hide comp_driver methods
+
+   class comp_ops
+   hide comp_ops methods
+   hide comp_ops attributes
+
+   class comp_dev {
+   	drv : comp_driver*
+
+   	<i>more params goes here ...</i>
+
+   	params : sof_ipc_stream_params
+
+   	bsource_list
+   	bsink_list
+   	private: void*
+   	comp : sof_ipc_comp
+   }
+   hide comp_dev methods
+
+   comp_driver --> "ops" comp_ops : provides
+
+   comp_driver -> comp_dev : creates in comp_new()
+}

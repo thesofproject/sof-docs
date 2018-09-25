@@ -1,0 +1,18 @@
+actor "ipc/ipc_comp_new()" as c
+participant "audio/component" as comp
+participant "comp_driver" as drv
+participant "lib/heap" as heap
+
+c -> comp : comp_new(comp : sof_ipc_comp)
+	activate comp
+	comp -> comp : get_drv(comp->type) : drv
+	comp -> drv : drv->ops.new(comp)
+  		activate drv
+  		drv -> heap : rzalloc(Runtime)
+  		drv <-- heap
+	comp <-- drv : comp_dev*
+	deactivate drv
+
+	comp -> comp : init component
+c <-- comp : comp_dev*
+deactivate comp

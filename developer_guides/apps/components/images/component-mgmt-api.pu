@@ -1,0 +1,29 @@
+package component-mgmt {
+   class "component API" <<unit>> {
+   	comp_new(sof_ipc_comp*)
+   	comp_register(comp_driver*)
+   	comp_unregister(comp_driver*)
+   	comp_set_state(comp_dev*, cmd)
+   	...
+   	sys_comp_init(void)
+   }
+
+   class comp_data {
+   	list
+   }
+   hide comp_data methods
+
+   "component API" -right-> comp_data : drv_get()
+
+}
+note right of comp_data
+   Singleton allocated in RZONE_SYS
+   by sys_comp_init()
+end note
+
+"component API" <-up- comp_driver : registers in comp_register()
+
+comp_driver -o comp_data
+
+hide comp_driver members
+hide comp_driver methods
