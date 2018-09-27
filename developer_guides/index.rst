@@ -10,3 +10,4 @@ Developer Guides
    drivers/index
    kernel/index
    unit_tests
+   topology/topology
