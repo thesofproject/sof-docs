@@ -32,11 +32,11 @@ sys.path.insert(0, os.path.abspath('.'))
 # ones.
 extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml','sphinx.ext.todo']
 
-graphviz_output_format='png'
+graphviz_output_format='svg'
 graphviz_dot_args=[
-   '-Nfontname="verdana"',
-   '-Gfontname="verdana"',
-   '-Efontname="verdana"']
+   '-Nfontname=verdana',
+   '-Gfontname=verdana',
+   '-Efontname=verdana']
 
 
 plantuml = 'java -jar ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.jar') \
@@ -88,7 +88,7 @@ exclude_patterns = ['_build' ]
 pygments_style = 'sphinx'
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos =False 
+todo_include_todos =False
 
 # -- Options for HTML output ----------------------------------------------
 
