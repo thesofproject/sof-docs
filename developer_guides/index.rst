@@ -9,4 +9,5 @@ Developer Guides
    porting
    drivers/index
    kernel/index
+   apps/index
    unit_tests

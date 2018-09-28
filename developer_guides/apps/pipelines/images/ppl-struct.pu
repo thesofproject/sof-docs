@@ -1,0 +1,26 @@
+class "pipeline" {
+   ipc_pipe
+   comp_list : list of components
+   buffer_list : list of buffers
+   pipe_task
+   sched_comp : comp_dev *
+   status : uint32_t
+}
+hide pipeline methods
+
+class sof_ipc_pipe_new {
+   comp_id
+   pipeline_id
+   sched_id
+   ...
+}
+hide sof_ipc_pipe_new methods
+note right: attributes provided\nthrough ipc
+
+class task
+hide task members
+hide task attributes
+note right: task registered\nin scheduler
+
+pipeline -- sof_ipc_pipe_new : ipc_pipe
+pipeline - task : "pipe_task"

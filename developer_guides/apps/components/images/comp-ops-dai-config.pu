@@ -1,0 +1,17 @@
+actor host
+participant "ipc/handler" as hdl
+participant "<platform>/dai" as dai
+participant "ipc/ipc" as ipc
+participant "audio/<comp_driver>" as drv
+
+host -> hdl : ipc_dai_config(config)
+	== Configure DAI Instance ==
+	hdl -> dai : dai_get()
+	hdl <-- dai_instance
+	hdl -> dai : dai_set_config(dai_instance, config)
+	hdl <-- dai
+	== Configure DAI Components who use that DAI ==
+	hdl -> ipc : ipc_comp_dai_config()
+		loop for each SOF_COMP_DAI, SOF_COMP_SG_DAI
+			ipc -> drv : dev.drv.ops.dai_config(config)
+		end loop

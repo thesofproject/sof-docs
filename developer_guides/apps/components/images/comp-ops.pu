@@ -1,0 +1,14 @@
+class comp_ops {
+	new(sof_ipc_comp*)
+	free()
+	params()
+	<i>dai_config()</i>
+	cmd()
+	trigger()
+	prepare()
+	reset()
+	copy()
+	<i>host_buffer()</i>
+	position()
+}
+hide comp_ops attributes

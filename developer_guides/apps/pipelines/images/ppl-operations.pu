@@ -1,0 +1,9 @@
+participant "pipeline" as ppl
+
+-> ppl : <pipeline operation> (op = COMP_OPS_...)
+   alt SOF_IPC_STREAM_PLAYBACK
+      ppl -> ppl : comp_op_downstream(op)
+   else
+      ppl -> ppl : comp_op_upstream(op)
+   end
+<-- ppl

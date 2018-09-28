@@ -1,0 +1,16 @@
+hide empty description
+[*] -right-> READY : <b>comp_ops.new()</b>
+
+READY -right-> PREPARE : <b>prepare</b>
+
+PREPARE --> ACTIVE : <b>start</b>
+PAUSED --> ACTIVE : start
+
+ACTIVE --> PREPARE : stop, xrun
+PAUSED --> PREPARE : stop, xrun
+
+ACTIVE -> PAUSED : pause
+
+PAUSED --> ACTIVE : release
+
+PREPARE --> READY : reset

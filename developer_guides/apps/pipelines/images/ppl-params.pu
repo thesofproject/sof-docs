@@ -1,0 +1,20 @@
+actor driver as drv
+participant ipc
+participant "pipeline" as ppl
+
+drv -> ipc : ipc_stream_pcm_params()
+   activate ipc
+   ipc -> ppl : pipeline_params()
+      activate ppl
+      ppl -> ppl : <pipeline operation> (COMP_OPS_PARAMS, first = pcm_dev, params)
+   ipc <-- ppl
+   deactivate ppl
+
+   ipc -> ppl : pipeline_prepare()
+      activate ppl
+      ppl -> ppl : <pipeline operation> (COMP_OPS_PREPARE)
+      ppl -> ppl : component_prepare_buffers_downstream/upstream()
+   ipc <-- ppl
+   deactivate ppl
+drv <-- ipc
+deactivate ipc

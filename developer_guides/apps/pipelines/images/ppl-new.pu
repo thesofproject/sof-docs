@@ -1,0 +1,7 @@
+participant "pipeline" as ppl
+
+-> ppl : pipeline_new(pipe_desc, cd)
+   ppl -> heap : rzalloc(RZONE_RUNTIME, ...)
+   ppl -> ppl : sched_comp = cd
+   note right: sched_comp is used as root comp for pipeline scheduling
+<-- ppl
