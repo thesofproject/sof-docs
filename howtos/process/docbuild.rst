@@ -136,7 +136,7 @@ Depending on your Linux version, install the needed tools:
   .. code-block:: bash
 
      sudo apt-get install doxygen python3-pip python3-wheel make \
-        default-jre graphviz
+        default-jre graphviz python3-sphinx python3-breathe
 
 * For Fedora use:
 
