@@ -26,6 +26,7 @@ Sections
 
    introduction/index.rst
    getting_started/index.rst
+   architectures/index.rst
    platforms/index.rst
    developer_guides/index.rst
    release_notes.rst
