@@ -22,6 +22,14 @@ Setting up SOF on hardware
    setup/setup_up_2_board
    setup/setup_ktest_environment
 
+Audio processing components
+***************************
+
+.. toctree::
+   :maxdepth: 1
+
+   effects/how-to-use-sof-eqctl-tool
+
 Other guides
 ************
 
