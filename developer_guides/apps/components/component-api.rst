@@ -25,7 +25,7 @@ Component Device "Destructor"
 This framework calls ``free(struct comp_dev *dev)`` to free a component
 instance. All data structures previously allocated on the run-time heap are freed:
 
-   void (*free)(struct comp_dev *dev);
+   void (\*free)(struct comp_dev \*dev);
 
 .. uml:: images/comp-ops-free.pu
 
