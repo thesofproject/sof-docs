@@ -56,41 +56,30 @@ tokens.m4 file as follows:
    SectionVendorTokens."sof_volume_tokens" {
        SOF_TKN_VOLUME_RAMP_STEP_TYPE           "250"
        SOF_TKN_VOLUME_RAMP_STEP_MS             "251"
-   } 
+   }
 
-Example pga widget macro: 
+Example pga widget macro:
 
 .. code-block:: bash
 
    W_PGA(name, format, periods_sink, periods_source, preload, kcontrol0. kcontrol1...etc)
 
-This macro takes the following arguments: 
+This macro takes the following arguments:
 
 | **name**: Name of the widget
-| **format**: audio format 
+| **format**: audio format
 | **periods_sink**: Number of sink periods
 | **periods_source**: Number of source periods
 | **preload**: preload count
-| **kcontrol0...kcontroln**: list of kcontrols associated with the widget 
-| 
+| **kcontrol0...kcontroln**: list of kcontrols associated with the widget
 
 The W_PGA macro expands to include the following sections:
 
-| **SectionWidget**: This includes the pipeline information, type of widget,
-  data section and the mixers associated with the widget.
-| **SectionData**: This includes the configuration data for the widget. Note
-  that there are 2 data sections. The first one is for including the
-  common widget tokens such as sink period count, source period count
-  and preload count which are “word” tokens. The second one is for
-  including the audio format for the component which is of type
-  “string”. Note that tokens are different types need to be specified in
-  different sections even though they belong to the same sof_comp_tokens
-  array definition.
-| **SectionVendorTuples:** This section includes the tokens and their
-  respective values.
-| **Mixer**: The mixer section includes the list of kcontrols associated
-with the widget. Kcontrols are defined using the macros depending on
-type. More details can be found in the Kcontrols section.
+**SectionWidget**: This includes the pipeline information, type of widget,
+data section and the mixers associated with the widget.
+**SectionData**: This includes the configuration data for the widget. Note that there are 2 data sections. The first one is for including the common widget tokens such as sink period count, source period count and preload count which are “word” tokens. The second one is for including the audio format for the component which is of type “string”. Note that tokens are different types need to be specified in different sections even though they belong to the same sof_comp_tokens array definition.
+**SectionVendorTuples**: This section includes the tokens and their respective values.
+**Mixer**: The mixer section includes the list of kcontrols associated with the widget. Kcontrols are defined using the macros depending on type. More details can be found in the Kcontrols section.
 
 .. code-block:: bash
 
@@ -150,20 +139,20 @@ Example kcontrol macro for mixer type controls:
 
    C_CONTROLMIXER(name, index, ops, max, invert, tlv, KCONTROL_CHANNELS)
 
-The arguments for the macro are as follows: 
+The arguments for the macro are as follows:
 
 | **name**: Name of the mixer controls
 | **index**: pipeline id
 | **ops**: kcontrol IO handler ID
 | **max**: max value
 | **invert**: bool value indicating if the values are inverted
-| **tlv**: tlv data for volume 
+| **tlv**: tlv data for volume
 | **kcontrol_channels**: number and name of the channels supported
 
 1.4 Pipelines
 -------------
 
-Pipeline definitions contain the following: 
+Pipeline definitions contain the following:
 
 1. Widget descriptions: These are the details of the widgets that make up the pipeline
 2. Kcontrol descriptions: These are the kcontrols that are associated the widgets in the pipeline
@@ -181,9 +170,9 @@ described in pipe-volume-plalyback.m4)
 
    host PCM_P --> B0 --> Volume 0 --> B1 --> sink DAI0
 
-The pipeline description includes the following: 
+The pipeline description includes the following:
 
-1. Widgets: 4 widgets corresponding to the Host, volume and 2 instances of buffers 
+1. Widgets: 4 widgets corresponding to the Host, volume and 2 instances of buffers
 2. Kcontrols: 1 mixer type kcontrol that is associated with the volume component
 3. Pipeline graph: Showing the connections between the widgets as shown above
 4. PCM Capabilities:  The capabilities supported by the audio playback pipeline as below:
@@ -199,7 +188,6 @@ The pipeline description includes the following:
 | **max period size**: 16384
 | **min buffer size**: 65536
 | **max buffer size**: 65536
-| 
 
 The DAI component in the pipeline is defined using a separate pipeline
 corresponding to whether it is a capture or a playback
@@ -261,7 +249,6 @@ where:
   starting at 0 irrespective of DAI type
 | **name**: CPU DAI name as defined in the SOF driver
 | **config**: configuration details depending on the type of DAI.
-| 
 
 The configuration parameters for SSP’s are defined using the following
 macro:
@@ -271,7 +258,7 @@ macro:
    SSP_CONFIG(format, mclk, bclk, fsync, tdm, ssp_config_data)
 
 where:
-  
+
 | **format**: is the SSP format ex: I2S or DSP_A or DSP_B etc
 | **mclk**: master clock in Hz
 | **bclk**: bit clock in Hz
@@ -280,7 +267,6 @@ where:
 | **ssp_config_data**: includes sample valid bits and mclk ID. Some SoC’s
   have more then one mclk exposed. So the right mclk ID needs to be
   specified. If omitted, this defaults to 0.
-| 
 
 The configuration parameters for DMIC’s are defined using the
 following macro:
@@ -342,7 +328,6 @@ macro. The macro is defined as follows:
 | **deadline**: deadline for pipeline schedule
 | **priority**: pipeline priority
 | **core**: core ID
-| 
 
 Example: In order to add an audio playback pipeline with a volume component:
 
@@ -575,7 +560,7 @@ SSP1-Codec DAI.
 The graph below shows the topology defined in Section 3.1.
 
 .. image:: images/tplg2.png
-	   
+
 3. Acronyms
 ***********
 
