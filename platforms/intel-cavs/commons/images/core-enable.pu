@@ -1,0 +1,36 @@
+participant core0
+participant core1
+participant ipc
+participant cpu
+participant alloc
+participant idc
+participant init
+
+core0 -> ipc : ipc_pm_core_enable(header)
+   activate ipc
+
+   ipc -> cpu : cpu_enable_core(core_id)
+      activate cpu
+
+      cpu -> alloc : alloc_core_context(core_id)
+         activate alloc
+      cpu <-- alloc
+      deactivate alloc
+
+      cpu -> idc : idc_enable_interrupts(core_id)
+         activate idc
+      cpu <-- idc
+      cpu-> idc : arch_idc_send_msg(power_up, IDC_NON_BLOCKING)
+      cpu <-- idc
+      deactivate idc
+
+   ipc <-- cpu
+   deactivate cpu
+
+core0 <-- ipc
+deactivate ipc
+
+core1 -> init : slave_core_init()
+   activate init
+init <-- core1
+deactivate init

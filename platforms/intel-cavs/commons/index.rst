@@ -7,3 +7,4 @@ CAVS Commons
    :maxdepth: 1
 
    work-queue
+   multicore-processing
