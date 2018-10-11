@@ -225,7 +225,7 @@ Build *rimage* before building the *sof* firmware.
    $ ./autogen.sh
    $ ./configure --enable-rimage
    $ make
-   $ sudo make instal
+   $ sudo make install
 
 Then configure and make
 
