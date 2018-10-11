@@ -1,0 +1,21 @@
+digraph build_proc_traces {
+   node [shape = record];
+   rankdir = LR;
+
+   src [label = "source files\n
+                  \{ trace_event(...) \}"];
+
+   elf [label = "ELF|<text>.text|<data>.data|<others>...\n\n
+                  |<sle>.static_log_entries"];
+
+   /* compilation & linking */
+   src -> elf;
+   src -> elf:sle [style = dotted, label = "trace\nevent\ndata"]
+
+   /* make bin -> rimage */
+   ri [label = "sof- .ri"];
+   elf:text -> ri;
+   elf:data -> ri;
+   elf:others -> ri;
+   elf:sle -> lcd_file [style = dotted];
+}

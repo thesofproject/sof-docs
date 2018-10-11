@@ -12,3 +12,4 @@ Developer Guides
    apps/index
    unit_tests
    topology/topology
+   debugability/index
