@@ -1,0 +1,18 @@
+participant "platform" as plat
+participant lib
+
+-> plat : platform_init()
+   activate plat
+
+   == DAI ==
+
+   plat -> plat : dai_disco() : dai_desc_list
+   plat -> lib : dai_install(dai_desc_list)
+
+   == DMA ==
+
+   plat -> plat : dma_disco() : dma_desc_list
+   plat -> lib : dma_install(dma_desc_list)
+
+<-- plat
+deactivate plat

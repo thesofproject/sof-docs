@@ -1,40 +1,42 @@
-class dma {
-	dma_get(dmac_id) : struct dma*
+class lib {
+   dma_get(dmac_id) : struct dma*
+   dma_put(struct dma*)
 }
-hide dma attributes
+hide lib attributes
 
 class dma_ops {
-	channel_get()
-	channel_put()
-	start()
-	stop()
-	pause()
-	release()
-	status()
-	set_config()
-	set_cb()
-	pm_context_restore()
-	probe()
+   channel_get()
+   channel_put()
+   start()
+   stop()
+   pause()
+   release()
+   status()
+   set_config()
+   set_cb()
+   pm_context_restore()
+   probe()
+   remove()
 }
 hide dma_ops attributes
 
 class dma_plat_data {
-	id : uint32_t
-	base : uint32_t
-	channels : uint32_t
-	irq : uint32_t
-	drv_plat_data : void *
+   id : uint32_t
+   base : uint32_t
+   channels : uint32_t
+   irq : uint32_t
+   drv_plat_data : void *
 }
 hide dma_plat_data methods
 
 class "struct dma" as s_dma {
-	plat_data : dma_plat_data
-	lock : spinlock_t
-	ops : const dma_ops *
-	private : void *
+   plat_data : dma_plat_data
+   lock : spinlock_t
+   ops : const dma_ops *
+   private : void *
 }
 hide s_dma methods
 
 dma_ops - s_dma
 s_dma -- dma_plat_data
-s_dma <- dma : provides
+s_dma <- lib : provides

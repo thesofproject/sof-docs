@@ -21,9 +21,8 @@ Programming Flows
 DAI Initialization
 ==================
 
-When ADSP enters D0, the dai instances are probed by calling ``dai_probe()``.
-It is important to keep the bare minimum early initialization code inside the
-probe implementation, with no power impact. Defer actions such as clock ungating until the device is requested by the client for use.
+When ADSP enters D0, the dai instances are registered in the list maintained
+by the *lib*.
 
 Configuration & Commands
 ========================
@@ -48,6 +47,7 @@ See :ref:`dai-drivers-api`
 
 Supported Devices
 *****************
+
 
 .. note::
 

@@ -1,0 +1,22 @@
+participant "component" as comp
+participant lib
+participant ukernel
+participant "driver" as drv
+participant hw
+
+-> comp : free()
+
+comp -> lib : dai_put(dev*)
+   activate lib
+
+   opt --dai_desc->sref == 0
+      lib -> drv : dai_desc->ops->remove(dev)
+         activate drv
+         drv -> ukernel : free mem
+         drv -> hw : gate power
+      lib <-- drv : Success
+      deactivate drv
+   end opt
+
+comp <-- lib
+deactivate lib
