@@ -1,7 +1,8 @@
-class dai {
+class lib {
    struct dai *dai_get(uint32_t type, uint32_t index)
+   dai_put(struct dai*)
 }
-hide dai attributes
+hide lib attributes
 
 class dai_ops {
    set_config()
@@ -9,6 +10,7 @@ class dai_ops {
    pm_context_restore()
    pm_context_store()
    probe()
+   remove()
    set_loopback_mode()
 }
 hide dai_ops attributes
@@ -42,4 +44,4 @@ hide s_dai_plat_fifo_data methods
 dai_ops - s_dai
 s_dai -- s_dai_plat_data
 s_dai_plat_data -- s_dai_plat_fifo_data
-s_dai <- dai : provides
+s_dai <- lib : provides

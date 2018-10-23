@@ -1,0 +1,24 @@
+participant "component" as comp
+participant lib
+participant ukernel
+participant "driver" as drv
+participant hw
+
+-> comp : new()
+
+comp -> lib : dai_get(type, ...)
+   activate lib
+
+   lib -> lib : lookup(dai_desc_list) : dai_desc
+   opt dai_desc->sref == 0
+      lib -> drv : dai_desc->ops->probe(dai_desc)
+         activate drv
+         drv -> hw : ungate power
+         drv -> ukernel : alloc mem
+      lib <-- drv : Success
+      deactivate drv
+   end opt
+   lib -> lib : dai_desc->sref++
+
+comp <-- lib : dev*
+deactivate lib
