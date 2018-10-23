@@ -1,0 +1,23 @@
+digraph build_proc_traces {
+   node [shape = record];
+   rankdir = LR;
+
+   ri [label = "sof- .ri"];
+   lcd_file;
+
+   dsp [label = "FW\n@ DSP ", style = filled, color = "#92d050"];
+   ri -> dsp
+
+   drv [label = "Driver\n@ host", style = filled, color = "#92d050"]
+   dsp -> drv [style = dashed, label = "<<dma>>\ntraces..."];
+
+   log [label = "/sys/..."];
+   drv -> log [style = dashed];
+
+   log -> logger [style = dashed];
+   lcd_file -> logger [style = dotted];
+
+   logger -> tty [label = "pretty\nprinted\ntraces"];
+
+   { rank = same; ri; lcd_file }
+}

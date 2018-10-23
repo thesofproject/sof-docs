@@ -1,0 +1,13 @@
+participant "Driver" as drv
+participant "FW" as fw
+
+drv <- fw : <<IPC>> fw ready (fw_version)
+   activate drv
+drv -> drv : remember fw_version
+   activate drv
+   deactivate drv
+deactivate drv
+
+...
+
+drv -> fw : <<IPC>> dma trace enable
