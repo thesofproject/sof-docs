@@ -10,12 +10,14 @@ Source Code Location
 
 All project SOF source code is maintained in the https://github.com/thesofproject repository and includes folders for SOF, SOF tools and topologies, Linux kernel, and documentation. Download the source code as a zip or tar.gz file:
 
-$ git clone https://github.com/thesofproject/sof.git
-$ cd sof
-$ git checkout -b stable-1.2 origin/stable-1.2
+.. code-block:: bash
+
+   $ git clone https://github.com/thesofproject/sof.git
+   $ cd sof
+   $ git checkout -b stable-1.2 origin/stable-1.2
 
 Current Release: v1.2 (Sept 2018)
-********************************
+*********************************
 
 The following features are available in v1.2.
 
