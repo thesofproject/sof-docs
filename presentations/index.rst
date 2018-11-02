@@ -7,15 +7,15 @@ The following presentations from past conferences are available.
 
 "Sound Open Firmware" by Liam Girdwood
    | *Open Source Summit + Embedded Linux Conference Europe 2018*
-.. | :download:`Sound Open Firmware <pdf/SOF_ELCE.pdf>`
+   | :download:`Sound Open Firmware <pdf/SOF_ELCE.pdf>`
 
 "Journey from Closed to Open: Lesson Learned from Open Sourcing Sound Open Firmware" by Liam Girdwood
    | *Open Source Firmware Conference Europe 2018*
-.. | :download:`Lessons Learned <pdf/SOF_OSFC.pdf>`
+   | :download:`Lessons Learned <pdf/SOF_OSFC.pdf>`
 
 "Audio Demo" by Seppo Ingalsuo and Ranjani Sridharan
    | *Open Source Summit + Embedded Linux Conference Europe 2018*
-.. | :download:`Audio Demo <pdf/SOF_DEMO_equalizer.pdf>`
+   | :download:`Audio Demo <pdf/SOF_DEMO_equalizer.pdf>`
 
 
 .. image:: images/liam_elce.png
