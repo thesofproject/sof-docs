@@ -33,3 +33,4 @@ Sections
    howtos/index.rst
    contribute/index.rst
    api/index.rst
+   presentations/index.rst
