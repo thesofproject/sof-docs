@@ -46,7 +46,7 @@ add **--with-cmocka-prefix=<path to cmocka>**. For example:
 .. code-block:: bash
 
    ./autogen.sh
-   ./configure --with-arch=xtensa --with-platform=apollolake \
+   ./configure --with-arch=xtensa-smp --with-platform=apollolake \
       --with-dsp-core=$XTENSA_CORE --with-root-dir=$CONFIG_PATH/xtensa-elf \
       --host=xtensa-bxt-elf --with-meu=$MEU_PATH \
       --with-key=$PRIVATE_KEY_PATH CC=xt-xcc OBJCOPY=xt-objcopy \
