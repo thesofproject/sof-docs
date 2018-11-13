@@ -22,6 +22,10 @@ The following presentations from past conferences are available.
 
 *Figure 1: Liam Girdwood presenting at ELCE 2018*
 
+SOF Mentions
+************
 
+`Linux Audio Miniconf 2018 Report <https://blog.sirena.org.uk/2018/11/01/linux-audio-miniconf-2018-report/#more-129>`_
+   | Edinburgh
 
 
