@@ -112,7 +112,7 @@ for your target platforms.
    $ ./ct-ng build
    #Haswell
    $ cp config-hsw-gcc8.1-gdb8.1 .config
-   $    ./ct-ng build
+   $ ./ct-ng build
    #Apollo Lake
    $ cp config-apl-gcc8.1-gdb8.1 .config
    $ ./ct-ng build
