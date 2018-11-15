@@ -266,7 +266,7 @@ for |APL|:
 
 .. code-block:: bash
 
-    $ ./configure --with-arch=xtensa-smp --with-platform=broxton --with-root-dir=`pwd`/../xtensa-root/xtensa-bxt-elf --host=xtensa-bxt-elf
+    $ ./configure --with-arch=xtensa-smp --with-platform=apollolake --with-root-dir=`pwd`/../xtensa-root/xtensa-apl-elf --host=xtensa-apl-elf
     $ make
     $ make bin
 
