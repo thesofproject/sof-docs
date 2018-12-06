@@ -213,5 +213,67 @@ directly to the GitHub pages publishing repo.  The public site at
 https://thesofproject.github.io will be updated within a few minutes
 so it's best to verify the locally generated html before publishing.
 
+
+Installation troubleshooting
+****************************
+
+There may be a case you followed steps descibed above but you can't run 
+the documentation processors due to following errors:
+
+.. code-block:: bash
+
+	make html
+	Warning: sphinx_rtd_theme missing. Use pip to install it.
+	Extension error:
+	Could not import extension breathe (exception: No module named breathe)
+	Makefile:36: recipe for target 'html' failed
+	make: *** [html] Error 1 
+
+The issue may be related to default policy on Debian based Linux distributions 
+(i.e. Ubuntu) to link python command with python2.7*. You can verify this 
+following steps:
+
+.. code-block:: bash
+
+	python --version
+	Python 2.7.15rc1
+	ll /usr/bin/python 
+	lrwxrwxrwx 1 root root 9 sie 29 07:36 /usr/bin/python -> python2.7*
+
+The issue can be solved by running a dedicated environment with Python 3.* 
+binary and can have its own set of installed Python packages.
+Virtualization of Python environment is a recommended as an alternative to:
+
+* Alias set up in in ~/.bashrc
+* change of symbolic link (/usr/bin/python)
+* Modification of default system behaviour using update-alternatives 
+
+You can sart with installation of virtualization support. As a next step you 
+need to activate virtualized environment. 
+
+.. code-block:: bash
+
+	apt-get install python3-venv
+	python3 -m venv my-sof-env
+	. ./my-sof-env/bin/activate
+	python --version
+	Python 3.6.7
+
+You can verify python version and proceed with installation of all 
+required python packages in the virtualized environment. 
+
+.. code-block:: bash
+
+	pip install sphinx
+	git clone https://github.com/thesofprojects/sof.git
+	git clone https://github.com/thesofprojects/sof-docs.git
+	cd sof-docs/
+	pip install -r scripts/requirements.txt
+
+After installation is finished you should be able to generate documentation 
+invoking commands listed in section "Running the documentation processors".
+Further informationson how to use lightweight Python virtualization 
+environments can be found at https://docs.python.org/3/library/venv.html .
+
 .. _reStructuredText: http://sphinx-doc.org/rest.html
 .. _Sphinx: http://sphinx-doc.org/
