@@ -7,3 +7,7 @@ Debugability
    :maxdepth: 1
 
    traces/index
+   logger/index
+
+   
+   
