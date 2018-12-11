@@ -1,6 +1,6 @@
 .. _sof_doc:
 
-SOF documentation generation
+SOF Documentation Generation
 ############################
 
 These instructions will walk you through generating the SOF Project's
@@ -32,8 +32,8 @@ and make use of the breathe extension for including the doxygen-generated API
 material.
 
 
-Set up the documentation working folders
-****************************************
+Set up documentation working folders
+************************************
 
 You'll need git installed to get the working folders set up:
 
@@ -107,8 +107,8 @@ upstream project repos (though https clones work too):
       git config --global user.name "David Developer"
       git config --global user.email "david.developer@company.com"
 
-Installing the documentation tools
-**********************************
+Install documentation tools
+***************************
 
 Our documentation processing has been tested to run with:
 
@@ -164,8 +164,8 @@ another ``make html`` and the output layout and style is changed.
 The ``read-the-docs`` theme is installed as part of the
 ``requirements.txt`` list above.
 
-Running the documentation processors
-************************************
+Run documentation processors
+****************************
 
 The sof-docs directory has all the .rst source files, extra tools, and Makefile for
 generating a local copy of the SOF technical documentation.
@@ -184,8 +184,8 @@ Depending on your development system, it will take about 10 seconds to
 collect and generate the HTML content.  When done, you can view the HTML
 output with your browser started at ``~/thesofproject/sof-docs/_build/html/index.html``
 
-Publishing content
-******************
+Publish content
+***************
 
 If you have merge rights to the thesofproject repo called
 thesofproject.github.io, you can update the public project documentation
@@ -207,18 +207,13 @@ good, you can push directly to the publishing site with:
    make publish
 
 This will delete everything in the publishing repo's **latest** folder
-(in case the new version has
-deleted files) and push a copy of the newly-generated HTML content
-directly to the GitHub pages publishing repo.  The public site at
-https://thesofproject.github.io will be updated within a few minutes
-so it's best to verify the locally generated html before publishing.
+(in case the new version has deleted files) and push a copy of the newly-generated HTML content directly to the GitHub pages publishing repo.  The public site at https://thesofproject.github.io will be updated within a few minutes so it's best to verify the locally generated html before publishing.
 
 
 Installation troubleshooting
 ****************************
 
-There may be a case you followed steps descibed above but you can't run 
-the documentation processors due to following errors:
+In some cases, you cannot run the documentation processors due to the following errors:
 
 .. code-block:: bash
 
@@ -227,29 +222,24 @@ the documentation processors due to following errors:
 	Extension error:
 	Could not import extension breathe (exception: No module named breathe)
 	Makefile:36: recipe for target 'html' failed
-	make: *** [html] Error 1 
+	make: *** [html] Error 1
 
-The issue may be related to default policy on Debian based Linux distributions 
-(i.e. Ubuntu) to link python command with python2.7*. You can verify this 
-following steps:
+The issue could be related to the default policy on Debian-based Linux distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can verify this by entering the following steps:
 
 .. code-block:: bash
 
 	python --version
 	Python 2.7.15rc1
-	ll /usr/bin/python 
+	ll /usr/bin/python
 	lrwxrwxrwx 1 root root 9 sie 29 07:36 /usr/bin/python -> python2.7*
 
-The issue can be solved by running a dedicated environment with Python 3.* 
-binary and can have its own set of installed Python packages.
-Virtualization of Python environment is a recommended as an alternative to:
+The issue can be resolved by running a dedicated environment with the Python 3.x binary and include its own set of installed Python packages. Virtualization of the Python environment is recommended as an alternative to:
 
-* Alias set up in in ~/.bashrc
-* change of symbolic link (/usr/bin/python)
-* Modification of default system behaviour using update-alternatives 
+* adding as alias setup in ~/.bashrc
+* changing the symbolic link (/usr/bin/python)
+* modifying the default system behavior using update-alternatives
 
-You can sart with installation of virtualization support. As a next step you 
-need to activate virtualized environment. 
+Start with installing virtualization support. As a next step, activate the virtualized environment.
 
 .. code-block:: bash
 
@@ -259,8 +249,7 @@ need to activate virtualized environment.
 	python --version
 	Python 3.6.7
 
-You can verify python version and proceed with installation of all 
-required python packages in the virtualized environment. 
+You can verify the Python version and proceed with installing all required Python packages in the virtualized environment.
 
 .. code-block:: bash
 
@@ -270,10 +259,7 @@ required python packages in the virtualized environment.
 	cd sof-docs/
 	pip install -r scripts/requirements.txt
 
-After installation is finished you should be able to generate documentation 
-invoking commands listed in section "Running the documentation processors".
-Further informationson how to use lightweight Python virtualization 
-environments can be found at https://docs.python.org/3/library/venv.html .
+After the installation is finished, you should be able to generate documentation invoking commands listed in section "Running the documentation processors". Further information on how to use lightweight Python virtualization environments can be found at https://docs.python.org/3/library/venv.html.
 
 .. _reStructuredText: http://sphinx-doc.org/rest.html
 .. _Sphinx: http://sphinx-doc.org/
