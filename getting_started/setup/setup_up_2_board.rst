@@ -80,17 +80,19 @@ Copy scripts from https://github.com/plbossart/acpi-scripts
 
 .. code-block:: bash
 
-   $ sudo ./install hooks
-   $ sudo ./acpi-add Up2/\*.asl
+   $ sudo ./install_hooks
+   $ sudo ./acpi-add Up2/PCM512X.asl
 
 Reboot and check if the status of the device is 15
 
 .. code-block:: bash
 
-   $ cat /sys/bus/acpi/devices/104C5122\\:00/status
+   $ cat /sys/bus/acpi/devices/104C5122\:00/status
 
 7. Add sst drivers to blacklist-dsp.conf
 ========================================
+
+Create blacklist-dsp.conf in /etc/modprobe.d/ if not exist
 
 ::
 
