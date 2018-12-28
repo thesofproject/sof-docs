@@ -28,7 +28,9 @@ Install package dependencies.
 .. code-block:: bash
 
    $ sudo apt-get install libgtk-3-dev libsdl-dev libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev \
-                        libtool-bin iasl valgrind texinfo virt-manager kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config
+                        libtool-bin iasl valgrind texinfo virt-manager kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config \
+                        help2man gawk libncurses5 libncurses5-dev
+
 
 If you are using Ubuntu 16.04, the gcc must be updated to gcc 7.3+ 
 for the Advanced Linux Sound Architecture (ALSA) to build.
@@ -59,7 +61,6 @@ Replace the default Ubuntu alsa-lib with the one we just built.
 .. code-block:: bash
 
    $ sudo cp /usr/lib/libasound.*    /usr/lib/x86_64-linux-gnu/
-   $ sudo cp /usr/lib/alsa_lib/*    /usr/lib/x86_64-linux-gnu/alsa-lib
 
 Clone, build, and install alsa-utils.
 
@@ -70,6 +71,10 @@ Clone, build, and install alsa-utils.
    $ cd alsa-utils
    $ ./gitcompile
    $ sudo make install
+
+.. note::
+
+   If gitcompile script doen't work, refer to INSTALL file for manual build instruction.
 
 Build toolchain from source
 ===========================
@@ -155,21 +160,25 @@ Build and install the headers for each platform.
 .. code-block:: bash
 
    #Baytrail
-   $ ./configure --target=xtensa-byt-elf --prefix=~/work/sof/xtensa-root
+   $ ./configure --target=xtensa-byt-elf --prefix=/home/$USER/work/sof/xtensa-root
    $ make
    $ make install
    #Haswell
-   $ ./configure --target=xtensa-hsw-elf --prefix=~/work/sof/xtensa-root
+   $ ./configure --target=xtensa-hsw-elf --prefix=/home/$USER/work/sof/xtensa-root
    $ make
    $ make install
    #Apollo Lake
-   $ ./configure --target=xtensa-apl-elf --prefix=~/work/sof/xtensa-root
+   $ ./configure --target=xtensa-apl-elf --prefix=/home/$USER/work/sof/xtensa-root
    $ make
    $ make install
    #Cannon Lake
-   $ ./configure --target=xtensa-cnl-elf --prefix=~/work/sof/xtensa-root
+   $ ./configure --target=xtensa-cnl-elf --prefix=/home/$USER/work/sof/xtensa-root
    $ make
    $ make install
+
+.. note::
+
+  --prefix expects absolute PATH. Change the path according to your environment.
 
 The required headers are now in ~/work/sof/xtensa-root, and we have set up a
 cross compiler toolchain for xtensa DSPs.
@@ -177,21 +186,19 @@ cross compiler toolchain for xtensa DSPs.
 Build firmware binaries
 =======================
 
-After the SOF environment is set up, we can clone the *sof* and *soft*
-repos.
+After the SOF environment is set up, we can clone the *sof* repos.
 
 .. code-block:: bash
 
    $ cd ~/work/sof/
    $ git clone https://github.com/thesofproject/sof.git
-   $ git clone https://github.com/thesofproject/soft.git
 
 
 Build with scripts
 ------------------
 
 To build |SOF| quickly use the built-in scripts after setting up the
-environment.
+environment. For the first time build, build *rimage* tool first.
 
 Build the firmware.
 
@@ -216,7 +223,7 @@ You may specify one or more of the following platform arguments:
 Build with commands
 -------------------
 
-This is a detailed build guide for the *sof* and *soft* repos.
+This is a detailed build guide for the *sof* repos.
 
 Build *rimage* before building the *sof* firmware.
 
@@ -298,14 +305,14 @@ Build with scripts
 .. code-block:: bash
 
    $ cd ~/work/sof/sof/
-   $ ./scripts/build-soft.sh
+   $ ./scripts/build-tools.sh
 
 Build with commands
 -------------------
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/soft/
+   $ cd ~/work/sof/tools/
    $ ./autogen.sh
    $ ./configure
    $ make
@@ -316,7 +323,7 @@ Topology and tools build results
 The topology files are all in the topology folder. Copy them to the target
 machine's /lib/firmware/intel/ folder. 
 
-The *rmbox* tool is in the *rmbox* folder. Copy it to the target machine's
+The *sof-logger* tool is in the *logger* folder. Copy it to the target machine's
 /usr/bin directory.
 
 Build Linux kernel
