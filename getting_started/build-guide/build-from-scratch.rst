@@ -186,7 +186,7 @@ cross compiler toolchain for xtensa DSPs.
 Build firmware binaries
 =======================
 
-After the SOF environment is set up, we can clone the *sof* repos.
+After the SOF environment is set up, we can clone the *sof* repo.
 
 .. code-block:: bash
 
@@ -210,7 +210,7 @@ Build the firmware.
 .. note::
 
    This script will only work if the PATH includes both crosscompiler and
-   xtensa-root and they are siblings of the sof and soft repos.
+   xtensa-root and they are siblings of the sof repo.
 
 You may specify one or more of the following platform arguments: 
 ``byt``, ``cht``, ``hsw``, ``bdw``, ``apl``, and ``cnl``
@@ -223,7 +223,7 @@ You may specify one or more of the following platform arguments:
 Build with commands
 -------------------
 
-This is a detailed build guide for the *sof* repos.
+This is a detailed build guide for the *sof* repo.
 
 Build *rimage* before building the *sof* firmware.
 
@@ -312,7 +312,7 @@ Build with commands
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/tools/
+   $ cd ~/work/sof/sof/tools/
    $ ./autogen.sh
    $ ./configure
    $ make
@@ -323,7 +323,7 @@ Topology and tools build results
 The topology files are all in the topology folder. Copy them to the target
 machine's /lib/firmware/intel/ folder. 
 
-The *sof-logger* tool is in the *logger* folder. Copy it to the target machine's
+The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.
 
 Build Linux kernel
