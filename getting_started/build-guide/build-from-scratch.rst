@@ -200,12 +200,12 @@ Build with scripts
 To build |SOF| quickly use the built-in scripts after setting up the
 environment. For the first time build, build *rimage* tool first.
 
-Build the firmware.
+Build firmware of all platforms.
 
 .. code-block:: bash
 
    $ cd ~/work/sof/sof/
-   $ ./scripts/xtensa-build-all.sh
+   $ ./scripts/xtensa-build-all.sh -a
 
 .. note::
 
@@ -219,6 +219,14 @@ You may specify one or more of the following platform arguments:
 
    $ ./scripts/xtensa-build-all.sh byt
    $ ./scripts/xtensa-build-all.sh byt apl
+
+You can also enable debug build with -d, enable rom build with -r and speed up build with -j [n]
+
+.. code-block:: bash
+
+   $ ./scripts/xtensa-build-all.sh -d byt
+   $ ./scripts/xtensa-build-all.sh -d -r apl
+   $ ./scripts/xtensa-build-all.sh -d -r -j 4 apl
 
 Build with commands
 -------------------
@@ -284,6 +292,16 @@ for |CNL|:
     $ ./configure --with-arch=xtensa-smp --with-platform=cannonlake --with-root-dir=`pwd`/../xtensa-root/xtensa-cnl-elf --host=xtensa-cnl-elf
     $ make
     $ make bin
+
+
+.. note::
+
+        There are DEBUG option and ROM option for the FW bianry build, you can enable them with configure options '--enable-debug=yes' and '--enable-roms'
+
+.. code-block:: bash
+
+    $ ./configure --with-arch=xtensa-smp --with-platform=apollolake --with-root-dir=`pwd`/../xtensa-root/xtensa-apl-elf --host=xtensa-apl-elf --enable-debug=yes --enable-roms
+
 
 Firmware build results
 ----------------------
