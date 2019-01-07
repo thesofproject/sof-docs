@@ -56,11 +56,11 @@ the newest ALSA from source code.
    $ ./gitcompile
    $ sudo make install
 
-Replace the default Ubuntu alsa-lib with the one we just built.
+Update an environment variable to refer to the alsa-lib with the one we just built.
 
 .. code-block:: bash
 
-   $ sudo cp /usr/lib/libasound.*    /usr/lib/x86_64-linux-gnu/
+   $ export LD_LIBRARY_PATH=~/work/sof/alsa-lib/src/.libs:$LD_LIBRARY_PATH
 
 Clone, build, and install alsa-utils.
 
