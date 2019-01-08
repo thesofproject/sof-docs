@@ -1,0 +1,5 @@
+#This file identifies people who are automatically notified when Pull Requests are made for /sof-docs. 
+#At this time, the following people are notified and are expected to review the PRs:
+#Liam Girdwood (technical review) and Deb Taylor (grammatical/style review).
+
+* @lgirdwood @deb-intel
