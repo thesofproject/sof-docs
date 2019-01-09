@@ -54,12 +54,13 @@ guide, if needed.
 Update kernel based on https://github.com/thesofproject/linux from the
 ``topic/sof-dev`` branch.
 
-ref kernel config:
-https://drive.google.com/open?id=1IYiTeCUFqZkLMPCRS0abtXYFtLqEKckq
+Copy kconfig fragments for SOF development from https://github.com/thesofproject/kconfig
 
-.. todo::
-   
-   this link needs to be updated to something accessible externally
+.. code-block:: bash
+
+   $ make defconfig
+   $ scripts/kconfig/merge_config.sh .config <path>/kconfig/base-defconfig <path>/kconfig/sof-defconfig  <path>/kconfig/hdaudio-codecs-defconfig
+   $ make -j8
 
 4. Firmware
 ===========
