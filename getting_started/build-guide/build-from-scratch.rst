@@ -186,7 +186,7 @@ cross compiler toolchain for xtensa DSPs.
 Build firmware binaries
 =======================
 
-After the SOF environment is set up, we can clone the *sof* repos.
+After the SOF environment is set up, we can clone the *sof* repo.
 
 .. code-block:: bash
 
@@ -200,17 +200,17 @@ Build with scripts
 To build |SOF| quickly use the built-in scripts after setting up the
 environment. For the first time build, build *rimage* tool first.
 
-Build the firmware.
+Build firmware of all platforms.
 
 .. code-block:: bash
 
    $ cd ~/work/sof/sof/
-   $ ./scripts/xtensa-build-all.sh
+   $ ./scripts/xtensa-build-all.sh -a
 
 .. note::
 
    This script will only work if the PATH includes both crosscompiler and
-   xtensa-root and they are siblings of the sof and soft repos.
+   xtensa-root and they are siblings of the sof repo.
 
 You may specify one or more of the following platform arguments: 
 ``byt``, ``cht``, ``hsw``, ``bdw``, ``apl``, and ``cnl``
@@ -220,10 +220,18 @@ You may specify one or more of the following platform arguments:
    $ ./scripts/xtensa-build-all.sh byt
    $ ./scripts/xtensa-build-all.sh byt apl
 
+You can also enable debug build with -d, enable rom build with -r and speed up build with -j [n]
+
+.. code-block:: bash
+
+   $ ./scripts/xtensa-build-all.sh -d byt
+   $ ./scripts/xtensa-build-all.sh -d -r apl
+   $ ./scripts/xtensa-build-all.sh -d -r -j 4 apl
+
 Build with commands
 -------------------
 
-This is a detailed build guide for the *sof* repos.
+This is a detailed build guide for the *sof* repo.
 
 Build *rimage* before building the *sof* firmware.
 
@@ -285,6 +293,16 @@ for |CNL|:
     $ make
     $ make bin
 
+
+.. note::
+
+        There are DEBUG option and ROM option for the FW bianry build, you can enable them with configure options '--enable-debug=yes' and '--enable-roms'
+
+.. code-block:: bash
+
+    $ ./configure --with-arch=xtensa-smp --with-platform=apollolake --with-root-dir=`pwd`/../xtensa-root/xtensa-apl-elf --host=xtensa-apl-elf --enable-debug=yes --enable-roms
+
+
 Firmware build results
 ----------------------
 
@@ -312,7 +330,7 @@ Build with commands
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/tools/
+   $ cd ~/work/sof/sof/tools/
    $ ./autogen.sh
    $ ./configure
    $ make
@@ -323,7 +341,7 @@ Topology and tools build results
 The topology files are all in the topology folder. Copy them to the target
 machine's /lib/firmware/intel/ folder. 
 
-The *sof-logger* tool is in the *logger* folder. Copy it to the target machine's
+The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.
 
 Build Linux kernel

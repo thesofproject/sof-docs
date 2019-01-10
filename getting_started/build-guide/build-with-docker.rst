@@ -14,13 +14,12 @@ This guide will show you how to use a Docker image containing the
 
         The example uses ~/work/sof/ as the working directory.
 
-Clone the *sof* and *soft* repo.
+Clone the *sof* repo.
 
 .. code-block:: bash
 
    $ cd ~/work/sof/
    $ git clone https://github.com/thesofproject/sof.git
-   $ git clone https://github.com/thesofproject/soft.git
 
 Set up Docker
 *************
@@ -114,7 +113,7 @@ Build the SOF binaries:
 
 .. note::
 
-   ./scripts/docker-run.sh will mount the *sof* and *soft* directories
+   ./scripts/docker-run.sh will mount the *sof* and directories
    into Docker container and build them inside the container. The build
    result can be accessed outside the container after the build.
 
@@ -161,12 +160,12 @@ Build topology and tools
 Build with scripts
 ------------------
 
-Build the *soft* tools and topology files.
+Build the *sof* tools and topology files.
 
 .. code-block:: bash
 
    $ cd ~/work/sof/sof/
-   $ ./scripts/docker-run.sh ./scripts/build-soft.sh
+   $ ./scripts/docker-run.sh ./scripts/build-tools.sh
 
 Build inside container
 ----------------------
@@ -186,5 +185,5 @@ Topology and tools build results
 The topology files are all in the topology folder. Copy them to the target
 machine's /lib/firmware/intel/ folder. 
 
-The *rmbox* tool is in the *rmbox* folder. Copy it to the target machine's
+The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.
