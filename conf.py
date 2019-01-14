@@ -57,7 +57,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SOF Project'
-copyright = u'2018, SOF Project'
+copyright = u'2019, SOF Project'
 author = u'SOF Project developers'
 
 # The version info for the project you're documenting, acts as replacement for
