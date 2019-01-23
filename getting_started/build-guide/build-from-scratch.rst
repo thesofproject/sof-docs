@@ -32,7 +32,7 @@ Install package dependencies.
                         help2man gawk libncurses5 libncurses5-dev
 
 
-If you are using Ubuntu 16.04, the gcc must be updated to gcc 7.3+ 
+If you are using Ubuntu 16.04, the gcc must be updated to gcc 7.3+
 for the Advanced Linux Sound Architecture (ALSA) to build.
 
 .. code-block:: bash
@@ -98,7 +98,7 @@ Build cross-compiler
 Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
 |CHT|, |HSW|, |BDW|, |APL|, and |CNL| platforms.
 
-Clone both repos and checkout the sof-gcc8.1 branch.
+Clone both repos and check out the sof-gcc8.1 branch.
 
 .. code-block:: bash
 
@@ -120,11 +120,11 @@ Build and install the ct-ng tools in the local folder.
    $ make
    $ make install
 
-Copy the config files to the .config directory, and build the cross compiler
-for your target platforms. 
+Copy the config files to the .config directory and build the cross compiler
+for your target platforms.
 
 .. code-block:: bash
-   
+
    #Baytrail
    $ cp config-byt-gcc8.1-gdb8.1 .config
    $ ./ct-ng build
@@ -159,7 +159,7 @@ Add these compilers to your PATH variable.
    $ export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
    $ export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
 
-Clone header repository.
+Clone the header repository.
 
 .. code-block:: bash
 
@@ -191,7 +191,7 @@ Build and install the headers for each platform.
 
 .. note::
 
-  --prefix expects absolute PATH. Change the path according to your environment.
+  --prefix expects the absolute PATH. Change the path according to your environment.
 
 The required headers are now in ~/work/sof/xtensa-root, and we have set up a
 cross compiler toolchain for xtensa DSPs.
@@ -210,7 +210,7 @@ After the SOF environment is set up, we can clone the *sof* repo.
 Build with scripts
 ------------------
 
-To build |SOF| quickly use the built-in scripts after setting up the
+To build |SOF| quickly, use the built-in scripts after setting up the
 environment.
 
 Build firmware of all platforms.
@@ -225,7 +225,7 @@ Build firmware of all platforms.
    This script will only work if the PATH includes both crosscompiler and
    xtensa-root and they are siblings of the sof repo.
 
-You may specify one or more of the following platform arguments: 
+You may specify one or more of the following platform arguments:
 ``byt``, ``cht``, ``hsw``, ``bdw``, ``apl``, and ``cnl``
 
 .. code-block:: bash
@@ -246,9 +246,9 @@ Build with commands
 
 This is a detailed build guide for the *sof* repo.
 
-Snippets below assume that at beginning your working directory is repo's root (~/work/sof/sof/).
+Snippets below assume that your working directory is repo's root (~/work/sof/sof/).
 
-CMake is designed for out-of-tree builds, that's why you should make separate dirs for your configurations.
+CMake is designed for out-of-tree builds which is why you should make separate dirs for your configurations.
 
 You can manage builds for many configurations/platforms from the one source this way.
 
@@ -359,8 +359,8 @@ Build with commands
 Topology and tools build results
 --------------------------------
 
-The topology files are all in the topology folder. Copy them to the target
-machine's /lib/firmware/intel/ folder. 
+The topology files are located in the topology folder. Copy them to the target
+machine's /lib/firmware/intel/ folder.
 
 The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.
@@ -394,4 +394,4 @@ dev branch firmware and topology.
        The *-j* argument indicites the number of cores to use in the build
        process. Select a value that matches your build system.
 
-#. Copy resulting *.deb* files to the target machine and install them.
+#. Copy the resulting *.deb* files to the target machine and install them.
