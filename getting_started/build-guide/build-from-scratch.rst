@@ -42,6 +42,19 @@ for the Advanced Linux Sound Architecture (ALSA) to build.
    $ sudo apt-get install gcc-7 g++-7
    $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 
+Install CMake
+-----------------------------
+
+If you use Ubuntu 18.04 you can install CMake with apt:
+
+.. code-block:: bash
+
+   $ sudo apt-get cmake
+
+On Ubuntu 16.04, CMake from apt is outdated and you have to install CMake from sources.
+
+You can do this by following this short guide: https://cmake.org/install/
+
 Build alsa-lib and alsa-utils
 -----------------------------
 
@@ -74,7 +87,7 @@ Clone, build, and install alsa-utils.
 
 .. note::
 
-   If gitcompile script doen't work, refer to INSTALL file for manual build instruction.
+   If gitcompile script doesn't work, refer to INSTALL file for manual build instruction.
 
 Build toolchain from source
 ===========================
@@ -198,7 +211,7 @@ Build with scripts
 ------------------
 
 To build |SOF| quickly use the built-in scripts after setting up the
-environment. For the first time build, build *rimage* tool first.
+environment.
 
 Build firmware of all platforms.
 
@@ -233,85 +246,93 @@ Build with commands
 
 This is a detailed build guide for the *sof* repo.
 
-Build *rimage* before building the *sof* firmware.
+Snippets below assume that at beginning your working directory is repo's root (~/work/sof/sof/).
 
-.. code-block:: bash
+CMake is designed for out-of-tree builds, that's why you should make separate dirs for your configurations.
 
-   $ ./autogen.sh
-   $ ./configure --enable-rimage
-   $ make
-   $ sudo make install
-
-Then configure and make
+You can manage builds for many configurations/platforms from the one source this way.
 
 for |BYT|:
 
 .. code-block:: bash
 
-   $ ./configure --with-arch=xtensa --with-platform=baytrail --with-root-dir=`pwd`/../xtensa-root/xtensa-byt-elf --host=xtensa-byt-elf
-   $ make
-   $ make bin
+   $ mkdir build_byt && cd build_byt
+   $ cmake -DTOOLCHAIN=xtensa-byt-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-byt-elf ..
+   $ make baytrail_defconfig
+   $ make bin -j4
 
 for |CHT|:
 
 .. code-block:: bash
 
-    $ ./configure --with-arch=xtensa --with-platform=cherrytrail --with-root-dir=`pwd`/../xtensa-root/xtensa-cht-elf --host=xtensa-cht-elf
-    $ make
-    $ make bin
-
+   $ mkdir build_cht && cd build_cht
+   $ cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-cht-elf ..
+   $ make cherrytrail_defconfig
+   $ make bin -j4
 
 for |HSW|:
 
 .. code-block:: bash
 
-   $ ./configure --with-arch=xtensa --with-platform=haswell --with-root-dir=`pwd`/../xtensa-root/xtensa-hsw-elf --host=xtensa-hsw-elf
-   $ make
-   $ make bin
+   $ mkdir build_hsw && cd build_hsw
+   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-hsw-elf ..
+   $ make haswell_defconfig
+   $ make bin -j4
 
 for |BDW|:
 
 .. code-block:: bash
 
-    $ ./configure --with-arch=xtensa --with-platform=broadwell --with-root-dir=`pwd`/../xtensa-root/xtensa-hsw-elf --host=xtensa-hsw-elf
-    $ make
-    $ make bin
+   $ mkdir build_bdw && cd build_bdw
+   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-hsw-elf ..
+   $ make broadwell_defconfig
+   $ make bin -j4
 
 for |APL|:
 
 .. code-block:: bash
 
-    $ ./configure --with-arch=xtensa-smp --with-platform=apollolake --with-root-dir=`pwd`/../xtensa-root/xtensa-apl-elf --host=xtensa-apl-elf
-    $ make
-    $ make bin
+   $ mkdir build_apl && cd build_apl
+   $ cmake -DTOOLCHAIN=xtensa-apl-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-apl-elf ..
+   $ make apollolake_defconfig
+   $ make bin -j4
 
 for |CNL|:
 
 .. code-block:: bash
 
-    $ ./configure --with-arch=xtensa-smp --with-platform=cannonlake --with-root-dir=`pwd`/../xtensa-root/xtensa-cnl-elf --host=xtensa-cnl-elf
-    $ make
-    $ make bin
-
+   $ mkdir build_cnl && cd build_cnl
+   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-cnl-elf ..
+   $ make cannonlake_defconfig
+   $ make bin -j4
 
 .. note::
 
-        There are DEBUG option and ROM option for the FW bianry build, you can enable them with configure options '--enable-debug=yes' and '--enable-roms'
+   | After 'make \*_defconfig' step, you can customize your build with 'make menuconfig'.
+   | There are DEBUG option and ROM option for the FW bianry build, you can enable them with 'make menuconfig'.
 
 .. code-block:: bash
 
-    $ ./configure --with-arch=xtensa-smp --with-platform=apollolake --with-root-dir=`pwd`/../xtensa-root/xtensa-apl-elf --host=xtensa-apl-elf --enable-debug=yes --enable-roms
+   $ mkdir build_cnl_custom && cd build_cnl_custom
+   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-cnl-elf ..
+   $ make cannonlake_defconfig
+   $ make menuconfig # select/deselect options and save
+   $ make bin -j4
+
+.. note::
+
+   If you have `Ninja <https://ninja-build.org/>`_ installed you can use it instead of Make. Just type *cmake -GNinja ...* while doing configuration step.
 
 
 Firmware build results
 ----------------------
 
-The firmware binary files are located in src/arch/xtensa/. Copy them to
+The firmware binary files are located in build_<platform>/src/arch/xtensa/. Copy them to
 your target machine's /lib/firmware/intel/ folder.
 
 .. code-block:: bash
 
-        sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
+        sof_apl.ri  sof_bdw.ri  sof_byt.ri  sof_cht.ri  sof_cnl.ri  sof_hsw.ri
 
 
 Build topology and tools
