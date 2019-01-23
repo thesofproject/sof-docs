@@ -49,7 +49,7 @@ If you use Ubuntu 18.04 you can install CMake with apt:
 
 .. code-block:: bash
 
-   $ sudo apt-get cmake
+   $ sudo apt-get install cmake
 
 On Ubuntu 16.04, CMake from apt is outdated and you have to install CMake from sources.
 
@@ -332,7 +332,7 @@ your target machine's /lib/firmware/intel/ folder.
 
 .. code-block:: bash
 
-        sof_apl.ri  sof_bdw.ri  sof_byt.ri  sof_cht.ri  sof_cnl.ri  sof_hsw.ri
+        sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
 
 
 Build topology and tools
