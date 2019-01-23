@@ -257,7 +257,7 @@ for |BYT|:
 .. code-block:: bash
 
    $ mkdir build_byt && cd build_byt
-   $ cmake -DTOOLCHAIN=xtensa-byt-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-byt-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-byt-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-byt-elf ..
    $ make baytrail_defconfig
    $ make bin -j4
 
@@ -266,7 +266,7 @@ for |CHT|:
 .. code-block:: bash
 
    $ mkdir build_cht && cd build_cht
-   $ cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-cht-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cht-elf ..
    $ make cherrytrail_defconfig
    $ make bin -j4
 
@@ -275,7 +275,7 @@ for |HSW|:
 .. code-block:: bash
 
    $ mkdir build_hsw && cd build_hsw
-   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-hsw-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-hsw-elf ..
    $ make haswell_defconfig
    $ make bin -j4
 
@@ -284,7 +284,7 @@ for |BDW|:
 .. code-block:: bash
 
    $ mkdir build_bdw && cd build_bdw
-   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-hsw-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-hsw-elf ..
    $ make broadwell_defconfig
    $ make bin -j4
 
@@ -293,7 +293,7 @@ for |APL|:
 .. code-block:: bash
 
    $ mkdir build_apl && cd build_apl
-   $ cmake -DTOOLCHAIN=xtensa-apl-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-apl-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-apl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-apl-elf ..
    $ make apollolake_defconfig
    $ make bin -j4
 
@@ -302,7 +302,7 @@ for |CNL|:
 .. code-block:: bash
 
    $ mkdir build_cnl && cd build_cnl
-   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-cnl-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
    $ make cannonlake_defconfig
    $ make bin -j4
 
@@ -314,7 +314,7 @@ for |CNL|:
 .. code-block:: bash
 
    $ mkdir build_cnl_custom && cd build_cnl_custom
-   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../xtensa-root/xtensa-cnl-elf ..
+   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
    $ make cannonlake_defconfig
    $ make menuconfig # select/deselect options and save
    $ make bin -j4
