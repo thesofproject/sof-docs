@@ -172,9 +172,8 @@ generating a local copy of the SOF technical documentation.
 
 .. code-block:: bash
 
-   cd ~/thesofproject/sof
-   ./autogen.sh
-   ./configure --enable-doc
+   cd ~/thesofproject/sof/doc
+   cmake .
    make doc
 
    cd ~/thesofproject/sof-docs
