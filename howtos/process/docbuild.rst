@@ -167,8 +167,8 @@ The ``read-the-docs`` theme is installed as part of the
 Run documentation processors
 ****************************
 
-The sof-docs directory has all the .rst source files, extra tools, and Makefile for
-generating a local copy of the SOF technical documentation.
+The sof-docs directory has all the .rst source files, extra tools, and Makefile
+for generating a local copy of the SOF technical documentation.
 
 .. code-block:: bash
 
@@ -180,9 +180,9 @@ generating a local copy of the SOF technical documentation.
    cd ~/thesofproject/sof-docs
    make html
 
-Depending on your development system, it will take about 10 seconds to
-collect and generate the HTML content.  When done, you can view the HTML
-output with your browser started at ``~/thesofproject/sof-docs/_build/html/index.html``
+Depending on your development system, it will take about 10 seconds to collect
+and generate the HTML content. When done, you can view the HTML output with
+your browser started at ``~/thesofproject/sof-docs/_build/html/index.html``
 
 Publish content
 ***************
@@ -206,14 +206,17 @@ good, you can push directly to the publishing site with:
 
    make publish
 
-This will delete everything in the publishing repo's **latest** folder
-(in case the new version has deleted files) and push a copy of the newly-generated HTML content directly to the GitHub pages publishing repo.  The public site at https://thesofproject.github.io will be updated within a few minutes so it's best to verify the locally generated html before publishing.
-
+This will delete everything in the publishing repo's **latest** folder (in case
+the new version has deleted files) and push a copy of the newly-generated HTML
+content directly to the GitHub pages publishing repo. The public site at
+https://thesofproject.github.io will be updated within a few minutes so it's
+best to verify the locally generated html before publishing.
 
 Installation troubleshooting
 ****************************
 
-In some cases, you cannot run the documentation processors due to the following errors:
+In some cases, you cannot run the documentation processors due to the following
+errors:
 
 .. code-block:: bash
 
@@ -224,7 +227,9 @@ In some cases, you cannot run the documentation processors due to the following 
 	Makefile:36: recipe for target 'html' failed
 	make: *** [html] Error 1
 
-The issue could be related to the default policy on Debian-based Linux distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can verify this by entering the following steps:
+The issue could be related to the default policy on Debian-based Linux
+distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can
+verify this by entering the following steps:
 
 .. code-block:: bash
 
@@ -233,13 +238,16 @@ The issue could be related to the default policy on Debian-based Linux distribut
 	ll /usr/bin/python
 	lrwxrwxrwx 1 root root 9 sie 29 07:36 /usr/bin/python -> python2.7*
 
-The issue can be resolved by running a dedicated environment with the Python 3.x binary and include its own set of installed Python packages. Virtualization of the Python environment is recommended as an alternative to:
+The issue can be resolved by running a dedicated environment with the Python
+3.x binary and include its own set of installed Python packages. Virtualization
+of the Python environment is recommended as an alternative to:
 
 * adding as alias setup in ~/.bashrc
 * changing the symbolic link (/usr/bin/python)
 * modifying the default system behavior using update-alternatives
 
-Start with installing virtualization support. As a next step, activate the virtualized environment.
+Start with installing virtualization support. As a next step, activate the
+virtualized environment.
 
 .. code-block:: bash
 
@@ -249,7 +257,8 @@ Start with installing virtualization support. As a next step, activate the virtu
 	python --version
 	Python 3.6.7
 
-You can verify the Python version and proceed with installing all required Python packages in the virtualized environment.
+You can verify the Python version and proceed with installing all required
+Python packages in the virtualized environment.
 
 .. code-block:: bash
 
@@ -259,7 +268,33 @@ You can verify the Python version and proceed with installing all required Pytho
 	cd sof-docs/
 	pip install -r scripts/requirements.txt
 
-After the installation is finished, you should be able to generate documentation invoking commands listed in section "Running the documentation processors". Further information on how to use lightweight Python virtualization environments can be found at https://docs.python.org/3/library/venv.html.
+After the installation is finished, you should be able to generate
+documentation invoking commands listed in section "Running the documentation
+processors". Further information on how to use lightweight Python
+virtualization environments can be found at
+https://docs.python.org/3/library/venv.html.
+
+Diagram compilation troubleshooting
+***********************************
+
+In case you are creating a diagram that is using the lastest features of
+plantuml you may encounter the following compilation error:
+
+.. code-block:: bash
+
+	WARNING: error while running plantuml
+	b'ERROR\n2\nSyntax Error?\nSome diagram description contains errors\n'
+
+If you excluded syntax errors in the diagram description one of remaining
+possibilities is lack of compatibility with installed plantuml.jar version.
+You can verify it using the command:
+
+.. code-block:: bash
+
+	java -jar ./scripts/plantuml.jar -version
+
+If the installed version of plantuml.jar is missing necessary features submit a
+pull request to the SOF documentation repository with the new one.
 
 .. _reStructuredText: http://sphinx-doc.org/rest.html
 .. _Sphinx: http://sphinx-doc.org/
