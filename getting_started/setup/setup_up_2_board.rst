@@ -28,10 +28,18 @@ will show UP-APL01 R3.6.
    
      this link needs to be updated to something accessible externally
 
-* Press F2 to enter BIOS main menu and check the BIOS version.
-* Press ENTER when prompted for password.
-* If the current BIOS version is older than 1.8, please update to 1.8
+* If the current BIOS version is older than 1.8, please update to v1.8
   before flashing v3.6.
+
+  .. note::
+
+    To check your BIOS version press
+
+    1) DELETE or
+    2) F7 and select 'Enter Setup'
+
+* Press ENTER when prompted for password.
+
 * Use board `BIOS update <https://wiki.up-community.org/Bios_Update>`__
   instructions to flash the BIOS. 
 
