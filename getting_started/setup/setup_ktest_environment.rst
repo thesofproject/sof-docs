@@ -3,7 +3,7 @@
 Set up a Ktest-based environment
 ################################
 
-.. contents:: 
+.. contents::
    :local:
    :depth: 3
 
@@ -43,7 +43,7 @@ in the *initrd* generation)
 Copy your existing known-to-work kernels/initrd
 
 .. code-block:: bash
-		
+
    $ cp /boot/vmlinuz-4.13.0-16-generic /boot/vmlinuz-test
    $ cd /boot/initrd.img-4.13.0-16-generic cd /boot/initrd.img-test
 
@@ -57,7 +57,7 @@ working kernel if your changes fail to boot.
 
 .. code-block:: bash
 
-   # Use your text editor of choice.		
+   # Use your text editor of choice.
    $ sudo emacs /etc/default/grub
 
 Add ``GRUB_DISABLE_SUBMENU=y`` to the end and save.
@@ -89,7 +89,7 @@ Configure SSH without password
 
 1. Check SSH connection
 -----------------------
-   
+
 .. code-block:: bash
 
    $ ssh root@<target>
@@ -109,7 +109,7 @@ Configure SSH without password
 ---------------
 
 .. code-block:: bash
-		
+
    $ ssh -i ~/.ssh/sshktest root@<target>
    # Ubuntu unlocks the key so the -i option is not necessary.
 
@@ -163,7 +163,7 @@ worktree. Clone once and use fetch to update the main working tree.
 3. Create a worktree for SOF in ~/ktest
 ---------------------------------------
 
-.. note:: 
+.. note::
    Change the location of your ktest directory and which branch you use
    as needed.
 
@@ -201,13 +201,13 @@ If you don't know what options are needed, you can start using configurations ma
    Use make proper since ktest.pl requires the source directory
    to be clean. All compilation happens in the -build directory.
 
-6. Edit configuration as needed 
+6. Edit configuration as needed
 -------------------------------
 
 Save the following in sof-dev.conf.
 
 .. code-block:: perl
-		
+
   MACHINE = 192.168.1.205
   CLEAR_LOG = 1
   SSH_USER = root
@@ -242,7 +242,7 @@ Save the following in sof-dev.conf.
 -----------------
 
 .. code-block:: bash
-		
+
    $ ./ktest.pl sof-dev.conf
 
 If this does not work, make sure you have all the following files in the
