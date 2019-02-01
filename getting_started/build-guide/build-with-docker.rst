@@ -92,8 +92,8 @@ After building the Docker image you will see:
 .. code-block:: bash
 
    docker images
-   REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
-   sof                    latest              c8b0e8913fcb        2 days ago          1.46 GB
+   #REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
+   #sof                    latest              c8b0e8913fcb        2 days ago          1.46 GB
 
 Build with Docker
 *****************

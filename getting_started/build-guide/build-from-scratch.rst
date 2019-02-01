@@ -143,7 +143,7 @@ Copy all four cross-compiler toolchains to ~/work/sof/.
 .. code-block:: bash
 
    ls builds/
-   xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
+   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
    cp -r builds/* ~/work/sof/
 
 .. note::
