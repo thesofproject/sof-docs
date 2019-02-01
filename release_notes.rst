@@ -12,9 +12,9 @@ All project SOF source code is maintained in the https://github.com/thesofprojec
 
 .. code-block:: bash
 
-   $ git clone https://github.com/thesofproject/sof.git
-   $ cd sof
-   $ git checkout -b stable-1.2 origin/stable-1.2
+   git clone https://github.com/thesofproject/sof.git
+   cd sof
+   git checkout -b stable-1.2 origin/stable-1.2
 
 Current Release: v1.2 (Sept 2018)
 *********************************
