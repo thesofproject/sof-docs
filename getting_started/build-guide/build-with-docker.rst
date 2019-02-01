@@ -18,8 +18,8 @@ Clone the *sof* repo.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/
-   $ git clone https://github.com/thesofproject/sof.git
+   cd ~/work/sof/
+   git clone https://github.com/thesofproject/sof.git
 
 Set up Docker
 *************
@@ -61,7 +61,7 @@ Pull the docker image from Docker Hub.
 
 .. code-block:: bash
 
-   $ docker pull thesofproject/sof
+   docker pull thesofproject/sof
 
 .. note::
 
@@ -73,7 +73,7 @@ Retag the image with `sof` for scripts.
 
 .. code-block:: bash
 
-   $ docker tag thesofproject/sof sof
+   docker tag thesofproject/sof sof
 
 
 Build Docker image
@@ -83,15 +83,15 @@ Run the Docker build from the `sof` repo.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ cd scripts/docker_build/
-   $ ./docker-build.sh
+   cd ~/work/sof/sof/
+   cd scripts/docker_build/
+   ./docker-build.sh
 
 After building the Docker image you will see:
 
 .. code-block:: bash
 
-   $ docker images
+   docker images
    REPOSITORY             TAG                 IMAGE ID            CREATED             SIZE
    sof                    latest              c8b0e8913fcb        2 days ago          1.46 GB
 
@@ -108,8 +108,8 @@ Build the SOF binaries:
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l
+   cd ~/work/sof/sof/
+   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l
 
 .. note::
 
@@ -126,11 +126,11 @@ Build one or more platform binaries.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
+   cd ~/work/sof/sof/
    # Baytrail
-   $ ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l byt
+   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l byt
    # Baytrail and Apollo Lake
-   $ ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l byt apl
+   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l byt apl
 
 Build inside container
 ----------------------
@@ -139,8 +139,8 @@ Enter the container bash.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ ./scripts/docker-run.sh bash
+   cd ~/work/sof/sof/
+   ./scripts/docker-run.sh bash
 
 From inside the container, follow the manual configuration and build steps.
 
@@ -164,8 +164,8 @@ Build the *sof* tools and topology files.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ ./scripts/docker-run.sh ./scripts/build-tools.sh
+   cd ~/work/sof/sof/
+   ./scripts/docker-run.sh ./scripts/build-tools.sh
 
 Build inside container
 ----------------------
@@ -174,8 +174,8 @@ Enter the container bash.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ ./scripts/docker-run.sh bash
+   cd ~/work/sof/sof/
+   ./scripts/docker-run.sh bash
 
 From inside the container, follow the manual configuration and build steps.
 

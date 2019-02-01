@@ -22,7 +22,7 @@ as follows:
 
 .. code-block:: bash
 
-   $ amixer -Dhw:0 controls | grep EQ
+   amixer -Dhw:0 controls | grep EQ
    numid=23,iface=MIXER,name='EQFIR1.0 EQFIR'
    numid=22,iface=MIXER,name='EQIIR1.0 EQIIR'
 
@@ -82,7 +82,7 @@ E.g. to switch the IIR equalizer to bandpass use command:
 
 .. code-block:: bash
 
-   $ sof-eqctl -Dhw:0 -n 22 -s eq_iir_bandpass.txt
+   sof-eqctl -Dhw:0 -n 22 -s eq_iir_bandpass.txt
 
 Succesfull execution will produce next output.
 
@@ -103,7 +103,7 @@ be read back by omitting the -s switch.
 
 .. code-block:: bash
 
-   $ sof-eqctl -Dhw:0 -n 22
+   sof-eqctl -Dhw:0 -n 22
    Retrieving configuration for device hw:0 control numid=22.
    Success.
    84,2,1,0,0,2,2,3316150158,2048164275,513807534,3267352229,513807534,0,16384,
@@ -116,7 +116,7 @@ For completeness the command line options are described with -h switch.
 
 .. code-block:: bash
 
-   $ sof-eqctl -h
+   sof-eqctl -h
    Usage ./sof-eqctl <option(s)>
    Set example ./sof-eqctl -Dhw:0 -c "numid=22,name=\"EQIIR1.0 EQIIR\"" -s iir.txt
    Set example ./sof-eqctl -Dhw:0 -n 22 -s iir.txt

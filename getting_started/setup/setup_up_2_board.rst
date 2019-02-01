@@ -66,9 +66,9 @@ Copy kconfig fragments for SOF development from https://github.com/thesofproject
 
 .. code-block:: bash
 
-   $ make defconfig
-   $ scripts/kconfig/merge_config.sh .config <path>/kconfig/base-defconfig <path>/kconfig/sof-defconfig  <path>/kconfig/hdaudio-codecs-defconfig
-   $ make -j8
+   make defconfig
+   scripts/kconfig/merge_config.sh .config <path>/kconfig/base-defconfig <path>/kconfig/sof-defconfig  <path>/kconfig/hdaudio-codecs-defconfig
+   make -j8
 
 4. Firmware
 ===========
@@ -89,14 +89,14 @@ Copy scripts from https://github.com/plbossart/acpi-scripts
 
 .. code-block:: bash
 
-   $ sudo ./install_hooks
-   $ sudo ./acpi-add Up2/PCM512X.asl
+   sudo ./install_hooks
+   sudo ./acpi-add Up2/PCM512X.asl
 
 Reboot and check if the status of the device is 15
 
 .. code-block:: bash
 
-   $ cat /sys/bus/acpi/devices/104C5122\:00/status
+   cat /sys/bus/acpi/devices/104C5122\:00/status
 
 7. Add sst drivers to blacklist-dsp.conf
 ========================================
