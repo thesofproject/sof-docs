@@ -38,64 +38,64 @@ Examples:
  
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -e
+   sof-logger -l ldc_file -e
 	
 - Get traces from "/sys/kernel/debug/sof/etrace" file, verifies fw_version with
   ver_file file and prints logs to stdout
 
 .. code-block:: bash
   
-   $ sof-logger -l ldc_file -v ver_file
+   sof-logger -l ldc_file -v ver_file
 
 - Get traces from "/sys/kernel/debug/sof/etrace" file and prints logs to stdout
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file
+   sof-logger -l ldc_file
 
 - Get traces from "/sys/kernel/debug/sof/etrace" file and prints logs to
   out_file file
 
 .. code-block:: bash
   
-   $ sof-logger -l ldc_file -o out_file
+   sof-logger -l ldc_file -o out_file
 
 - Get traces from "/sys/kernel/debug/sof/trace" file and prints logs to stdout
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -t
+   sof-logger -l ldc_file -t
 
 - Get traces from "/sys/kernel/debug/sof/trace" file and prints logs to 
   out_file file
 
 .. code-block:: bash
  
-   $ sof-logger -l ldc_file -t -o out_file
+   sof-logger -l ldc_file -t -o out_file
 
 - Get traces from stdin and prints logs to stdout
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -p
+   sof-logger -l ldc_file -p
 
 - Get traces from stdin and prints logs to out_file file
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -p -o out_file
+   sof-logger -l ldc_file -p -o out_file
 
 - Get traces from trace_dump file and prints logs to stdout
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -i trace_dump
+   sof-logger -l ldc_file -i trace_dump
 
 - Get traces from trace_dump file and prints logs to out_file file
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -i trace_dump -o out_file
+   sof-logger -l ldc_file -i trace_dump -o out_file
 
 - c flag is intented for defining clock value (in MHz) used to format log 
   timestamps. By default clock value is set to 19.2 (MHz). Below example
@@ -103,4 +103,4 @@ Examples:
 
 .. code-block:: bash
 
-   $ sof-logger -l ldc_file -i trace_dump -o out_file -c 19.9
+   sof-logger -l ldc_file -i trace_dump -o out_file -c 19.9
