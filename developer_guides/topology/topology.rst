@@ -561,7 +561,45 @@ The graph below shows the topology defined in Section 3.1.
 
 .. image:: images/tplg2.png
 
-3. Acronyms
+3. Debugging topology
+*********************
+
+SOF topology files include debug.m4 with couple of simple macros to
+output data. These are used for extracting information from dai_add,
+pcm_add, and graph creation phases.
+
+Debug macros use errprint to print to stderr, so you can differentiate
+between actual macro output and debug messaging. To get the graph
+printing correct, you need to surround your m4 with DEBUG_START and
+DEBUG_END. You can see examples in sof-apl-pcm512x.m4 and
+sof-apl-da7219.m4
+
+There are currently 2 debug types defined, GRAPH and INFO. GRAPH
+produces dot file describing the topology graph connection. INFO
+produces diagnostic messages mainly related to dai indexing.
+
+You can invoke the debugging like this (in the topology folder):
+
+.. code-block:: bash
+
+    m4 -I m4 -I common -I platform/common --define=GRAPH sof-apl-da7219.m4 > /dev/null
+    m4 -I m4 -I common -I platform/common --define=INFO sof-apl-da7219.m4 > /dev/null
+
+To produce a graph image:
+
+.. code-block:: bash
+
+    m4 -I m4 -I common -I platform/common --define=GRAPH sof-apl-da7219.m4 2> test.dot
+    dot test.dot -Tpng -o tplg.png
+
+INFO messages are surrounded by C-like comment markers, so you can
+actually push both messages to a dot file:
+
+.. code-block:: bash
+
+    m4 -I m4 -I common -I platform/common --define=GRAPH --define=INFO sof-apl-da7219.m4 2> test.dot
+
+4. Acronyms
 ***********
 
 | **DAI**: Digital Audio Interface
