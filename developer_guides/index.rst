@@ -13,3 +13,4 @@ Developer Guides
    unit_tests
    topology/topology
    debugability/index
+   cmake
