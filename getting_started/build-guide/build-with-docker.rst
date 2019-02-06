@@ -61,7 +61,7 @@ Pull the docker image from Docker Hub.
 
 .. code-block:: bash
 
-   $ docker pull xiulipan/sof
+   $ docker pull thesofproject/sof
 
 .. note::
 
@@ -73,7 +73,7 @@ Retag the image with `sof` for scripts.
 
 .. code-block:: bash
 
-   $ docker tag xiulipan/sof sof
+   $ docker tag thesofproject/sof sof
 
 
 Build Docker image
