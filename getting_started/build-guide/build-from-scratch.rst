@@ -13,7 +13,7 @@ Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
 Build SOF binaries
 ******************
 The following steps describe how to install the sof development environment
-on Ubuntu 16.04 or 18.04.
+on Ubuntu 16.04, 18.04, and 18.10.
 
 .. note::
 
@@ -25,14 +25,27 @@ Set up build environment
 
 Install package dependencies.
 
-.. code-block:: bash
+* For Ubuntu 18.10:
 
-   sudo apt-get install libgtk-3-dev libsdl-dev libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev \
-                        libtool-bin iasl valgrind texinfo virt-manager kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config \
-                        help2man gawk libncurses5 libncurses5-dev
+  .. code-block:: bash
 
+     sudo apt-get install libgtk-3-dev libsdl1.2-dev libspice-protocol-dev \
+        libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev libtool-bin \
+        acpica_tools valgrind texinfo virt-manager qemu-kvm \
+        libvirt-daemon-system libvirt-clients virtinst libfdt-dev libssl-dev \
+        pkg-config help2man gawk libncurses5 libncurses5-dev
 
-If you are using Ubuntu 16.04, the gcc must be updated to gcc 7.3+
+* For Ubuntu 16.04 and 18.04:
+
+  .. code-block:: bash
+
+     sudo apt-get install libgtk-3-dev libsdl1.2-dev libspice-protocol-dev \
+        libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev libtool-bin \
+        iasl valgrind texinfo virt-manager qemu-kvm libvirt-bin virtinst \
+        libfdt-dev libssl-dev pkg-config help2man gawk libncurses5 \
+        libncurses5-dev
+
+If you are using Ubuntu 16.04, the gcc version must be updated to gcc 7.3+
 for the Advanced Linux Sound Architecture (ALSA) to build.
 
 .. code-block:: bash
@@ -45,7 +58,7 @@ for the Advanced Linux Sound Architecture (ALSA) to build.
 Install CMake
 -----------------------------
 
-If you use Ubuntu 18.04 you can install CMake with apt:
+If you use Ubuntu 18.04+ you can install CMake with apt:
 
 .. code-block:: bash
 
@@ -68,12 +81,6 @@ the newest ALSA from source code.
    cd alsa-lib
    ./gitcompile
    sudo make install
-
-Update an environment variable to refer to the alsa-lib with the one we just built.
-
-.. code-block:: bash
-
-   export LD_LIBRARY_PATH=~/work/sof/alsa-lib/src/.libs:$LD_LIBRARY_PATH
 
 Clone, build, and install alsa-utils.
 
@@ -120,7 +127,7 @@ Build and install the ct-ng tools in the local folder.
    make
    make install
 
-Copy the config files to the .config directory and build the cross compiler
+Copy the config files to .config and build the cross compiler
 for your target platforms.
 
 .. code-block:: bash
@@ -137,6 +144,12 @@ for your target platforms.
    #Cannon Lake
    cp config-cnl-gcc8.1-gdb8.1 .config
    ./ct-ng build
+
+Update an environment variable to refer to the alsa-lib with the one we just built.
+
+.. code-block:: bash
+
+   export LD_LIBRARY_PATH=~/work/sof/alsa-lib/src/.libs:$LD_LIBRARY_PATH
 
 Copy all four cross-compiler toolchains to ~/work/sof/.
 
@@ -176,14 +189,17 @@ Build and install the headers for each platform.
    ./configure --target=xtensa-byt-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
+   rm -fr rm etc/config.cache
    #Haswell
    ./configure --target=xtensa-hsw-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
+   rm -fr rm etc/config.cache
    #Apollo Lake
    ./configure --target=xtensa-apl-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
+   rm -fr rm etc/config.cache
    #Cannon Lake
    ./configure --target=xtensa-cnl-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
@@ -252,6 +268,11 @@ CMake is designed for out-of-tree builds which is why you should make separate d
 
 You can manage builds for many configurations/platforms from the one source this way.
 
+.. note::
+
+   The *-j* argument indicates the number of cores to use in the build
+   process. Select a value that matches your build system.
+
 for |BYT|:
 
 .. code-block:: bash
@@ -309,7 +330,7 @@ for |CNL|:
 .. note::
 
    | After 'make \*_defconfig' step, you can customize your build with 'make menuconfig'.
-   | There are DEBUG option and ROM option for the FW bianry build, you can enable them with 'make menuconfig'.
+   | There are DEBUG and ROM options for the FW binary build, you can enable them with 'make menuconfig'.
 
 .. code-block:: bash
 
@@ -378,7 +399,7 @@ dev branch firmware and topology.
       cd ~/work/sof/
       git clone https://github.com/thesofproject/linux.git
       cd linux
-      git checkout sof-dev
+      git checkout topic/sof-dev
       make menuconfig
 
    Select SOF driver support and disable SST drivers.
@@ -389,9 +410,9 @@ dev branch firmware and topology.
 
       make deb-pkg -j 4
 
-   .. note::
+#. Copy the three resulting *.deb* files to the target machine and install them.
 
-       The *-j* argument indicites the number of cores to use in the build
-       process. Select a value that matches your build system.
+   .. code-block:: bash
 
-#. Copy the resulting *.deb* files to the target machine and install them.
+      sudo dpkg -i /absolute/path/to/deb/file
+      sudo apt-get install -f
