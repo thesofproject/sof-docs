@@ -22,9 +22,9 @@ as follows:
 
 .. code-block:: bash
 
-   $ amixer -Dhw:0 controls | grep EQ
-   numid=23,iface=MIXER,name='EQFIR1.0 EQFIR'
-   numid=22,iface=MIXER,name='EQIIR1.0 EQIIR'
+   amixer -Dhw:0 controls | grep EQ
+   #numid=23,iface=MIXER,name='EQFIR1.0 EQFIR'
+   #numid=22,iface=MIXER,name='EQIIR1.0 EQIIR'
 
 Therefore to control the IIR instance use numid=22 and to control the
 FIR EQ instance use numid=23. Note that this depends on topology and
@@ -82,16 +82,16 @@ E.g. to switch the IIR equalizer to bandpass use command:
 
 .. code-block:: bash
 
-   $ sof-eqctl -Dhw:0 -n 22 -s eq_iir_bandpass.txt
+   sof-eqctl -Dhw:0 -n 22 -s eq_iir_bandpass.txt
 
 Succesfull execution will produce next output.
 
 .. code-block:: bash
 
-   Applying configuration "eq_iir_bandpass.txt" into device hw:0 control numid=22.
-   84,2,1,0,0,2,2,3316150158,2048164275,513807534,3267352229,513807534,0,16384,
-   3867454526,1191025347,38870735,77741469,38870735,4294967294,16458
-   Success.
+   #Applying configuration "eq_iir_bandpass.txt" into device hw:0 control numid=22.
+   #84,2,1,0,0,2,2,3316150158,2048164275,513807534,3267352229,513807534,0,16384,
+   #3867454526,1191025347,38870735,77741469,38870735,4294967294,16458
+   #Success.
 
 After this command the playback sound will have all lowest and highest
 frequencies suppressed and sound very thin. You may experiment with
@@ -103,11 +103,11 @@ be read back by omitting the -s switch.
 
 .. code-block:: bash
 
-   $ sof-eqctl -Dhw:0 -n 22
-   Retrieving configuration for device hw:0 control numid=22.
-   Success.
-   84,2,1,0,0,2,2,3316150158,2048164275,513807534,3267352229,513807534,0,16384,
-   3867454526,1191025347,38870735,77741469,38870735,4294967294,16458
+   sof-eqctl -Dhw:0 -n 22
+   #Retrieving configuration for device hw:0 control numid=22.
+   #Success.
+   #84,2,1,0,0,2,2,3316150158,2048164275,513807534,3267352229,513807534,0,16384,
+   #3867454526,1191025347,38870735,77741469,38870735,4294967294,16458
 
 Help
 ****
@@ -116,18 +116,18 @@ For completeness the command line options are described with -h switch.
 
 .. code-block:: bash
 
-   $ sof-eqctl -h
-   Usage ./sof-eqctl <option(s)>
-   Set example ./sof-eqctl -Dhw:0 -c "numid=22,name=\"EQIIR1.0 EQIIR\"" -s iir.txt
-   Set example ./sof-eqctl -Dhw:0 -n 22 -s iir.txt
-   Get example ./sof-eqctl -Dhw:0 -n 22
-   ./sof-eqctl:	 		Control SOF equalizers
-   ./sof-eqctl:	 -D <dev>	Use device <dev>, defaults to hw:0
-   ./sof-eqctl:	 -c <name>	Get configuration for EQ <name>
-   ./sof-eqctl:	 -n <number>	Get configuration for given numid
-   ./sof-eqctl:	 -s <file>	Setup equalizer with data in <file>.
-				The ASCII text file must contain comma
-				separated unsigned integers.
+   sof-eqctl -h
+   #Usage ./sof-eqctl <option(s)>
+   #Set example ./sof-eqctl -Dhw:0 -c "numid=22,name=\"EQIIR1.0 EQIIR\"" -s iir.txt
+   #Set example ./sof-eqctl -Dhw:0 -n 22 -s iir.txt
+   #Get example ./sof-eqctl -Dhw:0 -n 22
+   #./sof-eqctl:	 		Control SOF equalizers
+   #./sof-eqctl:	 -D <dev>	Use device <dev>, defaults to hw:0
+   #./sof-eqctl:	 -c <name>	Get configuration for EQ <name>
+   #./sof-eqctl:	 -n <number>	Get configuration for given numid
+   #./sof-eqctl:	 -s <file>	Setup equalizer with data in <file>.
+   #                                    The ASCII text file must contain comma
+   #                                    separated unsigned integers.
 
 Mail list sound-open-firmware@alsa-project.org is recommended contact for
 technical discussion about equalizers and tuning.

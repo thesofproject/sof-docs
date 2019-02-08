@@ -62,9 +62,9 @@ Set up Xtensa config to build with xt-xcc:
 
    .. code-block:: bash
 
-      $ tar xvzf Intel\_HiFiEP\_linux.tgz
-      $ cd Intel\_HiFiEP
-      $ ./install
+      tar xvzf Intel\_HiFiEP\_linux.tgz
+      cd Intel\_HiFiEP
+      ./install
 
 #. When prompted, enter the Xtensa tools directory.
 
@@ -128,13 +128,13 @@ Branch: heads/topic/sof-v4.14
 
    .. code-block:: bash
 
-      $ make -j8 && make -j8 deb-pkg
+      make -j8 && make -j8 deb-pkg
 
 #. Package all the \*.deb files for MinnowBoard, and install all deb files.
 
    .. code-block:: bash
 
-      $ dpkg -i \*.deb
+      dpkg -i \*.deb
 
 #. Reboot your system.
 
@@ -156,24 +156,24 @@ Steps:
    
    .. code-block:: bash
 
-      $ vim startup.nsh
+      vim startup.nsh
 
    Add the following:
 
    .. code-block:: bash
 
-      $ fs0:
-      $ cd EFI
-      $ AudioSsdtUpdate.efi "codecname".aml(like RT5651.aml or DA7212.aml)
-      $ cd ubuntu
-      $ grubx64.efi
+      fs0:
+      cd EFI
+      AudioSsdtUpdate.efi "codecname".aml(like RT5651.aml or DA7212.aml)
+      cd ubuntu
+      grubx64.efi
 
 #. Move .aml and .efi  files to EFI directory.
 
    .. code-block:: bash
 
-      $ cp \*.aml /boot/efi/EFI
-      $ cp AudioSsdtUpdate.efi /boot/efi/EFI
+      cp \*.aml /boot/efi/EFI
+      cp AudioSsdtUpdate.efi /boot/efi/EFI
 
 #. Configure the BIOS.
 

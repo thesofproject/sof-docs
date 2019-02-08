@@ -3,7 +3,7 @@
 Set up a Ktest-based environment
 ################################
 
-.. contents:: 
+.. contents::
    :local:
    :depth: 3
 
@@ -33,9 +33,9 @@ in the *initrd* generation)
 
 .. code-block:: bash
 
-   $ sudo su (enter your password)
-   $ passwd (enter new root password)
-   $ exit
+   sudo su (enter your password)
+   passwd (enter new root password)
+   exit
 
 3. Create test kernel
 ---------------------
@@ -43,9 +43,9 @@ in the *initrd* generation)
 Copy your existing known-to-work kernels/initrd
 
 .. code-block:: bash
-		
-   $ cp /boot/vmlinuz-4.13.0-16-generic /boot/vmlinuz-test
-   $ cd /boot/initrd.img-4.13.0-16-generic cd /boot/initrd.img-test
+
+   cp /boot/vmlinuz-4.13.0-16-generic /boot/vmlinuz-test
+   cd /boot/initrd.img-4.13.0-16-generic cd /boot/initrd.img-test
 
 Change the extensions as needed to create an initial grub entry
 for a test kernel. You will never override the default
@@ -57,8 +57,8 @@ working kernel if your changes fail to boot.
 
 .. code-block:: bash
 
-   # Use your text editor of choice.		
-   $ sudo emacs /etc/default/grub
+   # Use your text editor of choice.
+   sudo emacs /etc/default/grub
 
 Add ``GRUB_DISABLE_SUBMENU=y`` to the end and save.
 
@@ -67,16 +67,16 @@ Add ``GRUB_DISABLE_SUBMENU=y`` to the end and save.
 
 .. code-block:: bash
 
-   $ sudo update-grub
+   sudo update-grub
 
 6. Install openssh-server
 -------------------------
 
 .. code-block:: bash
 
-   $ sudo apt-get install openssh-server
+   sudo apt-get install openssh-server
    # Use your editor of choice.
-   $ sudo emacs /etc/ssh/sshd_config
+   sudo emacs /etc/ssh/sshd_config
 
 Replace ``PermitRootLogin without-password`` with ``PermitRootLogin yes``
 and save.
@@ -89,28 +89,28 @@ Configure SSH without password
 
 1. Check SSH connection
 -----------------------
-   
+
 .. code-block:: bash
 
-   $ ssh root@<target>
+   ssh root@<target>
 
 2. Generate an SSH key for the target
 -------------------------------------
 
 .. code-block:: bash
 
-   $ cd ~/.ssh
-   $ ssh-keygen -f sshktest
+   cd ~/.ssh
+   ssh-keygen -f sshktest
    # Enter a 5+ character passphrase.
-   $ ssh-copy-id -i ~/.ssh/sshktest root@<target>
+   ssh-copy-id -i ~/.ssh/sshktest root@<target>
    # This will prompt you for the root password.
 
 3. Test the key
 ---------------
 
 .. code-block:: bash
-		
-   $ ssh -i ~/.ssh/sshktest root@<target>
+
+   ssh -i ~/.ssh/sshktest root@<target>
    # Ubuntu unlocks the key so the -i option is not necessary.
 
 4. Disable root access
@@ -122,7 +122,7 @@ are concerned about access control.
 .. code-block:: bash
 
    # Use your editor of choice.
-   $ sudo emacs /etc/ssh/sshd_config
+   sudo emacs /etc/ssh/sshd_config
 
 Replace ``PermitRootLogin yes`` by  ``PermitRootLogin without-password``, save, and exit.
 
@@ -134,28 +134,28 @@ Create a linux development environment
 
 .. code-block:: bash
 
-   $ git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-ref.git
-   $ cd linux-ref.git
+   git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linux-ref.git
+   cd linux-ref.git
 
 2. Add a set of useful remotes
 ------------------------------
 
 .. code-block:: bash
 
-   $ git remote add sof https://github.com/thesofproject/linux.git
-   $ git remote add takashi git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
-   $ git remote add broonie git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
-   $ git remote add liam    git://git.kernel.org/pub/scm/linux/kernel/git/lrg/asoc.git
-   $ git remote add keyon   git://github.com/keyonjie/linux.git
-   $ git remote add vinod   git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/sound.git
-   $ git remote add plb     git://github.com/plbossart/sound.git
-   $ git fetch sof
-   $ git fetch takashi
-   $ git fetch broonie
-   $ git fetch liam
-   $ git fetch keyon
-   $ git fetch vinod
-   $ git fetch plb
+   git remote add sof https://github.com/thesofproject/linux.git
+   git remote add takashi git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
+   git remote add broonie git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
+   git remote add liam    git://git.kernel.org/pub/scm/linux/kernel/git/lrg/asoc.git
+   git remote add keyon   git://github.com/keyonjie/linux.git
+   git remote add vinod   git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/sound.git
+   git remote add plb     git://github.com/plbossart/sound.git
+   git fetch sof
+   git fetch takashi
+   git fetch broonie
+   git fetch liam
+   git fetch keyon
+   git fetch vinod
+   git fetch plb
 
 All of these branches will be accessible and can be updated from any
 worktree. Clone once and use fetch to update the main working tree.
@@ -163,23 +163,23 @@ worktree. Clone once and use fetch to update the main working tree.
 3. Create a worktree for SOF in ~/ktest
 ---------------------------------------
 
-.. note:: 
+.. note::
    Change the location of your ktest directory and which branch you use
    as needed.
 
 .. code-block:: bash
 
-   $ git worktree add ~/ktest/sof-dev sof/topic/sof-dev
+   git worktree add ~/ktest/sof-dev sof/topic/sof-dev
 
 4. Set-up worktree
 ------------------
 
 .. code-block:: bash
 
-   $ cd ~/ktest/sof-dev
-   $ mkdir sof-dev-build
-   $ mkfifo sof-dev-cat
-   $ cp sof-dev/tools/testing/ktest/ktest.pl .
+   cd ~/ktest/sof-dev
+   mkdir sof-dev-build
+   mkfifo sof-dev-cat
+   cp sof-dev/tools/testing/ktest/ktest.pl .
 
 5. Save your kernel config as ~/ktest/sof-dev-defconfig
 -------------------------------------------------------
@@ -188,26 +188,26 @@ If you don't know what options are needed, you can start using configurations ma
 
 .. code-block:: bash
 
-   $ git clone https://github.com/thesofproject/kconfig.git
-   $ cd linux
-   $ make defconfig
-   $ scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig
-   $ cp .config ../sof-dev-defconfig
-   $ make mrproper
-   $ cd ..
+   git clone https://github.com/thesofproject/kconfig.git
+   cd linux
+   make defconfig
+   scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig
+   cp .config ../sof-dev-defconfig
+   make mrproper
+   cd ..
 
 .. note::
 
    Use make proper since ktest.pl requires the source directory
    to be clean. All compilation happens in the -build directory.
 
-6. Edit configuration as needed 
+6. Edit configuration as needed
 -------------------------------
 
 Save the following in sof-dev.conf.
 
 .. code-block:: perl
-		
+
   MACHINE = 192.168.1.205
   CLEAR_LOG = 1
   SSH_USER = root
@@ -242,8 +242,8 @@ Save the following in sof-dev.conf.
 -----------------
 
 .. code-block:: bash
-		
-   $ ./ktest.pl sof-dev.conf
+
+   ./ktest.pl sof-dev.conf
 
 If this does not work, make sure you have all the following files in the
 local directory:

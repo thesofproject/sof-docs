@@ -27,7 +27,7 @@ Install package dependencies.
 
 .. code-block:: bash
 
-   $ sudo apt-get install libgtk-3-dev libsdl-dev libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev \
+   sudo apt-get install libgtk-3-dev libsdl-dev libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev \
                         libtool-bin iasl valgrind texinfo virt-manager kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config \
                         help2man gawk libncurses5 libncurses5-dev
 
@@ -37,10 +37,10 @@ for the Advanced Linux Sound Architecture (ALSA) to build.
 
 .. code-block:: bash
 
-   $ sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-   $ sudo apt-get update
-   $ sudo apt-get install gcc-7 g++-7
-   $ sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
+   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+   sudo apt-get update
+   sudo apt-get install gcc-7 g++-7
+   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 
 Install CMake
 -----------------------------
@@ -49,7 +49,7 @@ If you use Ubuntu 18.04 you can install CMake with apt:
 
 .. code-block:: bash
 
-   $ sudo apt-get install cmake
+   sudo apt-get install cmake
 
 On Ubuntu 16.04, CMake from apt is outdated and you have to install CMake from sources.
 
@@ -63,27 +63,27 @@ the newest ALSA from source code.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/
-   $ git clone git://git.alsa-project.org/alsa-lib.git
-   $ cd alsa-lib
-   $ ./gitcompile
-   $ sudo make install
+   cd ~/work/sof/
+   git clone git://git.alsa-project.org/alsa-lib.git
+   cd alsa-lib
+   ./gitcompile
+   sudo make install
 
 Update an environment variable to refer to the alsa-lib with the one we just built.
 
 .. code-block:: bash
 
-   $ export LD_LIBRARY_PATH=~/work/sof/alsa-lib/src/.libs:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH=~/work/sof/alsa-lib/src/.libs:$LD_LIBRARY_PATH
 
 Clone, build, and install alsa-utils.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/
-   $ git clone git://git.alsa-project.org/alsa-utils.git
-   $ cd alsa-utils
-   $ ./gitcompile
-   $ sudo make install
+   cd ~/work/sof/
+   git clone git://git.alsa-project.org/alsa-utils.git
+   cd alsa-utils
+   ./gitcompile
+   sudo make install
 
 .. note::
 
@@ -102,23 +102,23 @@ Clone both repos and check out the sof-gcc8.1 branch.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/
-   $ git clone https://github.com/thesofproject/xtensa-overlay.git
-   $ cd xtensa-overlay
-   $ git checkout sof-gcc8.1
-   $ cd ~/work/sof/
-   $ git clone https://github.com/thesofproject/crosstool-ng.git
-   $ cd crosstool-ng
-   $ git checkout sof-gcc8.1
+   cd ~/work/sof/
+   git clone https://github.com/thesofproject/xtensa-overlay.git
+   cd xtensa-overlay
+   git checkout sof-gcc8.1
+   cd ~/work/sof/
+   git clone https://github.com/thesofproject/crosstool-ng.git
+   cd crosstool-ng
+   git checkout sof-gcc8.1
 
 Build and install the ct-ng tools in the local folder.
 
 .. code-block:: bash
 
-   $ ./bootstrap
-   $ ./configure --prefix=`pwd`
-   $ make
-   $ make install
+   ./bootstrap
+   ./configure --prefix=`pwd`
+   make
+   make install
 
 Copy the config files to the .config directory and build the cross compiler
 for your target platforms.
@@ -126,25 +126,25 @@ for your target platforms.
 .. code-block:: bash
 
    #Baytrail
-   $ cp config-byt-gcc8.1-gdb8.1 .config
-   $ ./ct-ng build
+   cp config-byt-gcc8.1-gdb8.1 .config
+   ./ct-ng build
    #Haswell
-   $ cp config-hsw-gcc8.1-gdb8.1 .config
-   $ ./ct-ng build
+   cp config-hsw-gcc8.1-gdb8.1 .config
+   ./ct-ng build
    #Apollo Lake
-   $ cp config-apl-gcc8.1-gdb8.1 .config
-   $ ./ct-ng build
+   cp config-apl-gcc8.1-gdb8.1 .config
+   ./ct-ng build
    #Cannon Lake
-   $ cp config-cnl-gcc8.1-gdb8.1 .config
-   $ ./ct-ng build
+   cp config-cnl-gcc8.1-gdb8.1 .config
+   ./ct-ng build
 
 Copy all four cross-compiler toolchains to ~/work/sof/.
 
 .. code-block:: bash
 
-   $ ls builds/
-   xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
-   $ cp -r builds/* ~/work/sof/
+   ls builds/
+   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
+   cp -r builds/* ~/work/sof/
 
 .. note::
 
@@ -154,40 +154,40 @@ Add these compilers to your PATH variable.
 
 .. code-block:: bash
 
-   $ export PATH=~/work/sof/xtensa-byt-elf/bin/:$PATH
-   $ export PATH=~/work/sof/xtensa-hsw-elf/bin/:$PATH
-   $ export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
-   $ export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
+   export PATH=~/work/sof/xtensa-byt-elf/bin/:$PATH
+   export PATH=~/work/sof/xtensa-hsw-elf/bin/:$PATH
+   export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
+   export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
 
 Clone the header repository.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/
-   $ git clone https://github.com/jcmvbkbc/newlib-xtensa.git
-   $ cd newlib-xtensa
-   $ git checkout -b xtensa origin/xtensa
+   cd ~/work/sof/
+   git clone https://github.com/jcmvbkbc/newlib-xtensa.git
+   cd newlib-xtensa
+   git checkout -b xtensa origin/xtensa
 
 Build and install the headers for each platform.
 
 .. code-block:: bash
 
    #Baytrail
-   $ ./configure --target=xtensa-byt-elf --prefix=/home/$USER/work/sof/xtensa-root
-   $ make
-   $ make install
+   ./configure --target=xtensa-byt-elf --prefix=/home/$USER/work/sof/xtensa-root
+   make
+   make install
    #Haswell
-   $ ./configure --target=xtensa-hsw-elf --prefix=/home/$USER/work/sof/xtensa-root
-   $ make
-   $ make install
+   ./configure --target=xtensa-hsw-elf --prefix=/home/$USER/work/sof/xtensa-root
+   make
+   make install
    #Apollo Lake
-   $ ./configure --target=xtensa-apl-elf --prefix=/home/$USER/work/sof/xtensa-root
-   $ make
-   $ make install
+   ./configure --target=xtensa-apl-elf --prefix=/home/$USER/work/sof/xtensa-root
+   make
+   make install
    #Cannon Lake
-   $ ./configure --target=xtensa-cnl-elf --prefix=/home/$USER/work/sof/xtensa-root
-   $ make
-   $ make install
+   ./configure --target=xtensa-cnl-elf --prefix=/home/$USER/work/sof/xtensa-root
+   make
+   make install
 
 .. note::
 
@@ -203,8 +203,8 @@ After the SOF environment is set up, we can clone the *sof* repo.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/
-   $ git clone https://github.com/thesofproject/sof.git
+   cd ~/work/sof/
+   git clone https://github.com/thesofproject/sof.git
 
 
 Build with scripts
@@ -217,8 +217,8 @@ Build firmware of all platforms.
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ ./scripts/xtensa-build-all.sh -a
+   cd ~/work/sof/sof/
+   ./scripts/xtensa-build-all.sh -a
 
 .. note::
 
@@ -230,16 +230,16 @@ You may specify one or more of the following platform arguments:
 
 .. code-block:: bash
 
-   $ ./scripts/xtensa-build-all.sh byt
-   $ ./scripts/xtensa-build-all.sh byt apl
+   ./scripts/xtensa-build-all.sh byt
+   ./scripts/xtensa-build-all.sh byt apl
 
 You can also enable debug build with -d, enable rom build with -r and speed up build with -j [n]
 
 .. code-block:: bash
 
-   $ ./scripts/xtensa-build-all.sh -d byt
-   $ ./scripts/xtensa-build-all.sh -d -r apl
-   $ ./scripts/xtensa-build-all.sh -d -r -j 4 apl
+   ./scripts/xtensa-build-all.sh -d byt
+   ./scripts/xtensa-build-all.sh -d -r apl
+   ./scripts/xtensa-build-all.sh -d -r -j 4 apl
 
 Build with commands
 -------------------
@@ -256,55 +256,55 @@ for |BYT|:
 
 .. code-block:: bash
 
-   $ mkdir build_byt && cd build_byt
-   $ cmake -DTOOLCHAIN=xtensa-byt-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-byt-elf ..
-   $ make baytrail_defconfig
-   $ make bin -j4
+   mkdir build_byt && cd build_byt
+   cmake -DTOOLCHAIN=xtensa-byt-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-byt-elf ..
+   make baytrail_defconfig
+   make bin -j4
 
 for |CHT|:
 
 .. code-block:: bash
 
-   $ mkdir build_cht && cd build_cht
-   $ cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cht-elf ..
-   $ make cherrytrail_defconfig
-   $ make bin -j4
+   mkdir build_cht && cd build_cht
+   cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cht-elf ..
+   make cherrytrail_defconfig
+   make bin -j4
 
 for |HSW|:
 
 .. code-block:: bash
 
-   $ mkdir build_hsw && cd build_hsw
-   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-hsw-elf ..
-   $ make haswell_defconfig
-   $ make bin -j4
+   mkdir build_hsw && cd build_hsw
+   cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-hsw-elf ..
+   make haswell_defconfig
+   make bin -j4
 
 for |BDW|:
 
 .. code-block:: bash
 
-   $ mkdir build_bdw && cd build_bdw
-   $ cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-hsw-elf ..
-   $ make broadwell_defconfig
-   $ make bin -j4
+   mkdir build_bdw && cd build_bdw
+   cmake -DTOOLCHAIN=xtensa-hsw-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-hsw-elf ..
+   make broadwell_defconfig
+   make bin -j4
 
 for |APL|:
 
 .. code-block:: bash
 
-   $ mkdir build_apl && cd build_apl
-   $ cmake -DTOOLCHAIN=xtensa-apl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-apl-elf ..
-   $ make apollolake_defconfig
-   $ make bin -j4
+   mkdir build_apl && cd build_apl
+   cmake -DTOOLCHAIN=xtensa-apl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-apl-elf ..
+   make apollolake_defconfig
+   make bin -j4
 
 for |CNL|:
 
 .. code-block:: bash
 
-   $ mkdir build_cnl && cd build_cnl
-   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
-   $ make cannonlake_defconfig
-   $ make bin -j4
+   mkdir build_cnl && cd build_cnl
+   cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
+   make cannonlake_defconfig
+   make bin -j4
 
 .. note::
 
@@ -313,11 +313,11 @@ for |CNL|:
 
 .. code-block:: bash
 
-   $ mkdir build_cnl_custom && cd build_cnl_custom
-   $ cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
-   $ make cannonlake_defconfig
-   $ make menuconfig # select/deselect options and save
-   $ make bin -j4
+   mkdir build_cnl_custom && cd build_cnl_custom
+   cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
+   make cannonlake_defconfig
+   make menuconfig # select/deselect options and save
+   make bin -j4
 
 .. note::
 
@@ -343,18 +343,18 @@ Build with scripts
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/
-   $ ./scripts/build-tools.sh
+   cd ~/work/sof/sof/
+   ./scripts/build-tools.sh
 
 Build with commands
 -------------------
 
 .. code-block:: bash
 
-   $ cd ~/work/sof/sof/tools/
-   $ ./autogen.sh
-   $ ./configure
-   $ make
+   cd ~/work/sof/sof/tools/
+   ./autogen.sh
+   ./configure
+   make
 
 Topology and tools build results
 --------------------------------
@@ -375,11 +375,11 @@ dev branch firmware and topology.
 
    .. code-block:: bash
 
-      $ cd ~/work/sof/
-      $ git clone https://github.com/thesofproject/linux.git
-      $ cd linux
-      $ git checkout sof-dev
-      $ make menuconfig
+      cd ~/work/sof/
+      git clone https://github.com/thesofproject/linux.git
+      cd linux
+      git checkout sof-dev
+      make menuconfig
 
    Select SOF driver support and disable SST drivers.
 
@@ -387,7 +387,7 @@ dev branch firmware and topology.
 
    .. code-block:: bash
 
-      $ make deb-pkg -j 4
+      make deb-pkg -j 4
 
    .. note::
 
