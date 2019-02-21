@@ -95,7 +95,7 @@ After you have built and setup SOF:
 UCM
 ---
 
-Pierre Brossart provides a `UCM repository <https://github.com/plbossart/UCM.git>`__ that supports both headset mode and line in/out mode.
+Pierre Bossart provides a `UCM repository <https://github.com/plbossart/UCM.git>`__ that supports both headset mode and line in/out mode.
 
 You can also use alsactl to restore a recommended asound.state file for
 the amixer setting.
