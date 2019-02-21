@@ -3,8 +3,15 @@
 CMake Arguments
 ###############
 
+For firmware and unit tests only **TOOLCHAIN** and **ROOT_DIR**
+arguments are mandatory. Other arguments are optional.
+
+For host build, only **BUILD_HOST** switch is needed.
+
 Firmware & Unit Tests
 *********************
+
+Mandatory arguments for firmware and unit tests builds.
 
 TOOLCHAIN
    Specifies toolchain to use, usually it's prefix to tools that
@@ -37,6 +44,11 @@ ROOT_DIR
       cmake [...] -DROOT_DIR=$CONFIG_PATH/xtensa-elf [...]
       cmake [...] -DROOT_DIR=/my-xtensa-newlib/xtensa-root/xtensa-apl-elf [...]
 
+Firmware
+********
+
+Optional arguments. Only for firmware.
+
 MEU_PATH
    Path to directory with MEU tool. For example full path to MEU that will
    be used, should be `$MEU_PATH/meu` or `$MEU_PATH/meu.exe`. 
@@ -54,8 +66,20 @@ MEU_PRIVATE_KEY
       # Example
       cmake [...] -DMEU_PRIVATE_KEY=/path/to/meu/private-key.pem [...]
 
+MEU_OPENSSL
+   Default: /usr/bin/openssl
+   Path to OpenSSL binary used by MEU. Usually you should use it only
+   on Windows. 
+
+   .. code-block:: bash
+
+      # Example
+      cmake [...] -DMEU_OPENSSL=C:/path/to/openssl.exe [...]
+
 Unit Tests
 **********
+
+Optional arguments. Only for unit tests.
 
 BUILD_UNIT_TESTS
    Default: OFF, if ON then builds unit tests.
@@ -79,6 +103,8 @@ CMOCKA_DIRECTORY
 
 Host Testbench
 **************
+
+Optional arguments. Only for host build.
 
 BUILD_HOST
    Default: OFF, if ON then builds testbench for host.
