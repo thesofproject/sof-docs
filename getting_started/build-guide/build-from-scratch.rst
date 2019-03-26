@@ -373,17 +373,17 @@ Build with commands
 .. code-block:: bash
 
    cd ~/work/sof/sof/tools/
-   ./autogen.sh
-   ./configure
-   make
+   mkdir build_tools && cd build_tools
+   cmake ..
+   make -j4
 
 Topology and tools build results
 --------------------------------
 
-The topology files are located in the topology folder. Copy them to the target
+The topology files are located in the *tools/build_tools/topology* folder. Copy them to the target
 machine's /lib/firmware/intel/ folder.
 
-The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
+The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.
 
 Build Linux kernel
