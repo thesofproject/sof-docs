@@ -8,6 +8,7 @@ Debugability
 
    traces/index
    logger/index
+   coredump-reader/index
 
    
    
