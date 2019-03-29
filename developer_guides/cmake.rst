@@ -89,6 +89,8 @@ BUILD_UNIT_TESTS
       # Example: build unit tests instead of firmware
       cmake -DTOOLCHAIN=xt -DROOT_DIR=$CONFIG_PATH/xtensa-elf -DBUILD_UNIT_TESTS=ON [...]
 
+.. _cmocka-directory-label:
+
 CMOCKA_DIRECTORY
    Path to directory with prebuilt Cmocka library.
    Usually you shouldn't use it, because if this argument is not used, then
