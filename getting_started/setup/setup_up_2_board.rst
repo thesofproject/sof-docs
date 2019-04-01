@@ -16,20 +16,15 @@ version is not currently supported.
 Setup Instructions
 ******************
 
-1. Flash BIOS version 3.6 onto the Up squared board.
+1. Flash BIOS version 4.0 onto the Up squared board.
 ======================================================
 
-BIOS v3.6 added the audio OEM key for SOF. The BIOS main menu
-will show UP-APL01 R3.6.
+The BIOS main menu will show UP-APL01 R4.0.
 
-* Download the `BIOS <https://git-amr-4.devtools.intel.com/gerrit/gitweb?p=otc_audio-board-integration.git;tflink=projects.otc_audio/scm.Board_Integration>`__.
-
-  .. todo::
-   
-     this link needs to be updated to something accessible externally
+* Download the `BIOS <https://downloads.up-community.org/download/up-squared-uefi-bios-v4-0/>`_.
 
 * If the current BIOS version is older than 1.8, please update to v1.8
-  before flashing v3.6.
+  before flashing v4.0.
 
   .. note::
 
