@@ -1,0 +1,18 @@
+dist: xenial
+
+language: python
+
+python:
+    - "3.6"
+
+before_install:
+    - sudo apt-get update -qq
+    - sudo apt-get install doxygen make default-jre graphviz cmake
+
+install:
+    - pip install -r scripts/requirements.txt
+
+script:
+    - cd .. && git clone https://github.com/thesofproject/sof.git && cd sof/doc && cmake . && make doc && cd - && cd sof-docs
+    - make html
+    - ls _build
