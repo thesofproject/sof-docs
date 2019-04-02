@@ -214,7 +214,8 @@ best to verify the locally generated html before publishing.
 Installation troubleshooting
 ****************************
 
-In some cases, you cannot run the documentation processors due to the following errors:
+In some cases, you cannot run the documentation processors due to the following
+errors:
 
 .. code-block:: bash
 
@@ -226,7 +227,8 @@ In some cases, you cannot run the documentation processors due to the following 
 	make: *** [html] Error 1
 
 The issue could be related to the default policy on Debian-based Linux
-distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can verify this by entering the following steps:
+distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can
+verify this by entering the following steps:
 
 .. code-block:: bash
 
@@ -236,7 +238,8 @@ distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can 
 	lrwxrwxrwx 1 root root 9 sie 29 07:36 /usr/bin/python -> python2.7*
 
 The issue can be resolved by running a dedicated environment with the Python
-3.x binary and include its own set of installed Python packages. Virtualization of the Python environment is recommended as an alternative to:
+3.x binary and include its own set of installed Python packages. Virtualization
+of the Python environment is recommended as an alternative to:
 
 * adding an alias setup in ~/.bashrc
 * changing the symbolic link (/usr/bin/python)
@@ -266,7 +269,15 @@ Python packages in the virtualized environment.
 
 After the installation is finished, you should be able to generate
 documentation invoking commands listed in "Running the documentation
-processors". Further information on how to use lightweight Python
+processors".
+
+To deactivate virtual environment and original Python environment type:
+
+.. code-block:: bash
+
+	deactivate
+
+Further information on how to use lightweight Python
 virtualization environments can be found at
 https://docs.python.org/3/library/venv.html.
 
@@ -282,13 +293,16 @@ plantuml, you may encounter the following compilation error:
 	b'ERROR\n2\nSyntax Error?\nSome diagram description contains errors\n'
 
 If you excluded syntax errors in the diagram description, one of remaining
-possibilities is lack of compatibility with the installed plantuml.jar version. You can verify it using the following command:
+possibilities is lack of compatibility with the installed plantuml.jar version.
+You can verify it using the following command:
 
 .. code-block:: bash
 
 	java -jar ./scripts/plantuml.jar -version
 
-If the installed version of plantuml.jar is missing necessary features, submit a pull request to the SOF documentation repository with the new one.
+If the installed version of plantuml.jar is missing necessary features, submit
+a pull request to the SOF documentation repository with the new one.
+
 
 .. _reStructuredText: http://sphinx-doc.org/rest.html
 .. _Sphinx: http://sphinx-doc.org/
