@@ -54,7 +54,7 @@ for publishing the generated documentation.
 The recommended folder setup for documentation contributions and
 generation is as follows:
 
-.. code-block: none
+.. code-block: console
 
    thesofproject/
       sof/
@@ -220,6 +220,9 @@ errors:
 .. code-block:: bash
 
 	make html
+
+.. code-block:: console
+
 	Warning: sphinx_rtd_theme missing. Use pip to install it.
 	Extension error:
 	Could not import extension breathe (exception: No module named breathe)
@@ -233,8 +236,18 @@ verify this by entering the following steps:
 .. code-block:: bash
 
 	python --version
+
+.. code-block:: console
+
 	Python 2.7.15rc1
+
+
+.. code-block:: bash
+
 	ll /usr/bin/python
+
+.. code-block:: console
+
 	lrwxrwxrwx 1 root root 9 sie 29 07:36 /usr/bin/python -> python2.7*
 
 The issue can be resolved by running a dedicated environment with the Python
@@ -254,6 +267,9 @@ virtualized environment.
 	python3 -m venv my-sof-env
 	. ./my-sof-env/bin/activate
 	python --version
+
+.. code-block:: console
+
 	Python 3.6.7
 
 You can verify the Python version and proceed with installing all required
@@ -287,7 +303,7 @@ Diagram compilation troubleshooting
 In case you are creating a diagram that is using the lastest features of
 plantuml, you may encounter the following compilation error:
 
-.. code-block:: bash
+.. code-block:: console
 
 	WARNING: error while running plantuml
 	b'ERROR\n2\nSyntax Error?\nSome diagram description contains errors\n'
