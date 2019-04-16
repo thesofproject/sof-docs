@@ -145,7 +145,7 @@ for your target platforms.
    cp config-cnl-gcc8.1-gdb8.1 .config
    ./ct-ng build
 
-Update an environment variable to refer to the alsa-lib with the one we just built.
+Update an environment variable to refer to the alsa-lib with the one we've just built.
 
 .. code-block:: bash
 
