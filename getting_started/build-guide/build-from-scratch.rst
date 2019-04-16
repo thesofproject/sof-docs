@@ -31,7 +31,7 @@ Install package dependencies.
 
      sudo apt-get install libgtk-3-dev libsdl1.2-dev libspice-protocol-dev \
         libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev libtool-bin \
-        acpica_tools valgrind texinfo virt-manager qemu-kvm \
+        acpica-tools valgrind texinfo virt-manager qemu-kvm \
         libvirt-daemon-system libvirt-clients virtinst libfdt-dev libssl-dev \
         pkg-config help2man gawk libncurses5 libncurses5-dev
 
@@ -400,7 +400,10 @@ dev branch firmware and topology.
       git clone https://github.com/thesofproject/linux.git
       cd linux
       git checkout topic/sof-dev
-      make menuconfig
+      make defconfig
+      git clone https://github.com/thesofproject/kconfig
+      scripts/kconfig/merge_config.sh .config ./kconfig/base-defconfig ./kconfig/sof-defconfig  ./kconfig/hdaudio-codecs-defconfig
+      (optional) make menuconfig
 
    Select SOF driver support and disable SST drivers.
 
