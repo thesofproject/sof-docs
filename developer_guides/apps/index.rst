@@ -8,3 +8,5 @@ Applications
 
    components/index
    pipelines/index
+   kd_integration/index
+

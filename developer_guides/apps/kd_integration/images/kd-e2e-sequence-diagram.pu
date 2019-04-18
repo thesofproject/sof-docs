@@ -1,0 +1,120 @@
+@startuml
+participant "Userspace component" as usr
+participant "Audio driver" as drv
+participant "FW infrastructure" as fw
+participant "Data transfer to Host" as dma
+participant "Keyword detection algorithm" as kda
+participant "Data transfer to DSP" as gpdma
+
+box "Linux User/Kernel space" #LavenderBlush
+	participant usr
+	participant drv
+end box
+
+box "DSP" #LightBlue
+	participant fw
+	participant dma
+	participant kda
+	participant gpdma
+end box
+
+activate fw
+
+drv -> fw : Setup audio topology \n (Speech Capture & Keyword Detection pipes)
+usr -> drv : Prepare & Open PCM capture \n(snd_pcm_open/snd_pcm_hw_params)
+drv -> fw : Stream Open & Preparation
+drv -> fw : HW Params
+group optional (depends on keyword detection algorithm implementation)
+ usr -> drv : Send keyword detection algorithm parameters \n (snd_ctl_elem_tlv_write)
+ drv -> fw : Send keyword detection algorithm parameters
+ fw -> kda : Send keyword detection algorithm parameters
+end
+
+drv ->drv : DAPM power up event
+drv -> fw : HW Params for Keyphrase Detection Pipeline
+usr -> drv : Trigger start (alsamixer)
+drv -> fw : Keyword detection algorithm & buffer manager triggered
+
+fw -> fw : Keyphrase Buffer Manager \nin acquisition mode
+fw -> gpdma 
+
+activate gpdma
+
+fw -> kda : keypharse detection enabled
+
+activate kda
+
+usr -> drv : Trigger start (snd_pcm_read)
+
+note over usr
+Speech application indefinitely 
+waits for data.
+end note 
+
+ref over usr, drv, fw , gpdma, kda, dma  
+Speech Capture pipeline is not transmitting data to Host system
+Host system may enter the low power state
+end ref
+
+loop keyword detection algorithm \nexecuted on DSP
+ kda <- gpdma 
+end
+
+hnote over kda : keyword is detected
+
+fw <-- kda : FW event on keyword detection
+fw -> kda : keyword detection disabled
+
+deactivate kda 
+
+fw -> fw : Keyphrase Buffer Manager \nin drain mode
+drv <-- fw : notification on keyword detection
+'drv -> fw : enable data transission to Host \n(Capture[Speech] pipeline to Host is running)
+usr <-- drv : notification on keyword detection (optional)
+gpdma -> dma 
+
+activate dma
+
+ref over dma 
+Sending a burst of historic data (approx.2s) 
+with detected keyword for
+second stage verification on host.
+end ref
+
+gpdma <-- dma 
+
+deactivate dma
+
+usr <-- drv : snd_pcm_read completed 
+
+fw -> fw : Keyphrase Buffer Manager \nin passthrough mode 
+
+loop Realtime capture
+ usr -> drv : snd_pcm_read
+ gpdma -> dma 
+ activate dma
+ gpdma <-- dma 
+
+ deactivate dma
+ usr <-- drv : snd_pcm_read completed 
+end 
+
+ref over usr 
+User space optionally performs second stage keyword verification.
+end ref
+
+usr -> drv : Trigger stop (alsamixer)
+drv ->drv : DAPM power down event
+drv -> fw : Stop Keyphrase Detection algorithm pipeline
+usr -> drv : Trigger stop (snd_pcm_drop / snd_pcm_free)
+drv -> fw : Close Speech capture stream
+fw -> gpdma 
+
+deactivate gpdma
+
+ref over usr, drv, fw , gpdma, kda, dma  
+The flow can be repeated for next user command starting from snd_pcm_open()
+end ref
+
+deactivate fw
+@enduml

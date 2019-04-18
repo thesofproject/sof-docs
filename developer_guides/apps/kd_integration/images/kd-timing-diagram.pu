@@ -1,0 +1,19 @@
+@startuml
+footer: timeline not to scale 
+robust "Speech Application" as App
+concise "Audio Stream" as Audio
+
+App is idle
+Audio is "Preceeding"
+
+@App
+0 is idle
++225 is "Processing"
+
+@Audio
+0 is Keyphrase
+@180 <-> @+40 : {detection & burst transmission lag}
+Audio@+25 -> App@+25 : notification
+200 is Command
++200 is Following
+@enduml
