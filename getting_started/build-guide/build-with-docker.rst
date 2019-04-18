@@ -83,8 +83,9 @@ Run the Docker build from the `sof` repo.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
-   cd scripts/docker_build/
+   cd ~/work/sof/sof/scripts/docker_build/sof_qemu
+   ./docker-build.sh
+   cd ~/work/sof/sof/scripts/docker_build/sof_builder
    ./docker-build.sh
 
 After building the Docker image you will see:
@@ -177,13 +178,19 @@ Enter the container bash.
    cd ~/work/sof/sof/
    ./scripts/docker-run.sh bash
 
-From inside the container, follow the manual configuration and build steps.
+From inside the container:
+
+.. code-block:: bash
+
+   cd tools
+
+and follow the manual configuration and build steps.
 
 Topology and tools build results
 --------------------------------
 
-The topology files are all in the topology folder. Copy them to the target
-machine's /lib/firmware/intel/ folder. 
+The topology files are all in the topology folder (~/work/sof/sof/tools/build_tools/topology). Copy them to the target
+machine's /lib/firmware/intel/sof-tplg folder. 
 
 The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.

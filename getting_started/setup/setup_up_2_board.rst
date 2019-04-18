@@ -68,14 +68,14 @@ Copy kconfig fragments for SOF development from https://github.com/thesofproject
 4. Firmware
 ===========
 
-Build SOF firmware and copy ``sof-apl.ri`` into /lib/firmware/intel
+Build SOF firmware and copy ``sof-apl.ri`` into /lib/firmware/intel/sof
 
 5. Topology
 ===========
 
 Copy test topology
-``test-ssp5-I2S-volume-s16le-s24le-48k-24576k-codec.tplg`` as
-``sof-apl-pcm512x.tplg`` into /lib/firmware/intel
+``sof-apl-eq-pcm512x.tplg`` as
+``sof-apl-pcm512x.tplg`` into /lib/firmware/intel/sof-tplg
 
 6. Add ACPI support for Hifiberry dac+
 ======================================
