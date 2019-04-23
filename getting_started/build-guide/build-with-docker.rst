@@ -149,7 +149,7 @@ Firmware build results
 ----------------------
 
 The firmware binary files are located in src/arch/xtensa/. Copy them to
-your target machine's /lib/firmware/intel/ folder.
+your target machine's /lib/firmware/intel/sof folder.
 
 .. code-block:: bash
 

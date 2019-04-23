@@ -24,6 +24,7 @@ Sections
 .. toctree::
    :maxdepth: 1
 
+   SOF project website <https://sofproject.org>
    introduction/index.rst
    getting_started/index.rst
    architectures/index.rst
