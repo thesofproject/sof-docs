@@ -109,4 +109,4 @@ Make sure the green LED lights up on the Hifiberry.
 
 .. note::
 
-   If any problem has occured use 'dmesg | grep sof' to track it.
+   If any problem has occured use ``dmesg | grep sof`` to track it.
