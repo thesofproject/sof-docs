@@ -211,6 +211,10 @@ content directly to the GitHub pages publishing repo. The public site at
 https://thesofproject.github.io will be updated within a few minutes so it's
 best to verify the locally generated html before publishing.
 
+.. note::
+   In some situations it is necessary to clean all the files and build from the very
+   beginning. 'make clean' command may be helpful.
+
 Installation troubleshooting
 ****************************
 

@@ -7,7 +7,7 @@ Build SOF from scratch
    :local:
    :depth: 3
 
-You may enable and test |SOF| on a target machine or VM. Current target
+You may boot and test |SOF| on a target machine or VM. Current target
 Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
 
 Build SOF binaries
@@ -132,10 +132,10 @@ for your target platforms.
 
 .. code-block:: bash
 
-   #Baytrail
+   #Baytrail/Cherrytrail
    cp config-byt-gcc8.1-gdb8.1 .config
    ./ct-ng build
-   #Haswell
+   #Haswell/Broadwell
    cp config-hsw-gcc8.1-gdb8.1 .config
    ./ct-ng build
    #Apollo Lake
@@ -161,7 +161,8 @@ Copy all four cross-compiler toolchains to ~/work/sof/.
 
 .. note::
 
-        |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
+   | |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
+   | |BYT| and |CHT| also share the same cross compiler toolchain: xtensa-byt-elf
 
 Add these compilers to your PATH variable.
 
@@ -185,12 +186,12 @@ Build and install the headers for each platform.
 
 .. code-block:: bash
 
-   #Baytrail
+   #Baytrail/Cherrytrail
    ./configure --target=xtensa-byt-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
    rm -fr rm etc/config.cache
-   #Haswell
+   #Haswell/Broadwell
    ./configure --target=xtensa-hsw-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
@@ -287,7 +288,7 @@ for |CHT|:
 .. code-block:: bash
 
    mkdir build_cht && cd build_cht
-   cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cht-elf ..
+   cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-byt-elf ..
    make cherrytrail_defconfig
    make bin -j4
 

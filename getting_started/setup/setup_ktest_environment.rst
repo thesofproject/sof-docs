@@ -45,7 +45,7 @@ Copy your existing known-to-work kernels/initrd
 .. code-block:: bash
 
    cp /boot/vmlinuz-4.13.0-16-generic /boot/vmlinuz-test
-   cd /boot/initrd.img-4.13.0-16-generic cd /boot/initrd.img-test
+   cp /boot/initrd.img-4.13.0-16-generic /boot/initrd.img-test
 
 Change the extensions as needed to create an initial grub entry
 for a test kernel. You will never override the default
