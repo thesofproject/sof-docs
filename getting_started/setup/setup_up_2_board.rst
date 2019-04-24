@@ -54,16 +54,7 @@ guide, if needed.
 3. Update kernel
 ================
 
-Update kernel based on https://github.com/thesofproject/linux from the
-``topic/sof-dev`` branch.
-
-Copy kconfig fragments for SOF development from https://github.com/thesofproject/kconfig
-
-.. code-block:: bash
-
-   make defconfig
-   scripts/kconfig/merge_config.sh .config <path>/kconfig/base-defconfig <path>/kconfig/sof-defconfig  <path>/kconfig/hdaudio-codecs-defconfig
-   make -j8
+Follow :ref:`Build Linux kernel` section
 
 4. Firmware
 ===========
@@ -115,3 +106,7 @@ Create blacklist-dsp.conf in /etc/modprobe.d/ if not exist
 =========
 
 Make sure the green LED lights up on the Hifiberry.
+
+.. note::
+
+   If any problem has occured use 'dmesg |grep sof' to track it.

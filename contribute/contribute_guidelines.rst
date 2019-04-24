@@ -97,7 +97,7 @@ running ``git commit --amend -s``. If you have already pushed your changes to Gi
 Prerequisites
 *************
 
-.. _SOF project website: https://thesofproject.org
+.. _SOF project website: https://sofproject.org
 
 As a contributor, familiarize yourself with the SOF project, how to
 configure, install, and use it as explained on the

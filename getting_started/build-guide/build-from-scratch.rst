@@ -349,7 +349,7 @@ Firmware build results
 ----------------------
 
 The firmware binary files are located in build_<platform>/src/arch/xtensa/. Copy them to
-your target machine's /lib/firmware/intel/ folder.
+your target machine's /lib/firmware/intel/sof folder.
 
 .. code-block:: bash
 
@@ -381,10 +381,12 @@ Topology and tools build results
 --------------------------------
 
 The topology files are located in the *tools/build_tools/topology* folder. Copy them to the target
-machine's /lib/firmware/intel/ folder.
+machine's /lib/firmware/intel/sof-tplg folder.
 
 The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to the target machine's
 /usr/bin directory.
+
+.. _Build Linux kernel:
 
 Build Linux kernel
 ******************
@@ -396,6 +398,7 @@ dev branch firmware and topology.
 
    .. code-block:: bash
 
+      sudo apt-get install bison flex libelf-dev
       cd ~/work/sof/
       git clone https://github.com/thesofproject/linux.git
       cd linux
