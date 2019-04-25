@@ -288,7 +288,7 @@ for |CHT|:
 .. code-block:: bash
 
    mkdir build_cht && cd build_cht
-   cmake -DTOOLCHAIN=xtensa-cht-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-byt-elf ..
+   cmake -DTOOLCHAIN=xtensa-byt-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-byt-elf ..
    make cherrytrail_defconfig
    make bin -j4
 
