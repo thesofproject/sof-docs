@@ -5,13 +5,17 @@ Intel CAVS Platforms
 
 Intel CAVS platforms supported by the |SOF|.
 
-+---------+----------+--------------------+
-|cAVS     |ver. 1.5  | Apollo Lake        |
-|         +----------+--------------------+
-|         |ver. 1.8  | Cannon Lake        |
-|         +----------+--------------------+
-|         |ver. 2.0  | Ice Lake           |
-+---------+----------+--------------------+
++---------+----------+-----------------------------------------+
+|cAVS     |ver. 1.5  | Apollo Lake, Gemini Lake                |
+|         +----------+-----------------------------------------+
+|         |ver. 1.8  | Cannon Lake, Whisky Lake, Comet Lake    |
+|         +----------+-----------------------------------------+
+|         |ver. 2.0  | Ice Lake                                |
++---------+----------+-----------------------------------------+
+
+.. note:: while the Sky Lake and Kaby Lake platforms are also based on the
+	  cAVS 1.5 architecture, they are not supported at this time due to
+	  differences in boot flow and memory architecture.
 
 .. uml:: images/cavs-platform-deps.pu
    :caption: CAVS Platforms
