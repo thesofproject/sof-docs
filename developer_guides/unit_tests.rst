@@ -40,6 +40,9 @@ Example: Running tests for APL
    make apollolake_defconfig
    make -j4 && ctest -j8
 
+.. note::
+
+   Use -DTOOLCHAIN=xt option, -DTOOLCHAIN=xtensa-<platform_type>-elf is not supported
 
 Wrapping objects for unit tests
 *******************************
