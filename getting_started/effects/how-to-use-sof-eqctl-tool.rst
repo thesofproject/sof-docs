@@ -46,7 +46,7 @@ coefficients and other embedded control is described in uapi/eq.h.
 
 Creating equalizer configurations requires GNU Octave or Matlab(R)
 numerical computing software with signal toolbox. The equalizer tuning
-tool is found from SOFT/tune/eq directory.
+tool is found in tools/tune/eq directory.
 
 =====================  ================================================
 File name              Explanation
