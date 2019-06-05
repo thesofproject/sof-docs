@@ -10,6 +10,8 @@ Build SOF from scratch
 You may boot and test |SOF| on a target machine or VM. Current target
 Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
 
+There is also support for NXP i.MX8 platform.
+
 Build SOF binaries
 ******************
 The following steps describe how to install the sof development environment
@@ -103,7 +105,7 @@ Build cross-compiler
 --------------------
 
 Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
-|CHT|, |HSW|, |BDW|, |APL|, and |CNL| platforms.
+|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8 platform.
 
 Clone both repos and check out the sof-gcc8.1 branch.
 
@@ -144,6 +146,10 @@ for your target platforms.
    #Cannon Lake
    cp config-cnl-gcc8.1-gdb8.1 .config
    ./ct-ng build
+   #i.MX8
+   cp config-imx-gcc8.1-gdb8.1 .config
+   ./ct-ng build
+
 
 Update an environment variable to refer to the alsa-lib with the one we've just built.
 
@@ -156,7 +162,7 @@ Copy all four cross-compiler toolchains to ~/work/sof/.
 .. code-block:: bash
 
    ls builds/
-   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf
+   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf          xtensa-imx-elf
    cp -r builds/* ~/work/sof/
 
 .. note::
@@ -172,6 +178,7 @@ Add these compilers to your PATH variable.
    export PATH=~/work/sof/xtensa-hsw-elf/bin/:$PATH
    export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
    export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
+   export PATH=~/work/sof/xtensa-imx-elf/bin/:$PATH
 
 Clone the header repository.
 
@@ -203,6 +210,11 @@ Build and install the headers for each platform.
    rm -fr rm etc/config.cache
    #Cannon Lake
    ./configure --target=xtensa-cnl-elf --prefix=/home/$USER/work/sof/xtensa-root
+   make
+   make install
+   rm -fr rm etc/config.cache
+   #i.MX8
+   ./configure --target=xtensa-imx-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
 
@@ -326,6 +338,15 @@ for |CNL|:
    mkdir build_cnl && cd build_cnl
    cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
    make cannonlake_defconfig
+   make bin -j4
+
+for i.MX8:
+
+.. code-block:: bash
+
+   mkdir build_imx && cd build_imx
+   cmake -DTOOLCHAIN=xtensa-imx-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-imx-elf ..
+   make imx8_defconfig
    make bin -j4
 
 .. note::
