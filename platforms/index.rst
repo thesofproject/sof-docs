@@ -15,4 +15,5 @@ for details.
 .. toctree::
    :maxdepth: 2
 
+   intel-legacy/index
    intel-cavs/index

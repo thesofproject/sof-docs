@@ -71,7 +71,7 @@ Copy test topology
 6. Add ACPI support for Hifiberry dac+
 ======================================
 
-Copy scripts from https://github.com/plbossart/acpi-scripts
+Clone scripts from https://github.com/thesofproject/acpi-scripts
 
 .. code-block:: bash
 
