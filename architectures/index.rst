@@ -3,13 +3,16 @@
 Supported Architectures
 #######################
 
-SOF project supports multiple different architectures.
+SOF is intended to run on many different hardware architectures and is therefore
+not coupled to any particular DSP or host hardware architecture. The SOF
+|TSC| ensures that any DSP or host architecture specific code is partitioned to
+reside in architecture-specific directories with generic APIs to common code.
 
-When support for a new architecture is being added, certain interfaces
-required by SOF infrastructure must be implemented.
+This section outlines the architecture at a high level, however the source code
+should always be consulted for the low level details.
 
 .. toctree::
    :maxdepth: 2
 
    host/index
-   xtensa-dsp/index
+   dsp/index
