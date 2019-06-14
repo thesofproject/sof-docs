@@ -6,7 +6,7 @@ SOF Project documentation
 Welcome to the SOF Project (version |version|) documentation.
 
 For information about the changes and additions for releases, please
-consult the published :ref:`release_notes` documentation.
+consult the published :ref:`release` documentation.
 
 Source code for the SOF Project is maintained in the
 `SOF Project GitHub repo`_, and is provided under the BSD 3-clause
@@ -30,7 +30,7 @@ Sections
    architectures/index.rst
    platforms/index.rst
    developer_guides/index.rst
-   release_notes.rst
+   release.rst
    howtos/index.rst
    contribute/index.rst
    api/index.rst
