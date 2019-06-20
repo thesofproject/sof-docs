@@ -1,13 +1,22 @@
-.. _how-to-use-sof-eqctl-tool:
+.. _runtime_tuning:
 
-How to use sof-eqctl tool
-#########################
+Runtime Tuning
+##############
 
-The tool is available in SOFT repository in directory eqctl.  It helps
-to access the ext bytes or tlv bytes control of |SOF| equalizer
-components eq_iir and eq_fir. Capability to change EQ response in
-runtime is useful for transducers tuning and for scenario of
-having equalizers under control of user space service.
+Runtime tuning of components and pipelines can be achieved using the sof-ctl
+tool.
+
+The tool is available in SOF repository in directory tools/ctl.  It performs
+runtime IO access using the ext bytes or tlv bytes control of |SOF| components
+like eq_iir and eq_fir. This tool is used to upload runtime data to alter the
+performance or processing characteristsics at runtime of a audio component.
+e.g Capability to change EQ response in runtime is useful for transducer tuning
+and for scenario of having equalizers under control of user space service.
+
+This document mainly focuses on examples of the sof-ctl around the EQ FIR and
+IIR components since the tool was developed alongside these components. The
+concepts outlined here for EQs will equally applt to other component types
+that support updating runtime data.
 
 Please find other document(s) in this section how to setup persistently
 equalizers via topology in boot. There will be also general documentation
@@ -74,15 +83,15 @@ does not yet support preset switching without re-uploading the whole
 configuration.
 
 The equalizer can be updated only when SOF is idle. Update during
-playback is not currently supported and when attempted the playback
-will continue with existing setting. The driver will re-send to
+playback is not currently supported (until SOF v1.4) and when attempted the
+playback will continue with existing setting. The driver will re-send to
 configuration when DSP is not busy.
 
 E.g. to switch the IIR equalizer to bandpass use command:
 
 .. code-block:: bash
 
-   sof-eqctl -Dhw:0 -n 22 -s eq_iir_bandpass.txt
+   sof-ctl -Dhw:0 -n 22 -s eq_iir_bandpass.txt
 
 Succesfull execution will produce next output.
 
@@ -103,7 +112,7 @@ be read back by omitting the -s switch.
 
 .. code-block:: bash
 
-   sof-eqctl -Dhw:0 -n 22
+   sof-ctl -Dhw:0 -n 22
    #Retrieving configuration for device hw:0 control numid=22.
    #Success.
    #84,2,1,0,0,2,2,3316150158,2048164275,513807534,3267352229,513807534,0,16384,
@@ -113,21 +122,6 @@ Help
 ****
 
 For completeness the command line options are described with -h switch.
-
-.. code-block:: bash
-
-   sof-eqctl -h
-   #Usage ./sof-eqctl <option(s)>
-   #Set example ./sof-eqctl -Dhw:0 -c "numid=22,name=\"EQIIR1.0 EQIIR\"" -s iir.txt
-   #Set example ./sof-eqctl -Dhw:0 -n 22 -s iir.txt
-   #Get example ./sof-eqctl -Dhw:0 -n 22
-   #./sof-eqctl:	 		Control SOF equalizers
-   #./sof-eqctl:	 -D <dev>	Use device <dev>, defaults to hw:0
-   #./sof-eqctl:	 -c <name>	Get configuration for EQ <name>
-   #./sof-eqctl:	 -n <number>	Get configuration for given numid
-   #./sof-eqctl:	 -s <file>	Setup equalizer with data in <file>.
-   #                                    The ASCII text file must contain comma
-   #                                    separated unsigned integers.
 
 Mail list sound-open-firmware@alsa-project.org is recommended contact for
 technical discussion about equalizers and tuning.

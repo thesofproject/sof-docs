@@ -3,184 +3,164 @@
 Introduction to the SOF Project
 ###############################
 
-|SOF| (SOF) is an open source audio Data Signal Processing (DSP) firmware
-infrastructure and SDK that offers a single code base for all Intel
-hardware platforms. SOF provides infrastructure, real-time control pieces, and
-audio drivers as a community project.
+|SOF| (SOF) is an open source audio Digital Signal Processing (DSP) firmware
+infrastructure and SDK. SOF provides infrastructure, real-time control pieces,
+and audio drivers as a community project. The project is governed by the |SOF|
+|TSC| (TSC) who are prominent and active developers from the community.
+SOF is developed in public and hosted on the github platform.
 
 The firmware and SDK are intended for developers who are interested in
-audio or signal processing on modern DSPs or who are interested in
-microkernels that run on small but powerful processors.
+audio or signal processing on modern DSPs. SOF provides a framework where audio
+developers can create, test and tune.
 
-SOF currently targets the Cadence xtensa architecture DSPs found on some
-Intel-based devices such as the MinnowBoard MAX. |SOF| is modular and
-generic so it can be ported to other DSP architectures or host
-platforms.
+#. Audio processing pipelines and topologies.
 
-.. contents:: 
-   :local:
-   :depth: 3
+#. Audio processing components.
 
-Components
-==========
+#. DSP infrastructure and drivers.
 
-The |SOF| SDK comprises of five source components:
+#. Host OS infrastructure and drivers.
 
-#. **SOF source code.** The firmware is written in C with some
-   architecture-specific assembler; it does not link to external
-   dependencies.
-
-#. **SOF tools.** These tools are required to convert firmware from the
-   ELF file format to formats understood by the kernel drivers and tools to
-   assist with debugging running firmware images.
-
-#. **ASoC Linux kernel drivers.** An ASoC kernel driver is required to
-   register the DSP and firmware as a kernel audio device and to expose
-   PCMs, kcontrols etc. This driver can also load any topology data.
-
-#. **Crosstool-NG toolchain.** Crosstool-NG is used to build a GNU cross
-   toolchain (gcc, gdb, binutils, etc.) that is used to build the firmware
-   binaries. Other compilers and toolchains can also be used to build the
-   firmware.
-
-#. **Qemu DSP and host emulator.** Qemu is used to provide a functional
-   emulator to simultaneously trace and debug driver and DSP firmware code.
-
-SOF Architecture
-================
-
-The diagram below shows the high-level firmware architecture with the
-Baytrail platform integration. The firmware is divided into four main
-sections:
-
-#. **Generic microkernel.** The microkernel manages and abstracts the
-   DSP hardware for the rest of the system. It also exports C APIs for
-   memory allocation, scheduling work, event notifications, and power
-   management.
-
-#. **Audio components.** The audio components can be used to form an
-   audio processing pipeline from the host DMA buffer to the DSP digital
-   audio interface. Audio components will have a source and sink buffer
-   where they will usually transform or route audio data as part of their
-   processing.
-
-#. **Audio task.** The audio task manages the audio pipelines at run
-   time; it manages the transportation of data from source to sink
-   component within the pipeline. The pipelines are currently statically
-   defined in the firmware, but infrastructure is now in place to allow the
-   dynamic creation of pipelines from Linux userspace.
-
-#. **Platform drivers.** The platform drivers are used to control any
-   external IP to the DSP IP. This will usually be things like DMA engines
-   or DAI (Digital Audio Interface) controllers. These drivers are used by
-   the audio components and pipelines to send/receive data to/from the host
-   and external codecs.
-
-   ..	figure::  images/fw-arch-diag.png
+..	figure::  images/pipeline-overview.png
 	:align: center
-	:alt: SOF Architecture
-	:width: 800px
+	:alt: SDK Overview
+	:width: 1000px
+	:height: 300px
 
-	`Sound Open Firmware Architecture`
-
-SOF Driver Architecture
-=======================
-
-The ASoC driver architecture for |SOF| is shown in the diagram below.
-The driver architecture is also split into four layers, like a protocol
-stack, each with a different purpose.
-
-#. **Machine driver.** The ASoC machine driver does all the
-   machine/board audio hardware integration. It also glues the platform
-   driver and drivers for any codec(s) together so they appear as a single
-   ALSA sound card. |SOF| can reuse existing upstream machine drivers (as
-   only the platform name needs to be changed) or can have bespoke machine
-   drivers.
-
-#. **Generic PCM Driver.** The PCM driver creates ALSA PCMs, DAPM, and
-   kcontrols based on the topology data loaded at run time. The PCM driver
-   also allocates buffers for DMA and registers with run time PM. It is
-   architecture and platform generic code.
-
-#. **Generic IPC driver.** The IPC driver is the messaging bridge
-   between the host and DSP and defines the messaging ABI and protocol. It
-   is architecture and platform generic code.
-
-#. **DSP Platform Driver.** The platform driver is a platform specific
-   driver that abstracts the low level platform DSP hardware into a common
-   generic API that is used by the upper layers. This includes code that
-   will initialize the DSP and boot the firmware.
+	`Example Equalizer pipeline with host OS control of EQ coefficients and pipeline volume.`
 
 
-   ..	figure::  images/driver-arch-diag.png
+|SOF| has a modular and generic codebase and can be ported to different DSP
+architectures or host platforms. See list of currently supported DSP
+architecures and supported platforms.
+
+
+SDK Introduction and Overview
+=============================
+
+The |SOF| SDK is comprised of many ingredients that can be customised for use in
+the firmware/software development lifecycle. Customisation allows for a
+"best fit" development approach where the SDK can be optimised for a
+particular process or environment. Some SDK ingredients are optional whilst
+there can more than once choice for other ingredients as shown in the diagram below.
+
+..	figure::  images/sdk-overview.png
 	:align: center
-	:alt: SOF Driver Architecture
-	:width: 800px
+	:alt: SDK Overview
+	:width: 1000px
 
-	`Sound Open Firmware Driver Architecture`
+	`SDK example configuration showing development flow for SOF on the Intel Apollolake platform running Linux OS.`
+	`Note the choice of compiler toolchains and choice of optional DSP emulators.`
 
-The right-hand side of the diagram shows the mailbox/doorbell mechanism and the DSP.
 
-The PCM and IPC drivers can be reused without modification on every
-platform. The platform differentiation will occur via the topology data
-and firmware. There is also scope for differentiation via the machine
-driver and platform driver. The ACPI or Device Tree could be used to
-specify the HW configuration.
+SOF source code, tools and topologies
+-------------------------------------
 
-FAQ
-===
+The firmware, tools and topologies all exist in the main SOF git repository
+and at a high level it contains.
 
-What license does the firmware and SDK use?
-  The firmware is released using a standard BSD license with some parts
-  MIT. The SDK is GPL.
+#. Firmware - written in C with some architecture-specific assembler; it does not link to external dependencies.
+
+#. Test Bench - allows firmware components and pipelines to run on developers host PC.
+
+#. Image Tools - C tools for converting ELF files to binary firmware images that can run on HW.
+
+#. Debug Tools - Scripts and tools that can be used to debug firmware.
+
+#. Trace Tools - Text based tools that can display tracing data from firmware.
+
+#. Tuning Tools - Matlab/Octave scripts that can be used to create tuning coefficients for audio components.
+
+#. Runtime Tools - Command line applications that can be used to exchange data with running firmware.
+
+#. Topologies - Real and example topologies showing construction of simple and complex audio processing pipelines.
+
+
+Host OS Drivers
+---------------
+
+SOF can be configured and controlled by a host OS driver or can optionally run
+as a stand alone firmware. SOF host drivers currently support the Linux OS
+today.
+
+The SOF driver has a modular stack based architecture that is dual licensed
+BSD & GPL code allowing it to be ported to other OSes and RTOSes.
+
+The host driver is responsible for :-
+
+#. Loading firmware from host file system into DSP memories and booting.
+
+#. Loading topologies from host file system into DSP.
+
+#. Exposing audio control devices to applications.
+
+#. Exposing audio data endpoints to applications.
+
+#. Managing IPC communication between host and DSP.
+
+#. Abstraction of host side DSP hardware to common API operations.
+
+The Linux SOF ALSA/ASoC driver is upstream in Linux v5.2 onwards.
+
+
+Firmware Toolchain
+------------------
+
+GNU GCC can be used as a free SOF compiler alongside proprietary DSP vendor
+compilers. The choice of compiler is up to the user depending on features
+and budget. GCC complier is open source.
+
+
+DSP Emulator
+------------
+
+Qemu can be used to provide a functional emulator to simultaneously trace and
+debug driver and DSP firmware code. Proprietary emulators are also available.
+
+Emulation is also used within SOF CI for feature validation prior to merging
+new code.
+
+
+General FAQ
+===========
+
+What license does the firmware use?
+  The firmware is released using a standard BSD 3-clause license with some
+  files released under MIT.
 
 Do I need to open source my firmware code changes?
   No. The firmware BSD and MIT licensed code means you can keep code
-  changes private. Patches are always welcomed if do decide to open source
+  changes private. Patches are always welcomed if you do decide to open source
   work.
 
-What DSP architectures are supported?
-  |SOF| currently supports the Cadence/Tensilica Xtensa audio DSP
-  architecture and ISA.
+What license does the host driver use?
+  Most of the host driver code is dual licensed BSD or GLPLv2 only
+  (user's choice). The part of the driver that is GPLv2 only is the Linux
+  integration layer at the top of the driver stack
 
-What host platforms are supported?
-  |SOF| currently supports the Intel Baytrail and Cherrytrail based
-  platforms. This includes devices like the MinnowBoard MAX and the ASUS
-  T100 laptop, but should also include any Baytrail or Cherrytrail based
-  devices that have the audio DSP enabled in the BIOS.
-
-  The code has also been designed to easily port to other host platform
-  architectures like ARM, MIPS etc.
+Do I need to open source my driver code changes?
+  No, for the bottom two layers of the driver stack. i.e. if you are porting the
+  driver to another OS, these changes can be kept private. Please note that the
+  driver GPL source files are all Linux specific and should not be ported to
+  another OS anyway.
 
 How can I get involved?
-  Please join the developer mailing where new development features and
-  patches are discussed:
-  http://alsa-project.org/mailman/listinfo/sound-open-firmware
+  The best way to get involved is via github, there is also a low volume
+  mailing list here http://alsa-project.org/mailman/listinfo/sound-open-firmware
 
 What is the development model?
-  |SOF| has a similar development model to the Linux kernel. Patches are
-  discussed and posted on the mailing list before being merged. The
+  |SOF| is entirely developed on github. Patches via a Pull Request are
+  reviewed, discussed and tested by CI before being merged. The intended
   release cadence will likely be every 6 - 8 weeks. There will be a stable
   release tagged after passing QA then development will continue for the
   next release.
 
 Who is working on |SOF|?
-  Currently Intel is sponsoring development work on the MinnowBoard MAX
-  and other Intel-based platforms.
+  Professional developers from a number of companies (please check the git
+  logs if you want to know) with some hobbyist developers too.
 
-How do I add support for DSP architecture X?
-  It's straightforward enough to add support for a new DSP architecture.
-  New architectures usually requires support in the GNU tool chain,
-  although other tool chains can be used, too. It also helps to have qemu
-  support for the architecture in order to provide an emulator.
-
-  The main work in adding the new architecture is duplicating and porting
-  the src/arch directory to your new architecture. The code in the
-  architecture directory mainly deals with architecture abstraction and
-  initialization of any architecture IP like MMU, IRQs and caches
-  alongside providing optimized version of common C functions (memcpy,
-  memset, etc) for that architecture. Adding a new architecture also
-  usually means adding a new host platform too.
+How do I add support for host architecture X?
+  Please see the SOF architecture pages.
 
 How do I add support for host platform X?
   Adding a new host platform is a lot simpler than adding a new DSP
@@ -190,32 +170,23 @@ How do I add support for host platform X?
   (e.g. for DMA, I2S) to the drivers directory.
 
 How do I port to other OSes?
-  There is nothing stopping the firmware working with non Linux based OSes
-  providing a driver exists or can be written for that OS. The main area
-  for potential optimization in porting to another OS is aligning the IPC
-  (Inter processor Communication) mechanism to the audio driver flow for
-  that OS. Sound Open Firmware has IPC optimized for the ALSA driver flow,
-  but it's easy enough to reuse this IPC on other OSes or add a completely
-  new IPC for the OS of your choice. The IPC ABI is defined in
-  src/include/uapi/ and the IPC IO logic lives in src/ipc/.
-
-  The current upstream IPC uses a memory mapped doorbell and mailbox to
-  pass messages between the host and DSP. Non memory mapped IO (like I2C)
-  can also be supported by adding new doorbell and mailbox driver in your
-  platform code.
+  Please see the SOF host architecture page.
 
 What audio components are supported?
-  Firmware currently supports mixers, volume, DAIs and Host PCMs in the
-  upstream code base. More components are in progress...
+  |SOF| now supports a small library of free and open source components that are
+  distrubuted alongside the source code. SOF can also support proprietary
+  audio processing components providing they are wrapped to use the SOF
+  component API. Please see the audio components page for a list of the open
+  source components and thier capablilities.
 
 How do I create my own pipelines?
-  The current upstream supports creating statically defined pipelines in
-  src/audio/static-pipeline.c. This default pipeline can be changed in
-  this file and in the driver to match any new pipeline topology.
+  Pipelines are currently defined using the M4 macro processing language. The M4
+  topology is then preprocessed to the alsaconf format before being compiled
+  into a binary. An Eclipse based GUI for pipeline construction is currently
+  in development.
 
-  Dynamic pipeline topology will be supported upstream soon. This will
-  allow pipelines to be defined at run time in the firmware and driver by
-  using the alsa topology framework.
+  Today both static (built in) and dynamic (loaded at runtime) pipelines are
+  supported in upstream.
 
 Can I add my own media encoder/decoders?
   Yes.
