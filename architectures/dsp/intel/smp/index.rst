@@ -1,7 +1,7 @@
-.. _architecture-xtensa-smp:
+.. _architecture-intel-smp:
 
-Symmetric Multiprocessing Architecture
-######################################
+Intel Architecture
+##################
 
 Description
 ***********
@@ -58,5 +58,5 @@ IDC mechanism. This mechanism is pretty much the same as IPC.
 Important data can be sent in two 32-bit IDC registers. Cores use interrupts
 to register for the incoming messages.
 
-.. uml:: images/idc-send-message.pu
+.. uml:: ../images/idc-send-message.pu
 

@@ -3,14 +3,26 @@
 Developer Guides
 ################
 
+New developers are best starting by reading the introduction which describes the
+terminology before reading further.
+
 .. toctree::
    :maxdepth: 1
 
-   porting
-   drivers/index
-   kernel/index
-   apps/index
+   introduction
+   firmware/index
    unit_tests
    topology/topology
    debugability/index
-   cmake
+   tuning/sof-ctl
+
+Technical Notes
+###############
+
+Some how-to technical notes that help explain how you can use SOF capabilities.
+
+.. toctree::
+   :maxdepth: 1
+
+   tech/build-cmocka
+   tech/compile_wsl

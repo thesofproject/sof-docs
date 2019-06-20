@@ -31,7 +31,6 @@ Sections
    platforms/index.rst
    developer_guides/index.rst
    release_notes.rst
-   howtos/index.rst
    contribute/index.rst
    api/index.rst
    presentations/index.rst
