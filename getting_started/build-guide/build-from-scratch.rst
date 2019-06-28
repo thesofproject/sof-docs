@@ -84,6 +84,12 @@ the newest ALSA from source code.
    ./gitcompile
    sudo make install
 
+
+(Optional) To enable alsabat's frequency analysis, FFT library should be installed before configuring alsa-utils.
+.. code-block:: bash
+
+   sudo apt-get install libfftw3-dev libfftw3-doc
+
 Clone, build, and install alsa-utils.
 
 .. code-block:: bash
