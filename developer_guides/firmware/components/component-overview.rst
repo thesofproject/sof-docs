@@ -1,12 +1,12 @@
-.. _apps-new-comp-guide:
+.. _apps-component-overview:
 
-Writing a New Component
-#######################
+Components Overview
+###################
 
-A component may deliver audio processing function to a pipeline running on the DSP.
-An instance of the component, called a component device (components are implemented
-in the driver-device model), chained with other component devices build an audio
-processing path organized as a pipeline.
+A component adds processing of the audio signal to a pipeline running on the
+DSP. An instance of the component, called a component device (components are
+implemented in the driver-device model), chained with other component devices
+build an audio processing path organized as a pipeline.
 
 Component Driver
 ****************

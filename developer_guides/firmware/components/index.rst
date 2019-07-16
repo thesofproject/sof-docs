@@ -6,6 +6,6 @@ Components
 .. toctree::
    :maxdepth: 2
 
-   new-comp-guide
+   component-overview
    component-api
    component-mgmt-api
