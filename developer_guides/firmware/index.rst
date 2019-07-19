@@ -8,7 +8,7 @@ Developer guides and information for firmware development.
 .. toctree::
    :maxdepth: 1
 
-   hello_world
+   component-tutorial/tut-intro
    mem-mgmt
    work-queue
    drivers/index
