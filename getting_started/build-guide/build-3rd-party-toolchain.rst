@@ -1,7 +1,7 @@
 .. _build-3rd-party-toolchain:
 
-Build a 3rd Party Toolchain
-###########################
+Build SOF with a 3rd Party Toolchain
+####################################
 
 A "3rd party toolchain" is a supported toolchain provided by an external
 organization. 
