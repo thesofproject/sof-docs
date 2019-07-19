@@ -1,9 +1,12 @@
 .. _build-3rd-party-toolchain:
 
+Build a 3rd Party Toolchain
+###########################
+
 A "3rd party toolchain" is a supported toolchain provided by an external
 organization. 
 
-The toolchains are provided by a various vendors and are available under a
+Toolchains are provided by various vendors and are available under a
 variety of commercial, academic, or open source terms; visit the providers'
 websites for further information.
  
@@ -12,15 +15,15 @@ websites for further information.
    :depth: 3
 
 Cadence® Tensilica® Xtensa® C/C++ Compiler (XCC)
-################################################
+************************************************
 
 .. note::
    Currently |APL|, |CNL| and |ICL| targets are verified with Xtensa C/C++
    Compiler (xt-xcc). The xt-clang compiler is not supported. 
 
 The Xtensa compiler provides support for HiFi coprocessor SIMD instructions.
-An example below depicts how to enable conditional compilation of code depending
-on a toolchain installed and a coproccessor model on a target system.
+An example below depicts how to enable conditional compilation of the code depending
+on the toolchain installed and the coproccessor model on a target system.
 
 .. code-block:: c
 
@@ -45,6 +48,6 @@ on a toolchain installed and a coproccessor model on a target system.
 	#endif
 
 
-Once you have toolchain installed according to procedure outlined in the
-toolchain documentation see :ref:`build-from-scratch` chapter on how to build
+Once you have installed the toolchain according to procedures outlined in the
+toolchain documentation, see the :ref:`build-from-scratch` chapter on how to build
 FW binaries.
