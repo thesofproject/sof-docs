@@ -7,8 +7,8 @@ Topology
 ********
 
 Create *tools/topology/m4/amp.m4* and add the following Amp widget definition.
-Note the highlighted line containing definition of type of your new processing
-component. The *Driver* section refers to it later.
+Note the highlighted line containing the definition of the type of your new
+processing component. The *Driver* section refers to it later.
 
 .. code-block:: text
    :linenos:
@@ -67,16 +67,16 @@ component. The *Driver* section refers to it later.
 
    divert(0)dnl
 
-Add a definition of parameters and specify default values for them (handling of
+Add a definition of parameters and specify default values for them (handling
 parameters in the FW code is discussed in the next lesson but you prepare a
 complete topology upfront). Create *tools/topology/amp_bytes.m4* and add the
 following code.
 
-Note the size of parameters data and the data highlighted (two 32-bit numbers
-set to 1 to unmute both channels by default, little-endian byte ordering). The
-data begins with `struct sof_abi_hdr` content, note the SOF magic number in
-line 3 and the ABI version in line 6. The latter must be set to a version
-compatible with the SOF stack.
+Note the size of the parameters data and the data highlighted (two 32-bit
+number set to 1 to unmute both channels by default, little-endian byte
+ordering). The data begins with `struct sof_abi_hdr` content, note the SOF
+magic number in line 3 and the ABI version in line 6. The latter must be set
+to a version compatible with the SOF stack.
 
 .. code-block:: text
    :linenos:
@@ -208,7 +208,7 @@ in your copy as highlighted below.
    #
    PCM_CAPABILITIES(Passthrough Playback PCM_ID, `S32_LE,S24_LE,S16_LE', 48000, 48000, 2, PIPELINE_CHANNELS, 2, 16, 192, 16384, 65536, 65536)
 
-Now create a copy of your topology in *tools/topology* and replace the
+Create a copy of your topology in *tools/topology* and replace the
 definition of low latency playback pipeline with the one crated in the previous
 step.
 
@@ -225,7 +225,7 @@ step.
 Driver
 ******
 
-You need to add a mapping between ``SOF_TKN_PROCESS_TYPE`` set to **"AMP"**
+Add a mapping between ``SOF_TKN_PROCESS_TYPE`` set to **"AMP"**
 in your m4 topology definition and the ``SOF_COMP_AMP`` defined in the FW code
-in lesson 1. Refer to the  driver documentation for further details about the
+in lesson 1. Refer to the driver documentation for further details about the
 topology mappings location and recompilation of the driver.
