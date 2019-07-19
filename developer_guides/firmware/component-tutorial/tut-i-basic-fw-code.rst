@@ -3,11 +3,11 @@
 Part I - Adding a Component Code to FW
 ######################################
 
-This lesson shows you how to add a component code to the FW source tree, with a
-minimal Component API implementation and simple copying function inside. It
-will also demonstrate how to register the component driver in the FW
-infrastructure so that the FW will be able to respond to the *new component*
-request sent by the driver and instantiate it.
+This lesson describes how to add a component code to the FW source tree, with
+a minimal Component API implementation and a simple copying function inside.
+It also demonstrates how to register the component driver in the FW
+infrastructure so that the FW can respond to the *new component* request sent
+by the driver and instantiate it.
 
 The amplifier will be based on a processing component class (aka effect).
 
@@ -20,13 +20,12 @@ New Component Type
 First, define a new component type in *src/include/ipc/topology.h*. It is a
 unique identifier used while declaring instances of the component as parts of
 the topology (more details on the required topology modifications will be
-provided in the next part of the tutorial, now we are just focusing on the FW
+provided in the next part of the tutorial; for now, our focus is on the FW
 source code).
 
 .. note::
-   Simple component IDs used at the moment will be replaced by uuids in
-   future to avoid conflict resolutions while integrating independently
-   developed components. The current implementation requires to assign an
+   Simple component IDs currently used at the moment will be replaced by uuids in the future to avoid conflict resolutions while integrating independently
+   developed components. The current implementation requires you to assign an
    unoccupied number.
 
 .. code-block:: c
@@ -44,15 +43,15 @@ source code).
 Identifier for Logging
 ======================
 
-Another component specific global identifier is used for logging, called
-"trace class" and is defined in *src/include/user/trace.h*. Add the following
-line below other classes definitions:
+Another component-specific global identifier used for logging is "trace class"
+and is defined in *src/include/user/trace.h*. Add the following line below the
+other classes definitions:
 
 .. code-block:: c
 
    #define TRACE_CLASS_AMP    (32 << 24)
 
-Where the *32* constant is the first unoccupied trace class id. This symbol
+where the *32* constant is the first unoccupied trace class id. This symbol
 will be used in the trace macros defined later in the amplifier code.
 
 .. note::
@@ -64,12 +63,12 @@ will be used in the trace macros defined later in the amplifier code.
 Basic Component API
 ===================
 
-Now create a folder for your component source code in *src/audio*, for example
+Create a folder for your component source code in *src/audio*, such as
 *src/audio/amp* and create a new *amp.c* file inside.
 
-Declare basic required part of the API for your component using ``struct
-comp_driver`` in *amp.c* (if you want to learn more about component instances
-(aka devices) and their drivers, refer to :ref:`apps-component-overview`).
+Declare the basic required part of the API for your component using ``struct
+comp_driver`` in *amp.c* (to learn more about component instances, or devices,
+and their drivers, refer to :ref:`apps-component-overview`).
 
 .. code-block:: c
 
@@ -100,11 +99,11 @@ comp_driver`` in *amp.c* (if you want to learn more about component instances
 
    DECLARE_MODULE(sys_comp_amp_init);
 
-Note the ``type`` used for the component driver is set to the ``SOF_COMP_AMP``
-declared earlier. The API declaration is followed by a registration handler
-attached to the initialization list by ``DECLARE_MODULE()`` macro. This is all
-the infrastructure needs to know in order to find and create an instance of
-``SOF_COMP_AMP`` component.
+Note that the ``type`` used for the component driver is set to the
+``SOF_COMP_AMP`` declared earlier. The API declaration is followed by a
+registration handler attached to the initialization list by
+``DECLARE_MODULE()`` macro. This is all the infrastructure needs to know in
+order to find and create an instance of the  ``SOF_COMP_AMP`` component.
 
 Some of the operations are left unimplemented at the moment:
 
@@ -114,11 +113,11 @@ Some of the operations are left unimplemented at the moment:
 * ``cmd`` - a handler to report and receive our custom run-time parameters will
   be implemented later in :ref:`amp-run-time-params`.
 
-* ``cache`` - this handler, responsible for L1 cache operations will be
-  implemented later. It is not required by a basic example when the pipeline
+* ``cache`` - this handler, responsible for L1 cache operations, will be
+  implemented later. It is not required in a basic example when the pipeline
   is created on a single DSP core.
 
-Before you start implementing the handlers, add trace macros at the beginning
+Before you start implementing the handlers, add trace macros to the beginning
 of the *amp.c*. Note the ``TRACE_CLASS_AMP`` class identifier declared earlier.
 
 .. code-block:: c
@@ -173,27 +172,27 @@ The constructor:
   the **Runtime** heap that should be used by the application layer which
   includes processing components.
 
-   * First, a common context for the device is allocated including some
-     extensions specific for a component class. In this example the component
-     device is based on the ``struct sof_ipc_comp_process``, used for
-     processing components. Component's parameters received from the IPC
-     request are copied to the allocated space.
+  * First, a common context for the device is allocated including some
+    extensions specific for a component class. In this example the component
+    device is based on the ``struct sof_ipc_comp_process``, used for
+    processing components. Component's parameters received from the IPC
+    request are copied to the allocated space.
 
-   * The second allocation acquires memory for the private data of amplifier
-     instance, ``struct amp_comp_data``. This structure contains a placeholder
-     at the moment. You will redefine it later to store run-time parameters
-     of the instance. Note how the private data is attached to the device by
-     calling ``comp_set_drvdata()``. You will use symmetric
-     ``comp_get_drvdata()`` to retrieve the private data object from the
-     device object later while implementing other handlers.
+  * The second allocation acquires memory for the private data of amplifier
+    instance, ``struct amp_comp_data``. This structure contains a placeholder
+    at the moment. You will redefine it later to store run-time parameters
+    of the instance. Note how the private data is attached to the device by
+    calling ``comp_set_drvdata()``. You will use symmetric
+    ``comp_get_drvdata()`` to retrieve the private data object from the
+    device object later while implementing other handlers.
 
-      .. code-block:: c
+    .. code-block:: c
 
-            struct amp_comp_data {
-                    int placeholder;
-            };
+          struct amp_comp_data {
+                  int placeholder;
+          };
 
-* The device state is set to ``COMP_STATE_READY``. If you want to learn more
+* The device state is set to ``COMP_STATE_READY``. To learn more
   about the component device state machine, refer to
   :ref:`apps-component-overview`.
 
@@ -232,19 +231,18 @@ actions are defined in this simple example.
 Stream Parameters Handler ``amp_prepare()``
 ===========================================
 
-This is the place where your component may be reconfigured for the stream
-parameters.
+This where your component can be reconfigured for the stream parameters.
 
-This example assumes there is one source buffer connected and one sink buffer
-connected, therefore only the first items from ``dev->bsource_list`` and
+This example assumes that only one source buffer and one sink buffer is
+connected; therefore, only the first items from ``dev->bsource_list`` and
 ``dev->bsink_list`` are processed.
 
-Frame format is set accordingly to the direction of the parent pipeline and
+Frame format is set according to the direction of the parent pipeline and
 the sink buffer size is reconfigured.
 
-Note that in case there was another "prepare" call issued before, the handler
-returns ``PPL_STATUS_PATH_STOP`` and exits to prevent propagation of
-configuration likely coming from another connected pipeline.
+Note that in case another "prepare" call was issued before, the handler
+returns ``PPL_STATUS_PATH_STOP`` and exits to prevent propagation of a
+likely configuration coming from another connected pipeline.
 
 Add the following handler code before your API declaration.
 

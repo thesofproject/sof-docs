@@ -3,11 +3,11 @@
 Hello World Tutorial
 ####################
 
-This guide will take a step by step approach to creating a new audio component
+This guide takes a step-by-step approach to creating a new audio component
 and adding it to a simple audio pipeline.
 
-At the end of this tutorial, there will be a very simple audio signal amplifier
-running as a part of the playback pipeline implemented. A user will be able to
+At the end of this tutorial, a very simple audio signal amplifier will be
+running as a part of the playback pipeline implemented. You will be able to
 control the amplification strength from the command line.
 
 The amplifier will log its basic activities to demonstrate use of the FW

@@ -3,4 +3,4 @@
 Part IV - Working with Exception Reports
 ########################################
 
-This chapter is WIP...
+This chapter is forthcoming.

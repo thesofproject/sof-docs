@@ -5,10 +5,10 @@
 Part III - Adding Run-time Parameter Control
 ############################################
 
-This lesson shows how to add startup and run-time parameters to your component.
+This lesson describes how to add startup and run-time parameters to your component.
 You will add a command handler to the "amp" to mute/unmute individual channels.
 
-Changes of the topology definition are required as well. You will add binary
+Changes in the topology definition are required as well. You will add binary
 bytes kcontrol connected to your widget in order to enable parameter transfer
 from a user space application, through the driver to the FW running your "amp"
 component.
@@ -167,7 +167,7 @@ Put everything together as a command handler.
            return ret;
    }
 
-And attach the handler to your component driver API.
+Attach the handler to your component driver API.
 
 .. code-block:: c
    :emphasize-lines: 7
@@ -192,7 +192,7 @@ Binary Bytes KControl in Topology
 *********************************
 
 This is an example of data section for component parameters. Note the size of
-data and the data highlighted (two 32-bit numbers set to 1, little-endian byte
+the data and the data highlighted (two 32-bit numbers set to 1, little-endian byte
 ordering).
 
 .. code-block:: text
