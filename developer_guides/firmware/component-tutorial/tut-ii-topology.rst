@@ -147,12 +147,12 @@ in your copy as highlighted below.
    # Amp Parameters
    include(`amp_bytes.m4')
 
-   # Amp Bytes control with max value of 32
+   # Amp Bytes control with max value of 48 (hdr+2 dwords require 40 bytes)
    C_CONTROLBYTES(AMP, PIPELINE_ID,
    	CONTROLBYTES_OPS(bytes, 258 binds the control to bytes get/put handlers, 258, 258),
    	CONTROLBYTES_EXTOPS(258 binds the control to bytes get/put handlers, 258, 258),
    	, , ,
-   	CONTROLBYTES_MAX(, 32),
+   	CONTROLBYTES_MAX(, 48),
    	,
    	AMP_priv)
 
