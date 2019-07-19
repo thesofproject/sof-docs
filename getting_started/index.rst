@@ -15,9 +15,10 @@ is always preffered.
 
 .. toctree::
    :maxdepth: 1
-   :glob:
 
-   build-guide/*
+   build-guide/build-from-scratch
+   build-guide/build-with-docker
+   build-guide/build-3rd-party-toolchain
 
 Setting up SOF on hardware
 **************************
