@@ -16,6 +16,8 @@ script:
     - cd .. && git clone https://github.com/thesofproject/sof.git && cd sof/doc && cmake . && make doc && cd - && cd sof-docs
     - make html
     - ls _build
+
+before_deploy:
     - mkdir _build/latest
     - mv -v _build/html/* _build/latest
     - mv _build/latest _build/html
