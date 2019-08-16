@@ -31,4 +31,4 @@ deploy:
       on:
         branch: publish
       local_dir: _build/html/
-
+      target_branch: master
