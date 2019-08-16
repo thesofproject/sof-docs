@@ -16,3 +16,14 @@ script:
     - cd .. && git clone https://github.com/thesofproject/sof.git && cd sof/doc && cmake . && make doc && cd - && cd sof-docs
     - make html
     - ls _build
+    - touch _build/html/.nojekyll
+
+deploy:
+    - provider: pages
+      skip_cleanup: true
+      github_token: $GITHUB_TOKEN
+      repo: thesofproject/thesofproject.github.io
+      on:
+        branch: publish
+      local_dir: _build/html/
+
