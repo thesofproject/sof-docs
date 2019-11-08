@@ -103,7 +103,7 @@ in your copy as highlighted below.
 
 .. code-block:: text
    :linenos:
-   :emphasize-lines: 14, 16, 40-50, 64-65, 71-76, 86-89, 94
+   :emphasize-lines: 14, 16, 40-55, 69-70, 76-81, 91-94, 99
 
    # Low Latency Passthrough with volume Pipeline and PCM
    #
@@ -147,12 +147,17 @@ in your copy as highlighted below.
    # Amp Parameters
    include(`amp_bytes.m4')
 
-   # Amp Bytes control with max value of 48 (hdr+2 dwords require 40 bytes)
+   # Amp Bytes control with max value of 140
+   # The max size needs to also take into account the space required to hold the control data IPC message
+   # struct sof_ipc_ctrl_data requires 92 bytes
+   # AMP priv in amp_bytes.m4 (ABI header (32 bytes) + 2 dwords) requires 40 bytes
+   # Therefore at least 132 bytes are required for this kcontrol
+   # Any value lower than that would end up in a topology load error
    C_CONTROLBYTES(AMP, PIPELINE_ID,
    	CONTROLBYTES_OPS(bytes, 258 binds the control to bytes get/put handlers, 258, 258),
    	CONTROLBYTES_EXTOPS(258 binds the control to bytes get/put handlers, 258, 258),
    	, , ,
-   	CONTROLBYTES_MAX(, 48),
+   	CONTROLBYTES_MAX(, 140),
    	,
    	AMP_priv)
 
