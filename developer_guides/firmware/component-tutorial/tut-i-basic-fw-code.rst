@@ -290,8 +290,10 @@ Add the following handler code before your API declaration.
                    goto err;
            }
 
-           trace_amp("Amplifier prepared src_fmt %d sink_fmt %d", src_fmt,
-                     sink_fmt);
+           trace_amp("Amplifier prepared src_fmt %d src_per_bytes: %u "
+                     "sink_fmt %d sink_per_bytes: %u",
+                     src_fmt, src_per_bytes,
+                     sink_fmt, sink_per_bytes);
 
            return 0;
    err:
