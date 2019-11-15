@@ -1,4 +1,7 @@
 @startuml
+
+scale max 1024 width
+
 footer: timeline not to scale 
 robust "Speech Application" as App
 concise "Audio Stream" as Audio
