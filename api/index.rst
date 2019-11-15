@@ -8,6 +8,7 @@ API Documentation
 
    dma-drivers-api
    dai-drivers-api
+   pm-runtime-api
    platform-api
    component-api
    uapi
