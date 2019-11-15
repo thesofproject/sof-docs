@@ -1,4 +1,7 @@
 @startuml
+
+scale max 1024 width
+
 participant "Userspace component" as usr
 participant "Audio driver" as drv
 participant "FW infrastructure" as fw

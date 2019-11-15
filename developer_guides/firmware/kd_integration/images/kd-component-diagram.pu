@@ -1,6 +1,6 @@
 @startuml
 
-'scale max 800 height
+scale max 1024 width
 
 skinparam rectangle {
    backgroundColor<<dai>> #6fccdd
