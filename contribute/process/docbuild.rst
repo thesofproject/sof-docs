@@ -49,12 +49,15 @@ You must install git to set up the working folders:
 
      sudo dnf install git
 
+* For a Windows development system download and instal Git manually from
+  https://git-scm.com/download/win website.
+
 We use github.io
 for publishing the generated documentation.
 The recommended folder setup for documentation contributions and
 generation is as follows:
 
-.. code-block: console
+.. code-block:: console
 
    thesofproject/
       sof/
@@ -153,6 +156,39 @@ tools:
    cd ~/thesofproject/sof-docs
    pip3 install --user -r scripts/requirements.txt
 
+On Windows install the needed tools manually:
+
+#. Python (3.7+) from https://www.python.org/downloads/
+
+#. Python package installer (pip) from https://pip.pypa.io/en/stable/installing/
+
+#. Doxygen from http://www.doxygen.nl/download.html
+
+#. GraphViz from https://graphviz.gitlab.io/
+
+#. Ninja from https://github.com/ninja-build/ninja/releases
+
+#. CMake (3.10+) from https://cmake.org/install/
+
+#. Make - in case you don't have make preinstalled you can install it using
+   MSYS2 from https://www.msys2.org/ with command:
+
+.. code-block:: console
+
+   pacman -S make
+
+.. note::
+   Make sure that installed executable files are in your path. If not,
+   add manually the paths to the PATH variable.
+
+Finally, install the remaining python-based tools:
+
+.. code-block:: console
+
+   cd <path to the directory>\thesofproject\sof-docs
+   pip3 install --user -r scripts\requirements.txt
+
+
 And with that you're ready to generate the documentation.
 
 Documentation presentation theme
@@ -170,16 +206,29 @@ Run documentation processors
 The sof-docs directory has all the .rst source files, extra tools, and Makefile
 for generating a local copy of the SOF technical documentation.
 
-.. code-block:: bash
+* For Linux compile the output with following commands: 
 
-   cd ~/thesofproject/sof/doc
-   cmake .
-   make doc
+  .. code-block:: bash
 
-   cd ~/thesofproject/sof-docs
-   make html
+     cd ~/thesofproject/sof/doc
+     cmake .
+     make doc
 
-Depending on your development system, it will take about 10 seconds to collect
+     cd ~/thesofproject/sof-docs
+     make html
+
+* For Windows:
+
+  .. code-block:: console
+
+     cd <path to the directory>\thesofproject\sof\doc
+     cmake -GNinja .
+     ninja doc
+
+     cd <path to the directory>\thesofproject\sof-docs
+     make html
+
+Depending on your development system, it will take a few minutes to collect
 and generate the HTML content. When done, you can view the HTML output with
 your browser started at ``~/thesofproject/sof-docs/_build/html/index.html``
 
