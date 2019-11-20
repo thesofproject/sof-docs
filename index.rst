@@ -32,5 +32,7 @@ Sections
    developer_guides/index.rst
    release.rst
    contribute/index.rst
+   tsc/index.rst
+   maintainers/index.rst
    api/index.rst
    presentations/index.rst
