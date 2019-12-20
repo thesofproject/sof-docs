@@ -339,7 +339,7 @@ It is possible that the ``cmake`` command may not be accessible from the MSYS2 s
 	cmake -GNinja .
 	bash: cmake: command not found
 
-The problem may be due to the MSYS2 PATH missising cmake installation folder.
+The problem may be due to the MSYS2 PATH missing the cmake installation folder.
 If the cmake works correctly from the Win Command Prompt then edit the msys2_shell.cmd
 and check if a PATH inherit option is enabled:
 
