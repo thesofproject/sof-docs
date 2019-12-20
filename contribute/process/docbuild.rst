@@ -356,7 +356,7 @@ Another issue that may occur is the ``sphinx-build`` command not found:
 	 make: sphinx-build: Command not found
 	 make: *** [Makefile:36: html] Error 127
 
-If the above error occurs both in Win Command Prompt and in the MSYS2 shell
+If the above error occurs both in the Win Command Prompt and in the MSYS2 shell
 then the python sphinx package need to be updated:
 
 .. code-block:: bash
