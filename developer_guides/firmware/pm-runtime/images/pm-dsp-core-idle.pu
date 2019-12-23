@@ -1,0 +1,28 @@
+scale max 800 width
+
+participant drv as "Driver"
+participant ipc
+participant mct as "master-core-task"
+participant platform
+participant pm_rt as "pm-runtime"
+
+drv -> ipc : PM_GATE (PPG = 0)
+note left: Entering idle...
+   activate ipc
+   ipc -> pm_rt : <b>pm_runtime_enable(PM_RUNTIME_DSP, 0)</b>
+      activate pm_rt
+      pm_rt -> pm_rt : ref_cnt--
+         note right: 1 -> 0 (if there was no other disable calls)
+   ipc <-- pm_rt
+   deactivate pm_rt
+drv <-- ipc
+deactivate ipc
+
+mct -> platform : <i>platform_wait_for_interrupt()</i>
+   activate platform
+   platform -> pm_rt : <b>pm_runtime_is_active(PM_RUNTIME_DSP, 0)</b>
+      activate pm_rt
+   platform <-- pm_rt : false
+   deactivate pm_rt
+   platform -> platform : d?-idle state if available
+   deactivate platform

@@ -10,6 +10,7 @@ Developer guides and information for firmware development.
 
    component-tutorial/tut-intro
    mem-mgmt
+   pm-runtime/index
    work-queue
    drivers/index
    components/index
