@@ -1,0 +1,34 @@
+scale max 800 width
+
+participant drv as "Driver"
+participant ipc
+participant mct as "master-core-task"
+participant platform
+participant pm_rt as "pm-runtime"
+
+mct -> platform : platform_init()
+   activate platform
+
+   platform -> pm_rt :<b> pm_runtime_disable(PM_RUNTIME_DSP, 0)</b>
+      activate pm_rt
+      note right: Make latency of dsp core 0 int handler minimal
+      pm_rt -> pm_rt : ref_cnt++
+         note right: 0 -> 1
+   platform <-- pm_rt
+   deactivate pm_rt
+
+mct <-- platform
+deactivate platform
+
+drv -> ipc : building topology
+   ipc -> mct
+      mct -> platform : <i>platform_wait_for_interrupt()</i>
+         activate platform
+         platform -> pm_rt : <b>pm_runtime_is_active(PM_RUNTIME_DSP, 0)</b>
+            activate pm_rt
+         platform <-- pm_rt : true
+         deactivate pm_rt
+         platform -> platform : d0-idle state
+         deactivate platform
+   ipc <-- mct
+drv <-- ipc

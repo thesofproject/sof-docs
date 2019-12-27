@@ -1,0 +1,37 @@
+scale max 800 width
+
+participant platform
+participant lps as "cavs/lps_wait"
+participant lps_pg as "cavs/lps\npg thread"
+participant pm_rt as "pm-runtime"
+
+participant lpsram_boot as "Lpsram\nBoot"
+participant dsp_rom as "Dsp\nRom"
+
+-> platform : platform_wait_for_interrupt()
+   activate platform
+   platform -> lps : lps_wait_for_interrupt()
+      activate lps
+      lps -> lps : platform_pg\nint_handler(D0i3/D0) [SW INT]
+         activate lps
+         lps -> pm_rt : <b>pm_runtime_put(DSP, 0)</b>
+            note right: DSP core PG\nenabled
+         lps -> lps_pg : platform_pg_task
+         deactivate lps
+            activate lps_pg
+               lps_pg -> lps_pg : configure lpsram boot
+               lps_pg -> lps_pg : waiti
+                  note right: DSP core is PG-ed
+               deactivate lps_pg
+...
+
+dsp_rom <- : INT
+lpsram_boot <- dsp_rom
+lps <- lpsram_boot : platform_pg\nint_handler(D0i3/D0) [SW INT]
+   activate lps
+   lps -> pm_rt : <b>pm_runtime_get(DSP, 0)
+      note right: DSP core PG\ndisabled
+   lps <-- lps
+   deactivate lps
+platform <-- lps
+<-- platform
