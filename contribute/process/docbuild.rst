@@ -329,6 +329,40 @@ Further information on how to use lightweight Python
 virtualization environments can be found at
 https://docs.python.org/3/library/venv.html.
 
+Windows troubleshooting
+***********************
+
+It is possible that the ``cmake`` command may not be accessible from the MSYS2 shell:
+
+.. code-block:: console
+
+	cmake -GNinja .
+	bash: cmake: command not found
+
+The problem may be due to the MSYS2 PATH missing the cmake installation folder.
+If the cmake works correctly from the Win Command Prompt then edit the msys2_shell.cmd
+and check if a PATH inherit option is enabled:
+
+.. code-block:: bash
+
+	 set MSYS2_PATH_TYPE=inherit
+
+
+Another issue that may occur is the ``sphinx-build`` command not found:
+
+.. code-block:: bash
+
+	 make html
+	 make: sphinx-build: Command not found
+	 make: *** [Makefile:36: html] Error 127
+
+If the above error occurs both in the Win Command Prompt and in the MSYS2 shell
+then the python sphinx package needs to be updated:
+
+.. code-block:: bash
+
+	 pip install -U sphinx
+
 Diagram compilation troubleshooting
 ***********************************
 
