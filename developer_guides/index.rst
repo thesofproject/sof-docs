@@ -15,6 +15,7 @@ terminology before reading further.
    topology/topology
    debugability/index
    tuning/sof-ctl
+   linux_driver/index
 
 Technical Notes
 ###############
