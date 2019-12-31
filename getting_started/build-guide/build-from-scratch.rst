@@ -101,6 +101,17 @@ Clone, build, and install alsa-utils.
    ./gitcompile
    sudo make install
 
+In case of alsa-lib linking errors you can try to re-build it with libdir parameter.
+
+.. code-block:: bash
+
+   cd ../alsa-lib
+   ./gitcompile --prefix=/usr --libdir=/usr/lib/x86_64-linux-gnu/
+   sudo make install
+   cd ../alsa-utils
+   ./gitcompile --prefix=/usr --with-curses=ncurses --disable-xmlto --disable-bat
+   sudo make install
+
 .. note::
 
    If gitcompile script doesn't work, refer to INSTALL file for manual build instruction.
