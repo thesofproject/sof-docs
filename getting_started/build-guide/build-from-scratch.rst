@@ -76,6 +76,9 @@ Build alsa-lib and alsa-utils
 This project requires some new features in alsa-lib and alsa-utils, so build
 the newest ALSA from source code.
 
+| **WARNING** installing alsa-lib system wide may break some audio applications.
+| Please only do this if you know what you are doing. It's recommended to install it locally (under $HOME) or use Docker (see "Build SOF with Docker" chapter.)
+
 .. code-block:: bash
 
    cd ~/work/sof/
