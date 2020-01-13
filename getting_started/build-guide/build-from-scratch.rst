@@ -10,7 +10,7 @@ Build SOF from scratch
 You may boot and test |SOF| on a target machine or VM. Current target
 Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
 
-There is also support for NXP i.MX8 platform.
+There is also support for NXP i.MX8/i.MX8X platforms.
 
 Build SOF binaries
 ******************
@@ -112,7 +112,7 @@ Build cross-compiler
 --------------------
 
 Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
-|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8 platform.
+|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8/i.MX8X platforms.
 
 Clone both repos and check out the sof-gcc8.1 branch.
 
@@ -153,7 +153,7 @@ for your target platforms.
    #Cannon Lake
    cp config-cnl-gcc8.1-gdb8.1 .config
    ./ct-ng build
-   #i.MX8
+   #i.MX8/i.MX8X
    cp config-imx-gcc8.1-gdb8.1 .config
    ./ct-ng build
 
@@ -176,6 +176,7 @@ Copy all five cross-compiler toolchains to ~/work/sof/.
 
    | |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
    | |BYT| and |CHT| also share the same cross compiler toolchain: xtensa-byt-elf
+   | i.MX8 and i.MX8X also share the same cross compiler toolchain: xtensa-imx-elf
 
 Add these compilers to your PATH variable.
 
@@ -220,7 +221,7 @@ Build and install the headers for each platform.
    make
    make install
    rm -fr rm etc/config.cache
-   #i.MX8
+   #i.MX8/i.MX8X
    ./configure --target=xtensa-imx-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
@@ -351,9 +352,18 @@ for i.MX8:
 
 .. code-block:: bash
 
-   mkdir build_imx && cd build_imx
+   mkdir build_imx8 && cd build_imx8
    cmake -DTOOLCHAIN=xtensa-imx-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-imx-elf ..
    make imx8_defconfig
+   make bin -j4
+
+for i.MX8X:
+
+.. code-block:: bash
+
+   mkdir build_imx8x && cd build_imx8x
+   cmake -DTOOLCHAIN=xtensa-imx-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-imx-elf ..
+   make imx8x_defconfig
    make bin -j4
 
 .. note::
