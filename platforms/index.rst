@@ -6,11 +6,60 @@ Supported Platforms
 Platform and board specific support is continually added to SOF project as
 documented below.
 
+.. csv-table:: Supported Platforms
+   :header: "Platform", "Architecture", "Cores/Clocks", "Memory", "Audio Interfaces"
+   :widths: 20, 20, 10, 10, 20
+
+   "Host Testbench", "PC command line", "N/A", "N/A", "N/A Files are used to simulate audio interfaces"
+   "Qemu", "All supported SOF HW platforms", "N/A", "N/A", "WiP Files will used to simulate audio interfaces"
+   "Intel Baytrail / Merrifield", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "96KB IRAM / 192KB DRAM", "3 x SSP (I2S, PCM)"
+   "Intel Cherrytrail / Braswell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "96KB IRAM / 192KB DRAM", "6 x SSP (I2S, PCM)"
+   "Intel Broadwell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "320KB IRAM / 640KB DRAM", "2 x SSP (I2S, PCM)"
+   "Intel Apollolake", "Xtensa HiFi3", "2 @ 100 - 400MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
+   "Intel Cannonlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "128KB LP / 3008KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Suecreek", "Xtensa HiFi3", "2 @ 120 - 400MHz", "128KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), DMIC"
+   "Intel Icelake", "Xtensa HiFi4", "4 @ 120 - 400MHz", "128KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Tigerlake", "Xtensa HiFi4", "4 @ 120 - 400MHz", "128KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "NXP i.MX8/i.MX8X", "Xtensa HiFi4", "1 @ 666MHz", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
+
 When support for a new platform is being added, certain interfaces required by
 SOF infrastructure must be implemented. Refer to Platform API documentation
 for details.
 
+Minimum Platform Requirements
+#############################
+
+Footprint
+*********
+
+DSP platforms can vary from vendor to vendor but in general SOF can run on
+small platforms like Intel Baytrail DSP with 96kB of instruction RAM and 168kB
+of data RAM. The SOF footprint can be shrunk down to approximately 50kB of TEXT
+and DATA by fine tuning runtime features via Kconfig.
+
+DSP Clock Speed
+***************
+
+Required DSP clock speed depends on the DSP processing load, so can vary greatly
+depending on pipeline topology and algorithm design that are running. SOF can
+run several volume passthrough pipelines on the Intel Baytrail DSP at 50MHz
+using unoptimised C code (SIMD disabled and compiled with GCC).
+
+Toolchain
+*********
+
+It's recommended to use the best optimising compiler available for your DSP ISA,
+however GCC can also be used providing it has your DSP architecture support.
+GCC will produce functional code, but it may not necessarily be the fasted code
+for your DSP architecture.
+
+
 .. TODO: Replace with reference to API tree once created.
+
+Platform Specific Information
+#############################
+
+Further information on specific platforms can be found here.
 
 .. toctree::
    :maxdepth: 2
