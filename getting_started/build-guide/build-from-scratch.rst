@@ -10,7 +10,7 @@ Build SOF from scratch
 You may boot and test |SOF| on a target machine or VM. Current target
 Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
 
-There is also support for NXP i.MX8/i.MX8X platforms.
+There is also support for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
 Build SOF binaries
 ******************
@@ -112,7 +112,7 @@ Build cross-compiler
 --------------------
 
 Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
-|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8/i.MX8X platforms.
+|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8/i.MX8X/i.MX8M platforms.
 
 Clone both repos and check out the sof-gcc8.1 branch.
 
@@ -156,6 +156,9 @@ for your target platforms.
    #i.MX8/i.MX8X
    cp config-imx-gcc8.1-gdb8.1 .config
    ./ct-ng build
+   #i.MX8M
+   cp config-imx8m-gcc8.1-gdb8.1 .config
+   ./ct-ng build
 
 
 Update an environment variable to refer to the alsa-lib with the one we've just built.
@@ -169,7 +172,7 @@ Copy all five cross-compiler toolchains to ~/work/sof/.
 .. code-block:: bash
 
    ls builds/
-   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf          xtensa-imx-elf
+   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf          xtensa-imx-elf          xtensa-imx8m-elf
    cp -r builds/* ~/work/sof/
 
 .. note::
@@ -187,6 +190,7 @@ Add these compilers to your PATH variable.
    export PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
    export PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
    export PATH=~/work/sof/xtensa-imx-elf/bin/:$PATH
+   export PATH=~/work/sof/xtensa-imx8m-elf/bin/:$PATH
 
 Clone the header repository.
 
@@ -225,6 +229,12 @@ Build and install the headers for each platform.
    ./configure --target=xtensa-imx-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
+   rm -fr rm etc/config.cache
+   #i.MX8M
+   ./configure --target=xtensa-imx8m-elf --prefix=/home/$USER/work/sof/xtensa-root
+   make
+   make install
+
 
 .. note::
 
@@ -364,6 +374,15 @@ for i.MX8X:
    mkdir build_imx8x && cd build_imx8x
    cmake -DTOOLCHAIN=xtensa-imx-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-imx-elf ..
    make imx8x_defconfig
+   make bin -j4
+
+for i.MX8M:
+
+.. code-block:: bash
+
+   mkdir build_imx8m && cd build_imx8m
+   cmake -DTOOLCHAIN=xtensa-imx8m-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-imx8m-elf ..
+   make imx8m_defconfig
    make bin -j4
 
 .. note::
