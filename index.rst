@@ -29,6 +29,7 @@ Sections
    getting_started/index.rst
    architectures/index.rst
    platforms/index.rst
+   algos/index.rst
    developer_guides/index.rst
    release.rst
    contribute/index.rst
