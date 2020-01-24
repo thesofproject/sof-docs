@@ -19,10 +19,6 @@ build pipelines.
 Algorithm Specific Information
 ##############################
 
-Further information on specific algorithms can be found here.
+Further information on specific algorithms is forthcoming.
 
-#.. toctree::
-#   :maxdepth: 2
 
-#   src/index
-#   eq/index
