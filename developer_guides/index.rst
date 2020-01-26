@@ -16,7 +16,7 @@ terminology before reading further.
    debugability/index
    tuning/sof-ctl
    linux_driver/index
-   virtualisation/virtualisation
+   virtualization/virtualization
 
 Technical Notes
 ###############
