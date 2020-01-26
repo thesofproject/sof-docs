@@ -32,9 +32,9 @@ Footprint
 *********
 
 DSP platforms can vary from vendor to vendor but in general SOF can run on
-small platforms like Intel Baytrail DSP with 96kB of instruction RAM and 168kB
-of data RAM. The SOF footprint can be shrunk to approximately 50kB of TEXT
-and DATA by fine tuning runtime features via Kconfig.
+small platforms like Intel Baytrail DSP with 96kb of instruction RAM and 168kb
+of data RAM. The SOF footprint can be shrunk to approximately 50kb of TEXT
+and DATA by fine-tuning runtime features via Kconfig.
 
 DSP Clock Speed
 ***************
