@@ -8,24 +8,24 @@ Build SOF from scratch
    :depth: 3
 
 You may boot and test |SOF| on a target machine or VM. Current target
-Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL| and |CNL|.
+Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, and |CNL|.
 
-There is also support for NXP i.MX8/i.MX8X/i.MX8M platforms.
+Support also exists for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
 Build SOF binaries
 ******************
-The following steps describe how to install the sof development environment
+The following steps describe how to install the SOF development environment
 on Ubuntu 16.04, 18.04, and 18.10.
 
 .. note::
 
-   The code examples assume ~/work/sof/ as the working directory, and
-   all git repos should be added to this directory.
+   The code examples assume ~/work/sof/ as the working directory. Add all git repos to this directory.
 
-Set up build environment
-========================
+Step 1 Set up build environment
+===============================
 
-Install package dependencies.
+Install package dependencies
+----------------------------
 
 * For Ubuntu 18.10:
 
@@ -48,7 +48,7 @@ Install package dependencies.
         libncurses5-dev
 
 If you are using Ubuntu 16.04, the gcc version must be updated to gcc 7.3+
-for the Advanced Linux Sound Architecture (ALSA) to build.
+in order for the Advanced Linux Sound Architecture (ALSA) to build.
 
 .. code-block:: bash
 
@@ -58,7 +58,7 @@ for the Advanced Linux Sound Architecture (ALSA) to build.
    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 
 Install CMake
------------------------------
+-------------
 
 If you use Ubuntu 18.04+ you can install CMake with apt:
 
@@ -66,9 +66,7 @@ If you use Ubuntu 18.04+ you can install CMake with apt:
 
    sudo apt-get install cmake
 
-On Ubuntu 16.04, CMake from apt is outdated and you have to install CMake from sources.
-
-You can do this by following this short guide: https://cmake.org/install/
+For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from sources. Refer to this short guide: https://cmake.org/install/
 
 Build alsa-lib and alsa-utils
 -----------------------------
@@ -76,8 +74,7 @@ Build alsa-lib and alsa-utils
 This project requires some new features in alsa-lib and alsa-utils, so build
 the newest ALSA from source code.
 
-| **WARNING** installing alsa-lib system wide may break some audio applications.
-| Please only do this if you know what you are doing. It's recommended to install it locally (under $HOME) or use Docker (see "Build SOF with Docker" chapter.)
+.. warning:: Installing alsa-lib systemwide may break some audio applications. Only perform this if you know what you are doing. We recommend that you install it locally (under $HOME) or use Docker (see :ref:`build-with-docker`.)
 
 .. code-block:: bash
 
@@ -87,8 +84,7 @@ the newest ALSA from source code.
    ./gitcompile
    sudo make install
 
-
-(Optional) To enable alsabat's frequency analysis, FFT library should be installed before configuring alsa-utils.
+(Optional) To enable alsabat's frequency analysis, install the FFT library before you configure alsa-utils.
 
 .. code-block:: bash
 
@@ -104,7 +100,7 @@ Clone, build, and install alsa-utils.
    ./gitcompile
    sudo make install
 
-In case of alsa-lib linking errors you can try to re-build it with libdir parameter.
+If you run into alsa-lib linking errors, try to re-build it with the libdir parameter.
 
 .. code-block:: bash
 
@@ -117,10 +113,10 @@ In case of alsa-lib linking errors you can try to re-build it with libdir parame
 
 .. note::
 
-   If gitcompile script doesn't work, refer to INSTALL file for manual build instruction.
+   If the gitcompile script does not work, refer to the INSTALL file for manual build instructions.
 
-Build toolchain from source
-===========================
+Step 2 Build toolchain from source
+==================================
 
 Build cross-compiler
 --------------------
@@ -174,8 +170,7 @@ for your target platforms.
    cp config-imx8m-gcc8.1-gdb8.1 .config
    ./ct-ng build
 
-
-Update an environment variable to refer to the alsa-lib with the one we've just built.
+Update an environment variable to refer to the alsa-lib with the one you've just built.
 
 .. code-block:: bash
 
@@ -191,9 +186,11 @@ Copy all five cross-compiler toolchains to ~/work/sof/.
 
 .. note::
 
-   | |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
-   | |BYT| and |CHT| also share the same cross compiler toolchain: xtensa-byt-elf
-   | i.MX8 and i.MX8X also share the same cross compiler toolchain: xtensa-imx-elf
+   |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
+
+   |BYT| and |CHT| share the same cross compiler toolchain: xtensa-byt-elf
+
+   i.MX8 and i.MX8X share the same cross compiler toolchain: xtensa-imx-elf
 
 Add these compilers to your PATH variable.
 
@@ -249,24 +246,21 @@ Build and install the headers for each platform.
    make
    make install
 
-
 .. note::
 
-  --prefix expects the absolute PATH. Change the path according to your environment.
+   --prefix expects the absolute PATH. Change the path according to your environment.
 
-The required headers are now in ~/work/sof/xtensa-root, and we have set up a
-cross compiler toolchain for xtensa DSPs.
+The required headers are now in ~/work/sof/xtensa-root, and a cross compiler toolchain for xtensa DSPs is set up.
 
-Build firmware binaries
-=======================
+Step 3 Build firmware binaries
+==============================
 
-After the SOF environment is set up, we can clone the *sof* repo.
+After the SOF environment is set up, clone the *sof* repo.
 
 .. code-block:: bash
 
    cd ~/work/sof/
    git clone https://github.com/thesofproject/sof.git
-
 
 Build with scripts
 ------------------
@@ -274,7 +268,7 @@ Build with scripts
 To build |SOF| quickly, use the built-in scripts after setting up the
 environment.
 
-Build firmware of all platforms.
+Build the firmware for all platforms.
 
 .. code-block:: bash
 
@@ -284,7 +278,7 @@ Build firmware of all platforms.
 .. note::
 
    This script will only work if the PATH includes both crosscompiler and
-   xtensa-root and they are siblings of the sof repo.
+   xtensa-root and if they are siblings of the sof repo.
 
 You may specify one or more of the following platform arguments:
 ``byt``, ``cht``, ``hsw``, ``bdw``, ``apl``, and ``cnl``
@@ -401,8 +395,9 @@ for i.MX8M:
 
 .. note::
 
-   | After 'make \*_defconfig' step, you can customize your build with 'make menuconfig'.
-   | There are DEBUG and ROM options for the FW binary build, you can enable them with 'make menuconfig'.
+   After the 'make \*_defconfig' step, you can customize your build with 'make menuconfig'.
+
+   DEBUG and ROM options are available for the FW binary build. Enable them with 'make menuconfig'.
 
 .. code-block:: bash
 
@@ -414,22 +409,21 @@ for i.MX8M:
 
 .. note::
 
-   If you have `Ninja <https://ninja-build.org/>`_ installed you can use it instead of Make. Just type *cmake -GNinja ...* while doing configuration step.
+   If you have `Ninja <https://ninja-build.org/>`_ installed, you can use it instead of Make. Just type *cmake -GNinja ...* during the configuration step.
 
 
 Firmware build results
 ----------------------
 
-The firmware binary files are located in build_<platform>/src/arch/xtensa/. Copy them to
-your target machine's /lib/firmware/intel/sof folder.
+The firmware binary files are located in build_<platform>/src/arch/xtensa/. Copy them to your target machine's /lib/firmware/intel/sof folder.
 
 .. code-block:: bash
 
-        sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
+   sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
 
 
-Build topology and tools
-========================
+Step 4 Build topology and tools
+===============================
 
 Build with scripts
 ------------------
@@ -452,18 +446,16 @@ Build with commands
 Topology and tools build results
 --------------------------------
 
-The topology files are located in the *tools/build_tools/topology* folder. Copy them to the target
-machine's /lib/firmware/intel/sof-tplg folder.
+The topology files are located in the *tools/build_tools/topology* folder. Copy them to the target machine's /lib/firmware/intel/sof-tplg folder.
 
-The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to the target machine's
-/usr/bin directory.
+The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to the target machine's /usr/bin directory.
 
 .. _Build Linux kernel:
 
 Build Linux kernel
 ******************
 
-|SOF| uses the Linux kernel dev branch, and we need it to work with other
+|SOF| uses the Linux kernel dev branch, and it must work with other
 dev branch firmware and topology.
 
 #. Build the kernel with this branch.
@@ -480,7 +472,7 @@ dev branch firmware and topology.
       scripts/kconfig/merge_config.sh .config ./kconfig/base-defconfig ./kconfig/sof-defconfig  ./kconfig/sof-mach-driver-defconfig ./kconfig/hdaudio-codecs-defconfig
       (optional) make menuconfig
 
-   Select SOF driver support and disable SST drivers.
+   Select the SOF driver support and disable SST drivers.
 
 #. Make the kernel deb package to install on the target machine.
 
