@@ -1,0 +1,19 @@
+
+Dual stage fractional SRC: Ratios
+in \ out,         44.1,         48.0, 
+    32.0,  21/20*21/16,          3/2, 
+    48.0,    21/20*7/8,            1, 
+
+Dual stage fractional SRC: MOPS
+in \ out,     44.1,     48.0, 
+    32.0,     5.47,     4.42, 
+    48.0,     6.68,     0.00, 
+
+Dual stage fractional SRC: MOPS per stage
+  in \ out,       44.1,       48.0, 
+      32.0,  2.82+2.65,  4.42+0.00, 
+      48.0,  2.62+4.06,  0.00+0.00, 
+
+Coefficient RAM 19.7 kB
+Max. data RAM 4.8 kB
+
