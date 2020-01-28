@@ -19,7 +19,8 @@ on Ubuntu 16.04, 18.04, and 18.10.
 
 .. note::
 
-   The code examples assume ~/work/sof/ as the working directory. Add all git repos to this directory.
+   The code examples assume ~/work/sof/ as the working directory. Add all git
+   repos to this directory.
 
 Step 1 Set up build environment
 ===============================
@@ -66,7 +67,8 @@ If you use Ubuntu 18.04+ you can install CMake with apt:
 
    sudo apt-get install cmake
 
-For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from sources. Refer to this short guide: https://cmake.org/install/
+For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from
+sources. Refer to this short guide: https://cmake.org/install/
 
 Build alsa-lib and alsa-utils
 -----------------------------
@@ -74,7 +76,12 @@ Build alsa-lib and alsa-utils
 This project requires some new features in alsa-lib and alsa-utils, so build
 the newest ALSA from source code.
 
-.. warning:: Installing alsa-lib systemwide may break some audio applications. Only perform this if you know what you are doing. We recommend that you install it locally (under $HOME) or use Docker (see :ref:`build-with-docker`.)
+.. warning::
+
+   Installing alsa-lib systemwide may break some audio applications.
+   Only perform this if you know what you are doing. We recommend that you
+   install it locally (under $HOME) or use Docker
+   (see :ref:`build-with-docker`.)
 
 .. code-block:: bash
 
@@ -84,7 +91,8 @@ the newest ALSA from source code.
    ./gitcompile
    sudo make install
 
-(Optional) To enable alsabat's frequency analysis, install the FFT library before you configure alsa-utils.
+(Optional) To enable alsabat's frequency analysis, install the FFT library
+before you configure alsa-utils.
 
 .. code-block:: bash
 
@@ -100,7 +108,8 @@ Clone, build, and install alsa-utils.
    ./gitcompile
    sudo make install
 
-If you run into alsa-lib linking errors, try to re-build it with the libdir parameter.
+If you run into alsa-lib linking errors, try to re-build it with the libdir
+parameter.
 
 .. code-block:: bash
 
@@ -113,7 +122,8 @@ If you run into alsa-lib linking errors, try to re-build it with the libdir para
 
 .. note::
 
-   If the gitcompile script does not work, refer to the INSTALL file for manual build instructions.
+   If the gitcompile script does not work, refer to the INSTALL file for
+   manual build instructions.
 
 Step 2 Build toolchain from source
 ==================================
@@ -122,7 +132,8 @@ Build cross-compiler
 --------------------
 
 Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
-|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8/i.MX8X/i.MX8M platforms.
+|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8/i.MX8X/i.MX8M
+platforms.
 
 Clone both repos and check out the sof-gcc8.1 branch.
 
@@ -146,8 +157,8 @@ Build and install the ct-ng tools in the local folder.
    make
    make install
 
-Copy the config files to .config and build the cross compiler
-for your target platforms.
+Copy the config files to .config and build the cross compiler for your target
+platforms.
 
 .. code-block:: bash
 
@@ -170,7 +181,8 @@ for your target platforms.
    cp config-imx8m-gcc8.1-gdb8.1 .config
    ./ct-ng build
 
-Update an environment variable to refer to the alsa-lib with the one you've just built.
+Update an environment variable to refer to the alsa-lib with the one you've
+just built.
 
 .. code-block:: bash
 
@@ -181,7 +193,7 @@ Copy all five cross-compiler toolchains to ~/work/sof/.
 .. code-block:: bash
 
    ls builds/
-   #xtensa-apl-elf          xtensa-byt-elf          xtensa-cnl-elf          xtensa-hsw-elf          xtensa-imx-elf          xtensa-imx8m-elf
+   #xtensa-apl-elf  xtensa-byt-elf   xtensa-cnl-elf   xtensa-hsw-elf  xtensa-imx-elf  xtensa-imx8m-elf
    cp -r builds/* ~/work/sof/
 
 .. note::
@@ -248,9 +260,11 @@ Build and install the headers for each platform.
 
 .. note::
 
-   --prefix expects the absolute PATH. Change the path according to your environment.
+   --prefix expects the absolute PATH. Change the path according to your
+   environment.
 
-The required headers are now in ~/work/sof/xtensa-root, and a cross compiler toolchain for xtensa DSPs is set up.
+The required headers are now in ~/work/sof/xtensa-root, and a cross compiler
+toolchain for xtensa DSPs is set up.
 
 Step 3 Build firmware binaries
 ==============================
@@ -288,7 +302,8 @@ You may specify one or more of the following platform arguments:
    ./scripts/xtensa-build-all.sh byt
    ./scripts/xtensa-build-all.sh byt apl
 
-You can also enable debug build with -d, enable rom build with -r and speed up build with -j [n]
+You can also enable debug build with -d, enable rom build with -r and speed up
+build with -j [n]
 
 .. code-block:: bash
 
@@ -301,11 +316,14 @@ Build with commands
 
 This is a detailed build guide for the *sof* repo.
 
-Snippets below assume that your working directory is repo's root (~/work/sof/sof/).
+Snippets below assume that your working directory is repo's root
+(~/work/sof/sof/).
 
-CMake is designed for out-of-tree builds which is why you should make separate dirs for your configurations.
+CMake is designed for out-of-tree builds which is why you should make separate
+dirs for your configurations.
 
-You can manage builds for many configurations/platforms from the one source this way.
+You can manage builds for many configurations/platforms from the one source
+this way.
 
 .. note::
 
@@ -395,9 +413,11 @@ for i.MX8M:
 
 .. note::
 
-   After the 'make \*_defconfig' step, you can customize your build with 'make menuconfig'.
+   After the 'make \*_defconfig' step, you can customize your build with
+   'make menuconfig'.
 
-   DEBUG and ROM options are available for the FW binary build. Enable them with 'make menuconfig'.
+   DEBUG and ROM options are available for the FW binary build. Enable them
+   with 'make menuconfig'.
 
 .. code-block:: bash
 
@@ -409,13 +429,16 @@ for i.MX8M:
 
 .. note::
 
-   If you have `Ninja <https://ninja-build.org/>`_ installed, you can use it instead of Make. Just type *cmake -GNinja ...* during the configuration step.
+   If you have `Ninja <https://ninja-build.org/>`_ installed, you can use it
+   instead of Make. Just type *cmake -GNinja ...* during the configuration
+   step.
 
 
 Firmware build results
 ----------------------
 
-The firmware binary files are located in build_<platform>/src/arch/xtensa/. Copy them to your target machine's /lib/firmware/intel/sof folder.
+The firmware binary files are located in build_<platform>/src/arch/xtensa/.
+Copy them to your target machine's /lib/firmware/intel/sof folder.
 
 .. code-block:: bash
 
@@ -446,17 +469,19 @@ Build with commands
 Topology and tools build results
 --------------------------------
 
-The topology files are located in the *tools/build_tools/topology* folder. Copy them to the target machine's /lib/firmware/intel/sof-tplg folder.
+The topology files are located in the *tools/build_tools/topology* folder.
+Copy them to the target machine's /lib/firmware/intel/sof-tplg folder.
 
-The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to the target machine's /usr/bin directory.
+The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to
+the target machine's /usr/bin directory.
 
 .. _Build Linux kernel:
 
 Build Linux kernel
 ******************
 
-|SOF| uses the Linux kernel dev branch, and it must work with other
-dev branch firmware and topology.
+|SOF| uses the Linux kernel dev branch, and it must work with other dev branch
+firmware and topology.
 
 #. Build the kernel with this branch.
 
@@ -480,7 +505,8 @@ dev branch firmware and topology.
 
       make deb-pkg -j 4
 
-#. Copy the three resulting *.deb* files to the target machine and install them.
+#. Copy the three resulting *.deb* files to the target machine and install
+   them.
 
    .. code-block:: bash
 
