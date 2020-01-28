@@ -20,6 +20,7 @@ Platform and board specific support is continually added to the SOF project as d
    "Intel Icelake", "Xtensa HiFi4", "4 @ 120 - 400MHz", "128KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "Intel Tigerlake", "Xtensa HiFi4", "4 @ 120 - 400MHz", "128KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "NXP i.MX8/i.MX8X", "Xtensa HiFi4", "1 @ 666MHz", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
+   "NXP i.MX8M", "Xtensa HiFi4", "1 @ 800MHz", "64 KB TCM / 256 KB OCRAM / 8MB SDRAM", "1 x SAI, MICFIL"
 
 When support for a new platform is being added, certain interfaces required by
 SOF infrastructure must be implemented. Refer to Platform API documentation
