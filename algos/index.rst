@@ -16,7 +16,7 @@ build pipelines.
    "Demultiplexer", "Copies PCM sample frames from one source buffer to multiple sink buffers with configurable channels", "Yes", "N/A", "Upstream"
    "FIR equalizer", "Enhances frequency response with a finite impulse response filter, e.g. improve speaker sound", "Yes", "Xtensa HiFi3", "Upstream"
    "IIR equalizer", "Enhances frequency response with an infinite impulse response filter, e.g. cancel DC component or improve speaker sound", "Yes", "Xtensa HiFi3", "Upstream"
-   "Mixer", "Sum of unity gain and multiple pipeline saturation to a single output", "Yes", "No", "Upstream"
+   "Mixer", "Sums with unity gain and saturation source buffers of multiple pipelines to a single output sink buffer", "Yes", "No", "Upstream"
    "PCM converter", "Not a dedicated component but provides for DAI and host components conversion between PCM formats e.g. S16_LE, S24_LE, and S32_LE", "Yes", "Xtensa HiFi3", "Upstream"
    "Sample rate conversion", "Converts between common sample rates to connect multi-rate synchronous pipelines", "Yes", "Xtensa HiFi3", "Upstream"
    "Volume", "Provides real-time stream gain controls to the user", "Yes", "Xtensa HiFi3", "Upstream"
