@@ -13,7 +13,10 @@ build pipelines.
 
    "Asynchronous sample rate conversion", "Converts between common sample rates and connects pipelines with different clock domains", "Yes", "Xtensa HiFi3", "Upstream"
    "Channel selector", "Copies the selected channel from the source buffer to the sink buffer", "Yes", "N/A", "Upstream"
+   "Crossover", "Splits audio up into at most 4 different bands for individual processing", "Yes", "No", "Planned"
+   "DCBlocker", "Simple highpass filter to remove DC components from audio", "Yes", "N/A", "Planned"
    "Demultiplexer", "Copies PCM sample frames from one source buffer to multiple sink buffers with configurable channels", "Yes", "N/A", "Upstream"
+   "Dynamic Range Processor", "Compress and expand audio signal to bring out quiet sounds and dampening loud sounds", "Yes", "Yes", "Planned"
    "FIR equalizer", "Enhances frequency response with a finite impulse response filter, e.g. improve speaker sound", "Yes", "Xtensa HiFi3", "Upstream"
    "IIR equalizer", "Enhances frequency response with an infinite impulse response filter, e.g. cancel DC component or improve speaker sound", "Yes", "Xtensa HiFi3", "Upstream"
    "Mixer", "Sums with unity gain and saturation source buffers of multiple pipelines to a single output sink buffer", "Yes", "No", "Upstream"
