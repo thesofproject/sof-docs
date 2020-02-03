@@ -11,6 +11,8 @@ Intel CAVS platforms supported by the |SOF|.
 |         |ver. 1.8  | Cannon Lake, Whisky Lake, Comet Lake    |
 |         +----------+-----------------------------------------+
 |         |ver. 2.0  | Ice Lake                                |
+|         +----------+-----------------------------------------+
+|         |ver. 2.5  | Tiger Lake                              |
 +---------+----------+-----------------------------------------+
 
 .. note:: while the Sky Lake and Kaby Lake platforms are also based on the
@@ -27,3 +29,4 @@ Intel CAVS platforms supported by the |SOF|.
    apollolake/index
    cannonlake/index
    icelake/index
+   tigerlake/index
