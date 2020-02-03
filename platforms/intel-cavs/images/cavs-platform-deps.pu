@@ -1,4 +1,5 @@
 package cavs {
+   component 2.5
    component 2.0
    component 1.8
    component 1.5
@@ -13,13 +14,16 @@ package arch {
 1.5 ..> xtensa_smp
 1.8 ..> xtensa_smp
 2.0 ..> xtensa_smp
+2.5 ..> xtensa_smp
 
 package platform {
    component icelake
    component cannonlake
    component apollolake
+   component tigerlake
 }
 
 apollolake ..> 1.5
 cannonlake ..> 1.8
 icelake ..> 2.0
+tigerlake ..> 2.5

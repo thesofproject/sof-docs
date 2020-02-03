@@ -1,0 +1,24 @@
+digraph G {
+  node [fontsize=10, shape="record"]
+  edge [fontsize=10]
+  rankdir=LR
+  splines=line
+
+  dsp [label="DSP"]
+  mem_rom [label="<rom>ROM\n9F18 00000\n(512KB)"]
+  mem_alias [label="<a>Alias\n8000 0000\n" group="memory"]
+  mem [label="<imr> IMR\nB000 0000
+            |<hpsram> HPSRAM\nBE00 0000
+            |<lpsram> LPSRAM\nBE80 0000
+	    |<l1dsram> L1DSRAM\n9F10 000 
+	    |<l1isram> L1ISRAM\n9F18 0000" group="memory"]
+
+  dsp -> mem_alias:a [label="L1 uncached"]
+
+  dsp -> mem:imr [label="L1 cached"]
+  dsp -> mem:hpsram [label="L1 cached"]
+  dsp -> mem:lpsram [label="L1 cached"]
+
+  dsp -> mem:l1dsram [label="L1 local"]
+  dsp -> mem:l1isram [label="L1 local"]
+}
