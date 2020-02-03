@@ -11,7 +11,7 @@ A000 0000h
 
 B000 0000h
    L2 uncacheable memory (L1 cacheable).
-   IMR (4MB size), see *IMR Allocation*
+   IMR (4MB size), see *IMR Allocation*.
 
 BE00 0000h
    L2 local HPSRAM (L1 cacheable).
@@ -19,7 +19,7 @@ BE00 0000h
 
 BE80 0000h
    L2 local LPSRAM (L1 cacheable).
-   Directly accessed LPSRAM (64KB).
+   Directly accessed from LPSRAM (64KB).
 
 9F00 0000h
    L1 local D-SRAM (512 KB)
@@ -29,8 +29,8 @@ BE80 0000h
    L1 local I-SRAM (512 KB)
    Directly accessed from core #0 only.
 
-.. note:: SOF version that will add Local L1 Data & Instruction SRAM support
-          is a subject to future development.
+.. note:: The SOF version that will add Local L1 Data & Instruction SRAM
+          support is subject to future development.
 
 9F18 0000h
    DSP ROM Code
