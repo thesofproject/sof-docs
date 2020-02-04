@@ -17,13 +17,13 @@ BE00 0000h
    L2 local HPSRAM (L1 cacheable).
    Seen as 8MB of virtual memory space (46 * 64KB).
 
-.. note:: By default address virtualization is disabled. The Translation Lookup
-          Buffer (TLB) entries for populated HPSRAM banks have the same values
-          for virtual addresses as HPSRAM banks physical addresses.
+.. note:: By default, address virtualization is disabled. The Translation
+          Lookup Buffer (TLB) entries for populated HPSRAM banks have the
+          same values for virtual addresses and physical addresses.
 
 BE80 0000h
    L2 local LPSRAM (L1 cacheable).
-   Accessed using physical addresses. (1 * 64KB).
+   Accessed using physical addresses (1 * 64KB).
 
 9F00 0000h
    L1 local D-SRAM (512 KB)
