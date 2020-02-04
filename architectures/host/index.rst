@@ -6,23 +6,27 @@ Host Architecture
 SOF Driver Architecture
 =======================
 
-|SOF| can either operate as a standalone firmware or alongside a host OS driver
-for configuration and control. The |SOF| OS driver is responsible for loading
-firmware, loading configuration and managing firmware use cases. Currently |SOF|
-has a driver for the Linux OS.
+|SOF| can either operate as a standalone firmware or alongside a host OS
+driver for configuration and control. The |SOF| OS driver is responsible for
+loading firmware, loading configuration and managing firmware use cases.
+Currently |SOF| has a driver for the Linux OS.
 
-The |SOF| driver code is dual licensed GPLv2 and BSD and this means the user can
-choose which licence they want to use (either BSD or GPLv2). The driver stack
-is designed with maximum resuse so that large portions of it can be taken and
-integrated into other OSes or RTOSes.
+The |SOF| driver code is dual licensed GPLv2 and BSD and this means the user
+can choose which licence they want to use (either BSD or GPLv2). The driver
+stack is designed with maximum resuse so that large portions of it can be
+taken and integrated into other OSs or RTOSs.
+
+.. seealso::
+
+   Refer to the indepth :ref:`sof_driver_arch` document for more information.
 
 Linux Driver
 ------------
 
 The Linux ASoC driver is upstream in the Linux kernel from v5.2 onwards. The
-architecture for |SOF| is shown in the diagram below.
-The driver architecture is split into four layers, like a protocol
-stack, each with a different purpose.
+architecture for |SOF| is shown in the diagram below. The driver
+architecture is split into four layers, like a protocol stack, each with a
+different purpose.
 
 #. **Machine driver.** The ASoC machine driver does all the
    machine/board audio hardware integration. It also glues the platform
