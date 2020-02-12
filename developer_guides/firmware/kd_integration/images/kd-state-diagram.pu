@@ -1,0 +1,44 @@
+@startuml
+[*] --> KPB_DISABLED:  Start \nor\n [IPC] free \nmessage \nfrom either  state
+KPB_DISABLED: Starting state of KPB - \nNo action has been taken yet
+KPB_DISABLED--> KPB_CREATED: [IPC] \nnew component
+KPB_DISABLED-[#0000FF]-> KPB_DISABLED: [IPC] \nreset
+
+KPB_CREATED : New KPB component has been created
+KPB_CREATED --> KPB_PREPARING: [IPC] \npcm params
+KPB_CREATED -[#0000FF]-> KPB_CREATED : [IPC] \nreset
+
+KPB_PREPARING: Prepare Key Phrase Buffer component.
+KPB_PREPARING-> KPB_STATE_RUN: Success
+KPB_PREPARING-> KPB_PREPARING: Failure
+KPB_PREPARING-[#0000FF]-> KPB_PREPARING: [IPC] \nreset
+
+KPB_STATE_RUN: KPB is prepared and ready.
+KPB_STATE_RUN-[#0000FF]-> KPB_PREPARING: [IPC] \nreset
+KPB_STATE_RUN---> KPB_STATE_INIT_DRAINING: [EVENT] \nkey phrase detected
+KPB_STATE_RUN-> KPB_STATE_BUFFERING: Start \nbuffering
+
+KPB_STATE_BUFFERING: Buffer incoming samples in the \ninternal history buffer
+KPB_STATE_BUFFERING-> KPB_STATE_RUN: Done
+KPB_STATE_BUFFERING-> KPB_STATE_INIT_DRAINING: Done
+KPB_STATE_BUFFERING-> KPB_STATE_DRAINING: Done
+KPB_STATE_BUFFERING-[#0000FF]-> KPB_STATE_RESETTING: [IPC] \nreset
+
+KPB_STATE_INIT_DRAINING: KPB received detection event
+KPB_STATE_INIT_DRAINING-[#0000FF]-> KPB_PREPARING: [IPC] \nreset
+KPB_STATE_INIT_DRAINING--> KPB_STATE_DRAINING: Draining task starts
+KPB_STATE_INIT_DRAINING--> KPB_STATE_BUFFERING: Start \nbuffering
+
+KPB_STATE_DRAINING: KPB is draining internal history buffer \nto the client's buffer
+KPB_STATE_DRAINING-->KPB_STATE_HOST_COPY: Draining done
+KPB_STATE_DRAINING-[#0000FF]-> KPB_STATE_RESETTING: [IPC] \nreset
+KPB_STATE_DRAINING--> KPB_STATE_BUFFERING: Start \nbuffering
+
+KPB_STATE_RESETTING: KPB is preparing itself for the reset
+KPB_STATE_RESETTING-->KPB_STATE_RESET_FINISHING
+
+KPB_STATE_RESET_FINISHING: KPB is finishing reset sequence
+KPB_STATE_RESET_FINISHING->KPB_PREPARING: Reset done
+
+KPB_STATE_HOST_COPY: KPB is copying real time \nstream into client's buffer
+@enduml

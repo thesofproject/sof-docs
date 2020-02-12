@@ -115,3 +115,12 @@ keyphrase detection flows. The components are organized in pipelines:
       can allow a FW event to be sent to the Keyphrase Buffer Manager
       component if keyphrase is detected. The component also sends a 
       notification to the audio driver and implements large parameters support.
+
+KPBM state diagram
+***********
+
+The state diagram below presents all possible keyphrase buffer manager states
+and valid relationships between them.
+
+.. uml:: images/kd-state-diagram.pu
+   :caption: Keyphrase buffer manager state diagram
