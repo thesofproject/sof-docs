@@ -1,7 +1,10 @@
 .. _platforms:
 
+Platforms
+#########
+
 Supported Platforms
-###################
+*******************
 
 Platform and board specific support is continually added to the SOF project as documented below.
 
@@ -28,10 +31,10 @@ SOF infrastructure must be implemented. Refer to Platform API documentation
 for details.
 
 Minimum Platform Requirements
-#############################
+*****************************
 
 Footprint
-*********
+=========
 
 DSP platforms can vary from vendor to vendor but in general SOF can run on
 small platforms like Intel Baytrail DSP with 96kb of instruction RAM and 168kb
@@ -39,12 +42,12 @@ of data RAM. The SOF footprint can be shrunk to approximately 50kb of TEXT
 and DATA by fine-tuning runtime features via Kconfig.
 
 DSP Clock Speed
-***************
+===============
 
 Required DSP clock speed depends on the DSP processing load, so it can vary greatly depending on pipeline topology and the algorithm design that is running. SOF can run several volume passthrough pipelines on the Intel Baytrail DSP at 50MHz using unoptimized C code (SIMD disabled and compiled with GCC).
 
 Toolchain
-*********
+=========
 
 It's recommended to use the best optimizing compiler available for your DSP ISA; however, GCC can also be used provided it has your DSP architecture support. GCC will produce functional code, but it may not necessarily be the fastest code for your DSP architecture.
 
@@ -52,7 +55,7 @@ It's recommended to use the best optimizing compiler available for your DSP ISA;
 .. TODO: Replace with reference to API tree once created.
 
 Platform Specific Information
-#############################
+*****************************
 
 Further information on specific platforms can be found here.
 

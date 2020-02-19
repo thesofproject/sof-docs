@@ -1,7 +1,10 @@
 .. _algos:
 
+Algorithms
+##########
+
 Supplied Processing Algorithms
-##############################
+******************************
 
 SOF contains several permissively-licensed and royalty-free audio processing
 algorithms that can be used alongside proprietary processing components to
@@ -27,7 +30,7 @@ build pipelines.
    "Volume", "Provides real-time stream gain controls to the user", "Yes", "Xtensa HiFi3", "Upstream", "1.0"
 
 Algorithm Specific Information
-##############################
+******************************
 
 Further information on specific algorithms is forthcoming.
 
