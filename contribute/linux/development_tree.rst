@@ -11,7 +11,7 @@ Background
 **********
 
 The Linux development is split by subsystem. All SOF contributions are
-merged through the sound/ system (maintained by Takashi Iwai) and
+merged through the sound/system (maintained by Takashi Iwai) and the
 sound/soc subsystem (maintained by Mark Brown).
 
 All SOF patches merged by the two maintainers will be used for
@@ -22,19 +22,18 @@ Torvalds in the mainline.
 Instructions for SOF developers
 *******************************
 
-
 ABI changes
 ===========
 
-One fundamental and non negociable premise of Linux kernel development
-is "we don't break userspace". More specifically, a user may update
-their kernel at any time, while keeping the SOF firmware binary and
+One fundamental and non-negotiable premise of Linux kernel development
+is "we don't break the userspace." More specifically, users may update
+their kernels at any time, while keeping the SOF firmware binary and
 topology files stored in the root filesystem unchanged. The
 expectation is that the SOF Linux driver does not generate any errors
 and that audio functionality remains unchanged.
 
-Conversely when a capability is introduced in new firmware release, it
-is expected that the kernel shall be updated as well. In other words,
+Conversely, when a capability is introduced in a new firmware release, the
+expectation is that the kernel shall be updated as well. In other words,
 a new firmware does not need to include any backwards-compatibility
 code to interface with an older kernel.
 
@@ -54,42 +53,40 @@ Development branch
 
 All SOF development takes place on the topic/sof-dev branch in the SOF tree:
 
-git@github.com:thesofproject/linux.git
+``git@github.com:thesofproject/linux.git``
 
 Developers are required to submit Pull Requests (PRs) against the
 topic/sof-dev branch. The Continuous Integration (CI) will run a set
-of static analysis, builds and on-device testing.
+of static analysis, builds, and on-device testing.
 
 Two approvers are required for each PR. SOF admins may in some
-exceptions use their priviledges to merge PRs, e.g. to restore
+exceptions use their privileges to merge PRs, such as to restore
 functionality and broken builds.
 
-When a PR is submitted by an SOF admin, it is required that another
-admin approves a PR. The PRs are integrated into the SOF tree using
-the 'rebase-and-merge' method which keeps the integrated patches in a
-linear order.
+When a PR is submitted by an SOF admin, another admin must approves that PR.
+The PRs are integrated into the SOF tree using the 'rebase-and-merge' method
+which keeps the integrated patches in a linear order.
 
 Rebasing tree
 =============
 
 In addition to the topic/sof-dev branch, the SOF project maintains a
 parallel topic/sof-dev-rebase branch. This branch is not intended for
-development, but mostly to make upstream contributions easier to
-manage.
+development, but to make upstream contributions easier to manage.
 
 Upstream merges
 ===============
 
-During the Linux development, patches to the ALSA/ASoC cores,
-dependencies such as audio codecs or bug fixes may be contributed by
-the community. SOF Linux maintainers will on a regular basis,
-typically weekly, merge all upstream contributions into the SOF tree.
+During Linux development, patches to the ALSA/ASoC cores, dependencies such
+as audio codecs, or bug fixes may be contributed by the community. SOF Linux
+maintainers will, on a regular basis (typically weekly), merge all upstream
+contributions into the SOF tree.
 
 
 Development flow
 ****************
 
-The SOF Linux maintainers are
+The SOF Linux maintainers are:
 
 +---------------+-------------------+---------------+
 | Intel	        | Pierre Bossart    | @plbossart    |
@@ -109,11 +106,11 @@ The SOF maintainers apply the following process
 This mirroring consists in doing a set of "git cherry-pick" operations
 from topic/sof-dev to topic/sof-dev-rebase. Once all development
 patches are applied, SOF maintainers will add the relevant
-Signed-off-by and Reviewed-by 'tags'.
+Signed-off-by and Reviewed-by 'tags.'
 
 In specific cases, incremental patches will be squashed to simplify
-upstream reviews, commit messages made clearer, and the order of
-patches changed, but in all cases the intent is that the two
+upstream reviews, commit messages will be made clearer, and the order of
+patches will be changed, but in all cases the intent is that both
 topic/sof-dev and topic/sof-dev-rebase provide the same code (as seen
 with git diff or diff -r).
 
@@ -133,7 +130,7 @@ same baseline, and again compared to the topic/sof-dev branch. After
 the two separate operations of merge and rebase on the two branches,
 these two branches should again be identical. The net effect of the
 rebase is that all patches already integrated by ALSA/ASoC maintainers
-'disappear'. In other words the topic/sof-dev-rebase branch helps
+'disappear.' In other words, the topic/sof-dev-rebase branch helps
 visualize all patches not currently merged upstream.
 
 3. Upstream contributions
@@ -144,29 +141,28 @@ to the alsa-devel mailing list, with the maintainers in Cc:. In most
 cases the patches are approved without issues, but the ALSA/ASoC
 maintainers or members of the community may provide feedback and
 request some changes. In those cases, the changes are applied on
-topic/sof-dev, will then be mirrored and squashed on
-topc/sof-dev-rebase, and submitted again. Under no circumstances
-should the SOF maintainer handle changes to the topic/sof-dev-rebase
-directly.
+topic/sof-dev, then mirrored and squashed on topc/sof-dev-rebase, and
+submitted again. Under no circumstances should the SOF maintainer handle
+changes to the topic/sof-dev-rebase directly.
 
 4. Exceptions
 *************
 
-In very specific cases, e.g. for HDMI-related patches, it may be
-easier for an SOF developer to submit the patches directly to
-alsa-devel. By default the process should be that all patches are
-first submitted to the SOF GitHub, CI-tested. Only when maintainers
-provide a written agreement should developers submit SOF-related
-patches directly to the alsa-devel mailing list.
+In very specific cases, such as for HDMI-related patches, it might be easier
+for an SOF developer to submit the patches directly to alsa-devel. By
+default, though, the process should be that all patches are first submitted
+to the SOF GitHub, CI-tested. Only when maintainers provide a written
+agreement should developers submit SOF-related patches directly to the
+alsa-devel mailing list.
 
-To avoid disrupting the development and rewriting its history, all the
+To avoid disrupting the development and rewriting its history, all
 upstream patches are integrated using the "Merge commit" option.
 
 Development summary
 *******************
 
 ::
-   
+
       +----reject-----------+                      +--------merge----------------+
       |                     |                      |                             |
       v                     |                      v                             |
