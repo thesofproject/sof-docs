@@ -19,7 +19,7 @@ terminology before reading further.
    virtualization/virtualization
 
 Technical Notes
-###############
+***************
 
 Some how-to technical notes that help explain how you can use SOF capabilities.
 
