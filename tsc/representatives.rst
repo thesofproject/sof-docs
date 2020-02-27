@@ -7,11 +7,13 @@ TSC Representatives
 The TSC is currently made of the following contributors
 
 +---------------+-------------------+---------------+
-| Intel 	| Lech Betlej       | @lbetlej 	    |
+| Company       | Name              | username      |
++===============+===================+===============+
+| Intel       	| Lech Betlej       | @lbetlej 	    |
 +---------------+-------------------+---------------+
 | Intel	        | Liam Girdwood     | @lgirdwood    |
 +---------------+-------------------+---------------+
-| Intel 	| Marcin Maka       | @mmaka1	    |
+| Intel         | Marcin Maka       | @mmaka1	    |
 +---------------+-------------------+---------------+
 | Intel	        | Pierre Bossart    | @plbossart    |
 +---------------+-------------------+---------------+
