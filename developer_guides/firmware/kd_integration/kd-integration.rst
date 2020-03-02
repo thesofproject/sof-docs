@@ -25,7 +25,7 @@ keyphrase in an audio stream.
 
 The speech audio stream is used to indicate that the stream is primarily used
 to deliver data to automatic speech recognition (ASR) algorithm. The voice
-audio stream typically indicates that the recipent of audio data is a human.
+audio stream typically indicates that the recipient of audio data is a human.
 
 Depending on system level requirements for the keyphrase detection algorithm
 and the speech recognition engine, different policies for keyphrase buffering
@@ -42,17 +42,18 @@ implementation available in SOF. The following sections cover functional scope.
 Timing sequence
 ***************
 
+.. _timing-sequence:
+
 .. uml:: images/kd-timing-diagram.pu
    :caption: Basic diagram for a timing sequence
 
-A keyphrase is preceeded by a period of silence and is followed by a user
+A keyphrase is preceded by a period of silence and is followed by a user
 command. In order to balance power savings and user experience the host system
 (CPU) shall be activated only if a keyphrase is detected. To reduce the number
 of false triggers for user commands, the keyphrase can be sent to the host for
 additional (2nd stage) verification. This requires the FW to buffer the
 keyphrase in a memory. Keyphrase transmission to the host shall be as fast as
 possible (faster than real-time) to reduce latency for system response.
-
 
 End-2-End flows
 ***************
@@ -67,7 +68,7 @@ the speech stream is opened. There is an optional sequence to customize the
 keyword detection algorithm by behavior by sending run-time parameters. The
 stream open and preparation phase covers sending HW parameters to DAI and
 passing configuration parameters from the topology to FW components. The DAPM
-events handlers are used to control a Keypharse Detector node of the FW
+events handlers are used to control a Keyphrase Detector node of the FW
 topology graph by the audio driver. Once the keyphrase is detected a
 notification is sent to the driver. At the same time an internal event in FW
 triggers draining buffered audio data in burst mode to the host. Once the
@@ -87,11 +88,11 @@ keyphrase detection flows. The components are organized in pipelines:
 
    a) DMIC DAI configures hw interface to capture data from microphones.
 
-   b) The Keyphrase Buffer Managrer is responsible for managing the data
+   b) The Keyphrase Buffer Manager is responsible for managing the data
       captured by microphones. This includes control of an internal buffer for
       incoming data and routing of incoming audio samples. The
       audio buffer with historic audio data is implemented as a cyclic buffer.
-      While listeining to a keyphrase the component stores incoming data in an
+      While listening to a keyphrase the component stores incoming data in an
       internal buffer and copies it to a sink that leads toward the keyword
       detector component. On successful detection of a keyphrase the buffer is
       drained during a burst transmission to a host. Once the buffer is
@@ -117,10 +118,53 @@ keyphrase detection flows. The components are organized in pipelines:
       notification to the audio driver and implements large parameters support.
 
 KPBM state diagram
-***********
+******************
 
 The state diagram below presents all possible keyphrase buffer manager states
 and valid relationships between them.
 
 .. uml:: images/kd-state-diagram.pu
    :caption: Keyphrase buffer manager state diagram
+
+Latency & buffering
+*******************
+
+This section covers calculations needed to be done to properly configure
+keyphrase buffer size. The symbols used in a formula below are depicted
+above, see :ref:`timing-sequence`.
+
+.. note::
+
+   The formula for size of a keyphrase buffer:
+   ( L1 + L2 + L3 + L4 ) * number of channels * bitdepth = Size [Kb]
+
+
+Specifically:
+
+1. L1 is defined as length of a keyphrase with preceding or trailing silence,
+   value depends highly on the keyphrase itself and detection algorithm
+   requirements.
+
+2. L2 is a sum of algorithmic (processing) latency of a detection algorithm and
+   additional time needed to execute additional components in pipelines,
+   prepare and send notifications.
+
+3. L3 is a time required to send already buffered data to host. Typically
+   Write Pointer (WP) is used to indicate where data coming from microphones is
+   written to a keyphrase buffer. The keyphrase buffer is organized as
+   a cyclic buffer and WP moves if data is coming from mics at
+   a regular rate. Read Pointer (RP) indicates from which offset in the buffer
+   data is fetched to host. To start burst transmission RP is set to WP - 
+   "history depth" position. The history depth is defined at FW or passed from
+   topology. RP moves faster than WP due to draining that is executed as
+   a background task. Draining phase lasts until RP reaches again WP that
+   moves a regular (slower) rate. This defines end of L3 period and RP follows
+   WP at a rate data is available in DAI DMA buffer. Implementation note:
+   "history depth" may be updated on-the-fly during draining phase if new 
+   data is captured in the meantime.
+
+4. L4 is a safety margin that can be accommodated in any of periods of time
+   defined above. Defined explicitly to make sure is included in calculation.
+   L4 length depends on a size of audio frame size processed by a detector,
+   amount of detector compute time, output audio format, keyphrase buffer
+   size etc.

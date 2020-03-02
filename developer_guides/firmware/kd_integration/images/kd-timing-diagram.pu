@@ -3,7 +3,7 @@
 scale max 1024 width
 
 footer: timeline not to scale 
-robust "Speech Application" as App
+robust "Speech application" as App
 concise "Audio Stream" as Audio
 
 App is idle
@@ -11,12 +11,15 @@ Audio is "Preceeding"
 
 @App
 0 is idle
-+225 is "Processing"
++180 is Processing
 
 @Audio
 0 is Keyphrase
-@180 <-> @+40 : {detection & burst transmission lag}
-Audio@+25 -> App@+25 : notification
-200 is Command
+@0 <-> @100 : keyphrase length - L1
+@100 <-> @+80 : detection\ntime - L2
+@180 <-> @+80 : burst \ntransmission time - L3
+Audio@180 -> App@180 : notification
+@260 <-> @+60 : safety \nmargin - L4
+100 is Command
 +200 is Following
 @enduml
