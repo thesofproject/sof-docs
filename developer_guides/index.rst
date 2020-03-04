@@ -17,6 +17,7 @@ terminology before reading further.
    tuning/sof-ctl
    linux_driver/index
    virtualization/virtualization
+   virtualization/running
 
 Technical Notes
 ***************

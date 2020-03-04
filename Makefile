@@ -13,6 +13,7 @@ SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = "SOF Project"
 SOURCEDIR     = .
 BUILDDIR      = _build
+ERROROPTS	  = -W --keep-going
 
 DOC_TAG      ?= development
 RELEASE      ?= latest

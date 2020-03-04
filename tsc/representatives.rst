@@ -7,7 +7,7 @@ TSC Representatives
 The TSC is currently made of the following contributors
 
 +---------------+-------------------+---------------+
-| Company       | Name              | username      |
+| Company       | Name              | Username      |
 +===============+===================+===============+
 | Intel       	| Lech Betlej       | @lbetlej 	    |
 +---------------+-------------------+---------------+
