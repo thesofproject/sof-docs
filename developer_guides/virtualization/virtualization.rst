@@ -4,9 +4,11 @@ SOF VirtIO design
 #################
 
 .. contents::
+   :local:
+   :depth: 2
 
-1. General information
-**********************
+General information
+*******************
 
 This document describes the Linux driver architecture to virtualize SOF DSP
 firmware features across multiple guest VMs.
@@ -58,8 +60,8 @@ support code is rather minimal; it only adds support for guest reset
 reporting and guest identification to a set standard and mostly empty device
 node and virtual queue management operations.
 
-2. SOF VirtIO design
-********************
+SOF VirtIO design
+*****************
 
 The SOF_ VirtIO design implements an interface to transport IPC (
 Inter-Process Communication) commands and audio data between host and
@@ -87,8 +89,8 @@ them are intercepted on the host. Some IPC messages trigger additional
 actions on the host before being forwarded to the DSP; others aren't sent to
 the DSP at all. See examples below for more details.
 
-2.1. Communication channels
----------------------------
+Communication channels
+----------------------
 
 The goals of SOF virtualization are:
 
@@ -113,8 +115,8 @@ Below is the SOF VirtIO architecture:
 
 .. image:: images/data-flow-v1.png
 
-2.2. Topology
--------------
+Topology
+--------
 
 When running natively, the SOF driver uses the ALSA topology API to configure
 audio pipelines on the DSP. The SOF driver reads a platform-specific topology
@@ -183,8 +185,8 @@ forwarded to the DSP. That IPC contains the volume component ID as seen by
 the respective guest. Therefore, it should be exactly the same ID as the one
 used by the firmware.
 
-2.3. DPCM audio routing
------------------------
+DPCM audio routing
+------------------
 
 In the most trivial case when a user-space application opens an audio
 interface, there is a unique sequence of audio components, involved in this
@@ -194,11 +196,11 @@ complex audio graphs, sometimes requiring dynamic re-routing. Support for
 such configurations is provided by the ASoC DPCM_ API. We also use this API
 to activate and deactivate guest audio interfaces.
 
-3. Implementation
-*****************
+Implementation
+**************
 
-3.1. Initialization
--------------------
+Initialization
+--------------
 
 The SOF driver probing on the host remains unmodified except that the vhost
 driver is also initialized; this registers a newly-added /dev/vhost-dsp misc
@@ -262,8 +264,8 @@ parsing and is sent by the guest to the host. The host then uses that value
 to modify SOF_IPC_TPLG_COMP_CONNECT connection IPC messages, involving
 connection points, from the guest before sending them to the DSP.
 
-3.2. Streaming
---------------
+Streaming
+---------
 
 Guest audio streaming is mostly transparent for the host. The host audio
 subsystem doesn't get involved with most guest streaming or kcontrol
@@ -301,7 +303,7 @@ as soon as one arrives from the DSP.
 
 Upon reception of the STREAM_TRIG_STOP IPC message, the vhost driver updates
 the DPCM routing information and deactivates the virtual PCM pipeline,
-described in the `2.2. Topology`_ section above, on the host. This operation
+described in the `Topology`_ section above, on the host. This operation
 requires particular care; in the present state, simply calling
 
 .. code-block:: none
@@ -315,8 +317,8 @@ The current SOF VirtIO implementation contains a fix for that, which has to
 be upstreamed along with the rest of the ALSA core virtualization
 modifications and extensions.
 
-3.3. Deactivation
------------------
+Deactivation
+------------
 
 When the guest isn't actively using audio, we want to allow the host to
 runtime suspend the DSP. That usually means switching off the DSP. Therefore,
