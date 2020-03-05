@@ -251,7 +251,7 @@ which is then forwarded to the DSP firmware. The guest uses the .send_msg()
 callback to forward any IPC (including topology related) to the host with no
 processing at all. The only exception is blocking IPCs when the guest is
 resuming while the host does not need to be resumed (see `reset count`_ in
-section 3.3 Deactivation for details).
+Deactivation for details).
 
 The host receives the parsed guest topology over the IPC virtual queue. In
 most cases, the host IPC handler just forwards IPCs to the DSP; in other

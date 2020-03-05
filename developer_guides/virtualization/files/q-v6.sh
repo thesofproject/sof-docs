@@ -1,11 +1,11 @@
-# Assuming "enp2s0" is the name of the network interface, on my Up^2 it
-# corresponds to the lower ethernet socket, "virbr0" is the bridge - the
-# master of both the physical ethernet interface and the virtual network.
-# "disk" is a partition, used to store a VM image, "path" is a mount point.
-# Note: this is an example file. You might want to adjust it. E.g. you might
-# not have access to a German keyboard, in which case you probably want to
-# remove the "-k de" qemu launch option. Also note, that it starts a second
-# instance of the QEMU VNC server, which then listens on port 5901.
+# Assuming "enp2s0" is the name of the network interface, it corresponds
+# to the lower ethernet socket on my Up^2. "virbr0" is the bridge, the
+# master of both the physical ethernet interface and the virtual network;
+# "disk" is a partition, used to store a VM image; "path" is a mount point.
+# Note: This is a sample file which you can adjust as necessary. For example,
+# if you do not have access to a German keyboard, you may remove the "-k de"
+# qemu launch option. Also note that a second instance of the QEMU VNC server
+# starts, which then listens on port 5901.
 
 net=enp2s0
 vir=virbr0-nic

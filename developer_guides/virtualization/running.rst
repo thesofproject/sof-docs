@@ -5,14 +5,14 @@ Run SOF VirtIO
 
 .. contents::
    :local:
-   :depth: 2
+   :depth: 1
 
 General information
 **********************
 
 To run SOF in a virtualized environment, we are using an Up^2 board that is
 natively running Ubuntu Linux. We are using QEMU to run a KVM virtualized
-Ubuntu instance. This document describe essential steps that are required to
+Ubuntu instance. This document describes essential steps that are required to
 run this configuration.
 
 1. Create a VM image
@@ -20,9 +20,9 @@ run this configuration.
 
 We recommend using the "Virtual Machine Manager." Run it on a separate Linux
 machine to create a Linux VM image that can be used by QEMU. In this way, the
-"Manager" doesn't have to be installed on the target system, thus leaving
+Manager doesn't have to be installed on the target system, thus leaving
 that system clean and free from numerous additional packages that the
-"Manager" installs with it.
+Manager installs with it.
 
 2. Build the Linux kernel
 *************************
