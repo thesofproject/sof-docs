@@ -2,6 +2,10 @@
 # corresponds to the lower ethernet socket, "virbr0" is the bridge - the
 # master of both the physical ethernet interface and the virtual network.
 # "disk" is a partition, used to store a VM image, "path" is a mount point.
+# Note: this is an example file. You might want to adjust it. E.g. you might
+# not have access to a German keyboard, in which case you probably want to
+# remove the "-k de" qemu launch option. Also note, that it starts a second
+# instance of the QEMU VNC server, which then listens on port 5901.
 
 net=enp2s0
 vir=virbr0-nic
@@ -9,31 +13,27 @@ br=virbr0
 ip=<up2-IP-address>
 
 disk=/dev/sda1
-path=/mnt/backup_01
+path=/var/lib/libvirt/images/
 
 if ! brctl show | grep -q $net; then
 	ip link set $net master $br
 fi
 if ip addr show dev $net | grep -q "$ip/24"; then
 	ip addr del $ip/24 dev $net
-#	ip addr add $ip dev $br
 	dhclient $br
 fi
 if ! ip addr show dev $vir | grep -q UP; then
 	ip link set $vir up
 	sleep 0.5
 	ip link set $vir master $br
-#	ip link set $br up
-	sudo echo 1 > /proc/sys/net/ipv4/ip_forward
+	echo 1 > /proc/sys/net/ipv4/ip_forward
 fi
 if ! mount | grep -q "$path"; then
 	mount $disk $path
-	mount --bind $path/vm-images/ /var/lib/libvirt/images/
 fi
 
 modprobe vhost-sof
 
-#QEMU_AUDIO_DRV=spice /backslash
 /usr/bin/qemu-system-x86_64 \
 -enable-kvm \
 -name guest=ubuntu19.04,debug-threads=on \
@@ -84,15 +84,3 @@ modprobe vhost-sof
 -serial stdio \
 -k de \
 -msg timestamp=on
-
-#-spice port=5900,addr=127.0.0.1,disable-ticketing,image-compression=off,seamless-migration=on \
-#-device ich9-intel-hda,id=sound0,bus=pcie.0,addr=0x1b \
-#-device hda-duplex,id=sound0-codec0,bus=sound0.0,cad=0 \
-#-monitor stdio \
-#-netdev tap,id=tapnet0,vhost=on,ifname=hostnet0,script=no,downscript=no \
-#-device vhost-dsp-pci,bus=pci.5 \
-#-device vhost-dsp-pci,bus=pci.1,dsp=dsp0 \
-#-object dsp,id=dsp0 \
-#-netdev tap,id=hostnet0,vhost=on \
-#-device virtio-net-pci,netdev=tapnet0,id=net0,mac=52:54:00:31:c5:a2,bus=pci.1,addr=0x0 \
-#-no-shutdown \
