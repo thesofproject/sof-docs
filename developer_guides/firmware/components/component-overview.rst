@@ -43,22 +43,10 @@ Entry called to create a new component device::
 Handling the Component Device State
 ***********************************
 
-Utility function ``comp_set_state()`` should be called a component code at
-the beginning of its state transition to verify whether the trigger is valid
-in the current state and set a new state accordingly to the state diagram.
-
 .. uml:: images/comp-dev-states.pu
+   :caption: Component Device States
 
-READY
-   This is an initial state of a component device once it is created.
-
-PREPARE
-   Transition to this state is usually invoked internally by the component's
-   implementation of the ``prepare()`` handler.
-
-ACTIVE, PAUSE
-   Transitions to these states is caused by external trigger passed to the
-   component's implementation of the ``trigger()`` handler.
+Refer to ``comp_set_state()`` in :ref:`component-api` for details.
 
 Implementing Component API (comp_ops)
 *************************************
