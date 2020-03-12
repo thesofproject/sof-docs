@@ -23,6 +23,41 @@ Each component driver declares its unique ``type`` that is later used by the
 uAPI to create a component of that ``type``. It also provides an entry point
 to the component ops implementation.
 
+UUIDs (Universally Unique Identifiers) were added as a more scalable and
+collision-free way of component identification. UUIDs are currently used by
+the tracing subsystem while the topology and the driver still depend on *type*
+to define topology and create component instances. UUIDs are expected to replace
+the *type* in these parts as well.
+
+The UUID entry declared in FW code contains value of the identifier as well as
+name of the object which is the component name in this case. Both are provided
+as the arguments to the ``DECLARE_SOF_UUID()`` macro. For example the volume
+component provides the following declaration:
+
+.. code-block:: c
+
+   /* b77e677e-5ff4-4188-af14-fba8bdbf8682 */
+   DECLARE_SOF_UUID("volume", volume_uuid, 0xb77e677e, 0x5ff4, 0x4188,
+                    0xaf, 0x14, 0xfb, 0xa8, 0xbd, 0xbf, 0x86, 0x82);
+
+Note how the *af14* 16bit segment is split as two bytes at the beginning of the
+second line.
+
+*"volume"* is the component name used by the sof-logger while printing name of
+trace source. *volume_uuid* is the symbol used later to associate the
+declared UUID with the volume component driver:
+
+.. code-block:: c
+   :emphasize-lines: 3
+
+   static const struct comp_driver comp_volume = {
+           .type = SOF_COMP_VOLUME,
+           .uid  = SOF_UUID(volume_uuid),
+           ...
+   };
+
+See :ref:`uuid-api` for more details on UUID generation and declaration.
+
 .. uml:: images/comp-driver.pu
    :caption: Component Driver
 

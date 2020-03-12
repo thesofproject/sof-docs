@@ -2,6 +2,7 @@ package component {
 
    class comp_driver {
    	type : uint32_t
+	uid : uint32_t
    	module_id : uint32_t
    	ops : comp_ops
    }
