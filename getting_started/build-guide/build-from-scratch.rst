@@ -444,7 +444,7 @@ dev branch firmware and topology.
       git checkout topic/sof-dev
       make defconfig
       git clone https://github.com/thesofproject/kconfig
-      scripts/kconfig/merge_config.sh .config ./kconfig/base-defconfig ./kconfig/sof-defconfig  ./kconfig/sof-mach-driver-defconfig ./kconfig/hdaudio-codecs-defconfig
+      scripts/kconfig/merge_config.sh .config ./kconfig/base-defconfig ./kconfig/sof-defconfig  ./kconfig/mach-driver-defconfig ./kconfig/hdaudio-codecs-defconfig
       (optional) make menuconfig
 
    Select SOF driver support and disable SST drivers.
