@@ -86,7 +86,7 @@ the newest ALSA from source code.
 .. code-block:: bash
 
    cd ~/work/sof/
-   git clone git://git.alsa-project.org/alsa-lib.git
+   git clone git://git.alsa-project.org/alsa-lib
    cd alsa-lib
    ./gitcompile
    sudo make install
@@ -103,7 +103,7 @@ Clone, build, and install alsa-utils.
 .. code-block:: bash
 
    cd ~/work/sof/
-   git clone git://git.alsa-project.org/alsa-utils.git
+   git clone git://git.alsa-project.org/alsa-utils
    cd alsa-utils
    ./gitcompile
    sudo make install
@@ -140,11 +140,11 @@ Clone both repos and check out the sof-gcc8.1 branch.
 .. code-block:: bash
 
    cd ~/work/sof/
-   git clone https://github.com/thesofproject/xtensa-overlay.git
+   git clone https://github.com/thesofproject/xtensa-overlay
    cd xtensa-overlay
    git checkout sof-gcc8.1
    cd ~/work/sof/
-   git clone https://github.com/thesofproject/crosstool-ng.git
+   git clone https://github.com/thesofproject/crosstool-ng
    cd crosstool-ng
    git checkout sof-gcc8.1
 
@@ -220,7 +220,7 @@ Clone the header repository.
 .. code-block:: bash
 
    cd ~/work/sof/
-   git clone https://github.com/jcmvbkbc/newlib-xtensa.git
+   git clone https://github.com/jcmvbkbc/newlib-xtensa
    cd newlib-xtensa
    git checkout -b xtensa origin/xtensa
 
@@ -274,7 +274,7 @@ After the SOF environment is set up, clone the *sof* repo.
 .. code-block:: bash
 
    cd ~/work/sof/
-   git clone https://github.com/thesofproject/sof.git
+   git clone https://github.com/thesofproject/sof
 
 Build with scripts
 ------------------
@@ -489,7 +489,7 @@ firmware and topology.
 
       sudo apt-get install bison flex libelf-dev
       cd ~/work/sof/
-      git clone https://github.com/thesofproject/linux.git
+      git clone https://github.com/thesofproject/linux
       cd linux
       git checkout topic/sof-dev
       make defconfig
