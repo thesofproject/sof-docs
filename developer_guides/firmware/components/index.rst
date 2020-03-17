@@ -7,5 +7,4 @@ Components
    :maxdepth: 2
 
    component-overview
-   component-api
    component-mgmt-api

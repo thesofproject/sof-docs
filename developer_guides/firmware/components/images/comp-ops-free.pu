@@ -1,7 +1,0 @@
-actor host
-participant "ipc/ipc" as ipc
-participant "audio/<comp_driver>" as drv
-host -> ipc : ipc_comp_free(comp_id)
-	ipc -> ipc : ipc_get_comp(id)
-	ipc -> drv : dev.drv.ops.free()
-host <-- ipc
