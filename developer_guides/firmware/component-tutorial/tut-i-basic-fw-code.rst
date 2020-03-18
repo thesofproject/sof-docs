@@ -9,7 +9,8 @@ It also demonstrates how to register the component driver in the FW
 infrastructure so that the FW can respond to the *new component* request sent
 by the driver and instantiate it.
 
-The amplifier will be based on a processing component class (aka effect).
+Let's call the new component "the amplifier". The amplifier will be based on a
+processing component class (aka effect).
 
 Adding Basic Component Code
 ***************************
@@ -24,9 +25,11 @@ provided in the next part of the tutorial; for now, our focus is on the FW
 source code).
 
 .. note::
-   Simple component IDs currently used at the moment will be replaced by uuids in the future to avoid conflict resolutions while integrating independently
-   developed components. The current implementation requires you to assign an
-   unoccupied number.
+   Simple component IDs currently used at the moment will be replaced by
+   UUIDs in the future to avoid conflict resolutions while integrating
+   independently developed components. The current implementation requires you
+   to assign an unoccupied number. The UUIDs assigned to the components today
+   are used for logging purpose only.
 
 .. code-block:: c
 
@@ -43,22 +46,26 @@ source code).
 Identifier for Logging
 ======================
 
-Another component-specific global identifier used for logging is "trace class"
-and is defined in *src/include/user/trace.h*. Add the following line below the
-other classes definitions:
+Components use Universally Unique Identifiers (UUIDs) for logging. Go to
+:ref:`uuid-api` documentation for basic information about UUIDs in FW and how to
+generate one for your component.
+
+The example UUID generated for the amplifier component is
+*1d501197-da27-4697-80c8-4e694d3600a0*.
+
+Add the following declaration at the beginning of the source file:
 
 .. code-block:: c
 
-   #define TRACE_CLASS_AMP    (32 << 24)
+   DECLARE_SOF_UUID("amp", amp_uuid, 0x1d501197, 0xda27, 0x4697,
+                    0x80, 0xc8, 0x4e, 0x69, 0x4d, 0x36, 0x00, 0xa0);
 
-where the *32* constant is the first unoccupied trace class id. This symbol
-will be used in the trace macros defined later in the amplifier code.
-
-.. note::
-   You will need to add a corresponding definition to the logger tool later
-   to display a nice name of the trace class in output. By default it will
-   decode the class as "unknown" which may be difficult to observe and filter
-   out if there are other "unknown" components logging at the same time.
+where *"amp"* is the component name that will be printed by the logger tool.
+Amplifier's UUID value and its name is stored in the ldc file deployed on the
+target system and used by the logger to resolve and print the name of component.
+The only thing required to "teach" the logger new component's name is update of
+the ldc file along with the FW binary on the target system. No tool
+recompilation is required.
 
 Basic Component API
 ===================
@@ -68,7 +75,8 @@ Create a folder for your component source code in *src/audio*, such as
 
 Declare the basic required part of the API for your component using ``struct
 comp_driver`` in *amp.c* (to learn more about component instances, or devices,
-and their drivers, refer to :ref:`apps-component-overview`).
+and their drivers, refer to :ref:`apps-component-overview` and
+:ref:`component-api`).
 
 .. code-block:: c
 
@@ -79,8 +87,9 @@ and their drivers, refer to :ref:`apps-component-overview`).
 
    struct comp_driver comp_amp = {
            .type = SOF_COMP_AMP,
+           .uid = SOF_UUID(amp_uuid),
            .ops = {
-                   .new = amp_new,
+                   .create = amp_new,
                    .free = amp_free,
                    .params = NULL,
                    .cmd = NULL,
@@ -88,22 +97,30 @@ and their drivers, refer to :ref:`apps-component-overview`).
                    .prepare = amp_prepare,
                    .reset = amp_reset,
                    .copy = amp_copy,
-                   .cache = NULL
            },
+   };
+
+   static SHARED_DATA struct comp_driver_info comp_amp_info = {
+           .drv = &comp_amp,
    };
 
    static void sys_comp_amp_init(void)
    {
-           comp_register(&comp_amp);
+           comp_register(platform_shared_get(&comp_amp_info,
+                                             sizeof(comp_amp_info)));
    }
 
    DECLARE_MODULE(sys_comp_amp_init);
 
 Note that the ``type`` used for the component driver is set to the
-``SOF_COMP_AMP`` declared earlier. The API declaration is followed by a
-registration handler attached to the initialization list by
-``DECLARE_MODULE()`` macro. This is all the infrastructure needs to know in
-order to find and create an instance of the  ``SOF_COMP_AMP`` component.
+``SOF_COMP_AMP`` declared earlier and ``uid`` used for logging is initialized by
+the ``SOF_UUID(amp_uuid)`` where ``amp_uuid`` is declared at the beginning of
+the source file.
+
+The API declaration is followed by a registration handler attached to the
+initialization list by ``DECLARE_MODULE()`` macro. This is all the
+infrastructure needs to know in order to find and create an instance of the
+``SOF_COMP_AMP`` component.
 
 Some of the operations are left unimplemented at the moment:
 
@@ -113,20 +130,6 @@ Some of the operations are left unimplemented at the moment:
 * ``cmd`` - a handler to report and receive our custom run-time parameters will
   be implemented later in :ref:`amp-run-time-params`.
 
-* ``cache`` - this handler, responsible for L1 cache operations, will be
-  implemented later. It is not required in a basic example when the pipeline
-  is created on a single DSP core.
-
-Before you start implementing the handlers, add trace macros to the beginning
-of the *amp.c*. Note the ``TRACE_CLASS_AMP`` class identifier declared earlier.
-
-.. code-block:: c
-
-   #define trace_amp(__e, ...) trace_event(TRACE_CLASS_AMP, __e, ##__VA_ARGS__)
-   #define tracev_amp(__e, ...) tracev_event(TRACE_CLASS_AMP, __e, ##__VA_ARGS__)
-   #define trace_amp_error(__e, ...) \
-           trace_error(TRACE_CLASS_AMP, __e, ##__VA_ARGS__)
-
 Constructor ``amp_new()``
 =========================
 
@@ -134,49 +137,53 @@ Add the following handler before your API declaration:
 
 .. code-block:: c
 
-   static struct comp_dev *amp_new(struct sof_ipc_comp *comp)
+   static struct comp_dev *amp_new(const struct comp_driver *drv,
+                                   struct sof_ipc_comp *comp)
    {
            struct comp_dev *dev;
            struct sof_ipc_comp_process *amp;
            struct sof_ipc_comp_process *ipc_amp
                    = (struct sof_ipc_comp_process *)comp;
            struct amp_comp_data *cd;
+           int ret;
 
-           dev = rzalloc(RZONE_RUNTIME, SOF_MEM_CAPS_RAM,
-                         COMP_SIZE(struct sof_ipc_comp_process));
+           dev = comp_alloc(drv, COMP_SIZE(struct sof_ipc_comp_process));
            if (!dev)
                    return NULL;
 
-           cd = rzalloc(RZONE_RUNTIME, SOF_MEM_CAPS_RAM, sizeof(*cd));
+           cd = rzalloc(SOF_MEM_ZONE_RUNTIME, 0, SOF_MEM_CAPS_RAM, sizeof(*cd));
            if (!cd) {
                    rfree(dev);
                    return NULL;
            }
 
-           amp = (struct sof_ipc_comp_process *)&dev->comp;
-           assert(!memcpy_s(amp, sizeof(*amp), ipc_amp,
-                            sizeof(struct sof_ipc_comp_process)));
+           amp = COMP_GET_IPC(dev, sof_ipc_comp_process);
+           ret = memcpy_s(amp, sizeof(*amp), ipc_amp,
+                          sizeof(struct sof_ipc_comp_process)));
+           assert(!ret);
 
            comp_set_drvdata(dev, cd);
 
            dev->state = COMP_STATE_READY;
 
-           trace_amp("Amplifier created");
+           comp_dbg(dev, "amplifier created");
 
            return dev;
    }
 
 The constructor:
 
-* Allocates the memory, usually in two steps. Both allocations are done from
-  the **Runtime** heap that should be used by the application layer which
+* Allocates the memory, usually in two steps. Both allocations are done from the
+  SOF_MEM_ZONE_RUNTIME heap that should be used by the application layer which
   includes processing components.
 
   * First, a common context for the device is allocated including some
     extensions specific for a component class. In this example the component
     device is based on the ``struct sof_ipc_comp_process``, used for
     processing components. Component's parameters received from the IPC
-    request are copied to the allocated space.
+    request are copied to the allocated space. :cpp:func:`comp_alloc()` used for
+    the first allocation guarantees that all important parts of the ``dev`` are
+    initialized as well.
 
   * The second allocation acquires memory for the private data of amplifier
     instance, ``struct amp_comp_data``. This structure contains a placeholder
@@ -196,7 +203,11 @@ The constructor:
   about the component device state machine, refer to
   :ref:`apps-component-overview`.
 
-Note the ``trace_amp()`` macro used to log the creation event.
+Note the ``comp_dbg()`` macro used to log the creation event where ``dev`` is
+the first argument that let the logger resolve name of the trace source while
+processing the log entry. DEBUG level messages are not traced by default,
+the trace subsystem has to be reconfigured. The trace system outputs INFO, WARN,
+and ERROR messages by default.
 
 Destructor ``amp_free()``
 =========================
@@ -224,21 +235,18 @@ actions are defined in this simple example.
 
    static int amp_trigger(struct comp_dev *dev, int cmd)
    {
-           trace_amp("Amplifier got trigger cmd %d", cmd);
+           comp_dbg(dev, "amplifier got trigger cmd %d", cmd);
            return comp_set_state(dev, cmd);
    }
 
 Stream Parameters Handler ``amp_prepare()``
 ===========================================
 
-This where your component can be reconfigured for the stream parameters.
+This is where your component can be reconfigured for the stream parameters.
 
-This example assumes that only one source buffer and one sink buffer is
-connected; therefore, only the first items from ``dev->bsource_list`` and
-``dev->bsink_list`` are processed.
-
-Frame format is set according to the direction of the parent pipeline and
-the sink buffer size is reconfigured.
+This example assumes that only one source buffer and one sink buffer are
+connected; therefore, only the first item from  ``dev->bsink_list`` is
+verified.
 
 Note that in case another "prepare" call was issued before, the handler
 returns ``PPL_STATUS_PATH_STOP`` and exits to prevent propagation of a
@@ -252,12 +260,8 @@ Add the following handler code before your API declaration.
    {
            int ret;
            struct comp_buffer *sink_buf;
-           struct comp_buffer *src_buf;
-           struct sof_ipc_comp_config *config = COMP_GET_CONFIG(dev);
-           enum sof_ipc_frame src_fmt;
-           uint32_t src_per_bytes;
+           struct sof_ipc_comp_config *config = dev_comp_config(dev);
            uint32_t sink_per_bytes;
-           enum sof_ipc_frame sink_fmt;
 
            ret = comp_set_state(dev, COMP_TRIGGER_PREPARE);
            if (ret < 0)
@@ -266,38 +270,19 @@ Add the following handler code before your API declaration.
            if (ret == COMP_STATUS_STATE_ALREADY_SET)
                    return PPL_STATUS_PATH_STOP;
 
-           src_buf = list_first_item(&dev->bsource_list,
-                                     struct comp_buffer, sink_list);
            sink_buf = list_first_item(&dev->bsink_list,
                                       struct comp_buffer, source_list);
 
-           src_fmt = comp_frame_fmt(src_buf->source);
-           src_per_bytes = comp_period_bytes(sink_buf->source, dev->frames);
+           sink_per_bytes = audio_stream_period_bytes(&sink_buf->stream,
+                                                      dev->frames);
 
-           sink_fmt = comp_frame_fmt(sink_buf->sink);
-           sink_per_bytes = comp_period_bytes(sink_buf->sink, dev->frames);
-
-           if (dev->params.direction == SOF_IPC_STREAM_PLAYBACK)
-                   dev->params.frame_fmt = src_fmt;
-           else
-                   dev->params.frame_fmt = sink_fmt;
-
-           ret = buffer_set_size(sink_buf,
-                                 sink_per_bytes * config->periods_sink);
-           if (ret < 0) {
-                   trace_amp_error("amp_prepare() error: "
-                                   "buffer_set_size() failed %d", ret);
-                   goto err;
+           if (sink_buf->stream.size < config->periods_sink * sink_per_bytes) {
+                   comp_err(dev, "amp_prepare(): sink buffer size is insufficient");
+                   return -ENOMEM;
            }
 
-           trace_amp("Amplifier prepared src_fmt %d src_per_bytes: %u "
-                     "sink_fmt %d sink_per_bytes: %u",
-                     src_fmt, src_per_bytes,
-                     sink_fmt, sink_per_bytes);
-
+           comp_dbg(dev, "amplifier prepared");
            return 0;
-   err:
-           return ret;
    }
 
 Reset Handler ``amp_reset()``
@@ -320,18 +305,30 @@ Signal Processing Function ``amp_copy``
 This first version of the processing function simply copies input samples to
 output and shows how to:
 
-* Use ``struct comp_copy_limits`` to retrieve information about processed
-  frames.
+* Use :cpp:struct:`comp_copy_limits` and :cpp:func:`comp_get_copy_limits_with_lock()`
+  to retrieve information about the number of samples to be processed.
 
-* Iterate over the frames, channels, and samples.
+* Refresh the local data cache with :cpp:func:`buffer_invalidate()` in case the
+  input data is being provided to the source buffer by a component running on
+  another core.
+
+* Iterate over the frames, channels, and samples using :cpp:struct:`comp_copy_limits`
+  descriptor.
 
 * Read/write from/to the circular buffers. This implementation assumes both
-  input and output use signed 16-bit samples (``buffer_read_frag_s16()`` and
-  ``buffer_write_frag_s16()`` are used). You may prepare more alternatives
-  and use the one suitable for the input/output format obtained from the
-  ``comp_frame_fmt()`` in the ``amp_prepare()`` handler.
+  input and output are signed 16-bit samples, therefore
+  :cpp:func:`audio_stream_read_frag_s16()` and
+  :cpp:func:`audio_stream_write_frag_s16()` are used. You may prepare more
+  alternatives and use the one suitable for the input/output format obtained
+  from the ``sink_buf->stream.frame_fmt`` in the ``amp_prepare()`` handler.
 
-* Update the buffers' pointers to indicate the data consumed and produced.
+* Update the shared memory containing produced samples with the local data
+  cache using :cpp:func:`buffer_writeback()` in case the output data is being
+  consumed from the sink buffer by a component running on another core.
+
+* Update the buffers' pointers using :cpp:func:`comp_update_buffer_consume()`
+  and :cpp:func:`comp_update_buffer_produce()` to indicate the data consumed and
+  produced.
 
 The ``*dst = *src`` copy operation will be replaced later by amplification.
 
@@ -342,29 +339,38 @@ Add the following handler code before your API declaration:
    static int amp_copy(struct comp_dev *dev)
    {
            struct comp_copy_limits cl;
-           int ret;
+           struct comp_buffer *source;
+           struct comp_buffer *sink;
            int frame;
            int channel;
            uint32_t buff_frag = 0;
            int16_t *src;
            int16_t *dst;
 
-           ret = comp_get_copy_limits(dev, &cl);
-           if (ret < 0) {
-                   return ret;
-           }
+           source = list_first_item(&dev->bsource_list, struct comp_buffer,
+                                    sink_list);
+           sink = list_first_item(&dev->bsink_list, struct comp_buffer,
+                                  source_list);
+
+           comp_get_copy_limits_with_lock(source, sink, &cl);
+
+           buffer_invalidate(source, cl.source_bytes);
 
            for (frame = 0; frame < cl.frames; frame++) {
-                   for (channel = 0; channel < dev->params.channels; channel++) {
-                           src = buffer_read_frag_s16(cl.source, buff_frag);
-                           dst = buffer_write_frag_s16(cl.sink, buff_frag);
+                   for (channel = 0; channel < sink->stream.channels; channel++) {
+                           src = audio_stream_read_frag_s16(&source->stream,
+                                                            buff_frag);
+                           dst = audio_stream_write_frag_s16(&sink->stream,
+                                                             buff_frag);
                            *dst = *src;
                            ++buff_frag;
                    }
            }
 
-           comp_update_buffer_produce(cl.sink, cl.sink_bytes);
-           comp_update_buffer_consume(cl.source, cl.source_bytes);
+           buffer_writeback(sink, cl.sink_bytes);
+
+           comp_update_buffer_produce(sink, cl.sink_bytes);
+           comp_update_buffer_consume(source, cl.source_bytes);
 
            return 0;
    }
