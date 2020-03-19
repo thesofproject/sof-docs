@@ -12,7 +12,7 @@ Component Driver
 ****************
 
 Every component must implement a driver (see the ``comp_driver``) which
-creates instances by handling *new component* requests coming from the
+creates instances by handling *new* component requests coming from the
 command handlers.
 
 The driver must be registered on the system component driver list by calling
@@ -23,16 +23,16 @@ Each component driver declares its unique ``type`` that is later used by the
 uAPI to create a component of that ``type``. It also provides an entry point
 to the component ops implementation.
 
-UUIDs (Universally Unique Identifiers) were added as a more scalable and
+UUIDs (Universally Unique Identifiers) provide a more scalable and
 collision-free way of component identification. UUIDs are currently used by
-the tracing subsystem while the topology and the driver still depend on *type*
-to define topology and create component instances. UUIDs are expected to replace
-the *type* in these parts as well.
+the tracing subsystem while both the topology and driver still depend on
+``type`` to define topology and create component instances. UUIDs are
+expected to replace the ``type`` in these parts as well.
 
-The UUID entry declared in FW code contains value of the identifier as well as
-name of the object which is the component name in this case. Both are provided
-as the arguments to the ``DECLARE_SOF_UUID()`` macro. For example the volume
-component provides the following declaration:
+The UUID entry declared in the FW code contains the identifier value as well
+as the object which is the component name in this case. Both are
+provided as the arguments to the ``DECLARE_SOF_UUID()`` macro. For example
+the **volume** component provides the following declaration:
 
 .. code-block:: c
 
@@ -40,12 +40,12 @@ component provides the following declaration:
    DECLARE_SOF_UUID("volume", volume_uuid, 0xb77e677e, 0x5ff4, 0x4188,
                     0xaf, 0x14, 0xfb, 0xa8, 0xbd, 0xbf, 0x86, 0x82);
 
-Note how the *af14* 16bit segment is split as two bytes at the beginning of the
-second line.
+Note how the ``af14`` 16bit segment is split into two bytes at the beginning of
+the second line.
 
-*"volume"* is the component name used by the sof-logger while printing name of
-trace source. *volume_uuid* is the symbol used later to associate the
-declared UUID with the volume component driver:
+``volume`` is the component name used by the sof-logger while printing the
+trace source name. ``volume_uuid`` is the symbol used later to associate the
+declared UUID with the volume of the component driver:
 
 .. code-block:: c
    :emphasize-lines: 3
@@ -56,7 +56,7 @@ declared UUID with the volume component driver:
            ...
    };
 
-See :ref:`uuid-api` for more details on UUID generation and declaration.
+See the :ref:`uuid-api` for more details on UUID generation and declaration.
 
 .. uml:: images/comp-driver.pu
    :caption: Component Driver
