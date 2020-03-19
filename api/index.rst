@@ -6,6 +6,7 @@ API Documentation
 .. toctree::
    :maxdepth: 1
 
+   uuid-api
    dma-drivers-api
    dai-drivers-api
    pm-runtime-api
