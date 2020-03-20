@@ -9,6 +9,7 @@ Debugability
    traces/index
    logger/index
    coredump-reader/index
+   probes/index
 
    
    
