@@ -12,4 +12,5 @@ API Documentation
    pm-runtime-api
    platform-api
    component-api
+   component-ext-api
    uapi

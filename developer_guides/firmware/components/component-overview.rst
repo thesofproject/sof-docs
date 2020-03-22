@@ -81,14 +81,12 @@ Handling the Component Device State
 .. uml:: images/comp-dev-states.pu
    :caption: Component Device States
 
-Refer to ``comp_set_state()`` in :ref:`component-api` for details.
+Refer to :c:func:`comp_set_state` in :ref:`component-api` for details.
 
 Implementing the Component API (comp_ops)
 *****************************************
 
-Every component implements the ``comp_ops`` API. All functions except
-``new()`` and ``free()`` return 0 for success, negative values for errors,
-and 1 to stop the pipeline walk operation.
+Every component driver implements the ``comp_ops`` API.
 
 .. note::
 
@@ -98,5 +96,4 @@ and 1 to stop the pipeline walk operation.
    ``SOF_COMP_DAI`` and ``SOF_COMP_SG_DAI`` and cannot be called for other
    component types.
 
-.. uml:: images/comp-ops.pu
-   :caption: Component API
+See ``struct comp_ops`` documentation in :ref:`component-api` for details.
