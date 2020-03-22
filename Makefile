@@ -5,10 +5,10 @@ ifeq ($(VERBOSE),1)
   Q =
 else
   Q = @
+  SPHINXOPTS    ?= -q
 endif
 
 # You can set these variables from the command line.
-SPHINXOPTS    ?= -q
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = "SOF Project"
 SOURCEDIR     = .

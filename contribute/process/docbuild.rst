@@ -12,9 +12,9 @@ Documentation overview
 **********************
 
 The SOF Project content is written using the reStructuredText markup
-language (.rst file extension) with Sphinx extensions, and processed
+language (``.rst`` file extension) with Sphinx extensions, and processed
 using Sphinx to create a formatted standalone website. As a developer, you can
-view this content either in its raw form as .rst markup files, or you
+view this content either in its raw form as ``.rst`` markup files, or you
 can generate the HTML content and view it with a web browser directly on
 your workstation.
 
@@ -123,8 +123,8 @@ creating drawings:
 * sphinxcontrib-plantuml
 * sphinx.ext.graphviz  (included with Sphinx)
 
-.. note::  The plantuml extension uses Java to render the uml drawing
-   syntax into an image. You'll need to have a Java runtime environment
+.. note::  The ``scripts/plantuml.jar`` extension uses Java to render the UML
+   drawing syntax into an image. You need to have a Java runtime environment
    (JRE) installed when generating documentation.
 
 Depending on your Linux version, install the following tools:
@@ -141,7 +141,7 @@ Depending on your Linux version, install the following tools:
   .. code-block:: bash
 
      sudo dnf install doxygen python3-pip python3-wheel make \
-        default-jre graphviz
+        java graphviz
 
 For either Linux environment, install the remaining python-based
 tools:
@@ -200,30 +200,21 @@ Run documentation processors
 The sof-docs directory contains all the .rst source files, extra tools, and
 Makefile for generating a local copy of the SOF technical documentation.
 
-* For Linux, compile the output by using the following commands:
+* Generate the HTML output by using the following commands:
 
   .. code-block:: bash
 
-     cd ~/thesofproject/sof/doc
-     cmake .
-     make doc
+     cd thesofproject
+     # API documentation (Doxygen)
+     cmake -S sof/doc -B sof/doc -GNinja
+     ninja -C sof/doc -v doc
+     # UML and reStructuredText
+     make  -C sof-docs VERBOSE=1 html
 
-     cd ~/thesofproject/sof-docs
-     make html
-
-* For Windows:
-
-  .. code-block:: bash
-
-     cd <path to the directory>\thesofproject\sof\doc
-     cmake -GNinja .
-     ninja doc
-
-     cd <path to the directory>\thesofproject\sof-docs
-     make html
-
-Depending on your development system, HTML content might take a few minutes to generate. When done, view the HTML output with
-your browser, starting at ``~/thesofproject/sof-docs/_build/html/index.html``
+Depending on your system, the last command may need a few minutes to run -
+but only the first time. Most of the time is spent generating UML
+diagrams. When done, view the HTML output with your browser, starting at
+``~/thesofproject/sof-docs/_build/html/index.html``
 
 Publish content
 ***************
