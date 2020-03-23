@@ -11,6 +11,7 @@ API Documentation
    dai-drivers-api
    pm-runtime-api
    platform-api
+   memory-alloc-api
    component-api
    component-ext-api
    uapi
