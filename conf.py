@@ -191,6 +191,3 @@ breathe_projects = {
 }
 breathe_default_project = "SOF Project"
 breathe_default_members = ('members', 'undoc-members', 'content-only')
-breathe_domain_by_extension = {
-   "h" : "c",
-}
