@@ -12,6 +12,7 @@ API Documentation
    pm-runtime-api
    platform-api
    memory-alloc-api
+   audio-stream-api
    component-api
    component-ext-api
    uapi
