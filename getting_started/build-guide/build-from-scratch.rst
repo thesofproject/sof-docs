@@ -8,7 +8,7 @@ Build SOF from scratch
    :depth: 3
 
 You may boot and test |SOF| on a target machine or VM. Current target
-Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, and |CNL|.
+Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL| and |JSL|.
 
 Support also exists for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
@@ -132,7 +132,7 @@ Build cross-compiler
 --------------------
 
 Build the xtensa cross compiler with crosstool-ng for Intel |BYT|,
-|CHT|, |HSW|, |BDW|, |APL|, |CNL| platforms and NXP i.MX8/i.MX8X/i.MX8M
+|CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL| platforms and NXP i.MX8/i.MX8X/i.MX8M
 platforms.
 
 Clone both repos and check out the sof-gcc8.1 branch.
@@ -171,7 +171,7 @@ platforms.
    #Apollo Lake
    cp config-apl-gcc8.1-gdb8.1 .config
    ./ct-ng build
-   #Cannon Lake
+   #Cannon Lake, Ice Lake and Jasper Lake
    cp config-cnl-gcc8.1-gdb8.1 .config
    ./ct-ng build
    #i.MX8/i.MX8X
@@ -201,6 +201,8 @@ Copy all five cross-compiler toolchains to ~/work/sof/.
    |HSW| and |BDW| share the same cross compiler toolchain: xtensa-hsw-elf
 
    |BYT| and |CHT| share the same cross compiler toolchain: xtensa-byt-elf
+
+   |CNL|, |ICL| and |JSL| share the same cross compiler toolchain: xtensa-cnl-elf
 
    i.MX8 and i.MX8X share the same cross compiler toolchain: xtensa-imx-elf
 
@@ -243,7 +245,7 @@ Build and install the headers for each platform.
    make
    make install
    rm -fr rm etc/config.cache
-   #Cannon Lake
+   #Cannon Lake, Ice Lake and Jasper Lake
    ./configure --target=xtensa-cnl-elf --prefix=/home/$USER/work/sof/xtensa-root
    make
    make install
@@ -382,6 +384,24 @@ for |CNL|:
    mkdir build_cnl && cd build_cnl
    cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
    make cannonlake_defconfig
+   make bin -j4
+
+for |ICL|:
+
+.. code-block:: bash
+
+   mkdir build_icl && cd build_icl
+   cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
+   make icelake_defconfig
+   make bin -j4
+
+for |JSL|:
+
+.. code-block:: bash
+
+   mkdir build_jsl && cd build_jsl
+   cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR=`pwd`/../../xtensa-root/xtensa-cnl-elf ..
+   make jasperlake_defconfig
    make bin -j4
 
 for i.MX8:
