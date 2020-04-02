@@ -38,3 +38,4 @@ Further information on specific algorithms is forthcoming.
    :maxdepth: 1
 
    src/sample_rate_conversion
+   demux/demux.rst
