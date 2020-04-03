@@ -28,18 +28,35 @@ help:
 	@echo "   specify RELEASE=name to publish as a tagged release version"
 	@echo "   and placed in a version subfolder.  Requires repo merge permission."
 
-.PHONY: help Makefile
+.PHONY: help apidocs html clean
+
 
 # Generate the doxygen xml (for Sphinx) and copy the doxygen html to the
 # api folder for publishing along with the Sphinx-generated API docs.
+# Keep doxygen optional not to burden "drive-by" .rst contributors with
+# extra dependencies.
 
-html:
+APIS_CMAKE := ../sof/doc/build.ninja
+apidocs:
+ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
+	ninja -C ../sof/doc $${VERBOSE:+-v} doc
+else
+	# To build doxygen APIs too run this first:
+	#   cmake -GNinja -S ../sof/doc -B ../sof/doc
+endif
+
+html: apidocs
 	$(Q)$(SPHINXBUILD) -t $(DOC_TAG) -b html -d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS) $(O)
+	# Reminder: to see _all_ warnings you must "make clean" first.
+
 
 # Remove generated content (Sphinx and doxygen)
 
 clean:
 	rm -fr $(BUILDDIR)
+ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
+	ninja -C ../sof/doc $${VERBOSE:+-v} doc-clean clean
+endif
 
 # Copy material over to the GitHub pages staging repo
 # along with a README
