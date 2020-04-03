@@ -30,7 +30,10 @@ sys.path.insert(0, os.path.abspath('.'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml','sphinx.ext.todo']
+extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml',
+              'sphinx.ext.todo', 'sphinx.ext.extlinks',
+]
+
 
 graphviz_output_format='svg'
 graphviz_dot_args=[
@@ -154,6 +157,13 @@ html_favicon = 'images/sof-favicon-16x16.png'
 numfig = True
 #numfig_secnum_depth = (2)
 numfig_format = {'figure': 'Figure %s', 'table': 'Table %s', 'code-block': 'Code Block %s'}
+
+extlinks = {
+    'git-sof-master':
+    ('https://github.com/thesofproject/sof/tree/master/%s', ""),
+    'git-alsa':
+    ('https://git.alsa-project.org/?p=%s.git', ""),
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,

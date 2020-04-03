@@ -78,8 +78,8 @@ sources. Refer to this short guide: https://cmake.org/install/
 Build alsa-lib and alsa-utils
 -----------------------------
 
-This project requires some new features in alsa-lib and alsa-utils, so build
-the newest ALSA from source code.
+This project requires some new features in :git-alsa:`alsa-lib` and
+:git-alsa:`alsa-utils`, so build the newest ALSA from source code.
 
 .. warning::
 
@@ -306,8 +306,9 @@ After the SOF environment is set up, clone the *sof* repo.
 One-step rebuild from scratch
 -----------------------------
 
-To rebuild |SOF| in just one step, use the following script after
-setting up the environment.
+To rebuild |SOF| in just one step, use
+:git-sof-master:`scripts/xtensa-build-all.sh` after setting up the
+environment.
 
 Build the firmware for all platforms.
 
@@ -498,10 +499,17 @@ Step 4 Build topology and tools
 One-step rebuild from scratch
 -----------------------------
 
+Without any argument :git-sof-master:`scripts/build-tools.sh` rebuilds
+only the minimum subset of :git-sof-master:`tools/`.
+
 .. code-block:: bash
 
    cd ~/work/sof/sof/
    ./scripts/build-tools.sh
+   ./scripts/build-tools.sh -h
+   usage: ./scripts/build-tools.sh [-t|-f]
+       [-t] Build test topologies
+       [-f] Build fuzzer"
 
 Incremental build
 -----------------
