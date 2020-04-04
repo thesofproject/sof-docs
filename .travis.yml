@@ -14,8 +14,11 @@ install:
 
 script:
     - cd .. && git clone https://github.com/thesofproject/sof.git && cd sof/doc && cmake . && make doc && cd - && cd sof-docs
-    - make html
+    - set -o pipefail && make html |& tee sphinx.log
     - ls _build
+
+after_script:
+    - if grep -C 3 -i -e warn -e error sphinx.log; then echo WARN; exit 1; fi
 
 before_deploy:
     - mkdir _build/latest
