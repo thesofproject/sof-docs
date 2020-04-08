@@ -7,13 +7,14 @@ python:
 
 before_install:
     - sudo apt-get update -qq
-    - sudo apt-get install doxygen make default-jre graphviz cmake
+    - sudo apt-get install doxygen make default-jre graphviz cmake ninja-build
 
 install:
     - pip install -r scripts/requirements.txt
 
 script:
-    - cd .. && git clone https://github.com/thesofproject/sof.git && cd sof/doc && cmake . && make doc && cd - && cd sof-docs
+    - pushd .. && git clone https://github.com/thesofproject/sof.git && pushd sof/doc && cmake -GNinja .
+    - popd && popd
     - make html
     - ls _build
 
