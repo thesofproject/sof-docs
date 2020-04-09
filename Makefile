@@ -3,9 +3,9 @@
 
 ifeq ($(VERBOSE),1)
   Q =
+  SPHINXOPTS ?= -v
 else
   Q = @
-  SPHINXOPTS    ?= -q
 endif
 
 # You can set these variables from the command line.
