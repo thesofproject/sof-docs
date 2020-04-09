@@ -44,6 +44,9 @@ graphviz_dot_args=[
 
 plantuml = 'java -jar ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.jar') \
     + ' -config ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.cfg')
+
+# Temporarily set this to "none" for a build without diagrams but ~= 15
+# times faster from scratch.
 plantuml_output_format = 'svg'
 
 # Add any paths that contain templates here, relative to this directory.
@@ -158,9 +161,13 @@ numfig = True
 #numfig_secnum_depth = (2)
 numfig_format = {'figure': 'Figure %s', 'table': 'Table %s', 'code-block': 'Code Block %s'}
 
+SOF_GIT = 'https://github.com/thesofproject'
+
 extlinks = {
     'git-sof-master':
-    ('https://github.com/thesofproject/sof/tree/master/%s', ""),
+       (SOF_GIT + '/sof/tree/master/%s', ""),
+    'git-sof-docs-master':
+       (SOF_GIT + '/sof-docs/tree/master/%s', ""),
     'git-alsa':
     ('https://git.alsa-project.org/?p=%s.git', ""),
 }

@@ -212,6 +212,10 @@ but only the first time. Most of the time is spent generating UML
 diagrams. When done, view the HTML output with your browser, starting at
 ``~/thesofproject/sof-docs/_build/html/index.html``
 
+If your changes are not related to any UML diagram, you can build more
+than 10 times faster from scratch by temporarily changing the
+``plantuml_output_format`` line in :git-sof-docs-master:`conf.py`.
+
 Publish content
 ***************
 
