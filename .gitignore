@@ -4,3 +4,6 @@ _build
 *.sav
 *.log
 *.warnings
+.tox
+.tox
+MANIFEST
