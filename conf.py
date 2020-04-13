@@ -85,7 +85,7 @@ language = None
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build' ]
+exclude_patterns = ['_build','.tox' ]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -201,3 +201,9 @@ breathe_projects = {
 }
 breathe_default_project = "SOF Project"
 breathe_default_members = ('members', 'undoc-members', 'content-only')
+
+try:
+    if "tox" not in exclude_patterns:
+        exclude_patterns.append(".tox")
+except:
+    exclude_patterns = [".tox"]
