@@ -3,9 +3,9 @@
 
 ifeq ($(VERBOSE),1)
   Q =
+  SPHINXOPTS ?= -v
 else
   Q = @
-  SPHINXOPTS    ?= -q
 endif
 
 # You can set these variables from the command line.
@@ -46,7 +46,7 @@ else
 endif
 
 html: apidocs
-	$(Q)$(SPHINXBUILD) -t $(DOC_TAG) -b html -d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS) $(O)
+	$(Q)$(SPHINXBUILD) -j auto -t $(DOC_TAG) -b html -d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS) $(O)
 	# Reminder: to see _all_ warnings you must "make clean" first.
 
 

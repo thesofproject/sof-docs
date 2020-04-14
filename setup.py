@@ -7,5 +7,5 @@ setup(name='Sphinx GUI Utility',
       description='Build Sphinx docs from a GUI',
       author='Deb Taylor',
       author_email='deb.taylor@intel.com',
-      url='https://github.com/deb-intel/sof-docs',
+      url='https://github.com/deb-intel/sof-docs'
       )

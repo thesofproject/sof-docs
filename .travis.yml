@@ -15,7 +15,7 @@ install:
 script:
     - pushd .. && git clone https://github.com/thesofproject/sof.git && pushd sof/doc && cmake -GNinja .
     - popd && popd
-    - make html
+    - make html VERBOSE=1
     - ls _build
 
 before_deploy:
