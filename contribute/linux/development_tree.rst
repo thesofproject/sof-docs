@@ -73,6 +73,8 @@ Rebasing tree
 In addition to the topic/sof-dev branch, the SOF project maintains a
 parallel topic/sof-dev-rebase branch. This branch is not intended for
 development, but to make upstream contributions easier to manage.
+As its name indicates, commit SHA1s in topic/sof-dev-rebase are volatile
+and should not be relied on. SHA1s in topic/sof-dev are immutable.
 
 Upstream merges
 ===============
@@ -130,8 +132,10 @@ same baseline, and again compared to the topic/sof-dev branch. After
 the two separate operations of merge and rebase on the two branches,
 these two branches should again be identical. The net effect of the
 rebase is that all patches already integrated by ALSA/ASoC maintainers
-'disappear.' In other words, the topic/sof-dev-rebase branch helps
-visualize all patches not currently merged upstream.
+'disappear.' In other words, comparing sof-dev with sof-dev-rebase
+shows all patches not currently merged upstream. This includes a limited
+number of infrastructure changes that will never be merged upstream
+like for instance github's CODEOWNERS file.
 
 3. Upstream contributions
 *************************
