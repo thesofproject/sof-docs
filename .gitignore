@@ -5,5 +5,4 @@ _build
 *.log
 *.warnings
 .tox
-.tox
 MANIFEST
