@@ -9,8 +9,8 @@ It also demonstrates how to register the component driver in the FW
 infrastructure so that the FW can respond to the *new component* request sent
 by the driver and instantiate it.
 
-Let's call the new component "the amplifier". The amplifier will be based on a
-processing component class (aka effect).
+For this lesson, the new component is called "the amplifier." The amplifier
+is based on a processing component class such as effect.
 
 Adding Basic Component Code
 ***************************
@@ -20,16 +20,16 @@ New Component Type
 
 First, define a new component type in *src/include/ipc/topology.h*. It is a
 unique identifier used while declaring instances of the component as parts of
-the topology (more details on the required topology modifications will be
+the topology. More details on the required topology modifications will be
 provided in the next part of the tutorial; for now, our focus is on the FW
-source code).
+source code.
 
 .. note::
    Simple component IDs currently used at the moment will be replaced by
    UUIDs in the future to avoid conflict resolutions while integrating
-   independently developed components. The current implementation requires you
-   to assign an unoccupied number. The UUIDs assigned to the components today
-   are used for logging purpose only.
+   independently developed components. The current implementation requires
+   you to assign an unoccupied number. The UUIDs assigned to the components
+   today are used for logging purposes only.
 
 .. code-block:: c
 
@@ -46,9 +46,9 @@ source code).
 Identifier for Logging
 ======================
 
-Components use Universally Unique Identifiers (UUIDs) for logging. Go to
-:ref:`uuid-api` documentation for basic information about UUIDs in FW and how to
-generate one for your component.
+Components use Universally Unique Identifiers (UUIDs) for logging. Refer to
+the :ref:`uuid-api` documentation for basic information about UUIDs in FW and
+how to generate one for your component.
 
 The example UUID generated for the amplifier component is
 *1d501197-da27-4697-80c8-4e694d3600a0*.
@@ -62,21 +62,21 @@ Add the following declaration at the beginning of the source file:
 
 where *"amp"* is the component name that will be printed by the logger tool.
 Amplifier's UUID value and its name is stored in the ldc file deployed on the
-target system and used by the logger to resolve and print the name of component.
-The only thing required to "teach" the logger new component's name is update of
-the ldc file along with the FW binary on the target system. No tool
-recompilation is required.
+target system and is used by the logger to resolve and print the name of the
+component. The only thing required to "teach" the logger the new component's
+name is to update the ldc file along with the FW binary on the target
+system. No tool recompilation is required.
 
 Basic Component API
 ===================
 
 Create a folder for your component source code in *src/audio*, such as
-*src/audio/amp* and create a new *amp.c* file inside.
+*src/audio/amp*, and create a new *amp.c* file inside.
 
 Declare the basic required part of the API for your component using ``struct
-comp_driver`` in *amp.c* (to learn more about component instances, or devices,
-and their drivers, refer to :ref:`apps-component-overview` and
-:ref:`component-api`).
+comp_driver`` in *amp.c*. To learn more about component instances, or
+devices, and their drivers, refer to :ref:`apps-component-overview` and
+:ref:`component-api`.
 
 .. code-block:: c
 
@@ -113,22 +113,22 @@ and their drivers, refer to :ref:`apps-component-overview` and
    DECLARE_MODULE(sys_comp_amp_init);
 
 Note that the ``type`` used for the component driver is set to the
-``SOF_COMP_AMP`` declared earlier and ``uid`` used for logging is initialized by
-the ``SOF_UUID(amp_uuid)`` where ``amp_uuid`` is declared at the beginning of
-the source file.
+``SOF_COMP_AMP`` which is declared earlier. The ``uid`` used for logging is
+initialized by the ``SOF_UUID(amp_uuid)``, where ``amp_uuid`` is declared at
+the beginning of the source file.
 
 The API declaration is followed by a registration handler attached to the
-initialization list by ``DECLARE_MODULE()`` macro. This is all the
+initialization list by the ``DECLARE_MODULE()`` macro. This is all the
 infrastructure needs to know in order to find and create an instance of the
 ``SOF_COMP_AMP`` component.
 
-Some of the operations are left unimplemented at the moment:
+The following operations are currently not implemented:
 
 * ``params`` - the amplifier will do all the preparations and setup inside
-  the ``prepare`` handler and this one will not be used.
+  the ``prepare`` handler; this one will not be used.
 
-* ``cmd`` - a handler to report and receive our custom run-time parameters will
-  be implemented later in :ref:`amp-run-time-params`.
+* ``cmd`` - a handler to report and receive our custom run-time parameters
+  will be implemented later in :ref:`amp-run-time-params`.
 
 Constructor ``amp_new()``
 =========================
@@ -173,23 +173,22 @@ Add the following handler before your API declaration:
 
 The constructor:
 
-* Allocates the memory, usually in two steps. Both allocations are done from the
-  SOF_MEM_ZONE_RUNTIME heap that should be used by the application layer which
-  includes processing components.
+* Allocates the memory, usually in two steps. Both allocations are done from
+  the SOF_MEM_ZONE_RUNTIME heap that should be used by the application layer
+  which includes processing components.
 
   * First, a common context for the device is allocated including some
-    extensions specific for a component class. In this example the component
-    device is based on the ``struct sof_ipc_comp_process``, used for
+    extensions specific for a component class. In this example, the component
+    device is based on the ``struct sof_ipc_comp_process``, which is used for
     processing components. Component's parameters received from the IPC
-    request are copied to the allocated space. :cpp:func:`comp_alloc()` used for
-    the first allocation guarantees that all important parts of the ``dev`` are
-    initialized as well.
+    request are copied to the allocated space. :cpp:func:`comp_alloc()` used
+    for the first allocation guarantees that all important parts of the ``dev`` are initialized as well.
 
-  * The second allocation acquires memory for the private data of amplifier
-    instance, ``struct amp_comp_data``. This structure contains a placeholder
-    at the moment. You will redefine it later to store run-time parameters
-    of the instance. Note how the private data is attached to the device by
-    calling ``comp_set_drvdata()``. You will use symmetric
+  * The second allocation acquires memory for the private data of the
+    amplifier instance, ``struct amp_comp_data``. This structure contains a
+    placeholder at the moment. You will redefine it later to store run-time
+    parameters of the instance. Note how the private data is attached to the
+    device by calling ``comp_set_drvdata()``. You will use symmetric
     ``comp_get_drvdata()`` to retrieve the private data object from the
     device object later while implementing other handlers.
 
@@ -204,10 +203,10 @@ The constructor:
   :ref:`apps-component-overview`.
 
 Note the ``comp_dbg()`` macro used to log the creation event where ``dev`` is
-the first argument that let the logger resolve name of the trace source while
-processing the log entry. DEBUG level messages are not traced by default,
-the trace subsystem has to be reconfigured. The trace system outputs INFO, WARN,
-and ERROR messages by default.
+the first argument that lets the logger resolve the name of the trace source
+while processing the log entry. DEBUG level messages are not traced by
+default; the trace subsystem has to be reconfigured. The trace system
+outputs INFO, WARN, and ERROR messages by default.
 
 Destructor ``amp_free()``
 =========================
@@ -228,7 +227,7 @@ The destructor frees the memory allocated previously in the ``amp_new()``.
 State Transition Handler ``amp_trigger()``
 ==========================================
 
-The transition handler just invokes the ``comp_set_state()``. No specific
+The transition handler just invokes ``comp_set_state()``. No specific
 actions are defined in this simple example.
 
 .. code-block:: c
@@ -248,11 +247,11 @@ This example assumes that only one source buffer and one sink buffer are
 connected; therefore, only the first item from  ``dev->bsink_list`` is
 verified.
 
-Note that in case another "prepare" call was issued before, the handler
-returns ``PPL_STATUS_PATH_STOP`` and exits to prevent propagation of a
-likely configuration coming from another connected pipeline.
+Note that in the event that another "prepare" call was previously issued,
+the handler returns ``PPL_STATUS_PATH_STOP`` and exits to prevent
+propagation of a likely configuration coming from another connected pipeline.
 
-Add the following handler code before your API declaration.
+Add the following handler code before your API declaration:
 
 .. code-block:: c
 
@@ -308,27 +307,27 @@ output and shows how to:
 * Use :cpp:struct:`comp_copy_limits` and :cpp:func:`comp_get_copy_limits_with_lock()`
   to retrieve information about the number of samples to be processed.
 
-* Refresh the local data cache with :cpp:func:`buffer_invalidate()` in case the
-  input data is being provided to the source buffer by a component running on
-  another core.
+* Refresh the local data cache with :cpp:func:`buffer_invalidate()` in case
+  the input data is being provided to the source buffer by a component
+  running on another core.
 
-* Iterate over the frames, channels, and samples using :cpp:struct:`comp_copy_limits`
-  descriptor.
+* Iterate over the frames, channels, and samples using the :cpp:struct:`comp_copy_limits` descriptor.
 
 * Read/write from/to the circular buffers. This implementation assumes both
-  input and output are signed 16-bit samples, therefore
+  input and output are signed 16-bit samples; therefore,
   :cpp:func:`audio_stream_read_frag_s16()` and
   :cpp:func:`audio_stream_write_frag_s16()` are used. You may prepare more
   alternatives and use the one suitable for the input/output format obtained
   from the ``sink_buf->stream.frame_fmt`` in the ``amp_prepare()`` handler.
 
 * Update the shared memory containing produced samples with the local data
-  cache using :cpp:func:`buffer_writeback()` in case the output data is being
-  consumed from the sink buffer by a component running on another core.
+  cache using :cpp:func:`buffer_writeback()` in the event that the output
+  data is being consumed from the sink buffer by a component running on
+  another core.
 
 * Update the buffers' pointers using :cpp:func:`comp_update_buffer_consume()`
-  and :cpp:func:`comp_update_buffer_produce()` to indicate the data consumed and
-  produced.
+  and :cpp:func:`comp_update_buffer_produce()` to indicate the data consumed
+  and produced.
 
 The ``*dst = *src`` copy operation will be replaced later by amplification.
 
@@ -379,7 +378,7 @@ Build Scripts
 *************
 
 Add the following line to *src/audio/CMakeLists.txt* inside the block where
-other components subfolders are specified:
+other components' subfolders are specified:
 
 .. code-block:: cmake
 
