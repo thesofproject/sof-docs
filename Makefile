@@ -13,7 +13,9 @@ SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = "SOF Project"
 SOURCEDIR     = .
 BUILDDIR      = _build
+ifneq ($(LAX),1)
 ERROROPTS	  = -W --keep-going
+endif
 
 DOC_TAG      ?= development
 RELEASE      ?= latest
@@ -46,7 +48,9 @@ else
 endif
 
 html: apidocs
-	$(Q)$(SPHINXBUILD) -j auto -t $(DOC_TAG) -b html -d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS) $(O)
+	$(SPHINXBUILD) -j auto -t $(DOC_TAG) -b html               \
+-d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS)    \
+$(ERROROPTS) $(O)
 	# Reminder: to see _all_ warnings you must "make clean" first.
 
 
