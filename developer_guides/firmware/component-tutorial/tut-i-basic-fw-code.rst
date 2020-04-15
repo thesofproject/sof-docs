@@ -304,14 +304,15 @@ Signal Processing Function ``amp_copy``
 This first version of the processing function simply copies input samples to
 output and shows how to:
 
-* Use :cpp:struct:`comp_copy_limits` and :cpp:func:`comp_get_copy_limits_with_lock()`
+* Use :cpp:class:`comp_copy_limits`  and :cpp:func:`comp_get_copy_limits_with_lock()`
   to retrieve information about the number of samples to be processed.
 
 * Refresh the local data cache with :cpp:func:`buffer_invalidate()` in case
   the input data is being provided to the source buffer by a component
   running on another core.
 
-* Iterate over the frames, channels, and samples using the :cpp:struct:`comp_copy_limits` descriptor.
+* Iterate over the frames, channels, and samples using the
+  :cpp:class:`comp_copy_limits` descriptor.
 
 * Read/write from/to the circular buffers. This implementation assumes both
   input and output are signed 16-bit samples; therefore,
