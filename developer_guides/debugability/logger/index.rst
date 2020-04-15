@@ -101,7 +101,7 @@ Examples:
 
    sof-logger -l ldc_file -i trace_dump -o out_file
 
-- c flag is intented for defining clock value (in MHz) used to format log
+- c flag is intended for defining clock value (in MHz) used to format log
   timestamps. By default clock value is set to 19.2 (MHz). Below example
   set clock value to 19.9 (MHz).
 
