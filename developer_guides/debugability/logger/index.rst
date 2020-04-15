@@ -33,6 +33,7 @@ Usage sof-logger <option(s)> <file(s)>
 -v ver_file 		Enable checking firmware version with ver_file file, instead of default: "/sys/kernel/debug/sof/fw_version"
 -s			Take a snapshot of state
 -r			Less formatted output for chained log processors
+-d			Dump ldc information
 
 Examples:
 
@@ -107,3 +108,9 @@ Examples:
 .. code-block:: bash
 
    sof-logger -l ldc_file -i trace_dump -o out_file -c 19.9
+
+- Dump information from *ldc* (like ABI version and uuid dictionary) to stdout
+
+.. code-block:: bash
+
+   sof-logger -l ldc_file -d
