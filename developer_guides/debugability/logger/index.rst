@@ -28,7 +28,7 @@ Usage sof-logger <option(s)> <file(s)>
 -o out_file 		Specify the output file, instead of default stdout
 -t					Get traces from "/sys/kernel/debug/sof/trace", instead of the default "/sys/kernel/debug/sof/etrace"
 -p					Get traces from stdin, instead of the default "/sys/kernel/debug/sof/etrace"
--c					Set timestamp clock in MHz
+-c clock				Set timestamp clock in MHz
 -e					Enable checking firmware version with default verification file "/sys/kernel/debug/sof/fw_version"
 -v ver_file 		Enable checking firmware version with ver_file file, instead of default: "/sys/kernel/debug/sof/fw_version"
 -s					Take a snapshot of state
