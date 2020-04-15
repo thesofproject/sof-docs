@@ -32,7 +32,7 @@ Usage sof-logger <option(s)> <file(s)>
 -e			Enable checking firmware version with default verification file "/sys/kernel/debug/sof/fw_version"
 -v ver_file 		Enable checking firmware version with ver_file file, instead of default: "/sys/kernel/debug/sof/fw_version"
 -s			Take a snapshot of state
-
+-r			Less formatted output for chained log processors
 
 Examples:
 
