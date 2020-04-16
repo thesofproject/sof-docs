@@ -32,15 +32,16 @@ First, change the private data definition to store run-time parameters.
 Add start-up parameter handling to ``amp_new()``.
 
 .. code-block:: c
-   :emphasize-lines: 9-15, 21-22
+   :emphasize-lines: 10-16, 22-23
 
    static struct comp_dev *amp_new(struct sof_ipc_comp *comp)
    {
            /* ... */
 
-           amp = (struct sof_ipc_comp_process *)&dev->comp;
-           assert(!memcpy_s(amp, sizeof(*amp), ipc_amp,
-                            sizeof(struct sof_ipc_comp_process)));
+           amp = COMP_GET_IPC(dev, sof_ipc_comp_process);
+           ret = memcpy_s(amp, sizeof(*amp), ipc_amp,
+                          sizeof(struct sof_ipc_comp_process)));
+           assert(!ret);
 
            cd->channel_volume[0] = 1;
            cd->channel_volume[1] = 1;
@@ -54,15 +55,15 @@ Add start-up parameter handling to ``amp_new()``.
 
            /* ... */
 
-           trace_amp("Amplifier created vol[0] %d vol[1] %d",
-                     cd->channel_volume[0], cd->channel_volume[1]);
+           comp_dbg(dev, "amplifier created vol[0] %d vol[1] %d",
+                    cd->channel_volume[0], cd->channel_volume[1]);
 
    }
 
 Modify ``amp_copy()`` to pass/mute channels based on your settings.
 
 .. code-block:: c
-   :emphasize-lines: 3, 12-15
+   :emphasize-lines: 3, 14-17
 
    static int amp_copy(struct comp_dev *dev)
    {
@@ -72,9 +73,11 @@ Modify ``amp_copy()`` to pass/mute channels based on your settings.
            /* ... */
 
            for (frame = 0; frame < cl.frames; frame++) {
-                   for (channel = 0; channel < dev->params.channels; channel++) {
-                           src = buffer_read_frag_s16(cl.source, buff_frag);
-                           dst = buffer_write_frag_s16(cl.sink, buff_frag);
+                   for (channel = 0; channel < sink->stream.channels; channel++) {
+                           src = audio_stream_read_frag_s16(&source->stream,
+                                                            buff_frag);
+                           dst = audio_stream_write_frag_s16(&sink->stream,
+                                                             buff_frag);
                            if (cd->channel_volume[channel])
                                    *dst = *src;
                            else
@@ -95,22 +98,21 @@ First, add the handler to receive parameters.
            struct amp_comp_data *cd = comp_get_drvdata(dev);
 
            if (cdata->cmd != SOF_CTRL_CMD_BINARY) {
-                   trace_amp_error("amp_cmd_set_data() error: invalid cmd %d",
-                                   cdata->cmd);
+                   comp_err(dev, "amp_cmd_set_data(): invalid cmd %d",
+                            cdata->cmd);
                    return -EINVAL;
            }
 
            if (cdata->data->size != sizeof(cd->channel_volume)) {
-                   trace_amp_error("amp_cmd_set_data() error: "
-                                   "invalid data size %d",
-                                   cdata->data->size);
+                   comp_err(dev, "amp_cmd_set_data(): invalid data size %d",
+                            cdata->data->size);
                    return -EINVAL;
            }
 
            memcpy_s(cd->channel_volume, sizeof(cd->channel_volume),
                     cdata->data->data, cdata->data->size);
-           trace_amp("Amplifier new settings vol[0] %d vol[1] %d",
-                     cd->channel_volume[0], cd->channel_volume[1]);
+           comp_dbg(dev, "amplifier new settings vol[0] %d vol[1] %d",
+                    cd->channel_volume[0], cd->channel_volume[1]);
            return 0;
    }
 
@@ -125,8 +127,8 @@ Add another one to report parameters back to the host. Note how the
            struct amp_comp_data *cd = comp_get_drvdata(dev);
 
            if (cdata->cmd != SOF_CTRL_CMD_BINARY) {
-                   trace_amp_error("amp_cmd_get_data() error: invalid cmd %d",
-                                   cdata->cmd);
+                   comp_err(dev, "amp_cmd_get_data(): invalid cmd %d",
+                            cdata->cmd);
                    return -EINVAL;
            }
 
@@ -160,7 +162,7 @@ Put everything together as a command handler.
                    ret = amp_cmd_get_data(dev, cdata, max_data_size);
                    break;
            default:
-                   trace_amp_error("amp_cmd() error: unhandled command %d", cmd);
+                   comp_err(dev, "amp_cmd(): unhandled command %d", cmd);
                    ret = -EINVAL;
                    break;
            }
@@ -191,22 +193,5 @@ Attach the handler to your component driver API.
 Binary Bytes KControl in Topology
 *********************************
 
-This is an example of data section for component parameters. Note the size of
-the data and the data highlighted (two 32-bit numbers set to 1, little-endian byte
-ordering).
-
-.. code-block:: text
-   :emphasize-lines: 6, 10-11
-
-   SectionData."Amp_priv" {
-           bytes "0x53, 0x4f, 0x46, 0x00,
-           0x00, 0x00, 0x00, 0x00,
-           0x00, 0x00, 0x00, 0x00,
-           0x00, 0x00, 0x00, 0x00,
-           0x08, 0x00, 0x00, 0x00,
-           0x00, 0x00, 0x00, 0x03,
-           0x00, 0x00, 0x00, 0x00,
-           0x00, 0x00, 0x00, 0x00,
-           0x01, 0x00, 0x00, 0x00,
-           0x01, 0x00, 0x00, 0x00"
-   }
+An example of data section for component parameters is presented as
+*amp_bytes.m4* content in the previous part of the tutorial.
