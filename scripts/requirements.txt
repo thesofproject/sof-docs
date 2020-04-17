@@ -1,3 +1,5 @@
+# This file hardcodes validated versions with '==',
+# see requirements-lax.txt for an alternative.
 breathe==4.14.1
 sphinx==2.4.4
 docutils==0.16

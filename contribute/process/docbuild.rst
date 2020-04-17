@@ -147,6 +147,16 @@ tools:
    cd ~/thesofproject/sof-docs
    pip3 install --user -r scripts/requirements.txt
 
+Note :git-sof-docs-master:`scripts/requirements.txt` hardcodes versions
+using ``==``, which may not be compatible with your other projects. In
+that case you can either setup a Python ``virtualenv`` or try the
+unsupported :git-sof-docs-master:`scripts/requirements-lax.txt` (more
+details inside this file):
+
+.. code-block:: bash
+
+   PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
+
 For Windows, install the needed tools manually:
 
 * Python (3.7+) from https://www.python.org/downloads/
@@ -171,7 +181,8 @@ For Windows, install the needed tools manually:
    Make sure that installed executable files are in your path. If not,
    manually add the paths to the PATH variable.
 
-For Linux and Windows, install the remaining python-based tools:
+For Windows, install the remaining python-based tools as already
+described for Linux above:
 
 .. code-block:: bash
 

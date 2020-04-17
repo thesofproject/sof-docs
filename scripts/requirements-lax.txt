@@ -1,0 +1,46 @@
+# Do not use this file for any intensive/"serious" documentation work.
+
+# The purpose of this "laxer" file is to lower the barrier for drive-by
+# contributors and make it easier for anyone to verify a typo fix
+# locally.
+
+# On Debian/Ubuntu/etc. don't forget PIP_IGNORE_INSTALLED=0 (double
+# negation):
+#  PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
+# See https://github.com/pypa/pip/issues/4222
+
+breathe>=4.7.3
+sphinx>=1.6.7
+docutils>=0.14
+sphinx_rtd_theme>=0.2.4
+sphinxcontrib-plantuml
+
+
+# Differences between these "lax" version requirements and the official
+# ones in requirements.txt:
+
+## Pros
+
+#  - They use '>=' instead of '==' hardcoding so:
+#      - you don't need a virtualenv per project,
+#      - you can spend less time downloading and more time fixing the doc.
+#  - The build was successful the last time someone updated this file.
+#  - These versions produce something usable and mostly complete.
+
+## Cons
+
+#  - They're not official, not regulary tested and "best effort",
+#    community-maintained.
+#  - They may produce warnings (but nothing that stops the build).
+#  - Output may be ugly and/or incomplete.
+#  - Upgrading only some of them outside this file may result in sphinx
+#    modules incompatible with each other.
+
+## Maintenance
+
+#  - Bump up only when really needed. Prefer (reasonable) backward
+#    compatibility if possible,
+#  - When bumping up, upgrade to the lowest possible version required.
+#  - Downgrade if successfully tested.
+#  - Test with plantum set to "none" in conf.py. We don't want small
+#    typo fixes to depend on UML diagrams.
