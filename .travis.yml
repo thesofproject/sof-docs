@@ -40,3 +40,29 @@ jobs:
                     branch: publish
                 local_dir: _build/html/
                 target_branch: master
+
+
+        - name: "PIP_IGNORE_INSTALLED=0 requirements-lax.txt"
+
+          language: minimal
+
+          # Sphinx warnings are not errors any more
+          env: LAX=1
+
+          install:
+              - sudo apt -y install
+                        python3-pip python3-setuptools python3-wheel
+                        python3-sphinx python3-breathe python3-docutils
+                        python3-sphinx-rtd-theme python3-sphinxcontrib.plantuml
+
+              # Ideally, this pip3 command installs almost nothing.
+              - PIP_IGNORE_INSTALLED=0 pip3 install --user
+                   -r scripts/requirements-lax.txt
+
+              # sphinx-build < 1.7 doesn't support "auto" and we're not sure
+              # all default modules are "thread-safe"
+              - sed -i -e '/SPHINXBUILD/ s/-j *auto/-j 1/' Makefile
+              # We don't want plantUML to raise the contribution bar
+              - sed -i -e 's/^\(plantuml_output_format *=\).*/\1 "none"/' conf.py
+
+          script: *main_script
