@@ -59,7 +59,7 @@ hexadecimal or integer values. SOF topology m4 macros have helpers to
 The following example from pipe-volume-demux-playback.m4 shows how to define
 2 routing matrices and a demux component:
 
-.. code-block::
+.. code-block:: text
 
 		# pipeline_id, channels, matrix_rows
 		define(matrix1, `ROUTE_MATRIX(PIPELINE_ID, 2,
@@ -118,7 +118,7 @@ python tool:
 
 It produces the following output:
 
-.. code-block::
+.. code-block:: text
 
 		sof m4 and ALSA conf format:
 		`       bytes "0x53,0x4f,0x46,0x00,0x12,0x00,0x00,0x00,0x3c,'
