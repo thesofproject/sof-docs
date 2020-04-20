@@ -13,8 +13,8 @@ Documentation overview
 
 The SOF Project content is written using the reStructuredText markup
 language (``.rst`` file extension) with Sphinx extensions, and processed
-using Sphinx to create a formatted standalone website. As a developer, you can
-view this content either in its raw form as ``.rst`` markup files, or you
+using Sphinx to create a formatted standalone website. As a developer, you
+can view this content either in its raw form as ``.rst`` markup files, or you
 can generate the HTML content and view it with a web browser directly on
 your workstation.
 
@@ -48,7 +48,8 @@ You must install git to set up the working folders:
 
      sudo dnf install git
 
-* For a Windows development system, download and install Git manually from the https://git-scm.com/download/win website.
+* For a Windows development system, download and install Git manually from
+  the https://git-scm.com/download/win website.
 
 We use github.io for publishing the generated documentation. The recommended
 folder setup for documentation contributions and generation is as follows:
@@ -147,15 +148,15 @@ tools:
    cd ~/thesofproject/sof-docs
    pip3 install --user -r scripts/requirements.txt
 
-Note :git-sof-docs-master:`scripts/requirements.txt` hardcodes versions
-using ``==``, which may not be compatible with your other projects. In
-that case you can either setup a Python ``virtualenv`` or try the
-unsupported :git-sof-docs-master:`scripts/requirements-lax.txt` (more
-details inside this file):
+.. note:: The :git-sof-docs-master:`scripts/requirements.txt` file hardcodes
+   versions using ``==``, which may not be compatible with your other
+   projects. In that case you can either setup a Python ``virtualenv`` or
+   try the unsupported :git-sof-docs-master:`scripts/requirements-lax.txt`
+   (more details inside this file):
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
+      PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
 
 For Windows, install the needed tools manually:
 
@@ -181,8 +182,8 @@ For Windows, install the needed tools manually:
    Make sure that installed executable files are in your path. If not,
    manually add the paths to the PATH variable.
 
-For Windows, install the remaining python-based tools as already
-described for Linux above:
+For Windows, install the remaining python-based tools as previously
+described for Linux:
 
 .. code-block:: bash
 
@@ -249,14 +250,16 @@ good, you can push directly to the publishing site using this command:
 
    make publish
 
-This will delete everything in the publishing repo's **latest** folder (in case
-the new version has deleted files) and push a copy of the newly-generated HTML
-content directly to the GitHub pages publishing repo. The public site at
-https://thesofproject.github.io will be updated within a few minutes so it's
-best to verify the locally-generated html before publishing.
+This will delete everything in the publishing repo's **latest** folder (in
+case the new version has deleted files) and push a copy of the
+newly-generated HTML content directly to the GitHub pages publishing repo.
+The public site at https://thesofproject.github.io will be updated within a
+few minutes so it's best to verify the locally-generated html before
+publishing.
 
 .. note::
-   In some situations it is necessary to clean all the files and build from the very beginning. To do this, use the ``make clean`` command.
+   In some situations it is necessary to clean all the files and build from
+   the very beginning. To do this, use the ``make clean`` command.
 
 Installation troubleshooting
 ****************************
@@ -272,8 +275,8 @@ In some cases, after you run ``make html``, the documentation processors might r
 	make: *** [html] Error 1
 
 The issue could be related to the default policy on Debian-based Linux
-distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You can
-verify this by entering the following steps:
+distributions (i.e. Ubuntu) that links Python commands to Python 2.7.x. You
+can verify this by entering the following steps:
 
 .. code-block:: bash
 
@@ -286,8 +289,8 @@ verify this by entering the following steps:
 	 lrwxrwxrwx 1 root root 9 sie 29 07:36 /usr/bin/python -> python2.7*
 
 The issue can be resolved by running a dedicated environment with the Python
-3.x binary and include its own set of installed Python packages. Virtualization
-of the Python environment is recommended as an alternative to:
+3.x binary and include its own set of installed Python packages.
+Virtualization of the Python environment is recommended as an alternative to:
 
 * adding an alias setup in ~/.bashrc
 * changing the symbolic link (/usr/bin/python)
@@ -327,9 +330,8 @@ To deactivate the virtual environment and original Python environment, type:
 
 	deactivate
 
-Further information on how to use lightweight Python
-virtualization environments can be found at
-https://docs.python.org/3/library/venv.html.
+Further information on how to use lightweight Python virtualization
+environments can be found at https://docs.python.org/3/library/venv.html.
 
 Windows troubleshooting
 ***********************
@@ -341,9 +343,9 @@ It is possible that the ``cmake`` command may not be accessible from the MSYS2 s
 	cmake -GNinja .
 	bash: cmake: command not found
 
-The problem may be due to the MSYS2 PATH missing the cmake installation folder.
-If the cmake works correctly from the Win Command Prompt then edit the msys2_shell.cmd
-and check if a PATH inherit option is enabled:
+The problem may be due to the MSYS2 PATH missing the cmake installation
+folder. If the cmake works correctly from the Win Command Prompt then edit
+the msys2_shell.cmd and check if a PATH inherit option is enabled:
 
 .. code-block:: bash
 
@@ -358,8 +360,8 @@ Another issue that may occur is the ``sphinx-build`` command not found:
 	 make: sphinx-build: Command not found
 	 make: *** [Makefile:36: html] Error 127
 
-If the above error occurs both in the Win Command Prompt and in the MSYS2 shell
-then the python sphinx package needs to be updated:
+If the above error occurs both in the Win Command Prompt and in the MSYS2
+shell then the python sphinx package needs to be updated:
 
 .. code-block:: bash
 
@@ -377,15 +379,15 @@ plantuml, you may encounter the following compilation error:
 	 b'ERROR\n2\nSyntax Error?\nSome diagram description contains errors\n'
 
 If you excluded syntax errors in the diagram description, one of remaining
-possibilities is lack of compatibility with the installed plantuml.jar version.
-You can verify it using the following command:
+possibilities is lack of compatibility with the installed plantuml.jar
+version. You can verify it using the following command:
 
 .. code-block:: bash
 
 	java -jar ./scripts/plantuml.jar -version
 
-If the installed version of plantuml.jar is missing necessary features, submit
-a pull request to the SOF documentation repository with a new one.
+If the installed version of plantuml.jar is missing necessary features,
+submit a pull request to the SOF documentation repository with a new one.
 
 
 .. _reStructuredText: http://sphinx-doc.org/rest.html

@@ -4,7 +4,7 @@
 # contributors and make it easier for anyone to verify a typo fix
 # locally.
 
-# On Debian/Ubuntu/etc. don't forget PIP_IGNORE_INSTALLED=0 (double
+# On Debian/Ubuntu/etc., don't forget PIP_IGNORE_INSTALLED=0 (double
 # negation):
 #  PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
 # See https://github.com/pypa/pip/issues/4222
@@ -21,20 +21,20 @@ sphinxcontrib-plantuml
 
 ## Pros
 
-#  - They use '>=' instead of '==' hardcoding so:
-#      - you don't need a virtualenv per project,
+#  - These use '>=' instead of '==' hardcoding so:
+#      - you don't need a virtualenv per project.
 #      - you can spend less time downloading and more time fixing the doc.
 #  - The build was successful the last time someone updated this file.
 #  - These versions produce something usable and mostly complete.
 
 ## Cons
 
-#  - They're not official, not regulary tested and "best effort",
+#  - They're not official and not regulary tested; they are "best effort",
 #    community-maintained.
 #  - They may produce warnings (but nothing that stops the build).
 #  - Output may be ugly and/or incomplete.
 #  - Upgrading only some of them outside this file may result in sphinx
-#    modules incompatible with each other.
+#    modules that are incompatible with each other.
 
 ## Maintenance
 
