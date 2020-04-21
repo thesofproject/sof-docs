@@ -22,10 +22,21 @@ modifications.
 
 .. note::
 
-   The code examples assume ``~/work/sof/`` as the top-level working
+   ``$SOF_WORKSPACE`` environment variable should point to the directory you
+   wish to store all sof work in.
+
+   The code examples assume ``$SOF_WORKSPACE`` as the top-level working
    directory.  Clone all git repositories at the same directory level
    because some default configuration files refer to other clones using
    relative locations like ``../sof/``.
+
+Step 0 Set up the workspace directory
+=====================================
+
+  .. code-block:: bash
+
+     SOF_WORKSPACE=~/work/sof
+     mkdir "$SOF_WORKSPACE"
 
 Step 1 Set up build environment
 ===============================
@@ -90,7 +101,7 @@ This project requires some new features in :git-alsa:`alsa-lib` and
 
 .. code-block:: bash
 
-   cd ~/work/sof/
+   cd "$SOF_WORKSPACE"
    git clone git://git.alsa-project.org/alsa-lib
    cd alsa-lib
    ./gitcompile
@@ -107,7 +118,7 @@ Clone, build, and install alsa-utils.
 
 .. code-block:: bash
 
-   cd ~/work/sof/
+   cd "$SOF_WORKSPACE"
    git clone git://git.alsa-project.org/alsa-utils
    cd alsa-utils
    ./gitcompile
@@ -134,7 +145,7 @@ Create or append to the ``LD_LIBRARY_PATH`` environment variable.
 
 .. code-block:: bash
 
-   export LD_LIBRARY_PATH=~/work/sof/alsa-lib/src/.libs:$LD_LIBRARY_PATH
+   export LD_LIBRARY_PATH="${SOF_WORKSPACE}"/alsa-lib/src/.libs:$LD_LIBRARY_PATH
 
 Step 2 Build toolchains from source
 ===================================
@@ -150,7 +161,7 @@ Clone both repos and check out the ``sof-gcc8.1`` branch.
 
 .. code-block:: bash
 
-   cd ~/work/sof/
+   cd "$SOF_WORKSPACE"
    git clone https://github.com/thesofproject/xtensa-overlay
    git clone https://github.com/thesofproject/crosstool-ng
    cd xtensa-overlay
@@ -208,13 +219,13 @@ default values missing from it:
    ./ct-ng oldconfig V=1
    diff -u config-apl-gcc8.1-gdb8.1 .config
 
-"Install" toolchains by copying them to ``~/work/sof/``.
+"Install" toolchains by copying them to ``$SOF_WORKSPACE``.
 
 .. code-block:: bash
 
    ls builds/
    # xtensa-apl-elf  xtensa-byt-elf   xtensa-cnl-elf   xtensa-hsw-elf  xtensa-imx-elf  xtensa-imx8m-elf
-   cp -r builds/* ~/work/sof/
+   cp -r builds/* "$SOF_WORKSPACE"
 
 .. note::
 
@@ -230,12 +241,12 @@ Add your toolchains to your PATH variable.
 
 .. code-block:: bash
 
-   PATH=~/work/sof/xtensa-byt-elf/bin/:$PATH
-   PATH=~/work/sof/xtensa-hsw-elf/bin/:$PATH
-   PATH=~/work/sof/xtensa-apl-elf/bin/:$PATH
-   PATH=~/work/sof/xtensa-cnl-elf/bin/:$PATH
-   PATH=~/work/sof/xtensa-imx-elf/bin/:$PATH
-   PATH=~/work/sof/xtensa-imx8m-elf/bin/:$PATH
+   PATH="${SOF_WORKSPACE}"/xtensa-byt-elf/bin/:$PATH
+   PATH="${SOF_WORKSPACE}"/xtensa-hsw-elf/bin/:$PATH
+   PATH="${SOF_WORKSPACE}"/xtensa-apl-elf/bin/:$PATH
+   PATH="${SOF_WORKSPACE}"/xtensa-cnl-elf/bin/:$PATH
+   PATH="${SOF_WORKSPACE}"/xtensa-imx-elf/bin/:$PATH
+   PATH="${SOF_WORKSPACE}"/xtensa-imx8m-elf/bin/:$PATH
 
 Additional headers
 ------------------
@@ -245,7 +256,7 @@ switch to the `xtensa` branch.
 
 .. code-block:: bash
 
-   cd ~/work/sof/
+   cd "$SOF_WORKSPACE"
    git clone https://github.com/jcmvbkbc/newlib-xtensa
    cd newlib-xtensa
    git checkout -b xtensa origin/xtensa
@@ -254,7 +265,7 @@ Build and install for each platform.
 
 .. code-block:: bash
 
-   XTENSA_ROOT="${HOME}"/work/sof/xtensa-root
+   XTENSA_ROOT="${SOF_WORKSPACE}"/xtensa-root
    # Baytrail/Cherrytrail
    ./configure --target=xtensa-byt-elf --prefix="${XTENSA_ROOT}"
    make
