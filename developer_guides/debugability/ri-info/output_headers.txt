@@ -1,0 +1,27 @@
+$ python ./sof_ri_info.py --no_colors --headers sof-cnl-v1.4.2.ri
+SOF Binary sof-cnl-v1.4.2.ri size 0x46000
+
+
+  CSE Manifest ver 0x101 checksum 0x42 partition name ADSP
+
+    ADSP.man     (CSS Manifest) type 0x4 ver 0x10000 date 2020/01/22
+      Rsvd0 0x0
+      Modulus size (dwords) 64
+        85 00 e1 68 aa eb d2 07 ... 5a 96 28 27 19 af 43 b9 (Community key)
+      Exponent size (dwords) 1
+        01 00 01 00
+      Signature
+        4a d3 c8 3e a1 e2 19 63 ... 78 2b 91 5c 0d 7f f5 91
+
+      Plat Fw Auth Extension name ADSP vcn 0x0 bitmap 00 00 00 00 08 00 00 00 00 00 00 00 00 00 00 00 svn 0x0
+
+      Other Extension type 0x50534441 length 0x46000
+
+    cavs0015.met (ADSP Metadata File Extension) ver 0x0 base offset 0x2000 limit offset 0x47b80
+      IMR type 0x3
+      Attributes
+        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+    cavs0015     (ADSP Manifest) name ADSPFW build ver 1.4.0.1 feature mask 0x1ff image flags 0x0
+      HW buffers base address 0x0 length 0x0
+      Load offset 0x30000
