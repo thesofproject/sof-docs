@@ -10,6 +10,3 @@ Debugability
    logger/index
    coredump-reader/index
    probes/index
-
-   
-   
