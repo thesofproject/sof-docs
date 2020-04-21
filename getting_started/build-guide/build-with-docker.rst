@@ -12,13 +12,21 @@ This guide will show you how to use a Docker image containing the
 
 .. note::
 
-        The example uses ~/work/sof/ as the working directory.
+        The example uses ``$SOF_WORKSPACE`` as the working directory.
+
+Set up the workspace directory
+******************************
+
+  .. code-block:: bash
+
+     SOF_WORKSPACE=~/work/sof
+     mkdir "$SOF_WORKSPACE"
 
 Clone the *sof* repo.
 
 .. code-block:: bash
 
-   cd ~/work/sof/
+   cd "$SOF_WORKSPACE"
    git clone https://github.com/thesofproject/sof.git
 
 Set up Docker
@@ -83,9 +91,9 @@ Run the Docker build from the `sof` repo.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/scripts/docker_build/sof_qemu
+   cd "${SOF_WORKSPACE}"/sof/scripts/docker_build/sof_qemu
    ./docker-build.sh
-   cd ~/work/sof/sof/scripts/docker_build/sof_builder
+   cd "${SOF_WORKSPACE}"/sof/scripts/docker_build/sof_builder
    ./docker-build.sh
 
 After building the Docker image you will see:
@@ -109,7 +117,7 @@ Build the SOF binaries:
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "${SOF_WORKSPACE}"/sof/
    ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh
 
 .. note::
@@ -122,7 +130,7 @@ Build one or more platform binaries.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "${SOF_WORKSPACE}"/sof/
    # Baytrail
    ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh byt
    # Baytrail and Apollo Lake
@@ -135,7 +143,7 @@ Enter the container bash.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "${SOF_WORKSPACE}"/sof/
    ./scripts/docker-run.sh bash
 
 From inside the container, follow the manual configuration and build steps.
@@ -160,7 +168,7 @@ Build the *sof* tools and topology files.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "${SOF_WORKSPACE}"/sof/
    ./scripts/docker-run.sh ./scripts/build-tools.sh
 
 Build inside container
@@ -170,7 +178,7 @@ Enter the container bash.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "${SOF_WORKSPACE}"/sof/
    ./scripts/docker-run.sh bash
 
 From inside the container:
@@ -184,7 +192,7 @@ and follow the manual configuration and build steps.
 Topology and tools build results
 --------------------------------
 
-The topology files are all in the topology folder (~/work/sof/sof/tools/build_tools/topology). Copy them to the target
+The topology files are all in the topology folder ("${SOF_WORKSPACE}"/sof/tools/build_tools/topology). Copy them to the target
 machine's /lib/firmware/intel/sof-tplg folder. 
 
 The *sof-logger* tool is in the *tools/logger* folder. Copy it to the target machine's
