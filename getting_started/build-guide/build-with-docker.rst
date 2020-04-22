@@ -110,7 +110,7 @@ Build the SOF binaries:
 .. code-block:: bash
 
    cd ~/work/sof/sof/
-   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l
+   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh
 
 .. note::
 
@@ -118,20 +118,15 @@ Build the SOF binaries:
    into Docker container and build them inside the container. The build
    result can be accessed outside the container after the build.
 
-.. note::
-
-   The ``-l`` argument causes *rimage* to be installed in the 
-   local *sof* folder and does not change the container environment.
-
 Build one or more platform binaries.
 
 .. code-block:: bash
 
    cd ~/work/sof/sof/
    # Baytrail
-   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l byt
+   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh byt
    # Baytrail and Apollo Lake
-   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh -l byt apl
+   ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh byt apl
 
 Build inside container
 ----------------------
