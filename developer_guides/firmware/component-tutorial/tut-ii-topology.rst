@@ -11,6 +11,7 @@ Note the highlighted line containing the definition of the type of your new
 processing component. The *Driver* section refers to it later.
 
 .. code-block:: text
+   :caption: tools/topology/m4/amp.m4
    :linenos:
    :emphasize-lines: 32
 
@@ -18,7 +19,7 @@ processing component. The *Driver* section refers to it later.
 
    dnl Define macro for example Amp widget
 
-   dnl AMP name)
+   dnl AMP(name)
    define(`N_AMP', `AMP'PIPELINE_ID`.'$1)
 
    dnl W_AMP(name, format, periods_sink, periods_source, kcontrols_list)
@@ -28,6 +29,7 @@ processing component. The *Driver* section refers to it later.
    `	tuples."word" {'
    `		SOF_TKN_COMP_PERIOD_SINK_COUNT'		STR($3)
    `		SOF_TKN_COMP_PERIOD_SOURCE_COUNT'	STR($4)
+   `		SOF_TKN_COMP_CORE_ID'			STR($5)
    `	}'
    `}'
    `SectionData."'N_AMP($1)`_data_w" {'
@@ -61,7 +63,7 @@ processing component. The *Driver* section refers to it later.
    `		"'N_AMP($1)`_data_str_type"'
    `	]'
    `	bytes ['
-   		$5
+   		$6
    `	]'
    `}')
 
@@ -79,6 +81,7 @@ magic number in line 3 and the ABI version in line 6. The latter must be set
 to a version compatible with the SOF stack.
 
 .. code-block:: text
+   :caption: tools/topology/amp_bytes.m4
    :linenos:
    :emphasize-lines: 5, 11-12
 
@@ -102,8 +105,9 @@ Add the Amp widget to a playback pipeline. Create a copy of
 in your copy as highlighted below.
 
 .. code-block:: text
+   :caption: tools/topology/sof/pipe-amp-volume-playback.m4
    :linenos:
-   :emphasize-lines: 14, 16, 40-55, 69-70, 76-81, 91-94, 99
+   :emphasize-lines: 14, 16, 43-58, 73-75, 81-86, 96-99, 104
 
    # Low Latency Passthrough with volume Pipeline and PCM
    #
@@ -138,11 +142,14 @@ in your copy as highlighted below.
    # Volume configuration
    #
 
-   W_VENDORTUPLES(playback_pga_tokens, sof_volume_tokens,
+   define(DEF_PGA_TOKENS, concat(`pga_tokens_', PIPELINE_ID))
+   define(DEF_PGA_CONF, concat(`pga_conf_', PIPELINE_ID))
+
+   W_VENDORTUPLES(DEF_PGA_TOKENS, sof_volume_tokens,
    LIST(`		', `SOF_TKN_VOLUME_RAMP_STEP_TYPE	"0"'
         `		', `SOF_TKN_VOLUME_RAMP_STEP_MS		"250"'))
 
-   W_DATA(playback_pga_conf, playback_pga_tokens)
+   W_DATA(DEF_PGA_CONF, DEF_PGA_TOKENS)
 
    # Amp Parameters
    include(`amp_bytes.m4')
@@ -167,32 +174,34 @@ in your copy as highlighted below.
 
    # Host "Passthrough Playback" PCM
    # with 2 sink and 0 source periods
-   W_PCM_PLAYBACK(PCM_ID, Passthrough Playback, 2, 0)
+   W_PCM_PLAYBACK(PCM_ID, Passthrough Playback, 2, 0, SCHEDULE_CORE)
 
 
    # "Volume" has 2 source and 2 sink periods
-   W_PGA(0, PIPELINE_FORMAT, 2, 2, playback_pga_conf, LIST(`		', "PIPELINE_ID Master Playback Volume"))
+   W_PGA(0, PIPELINE_FORMAT, DAI_PERIODS, 2, DEF_PGA_CONF, SCHEDULE_CORE,
+   	LIST(`		', "PIPELINE_ID Master Playback Volume"))
 
    # "Amp" has 2 sink periods and 2 source periods
-   W_AMP(0, PIPELINE_FORMAT, 2, 2, LIST(`		 ', "AMP"))
+   W_AMP(0, PIPELINE_FORMAT, 2, 2, SCHEDULE_CORE,
+   	LIST(`		 ', "AMP"))
 
    # Playback Buffers
    W_BUFFER(0, COMP_BUFFER_SIZE(2,
-   	COMP_SAMPLE_SIZE(PIPELINE_FORMAT), PIPELINE_CHANNELS, SCHEDULE_FRAMES),
+   	COMP_SAMPLE_SIZE(PIPELINE_FORMAT), PIPELINE_CHANNELS, COMP_PERIOD_FRAMES(PCM_MAX_RATE, SCHEDULE_PERIOD)),
    	PLATFORM_HOST_MEM_CAP)
    W_BUFFER(1, COMP_BUFFER_SIZE(2,
-   	COMP_SAMPLE_SIZE(DAI_FORMAT), PIPELINE_CHANNELS, SCHEDULE_FRAMES),
+   	COMP_SAMPLE_SIZE(PIPELINE_FORMAT), PIPELINE_CHANNELS, COMP_PERIOD_FRAMES(PCM_MAX_RATE, SCHEDULE_PERIOD)),
    	PLATFORM_HOST_MEM_CAP)
-   W_BUFFER(2, COMP_BUFFER_SIZE(2,
-   	COMP_SAMPLE_SIZE(DAI_FORMAT), PIPELINE_CHANNELS, SCHEDULE_FRAMES),
+   W_BUFFER(2, COMP_BUFFER_SIZE(DAI_PERIODS,
+   	COMP_SAMPLE_SIZE(DAI_FORMAT), PIPELINE_CHANNELS, COMP_PERIOD_FRAMES(PCM_MAX_RATE, SCHEDULE_PERIOD)),
    	PLATFORM_DAI_MEM_CAP)
 
    #
    # Pipeline Graph
    #
-   #  host PCM_P --> B0 --> Volume 0 --> B1 --> sink DAI0
+   #  host PCM_P --> B0 --> Amp -> B1 --> Volume 0 --> B2 --> sink DAI0
 
-   P_GRAPH(pipe--amp-volume-playback-PIPELINE_ID, PIPELINE_ID,
+   P_GRAPH(pipe-amp-volume-playback-PIPELINE_ID, PIPELINE_ID,
    	LIST(`		',
    	`dapm(N_BUFFER(0), N_PCMP(PCM_ID))',
    	`dapm(N_AMP(0), N_BUFFER(0))',
@@ -211,21 +220,23 @@ in your copy as highlighted below.
    # PCM Configuration
 
    #
-   PCM_CAPABILITIES(Passthrough Playback PCM_ID, `S32_LE,S24_LE,S16_LE', 48000, 48000, 2, PIPELINE_CHANNELS, 2, 16, 192, 16384, 65536, 65536)
+   PCM_CAPABILITIES(Passthrough Playback PCM_ID, `S32_LE,S24_LE,S16_LE', PCM_MIN_RATE, PCM_MAX_RATE, 2, PIPELINE_CHANNELS, 2, 16, 192, 16384, 65536, 65536)
 
 Create a copy of your topology in *tools/topology* and replace the
 definition of low latency playback pipeline with the one crated in the previous
 step.
 
 .. code-block:: text
+   :caption: Main topology .m4 file
    :linenos:
    :emphasize-lines: 3
 
-   # Low Latency playback pipeline 1 on PCM 0 using max 2 channels of s32le.
+   # Low Latency playback pipeline 1 on PCM 0 using max 2 channels of s24le.
    # Schedule 48 frames per 1000us deadline on core 0 with priority 0
    PIPELINE_PCM_ADD(sof/pipe-amp-volume-playback.m4,
-   	1, 0, 2, s32le,
-   	48, 1000, 0, 0)
+           1, 0, 2, s24le,
+           1000, 0, 0,
+           48000, 48000, 48000)
 
 Driver
 ******
