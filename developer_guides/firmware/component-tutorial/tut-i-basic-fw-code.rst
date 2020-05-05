@@ -60,12 +60,20 @@ Add the following declaration at the beginning of the source file:
    DECLARE_SOF_UUID("amp", amp_uuid, 0x1d501197, 0xda27, 0x4697,
                     0x80, 0xc8, 0x4e, 0x69, 0x4d, 0x36, 0x00, 0xa0);
 
+   DECLARE_TR_CTX(amp_tr, SOF_UUID(amp_uuid), LOG_LEVEL_INFO);
+
 where *"amp"* is the component name that will be printed by the logger tool.
 Amplifier's UUID value and its name is stored in the ldc file deployed on the
 target system and is used by the logger to resolve and print the name of the
 component. The only thing required to "teach" the logger the new component's
 name is to update the ldc file along with the FW binary on the target
 system. No tool recompilation is required.
+
+Every component has to define its trace context. It groups UUID to be inserted
+into the traces produced by the component for identification purposes, as well
+as run-time trace settings like the tracing level, initialized to
+``LOG_LEVEL_INFO`` in this example. The trace context is declared using
+``DECLARE_TR_CTX()`` macro as ``amp_tr``.
 
 Basic Component API
 ===================
@@ -88,6 +96,7 @@ devices, and their drivers, refer to :ref:`apps-component-overview` and
    struct comp_driver comp_amp = {
            .type = SOF_COMP_AMP,
            .uid = SOF_UUID(amp_uuid),
+           .tctx = &amp_tr,
            .ops = {
                    .create = amp_new,
                    .free = amp_free,
@@ -115,7 +124,8 @@ devices, and their drivers, refer to :ref:`apps-component-overview` and
 Note that the ``type`` used for the component driver is set to the
 ``SOF_COMP_AMP`` which is declared earlier. The ``uid`` used for logging is
 initialized by the ``SOF_UUID(amp_uuid)``, where ``amp_uuid`` is declared at
-the beginning of the source file.
+the beginning of the source file. The trace context ``amp_tr`` is associated
+with the driver object as well.
 
 The API declaration is followed by a registration handler attached to the
 initialization list by the ``DECLARE_MODULE()`` macro. This is all the
