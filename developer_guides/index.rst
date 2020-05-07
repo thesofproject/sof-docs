@@ -15,6 +15,7 @@ terminology before reading further.
    topology/topology
    debugability/index
    tuning/sof-ctl
+   rimage/index.rst
    linux_driver/index
    virtualization/virtualization
    virtualization/running
