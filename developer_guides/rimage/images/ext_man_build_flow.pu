@@ -1,0 +1,33 @@
+@startuml
+
+title Extended manifest build flow
+
+class firmware_elf_file << (F, orchid) >> {
+   suffix:
+   -- Content --
+   +FW metadata section
+   +other sections
+}
+
+rectangle rimage {
+   class ext_man_write {
+      1. Create .ri.xman file
+      2. Find elf file with .fw_metadata section
+      3. Read .fw_metadata section
+      4. Build ext_man_header
+      5. Validate sum of elements size with section size
+      6. Save output to .ri.xman file
+   }
+}
+
+class ext_man_file << (F, orchid) >> {
+   suffix: .ri.xman
+   -- Content --
+   + ext_man_header
+   + .fw_metadata section content
+}
+
+firmware_elf_file -down-> ext_man_write
+ext_man_write -down-> ext_man_file
+
+@enduml
