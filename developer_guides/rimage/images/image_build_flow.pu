@@ -1,0 +1,70 @@
+@startuml
+
+title image build flow
+
+class bootloader_elf_file << (F, orchid) >> {
+  -- note --
+  Used for CAVS 1.5 and newer
+}
+class firmware_elf_file << (F, orchid) >> {
+}
+
+class rimage {
+   +write_firmware()
+   +write_firmware_meu()
+   +ext_man_write()
+}
+
+class adsp_manifest_file << (F, orchid) >> {
+   suffix: .ri.met
+}
+
+class image_file << (F, orchid) >> {
+   suffix: .ri
+   -- Content --
+   +CSE manifest
+   +CSS manifest
+   +ADSP manifest
+   +runtime code
+}
+
+class unsigned_image_file << (F, orchid) >> {
+   suffix: .ri.uns
+  -- Content --
+   +ADSP manifest
+   +runtime code
+}
+
+class ext_man_file << (F, orchid) >> {
+   suffix: .ri.xman
+}
+
+class build_step {
+   + glue binary files()
+}
+hide build_step circle
+
+class final_image_file << (F, orchid) >> {
+   suffix: .ri
+   -- Content --
+   +Extended manifest
+   +CSE manifest
+   +CSS manifest
+   +ADSP manifest
+   +runtime code
+}
+
+firmware_elf_file -down-> rimage
+bootloader_elf_file -down-> rimage
+rimage -down-> ext_man_file : with -e flag
+ext_man_file -down-> build_step
+rimage -down-> adsp_manifest_file
+rimage -down-> image_file : without MEU\nwithout -s argument
+rimage -down-> unsigned_image_file : with MEU \nwith -s argument
+unsigned_image_file -down-> MEU
+MEU -down-> image_file
+adsp_manifest_file -down-> image_file
+image_file -down-> build_step
+build_step -down-> final_image_file
+
+@enduml
