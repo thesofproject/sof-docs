@@ -43,10 +43,11 @@ change tracker:
 
 https://github.com/orgs/thesofproject/projects/2
 
+Process for firmware ABI changes is documented in :ref:`SOF_ABI_changes`.
+
 When the ABI is not backwards-compatible, the Pull Requests on the
 kernel side shall include code that deals with older firmware and
 topology files.
-
 
 Development branch
 ==================
@@ -84,6 +85,7 @@ as audio codecs, or bug fixes may be contributed by the community. SOF Linux
 maintainers will, on a regular basis (typically weekly), merge all upstream
 contributions into the SOF tree.
 
+.. _sof_drv_maintainer_list:
 
 Development flow
 ****************
