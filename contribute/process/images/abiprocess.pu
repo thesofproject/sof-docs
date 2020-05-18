@@ -1,0 +1,23 @@
+[*] --> NewABIChange: Firmware feature that requires ABI change
+
+NewABIChange --> RFC: Send RFC Pull Request\ncovering interface changes\n and rationale for the change
+
+note right of RFC : RFC stage is intended to\navoid wasted effort via early\n engagement with the ABI users
+
+RFC --> RFCApproved: a) Approve+1 from at least\none Driver and one FW Maintainer,\n b) Owners assigned for FW and driver impl
+
+NewABIChange --> FWImplementation: Fast path implementation\nonly when no driver impact
+
+RFCApproved --> FWImplementation: Implementation done, submit as non-RFC PR
+
+FWImplementation --> ABIClassification: Tag PR for ABI classifier
+
+ABIClassification --> ABIApproved: TSC member approval and\nABI MAJOR.MINOR classification done
+
+ABIApproved --> DriverPRCheck: If driver change is needed,\nwait until both sides ready for merge
+
+DriverPRCheck --> FWChangeMerged: No driver change:\nAfter review and validation ok, merge
+
+DriverPRCheck --> DrvChangeMerged: After review and\nvalidation ok, merge
+
+DrvChangeMerged --> FWChangeMerged: After review and\nvalidation ok, merge
