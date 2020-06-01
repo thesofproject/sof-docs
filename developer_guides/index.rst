@@ -13,6 +13,7 @@ terminology before reading further.
    firmware/index
    unit_tests
    topology/topology
+   uuid/index.rst
    debugability/index
    tuning/sof-ctl
    rimage/index.rst
