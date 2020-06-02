@@ -24,10 +24,12 @@ uAPI to create a component of that ``type``. It also provides an entry point
 to the component ops implementation.
 
 UUIDs (Universally Unique Identifiers) provide a more scalable and
-collision-free way of component identification. UUIDs are currently used by
-the tracing subsystem while both the topology and driver still depend on
-``type`` to define topology and create component instances. UUIDs are
-expected to replace the ``type`` in these parts as well.
+collision-free way of component identification. UUIDs are currently used as
+the standard interface by all users of the SOF firmware, including the
+tracing subsystem, the topology .m4 files, and the Linux topology driver.
+Using the ``type`` to define topology and create component is still supported
+today, but the ``type`` could be moved out of the IPC struct in the future,
+so allocating UUID for the new added component driver is *mandatory* now.
 
 The UUID entry declared in the FW code contains the identifier value as well
 as the object which is the component name in this case. Both are
