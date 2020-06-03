@@ -57,7 +57,7 @@ Add the following declaration at the beginning of the source file:
 
 .. code-block:: c
 
-   DECLARE_SOF_UUID("amp", amp_uuid, 0x1d501197, 0xda27, 0x4697,
+   DECLARE_SOF_RT_UUID("amp", amp_uuid, 0x1d501197, 0xda27, 0x4697,
                     0x80, 0xc8, 0x4e, 0x69, 0x4d, 0x36, 0x00, 0xa0);
 
    DECLARE_TR_CTX(amp_tr, SOF_UUID(amp_uuid), LOG_LEVEL_INFO);
@@ -95,7 +95,7 @@ devices, and their drivers, refer to :ref:`apps-component-overview` and
 
    struct comp_driver comp_amp = {
            .type = SOF_COMP_AMP,
-           .uid = SOF_UUID(amp_uuid),
+           .uid = SOF_RT_UUID(amp_uuid),
            .tctx = &amp_tr,
            .ops = {
                    .create = amp_new,
@@ -123,7 +123,7 @@ devices, and their drivers, refer to :ref:`apps-component-overview` and
 
 Note that the ``type`` used for the component driver is set to the
 ``SOF_COMP_AMP`` which is declared earlier. The ``uid`` used for logging is
-initialized by the ``SOF_UUID(amp_uuid)``, where ``amp_uuid`` is declared at
+initialized by the ``SOF_RT_UUID(amp_uuid)``, where ``amp_uuid`` is declared at
 the beginning of the source file. The trace context ``amp_tr`` is associated
 with the driver object as well.
 

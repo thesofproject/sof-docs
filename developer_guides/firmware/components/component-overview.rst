@@ -31,13 +31,13 @@ expected to replace the ``type`` in these parts as well.
 
 The UUID entry declared in the FW code contains the identifier value as well
 as the object which is the component name in this case. Both are
-provided as the arguments to the ``DECLARE_SOF_UUID()`` macro. For example
+provided as the arguments to the ``DECLARE_SOF_RT_UUID()`` macro. For example
 the **volume** component provides the following declaration:
 
 .. code-block:: c
 
    /* b77e677e-5ff4-4188-af14-fba8bdbf8682 */
-   DECLARE_SOF_UUID("volume", volume_uuid, 0xb77e677e, 0x5ff4, 0x4188,
+   DECLARE_SOF_RT_UUID("volume", volume_uuid, 0xb77e677e, 0x5ff4, 0x4188,
                     0xaf, 0x14, 0xfb, 0xa8, 0xbd, 0xbf, 0x86, 0x82);
 
 Note how the ``af14`` 16bit segment is split into two bytes at the beginning of
@@ -52,7 +52,7 @@ declared UUID with the volume of the component driver:
 
    static const struct comp_driver comp_volume = {
            .type = SOF_COMP_VOLUME,
-           .uid  = SOF_UUID(volume_uuid),
+           .uid  = SOF_RT_UUID(volume_uuid),
            ...
    };
 
