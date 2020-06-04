@@ -315,8 +315,8 @@ Python packages in the virtualized environment:
 .. code-block:: bash
 
 	pip install sphinx
-	git clone https://github.com/thesofprojects/sof
-	git clone https://github.com/thesofprojects/sof-docs
+	git clone https://github.com/thesofproject/sof
+	git clone https://github.com/thesofproject/sof-docs
 	cd sof-docs/
 	pip install -r scripts/requirements.txt
 
