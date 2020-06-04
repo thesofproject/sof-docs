@@ -37,6 +37,7 @@ Usage sof-logger <option(s)> <file(s)>
 -s		Take a snapshot of state
 -r		Less formatted output for chained log processors
 -L		Hide log location in source code
+-f precision	Set timestamp precision
 -d		Dump ldc information
 
 Examples:
