@@ -19,6 +19,7 @@ terminology before reading further.
    linux_driver/index
    virtualization/virtualization
    virtualization/running
+   fuzzer/fuzzing.rst
 
 Technical Notes
 ***************
