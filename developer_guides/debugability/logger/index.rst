@@ -36,6 +36,7 @@ Usage sof-logger <option(s)> <file(s)>
 -v ver_file	Enable checking the firmware version with the ver_file file instead of the default: "/sys/kernel/debug/sof/fw_version"
 -s		Take a snapshot of state
 -r		Less formatted output for chained log processors
+-L		Hide log location in source code
 -d		Dump ldc information
 
 Examples:
