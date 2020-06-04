@@ -40,6 +40,7 @@ Usage sof-logger <option(s)> <file(s)>
 -f precision	Set timestamp precision
 -g		Hide timestamp
 -d		Dump ldc information
+-F filter	Update trace filtering
 
 Examples:
 
@@ -124,3 +125,90 @@ Examples:
   .. code-block:: bash
 
      sof-logger -l ldc_file -d
+
+
+Trace filtering
+***************
+
+It's possible to change current logs level for any instance of component in
+runtime. To do so, use `-F` option with following argument format:
+
+   <log_level>="<component1>[, <component2>]"
+
+Where *<log_level>* is one of:
+
+- ``c`` / ``critical``
+- ``e`` / ``error``
+- ``w`` / ``warning``
+- ``i`` / ``info``
+- ``d`` / ``debug``
+- ``v`` / ``verbose``
+
+After **=** character, there is a list of component, separated with comma.
+Each components starts with *name* followed by optional part with *instance*
+description.
+
+List of possible components names comes from UUID declaration,
+see :ref:`uuid-api` for more detailed information.
+Try use ``-d`` flag in logger to list component names from `ldc` file content.
+Example output:
+
+   .. code-block:: bash
+
+      $./sof-logger -d log/sof-cnl.ldc
+      logger ABI Version is   5:2:0
+      ldc_file ABI Version is 5:2:0
+
+      Components uuid dictionary size:        824 bytes
+      Components uuid base address:           0x1FFFA000
+      Components uuid entries:
+               ADDRESS                                    UUID NAME
+            0x1FFFA000  <8b9d100c-6d78-418f-90a3-e0e805d0852b> host
+            0x1FFFA01C  <f11818eb-e92e-4082-82a3-dc54c604ebb3> pipe-task
+            0x1FFFA03C  <34dc0385-fc2f-4f7f-82d2-6cee444533e0> volume-task
+            0x1FFFA05C  <b77e677e-5ff4-4188-af14-fba8bdbf8682> volume
+            0x1FFFA078  <c1c5326d-8390-46b4-aa47-95c3beca6550> src
+            0x1FFFA134  <c2b00d27-ffbc-4150-a51a-245c79c5e54b> dai
+            -------------------------------------------------- cnt: 6
+
+There is also a special wildcard - ``*`` - used to apply given trace
+level to each component.
+
+Instance description may have one of the following form:
+
+- ``*`` - each component instance
+- ``X.*`` - each component on selected pipeline *X*
+- ``X.Y`` - component on pipeline *X* with id *Y*
+
+Trace levels changes works in same order as options given in command line,
+and new set overwrites old value. It allows to easily enable verbose logs only
+for selected components and keeping lowest possible log level (critical) for
+others, example:
+
+   sof-logger -l ldc_file -t -Fcritical=* -Fverbose="dai*, volume1.1"
+
+Similar example may be prepared for components on particular pipeline:
+
+   sof-loggerr -l ldc_file -t -Fc=* -Fv=*1.*
+
+
+Detailed description
+--------------------
+
+Filtration mechanism is realized on firmware side, so after change the log level
+to verbose for each component, then DSP may be overhelmed by tracing.
+
+Core functionality is provided by DSP, so filtration does not work in offline
+mode - during conversion previously saved input file.
+
+Communication between firmware and logger is realized through driver debug file
+systems.
+Logger writes to ``sys/kernel/debug/sof/filter`` new trace settings,
+which will be used to create *IPC* message with new trace levels.
+Simple text data format is used:
+
+``log1_level uuid1_id pipe1_id comp1_id; [log2_level uuid2_id pipe2_id comp2_id;]\n``
+
+Unused uuid_id should be set here to 0, other unused fields should be set to -1.
+``log_level`` always must be set to valid value - represents ``LOG_LEVEL_*``
+defines values.
