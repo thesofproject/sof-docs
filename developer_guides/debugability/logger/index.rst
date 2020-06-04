@@ -25,18 +25,18 @@ Logger usage
 
 Usage sof-logger <option(s)> <file(s)>
 
--h 			       help
--l ldc_file		 Specify the ldc file
--i in_file     Get traces from the in_file instead of from the default "/sys/kernel/debug/sof/etrace"
--o out_file    Specify the output file instead of the default stdout
--t             Get traces from "/sys/kernel/debug/sof/trace" instead of from the default "/sys/kernel/debug/sof/etrace"
--p             Get traces from stdin instead of the default "/sys/kernel/debug/sof/etrace"
--c clock       Set the timestamp clock in MHz
--e             Enable checking the firmware version with the default verification file "/sys/kernel/debug/sof/fw_version"
--v ver_file    Enable checking the firmware version with the ver_file file instead of the default: "/sys/kernel/debug/sof/fw_version"
--s			       Take a snapshot of state
--r			       Less formatted output for chained log processors
--d			       Dump ldc information
+-h 		help
+-l ldc_file	Specify the ldc file
+-i in_file	Get traces from the in_file instead of from the default "/sys/kernel/debug/sof/etrace"
+-o out_file	Specify the output file instead of the default stdout
+-t		Get traces from "/sys/kernel/debug/sof/trace" instead of from the default "/sys/kernel/debug/sof/etrace"
+-p		Get traces from stdin instead of the default "/sys/kernel/debug/sof/etrace"
+-c clock	Set the timestamp clock in MHz
+-e		Enable checking the firmware version with the default verification file "/sys/kernel/debug/sof/fw_version"
+-v ver_file	Enable checking the firmware version with the ver_file file instead of the default: "/sys/kernel/debug/sof/fw_version"
+-s		Take a snapshot of state
+-r		Less formatted output for chained log processors
+-d		Dump ldc information
 
 Examples:
 
