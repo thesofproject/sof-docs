@@ -26,7 +26,7 @@ Logger usage
 Usage sof-logger <option(s)> <file(s)>
 
 -h 		help
--l ldc_file	Specify the ldc file
+-l ldc_file	Specify the ldc file (debugging information and strings)
 -i in_file	Get traces from the in_file instead of from the default "/sys/kernel/debug/sof/etrace"
 -o out_file	Specify the output file instead of the default stdout
 -t		Get traces from "/sys/kernel/debug/sof/trace" instead of from the default "/sys/kernel/debug/sof/etrace"
