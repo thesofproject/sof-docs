@@ -24,23 +24,19 @@ All project SOF source code is maintained in the https://github.com/thesofprojec
 Source and Binary Releases
 --------------------------
 
-The latest SOF release is v1.3 (June 2019).
-
-https://github.com/thesofproject/sof/releases/tag/v1.3
-
 Firmware and SDK tool source code and binary releases can be found
 on github. The github release page will also list release details such as new
 features, new platforms, etc.
 
 https://github.com/thesofproject/sof/releases
 
+Binary releases for different platforms are made available via sof-bin
+repository:
+
+https://github.com/thesofproject/sof-bin
+
 Please note that intermediate releases are also on this page. General releases
 all have the "vX.Y" naming convention. i.e. tagged on git as vX.Y
-
-Binaries releases will be additionally be upstreamed to the Linux firmware
-repository here.
-
-https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
 
 
 Linux Driver
