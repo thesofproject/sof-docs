@@ -7,12 +7,12 @@ Firmware and Tools
 ******************
 
 The SOF firmware and tools can be downloaded either as a compressed source
-release, binary release or via git.
+release, binary release, or via Git.
 
 Git
 ---
 
-All project SOF source code is maintained in the https://github.com/thesofproject repository and includes folders for SOF, SOF tools and topologies, Linux kernel, and documentation. Download the source code as a zip or tar.gz file:
+All project SOF source code is maintained in the https://github.com/thesofproject repository and includes folders for SOF, SOF tools and topologies, the Linux kernel, and documentation. Download the source code as a zip or tar.gz file:
 
 .. code-block:: bash
 
@@ -24,21 +24,20 @@ All project SOF source code is maintained in the https://github.com/thesofprojec
 Source and Binary Releases
 --------------------------
 
-The latest SOF release is v1.3 (June 2019).
+The latest SOF release is v1.5.1 (June 2020):
 
-https://github.com/thesofproject/sof/releases/tag/v1.3
+https://github.com/thesofproject/sof/releases/tag/v1.5.1
 
 Firmware and SDK tool source code and binary releases can be found
-on github. The github release page will also list release details such as new
-features, new platforms, etc.
+on GitHub. The GitHub release page also lists release details such as new
+features and new platforms:
 
 https://github.com/thesofproject/sof/releases
 
-Please note that intermediate releases are also on this page. General releases
-all have the "vX.Y" naming convention. i.e. tagged on git as vX.Y
+Note that intermediate releases are included on this page. General releases
+include the "vX.Y" naming convention and are tagged on Git as such.
 
-Binaries releases will be additionally be upstreamed to the Linux firmware
-repository here.
+Binaries releases are upstreamed to the Linux firmware repository here:
 
 https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
 
@@ -46,15 +45,14 @@ https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
 Linux Driver
 ************
 
-The SOF Linux driver is upstream from Linux version 5.2 onwards. This means it
-will be included as part of official Linux releases from v5.2.
+The SOF Linux driver is upstreamed from Linux version 5.2 onwards. This
+means it is part of official Linux releases from v5.2.
 
-There is a SOF Linux driver development branch on github where new features are
-integrated prior to upstreaming.
+An SOF Linux driver development branch exists on GitHub where new features
+are integrated prior to upstreaming:
 
 .. code-block:: bash
 
    git clone https://github.com/thesofproject/linux.git
    cd linux.git
    git checkout origin/sof-dev -b sof-dev
-
