@@ -10,14 +10,14 @@ Linux SOF drivers
 Background
 **********
 
-The Linux development is split by subsystem. All SOF contributions are
+Linux development is split by subsystems. All SOF contributions are
 merged through the sound/system (maintained by Takashi Iwai) and the
 sound/soc subsystem (maintained by Mark Brown).
 
 All SOF patches merged by the two maintainers will be used for
 linux-next (as a first pass of integration to detect conflicts with
-other subsystems or compilation issues) and eventually merged by Linus
-Torvalds in the mainline.
+other subsystems or compilation issues) and eventually merged in the
+mainline by Linus Torvalds.
 
 Instructions for SOF developers
 *******************************
@@ -27,7 +27,7 @@ ABI changes
 
 One fundamental and non-negotiable premise of Linux kernel development
 is "we don't break the userspace." More specifically, users may update
-their kernels at any time, while keeping the SOF firmware binary and
+their kernels at any time while keeping the SOF firmware binary and
 topology files stored in the root filesystem unchanged. The
 expectation is that the SOF Linux driver does not generate any errors
 and that audio functionality remains unchanged.
@@ -43,9 +43,9 @@ change tracker:
 
 https://github.com/orgs/thesofproject/projects/2
 
-Process for firmware ABI changes is documented in :ref:`SOF_ABI_changes`.
+The process for firmware ABI changes is documented in the :ref:`SOF_ABI_changes`.
 
-When the ABI is not backwards-compatible, the Pull Requests on the
+When the ABI is not backwards-compatible, Pull Requests on the
 kernel side shall include code that deals with older firmware and
 topology files.
 
@@ -57,14 +57,14 @@ All SOF development takes place on the topic/sof-dev branch in the SOF tree:
 ``git@github.com:thesofproject/linux.git``
 
 Developers are required to submit Pull Requests (PRs) against the
-topic/sof-dev branch. The Continuous Integration (CI) will run a set
+topic/sof-dev branch. The Continuous Integration (CI) runs a set
 of static analysis, builds, and on-device testing.
 
 Two approvers are required for each PR. SOF admins may in some
 exceptions use their privileges to merge PRs, such as to restore
 functionality and broken builds.
 
-When a PR is submitted by an SOF admin, another admin must approves that PR.
+When a PR is submitted by an SOF admin, another admin must approve that PR.
 The PRs are integrated into the SOF tree using the 'rebase-and-merge' method
 which keeps the integrated patches in a linear order.
 
@@ -90,7 +90,8 @@ contributions into the SOF tree.
 Development flow
 ****************
 
-The SOF Linux maintainers are:
+SOF Linux maintainers
+=====================
 
 +---------------+-------------------+---------------+
 | Intel	        | Pierre Bossart    | @plbossart    |
@@ -102,15 +103,16 @@ The SOF Linux maintainers are:
 | NXP           | Daniel Baluta     | @dbaluta      |
 +---------------+-------------------+---------------+
 
-The SOF maintainers apply the following process
+SOF maintainers process
+=======================
 
-1. Mirror all SOF patches to topic/sof-dev-rebase
-*************************************************
+Mirror all SOF patches to topic/sof-dev-rebase
+----------------------------------------------
 
-This mirroring consists in doing a set of "git cherry-pick" operations
+This mirroring consists in doing a set of git "cherry-pick" operations
 from topic/sof-dev to topic/sof-dev-rebase. Once all development
 patches are applied, SOF maintainers will add the relevant
-Signed-off-by and Reviewed-by 'tags.'
+Signed-off-by and Reviewed-by tags.
 
 In specific cases, incremental patches will be squashed to simplify
 upstream reviews, commit messages will be made clearer, and the order of
@@ -118,8 +120,8 @@ patches will be changed, but in all cases the intent is that both
 topic/sof-dev and topic/sof-dev-rebase provide the same code (as seen
 with git diff or diff -r).
 
-2. Upstream merge/rebase
-************************
+Upstream merge/rebase
+---------------------
 
 When the two branches are integrated, the SOF maintainer will create
 an upstream baseline. This baseline is then merged locally on top of
@@ -137,26 +139,26 @@ rebase is that all patches already integrated by ALSA/ASoC maintainers
 'disappear.' In other words, comparing sof-dev with sof-dev-rebase
 shows all patches not currently merged upstream. This includes a limited
 number of infrastructure changes that will never be merged upstream
-like for instance github's CODEOWNERS file.
+such as github's CODEOWNERS file.
 
-3. Upstream contributions
-*************************
+Upstream contributions
+----------------------
 
-The SOF maintainer will generate patch sets and send them with a cover
+The SOF maintainer generates patch sets and sends them with a cover
 to the alsa-devel mailing list, with the maintainers in Cc:. In most
 cases the patches are approved without issues, but the ALSA/ASoC
 maintainers or members of the community may provide feedback and
 request some changes. In those cases, the changes are applied on
-topic/sof-dev, then mirrored and squashed on topc/sof-dev-rebase, and
+topic/sof-dev, then mirrored and squashed on topic/sof-dev-rebase, and
 submitted again. Under no circumstances should the SOF maintainer handle
 changes to the topic/sof-dev-rebase directly.
 
-4. Exceptions
-*************
+Exceptions
+----------
 
 In very specific cases, such as for HDMI-related patches, it might be easier
 for an SOF developer to submit the patches directly to alsa-devel. By
-default, though, the process should be that all patches are first submitted
+default, though, the process is that all patches are first submitted
 to the SOF GitHub, CI-tested. Only when maintainers provide a written
 agreement should developers submit SOF-related patches directly to the
 alsa-devel mailing list.
