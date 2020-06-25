@@ -3,21 +3,20 @@
 UUID Usage in SOF
 #################
 
-Why UUID Needed
-***************
+Why UUIDs
+*********
 
-To develop a new audio signal processing component, we traditionally
-implemented the component driver with a new unique component type
-introduced. The pain points with this method include how to keep the
-ABI (Application Binary Interface) aligned for the topology file, the
-driver, and the firmware. And if unaligned, how should we make them
-backward compatible. For example, When adding a new component, we could
-have 8 types of combination of topology/driver/firmware versions with
-either the new component is supported or not in each
-topology/driver/firmware part. Even more, if enumerated type is used
-for the component type and the sequence in the enumerate list
-(the value) is changed during an update, there could be component type
-collision if versions are not aligned.
+A new audio signal processing component is typically developed by
+implementing the component driver with a newly introduced, unique component
+type. The pain points with this method include keeping the ABI (Application
+Binary Interface) aligned for the topology file, the driver, and the
+firmware. If unaligned, how can we make them backwards compatible. For
+example, a new component can have 8 combinations of topology/driver/firmware
+versions where the new component may or may not be supported in each
+topology/driver/firmware part. Additionally, if the enumerated type is used
+for the component type and the sequence in the enumerated list
+(the value) is changed during an update, a component type collision can
+occur if the versions are not aligned.
 
 UUIDs (Universally Unique Identifiers) provide a more scalable and
 collision-free way of component identification. UUIDs are used as the
@@ -25,38 +24,35 @@ standard interface by all users of the SOF firmware, including the
 tracing subsystem, the topology .m4 files, and the Linux topology
 driver.
 
-Allocating a new UUID for the new added component is recommended, as
-the component type will be replaced by UUID in the IPC structures,
-in the future. For the whole SOF stack, the usage of the UUID shall
-follow rules as below:
+Allocate a new UUID for a newly added component since it will replace the
+component type in the IPC structures in the future. For the entire SOF stack, follow these UUID usage rules:
 
-UUID Allocation
+UUID allocation
 ***************
-The UUID allocation of a specific component shall use the version 4 in
-`UUID wikipedia <https://en.wikipedia.org/wiki/Universally_unique_identifier>`__,
-and the value shall be declared in the firmware component driver with
-``DECLARE_SOF_RT_UUID``, for details, please refer to the API
-documentation :ref:`uuid-api`.
+The UUID of a specific component uses random generation (version 4; see
+`UUID wikipedia <https://en.wikipedia.org/wiki/Universally_unique_identifier>`__ for a description)
+and the value is declared in the firmware component driver with
+``DECLARE_SOF_RT_UUID``. For details, refer to the :ref:`uuid-api` documentation.
 
-UUID in Topology
+UUID in topology
 ****************
-The same UUID shall be used in topology .m4 file for a new added
-widget (corresponding to the new added component), since we have
-implemented macro to help to handle the conversion task, just use the
-exactly same macro ``DECLARE_SOF_RT_UUID`` as depicted in the firmware
-source, e.g for SRC component the below shall be added to the topology
-.m4 tools/topology/m4/src.m4:
+Use the same UUID in the topology .m4 file for a newly added
+widget (corresponding to the newly added component). Since we have
+implemented a macro to help handle the conversion task, just use the
+same macro ``DECLARE_SOF_RT_UUID`` as depicted in the firmware
+source. For the SRC component, for example, the below shall be added to the
+topology .m4 tools/topology/m4/src.m4:
 
 .. code-block:: none
 
    DECLARE_SOF_RT_UUID("host", host_uuid, 0x8b9d100c, 0x6d78, 0x418f,
         0x90, 0xa3, 0xe0, 0xe8, 0x05, 0xd0, 0x85, 0x2b);
 
-Linux Topology Driver
+Linux topology driver
 *********************
-The topology driver will parse the 16-byte UUID token, append it to the
-extended data of the IPC struct, and sent it to the
-firmware in component creation stage, **for all components**.
+The topology driver parses the 16-byte UUID token, appends it to the
+extended data of the IPC struct, and sends it to the firmware in the
+component creation stage **for all components**.
 
 .. code-block:: none
 
@@ -80,18 +76,17 @@ firmware in component creation stage, **for all components**.
    ...
    }
 
-UUID Arrays Stored Section
+UUID arrays stored section
 **************************
-Only the UUID arrays for component types used in topology file are
+Only the UUID arrays for component types used in the topology file are
 stored to the .rodata section as static data, for limited memory
-footprint purpose, e.g.
-19 component types * 16 Bytes/component type = 304 Bytes.
+footprint purposees. For example, 19 component types * 16 Bytes/component type = 304 Bytes.
 
-UUID to Component Driver Mapping
+UUID to component driver mapping
 ********************************
-The firmware will use UUID byte array to match the component driver, if
-it is provided from the Linux driver side, otherwise, fallback to use
-the traditional component type for backwards-compatible behavior.
+The firmware uses a UUID byte array to match the component driver if
+it is provided from the Linux driver side. Otherwise, fallback to the
+traditional component type for backwards-compatible behavior.
 
 .. code-block:: none
 
@@ -122,8 +117,8 @@ the traditional component type for backwards-compatible behavior.
         return drv;
    }
 
-ABI Alignment for UUID Support
+ABI alignment for UUID support
 ******************************
-In general, UUID will be used only all FW/tplg/driver are in ABI version
-equal or greater than 3.17, otherwise component type will be used.
+In general, use UUIDs only for all FW/topologies/drivers whose ABI version
+equals or is greater than 3.17. Otherwise, use component type.
 
