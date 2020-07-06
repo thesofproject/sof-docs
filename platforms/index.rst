@@ -17,7 +17,7 @@ Platform and board specific support is continually added to the SOF project as d
    "Intel Baytrail / Merrifield", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "96KB IRAM / 192KB DRAM", "3 x SSP (I2S, PCM)"
    "Intel Cherrytrail / Braswell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "96KB IRAM / 192KB DRAM", "6 x SSP (I2S, PCM)"
    "Intel Broadwell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "320KB IRAM / 640KB DRAM", "2 x SSP (I2S, PCM)"
-   "Intel Apollolake", "Xtensa HiFi3", "2 @ 100 - 400MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
+   "Intel Apollolake / Geminilake", "Xtensa HiFi3", "2 @ 100 - 400MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
    "Intel Cannonlake / Whiskeylake / Cometlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "64KB LP / 3008KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "Intel Suecreek", "Xtensa HiFi3", "2 @ 120 - 400MHz", "64KB LP SRAM / 4096KB HP SRAM", "6 x SSP (I2S, PCM), DMIC"
    "Intel Icelake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "64KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
