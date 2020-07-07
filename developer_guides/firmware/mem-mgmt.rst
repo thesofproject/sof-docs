@@ -25,28 +25,31 @@ Buffer Zone
 
 System Zone
 ***********
-
-System zone receives a series of allocations during the system initialization
-phase. Since no memory is freed until the system (core) goes down, the
-allocation mechanism may be simple, ensuring that a sufficient offset to the beginning of free space left is maintained.
+The system zone receives a series of allocations during the system
+initialization phase. Since no memory is freed until the system (core) goes
+down, the allocation mechanism may be simple, ensuring that a sufficient
+offset to the beginning of free space left is maintained.
 
 .. graphviz:: images/system-zone.dot
    :caption: System Zone
 
-All system level components (schedulers, work queues, etc.) allocate their
+All system-level components (schedulers, work queues, etc.) allocate their
 memory blocks from the system heap. Separation between the system heap and
-runtime heap(s) may be further hardened in case an access control for user mode vs. kernel mode is supported by the architecture/platform.
+runtime heap(s) may be further hardened in case an access control for user
+mode vs. kernel mode is supported by the architecture/platform.
 
 Extensions for SMP Architectures
 ================================
 
-Each CPU (core) may own a dedicated system heap. The memory assigned for system heaps is distributed asymmetrically on CAVS platforms: a large heap for the master core (#0) and smaller ones for other cores (#1+).
+Each CPU (core) may own a dedicated system heap. The memory assigned for
+system heaps is distributed asymmetrically on CAVS platforms: a large heap
+for the master core (#0) and smaller ones for other cores (#1+).
 
 When a core goes down, the entire heap can be freed by moving back the free
 space offset to the beginning of the heap.
 
 The heap can be aligned with memory bank(s) to provide better control over
-the power consumption. Once a core goes down, memory banks allocated for
+power consumption. Once a core goes down, memory banks allocated for
 its system heap can be powered off as well.
 
 Runtime Zone
@@ -54,8 +57,8 @@ Runtime Zone
 
 * Provides flexible ``malloc``/``free`` operations.
 
-* Since the runtime zone is separated from the system zone, any adjustments
-  and complex usage scenarios do not interface with the system allocations.
+* Since the runtime zone is separated from the system zone, adjustment
+  and complex usage scenarios do not interface with system allocations.
 
 .. graphviz:: images/runtime-zone.dot
   :caption: Runtime Zone
@@ -63,26 +66,36 @@ Runtime Zone
 Buffer Zone
 ***********
 
+Information is forthcoming.
+
 Shared Data
 *************
 
-By shared data we mean piece of memory, which is supposed to be accessed by different DSP cores. There are two ways of declaring data as shared depending on the type:
+Shared data refers to a piece of memory that can be accessed by different
+DSP cores. Data can be declared as shared in one of two ways, depending on
+its type:
 
-* Static global variables should be marked with ``SHARED_DATA`` definition.
+* Static global variables are marked with the ``SHARED_DATA`` definition.
 
-* Heap data should be allocated with flag ``SOF_MEM_FLAG_SHARED``.
+* Heap data is allocated with the ``SOF_MEM_FLAG_SHARED`` flag.
 
-Every read and write access to the shared data should be committed using dedicated ``platform_shared_commit`` function. It is used for keeping data synchronized. NOTE: There is no such thing as read only access. Shared data needs to be synchronized even after just reading.
+To keep data synchronized, commit very read and write access to the shared
+data by using the dedicated ``platform_shared_commit`` function. Note that
+read-only access does not exist and that shared data must be synchronized
+even after just reading.
 
-Both ``SHARED_DATA`` macro and ``platform_shared_commit`` function are platform specific and could be implemented differently on different platforms. There are two general approaches that can be used based on available hardware support:
+Both the ``SHARED_DATA`` macro and the ``platform_shared_commit`` function
+are platform-specific and can be implemented differently on different
+platforms. Two general approaches can be used, based on available hardware
+support:
 
-1. Platform uses L1 cache, but also supports uncached memory region:
+1. Platform uses L1 cache, but also supports uncached memory regions:
 
-	* ``SHARED_DATA`` puts data into dedicated firmware section, which is accessed using uncache.
+	* ``SHARED_DATA`` puts data into a dedicated firmware section that is accessed using uncache.
 
 	* ``platform_shared_commit`` does nothing.
 
-2. Platform uses L1 cache and doesn't support uncached memory region:
+2. Platform uses L1 cache and doesn't support uncached memory regions:
 
 	* ``SHARED_DATA`` does nothing.
 
