@@ -62,3 +62,28 @@ Runtime Zone
 
 Buffer Zone
 ***********
+
+Shared Data
+*************
+
+By shared data we mean piece of memory, which is supposed to be accessed by different DSP cores. There are two ways of declaring data as shared depending on the type:
+
+* Static global variables should be marked with ``SHARED_DATA`` definition.
+
+* Heap data should be allocated with flag ``SOF_MEM_FLAG_SHARED``.
+
+Every read and write access to the shared data should be committed using dedicated ``platform_shared_commit`` function. It is used for keeping data synchronized. NOTE: There is no such thing as read only access. Shared data needs to be synchronized even after just reading.
+
+Both ``SHARED_DATA`` macro and ``platform_shared_commit`` function are platform specific and could be implemented differently on different platforms. There are two general approaches that can be used based on available hardware support:
+
+1. Platform uses L1 cache, but also supports uncached memory region:
+
+	* ``SHARED_DATA`` puts data into dedicated firmware section, which is accessed using uncache.
+
+	* ``platform_shared_commit`` does nothing.
+
+2. Platform uses L1 cache and doesn't support uncached memory region:
+
+	* ``SHARED_DATA`` does nothing.
+
+	* ``platform_shared_commit`` writebacks and invalidates cache.
