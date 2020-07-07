@@ -16,7 +16,7 @@ There are two main DSP boot flows:
 IPC Communication with DSP ROM
 ******************************
 
-Once the master DSP core (#0) is powered up and reset by the host driver, an
+Once the primary DSP core (#0) is powered up and reset by the host driver, an
 IPC communication with the DSP ROM is required in order to set the boot
 options (see Boot Path Control Messages for details and list of platforms that
 require this step). It is a one-way message that does not require a response
@@ -125,3 +125,5 @@ Booting with Boot Loader
 
 .. uml:: images/boot-ldr-flow.pu
    :caption: SOF Boot Loader Flow
+
+.. comment "master" has been replaced with "primary"

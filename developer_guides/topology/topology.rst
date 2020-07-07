@@ -260,7 +260,7 @@ macro:
 where:
 
 | **format**: is the SSP format ex: I2S or DSP_A or DSP_B etc
-| **mclk**: master clock in Hz
+| **mclk**: primary clock in Hz
 | **bclk**: bit clock in Hz
 | **fsync**: frame sync
 | **TDM**: TDM info including the slots, width, tx mask and rx mask
@@ -611,3 +611,5 @@ actually push both messages to a dot file:
 .. _M4: http://www.gnu.org/software/m4/m4.html
 .. _here: https://www.alsa-project.org/main/index.php/ALSA_topology
 .. _SOFT: https://github.com/thesofproject/soft
+
+.. comment "master" has been replaced with "primary"
