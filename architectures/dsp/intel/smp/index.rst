@@ -44,19 +44,21 @@ This structure contains pointers to the XTOS data along with
       struct idc *idc;
    };
 
-``struct core_context`` is allocated by master core for slave cores before
-slave core boot. Address of the ``struct core_context`` is written into
-``THREADPTR`` processor register, which can later be retrieved by slave core
+``struct core_context`` is allocated by primary core for secondary cores before
+secondary core boot. Address of the ``struct core_context`` is written into
+``THREADPTR`` processor register, which can later be retrieved by the secondary core
 after boot. Every core has its own instance of ``THREADPTR``,
 so ``struct core_context`` address can be read anytime at any place of the code.
 
 Communication between cores
 ***************************
 
-Master core can communicate with slave cores by sending messages using
+Secondary core can communicate with primary cores by sending messages using
 IDC mechanism. This mechanism is pretty much the same as IPC.
 Important data can be sent in two 32-bit IDC registers. Cores use interrupts
 to register for the incoming messages.
 
 .. uml:: ../images/idc-send-message.pu
 
+.. comment "master" has been replaced with "primary"
+.. comment "slave" has been replaced with "secondary"
