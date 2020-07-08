@@ -105,7 +105,7 @@ SOF on both the host and the DSP serializes the sending of their IPC messages. T
 SPI
 ===
 
-IPC messages have the same structure as in the PCI case, but they are sent and received over an SPI bus. The SPI transfer is always initiated by the SPI primary, which is the host. Therefore, the DSP cannot send asynchronous messages to the host using only the SPI bus. To overcome this limitation, an additional GPIO line is used by the DSP to trigger an interrupt on the host to request it to read out an IPC message. Support for such devices is still experimental in SOF. Details will be added later.
+IPC messages have the same structure as in the PCI case, but they are sent and received over an SPI bus. The SPI transfer is always initiated by the host. Therefore, the DSP cannot send asynchronous messages to the host using only the SPI bus. To overcome this limitation, an additional GPIO line is used by the DSP to trigger an interrupt on the host to request it to read out an IPC message. Support for such devices is still experimental in SOF. Details will be added later.
 
 iMX IPC
 =======
@@ -344,5 +344,3 @@ Force IPC Position
 Sending position update IPC from the firmware to the host is a generic method to generate period interrupts to meet the requirement from the ALSA IRQ mode (e.g. ``snd_pcm_period_elapsed()``). On some HDA-integrated platforms (e.g. Intel SKL+ ones), this interrupt can be generated using the `HDA <https://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/high-definition-audio-specification.pdf>`_ period IOC (interrupt on complete) and the real-time buffer pointers can be read back from the DPIB (DMA Pointer In Buffer). On these platforms, the position update IPC is only the fallback choice and is not used by default.
 
 In order to debug issues with IOC/DPIB, the force IPC position kernel debug config can be selected. On Intel SKL- platforms, the stream position update IPC is used whether or not this option is selected.
-
-.. comment "master" has been replaced with "primary"
