@@ -43,7 +43,7 @@ Extensions for SMP Architectures
 
 Each CPU (core) may own a dedicated system heap. The memory assigned for
 system heaps is distributed asymmetrically on CAVS platforms: a large heap
-for the master core (#0) and smaller ones for other cores (#1+).
+for the primary core (#0) and smaller ones for other cores (#1+).
 
 When a core goes down, the entire heap can be freed by moving back the free
 space offset to the beginning of the heap.
