@@ -77,7 +77,7 @@ th,td {
 }
 
 /* tweak for doxygen-generated API headings (for RTD theme) */
-.rst-content dl.group>dt, .rst-content dl.group>dd>p {
+.rst-content dl.group>dt {
    display:none !important;
 }
 .rst-content dl.group {
