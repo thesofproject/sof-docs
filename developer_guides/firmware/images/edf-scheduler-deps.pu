@@ -1,0 +1,6 @@
+class "edf_schedule_data" as edf {
+   - list : list
+   - clock
+   - irq
+}
+hide edf methods

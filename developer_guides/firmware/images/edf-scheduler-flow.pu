@@ -1,0 +1,21 @@
+actor client as c
+
+participant edf_scheduler as edf
+participant interrupt_driver as int
+
+-> edf : scheduler_init()
+    activate edf
+    edf -> int : interrupt_register(edf_scheduler_run)
+    deactivate edf
+<-- edf
+...
+c -> edf : schedule_task(&task)
+    activate edf
+    edf -> int : interrupt_set()
+    deactivate edf
+c <-- edf
+
+edf <- int : edf_scheduler_run()
+    activate edf
+    edf -> edf : schedule_task_running()
+    edf -> edf : schedule_task_complete()
