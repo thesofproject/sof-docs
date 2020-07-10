@@ -1,0 +1,26 @@
+actor client as c
+
+participant ll_scheduler as ls
+participant ll_schedule_domain as lsd
+
+-> lsd : domain_init
+<-- lsd : domain
+
+-> ls : scheduler_init(&domain)
+<-- ls
+...
+c -> ls : schedule_task(&task)
+    activate ls
+    ls -> lsd : domain_register(schedule_ll_tasks_run)
+    ls -> lsd : domain_enable()
+    deactivate ls
+c <-- ls
+...
+ls <- lsd : schedule_ll_tasks_run()
+    activate ls
+    ls -> lsd : domain_disable()
+    loop schedule_ll_is_pending()
+        ls -> ls : schedule_ll_tasks_execute()
+    end loop
+    ls -> lsd : domain_enable()
+    deactivate ls

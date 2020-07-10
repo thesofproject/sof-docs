@@ -1,0 +1,19 @@
+class "scheduler_ops" {
+   .. Mandatory ..
+   + schedule_task()
+   + schedule_task_cancel()
+   + schedule_task_free()
+   .. Optional ..
+   + schedule_task_running()
+   + schedule_task_complete()
+   + reschedule_task()
+   + scheduler_free()
+   + scheduler_run()
+}
+
+enum schedule_types {
+   SOF_SCHEDULE_EDF
+   SOF_SCHEDULE_LL_TIMER
+   SOF_SCHEDULE_LL_DMA
+}
+hide schedule_types methods

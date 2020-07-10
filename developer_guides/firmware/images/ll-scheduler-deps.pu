@@ -1,0 +1,30 @@
+class "ll_schedule_data" as lsd {
+   - tasks : list
+   - num_tasks
+   - pcd
+   - domain
+}
+hide lsd methods
+
+class "ll_schedule_domain" as lsdom {
+   - last_tick
+   - lock
+   - total_num_tasks
+   - num_clients
+   - ticks_per_ms
+   - type
+   - clk
+   - synchronous
+   - priv_data
+   - registered : array
+   - enabled : array
+   + domain_register()
+   + domain_unregister()
+   + domain_enable()
+   + domain_disable()
+   + domain_set()
+   + domain_clear()
+   + domain_is_pending()
+}
+
+lsd *-- lsdom : contains
