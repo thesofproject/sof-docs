@@ -19,19 +19,19 @@ Enabling Probes
 
 - Enable the following Linux kernel configuration options:
 
-	.. code-block:: bash
+  .. code-block:: bash
 
-           CONFIG_DEBUG_FS=y
-           CONFIG_SND_SOC_SOF_DEBUG_PROBES=y
-           CONFIG_SND_SOC_SOF_HDA_PROBES=y
+     CONFIG_DEBUG_FS=y
+     CONFIG_SND_SOC_SOF_DEBUG_PROBES=y
+     CONFIG_SND_SOC_SOF_HDA_PROBES=y
 
-- Enable the Probe module in the SOF firmware kconfig using this command:
+- Enable the Probe module in the SOF firmware ``kconfig`` using this command:
 
-	.. code-block:: bash
+  .. code-block:: bash
 
-		make menuconfig
+	 make menuconfig
 
-- :ref:`Build the firmware <build-from-scratch>`
+- Refer to **Step 3 Build firmware binaries** in :ref:`Build SOF from Scratch <build-from-scratch>` for reference.
 
 Note that you do not need to modify the audio topology file.
 
@@ -40,38 +40,40 @@ Data extraction
 
 Extraction is the most common use case. It allows for data extraction from
 the audio component data buffer. It requires starting the compress stream by
-starting the crecord tool. One compress stream may contain data from several
-extraction probe points which means data parsing is needed at the last stage
-of extraction.
+starting the crecord tool. Note that one compress stream may contain data
+from several extraction probe points which means data parsing is needed at
+the last stage of extraction.
 
-- Start the crecord tool to prepare the extraction stream (read the crecord
-  readme file)
+#. Start the crecord tool to prepare the extraction stream (read the crecord
+   readme file):
 
-	.. code-block:: bash
+   .. code-block:: bash
 
-		crecord -c0 -d23 -b8192 -f4 -FS32_LE -R48000 -C4 /tmp/extract.dat
+	  crecord -c0 -d23 -b8192 -f4 -FS32_LE -R48000 -C4 /tmp/extract.dat
 
-  Usage:::
+   Usage:
 
-    -d : device ID, equals 23 in above example.
-    -b : buffer size. For probes, this size will be part of probe initialization IPC
-         and denote extraction stream buffer size on host side.
-    -f : fragments is basically number of periods for compress stream.
+   .. code-block:: none
 
-  The rest of the parameters are don't-cares for driver.
+      -d : device ID; equals 23 in the above example.
+      -b : buffer size. For probes, this is part of the probe
+           initialization IPC and denotes the extraction stream buffer size on the host side.
+      -f : fragments is basically number of periods for compress stream.
 
-- Use ``aplay`` to start the playback stream
-- (optionally) Pause the playback stream
-- Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
+   The other parameters are "don't-cares" for the driver.
 
-  For example, to add a buffer with 7 probe points:
+     - Use ``aplay`` to start the playback stream.
+     - Pause the playback stream. (optional)
+     - Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
 
-	.. code-block:: bash
+   For example, to add a buffer with 7 probe points:
 
-		echo 7,1,0 > probe_points
+   .. code-block:: bash
 
-  Please refer to host side struct sof_probe_point_desc defined in ``sound/soc/sof/probe.h``
-  or struct probe_point in ``/src/include/ipc/probe.h`` from sof for the meaning of the triplets:
+	  echo 7,1,0 > probe_points
+
+   Refer to the host side struct sof_probe_point_desc defined in ``sound/soc/sof/probe.h``
+   or struct probe_point in ``/src/include/ipc/probe.h`` from sof for the meaning of the triplets:
 
 	.. code-block:: c
 
@@ -87,11 +89,12 @@ of extraction.
 						 */
 		} __attribute__((packed));
 
-  In the above example, 7 stands for the ``buffer_id`` which is a monolithic counter
-  value follows component instantiation order.
+  In the above example, 7 stands for the ``buffer_id`` which is a monolithic
+  counter value that follows a component instantiation order.
 
-  One way to find out the right instance of ``buffer_id`` is to enable dev_dbg in ``sound/sound/soc/sof/topology.c``
-  and search for widget id from the following messages:
+  One way to find out the right instance of ``buffer_id`` is to enable
+  dev_dbg in ``sound/sound/soc/sof/topology.c`` and search for the widget id
+  from the following messages:
 
 	.. code-block:: c
 
@@ -100,24 +103,25 @@ of extraction.
 			strnlen(tw->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) > 0
 				? tw->sname : "none");
 
-- (optionally) Unpause the playback stream
-- Close the playback stream when done
-- Close the crecord tool
+2. Unpause the playback stream. (optional)
+#. Close the playback stream when done.
+#. Close the crecord tool.
 
 Data parsing
 ************
 
-To construct actual waves from dumped binary, please follow the instructions at
-`Build SOF from scratch: Step 4: Build Topology and Tools <https://thesofproject.github.io/latest/getting_started/build-guide/build-from-scratch.html#step-4-build-topology-and-tools>`__ to build sof-probes, use ``-p`` for parse.
+As previously mentioned, one compress stream can contain data from several
+extraction probe points which means data parsing is needed at the final
+stage of extraction. The following example demonstrates how to extract data. Use ``-p`` for parse.
 
-Example of usage and ouput:
+Usage and ouput:
 
-	.. code-block:: bash
+.. code-block:: bash
 
-		$ ./sof-probes -p /tmp/extract.dat
-		sof-probes:	 Parsing file: /tmp/extract.dat
-		sof-probes:	 Creating wave file for buffer id: 7
-		sof-probes:	 done
+   $ ./sof-probes -p /tmp/extract.dat
+   sof-probes:	 Parsing file: /tmp/extract.dat
+   sof-probes:	 Creating wave file for buffer id: 7
+   sof-probes:	 done
 
-As a result, file buffer_7.wav is generated under the *tools/build_tools/probes* folder,
-the wave file can then be examined with your tool of choice like ``Audacity``.
+As a result, ``buffer_7.wav`` is generated in the *tools/build_tools/probes* folder. The wave file can then be examined with your tool of choice
+such as ``Audacity``.
