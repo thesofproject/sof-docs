@@ -12,6 +12,7 @@ terminology before reading further.
    introduction
    firmware/index
    unit_tests
+   xtrun/index
    topology/topology
    uuid/index.rst
    debugability/index
