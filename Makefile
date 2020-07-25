@@ -1,5 +1,6 @@
 # Minimal makefile for Sphinx documentation
 #
+# You can override these defaults from the command line.
 
 ifeq ($(VERBOSE),1)
   Q =
@@ -8,7 +9,7 @@ else
   Q = @
 endif
 
-# You can set these variables from the command line.
+SOF_DOC_BUILD = ../sof/doc
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = "SOF Project"
 SOURCEDIR     = .
@@ -38,18 +39,19 @@ help:
 # Keep doxygen optional not to burden "drive-by" .rst contributors with
 # extra dependencies.
 
-APIS_CMAKE := ../sof/doc/build.ninja
+APIS_CMAKE := ${SOF_DOC_BUILD}/build.ninja
 apidocs:
 ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
-	ninja -C ../sof/doc $${VERBOSE:+-v} doc
+	ninja -C ${SOF_DOC_BUILD} $${VERBOSE:+-v} doc
 else
 	# To build doxygen APIs too run this first:
-	#   cmake -GNinja -S ../sof/doc -B ../sof/doc
+	#   cmake -GNinja -S ../sof/doc -B ${SOF_DOC_BUILD}
 endif
 
 html: apidocs
 	$(SPHINXBUILD) -j auto -t $(DOC_TAG) -b html               \
 -d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS)    \
+-D breathe_projects.'SOF Project'="${SOF_DOC_BUILD}"/doxygen/xml \
 $(ERROROPTS) $(O)
 	# Reminder: to see _all_ warnings you must "make clean" first.
 
@@ -59,7 +61,7 @@ $(ERROROPTS) $(O)
 clean:
 	rm -fr $(BUILDDIR)
 ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
-	ninja -C ../sof/doc $${VERBOSE:+-v} doc-clean clean
+	ninja -C ${SOF_DOC_BUILD} $${VERBOSE:+-v} doc-clean clean
 endif
 
 # Copy material over to the GitHub pages staging repo
