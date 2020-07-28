@@ -20,8 +20,7 @@ software continues to be available under the terms that the author
 desired.
 
 The SOF project uses a BSD-3-Clause license, as found in the
-`LICENSE <https://github.com/thesofproject/sof/blob/master/LICENSE>`__
-in the project's GitHub repo.
+:git-sof-mainline:`LICENCE` file in the project's GitHub repo.
 
 A license tells you what rights you have as a developer, as provided by
 the copyright holder. It is important that the contributor fully

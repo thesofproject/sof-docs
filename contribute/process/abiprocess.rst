@@ -13,9 +13,8 @@ defined in:
 - src/include/ipc/
 - src/include/user/
 
-SOF ABI versioning is defined in firmware source code documentation `FW Source kernel/abi.h`_
-
-.. _FW Source kernel/abi.h: https://github.com/thesofproject/sof/blob/master/src/include/kernel/abi.h#L8
+SOF ABI versioning is defined in firmware source code documentation:
+:git-sof-mainline:`src/include/kernel/abi.h`
 
 Change Process
 **************
