@@ -147,6 +147,8 @@ Create or append to the ``LD_LIBRARY_PATH`` environment variable.
 
    export LD_LIBRARY_PATH="${SOF_WORKSPACE}"/alsa-lib/src/.libs:$LD_LIBRARY_PATH
 
+.. _build-toolchains-from-source:
+
 Step 2 Build toolchains from source
 ===================================
 

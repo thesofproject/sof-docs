@@ -206,8 +206,8 @@ Which Xtensa toolchains does SOF currently support?
      documented in the getting started guide. These must be built from
      source. For instructions, refer to the following:
 
-     - `Build toolchains from source <https://thesofproject.github.io/latest/getting_started/build-guide/build-from-scratch.html#step-2-build-toolchains-from-source>`_
-       in the Getting Started Guide for building SOF from scratch
+     - :ref:`build-toolchains-from-source` in the Getting Started Guide
+       for building SOF from scratch
 
      - `Toolchains and embedded distributions <http://wiki.linux-xtensa.org/index.php/Toolchain_and_Embedded_Distributions>`_
 
@@ -215,7 +215,7 @@ Which Xtensa toolchains does SOF currently support?
      is proprietary but uses the open source GNU binutils. XCC must be
      bought from Cadence. For more information, see:
 
-     - `Build SOF with a Third-Party Toolchain <https://thesofproject.github.io/latest/getting_started/build-guide/build-3rd-party-toolchain.html>`_
+     - :ref:`build-3rd-party-toolchain`
 
      - `Cadence IP portfolio <https://ip.cadence.com/ipportfolio/tensilica-ip>`_
 
