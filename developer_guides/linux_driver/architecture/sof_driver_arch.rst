@@ -124,7 +124,13 @@ IPC messages are divided into several groups: global reply, topology, power mana
 PCM Driver
 **********
 
-The SOF PCM driver creates ALSA PCMs, DAPM, and kcontrols based on the `topology <https://thesofproject.github.io/latest/developer_guides/topology/topology.html>`_ data loaded at runtime. The PCM driver also allocates buffers for DMA and registers with runtime PM. It contains architecture- and platform-generic code. The PCM driver implements the low-level functions defined by the ALSA PCM middle layer in ``struct snd_pcm_ops``. These functions implement the platform-generic parts and invoke platform-specific ops to access the hardware.
+The SOF PCM driver creates ALSA PCMs, DAPM, and kcontrols based on the
+:ref:`topology` data loaded at runtime. The PCM driver also allocates
+buffers for DMA and registers with runtime PM. It contains architecture-
+and platform-generic code. The PCM driver implements the low-level
+functions defined by the ALSA PCM middle layer in ``struct
+snd_pcm_ops``. These functions implement the platform-generic parts and
+invoke platform-specific ops to access the hardware.
 
 When the machine driver is probed and the sound card is registered, the SOF PCM component driver gets probed when the dai links in the sound card are bound to the card. The SOF PCM component probe callback loads the topology file for the DUT. The SOF topology defines the audio processing pipelines, FE DAIs, and the BE DAI configuration for the BE dai links defined in the machine driver. Therefore, it is important to make sure that the DAI link IDs for the BE DAIs are identical in the topology and the machine driver. A mismatch in the DAI links ID will cause the sound card registration to fail.
 
@@ -343,4 +349,6 @@ Force IPC Position
 
 Sending position update IPC from the firmware to the host is a generic method to generate period interrupts to meet the requirement from the ALSA IRQ mode (e.g. ``snd_pcm_period_elapsed()``). On some HDA-integrated platforms (e.g. Intel SKL+ ones), this interrupt can be generated using the `HDA <https://www.intel.com/content/dam/www/public/us/en/documents/product-specifications/high-definition-audio-specification.pdf>`_ period IOC (interrupt on complete) and the real-time buffer pointers can be read back from the DPIB (DMA Pointer In Buffer). On these platforms, the position update IPC is only the fallback choice and is not used by default.
 
-In order to debug issues with IOC/DPIB, the force IPC position kernel debug config can be selected. On Intel SKL- platforms, the stream position update IPC is used whether or not this option is selected.
+In order to debug issues with IOC/DPIB, the force IPC position kernel
+debug config can be selected. On Intel SKL- platforms, the stream
+position update IPC is used whether or not this option is selected.

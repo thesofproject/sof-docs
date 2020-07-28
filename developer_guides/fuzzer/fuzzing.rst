@@ -6,8 +6,8 @@ Fuzzing in Docker
 Instructions
 ************
 
-#. Build a fuzzer in order to use it. Follow the instructions at `Build SOF
-   with docker: Step 4: Build Topology and Tools <https://thesofproject.github.io/latest/getting_started/build-guide/build-with-docker.html#build-topology-and-tools>`__.
+#. Build a fuzzer in order to use it. Follow the instructions at Build SOF
+   with docker, :ref:`docker-topology-tools`.
 
 #. Enter the Docker container:
 
