@@ -163,10 +163,13 @@ numfig_format = {'figure': 'Figure %s', 'table': 'Table %s', 'code-block': 'Code
 
 SOF_GIT = 'https://github.com/thesofproject'
 
+# "/sof/tree/branch/dir" is for directories and "/sof/blob/branch/file" is
+# for files. Fortunately github automatically redirects one to the other
+# as required.
 extlinks = {
-    'git-sof-master':
+    'git-sof-mainline':
        (SOF_GIT + '/sof/tree/master/%s', ""),
-    'git-sof-docs-master':
+    'git-sof-docs-mainline':
        (SOF_GIT + '/sof-docs/tree/master/%s', ""),
     'git-alsa':
     ('https://git.alsa-project.org/?p=%s.git', ""),

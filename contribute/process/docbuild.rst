@@ -148,10 +148,10 @@ tools:
    cd ~/thesofproject/sof-docs
    pip3 install --user -r scripts/requirements.txt
 
-.. note:: The :git-sof-docs-master:`scripts/requirements.txt` file hardcodes
+.. note:: The :git-sof-docs-mainline:`scripts/requirements.txt` file hardcodes
    versions using ``==``, which may not be compatible with your other
    projects. In that case you can either setup a Python ``virtualenv`` or
-   try the unsupported :git-sof-docs-master:`scripts/requirements-lax.txt`
+   try the unsupported :git-sof-docs-mainline:`scripts/requirements-lax.txt`
    (more details inside this file):
 
    .. code-block:: bash
@@ -226,7 +226,7 @@ diagrams. When done, view the HTML output with your browser, starting at
 
 If your changes are not related to any UML diagram, you can build more
 than 10 times faster from scratch by temporarily changing the
-``plantuml_output_format`` line in :git-sof-docs-master:`conf.py`.
+``plantuml_output_format`` line in :git-sof-docs-mainline:`conf.py`.
 
 Publish content
 ***************

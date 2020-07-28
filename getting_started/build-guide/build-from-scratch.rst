@@ -318,7 +318,7 @@ One-step rebuild from scratch
 -----------------------------
 
 To rebuild |SOF| in just one step, use
-:git-sof-master:`scripts/xtensa-build-all.sh` after setting up the
+:git-sof-mainline:`scripts/xtensa-build-all.sh` after setting up the
 environment.
 
 Build the firmware for all platforms.
@@ -510,8 +510,8 @@ Step 4 Build topology and tools
 One-step rebuild from scratch
 -----------------------------
 
-Without any argument :git-sof-master:`scripts/build-tools.sh` rebuilds
-only the minimum subset of :git-sof-master:`tools/`.
+Without any argument :git-sof-mainline:`scripts/build-tools.sh` rebuilds
+only the minimum subset of :git-sof-mainline:`tools/`.
 
 .. code-block:: bash
 
