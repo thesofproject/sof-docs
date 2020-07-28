@@ -158,6 +158,8 @@ your target machine's /lib/firmware/intel/sof folder.
 
    sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
 
+.. _docker-topology-tools:
+
 Build topology and tools
 ========================
 
