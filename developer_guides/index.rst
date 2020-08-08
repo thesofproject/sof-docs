@@ -22,6 +22,7 @@ terminology before reading further.
    virtualization/virtualization
    virtualization/running
    fuzzer/fuzzing.rst
+   testbench_fuzzing/testbench_afl_fuzzing.rst
 
 Technical Notes
 ***************
