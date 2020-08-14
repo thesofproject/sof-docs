@@ -21,8 +21,7 @@ terminology before reading further.
    linux_driver/index
    virtualization/virtualization
    virtualization/running
-   fuzzer/fuzzing.rst
-   testbench_fuzzing/testbench_afl_fuzzing.rst
+   fuzzing/index
 
 Technical Notes
 ***************
