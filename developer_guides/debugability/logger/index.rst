@@ -32,7 +32,7 @@ Usage sof-logger <option(s)> <file(s)>
 -t		Get traces from "/sys/kernel/debug/sof/trace" instead of from the default "/sys/kernel/debug/sof/etrace"
 -p		Get traces from stdin instead of the default "/sys/kernel/debug/sof/etrace"
 -c clock	Set the timestamp clock in MHz
--e		Enable checking the firmware version with the default verification file "/sys/kernel/debug/sof/fw_version"
+-n		Disable checking the firmware version with the default verification file "/sys/kernel/debug/sof/fw_version"
 -v ver_file	Enable checking the firmware version with the ver_file file instead of the default: "/sys/kernel/debug/sof/fw_version"
 -s		Take a snapshot of state
 -r		Less formatted output for chained log processors
@@ -43,12 +43,13 @@ Usage sof-logger <option(s)> <file(s)>
 
 Examples:
 
-- Gets traces from the "/sys/kernel/debug/sof/etrace" file; verifies the
-  fw_version with "/sys/kernel/debug/sof/fw_version" and prints logs to stdout
+- Gets traces from the "/sys/kernel/debug/sof/etrace" file; disable compatibility
+  check between given ldc_file with fw_version saved in default location
+  and prints logs to stdout
 
   .. code-block:: bash
 
-     sof-logger -l ldc_file -e
+     sof-logger -l ldc_file -n
 
 - Gets traces from the "/sys/kernel/debug/sof/etrace" file; verifies the
   fw_version with the ver_file file and prints logs to stdout
