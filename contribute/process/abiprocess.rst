@@ -41,6 +41,26 @@ kernel side shall include code that deals with older firmware and
 topology files. See :ref:`development_tree` for kernel side
 documentation.
 
+Documenting modified fields
+***************************
+
+When the interface is extended with a backwards compatible (MINOR) interface
+change, each added or modified interface field must be documented
+with a reference to the interface version, where the change was
+first implemented. Some code examples:
+
+.. code-block:: c
+
+   struct foo {
+           uint8_t group_id;           /**< group ID, 0 means no group (ABI3.17) */
+   } __attribute__((packed));
+
+.. code-block:: c
+
+   enum bar {
+         EXT_MAN_ELEM_FOO_DATA = 7,    /**< ABI3.18 */
+   };
+
 ABI change approvers
 ********************
 
