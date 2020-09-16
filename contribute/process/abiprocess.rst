@@ -16,7 +16,7 @@ defined in:
 SOF ABI versioning is defined in firmware source code documentation:
 :git-sof-mainline:`src/include/kernel/abi.h`
 
-Change Process
+Change process
 **************
 
 When a firmware change requires extending or modifying the public
@@ -41,12 +41,12 @@ kernel side shall include code that deals with older firmware and
 topology files. See :ref:`development_tree` for kernel side
 documentation.
 
-Documenting modified fields
-***************************
+Document modified fields
+************************
 
-When the interface is extended with a backwards compatible (MINOR) interface
+When the interface is extended with a backwards-compatible (MINOR) interface
 change, each added or modified interface field must be documented
-with a reference to the interface version, where the change was
+with a reference to the interface version where the change was
 first implemented. Some code examples:
 
 .. code-block:: c
