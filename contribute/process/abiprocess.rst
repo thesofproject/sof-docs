@@ -31,7 +31,7 @@ state diagram:
 .. _ABI Change Tracker: https://github.com/orgs/thesofproject/projects/2
 
 The pull requests are classified in GitHub using the following
-official `ABI Change Tracker`_
+official `ABI Change Tracker`_.
 
 .. uml:: images/abiprocess.pu
    :caption: ABI process state diagram
@@ -47,7 +47,9 @@ Document modified fields
 When the interface is extended with a backwards-compatible (MINOR) interface
 change, each added or modified interface field must be documented
 with a reference to the interface version where the change was
-first implemented. Some code examples:
+first implemented.
+
+Some code examples:
 
 .. code-block:: c
 
