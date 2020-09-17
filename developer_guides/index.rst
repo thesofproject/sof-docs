@@ -22,6 +22,7 @@ terminology before reading further.
    virtualization/virtualization
    virtualization/running
    fuzzing/index
+   testbench/index
 
 Technical Notes
 ***************
