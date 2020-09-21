@@ -24,7 +24,7 @@ build pipelines.
    "FIR equalizer", "Enhances frequency response with a finite impulse response filter, e.g. improve speaker sound", "Yes", "Xtensa HiFi3", "Upstream", "1.4"
    "IIR equalizer", "Enhances frequency response with an infinite impulse response filter, e.g. cancel DC component or improve speaker sound", "Yes", "Xtensa HiFi3", "Upstream", "1.4"
    "Mixer", "Sums with unity gain and saturation source buffers of multiple pipelines to a single output sink buffer", "Yes", "No", "Upstream", "1.0"
-   "Multi-microphone beamformer", "Enhances directivity of microphone array towards steer direction and attenuates diffuse noise", "Yes", "Yes", "Planned", "1.6"
+   "Multi-microphone beamformer", "Enhances directivity of microphone array towards steer direction and attenuates diffuse noise", "Yes", "Yes", "Upstream", "1.6"
    "PCM converter", "Not a dedicated component but provides for DAI and host components conversion between PCM formats e.g. S16_LE, S24_LE, and S32_LE", "Yes", "Xtensa HiFi3", "Upstream", "1.5"
    "Sample rate conversion", "Converts between common sample rates to connect multi-rate synchronous pipelines", "Yes", "Xtensa HiFi3", "Upstream", "1.3"
    "Volume", "Provides real-time stream gain controls to the user", "Yes", "Xtensa HiFi3", "Upstream", "1.0"
@@ -39,3 +39,4 @@ Further information on specific algorithms is forthcoming.
 
    src/sample_rate_conversion
    demux/demux.rst
+   tdfb/time_domain_fixed_beamformer
