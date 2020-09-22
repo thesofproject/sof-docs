@@ -42,7 +42,8 @@ Usage sof-logger <option(s)> <file(s)>
 -d		Dump ldc information
 -F filter	Update trace filtering
 
-Examples:
+Examples
+--------
 
 - Gets traces from the "/sys/kernel/debug/sof/etrace" file; disable compatibility
   check between given ldc_file with fw_version saved in default location
@@ -73,7 +74,7 @@ Examples:
 
      sof-logger -l ldc_file -o out_file
 
-- Get traces from the "/sys/kernel/debug/sof/trace" file and prints logs to 
+- Get traces from the "/sys/kernel/debug/sof/trace" file and prints logs to
   stdout
 
   .. code-block:: bash
@@ -130,12 +131,12 @@ Examples:
 Trace filtering
 ***************
 
-It's possible to change current logs level for any instance of component in
-runtime. To do so, use `-F` option with following argument format:
+Current log levels can be changed for any instance of a component at
+runtime. To do so, use the `-F` option and the following argument format:
 
    <log_level>="<component1>[, <component2>]"
 
-Where *<log_level>* is one of:
+Where *<log_level>* can be one of the following:
 
 - ``c`` / ``critical``
 - ``e`` / ``error``
@@ -144,13 +145,14 @@ Where *<log_level>* is one of:
 - ``d`` / ``debug``
 - ``v`` / ``verbose``
 
-After **=** character, there is a list of component, separated with comma.
-Each components starts with *name* followed by optional part with *instance*
+After the **=** character, all components are listed in a comma-separated
+format. Each component begins with *name* followed by an optional *instance*
 description.
 
-List of possible components names comes from UUID declaration,
-see :ref:`uuid-api` for more detailed information.
-Try use ``-d`` flag in logger to list component names from `ldc` file content.
+The list of possible component names comes from the UUID declaration.
+Refer to the :ref:`uuid-api` for more detailed information. Use the ``-d``
+flag in the logger to list component names from the ``ldc`` file content.
+
 Example output:
 
    .. code-block:: bash
@@ -171,23 +173,20 @@ Example output:
             0x1FFFA134  <c2b00d27-ffbc-4150-a51a-245c79c5e54b> dai
             -------------------------------------------------- cnt: 6
 
-There is also a special wildcard - ``*`` - used to apply given trace
-level to each component.
+A special wildcard - ``*`` - can be used to apply a given trace level to
+each component.
 
-Instance description may have one of the following form:
+Instance descriptions can have one of the following forms:
 
 - ``*`` - each component instance
 - ``X.*`` - each component on selected pipeline *X*
 - ``X.Y`` - component on pipeline *X* with id *Y*
 
-Trace levels changes works in same order as options given in command line,
-and new set overwrites old value. It allows to easily enable verbose logs only
-for selected components and keeping lowest possible log level (critical) for
-others, example:
+Trace level changes works in the same order as options given in a command line, and a new set overwrites old values. It allows you to easily enable verbose logs only for selected components and keep the lowest possible log level (critical) for others, as shown in the following example:
 
    sof-logger -l ldc_file -t -Fcritical=* -Fverbose="dai*, volume1.1"
 
-Similar example may be prepared for components on particular pipeline:
+A similar example may be prepared for components on a particular pipeline:
 
    sof-loggerr -l ldc_file -t -Fc=* -Fv=*1.*
 
@@ -195,20 +194,18 @@ Similar example may be prepared for components on particular pipeline:
 Detailed description
 --------------------
 
-Filtration mechanism is realized on firmware side, so after change the log level
-to verbose for each component, then DSP may be overhelmed by tracing.
+Filtration mechanism is realized on the firmware side so, after changing the
+log level to verbose for each component, the DSP may be overhelmed by
+tracing.
 
 Core functionality is provided by DSP, so filtration does not work in offline
 mode - during conversion previously saved input file.
 
-Communication between firmware and logger is realized through driver debug file
-systems.
-Logger writes to ``sys/kernel/debug/sof/filter`` new trace settings,
-which will be used to create *IPC* message with new trace levels.
-Simple text data format is used:
+Communication between the firmware and logger is realized through driver
+debug file systems. The logger writes new trace settings to ``sys/kernel/debug/sof/filter``. These will be used to create *IPC* messages with new
+trace levels. A simple text data format is used:
 
 ``log1_level uuid1_id pipe1_id comp1_id; [log2_level uuid2_id pipe2_id comp2_id;]\n``
 
-Unused uuid_id should be set here to 0, other unused fields should be set to -1.
-``log_level`` always must be set to valid value - represents ``LOG_LEVEL_*``
-defines values.
+Any unused uuid_id should be set here to 0; other unused fields should be
+set to -1. ``log_level`` must always be set to a valid value that represents ``LOG_LEVEL_*`` defined values.
