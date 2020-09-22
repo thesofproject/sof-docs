@@ -1,40 +1,38 @@
 .. _test-audio-quality:
 
-Test audio quality
+Test Audio Quality
 ##################
 
-The directory tools/test/audio contains support for testing objective
-audio quality parameters. The tests include e.g. gain, frequency
-response (FR), dynamic range (DR), total harmonic distortion plus
-noise (THD+N). The definitions can be found from Audio Engineering
-Society's AES17 standard.
+The ``tools/test/audio`` directory contains support for testing objective
+audio quality parameters. The tests include gain, frequency response (FR),
+dynamic range (DR), and total harmonic distortion plus noise (THD+N).
+Definitions can be found in the Audio Engineering Society's AES17 standard.
 
-There's need to have Octave or Matlab installed to execute the
-tests. Matlab is commercial product by MathWorks. GNU Octave is a free
-software tool and (nearly) same m-language compatible tool that can be
-used to run the same scripts. Octave and useful toolboxes for audio
-development can be installed with:
+Install Octave or Matlab to execute the tests. Matlab is a commercial
+product by MathWorks. GNU Octave is a free software tool that is mostly
+compatible with Matlab. Install Octave and useful toolboxes for audio
+development by entering the following:
 
 .. code-block:: bash
 
    sudo apt install octave octave-signal octave-control octave-io
 
-Octave can be started to correct directory for tests with:
+Start Octave from the correct directory for tests by entering the following:
 
 .. code-block:: bash
 
    cd tools/test/audio
    octave --gui &
 
-From Octave shell the test script for IIR EQ component can be launched
-for all support sample formats:
+From the Octave shell, the test script for the IIR EQ component can be
+launched for all support sample formats:
 
 .. code-block:: octave
 
    help process_test
    process_test('eqiir')
 
-The end of test outputs a CSV format table for test results
+The test outputs a CSV format table with test results such as the following:
 
 ::
 
@@ -71,8 +69,8 @@ The end of test outputs a CSV format table for test results
    Number of non-applicable tests = 0
    Number of skipped tests = 0
 
-The script is currently set up for batch processing in text console. To
-enable graphics plot windows an edit can be done:
+The script is currently set up for batch processing in the text console. To
+enable graphics plot windows, edit the script to the following:
 
 .. code-block:: diff
 
@@ -92,21 +90,18 @@ enable graphics plot windows an edit can be done:
     
     %% Prepare
 
-When e.g. test for 24 bit to 24 bit output is executed with
-process_test('eqiir', 24, 24) the following plots are generated. They
-are useful to visually gain more insight about component's
+When the example test for 24 bit to 24 bit output is executed with
+process_test('eqiir', 24, 24), the following plots are generated. They
+are useful to visually gain more insight into the component's
 characteristics.
 
 .. figure:: fig_process_test_eqiir.png
 
    Test results for EQ IIR component: Chirp spectrogram, THD+N frequency sweep, measured FR.
 
-
-For new components development when the test set is suitable, e.g. the
-previous example "newcomp", this script needs small a addition. Also
-there's need to create a newcomp_run.sh based on existing examples
-found in the same directory. Also more customization can be done as
-e.g. for re-defining the test pass/fail criteria for EQ components.
+For new components development when the test set is suitable, such as the
+previous example "newcomp", this script requires a small addition. A need exists to create a ``newcomp_run.sh`` script based on existing examples
+found in the same directory. Additional customization can also be done such as re-defining the test pass/fail criteria for EQ components.
 
 .. code-block:: diff
 

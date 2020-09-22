@@ -1,17 +1,15 @@
 .. _prepare-new-component:
 
-Prepare a new component for Testbench
+Prepare a New Component for Testbench
 #####################################
 
-Since the introduction of UUID system for SOF processing components
-there is no more need for kernel topology parsing to add new
-component. However at time of writing this there's a limitation in
-testbench that it does not parse UUIDs from component libraries.
+Since the introduction of the UUID system for SOF processing components,
+we no longer need kernel topology parsing to add new components. However, at
+the time of this writing, the testbench is limited in that it does not parse UUIDs from component libraries.
 
-Here's a diff shown for needed edits to testbench for new component
-called "newcomp". Remember to copy the UUID bytes from the actual
-component code. And please include it to your component pull request
-as a commit to keep testbench up-to-date.
+The following diff shows edits that are needed in order to testbench a new
+component called "newcomp". Remember to copy the UUID bytes from the actual
+component code. Include it in your component pull request as a commit to keep the testbench updated.
 
 .. code-block:: diff
 
@@ -51,9 +49,9 @@ as a commit to keep testbench up-to-date.
     
     /* main firmware context */
 
-There's also need to add test pipelines generation for "newcomp". You
-will need to add a pipeline macro pipe-newcomp-playback.m4 into
-directory tools/topology/sof. The file should exist for normal usage
+A need also exists to add pipelines generation tests for "newcomp". You
+will need to add a pipeline macro ``pipe-newcomp-playback.m4`` into the
+``tools/topology/sof`` directory. The file should exist for normal usage
 of a playback component.
 
 .. code-block:: diff
@@ -74,7 +72,7 @@ of a playback component.
 
 .. note::
 
-   Since currently the testbench supports only playback direction
-   there is need to add a playback pipeline macro even if the
-   component is meant only for capture direction, e.g. for a
+   Since the testbench currently only supports playback direction, a
+   need exists to add a playback pipeline macro even if the
+   component is meant only for capture direction, such as for a
    microphone processing component.
