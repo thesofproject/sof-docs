@@ -27,7 +27,7 @@ Clone the *sof* repo.
 .. code-block:: bash
 
    cd "$SOF_WORKSPACE"
-   git clone https://github.com/thesofproject/sof.git
+   git clone --recurse-submodules https://github.com/thesofproject/sof.git
 
 Set up Docker
 *************
