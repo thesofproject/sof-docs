@@ -76,6 +76,14 @@ MEU_OPENSSL
       # Example
       cmake [...] -DMEU_OPENSSL=C:/path/to/openssl.exe [...]
 
+FIRMWARE_NAME
+   Custom suffix for output binary.
+
+   .. code-block:: bash
+
+      # Example
+      cmake [...] -DFIRMWARE_NAME=custom [...]
+
 Unit Tests
 **********
 
