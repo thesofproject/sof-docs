@@ -1,7 +1,9 @@
 hide empty description
-[*] -right-> COMP_STATE_READY : <b>comp_ops.new()</b>
+[*] -right-> COMP_STATE_INIT : start of <b>comp_ops.new()</b>
 
-COMP_STATE_READY -right-> COMP_STATE_PREPARE : <b>COMP_TRIGGER_PREPARE</b>
+COMP_STATE_INIT --> COMP_STATE_READY : end of <b>comp_ops.new()</b>
+
+COMP_STATE_READY ---> COMP_STATE_PREPARE : <b>COMP_TRIGGER_PREPARE</b>
 
 COMP_STATE_PREPARE --> COMP_STATE_ACTIVE : <b>COMP_TRIGGER_START</b>
 
