@@ -83,6 +83,10 @@ Handle the component device state
 .. uml:: images/comp-dev-states.pu
    :caption: Component Device States
 
+.. note::
+
+   COMP_STATE_SUSPEND is not used currently.
+
 Refer to :c:func:`comp_set_state` in :ref:`component-api` for details.
 
 Implement the component API (comp_ops)
