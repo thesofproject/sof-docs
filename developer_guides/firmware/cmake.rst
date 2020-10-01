@@ -84,6 +84,15 @@ FIRMWARE_NAME
       # Example
       cmake [...] -DFIRMWARE_NAME=custom [...]
 
+MEU_NO_SIGN
+   Flag that can be used to build unsigned FW binary,
+   that may be later used with MEU for signing.
+
+   .. code-block:: bash
+
+      # Example
+      cmake [...] -DMEU_NO_SIGN=ON [...]
+
 Unit Tests
 **********
 
