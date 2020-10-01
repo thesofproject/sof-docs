@@ -93,6 +93,15 @@ MEU_NO_SIGN
       # Example
       cmake [...] -DMEU_NO_SIGN=ON [...]
 
+MEU_OFFSET
+   Default: determined by build-system, depends on MEU version.
+   Can be used to override MEU offset.
+
+   .. code-block:: bash
+
+      # Example
+      cmake [...] -DMEU_OFFSET=1344 [...]
+
 Unit Tests
 **********
 
