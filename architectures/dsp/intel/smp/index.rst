@@ -53,8 +53,8 @@ so ``struct core_context`` address can be read anytime at any place of the code.
 Communication between cores
 ***************************
 
-Secondary core can communicate with primary cores by sending messages using
-IDC mechanism. This mechanism is pretty much the same as IPC.
+Primary core can communicate with secondary cores by sending messages using
+the IDC mechanism. This mechanism is pretty much the same as IPC.
 Important data can be sent in two 32-bit IDC registers. Cores use interrupts
 to register for the incoming messages.
 
