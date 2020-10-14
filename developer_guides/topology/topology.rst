@@ -260,7 +260,7 @@ macro:
 where:
 
 | **format**: is the SSP format ex: I2S or DSP_A or DSP_B etc
-| **mclk**: main clock in Hz
+| **mclk**: provider clock in Hz
 | **bclk**: bit clock in Hz
 | **fsync**: frame sync
 | **TDM**: TDM info including the slots, width, tx mask and rx mask
