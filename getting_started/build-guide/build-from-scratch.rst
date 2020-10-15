@@ -556,8 +556,14 @@ the target machine's /usr/bin directory.
 Build Linux kernel
 ******************
 
-|SOF| uses the Linux kernel dev branch, and it must work with other dev branch
-firmware and topology.
+|SOF| uses the Linux kernel dev branch, and it must work with other dev
+branch firmware and topology. This short section shows how to build
+Debian kernel packages tested on Ubuntu in a small number of commands.
+However these commands rebuild everything from scratch every time which
+makes then unsuitably slow for development. If you need to make kernel
+code changes then ignore this and look at
+:ref:`setup-ktest-environment`, the :git-sof-kconfig:`README.md` file of
+the kconfig repo and the :ref:`sof_driver_arch`.
 
 #. Build the kernel with this branch.
 

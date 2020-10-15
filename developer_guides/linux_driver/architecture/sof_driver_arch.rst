@@ -315,7 +315,7 @@ The SOF HDMI/DP audio codec driver handles DP-MST audio streams transparently, a
 Kernel Configuration/Kconfig
 ****************************
 
-Refer to the `README <https://github.com/thesofproject/kconfig/blob/master/README.md/>`_ file of the SOF kconfig `repository <https://github.com/thesofproject/kconfig/>`_.
+Refer to the :git-sof-kconfig:`README.md` file of the SOF kconfig repository.
 
 Debug Options
 *************
