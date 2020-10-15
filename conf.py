@@ -171,6 +171,8 @@ extlinks = {
        (SOF_GIT + '/sof/tree/master/%s', ""),
     'git-sof-docs-mainline':
        (SOF_GIT + '/sof-docs/tree/master/%s', ""),
+    'git-sof-kconfig':
+       (SOF_GIT + '/kconfig/tree/master/%s', ""),
     'git-alsa':
     ('https://git.alsa-project.org/?p=%s.git', ""),
 }
