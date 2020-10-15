@@ -32,3 +32,16 @@ instructions may differ between devices.
    setup/setup_minnowboard_turbot
    setup/setup_up_2_board
    setup/setup_ktest_environment
+
+Debugging Audio issues on Intel platforms
+*****************************************
+
+Intel platforms rely on different versions of DSP and audio hardware
+interfaces, the following sections provide hints for integrators and
+users when 'audio is broken'
+
+.. toctree::
+   :maxdepth: 1
+
+   intel_debug/introduction
+   intel_debug/suggestions
