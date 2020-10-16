@@ -19,6 +19,7 @@ is always preffered.
    build-guide/build-from-scratch
    build-guide/build-with-docker
    build-guide/build-3rd-party-toolchain
+   build-guide/build-with-zephyr
 
 Setting up SOF on hardware
 **************************
