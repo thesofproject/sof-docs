@@ -3,43 +3,39 @@
 Suggestions before filing an SOF bug
 ####################################
 
-.. contents::
-   :local:
-   :depth: 3
+Run alsa-info
+*************
 
-Run 'alsa-info'
-***************
-
-The 'alsa-info' script extracts a lot of information from the platform
-(PCI ids, ACPI ids, DMI, controls, dmesg) and will help the SOF team
-understand which hardware and OEM configuration is used. 'alsa-info'
-can upload the results to a server, providing the link is very useful
+The ``alsa-info`` script extracts a lot of information from the platform
+(PCI ids, ACPI ids, DMI, controls, dmesg) that will help the SOF team
+understand which hardware and OEM configuration is used. ``alsa-info``
+can upload the results to a server; providing the link is very useful
 when filing a bug.
 
 Disable SOF on PCI/HDaudio devices to test audio playback
 *********************************************************
 
-When audio issues occur, the first is to check if the HDaudio legacy
+When audio issues occur, the first step is to check if the HDaudio legacy
 is able to generate sound on speakers and headsets. This can be
-accomplished by e.g. adding "options snd-intel-dspcfg dsp_driver=1" to
-/etc/modprobe.d/alsa-base.conf.
+accomplished by adding "options snd-intel-dspcfg dsp_driver=1" to
+``/etc/modprobe.d/alsa-base.conf``.
 
 If no sound can be heard and jack detection is not functional, an
 HDaudio external codec configuration is likely. In some cases, the
-Linux drivers are missing configuration information and may e.g. only
-enable 2 of the 4 speakers present. All of these cases are orthogonal
-to SOF issues, i.e. the SOF driver cannot compensate for codec driver
+Linux drivers are missing configuration information and may only
+enable two of the four speakers present. All of these cases are orthogonal
+to SOF issues in that the SOF driver cannot compensate for codec driver
 problems on its own.
 
 Test at the ALSA 'hw' device level
 **********************************
 
 When the legacy HDaudio driver produces audible sound without
-distorsion and an SOF-based solution does not, userspace configuration
+distortion and an SOF-based solution does not, user space configuration
 issues are possible.
 
 The following commands can be used to check if the SOF driver is
-functional at the 'hardware device' level:
+functional at the hardware device level:
 
 .. code-block::
 
@@ -47,10 +43,10 @@ functional at the 'hardware device' level:
    arecord -Dhw:0,0 -c2 -r48000 -f S16_LE -d 10 test.wav
 
 The card and device indices may need to be adjusted on different
-platforms, use 'aplay -l' and 'arecord -l' to see supported values on
+platforms: use ``aplay -l`` and ``arecord -l`` to see supported values on
 your platform.
 
-If playback or capture seem ok at the hw: device level, then the
+If the playback or capture seems ok at the hardware device level, then the
 following packages may need to be updated:
 
 - alsa-lib
@@ -61,21 +57,21 @@ Verify mixer settings
 *********************
 
 A classic issue with Linux audio is that a mixer control value remains
-muted or with a volume set to zero. The 'alsamixer' command can be
+muted or with a volume set to zero. The ``alsamixer`` command can be
 used to check if any paths are disabled (represented as "m") or if the
 volume settings not correct.
 
 Note that randomly playing with ALSA mixer settings can damage audio
-accessories, speakers or your hearing. Never ever change mixer
+accessories, speakers, or your hearing. Never change mixer
 settings while listening to loud music on a headset!
 
 Enable dynamic debug
 ********************
 
 To avoid spamming all Linux users with audio-specific information,
-only critical errors are reported in the dmesg log. That information
+only critical errors are reported in the ``dmesg`` log. That information
 may not be enough to debug a specific issue, and the recommendation is
-to add the following options to an /etc/modprobe.d/sof-dyndbg.conf
+to add the following options to the ``/etc/modprobe.d/sof-dyndbg.conf``
 file
 
 .. code-block::
@@ -98,17 +94,17 @@ file
    options snd_soc_skl_hda_dsp dyndbg=+p
    options snd_intel_dspcfg dyndbg=+p
 
-This list is only an example.
+Note that this list is only an example.
 
 Install sof-logger
 ******************
 
 If an issue with the SOF firmware is reported, such as IPC errors, SOF
 developers will need DSP traces. This is typically done by installing
-/usr/local/bin/sof-logger as well as the .ldc file, and using the
-following command to extract DSP traces.
+``/usr/local/bin/sof-logger`` as well as the ``.ldc`` file, and using the
+following command to extract DSP traces:
 
 
-.. code-block::bash
+.. code-block:: bash
 
    sof-logger -t sof-tgl.ldc
