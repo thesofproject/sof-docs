@@ -37,8 +37,8 @@ Debugging Audio issues on Intel platforms
 *****************************************
 
 Intel platforms rely on different versions of DSP and audio hardware
-interfaces, the following sections provide hints for integrators and
-users when 'audio is broken'
+interfaces. The following sections provide hints for integrators and
+users when audio components are not working properly or are broken.
 
 .. toctree::
    :maxdepth: 1
