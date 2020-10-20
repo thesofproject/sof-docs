@@ -211,6 +211,9 @@ It may be done by:
   
     cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
 
+Logger trace filtration affect only traces sent after filter setup, so traces
+already stored on kernel side will not be affected.
+
 Detailed description
 --------------------
 
