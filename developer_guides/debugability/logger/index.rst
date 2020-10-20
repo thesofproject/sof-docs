@@ -190,6 +190,9 @@ A similar example may be prepared for components on a particular pipeline:
 
    sof-loggerr -l ldc_file -t -Fc=* -Fv=*1.*
 
+.. note:: 
+  To track verbose message use firmware build with selected "Trace verbose"
+  option under "Trace" menu.
 
 Detailed description
 --------------------
