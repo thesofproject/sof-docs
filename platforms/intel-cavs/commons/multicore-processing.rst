@@ -6,10 +6,12 @@ Multicore Processing
 Description
 ***********
 
-|SOF| implements multicore processing in the way, that the whole pipelines are
-executed on the selected core. Core selection is done by ``core`` field in
-``struct sof_ipc_pipe_new`` during pipeline creation. Core value cannot exceed
-number of cores on current platform defined by ``PLATFORM_MAX_CORE_COUNT``.
+|SOF| implements multicore processing in the way, that the whole pipelines or
+single components are executed on the selected core.
+Core selection is done by ``core`` field in ``struct sof_ipc_pipe_new`` or
+``struct sof_ipc_comp`` during creation.
+Core value cannot exceed number of cores on current platform defined by
+``CONFIG_MAX_CORE_COUNT``.
 
 .. code-block:: c
 
@@ -25,6 +27,17 @@ number of cores on current platform defined by ``PLATFORM_MAX_CORE_COUNT``.
       uint32_t frames_per_sched;
       uint32_t xrun_limit_usecs;
       uint32_t timer;
+   } __attribute__((packed));
+
+   struct sof_ipc_comp {
+      struct sof_ipc_cmd_hdr hdr;
+      uint32_t id;
+      enum sof_comp_type type;
+      uint32_t pipeline_id;
+      uint32_t core;
+
+      /** extended data length, 0 if no extended data (ABI3.17) */
+      uint32_t ext_data_length;
    } __attribute__((packed));
 
 Core enablement
