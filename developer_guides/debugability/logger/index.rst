@@ -194,6 +194,23 @@ A similar example may be prepared for components on a particular pipeline:
   To track verbose message use firmware build with selected "Trace verbose"
   option under "Trace" menu.
 
+Active trace filters are stored in firmware runtime memory, so after firmware
+restart (eg. after power gating in sleep mode) filters settings will be reset.
+Consider disabling power gating during your debug session.
+It may be done by:
+
+.. code:: bash
+
+  sudo su
+  echo on >/sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio contoller" | awk '{print $1;}')/power/control
+
+.. note::
+  Current device power status may be read by this command:
+  
+  .. code:: bash
+  
+    cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
+
 Detailed description
 --------------------
 
