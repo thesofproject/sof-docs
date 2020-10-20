@@ -1,17 +1,16 @@
 .. _platforms-intel-cavs-multicore:
 
-Multicore Processing 
+Multicore Processing
 ####################
 
 Description
 ***********
 
-|SOF| implements multicore processing in the way, that the whole pipelines or
-single components are executed on the selected core.
-Core selection is done by ``core`` field in ``struct sof_ipc_pipe_new`` or
-``struct sof_ipc_comp`` during creation.
-Core value cannot exceed number of cores on current platform defined by
-``CONFIG_MAX_CORE_COUNT``.
+|SOF| implements multicore processing so that the whole pipelines or single
+components are executed on the selected core. The core selection is done by
+the ``core`` field in ``struct sof_ipc_pipe_new`` or ``struct sof_ipc_comp``
+during creation. The core value cannot exceed the number of cores on the
+current platform defined by ``CONFIG_MAX_CORE_COUNT``.
 
 .. code-block:: c
 
@@ -43,9 +42,10 @@ Core value cannot exceed number of cores on current platform defined by
 Core enablement
 ***************
 
-Cores are enabled and disabled by sending ``SOF_IPC_PM_CORE_ENABLE`` IPC with
-the right ``enable_mask``. Core needs to be enabled **before pipeline trigger
-start happens** and disabled **after pipeline trigger stop**.
+Cores are enabled and disabled by sending the ``SOF_IPC_PM_CORE_ENABLE`` IPC
+with the correct ``enable_mask``. The core must be enabled **before the
+pipeline trigger start happens** and disabled **after the pipeline trigger
+stop**.
 
 .. code-block:: c
 
@@ -56,6 +56,6 @@ start happens** and disabled **after pipeline trigger stop**.
 
 .. uml:: images/core-enable.pu
 
-.. note:: Kernel also needs to enable cores on host side, before even sending
-   ``SOF_IPC_PM_CORE_ENABLE`` IPC to FW.
+.. note:: The kernel also needs to enable cores on the host side, before
+          even sending the ``SOF_IPC_PM_CORE_ENABLE`` IPC to the FW.
 
