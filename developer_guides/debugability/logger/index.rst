@@ -214,6 +214,11 @@ It may be done by:
 Logger trace filtration affect only traces sent after filter setup, so traces
 already stored on kernel side will not be affected.
 
+Filters are setup incrementally, so when logger will be run-up twice with
+different settings, then filters from first run will not be restored to default
+state but can be replaced by new one.
+To reset filters to default state, firmware reset is needed.
+
 Detailed description
 --------------------
 
