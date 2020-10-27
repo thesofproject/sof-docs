@@ -104,6 +104,19 @@ installing their own firmware. Notable exceptions include Google
 Chromebooks and Up2/Up-Extreme boards, where the 'community key' is
 used.
 
+The Intel ME (Management Engine) is responsible for authentication of
+the firmware, be it signed by an Intel production key (consumer
+products), a community key (open development systems and Chromebooks
+since GeminiLake) or an OEM key. If the Intel ME is disabled by an
+OEM, or disabled by user-accessible BIOS options, the firmware
+authentication will fail and the firmware boot will not complete. If
+the ME was disabled by the OEM, the only solution will be to fall-back
+to the legacy HDAudio driver. If the ME was disabled by the user, they
+will have to re-enable it. There is unfortunately no documented
+mechanism for the Linux kernel to query if the firmware authentication
+is enabled or not, which means dmesg logs cannot be provided to alert
+the user to a ME configuration issue.
+
 2. Topology file
 ----------------
 

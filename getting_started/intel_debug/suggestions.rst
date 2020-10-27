@@ -27,6 +27,15 @@ enable two of the four speakers present. All of these cases are orthogonal
 to SOF issues in that the SOF driver cannot compensate for codec driver
 problems on its own.
 
+Make sure the ME is enabled
+***************************
+
+If the ME is disabled by the OEM or the user, firmware authentication
+will fail without any explicit feedback provided to the user. In case
+of any authentication failure, the user should verify that the ME is
+not disabled, more information about the ME in the "firmware binary"
+section above.
+
 Test at the ALSA 'hw' device level
 **********************************
 
