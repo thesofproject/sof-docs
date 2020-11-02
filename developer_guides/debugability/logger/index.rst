@@ -190,14 +190,12 @@ A similar example may be prepared for components on a particular pipeline:
 
    sof-loggerr -l ldc_file -t -Fc=* -Fv=*1.*
 
-.. note:: 
-  To track verbose message use firmware build with selected "Trace verbose"
-  option under "Trace" menu.
+.. note::
+  To track a verbose message, select the "Trace verbose" option under the "Trace" menu from the firmware build.
 
-Active trace filters are stored in firmware runtime memory, so after firmware
-restart (eg. after power gating in sleep mode) filters settings will be reset.
-Consider disabling power gating during your debug session.
-It may be done by:
+Active trace filters are stored in the firmware runtime memory, so after a firmware restart (such as after power gating in sleep mode) filters settings will be reset.
+
+Consider disabling power gating during your debug session by entering the following:
 
 .. code:: bash
 
@@ -205,31 +203,31 @@ It may be done by:
   echo on >/sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio contoller" | awk '{print $1;}')/power/control
 
 .. note::
-  Current device power status may be read by this command:
-  
+  The current device power status can be read by entering this command:
+
   .. code:: bash
-  
+
     cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
 
-Logger trace filtration affect only traces sent after filter setup, so traces
-already stored on kernel side will not be affected.
+The logger trace filtration affects only traces sent after the filter setup,
+so traces already stored on the kernel side are not affected.
 
-Filters are setup incrementally, so when logger will be run-up twice with
-different settings, then filters from first run will not be restored to default
-state but can be replaced by new one.
-To reset filters to default state, firmware reset is needed.
+Filters are set up incrementally, so when loggers are run twice with
+different settings, then filters from the first run will not be restored to
+the default state but will be replaced by a new one. To reset filters to the
+default state, a firmware reset is needed.
 
 Detailed description
 --------------------
 
-Filtration mechanism is realized on the firmware side so, after changing the
-log level to verbose for each component, the DSP may be overhelmed by
+The filtration mechanism occurs on the firmware side so, after changing the
+log level to verbose for each component, the DSP can be overhelmed by
 tracing.
 
-Core functionality is provided by DSP, so filtration does not work in offline
-mode - during conversion previously saved input file.
+Core functionality is provided by the DSP, so filtration does not work in
+offline mode - during conversion in a previously saved input file.
 
-Communication between the firmware and logger is realized through driver
+Communication between the firmware and logger is occurs through driver
 debug file systems. The logger writes new trace settings to ``sys/kernel/debug/sof/filter``. These will be used to create *IPC* messages with new
 trace levels. A simple text data format is used:
 
