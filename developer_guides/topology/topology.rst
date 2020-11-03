@@ -292,6 +292,42 @@ where:
   can be chosen predefined configurations such as MONO_PDM0_MICA,
   STEREO_PDM0, FOUR_CH_PDM0_PDM1 etc.
 
+.. _dsp-core-in-topology:
+
+1.7 DSP Core Index
+------------------
+
+The topology file can specify on which DSP core a pipeline or component will
+be scheduled on.
+
+To specify the DSP core for a pipeline, the token SOF_TKN_SCHED_CORE is used, in
+tools/topology/m4/pipeline.m4:
+
+.. code-block::
+
+        W_PIPELINE(stream, period, priority, core, initiator, platform)
+        ...
+        `               SOF_TKN_SCHED_CORE'             STR($4)
+        ...
+
+Then specify this 'core' in your pipeline definition, e.g. in
+tools/topology/sof/pipe-dai-playback.m4:
+
+.. code-block::
+
+        W_PIPELINE(N_DAI_OUT, SCHEDULE_PERIOD, SCHEDULE_PRIORITY, SCHEDULE_CORE, SCHEDULE_TIME_DOMAIN, pipe_dai_schedule_plat)
+
+To specify the DSP core for a component/widget, the token SOF_TKN_COMP_CORE_ID
+is used, e.g. in tools/topology/m4/pga.m4:
+
+.. code-block::
+
+        dnl W_PGA(name, format, periods_sink, periods_source, core, kcontrol0. kcontrol1...etc)
+        ...
+        `               SOF_TKN_COMP_CORE_ID'                   STR($6)
+        ...
+
+
 2. How to create a new topology?
 ********************************
 
