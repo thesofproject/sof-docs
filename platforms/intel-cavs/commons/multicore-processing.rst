@@ -58,6 +58,5 @@ stop**.
 
 .. note:: The kernel also needs to enable cores on the host side, before
           even sending the ``SOF_IPC_PM_CORE_ENABLE`` IPC to the FW.
-          For details on to specify DSP core in topology file, refer to the
-          topology documentation :ref:`DSP Core Index <dsp-core-in-topology>`.
+          For details on how to specify the DSP core in the topology file, refer to the topology documentation, :ref:`DSP Core Index <dsp-core-in-topology>`.
 
