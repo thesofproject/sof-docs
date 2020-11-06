@@ -298,10 +298,10 @@ where:
 ------------------
 
 The topology file can specify on which DSP core a pipeline or component will
-be scheduled on.
+be scheduled.
 
-To specify the DSP core for a pipeline, the token SOF_TKN_SCHED_CORE is used, in
-tools/topology/m4/pipeline.m4:
+To specify the DSP core for a pipeline, use the SOF_TKN_SCHED_CORE token
+located in tools/topology/m4/pipeline.m4:
 
 .. code-block::
 
@@ -310,15 +310,15 @@ tools/topology/m4/pipeline.m4:
         `               SOF_TKN_SCHED_CORE'             STR($4)
         ...
 
-Then specify this 'core' in your pipeline definition, e.g. in
+Then specify this 'core' in your pipeline definition, such as in
 tools/topology/sof/pipe-dai-playback.m4:
 
 .. code-block::
 
         W_PIPELINE(N_DAI_OUT, SCHEDULE_PERIOD, SCHEDULE_PRIORITY, SCHEDULE_CORE, SCHEDULE_TIME_DOMAIN, pipe_dai_schedule_plat)
 
-To specify the DSP core for a component/widget, the token SOF_TKN_COMP_CORE_ID
-is used, e.g. in tools/topology/m4/pga.m4:
+To specify the DSP core for a component/widget, use the SOF_TKN_COMP_CORE_ID
+token located in tools/topology/m4/pga.m4:
 
 .. code-block::
 
@@ -328,8 +328,8 @@ is used, e.g. in tools/topology/m4/pga.m4:
         ...
 
 
-2. How to create a new topology?
-********************************
+2. Create a new topology
+************************
 
 Following sections will show how to define single and multipipeline
 topologies.
@@ -597,8 +597,8 @@ The graph below shows the topology defined in Section 3.1.
 
 .. image:: images/tplg2.png
 
-3. Debugging topology
-*********************
+3. Debug topology
+*****************
 
 SOF topology files include debug.m4 with couple of simple macros to
 output data. These are used for extracting information from dai_add,
@@ -648,4 +648,4 @@ actually push both messages to a dot file:
 .. _here: https://www.alsa-project.org/main/index.php/ALSA_topology
 .. _SOFT: https://github.com/thesofproject/soft
 
-.. comment "master" has been replaced with "main"
+
