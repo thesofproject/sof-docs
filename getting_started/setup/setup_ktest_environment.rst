@@ -267,3 +267,19 @@ detection only works with a UART, not over SSH, so you will have to
 
 By having multiple worktrees and configs, you can run tests in parallel
 on different machines on the same kernel or different branches.
+
+10. Clean up /lib/modules
+-------------------------
+
+Ktest creates a separate module directory per kernel version.
+User needs to clean up old module directory periodically.
+
+.. code-block:: bash
+
+   $ ls -al /lib/modules
+   drwxrwxr-x  3 ubuntu ubuntu 4096 Sep 28 15:07 5.9.0-rc4-test+
+   drwxrwxr-x  3 ubuntu ubuntu 4096 Sep 24 11:06 5.9.0-rc5-test+
+   drwxrwxr-x  3 ubuntu ubuntu 4096 Oct  5 16:39 5.9.0-rc6-test+
+   drwxrwxr-x  3 ubuntu ubuntu 4096 Oct 14 21:42 5.9.0-rc7-test+
+   drwxrwxr-x  3 ubuntu ubuntu 4096 Nov  2 12:16 5.9.0-rc8-test+
+
