@@ -59,15 +59,71 @@ working kernel if your changes fail to boot.
 
    # Use your text editor of choice.
    sudo emacs /etc/default/grub
+   sudo update-grub
 
 Add ``GRUB_DISABLE_SUBMENU=y`` to the end and save.
+Sub-menus confuse ktest.
 
-5. Create new grub entry
-------------------------
+5. Get familiar with grub-reboot
+--------------------------------
+
+ktest relies on grub-reboot. grub-reboot lets you try a freshly built
+kernel *only once* and then boot immediately a "safe" kernel again
+without interacting with the boot menu: a simple power cycle is
+enough. It's a must have for testing development kernels that may not
+fully boot.
+
+In case something goes wrong with ktest, being familiar with grub-reboot
+may save you interacting with the boot menu or even better: it may save
+you making your system unbootable by accident. Understanding how
+grub-reboot works is required to fully understand ktest
+configuration. It's much easier to discover grub-reboot alone than when
+entangled with ktest.
+
+There's a lot of grub-reboot documentation online and offline but
+apparently no good and very short cheat sheet so here is one below. For
+more details search the documentation of your Linux distribution. The
+commands below have been tested on Ubuntu 20.04; they should be nearly
+identical for most Linux distributions.
 
 .. code-block:: bash
 
-   sudo update-grub
+   # Add/remove entries in grub.cfg after making changes in /boot/
+   # grub.cfg is generated, don't edit it!
+   update-grub
+
+   # See which GRUB entry was booted
+   cat /proc/cmdline
+
+   # grub-reboot requires "unharcoding" GRUB_DEFAULT
+   printf 'GRUB_DEFAULT=saved\n' >> /etc/default/grub
+   update-grub
+
+Warning: ``update-grub`` does not care about menuentry order and will
+mess up what the numbers below point to!
+
+.. code-block:: bash
+
+   # Show the currently selected menuentry
+   grub-editenv list
+      => saved_entry=6
+
+   # Show all, numbered kernel choices without (re)booting
+   awk '/^menuentry/ { print i++, '\t', $0 }' /boot/grub/grub.cfg
+      => 5  menuentry ...
+      => 6  menuentry 'Ubuntu, with Linux 5.4.0-53-generic' --class ubuntu ...
+      => 7  menuentry ...
+
+   # Attempt to boot menuentry 4 only once
+   grub-reboot 4; grub-editenv list
+      => saved_entry=6
+      => next_entry=4
+   reboot
+
+   # Switch to menuentry number 4 as the new "safe" kernel
+   grub-set-default 4; grub-editenv list
+      => saved_entry=4
+
 
 6. Install openssh-server
 -------------------------
