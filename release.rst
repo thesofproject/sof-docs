@@ -26,13 +26,11 @@ kernel, and documentation. Download the source code as a zip or tar.gz file:
 Source and Binary Releases
 --------------------------
 
-The latest SOF release is v1.5.1 (June 2020).
+The latest SOF release is v1.6.1 (December 2020).
 
-https://github.com/thesofproject/sof/releases/tag/v1.5.1
-
-Firmware and SDK tool source code and binary releases are located
-on GitHub. The GitHub release page also lists details such as new
-features and new platforms:
+View new feature information and release downloads for the latest and
+previous releases on GitHub. Firmware and SDK tool source code and binary
+releases are located here as well:
 
   https://github.com/thesofproject/sof/releases
 
