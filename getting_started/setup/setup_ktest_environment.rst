@@ -257,35 +257,57 @@ If you don't know what options are needed, you can start using configurations ma
    Use make proper since ktest.pl requires the source directory
    to be clean. All compilation happens in the -build directory.
 
-6. Edit configuration as needed
--------------------------------
+6. Edit ktest configuration as needed
+-------------------------------------
 
 Save the following in sof-dev.conf.
 
 .. code-block:: perl
 
+  # The difference between config variables (:=) and ktest options (=) and a
+  # few other things are explained in tools/testing/ktest/examples/sample.conf
+
   MACHINE = 192.168.1.205
   CLEAR_LOG = 1
   SSH_USER = root
   THIS_DIR := ${PWD}
+  # BUILD_DIR is the source directory
   BUILD_DIR = ${THIS_DIR}/sof-dev
+  # OUTPUT_DIR is the actual build directory
   OUTPUT_DIR = ${THIS_DIR}/sof-dev-build
   BUILD_TARGET = arch/x86/boot/bzImage
-  TARGET_IMAGE = /boot/vmlinuz-test
-  LOCALVERSION = -test
+
+  # ktest requires LOCALVERSION. This is normally a '-something' suffix like
+  # in 'vmlinuz-5.10-rc5-something'. Let's (ab)use it as the full version so
+  # we have a constant 'vmlinuz-something' filename and we don't have to
+  # make changes in /boot/ all the time.
+  # update-grub will complain but work anyway.
+  LOCALVERSION = test
+  TARGET_IMAGE = /boot/vmlinuz-${LOCALVERSION}
+
   BUILD_OPTIONS = -j8
   LOG_FILE = ${OUTPUT_DIR}/sof-dev.log
   CONSOLE = cat ${THIS_DIR}/sof-dev-cat
   POWER_CYCLE = echo Power cycle the machine now and press ENTER; read a
   #set below to help ssh connection to close after sending reboot command
   REBOOT = ssh  -o 'ProxyCommand none' $SSH_USER@$MACHINE 'sudo reboot > /dev/null &'
+
+  # This how ktest finds which menuentry number to pass to grub-reboot
   GRUB_FILE = /boot/grub/grub.cfg
-  GRUB_MENU = Ubuntu, with Linux test
-  #GRUB_MENU = ubilinux GNU/Linux, with Linux test
-  #GRUB_MENU = GalliumOS GNU/Linux, with Linux test
+  GRUB_MENU = Ubuntu, with Linux ${LOCALVERSION}
+  #GRUB_MENU = ubilinux GNU/Linux, with Linux ${LOCALVERSION}
+  #GRUB_MENU = GalliumOS GNU/Linux, with Linux ${LOCALVERSION}
   GRUB_REBOOT = grub-reboot
   REBOOT_TYPE = grub2
-  POST_INSTALL = ssh  -o 'ProxyCommand none' $SSH_USER@$MACHINE 'sudo /usr/sbin/mkinitramfs -o /boot/initrd.img-test $KERNEL_VERSION'
+
+  # update-initramfs does not support any "version-less" 'vmlinuz-test' because it
+  # does not tell where to find modules like '/lib/modules/5.10.0-rc5test+'
+  # So we have to use a lower level, more explicit command like:
+  #     mkinitramfs -o initrdfile 5.10.0-rc5test+
+  # ktest finds the real KERNEL_VERSION thanks to "make O=${OUTPUT_DIR}
+  # kernelrelease"
+  POST_INSTALL = ssh  -o 'ProxyCommand none' $SSH_USER@$MACHINE sudo /usr/sbin/mkinitramfs -o /boot/initrd.img-${LOCALVERSION} $KERNEL_VERSION
+
   #REBOOT_TYPE = script
   #REBOOT_SCRIPT = ssh $SSH_USER@$MACHINE "sed -i 's|^default.*$|default test|' /boot/loader/loader.conf"
 
