@@ -354,6 +354,18 @@ builds with -r and speed up the build with -j [n]
    ./scripts/xtensa-build-all.sh -d -r apl
    ./scripts/xtensa-build-all.sh -d -r -j 4 apl
 
+.. note::
+   xtensa-build-all.sh script uses ``rimage`` to build the final firmware image.
+   ``rimage`` uses by default a public key included in sof repo for signing.
+   However, if you need to use some other external key for signing you can
+   specify the path to your key as environment variable before invoking the build:
+
+   .. code-block:: bash
+
+      export PRIVATE_KEY_OPTION=-DRIMAGE_PRIVATE_KEY=/path_to_key/private.pem
+
+   The same export mechanism should work also when building with Docker.
+
 Incremental builds
 ------------------
 
