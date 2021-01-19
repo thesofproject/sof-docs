@@ -27,6 +27,22 @@ enable two of the four speakers present. All of these cases are orthogonal
 to SOF issues in that the SOF driver cannot compensate for codec driver
 problems on its own.
 
+Try booting into Windows first, then reboot into Linux
+******************************************************
+
+On some platforms, e.g. with an HDaudio codec connected to amplifiers
+over an I2C/I2S link, the codec driver needs to perform a set of
+amplifier configurations. This is often handled in Windows but not in
+Linux codec drivers. A classic example of such issues is when
+headphone playback works, but speaker playback does not (or not on all
+speakers).
+
+This sort of issues will also happen with the HDaudio legacy driver
+and are not SOF bugs proper. To fix such issues, it is necessary to
+either get direct support from the codec vendor, or alternatively to
+reverse-engineer the missing configuration by snooping HDaudio
+commands in a Windows environment.
+
 Make sure the ME is enabled
 ***************************
 
