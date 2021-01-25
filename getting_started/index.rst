@@ -3,15 +3,15 @@
 Getting Started Guides
 ######################
 
-New to SOF or doing something for the first time ? Read on....
+Refer to the following getting started guides if you are new to SOF or if you are performing a task for the first time.
 
-Building SOF
-************
+Build SOF
+*********
 
-SOF can be built natively on a host PC or within a container. Use the container
-method if the version of your distro is more than 6 months old. The SOF SDK
-uses recent version of some external dependencies so the current distro release
-is always preffered.
+SOF can be built natively on a host PC or within a container. Use the
+container method if the version of your distro is more than six months old.
+The SOF SDK uses a recent version of some external dependencies so the
+current distro release is always preferred.
 
 .. toctree::
    :maxdepth: 1
@@ -21,10 +21,10 @@ is always preffered.
    build-guide/build-3rd-party-toolchain
    build-guide/build-with-zephyr
 
-Setting up SOF on hardware
-**************************
+Set up SOF on hardware
+**********************
 
-SOF runs on a variety of different devices with varying audio capabilities so
+SOF runs on a variety of devices with varying audio capabilities so
 instructions may differ between devices.
 
 .. toctree::
@@ -34,8 +34,8 @@ instructions may differ between devices.
    setup/setup_up_2_board
    setup/setup_ktest_environment
 
-Debugging Audio issues on Intel platforms
-*****************************************
+Debug Audio issues on Intel platforms
+*************************************
 
 Intel platforms rely on different versions of DSP and audio hardware
 interfaces. The following sections provide hints for integrators and
