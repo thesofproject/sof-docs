@@ -15,10 +15,9 @@ when filing a bug.
 Disable SOF on PCI/HDaudio devices to test audio playback
 *********************************************************
 
-When audio issues occur, the first step is to check if the HDaudio legacy
-is able to generate sound on speakers and headsets. This can be
-accomplished by adding "options snd-intel-dspcfg dsp_driver=1" to
-``/etc/modprobe.d/alsa-base.conf``.
+When audio issues occur, first see if the HDaudio legacy can generate sound
+on speakers and headsets. Accomplish this by adding "options
+snd-intel-dspcfg dsp_driver=1" to ``/etc/modprobe.d/alsa-base.conf``.
 
 If no sound can be heard and jack detection is not functional, an
 HDaudio external codec configuration is likely. In some cases, the
@@ -30,27 +29,25 @@ problems on its own.
 Try booting into Windows first, then reboot into Linux
 ******************************************************
 
-On some platforms, e.g. with an HDaudio codec connected to amplifiers
+On some platforms, such as with an HDaudio codec connected to amplifiers
 over an I2C/I2S link, the codec driver needs to perform a set of
 amplifier configurations. This is often handled in Windows but not in
 Linux codec drivers. A classic example of such issues is when
 headphone playback works, but speaker playback does not (or not on all
 speakers).
 
-This sort of issues will also happen with the HDaudio legacy driver
-and are not SOF bugs proper. To fix such issues, it is necessary to
-either get direct support from the codec vendor, or alternatively to
-reverse-engineer the missing configuration by snooping HDaudio
-commands in a Windows environment.
+These types of issues also occur with the HDaudio legacy driver
+and are not part of SOF bugs proper. To fix such issues, either obtain
+direct support from the codec vendor, or reverse-engineer the missing
+configuration by snooping HDaudio commands in a Windows environment.
 
 Make sure the ME is enabled
 ***************************
 
 If the ME is disabled by the OEM or the user, firmware authentication
 will fail without any explicit feedback provided to the user. In case
-of any authentication failure, the user should verify that the ME is
-not disabled, more information about the ME in the "firmware binary"
-section above.
+of any authentication failure, verify that the ME is not disabled. More
+information about the ME is available in the "Firmware binary" section of :ref:`intel_debug_introduction`.
 
 Test at the ALSA 'hw' device level
 **********************************
@@ -59,8 +56,7 @@ When the legacy HDaudio driver produces audible sound without
 distortion and an SOF-based solution does not, user space configuration
 issues are possible.
 
-The following commands can be used to check if the SOF driver is
-functional at the hardware device level:
+Use the following commands to check if the SOF driver is functional at the hardware device level:
 
 .. code-block::
 
@@ -84,7 +80,7 @@ Verify mixer settings
 A classic issue with Linux audio is that a mixer control value remains
 muted or with a volume set to zero. The ``alsamixer`` command can be
 used to check if any paths are disabled (represented as "m") or if the
-volume settings not correct.
+volume settings are not correct.
 
 Note that randomly playing with ALSA mixer settings can damage audio
 accessories, speakers, or your hearing. Never change mixer
@@ -97,7 +93,7 @@ To avoid spamming all Linux users with audio-specific information,
 only critical errors are reported in the ``dmesg`` log. That information
 may not be enough to debug a specific issue, and the recommendation is
 to add the following options to the ``/etc/modprobe.d/sof-dyndbg.conf``
-file
+file:
 
 .. code-block::
 

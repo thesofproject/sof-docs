@@ -30,15 +30,15 @@ On Broadwell, HDMI/DP is handled by an HDaudio controller.
 
 On Baytrail/Cherrytrail and Braswell, the BIOS can enable two modes:
 
-* HDAudio-based solution (similar to Broadwell)
+* HDAudio-based solution (similar to Broadwell).
 
 * LPE HDMI Audio. This mode is used by the majority of tablets and low-cost
-  devices. It provides functionality similar to HDaudio, but with a different interface. This mode is enabled in Linux via the ``CONFIG_HDMI_LPE_AUDIO option``.
+  devices. It provides functionality similar to HDaudio, but with a different interface. This mode is enabled in Linux via the ``CONFIG_HDMI_LPE_AUDIO`` option.
 
 The DSP cannot control any of these interfaces because SOF does not support
 HDMI/DP on those devices.
 
-On all of these `legacy` platforms, HDMI support is exposed in Linux as a
+On all of these legacy platforms, HDMI support is exposed in Linux as a
 separate card.
 
 PCI devices (introduced after 2016)
@@ -91,45 +91,43 @@ force the SOF Linux driver to be used.
 User space and filesystem requirements
 **************************************
 
-Selecting the SOF driver is not enough. Audio properly configured only if
+Selecting the SOF driver is not enough. Audio is properly configured only if
 the following elements are present on the file system.
 
 1. Firmware binary
 ------------------
 
 The firmware file, ``/lib/firmware/intel/sof/sof-tgl.ri``, contains
-all the DSP code and tables. On PCI devices, the firmware can only be
+all DSP code and tables. On PCI devices, the firmware can only be
 signed by an Intel production key which prevents community users from
 installing their own firmware. Notable exceptions include Google
-Chromebooks and Up2/Up-Extreme boards, where the 'community key' is
+Chromebooks and Up2/Up-Extreme boards, where the *community key* is
 used.
 
 The Intel ME (Management Engine) is responsible for authentication of
-the firmware, be it signed by an Intel production key (consumer
+the firmware, whether it is signed by an Intel production key (consumer
 products), a community key (open development systems and Chromebooks
 since GeminiLake) or an OEM key. If the Intel ME is disabled by an
 OEM, or disabled by user-accessible BIOS options, the firmware
 authentication will fail and the firmware boot will not complete. If
-the ME was disabled by the OEM, the only solution will be to fall-back
-to the legacy HDAudio driver. If the ME was disabled by the user, they
-will have to re-enable it. There is unfortunately no documented
-mechanism for the Linux kernel to query if the firmware authentication
-is enabled or not, which means dmesg logs cannot be provided to alert
-the user to a ME configuration issue.
+the ME is disabled by the OEM, the only solution is to fall-back
+to the legacy HDAudio driver. If the ME is disabled by the user, the user
+must re-enable it. Unfortunately, no documented mechanism exists for the
+Linux kernel to query whether or not the firmware authentication is enabled,
+which means `dmesg` logs cannot be provided to alert the user to an ME
+configuration issue.
 
 2. Topology file
 ----------------
 
-The topology file,
-such as ``/lib/firmware/intel/sof-tplg/sof-hda-generic-2ch.tplg``, describes
-the processing graph and controls to be instantiated by the SOF
-driver. The topology can be regenerated and reconfigured with tools
-but requires expert knowledge of ALSA/ASoC/topology frameworks.
+The topology file, such as ``/lib/firmware/intel/sof-tplg/sof-hda-generic-2ch.tplg``, describes the processing graph and controls to
+be instantiated by the SOF driver. The topology can be regenerated and
+reconfigured with tools but requires expert knowledge of the ALSA/ASoC/topology frameworks.
 
 3. UCM file
 -----------
 
-The UCM file, such as ``/usr/share/alsa/ucm2/sof-hda-dsp/``..., configures
+The UCM file, such as ``/usr/share/alsa/ucm2/sof-hda-dsp/``, configures
 the controls exposed by the topology file and the external audio
 chips. UCM can be used in a terminal via the ``alsaucm`` command but
 will typically be used by audio servers such as PulseAudio or
