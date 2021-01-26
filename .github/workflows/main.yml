@@ -1,0 +1,42 @@
+
+---
+# Tools that can save round-trips to github and a lot of time:
+#
+# yamllint -f parsable pull_request.yml
+# pip3 install ruamel.yaml.cmd
+# yaml merge-expand pull_request.yml exp.yml &&
+#    diff -w -u pull_request.yml exp.yml
+#
+# github.com also has a powerful web editor that can be used without
+# committing.
+
+name: Pull Requests
+
+# yamllint disable-line rule:truthy
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+
+  supported-reqs:
+#    name: 'Supported scripts/requirements.txt'
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'pip install -r scripts/requirements.txt'
+        run: pip install -r scripts/requirements.txt
+
+      - name: SOF doc
+        run: |
+          git clone https://github.com/thesofproject/sof ../sof
+          cmake -GNinjaXX -S ../sof -B ../sof/doc
+          make -C ../sof/doc html VERBOSE=1
+          ls ../sof/doc/_build
