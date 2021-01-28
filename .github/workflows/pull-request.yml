@@ -9,7 +9,7 @@
 # github.com also has a powerful web editor that can be used without
 # committing.
 
-name: Pull Requests
+name: GitHub Actions
 
 # yamllint disable-line rule:truthy
 on:
@@ -27,9 +27,9 @@ env:
 
 jobs:
 
-  supported-reqs:
+  build-basic:
 
-    name: 'Supported scripts/requirements.txt'
+    name: "build with requirements.txt"
     runs-on: ubuntu-20.04
 
     steps:
@@ -57,9 +57,9 @@ jobs:
           make html VERBOSE=1 SOF_DOC_BUILD=_build_doxy
           du -shc _build*/*
 
-  lax:
+  build-lax:
 
-    name: "PIP_IGNORE_INSTALLED=0 requirements-lax.txt"
+    name: "build with requirements-lax.txt"
     runs-on: ubuntu-20.04
     # Makefile downgrades the Sphinx warnings, they are not errors any more
     env: {LAX: 1}
