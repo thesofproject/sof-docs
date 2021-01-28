@@ -35,14 +35,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: apt-get install
-        run: sudo apt-get -y install $ubuntu_base_deps
-
-      - name: PATH += .local/bin
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      - name: 'pip install -r scripts/requirements.txt'
-        run: pip install -r scripts/requirements.txt
+      - name: setup env with requirements.txt
+        run: |
+          sudo apt-get -y install $ubuntu_base_deps
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          pip install -r scripts/requirements.txt
 
       - name: build doc
         run: ./.github/actions/build-sof-doc.sh
@@ -56,34 +53,22 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: apt-get install base dependencies
-        run: sudo apt-get -y install $ubuntu_base_deps
+      - name: setup env with requirements-lax.txt
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install $ubuntu_base_deps
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+          PIP_IGNORE_INSTALLED=0 pip install -r scripts/requirements-lax.txt
 
-      - name: temporary python3-pil HACK because github is out of date
-        run: sudo apt-get -y install libimagequant0 libwebpdemux2 &&
-           wget http://security.ubuntu.com/ubuntu/ubuntu/pool/main/p/pillow/python3-pil_7.0.0-4ubuntu0.2_amd64.deb &&
-           sudo dpkg -i python3-pil_*.deb
-
-      - name: apt-get instead of pip
-        run: sudo apt-get -y install
-               python3-pip python3-setuptools python3-wheel
-               python3-sphinx python3-breathe python3-docutils
-               python3-sphinx-rtd-theme python3-sphinxcontrib.plantuml
-
-      - name: PATH += .local/bin
-        run: echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-      # should be a no-op
-      - name: 'pip install -r scripts/requirements-lax.txt'
-        run: pip install -r scripts/requirements-lax.txt
-
+      # disable sphinx-build auto mode for sphinx-build < 1.7
+      # disable plantUML output
       - name: config tweaks
         run: |
-           # sphinx-build < 1.7 doesn't support "auto" and we're not sure
-           # all default modules are "thread-safe"
-           sed -i -e '/SPHINXBUILD/ s/-j *auto/-j 1/' Makefile
-           # We don't want plantUML to raise the contribution bar
-           sed -i -e 's/^\(plantuml_output_format *=\).*/\1 "none"/' conf.py
+          # sphinx-build < 1.7 doesn't support "auto" and we're not sure
+          # all default modules are "thread-safe"
+          sed -i -e '/SPHINXBUILD/ s/-j *auto/-j 1/' Makefile
+          # We don't want plantUML to raise the contribution bar
+          sed -i -e 's/^\(plantuml_output_format *=\).*/\1 "none"/' conf.py
 
       - name: build doc
         run: ./.github/actions/build-sof-doc.sh
