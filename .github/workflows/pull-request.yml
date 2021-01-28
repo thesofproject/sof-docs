@@ -44,18 +44,8 @@ jobs:
       - name: 'pip install -r scripts/requirements.txt'
         run: pip install -r scripts/requirements.txt
 
-      # No YAML anchors; this is copy/paste
-      - name: configure SOF doc
-        run: |
-          git clone https://github.com/thesofproject/sof
-          cmake -GNinja -S sof/doc -B _build_doxy
-
-      # TODO: change the (bad) default value for SOF_DOC_BUILD in
-      # sof-docs/Makefile and remove this command line override
-      - name: build
-        run: |
-          make html VERBOSE=1 SOF_DOC_BUILD=_build_doxy
-          du -shc _build*/*
+      - name: build doc
+        run: ./.github/actions/build-sof-doc.sh
 
   build-lax:
 
@@ -95,13 +85,5 @@ jobs:
            # We don't want plantUML to raise the contribution bar
            sed -i -e 's/^\(plantuml_output_format *=\).*/\1 "none"/' conf.py
 
-      # No YAML anchors; this is copy/paste
-      - name: configure SOF doc
-        run: |
-          git clone https://github.com/thesofproject/sof
-          cmake -GNinja -S sof/doc -B _build_doxy
-
-      - name: build
-        run: |
-          make html VERBOSE=1 SOF_DOC_BUILD=_build_doxy
-          du -shc _build*/*
+      - name: build doc
+        run: ./.github/actions/build-sof-doc.sh
