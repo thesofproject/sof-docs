@@ -1,0 +1,35 @@
+---
+# Tools that can save round-trips to github and a lot of time:
+#
+# yamllint -f parsable pull_request.yml
+# pip3 install ruamel.yaml.cmd
+# yaml merge-expand pull_request.yml exp.yml &&
+#    diff -w -u pull_request.yml exp.yml
+#
+# github.com also has a powerful web editor that can be used without
+# committing.
+name: woke PR reviewdog checker
+
+# yamllint disable-line rule:truthy
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  woke_pr:
+    name: woke check for patch
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: get-woke/woke-action-reviewdog@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
+          reporter: github-pr-review
+          # Change reporter level if you need.
+          # GitHub Status Check won't become failure with warning.
+          level: warning
+          # Enable this to fail the check when violations are found
+          fail-on-error: true
+          woke-args: -c ./rules-woke.yaml
