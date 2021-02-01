@@ -1,0 +1,20 @@
+# The following files can be ignored when running Woke.
+
+rules-woke.yaml
+conf.py
+*.pu
+tox.ini
+Makefile
+.travis.yml
+.github/workflows/*.yml
+index.rst
+release.rst
+introduction/index.rst
+maintainers/merge_rights.rst
+contribute/process/bug-tracking.rst
+getting_started/setup/setup_up_2_board.rst
+developer_guides/virtualization/files/q-v6.sh
+developer_guides/topology/topology.rst
+developer_guides/fuzzing/testbench_afl_fuzzing.rst
+
+
