@@ -1,0 +1,39 @@
+# Use this customized file to ensure that non-inclusive language is identified
+# and corrected. Keep it in the top level of the sof-docs directory.
+# Customization and improvement of this file is ongoing.
+# The following command calls this file:
+#  woke -c ./rules-woke.yaml
+
+rules:
+  - name: whitelist
+    terms:
+      - whitelist
+      - white-list
+    alternatives:
+      - allowlist
+
+  - name: blacklist
+    terms:
+      - blacklist
+      - black-list
+    alternatives:
+      - blocklist
+
+  - name: slave
+    terms:
+      - slave
+    alternatives:
+      - secondary for firmware-related topics and consumer for hardware-related topics
+
+  - name: master
+    terms:
+      - master
+    alternatives:
+      - main for firmware-related topics and provider for hardware-related topics
+
+  - name: rule of thumb
+    terms:
+      - rule of thumb
+      - rules of thumb
+    alternative:
+      - rule, rules
