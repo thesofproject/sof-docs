@@ -14,7 +14,9 @@ name: GitHub Actions
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - publish
   pull_request:
     branches: [master]
 
@@ -43,6 +45,39 @@ jobs:
 
       - name: build doc
         run: ./.github/actions/build-sof-doc.sh
+
+      - name: prepare file for deploy
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
+        run: ./.github/actions/create-publish-folder.sh
+
+      # store the build result to artifact, used for later deploy or download for debug
+      # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
+      - name: upload HTML for deploy
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: html
+          path: _build/html
+
+  deploy:
+    needs: build-basic
+    runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
+    steps:
+      - name: download HTML
+        uses: actions/download-artifact@v2
+        with:
+          name: html
+          path: html
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./html/
+          publish_branch: master
+          external_repository: thesofproject/thesofproject.github.io
+
 
   build-lax:
 
