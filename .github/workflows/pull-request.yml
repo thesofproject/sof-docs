@@ -14,7 +14,9 @@ name: Pull Requests
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches: [master]
+    branches:
+      - master
+      - publish
   pull_request:
     branches: [master]
 
@@ -57,8 +59,41 @@ jobs:
           make html VERBOSE=1 SOF_DOC_BUILD=_build_doxy
           du -shc _build*/*
 
-  lax:
+      - name: prepare file for deploy
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
+        run: ./.github/actions/create-publish-folder.sh
 
+      # store the build result to artifact, used for later deploy or download for debug
+      # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
+      - name: upload HTML for deploy
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: html
+          path: _build/html
+
+  deploy:
+    needs: supported-reqs
+    runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
+    steps:
+      # download the build result from the same workflow
+      # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
+      - name: download HTML
+        uses: actions/download-artifact@v2
+        with:
+          name: html
+          path: html
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: ./html/
+          publish_branch: master
+          external_repository: thesofproject/thesofproject.github.io
+
+  lax:
     name: "PIP_IGNORE_INSTALLED=0 requirements-lax.txt"
     runs-on: ubuntu-20.04
     # Makefile downgrades the Sphinx warnings, they are not errors any more
