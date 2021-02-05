@@ -43,6 +43,3 @@ component other then dai can be also driven by work queues.
 
 .. uml:: images/work-smp-cavs.pu
    :caption: Work queue flow for CAVS SMP
-
-.. comment "master" has been replaced with "primary"
-.. comment "slave" has been replaced with "secondary"
