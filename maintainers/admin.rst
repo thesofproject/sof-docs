@@ -7,17 +7,19 @@ Given the size of the project, maintainer rights are granted
 to multiple contributors:
 
 +---------------+-------------------+---------------+
-| Intel 	| Lech Betlej       | @lbetlej 	    |
+| Intel         | Lech Betlej       | @lbetlej      |
 +---------------+-------------------+---------------+
-| Intel	        | Liam Girdwood     | @lgirdwood    |
+| Intel         | Liam Girdwood     | @lgirdwood    |
 +---------------+-------------------+---------------+
-| Intel 	| Marcin Maka       | @mmaka1	    |
+| Intel         | Marcin Maka       | @mmaka1       |
 +---------------+-------------------+---------------+
-| Intel	        | Pierre Bossart    | @plbossart    |
+| Intel         | Pierre Bossart    | @plbossart    |
 +---------------+-------------------+---------------+
 | Intel         | Ranjani Sridharan | @ranj063      |
 +---------------+-------------------+---------------+
 | NXP           | Daniel Baluta     | @dbaluta      |
++---------------+-------------------+---------------+
+| Google        | Curtis Malainey   | @cujomalainey |
 +---------------+-------------------+---------------+
 
 Administrators may override specific merge rules, for example merge a
