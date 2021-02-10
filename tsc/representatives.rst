@@ -9,7 +9,7 @@ The TSC is currently made of the following contributors
 +---------------+----------------------+------------------+
 | Company       | Name                 | Username         |
 +===============+======================+==================+
-| Intel         | Lech Betlej          | @lbetlej         |
+| Intel         | Michal Wasko         | @mwasko          |
 +---------------+----------------------+------------------+
 | Intel         | Liam Girdwood        | @lgirdwood       |
 +---------------+----------------------+------------------+
