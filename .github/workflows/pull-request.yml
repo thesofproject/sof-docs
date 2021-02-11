@@ -9,7 +9,7 @@
 # github.com also has a powerful web editor that can be used without
 # committing.
 
-name: Pull Requests
+name: Build and Deploy
 
 # yamllint disable-line rule:truthy
 on:
@@ -37,6 +37,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # FIXME: remove this time consuming step once github stops
+      # providing a broken package index, see
+      # https://github.com/actions/virtual-environments/issues/1757#issuecomment-777700920
+      - name: apt-get update github broken package index
+        run: sudo apt-get update
+
       - name: apt-get install
         run: sudo apt-get -y install $ubuntu_base_deps
 
@@ -63,7 +69,8 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
         run: ./.github/actions/create-publish-folder.sh
 
-      # store the build result to artifact, used for later deploy or download for debug
+      # store the build result to artifact, used for later deploy or
+      # download for debug
       # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
       - name: upload HTML for deploy
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
@@ -101,13 +108,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      # FIXME: remove this time consuming step once github stops
+      # providing a broken package index, see
+      # https://github.com/actions/virtual-environments/issues/1757#issuecomment-777700920
+      - name: apt-get update github broken package index
+        run: sudo apt-get update
+
       - name: apt-get install base dependencies
         run: sudo apt-get -y install $ubuntu_base_deps
-
-      - name: temporary python3-pil HACK because github is out of date
-        run: sudo apt-get -y install libimagequant0 libwebpdemux2 &&
-           wget http://security.ubuntu.com/ubuntu/ubuntu/pool/main/p/pillow/python3-pil_7.0.0-4ubuntu0.2_amd64.deb &&
-           sudo dpkg -i python3-pil_*.deb
 
       - name: apt-get instead of pip
         run: sudo apt-get -y install
