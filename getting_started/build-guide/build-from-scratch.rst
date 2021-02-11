@@ -303,7 +303,7 @@ Build and install for each platform.
    ``--prefix=`` expects an absolute path. Define XTENSA_ROOT according to your
    environment.
 
-The required headers are now in ``~/work/sof/xtensa-root``, and cross-compilation
+The required headers are now in ``"$SOF_WORKSPACE"/xtensa-root``, and cross-compilation
 toolchains for xtensa DSPs are set up.
 
 Step 3 Build firmware binaries
@@ -313,7 +313,7 @@ After the SOF environment is set up, clone the *sof* repo.
 
 .. code-block:: bash
 
-   cd ~/work/sof/
+   cd "$SOF_WORKSPACE"
    git clone https://github.com/thesofproject/sof
 
 One-step rebuild from scratch
@@ -327,7 +327,7 @@ Build the firmware for all platforms.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "$SOF_WORKSPACE"/sof/
    ./scripts/xtensa-build-all.sh -a
 
 .. note::
@@ -373,7 +373,7 @@ This is a more detailed build guide for the *sof* repo. Unlike
 ``xtensa-build-all.sh``, this doesn't rebuild everything every time.
 
 Snippets below assume that your current directory is the root of the
-``sof`` clone (``~/work/sof/sof/``).
+``sof`` clone (``"$SOF_WORKSPACE"/sof/``).
 
 CMake recommends out-of-tree builds. Among others, this lets you build
 different configurations/platforms in different build directories from
@@ -529,7 +529,7 @@ only the minimum subset of :git-sof-mainline:`tools/`.
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/
+   cd "$SOF_WORKSPACE"/sof/
    ./scripts/build-tools.sh
    ./scripts/build-tools.sh -h
    usage: ./scripts/build-tools.sh [-t|-f]
@@ -541,7 +541,7 @@ Incremental build
 
 .. code-block:: bash
 
-   cd ~/work/sof/sof/tools/
+   cd "$SOF_WORKSPACE"/sof/tools/
    mkdir build_tools && cd build_tools
    cmake ..
    make -j4
@@ -582,7 +582,7 @@ the kconfig repo, and the :ref:`sof_driver_arch`.
    .. code-block:: bash
 
       sudo apt-get install bison flex libelf-dev
-      cd ~/work/sof/
+      cd "$SOF_WORKSPACE"
       git clone https://github.com/thesofproject/linux
       cd linux
       git checkout topic/sof-dev
