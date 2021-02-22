@@ -30,22 +30,29 @@ is fully configurable, we have a matrix for all multiplexer input
 streams or all demultiplexer output streams. The 8 x 8 binary matrix takes up
 to 64 bits and is controlled with eight unsigned char values.
 
+.. note::
+        mux/demux component can't mix channels. If you try to setup mixing
+        in the configuration matrix you will get error in component initialization
+        phase.
+
 .. figure:: images/mux.png
 
    Example of multiplexer configuration matrices with 2 input streams.
-   In this artificial mux example, Input stream 1’s channel 1 is copied
-   to both output channels; Input stream 2’s single channel is copied
-   to output channel 1.
+   In this artificial mux example first input stream's channel 1 is copied
+   to output stream's channel 1. Second input stream's channel 2 is copied
+   to output stream's channel 2. If the streams have only 2 channels the
+   matrix values outside the 2x2 square don't have any effect.
 
 .. figure:: images/demux.png
 
    Example of demultiplexer configuration matrices with 2 output streams.
-   In this artificial demux example, Input stream’s channel 1 is copied to
-   all output streams channels (1 channel to 4 identical channels in 2
-   output streams).
+   In this artificial demux example input stream's channel 1 is copied to
+   first output stream's both channels and input stream's channel 2 is copied
+   to second output stream both channels.
 
-Using a routing matrix means also that this component can leave out
-channels or mix multiple channels into one.
+.. note::
+        Note that demux matrix configuration is opposite to mux configuration:
+	input channel is the matrix column and output is the row.
 
 Topology
 ========
