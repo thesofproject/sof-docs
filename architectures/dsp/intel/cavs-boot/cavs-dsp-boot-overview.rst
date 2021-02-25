@@ -125,5 +125,3 @@ Booting with Boot Loader
 
 .. uml:: images/boot-ldr-flow.pu
    :caption: SOF Boot Loader Flow
-
-.. comment "master" has been replaced with "primary"
