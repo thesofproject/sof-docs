@@ -23,36 +23,28 @@ Configuration
 =============
 
 The component configuration defines how audio channels are copied from
-input to output stream. As the ASoC/SOF audio stream can have up to 8
-audio channels, a stream-to-stream specific 8 x 8 routing matrix
+input to output streams. As the ASoC/SOF audio stream can have up to 8
+audio channels, a stream-to-stream specific 8x8 routing matrix
 defines the channel mapping from input to output. Because every stream
 is fully configurable, we have a matrix for all multiplexer input
-streams or all demultiplexer output streams. The 8 x 8 binary matrix takes up
+streams or all demultiplexer output streams. The 8x8 binary matrix takes up
 to 64 bits and is controlled with eight unsigned char values.
 
 .. note::
-        mux/demux component can't mix channels. If you try to setup mixing
-        in the configuration matrix you will get error in component initialization
-        phase.
+        The mux/demux component can't mix channels. If you try to set up mixing in the configuration matrix, you will get an error in the component initialization phase.
 
 .. figure:: images/mux.png
 
    Example of multiplexer configuration matrices with 2 input streams.
-   In this artificial mux example first input stream's channel 1 is copied
-   to output stream's channel 1. Second input stream's channel 2 is copied
-   to output stream's channel 2. If the streams have only 2 channels the
-   matrix values outside the 2x2 square don't have any effect.
+   In this artificial mux example, the first input stream's channel 1 is copied to the output stream's channel 1. The second input stream's channel 2 is copied to the output stream's channel 2. If the streams have only 2 channels, the matrix values outside the 2x2 square don't have any effect.
 
 .. figure:: images/demux.png
 
    Example of demultiplexer configuration matrices with 2 output streams.
-   In this artificial demux example input stream's channel 1 is copied to
-   first output stream's both channels and input stream's channel 2 is copied
-   to second output stream both channels.
+   In this artificial demux example, the input stream's channel 1 is copied to both channels of the first output stream and the input stream's channel 2 is copied to both channels of the second output stream.
 
 .. note::
-        Note that demux matrix configuration is opposite to mux configuration:
-	input channel is the matrix column and output is the row.
+      The demux matrix configuration is opposite to the mux configuration: the input channel is the matrix column and the output is the row.
 
 Topology
 ========
