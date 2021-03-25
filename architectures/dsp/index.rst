@@ -51,7 +51,7 @@ Adding a new DSP architecture to SOF
 This is not yet a guide for architecure porting, but in general are two ways to 
 add support for new DSP architectures to SOF.
 
-#. Write a new Hardware Astraction Layer (HAL) for your DSP.
+#. Write a new Hardware Abstraction Layer (HAL) for your DSP.
 
 #. Use an existing RTOS that supports your DSP architecture as a HAL for SOF.
 
