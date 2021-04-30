@@ -15,6 +15,7 @@ terminology before reading further.
    xtrun/index
    topology/topology
    uuid/index.rst
+   dsp_core/index.rst
    debugability/index
    tuning/sof-ctl
    rimage/index.rst
