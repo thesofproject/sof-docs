@@ -11,6 +11,7 @@
 .. |CNL| replace:: Cannon Lake
 .. |ICL| replace:: Ice Lake
 .. |JSL| replace:: Jasper Lake
+.. |TGL| replace:: Tiger Lake
 .. |TSC| replace:: Technical Steering Committee
 
 .. These are replacement strings for non-ASCII characters used within the project
