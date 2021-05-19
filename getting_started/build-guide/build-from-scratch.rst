@@ -8,7 +8,7 @@ Build SOF from scratch
    :depth: 3
 
 You may boot and test |SOF| on a target machine or VM. Current target
-Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL| and |JSL|.
+Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL| and |TGL|.
 
 Support also exists for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
@@ -153,7 +153,7 @@ Step 2 Build toolchains from source
 ===================================
 
 Build the xtensa cross-compilation toolchains with crosstool-ng for Intel |BYT|,
-|CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL| platforms and NXP i.MX8/i.MX8X/i.MX8M
+|CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL|, |TGL| platforms and NXP i.MX8/i.MX8X/i.MX8M
 platforms.
 
 crosstool-ng
@@ -200,7 +200,7 @@ download gcc components.
    # Apollo Lake
    cp config-apl-gcc10.2-gdb9 .config
    ./ct-ng build
-   # Cannon Lake, Ice Lake and Jasper Lake
+   # Cannon Lake, Ice Lake, Jasper Lake and Tiger Lake
    cp config-cnl-gcc10.2-gdb9 .config
    ./ct-ng build
    # i.MX8/i.MX8X
@@ -235,7 +235,7 @@ default values missing from it:
 
    |BYT| and |CHT| share the same toolchain: xtensa-byt-elf
 
-   |CNL|, |ICL| and |JSL| share the same toolchain: xtensa-cnl-elf
+   |CNL|, |ICL|, |JSL| and |TGL| share the same toolchain: xtensa-cnl-elf
 
    i.MX8 and i.MX8X share the same toolchain: xtensa-imx-elf
 
@@ -283,7 +283,7 @@ Build and install for each platform.
    make
    make install
    rm -fr rm etc/config.cache
-   # Cannon Lake, Ice Lake and Jasper Lake
+   # Cannon Lake, Ice Lake, Jasper Lake and Tiger Lake
    ./configure --target=xtensa-cnl-elf --prefix="${XTENSA_ROOT}"
    make
    make install
@@ -455,6 +455,24 @@ for |JSL|:
    mkdir build_jsl && cd build_jsl
    cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR="$XTENSA_ROOT"/xtensa-cnl-elf ..
    make jasperlake_defconfig
+   make bin -j4
+
+for |TGL|:
+
+.. code-block:: bash
+
+   mkdir build_tgl && cd build_tgl
+   cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR="$XTENSA_ROOT"/xtensa-cnl-elf ..
+   make tgplp_defconfig
+   make bin -j4
+
+for |TGL| H:
+
+.. code-block:: bash
+
+   mkdir build_tgl-h && cd build_tgl-h
+   cmake -DTOOLCHAIN=xtensa-cnl-elf -DROOT_DIR="$XTENSA_ROOT"/xtensa-cnl-elf ..
+   make tgph_defconfig
    make bin -j4
 
 for i.MX8:
