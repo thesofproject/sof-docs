@@ -185,7 +185,10 @@ html_static_path = ['static']
 def setup(app):
 # add_stylesheet() was renamed to add_css_file() in sphinx 1.8 released
 # in September 2018. add_stylesheet() will be removed in sphinx 4.0
-   app.add_stylesheet("sof-custom.css")
+    try:
+        app.add_css_file('sof-custom.css')
+    except AttributeError:
+        app.add_stylesheet('sof-custom.css')
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
