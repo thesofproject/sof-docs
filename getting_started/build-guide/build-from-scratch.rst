@@ -159,7 +159,7 @@ platforms.
 crosstool-ng
 ------------
 
-Clone both repos and check out the ``sof-gcc8.1`` branch.
+Clone both repos and check out the ``sof-gcc10.2`` and ``sof-gcc10x`` branch.
 
 .. code-block:: bash
 
@@ -167,9 +167,9 @@ Clone both repos and check out the ``sof-gcc8.1`` branch.
    git clone https://github.com/thesofproject/xtensa-overlay
    git clone https://github.com/thesofproject/crosstool-ng
    cd xtensa-overlay
-   git checkout sof-gcc8.1
+   git checkout sof-gcc10.2
    cd ../crosstool-ng
-   git checkout sof-gcc8.1
+   git checkout sof-gcc10x
 
 Build crosstool-ng and install it in its own source directory.
 
@@ -192,34 +192,34 @@ download gcc components.
 .. code-block:: bash
 
    # Baytrail/Cherrytrail
-   cp config-byt-gcc8.1-gdb8.1 .config
+   cp config-byt-gcc10.2-gdb9 .config
    ./ct-ng build
    # Haswell/Broadwell
-   cp config-hsw-gcc8.1-gdb8.1 .config
+   cp config-hsw-gcc10.2-gdb9 .config
    ./ct-ng build
    # Apollo Lake
-   cp config-apl-gcc8.1-gdb8.1 .config
+   cp config-apl-gcc10.2-gdb9 .config
    ./ct-ng build
    # Cannon Lake, Ice Lake and Jasper Lake
-   cp config-cnl-gcc8.1-gdb8.1 .config
+   cp config-cnl-gcc10.2-gdb9 .config
    ./ct-ng build
    # i.MX8/i.MX8X
-   cp config-imx-gcc8.1-gdb8.1 .config
+   cp config-imx-gcc10.2-gdb9 .config
    ./ct-ng build
    # i.MX8M
-   cp config-imx8m-gcc8.1-gdb8.1 .config
+   cp config-imx8m-gcc10.2-gdb9 .config
    ./ct-ng build
 
 ``./ct-ng`` is a Linux kernel style Makefile; so the sample commands below
-can be used to fix some out of date ``config-*-gcc8.1-gdb8.1`` file or find
+can be used to fix some out of date ``config-*-gcc10.2-gdb9`` file or find
 default values missing from it:
 
 .. code-block:: bash
 
    ./ct-ng help
-   cp config-apl-gcc8.1-gdb8.1 .config
+   cp config-apl-gcc10.2-gdb9 .config
    ./ct-ng oldconfig V=1
-   diff -u config-apl-gcc8.1-gdb8.1 .config
+   diff -u config-apl-gcc10.2-gdb9 .config
 
 "Install" toolchains by copying them to ``$SOF_WORKSPACE``.
 
