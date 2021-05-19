@@ -335,9 +335,9 @@ Build the firmware for all platforms.
    This script will only work if the PATH includes both the cross-compiler and
    ``xtensa-root`` and if they are siblings in the same ``sof`` directory.
 
-As of April 2020, you may specify one or more of the following platform
-arguments: ``byt``, ``cht``, ``hsw``, ``bdw``, ``apl``, ``cnl``,
-``sue``, ``icl``, ``jsl``, ``imx8``, ``imx8x``, ``imx8m``. Example:
+As of May 2021, you may specify one or more of the following platform
+arguments: ``byt``, ``cht``, ``bdw``, ``hsw``, ``apl``, ``skl``, ``kbl``, ``cnl``,
+``sue``, ``icl``, ``jsl``, ``tgl``, ``tgl-h``, ``imx8``, ``imx8x``, ``imx8m``. Example:
 
 .. code-block:: bash
 
