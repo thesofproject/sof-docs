@@ -306,8 +306,8 @@ Build and install for each platform.
 The required headers are now in ``"$SOF_WORKSPACE"/xtensa-root``, and cross-compilation
 toolchains for xtensa DSPs are set up.
 
-Step 3 Build firmware binaries
-==============================
+Step 3 Build and sign firmware binaries
+=======================================
 
 After the SOF environment is set up, clone the *sof* repo.
 
@@ -316,14 +316,35 @@ After the SOF environment is set up, clone the *sof* repo.
    cd "$SOF_WORKSPACE"
    git clone https://github.com/thesofproject/sof
 
-One-step rebuild from scratch
------------------------------
 
-To rebuild |SOF| in just one step, use
-:git-sof-mainline:`scripts/xtensa-build-all.sh` after setting up the
-environment.
+Copy the commented ``installer/sample-config.mk`` to
+``installer/config.mk``, then select a list of platforms and provide an
+optional target hostname in the latter file. Then run:
 
-Build the firmware for all platforms.
+.. code-block:: bash
+
+   make -C installer/
+
+This builds multiple platforms in parallel and deploys firmware and
+topologies to ``/lib/firmware/intel/`` on the local or remote
+destination that you configured. It builds with the default platform
+configurations the first time and then switches to incremental builds
+which preserves any ``make menuconfig`` or other configuration changes
+you made. These two ways to build are described below, so read on if you
+need finer control on the build system and configuration. Otherwise you
+can skip the next two sections.
+
+The installer also builds and deploys some user-space binaries from the
+``sof/tools/`` subdirectory.
+
+
+Re-configure and rebuild from scratch
+-------------------------------------
+
+To rebuild |SOF| from scratch, the installer Makefile above relies on
+the :git-sof-mainline:`scripts/xtensa-build-all.sh` script. If you need
+finer control or to troubleshoot some build issue you can also use it
+directly. To build the firmware for all platforms:
 
 .. code-block:: bash
 
@@ -370,7 +391,8 @@ Incremental builds
 ------------------
 
 This is a more detailed build guide for the *sof* repo. Unlike
-``xtensa-build-all.sh``, this doesn't rebuild everything every time.
+``xtensa-build-all.sh``, this doesn't rebuild everything every time. The
+installer Makefile above relies on this for incremental builds.
 
 Snippets below assume that your current directory is the root of the
 ``sof`` clone (``"$SOF_WORKSPACE"/sof/``).
@@ -529,7 +551,8 @@ Firmware build results
 ----------------------
 
 The firmware binary files are located in build_<platform>/src/arch/xtensa/.
-Copy them to your target machine's /lib/firmware/intel/sof folder.
+The installer copies them to your target machine's ``/lib/firmware/intel/sof``
+folder.
 
 .. code-block:: bash
 
@@ -538,6 +561,9 @@ Copy them to your target machine's /lib/firmware/intel/sof folder.
 
 Step 4 Build topology and tools
 ===============================
+
+You can probably skip this section if you use the firmware installer in
+the previous section.
 
 One-step rebuild from scratch
 -----------------------------
@@ -575,11 +601,12 @@ If your ``cmake --version`` is 3.13 or higher, you may prefer the new -B option:
 Topology and tools build results
 --------------------------------
 
-The topology files are located in the *tools/build_tools/topology* folder.
-Copy them to the target machine's /lib/firmware/intel/sof-tplg folder.
+The topology files are located in the *tools/build_tools/topology*
+folder.  The installer Makefile copies them to the target machine's
+``/lib/firmware/intel/sof-tplg/`` folder.
 
-The *sof-logger* tool is in the *tools/build_tools/logger* folder. Copy it to
-the target machine's /usr/bin directory.
+The *sof-logger* tool is in the *tools/build_tools/logger* folder. The
+installer Makefile copies them to the target directory of your choice.
 
 .. _Build Linux kernel:
 
