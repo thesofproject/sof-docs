@@ -44,33 +44,18 @@ Check out and build
       mkdir $ZEPHYR_WORKSPACE
       cd $ZEPHYR_WORKSPACE
       west init
-      west update
-
-#. Download **rimage** if you haven't already done so:
-
-   .. code-block:: bash
-
-      git clone --recurse-submodules https://github.com/thesofproject/rimage.git
-
-   If you need to install a rimage executable on your system, use this
-   repository to build and optionally install one:
-
-   .. code-block:: bash
-
-      mkdir rimage/build
-      cd rimage/build
-      cmake ..
-      make
-        cd -
-
-   You also need it for platform-specific configuration.
+      # Significantly smaller and faster than a full "west update"
+      west update hal_xtensa sof
 
 #. Build and sign a firmware image:
 
    .. code-block:: bash
 
-      west build -d build-apl -b intel_adsp_cavs15 -p zephyr/samples/audio/sof/
-      west sign -d build-apl -p rimage/build/rimage -t rimage -D rimage/config -- -k  nmodules/audio/sof/keys/otc_private_key.pem
+      cd $ZEPHYR_WORKSPACE
+      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh    # shows usage
+      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh $your_platform
+      ls build-*/zephyr/zephyr.*
+        => build-*/zephyr/zephyr.ri ...
 
 Run
 ***
@@ -103,7 +88,7 @@ After the above instructions are completed, a firmware image is located at
    ``sof-audio-pci 0000:00:0e.0: Firmware info: used compiler GCC 9:2:0 zephyr used optimization flags -Os``
 
 For firmware log extraction, use
-``zephyr/boards/xtensa/intel_adsp_cavs15/tools/logtool.py``.
+``zephyr/boards/xtensa/intel_adsp_cavs15/tools/README.md``.
 
 You might also need to build and update your system audio topology file. For
 details see :ref:`build-from-scratch`.
