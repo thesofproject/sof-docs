@@ -131,4 +131,12 @@ following command to extract DSP traces:
 
 .. code-block:: bash
 
-   sof-logger -t sof-tgl.ldc
+   sof-logger -t -l sof-tgl.ldc
+
+Trace support might need to be enabled on distribution kernels in case the
+``/sys/kernel/debug/sof/trace`` file is not present by adding sof_debug=1 option
+to snd_sof module:
+
+.. code-block::
+
+   options snd_sof sof_debug=1
