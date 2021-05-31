@@ -128,6 +128,14 @@ Examples
      sof-logger -l ldc_file -d
 
 
+.. note::
+  debugfs files used by ``sof-logger``
+
+  - ``etrace``: direct access to the shared TRACE window of the SOF firmware
+  - ``trace``: using DMA to stream debug trace information from SOF firmware (on
+    distribution kernels ``sof_debug=1`` module option for ``snd_sof`` might be
+    needed if the /sys/kernel/debug/sof/trace file is not present)
+
 Trace filtering
 ***************
 
