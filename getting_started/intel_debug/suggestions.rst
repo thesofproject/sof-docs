@@ -117,6 +117,9 @@ file:
 
 Note that this list is only an example.
 
+Dynamic debug is a Linux kernel feature. For detailed information, see the
+official `kernel documentation <https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html>`__.
+
 Install sof-logger
 ******************
 
