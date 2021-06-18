@@ -41,8 +41,14 @@ Step 0 Set up the workspace directory
 Step 1 Set up build environment
 ===============================
 
-Install packaged dependencies
------------------------------
+Install packaged dependencies (Ubuntu)
+--------------------------------------
+
+Make sure that ``build-essential`` is installed:
+
+.. code-block:: bash
+
+   sudo apt-get install build-essential
 
 * For Ubuntu 18.10:
 
