@@ -238,7 +238,7 @@ to build all toolchains without interruption:
 .. code-block:: bash
 
    time for i in config*gcc10.2-gdb9; do
-      cp "$i" .config && ../ct-install/bin/ct-ng build || break ;
+      cp "$i" .config && ./ct-ng build || break ;
    done
 
 
