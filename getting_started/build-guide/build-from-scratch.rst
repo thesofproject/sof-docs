@@ -41,14 +41,23 @@ Step 0 Set up the workspace directory
 Step 1 Set up build environment
 ===============================
 
-Install packaged dependencies (Ubuntu)
---------------------------------------
+Install packaged dependencies
+-----------------------------
+.. note::
 
-Make sure that ``build-essential`` is installed:
+   This guide uses Ubuntu as an example but any modern distribution can be used
+   for SOF development.
+
+Due to the ever changing default packages in distributions there might be missing
+tools, packages. The SOF documentation can not have explicit instructions for all
+such cases. When encountered with missing dependencies, please consult with your
+distribution's documentation on how to install them.
+
+Make sure that ``build-essential`` and ``git`` is installed:
 
 .. code-block:: bash
 
-   sudo apt-get install build-essential
+   sudo apt-get install build-essential git
 
 * For Ubuntu 18.10:
 
