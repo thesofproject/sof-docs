@@ -16,7 +16,7 @@ Build SOF
 *********
 
 The following steps describe how to install the SOF development
-environment on Ubuntu 16.04, 18.04, and 18.10. They should work on
+environment on Ubuntu 16.04, 18.04, 20.04, and 18.10. They should work on
 19.04, 19.10 and other Linux distributions with minor or no
 modifications.
 
@@ -30,13 +30,16 @@ modifications.
    because some default configuration files refer to other clones using
    relative locations like ``../sof/``.
 
+   Make sure that ``$SOF_WORKSPACE`` have adequate disk space when building the
+   toolchain. About 15GB is going to be needed per toolchain.
+
 Step 0 Set up the workspace directory
 =====================================
 
   .. code-block:: bash
 
      SOF_WORKSPACE=~/work/sof
-     mkdir "$SOF_WORKSPACE"
+     mkdir -p "$SOF_WORKSPACE"
 
 Step 1 Set up build environment
 ===============================
@@ -58,6 +61,13 @@ Make sure that ``build-essential`` and ``git`` are installed:
 .. code-block:: bash
 
    sudo apt-get install build-essential git
+
+* For Ubuntu 20.04:
+
+  .. code-block:: bash
+
+     sudo apt install autoconf flex bison texinfo help2man gawk libtool-bin \
+	libncurses5 libncurses5-dev libssl-dev libgtk-3-dev tree ninja
 
 * For Ubuntu 18.10:
 
@@ -261,6 +271,12 @@ from ``$SOF_WORKSPACE`` to them:
    cd "$SOF_WORKSPACE"
    for i in crosstool-ng/builds/xtensa-*; do ln -s "$i"; done
 
+Remove the temporarily build files (~7GB per toolchain)
+
+.. code-block:: bash
+
+   rm -rf .build
+
 .. note::
 
    |HSW| and |BDW| share the same toolchain: xtensa-hsw-elf
@@ -326,6 +342,7 @@ After the SOF environment is set up, clone the *sof* repo.
 
    cd "$SOF_WORKSPACE"
    git clone https://github.com/thesofproject/sof
+   cd sof
 
 
 Copy the commented ``installer/sample-config.mk`` to
