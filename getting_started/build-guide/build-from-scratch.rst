@@ -8,7 +8,7 @@ Build SOF from scratch
    :depth: 3
 
 You may boot and test |SOF| on a target machine or VM. Current target
-Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL| and |TGL|.
+Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL|, and |TGL|.
 
 Support also exists for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
@@ -16,22 +16,22 @@ Build SOF
 *********
 
 The following steps describe how to install the SOF development
-environment on Ubuntu 16.04, 18.04, 20.04, and 18.10. They should work on
+environment on Ubuntu 16.04, 18.04, 18.10, and 20.04. They should work on
 19.04, 19.10 and other Linux distributions with minor or no
 modifications.
 
 .. note::
 
-   ``$SOF_WORKSPACE`` environment variable should point to the directory you
-   wish to store all sof work in.
+   Point the ``$SOF_WORKSPACE`` environment variable to the directory in
+   which you store all sof work.
 
-   The code examples assume ``$SOF_WORKSPACE`` as the top-level working
-   directory.  Clone all git repositories at the same directory level
+   The code examples assume ``$SOF_WORKSPACE`` is the top-level working
+   directory. Clone all git repositories at the same directory level
    because some default configuration files refer to other clones using
    relative locations like ``../sof/``.
 
-   Make sure that ``$SOF_WORKSPACE`` have adequate disk space when building the
-   toolchain. About 15GB is going to be needed per toolchain.
+   Make sure that ``$SOF_WORKSPACE`` has adequate disk space when building
+   the toolchain. About 15GB is needed per toolchain.
 
 Step 0 Set up the workspace directory
 =====================================
@@ -67,7 +67,7 @@ Make sure that ``build-essential`` and ``git`` are installed:
   .. code-block:: bash
 
      sudo apt install autoconf flex bison texinfo help2man gawk libtool-bin \
-	libncurses5 libncurses5-dev libssl-dev libgtk-3-dev tree ninja
+	      libncurses5 libncurses5-dev libssl-dev libgtk-3-dev tree ninja
 
 * For Ubuntu 18.10:
 
@@ -109,7 +109,7 @@ If you use Ubuntu 18.04+ you can install CMake with apt:
    sudo apt-get install cmake
 
 For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from
-sources. Refer to this short guide: https://cmake.org/install/
+sources. Refer to this short guide: https://cmake.org/install/.
 
 Build alsa-lib and alsa-utils
 -----------------------------
@@ -215,7 +215,7 @@ Toolchains
 The config files provided refer to ``../xtensa-overlay/`` and point at
 different ``./builds/xtensa-*-elf`` subdirectories. Copy the ones you
 want to ``.config`` and build the cross-compiler(s) for your target
-platform(s). ``./ct-ng build`` requires an network connection to
+platform(s). Note that ``./ct-ng build`` requires an network connection to
 download gcc components.
 
 .. code-block:: bash
@@ -271,7 +271,7 @@ from ``$SOF_WORKSPACE`` to them:
    cd "$SOF_WORKSPACE"
    for i in crosstool-ng/builds/xtensa-*; do ln -s "$i"; done
 
-Remove the temporarily build files (~7GB per toolchain)
+Remove the temporary build files (~7GB per toolchain):
 
 .. code-block:: bash
 
@@ -302,9 +302,9 @@ switch to the `xtensa` branch.
    git checkout -b xtensa origin/xtensa
 
 Temporarily add toolchains to your PATH variable. This is *not* required
-when using high-level scripts described below, only this time here or
-when invoking CMake manually. In other words you don't need to adjust
-your PATH permanently; no risk to interfere with non-SOF tasks.
+when using high-level scripts described below; it's only required here or
+when invoking CMake manually. In other words, you don't need to adjust your
+PATH permanently because no risk of interfere with non-SOF tasks exists.
 
 .. code-block:: bash
 
@@ -327,16 +327,16 @@ This should take a few minutes.
 
 .. note::
 
-   ``--prefix=`` expects an absolute path. Define XTENSA_ROOT according to your
-   environment.
+   ``--prefix=`` expects an absolute path. Define XTENSA_ROOT according to
+   your environment.
 
-The required headers are now in ``"$SOF_WORKSPACE"/xtensa-root``, and cross-compilation
-toolchains for xtensa DSPs are set up.
+The required headers are now in ``"$SOF_WORKSPACE"/xtensa-root``, and
+cross-compilation toolchains for xtensa DSPs are set up.
 
 Step 3 Build and sign firmware binaries
 =======================================
 
-After the SOF environment is set up, clone the *sof* repo.
+After the SOF environment is set up, clone the *sof* repo:
 
 .. code-block:: bash
 
@@ -404,10 +404,11 @@ builds with -r and speed up the build with -j [n]
    ./scripts/xtensa-build-all.sh -d -r -j 4 apl
 
 .. note::
-   xtensa-build-all.sh script uses ``rimage`` to build the final firmware image.
-   ``rimage`` uses by default a public key included in sof repo for signing.
-   However, if you need to use some other external key for signing you can
-   specify the path to your key as environment variable before invoking the build:
+   The ``xtensa-build-all.sh`` script uses ``rimage`` to build the final
+   firmware image. ``rimage`` uses by default a public key included in the
+   sof repo for signing. However, if you need to use some other external key
+   for signing you can specify the path to your key as environment variable
+   before invoking the build:
 
    .. code-block:: bash
 
