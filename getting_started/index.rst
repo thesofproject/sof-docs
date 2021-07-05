@@ -46,3 +46,14 @@ users when audio components are not working properly or are broken.
 
    intel_debug/introduction
    intel_debug/suggestions
+
+SOF on NXP platforms
+********************
+
+This section provides users guides for integrators and users working with i.MX platforms.
+
+.. toctree::
+   :maxdepth: 1
+
+   nxp/sof_imx_user_guide
+
