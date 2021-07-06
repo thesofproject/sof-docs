@@ -63,6 +63,8 @@ SOF Linux driver functionality is implemented accross several kernel modules:
 
 Linux kernel SOF modules are installed in rootfs image at: */lib/modules/<version>/kernel/sound/soc/sof/*.
 
+.. _nxp_device_tree_files:
+
 Device tree files
 -----------------
 
@@ -82,6 +84,8 @@ DSP is seen by the Linux kernel as an I/O mapped device. Audio interfaces are co
 | i.mx8mp   | imx8mp-evk-sof-wm8960.dtb   | SAI + wm8960               |
 +-----------+-----------------------------+----------------------------+
 
+.. _nxp_firmware_images:
+
 Firmware images
 ---------------
 
@@ -96,6 +100,8 @@ Firmware images are installed in rootfs image at: */lib/firmware/imx/sof/*.
 +-----------+-------------------------------------------+
 | i.mx8mp   |    /lib/firmware/imx/sof/sof-imx8m.ri     |
 +-----------+-------------------------------------------+
+
+.. _nxp_topology_files:
 
 Topology files
 --------------
@@ -180,3 +186,32 @@ sof-logger needs to be cross-compiled to run on arm64.
    $ mkdir build_tools && cd build_tools
    $ cmake .. -DCMAKE_TOOLCHAIN_FILE=../scripts/cross-arch64.cmake
    $ make sof-logger
+
+Audio scenarios
+***************
+
+We will demonstrate all the audio scenarios on i.MX8QM. Consult the list of :ref:`nxp_device_tree_files`, :ref:`nxp_firmware_images`,
+:ref:`nxp_topology_files` in order to select proper binaries for your board and audio scenario.
+
+Audio playback and record
+-------------------------
+
+Booting i.MX8QM with imx8qm-mek-sof-wm8960.dtb will enable PCM audio playback/record with wm8960 codec. This uses
+the default topology found at /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg.
+
+.. code-block:: bash
+
+   root@imx8qxpc0mek:~# aplay -l
+   **** List of PLAYBACK Hardware Devices ****
+   card 1: sofwm8960audio [sof-wm8960-audio], device 0: Port0 (*) []
+     Subdevices: 1/1
+     Subdevice #0: subdevice #0
+   
+   # start playback on SOF device
+   root@imx8qxpc0mek:~# aplay -Dhw:1,0 sample.wav
+   Playing WAVE 'sample.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
+   
+   # start capture on SOF device
+   root@imx8qxpc0mek:~# arecord -Dhw:1,0 -f S32_LE -c 2 -r 48000 capture.wav
+   Recording WAVE 'capture.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
+
