@@ -140,6 +140,14 @@ Use :ref:`build-with-docker` for a guide on how to build SOF binaries with docke
 Kernel image and modules
 ------------------------
 
+Use NXP internal Linux kernel tree to get full support for i.MX8 boards.
+
+.. code-block:: bash
+
+   $ git clone https://source.codeaurora.org/external/imx/linux-imx
+   # checkout latest stable branch
+   $ git checkout lf-5.10.y
+
 .. code-block:: bash
 
    # install arm64 toolchain
