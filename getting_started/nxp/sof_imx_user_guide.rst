@@ -215,3 +215,32 @@ the default topology found at /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg.
    root@imx8qxpc0mek:~# arecord -Dhw:1,0 -f S32_LE -c 2 -r 48000 capture.wav
    Recording WAVE 'capture.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
 
+Audio mixing
+------------
+
+We will demonstate how to use SOF in order to mix two PCM streams on i.MX8QM and render the output to wm8960 codec.
+As usual, we will boot the i.MX8QM board using imx8qm-mek-sof-wm8960.dtb.
+
+Now, we need to use sof-imx8-wm8960-mixer.tplg topology file.
+
+.. code-block:: bash
+
+   $ cp /lib/firmware/imx/sof-tplg/sof-imx8-wm8960-mixer.tplg /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg
+
+After, booting we will see now that SOF sound card will have two subdevices:
+
+.. code-block:: bash
+
+   root@imx8qxpc0mek:~# aplay -l
+   **** List of PLAYBACK Hardware Devices ****
+   card 1: sofwm8960audio [sof-wm8960-audio], device 0: PCM (*) []
+     Subdevices: 1/1
+     Subdevice #0: subdevice #0
+   card 1: sofwm8960audio [sof-wm8960-audio], device 1: PCM Deep Buffer (*) []
+     Subdevices: 1/1
+     Subdevice #0: subdevice #0
+   
+   # PCM files sent to SOF card1/device0, card1/device1 will be mixed together by SOF firmware and then rendered on wm8960 codec
+   root@imx8qxpc0mek:~# aplay -Dhw:1,0 sample0.wav  & aplay -Dhw:1,1 sample1.wav
+   Playing WAVE 'sample0.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
+   Playing WAVE 'sample1.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
