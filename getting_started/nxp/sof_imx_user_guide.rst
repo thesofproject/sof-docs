@@ -157,9 +157,18 @@ Kernel image and modules
 SOF firmware
 ------------
 
-See :ref:`build-from-scratch`
+See Step 3 :ref:`build-from-scratch`
 
 Tools
 -----
 
+See Step 4 in :ref:`build-from-scratch`.
 
+sof-logger needs to be cross-compiled to run on arm64.
+
+.. code-block:: bash
+
+   $ cd "$SOF_WORKSPACE"/sof/tools/
+   $ mkdir build_tools && cd build_tools
+   $ cmake .. -DCMAKE_TOOLCHAIN_FILE=../scripts/cross-arch64.cmake
+   $ make sof-logger
