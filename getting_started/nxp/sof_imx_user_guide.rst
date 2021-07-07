@@ -244,3 +244,102 @@ After, booting we will see now that SOF sound card will have two subdevices:
    root@imx8qxpc0mek:~# aplay -Dhw:1,0 sample0.wav  & aplay -Dhw:1,1 sample1.wav
    Playing WAVE 'sample0.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
    Playing WAVE 'sample1.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
+
+Sample rate converter
+---------------------
+
+Sample rate converter is supported via **SRC** open coded component in *src/audio/src*.
+
+Based on the toolchain used SOF on i.MX supports converting:
+
++---------------+--------------------+----------------------------------------------------+--------------------+
+|  toolchain    |      direction     |          input rate (kHz)                          | output rate  (kHz) |
++===============+====================+====================================================+====================+
+|     GCC       | playback/capture   |  8 16 32 44.1 48 96                                |         48         |
++---------------+--------------------+----------------------------------------------------+--------------------+
+|     XCC       |      playback      |  8 11.025 16 22.05 32 44.1 48 64 88.2 96 176.4 192 |         48         |
++---------------+--------------------+----------------------------------------------------+--------------------+
+|     XCC       |      capture       |  8 11.025 16 22.050 32 44.1 48                     |         48         |
++---------------+--------------------+----------------------------------------------------+--------------------+
+
+As usual we will boot the i.MX8QM board using imx8qm-mek-sof-wm8960.dtb. We need to use sof-imx8-src-wm8960.tplg topology file.
+
+.. code-block:: bash
+
+   $ cp /lib/firmware/imx/sof-tplg/sof-imx8-src-wm8960-mixer.tplg /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg
+
+Here are several runs with aplay and various rates and formats.
+
+.. code-block:: bash
+
+   root@imx8qmmek:~# aplay -Dhw:1,0 -f S16_LE -c 2 -r 8000 -t raw /mnt/test/samples_16b/audio8k16b2c.wav
+   Playing raw data '/mnt/test/samples_16b/audio8k16b2c.wav' : Signed 16 bit Little Endian, Rate 8000 Hz, Stereo
+   
+   root@imx8qmmek:~# aplay -Dhw:1,0 -f S16_LE -c 2 -r 16000 -t raw /mnt/test/samples_16b/audio16k16b2c.wav
+   Playing raw data '/mnt/test/samples_16b/audio16k16b2c.wav' : Signed 16 bit Little Endian, Rate 16000 Hz, Stereo
+   
+   root@imx8qmmek:~# aplay -Dhw:1,0 -f S24_LE -c 2 -r 32000 -t raw /mnt/test/samples/audio32k24b2c.wav
+   Playing raw data '/mnt/test/samples/audio32k24b2c.wav' : Signed 24 bit Little Endian, Rate 32000 Hz, Stereo
+   
+   root@imx8qmmek:~# aplay -Dhw:1,0 -f S24_LE -c 2 -r 44100 -t raw /mnt/test/samples/audio44k24b2c.wav
+   Playing raw data '/mnt/test/samples/audio44k24b2c.wav' : Signed 24 bit Little Endian, Rate 44100 Hz, Stereo
+   
+   root@imx8qmmek:~# aplay -Dhw:1,0 -f S32_LE -c 2 -r 48000 -t raw /mnt/test/samples_32b/audio48k32b2c.wav
+   Playing raw data '/mnt/test/samples_32b/audio48k32b2c.wav' : Signed 32 bit Little Endian, Rate 48000 Hz, Stereo
+   
+   root@imx8qmmek:~# aplay -Dhw:1,0 -f S32_LE -c 2 -r 96000 -t raw /mnt/test/samples_32b/audio96k32b2c.wav
+   Playing raw data '/mnt/test/samples_32b/audio96k32b2c.wav' : Signed 32 bit Little Endian, Rate 96000 Hz, Stereo
+
+Compress audio
+--------------
+
+In order to use DSP to decode/encode compress audio we make use of `ALSA Compress Offload API <https://www.kernel.org/doc/html/latest/sound/designs/compress-offload.html>`_
+
+Supported codecs on i.MX8QM:
+
++---------------+--------------------+----------------+-------------------------------------------------+
+|   codec       |              topology               |           Test command                          |
++===============+=====================================+=================================================+
+|    PCM        | sof-imx8-processing-pcm-wm8960.m4   | cplay -c 1 -d 0 -f 2 -b 7680 -I PCM sample.wav  |
++---------------+-------------------------------------+-------------------------------------------------+
+|    MP3        | sof-imx8-processing-mp3-wm8960.m4   | cplay -c 1 -d 0 -f 2 -b 7680 -I MP3 sample.mp3  |
++---------------+-------------------------------------+-------------------------------------------------+
+|    AAC        | sof-imx8-processing-aac-wm8960.m4   | cplay -c 1 -d 0 -f 2 -b 7680 -I MP3 sample.aac  |
++---------------+-------------------------------------+-------------------------------------------------+
+
+See :ref:`nxp_topology_files` for the list of topology files to be used on other NXP i.MX boards.
+
+To enable compress audio in SOF firmware you need to enable Codec Adapter component and select
+appropriate decoding library algorithms. On i.MX8 we use Cadence proprietary libraries.
+
+.. code-block:: bash
+
+   CONFIG_COMP_CODEC_ADAPTER=y
+   CONFIG_CADENCE_CODEC=y
+   
+   # Enable AAC Cadence decoder
+   CONFIG_CADENCE_CODEC_AAC_DEC=y
+   CONFIG_CADENCE_CODEC_AAC_DEC_LIB="/path/to/aac/library"
+   
+   # Enable MP3 Cadence decoder
+   CONFIG_CADENCE_CODEC_MP3_DEC=y
+   CONFIG_CADENCE_CODEC_MP3_DEC_LIB="/path/to/mp3/library"
+
+Contact NXP Tech support for information on how to obtain Cadence proprietary algorithms.
+
+As usual we will boot the i.MX8QM board using imx8qm-mek-sof-wm8960.dtb. Let's see an example on how to test
+MP3 audio decodder. We need to use sof-imx8-processing-mp3-wm8960.m4 topology file.
+
+.. code-block:: bash
+
+   $ cp /lib/firmware/imx/sof-tplg/sof-imx8-processing-mp3-wm8960.m4 /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg
+
+.. code-block:: bash
+
+   $ cplay -c <card number> -d <device number> -f <fragments> -b <bufer_size> -I <codec_id> sample.file
+   # identify card and device number
+   $ ls /dev/snd*
+     comprC1D0 ==> this means => [card 1, device 0]
+   # fragments is always 2, buffer size is always a multiple of 768, recommended value is 7680
+   $ cplay -c 1 -d 0 -f 2 -b 7680 -I MP3 samples.mp3
+
