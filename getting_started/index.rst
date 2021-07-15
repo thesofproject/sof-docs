@@ -50,7 +50,7 @@ users when audio components are not working properly or are broken.
 SOF on NXP platforms
 ********************
 
-This section provides users guides for integrators and users working with i.MX platforms.
+This section provides guides for integrators and for users working with i.MX platforms.
 
 .. toctree::
    :maxdepth: 1
