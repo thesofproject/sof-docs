@@ -1,19 +1,19 @@
 .. _sof_imx_user_guide:
 
-SOF user guide on NXP i.MX8 platforms
+SOF User Guide on NXP i.MX8 platforms
 #####################################
 
 .. contents::
    :local:
    :depth: 3
 
-This user guide aims to help newcomers, integrators and developers to run SOF on NXP i.MX platforms.
+This guide describes how to run SOF on NXP i.MX8 platforms.
 
 Supported NXP platforms
 ***********************
 
 +-----------+------------+----------------+------------------+------------------+
-| platform  | short name |     dsp        | audio interfaces | supported codecs |
+| Platform  | Short Name |     DSP        | Audio Interfaces | Supported Codecs |
 +===========+============+================+==================+==================+
 | i.mx8qm   | i.mx8      | hifi4\@666mhz  | esai, sai        | wm8960, cs42888  |
 +-----------+------------+----------------+------------------+------------------+
@@ -28,50 +28,50 @@ See :ref:`platforms` for more details.
 Toolchain
 *********
 
-Two toolchains families are currently supported: GCC and Cadence XCC.
+NXP i.MX8 currently supports two toolchain families: GCC and Cadence XCC.
 
-1. **GCC**, open source, publicly available, toolchains built using crosstool-NG
+1. **GCC** is an open source, publicly available, toolchain built using crosstool-NG:
 
-  * available as prebuilt binaries from `crosstool-NG release <https://github.com/thesofproject/crosstool-ng/releases/tag/gcc10.2>`_
-  * build from sources as documented in :ref:`build-toolchains-from-source` in the Getting Started Guide.
+  * Available as prebuilt binaries from `crosstool-NG release <https://github.com/thesofproject/crosstool-ng/releases/tag/gcc10.2>`_.
+  * Can be built from sources as documented in :ref:`build-toolchains-from-source` under **Getting Started Guides**.
 
-2. **Cadence XCC** proprietary toolchain, available under terms and conditions
+2. **Cadence XCC** is a proprietary toolchain, available under certain terms and conditions:
 
-  * contact NXP tech support
+  * Contact NXP tech support.
 
 
 
 Quick run with SOF from i.MX8 Board Support Package
 ***************************************************
 
-Binaries needed to run SOF on i.MX NXP platforms are provided in Board Support Package (BSP) software. Use the latest
+Binaries needed to run SOF on i.MX8 NXP platforms are provided in the Board Support Package (BSP) software. Use the latest
 `i.MX8 BSP Release <https://www.nxp.com/design/software/embedded-software/i-mx-software/embedded-linux-for-i-mx-applications-processors:IMXLINUX>`_ binaries.
 
 Kernel image and modules
 ------------------------
 
-**Image-imx8_all.bin** is the name of the Linux kernel image. arm64 uses the same image for all platforms.
+``Image-imx8_all.bin`` is the name of the Linux kernel image. arm64 uses the same image for all platforms.
 
-SOF Linux driver functionality is implemented accross several kernel modules:
+SOF Linux driver functionality is implemented across several kernel modules:
 
-   * **snd-sof.ko**, SOF core functionality
-   * **snd-sof-of.ko**, SOF OF related functionality (SOF device probing, device tree parsing)
-   * **snd-sof-imx8.ko** (i.MX8QXP, i.MX8QM specific functionality, I/O mapping, power domains, clocks, etc)
-   * **snd-sof-imx8m.ko** (i.MX8MP specific functionality)
-   * **imx-common.ko** (i.MX common helpers)
-   * **snd-sof-xtensa-dsp.ko**, Xtensa specific functionality (register dumps, DSP stack traces)
+   * **snd-sof.ko**: SOF core functionality
+   * **snd-sof-of.ko**: SOF OF-related functionality (SOF device probing, device tree parsing)
+   * **snd-sof-imx8.ko**: i.MX8QXP, i.MX8QM-specific functionality (I/O mapping, power domains, clocks, etc)
+   * **snd-sof-imx8m.ko**: i.MX8MP-specific functionality
+   * **imx-common.ko**: i.MX common helpers
+   * **snd-sof-xtensa-dsp.ko**: Xtensa-specific functionality (register dumps, DSP stack traces)
 
-Linux kernel SOF modules are installed in rootfs image at: */lib/modules/<version>/kernel/sound/soc/sof/*.
+Linux kernel SOF modules are installed in the ``rootfs`` image at: ``/lib/modules/<version>/kernel/sound/soc/sof/``.
 
 .. _nxp_device_tree_files:
 
 Device tree files
 -----------------
 
-DSP is seen by the Linux kernel as an I/O mapped device. Audio interfaces are controlled by the DSP via SOF firmware. Codecs are controlled by the ARM core via Linux kernel.
+DSP is seen by the Linux kernel as an I/O mapped device. Audio interfaces are controlled by the DSP via SOF firmware. Codecs are controlled by the ARM core via the Linux kernel.
 
 +-----------+-----------------------------+----------------------------+
-| platform  |           dtb               |           comments         |
+| Platform  |           DTB               |           Comments         |
 +===========+=============================+============================+
 | i.mx8qm   | imx8qm-mek-sof-cs42888.dtb  | ESAI + cs42888 (baseboard) |
 +-----------+-----------------------------+----------------------------+
@@ -89,10 +89,10 @@ DSP is seen by the Linux kernel as an I/O mapped device. Audio interfaces are co
 Firmware images
 ---------------
 
-Firmware images are installed in rootfs image at: */lib/firmware/imx/sof/*.
+Firmware images are installed in the ``rootfs`` image at: ``/lib/firmware/imx/sof/``.
 
 +-----------+-------------------------------------------+
-| platform  |              firmware path                |
+| Platform  |              Firmware Path                |
 +===========+===========================================+
 | i.mx8qm   |    /lib/firmware/imx/sof/sof-imx8.ri      |
 +-----------+-------------------------------------------+
@@ -106,10 +106,11 @@ Firmware images are installed in rootfs image at: */lib/firmware/imx/sof/*.
 Topology files
 --------------
 
-Topology files files describe one or more audio pipelines and are installed in rootfs image at: */lib/firmware/imx/sof-tplg/*.
+Topology files describe one or more audio pipelines and are installed in the
+``rootfs`` image at: ``/lib/firmware/imx/sof-tplg/``.
 
 +----------------------------------+-----------------+--------------------------------------+
-|          topology name           |     platform    |           Usecase                    |
+|          Topology Name           |     Platform    |           Usecase                    |
 +===============+==================+=================+======================================+
 | sof-imx8-cs42888.tplg            | imx8qm/imx8qxp  | PCM playback/record w/ cs42888 codec |
 +----------------------------------+-----------------+--------------------------------------+
@@ -141,12 +142,13 @@ Topology files files describe one or more audio pipelines and are installed in r
 Build SOF binaries from sources
 *******************************
 
-Use :ref:`build-with-docker` for a guide on how to build SOF binaries with docker. Otherwise, you can build it on your Debian like machine as folows.
+Use :ref:`build-with-docker` to build SOF binaries with Docker. Otherwise,
+build it on your Debian-like machine as follows.
 
 Kernel image and modules
 ------------------------
 
-Use NXP internal Linux kernel tree to get full support for i.MX8 boards.
+Use the NXP internal Linux kernel tree to get full support for i.MX8 boards:
 
 .. code-block:: bash
 
@@ -171,14 +173,14 @@ Use NXP internal Linux kernel tree to get full support for i.MX8 boards.
 SOF firmware
 ------------
 
-See Step 3 :ref:`build-from-scratch`
+See Step 3 :ref:`build-from-scratch`.
 
 Tools
 -----
 
 See Step 4 in :ref:`build-from-scratch`.
 
-sof-logger needs to be cross-compiled to run on arm64.
+The sof-logger must be cross-compiled in order to run on arm64:
 
 .. code-block:: bash
 
@@ -190,14 +192,14 @@ sof-logger needs to be cross-compiled to run on arm64.
 Audio scenarios
 ***************
 
-We will demonstrate all the audio scenarios on i.MX8QM. Consult the list of :ref:`nxp_device_tree_files`, :ref:`nxp_firmware_images`,
-:ref:`nxp_topology_files` in order to select proper binaries for your board and audio scenario.
+This section demonstrates all audio scenarios on i.MX8QM. Consult the list of :ref:`nxp_device_tree_files`, :ref:`nxp_firmware_images`, and
+:ref:`nxp_topology_files` in order to select the proper binaries for your board and audio scenario.
 
 Audio playback and record
 -------------------------
 
-Booting i.MX8QM with imx8qm-mek-sof-wm8960.dtb will enable PCM audio playback/record with wm8960 codec. This uses
-the default topology found at /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg.
+Booting i.MX8QM with ``imx8qm-mek-sof-wm8960.dtb`` enables PCM audio playback/record with the wm8960 codec. This uses
+the default topology found at ``/lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg``.
 
 .. code-block:: bash
 
@@ -218,16 +220,16 @@ the default topology found at /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg.
 Audio mixing
 ------------
 
-We will demonstate how to use SOF in order to mix two PCM streams on i.MX8QM and render the output to wm8960 codec.
-As usual, we will boot the i.MX8QM board using imx8qm-mek-sof-wm8960.dtb.
+The following demonstates how to use SOF in order to mix two PCM streams on
+i.MX8QM and render the output to the wm8960 codec. 
 
-Now, we need to use sof-imx8-wm8960-mixer.tplg topology file.
+Boot the i.MX8QM board using ``imx8qm-mek-sof-wm8960.dtb``. Use the ``sof-imx8-wm8960-mixer.tplg`` topology file:
 
 .. code-block:: bash
 
    $ cp /lib/firmware/imx/sof-tplg/sof-imx8-wm8960-mixer.tplg /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg
 
-After, booting we will see now that SOF sound card will have two subdevices:
+After booting, the SOF sound card contains two subdevices:
 
 .. code-block:: bash
 
@@ -248,12 +250,12 @@ After, booting we will see now that SOF sound card will have two subdevices:
 Sample rate converter
 ---------------------
 
-Sample rate converter is supported via **SRC** open coded component in *src/audio/src*.
+Sample rate converter is supported via the **SRC** open-coded component in ``src/audio/src``.
 
-Based on the toolchain used SOF on i.MX supports converting:
+Based on the specific toolchain used, SOF on i.MX supports converting the following:
 
 +---------------+--------------------+----------------------------------------------------+--------------------+
-|  toolchain    |      direction     |          input rate (kHz)                          | output rate  (kHz) |
+|  Toolchain    |      Direction     |          Input Rate (kHz)                          | Output Rate  (kHz) |
 +===============+====================+====================================================+====================+
 |     GCC       | playback/capture   |  8 16 32 44.1 48 96                                |         48         |
 +---------------+--------------------+----------------------------------------------------+--------------------+
@@ -262,13 +264,14 @@ Based on the toolchain used SOF on i.MX supports converting:
 |     XCC       |      capture       |  8 11.025 16 22.050 32 44.1 48                     |         48         |
 +---------------+--------------------+----------------------------------------------------+--------------------+
 
-As usual we will boot the i.MX8QM board using imx8qm-mek-sof-wm8960.dtb. We need to use sof-imx8-src-wm8960.tplg topology file.
+Boot the i.MX8QM board using ``imx8qm-mek-sof-wm8960.dtb``. Use the
+``sof-imx8-src-wm8960.tplg`` topology file:
 
 .. code-block:: bash
 
    $ cp /lib/firmware/imx/sof-tplg/sof-imx8-src-wm8960-mixer.tplg /lib/firmware/imx/sof-tplg/sof-imx8-wm8960.tplg
 
-Here are several runs with aplay and various rates and formats.
+Below are several runs with aplay on various rates and formats:
 
 .. code-block:: bash
 
@@ -293,7 +296,7 @@ Here are several runs with aplay and various rates and formats.
 Compress audio
 --------------
 
-In order to use DSP to decode/encode compress audio we make use of `ALSA Compress Offload API <https://www.kernel.org/doc/html/latest/sound/designs/compress-offload.html>`_
+In order to use DSP to decode/encode compress audio, NXP uses `ALSA Compress Offload APIs <https://www.kernel.org/doc/html/latest/sound/designs/compress-offload.html>`_.
 
 Supported codecs on i.MX8QM:
 
@@ -307,10 +310,11 @@ Supported codecs on i.MX8QM:
 |    AAC        | sof-imx8-processing-aac-wm8960.m4   | cplay -c 1 -d 0 -f 2 -b 7680 -I MP3 sample.aac  |
 +---------------+-------------------------------------+-------------------------------------------------+
 
-See :ref:`nxp_topology_files` for the list of topology files to be used on other NXP i.MX boards.
+See :ref:`nxp_topology_files` for the list of topology files to use on other NXP i.MX boards.
 
-To enable compress audio in SOF firmware you need to enable Codec Adapter component and select
-appropriate decoding library algorithms. On i.MX8 we use Cadence proprietary libraries.
+To enable compress audio in SOF firmware, you must enable the Codec Adapter
+component and select the appropriate decoding library algorithms. For i.MX8,
+we use the Cadence proprietary libraries:
 
 .. code-block:: bash
 
@@ -327,8 +331,8 @@ appropriate decoding library algorithms. On i.MX8 we use Cadence proprietary lib
 
 Contact NXP Tech support for information on how to obtain Cadence proprietary algorithms.
 
-As usual we will boot the i.MX8QM board using imx8qm-mek-sof-wm8960.dtb. Let's see an example on how to test
-MP3 audio decodder. We need to use sof-imx8-processing-mp3-wm8960.m4 topology file.
+Boot the i.MX8QM board using ``imx8qm-mek-sof-wm8960.dtb``. The following
+example tests the MP3 audio decoder by using the ``sof-imx8-processing-mp3-wm8960.m4`` topology file:
 
 .. code-block:: bash
 
