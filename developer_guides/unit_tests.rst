@@ -14,21 +14,26 @@ For a successful compilation, it needs a toolchain thats supports C stdlib.
 Configuring for unit tests
 **************************
 
-In order to build and run unit tests, just pass additional flag to
-CMake **-DBUILD_UNIT_TESTS=ON**.
+Unit tests are built from the same, top-level CMakeLists.txt as the
+firmware but with different CMake flags: **-DBUILD_UNIT_TESTS=ON** and a
+couple others.
 
-Unit tests need a valid config for a used toolchain, so before building them you can use a default config such as:
+Building unit tests can be more complex than building the firmware
+because for the firmware the script ``./xtensa-build-all.sh`` hides most
+the CMake configuration. For unit tests you must find a working
+combination of environment variables and CMake flags. Fortunately
+``./xtensa-build-all.sh`` logs some of its magic that you can "steal"
+and re-use to build unit tests. Like this:
 
-.. code-block:: bash
-
-   make <platform>_defconfig
-
-Then build and run all unit tests by entering:
-
-.. code-block:: bash
-
-   make -j4 && ctest -j8
-
+- Export ``XTENSA_TOOLS_ROOT`` as you normally do when building the
+  firmware.
+- Build the firmware using ``./xtensa-build-all.sh`` and take note of the
+  following variables in the build log: ``PATH``, ``XTENSA_SYSTEM`` and
+  the ``-DROOT_DIR`` parameter.
+- ``export`` the ``PATH`` and ``XTENSA_SYSTEM`` values found above.
+- Run cmake with ``-DBUILD_UNIT_TESTS=ON``, the ``-DROOT_DIR`` parameter above,
+  ``-DINIT_CONFIG`` and a new build directory
+- Build and run the tests with ``make test`` or ``ninja test``.
 
 Example: Running tests for APL
 ==============================
@@ -36,13 +41,28 @@ Example: Running tests for APL
 .. code-block:: bash
 
    mkdir build_ut && cd build_ut
-   cmake -DTOOLCHAIN=xt -DROOT_DIR=$CONFIG_PATH/xtensa-elf -DBUILD_UNIT_TESTS=ON ..
-   make apollolake_defconfig
+   cmake -DBUILD_UNIT_TESTS=ON -DTOOLCHAIN=xt -DINIT_CONFIG=apollolake_defconfig \
+       -DROOT_DIR=/xcc/install/builds/RG-2017.8-linux/X4H3I16w2D48w3a_2017_8/xtensa-elf ..
    make -j4 && ctest -j8
 
 .. note::
 
    Use -DTOOLCHAIN=xt option, -DTOOLCHAIN=xtensa-<platform_type>-elf is not supported
+
+Additional unit tests options can be found in :ref:`cmake`.
+
+Compiling unit tests without a cross-compilation toolchain
+==========================================================
+
+You can also compile the unit tests with your native compiler. You won't
+be able to _run_ the tests but this can be convenient to test
+compilation issues quickly:
+
+.. code-block:: bash
+
+   cmake -B build_ut -DBUILD_UNIT_TESTS_HOST=yes -DTOOLCHAIN=gcc \
+     -DBUILD_UNIT_TESTS=ON -DINIT_CONFIG=something_defconfig
+
 
 Wrapping objects for unit tests
 *******************************

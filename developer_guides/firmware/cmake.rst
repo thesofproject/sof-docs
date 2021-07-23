@@ -107,6 +107,8 @@ Unit Tests
 
 Optional arguments. Only for unit tests.
 
+Read :ref:`unit_tests` first.
+
 BUILD_UNIT_TESTS
    Default: OFF, if ON then builds unit tests.
 
