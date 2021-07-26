@@ -54,15 +54,17 @@ Additional unit tests options can be found in :ref:`cmake`.
 Compiling unit tests without a cross-compilation toolchain
 ==========================================================
 
-You can also compile the unit tests with your native compiler. You won't
-be able to _run_ the tests but this can be convenient to test
-compilation issues quickly:
+You can also compile and run unit tests with your native compiler:
 
 .. code-block:: bash
 
-   cmake -B build_ut -DBUILD_UNIT_TESTS_HOST=yes -DTOOLCHAIN=gcc \
+   rm -rf build_ut/
+   cmake -B build_ut/ -DBUILD_UNIT_TESTS_HOST=yes \
      -DBUILD_UNIT_TESTS=ON -DINIT_CONFIG=something_defconfig
+   make -C build_ut/ -j8 && make -C build_ut/ test
 
+The ``scripts/run-cmocks.sh`` script does all that and can also run unit
+tests with valgrind.
 
 Wrapping objects for unit tests
 *******************************
