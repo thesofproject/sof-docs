@@ -52,8 +52,8 @@ Check out and build
    .. code-block:: bash
 
       cd $ZEPHYR_WORKSPACE
-      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh    # shows usage
-      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh $your_platform
+      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh -h  # shows usage
+      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh $your_platforms
       ls build-*/zephyr/zephyr.*
         => build-*/zephyr/zephyr.ri ...
 
