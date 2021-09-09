@@ -60,19 +60,42 @@ Check out and build
 Run
 ***
 
-After the above instructions are completed, a firmware image is located at
-``build-apl/zephyr/zephyr.ri``. 
-
-#. Copy the firmware image (``build-apl/zephyr/zephyr.ri``) to the usual
-   location on your target system. For example, if it is built natively,
-   enter the following:
+For convenience, the ``xtensa-build-zephyr.sh`` script copies all
+firmware files into a single, "staging" directory:
 
    .. code-block:: bash
 
-      sudo cp build-apl/zephyr/zephyr.ri /lib/firmware/intel/sof/community/sof-cnl.ri
+      $ tree build-sof-staging/
+
+      build-sof-staging/
+      ├── sof
+      │   ├── community
+      │   │   ├── sof-apl.ri
+      │   │   ├── sof-imx8.ri
+      │   │   └── sof-tgl-h.ri
+
+
+#. Copy the firmware image(s) to the usual location on all your target
+   systems. Example:
+
+   .. code-block:: bash
+
+      sudo rsync -a build-sof-staging/sof/ testsystemN.local:/lib/firmware/intel/sof/
+
+   ``rsync`` also works locally and unlike ``cp -R`` it is always
+   idempotent.  You may want to use the ``rsync -a --delete`` option to
+   make absolutely sure you're not running some older version but only
+   after backing up your original ``sof/`` directory first. The
+   ``--delete`` option is dangerous, use it only in very well tested
+   scripts.
+
+   Also make sure nothing in ``/lib/firmware/updates`` takes precedence,
+   see
+   https://www.kernel.org/doc/html/v5.5/driver-api/firmware/fw_search_path.html
 
 #. Reboot the system. Note that the location and name of your SOF
-   firmware image may vary by system. Search your kernel logs for a line
+   firmware image may vary by system. Search your kernel logs with
+   ``journalctl -k -g sof``, looking for a line
    such as the following to identify which file under ``/lib/firmware/`` your hardware is using:
 
    ``sof-audio-pci 0000:00:0e.0: request_firmware intel/sof/community/sof-apl.ri successful``
@@ -92,5 +115,3 @@ For firmware log extraction, use
 
 You might also need to build and update your system audio topology file. For
 details see :ref:`build-from-scratch`.
-
-
