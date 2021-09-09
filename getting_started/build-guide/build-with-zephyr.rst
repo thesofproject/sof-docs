@@ -57,6 +57,22 @@ Check out and build
       ls build-*/zephyr/zephyr.*
         => build-*/zephyr/zephyr.ri ...
 
+#. Fetch and switch to the latest SOF code
+
+   By policy, zephyr modules are carefully versioned with west and not
+   automatically synchronized with the latest code. To switch to the
+   latest:
+
+   .. code-block:: bash
+
+     cd modules/audio/sof/
+     git remote add sof https://github.com/thesofproject/sof
+     git fetch sof
+     git switch --track sof/main
+
+   You can also delete the ``sof`` clone downloaded by ``west`` and
+   replace it with an older clone; west will automatically adjust.
+
 Run
 ***
 
