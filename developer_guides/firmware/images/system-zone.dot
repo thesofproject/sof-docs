@@ -2,7 +2,7 @@ digraph system_zone {
    compound = true;
    node [shape = record];
    rankdir = LR;
-   size=4;
+   size=7;
 
    subgraph cluster_sys_0 {
       label = "SYS HEAP #0";
