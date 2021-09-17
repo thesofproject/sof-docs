@@ -2,7 +2,7 @@ digraph memory_zones {
    compound = true;
    node [shape = record];
    rankdir = LR;
-   size=3;
+   size=5;
 
    clients [label = "<apps>applications
                      |<sys>kernel
