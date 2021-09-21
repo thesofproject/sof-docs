@@ -27,7 +27,7 @@ System Zone
 ***********
 The system zone receives a series of allocations during the system
 initialization phase. Since no memory is freed until the system (core) goes
-down, the allocation mechanism may be simple, ensuring that a sufficient
+down, the allocation mechanism might be simple, ensuring that a sufficient
 offset to the beginning of free space left is maintained.
 
 .. graphviz:: images/system-zone.dot
@@ -35,13 +35,13 @@ offset to the beginning of free space left is maintained.
 
 All system-level components (schedulers, work queues, etc.) allocate their
 memory blocks from the system heap. Separation between the system heap and
-runtime heap(s) may be further hardened in case an access control for user
+runtime heap(s) might be further hardened in case an access control for user
 mode vs. kernel mode is supported by the architecture/platform.
 
 Extensions for SMP Architectures
 ================================
 
-Each CPU (core) may own a dedicated system heap. The memory assigned for
+Each CPU (core) might own a dedicated system heap. The memory assigned for
 system heaps is distributed asymmetrically on CAVS platforms: a large heap
 for the primary core (#0) and smaller ones for other cores (#1+).
 
