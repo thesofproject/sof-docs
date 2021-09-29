@@ -347,6 +347,8 @@ This should take a few minutes.
 The required headers are now in ``"$SOF_WORKSPACE"/xtensa-root``, and
 cross-compilation toolchains for xtensa DSPs are set up.
 
+.. _build-and-sign-firmware-binaries-from-scratch:
+
 Step 4. Build and sign firmware binaries
 ****************************************
 
@@ -510,6 +512,7 @@ folder.
 
    sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
 
+.. _build-topology-and-tools-from-scratch:
 
 Step 5. Build topology and tools
 ********************************
