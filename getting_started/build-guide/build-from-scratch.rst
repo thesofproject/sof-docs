@@ -12,9 +12,6 @@ Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL|,
 
 Support also exists for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
-Build SOF
-*********
-
 The following steps describe how to install the SOF development
 environment on Ubuntu 16.04, 18.04, 18.10, and 20.04. They should work on
 19.04, 19.10 and other Linux distributions with minor or no
@@ -22,30 +19,34 @@ modifications.
 
 .. note::
 
-   Point the ``$SOF_WORKSPACE`` environment variable to the directory in
-   which you store all sof work.
+   Building |SOF| from scratch might take several hours. We recommend
+   that you use Docker to build SOF. For more information, see
+   :ref:`build-with-docker`.
 
-   The code examples assume ``$SOF_WORKSPACE`` is the top-level working
-   directory. Clone all git repositories at the same directory level
-   because some default configuration files refer to other clones using
-   relative locations like ``../sof/``.
+Step 1. Set up the workspace directory
+**************************************
 
-   Make sure that ``$SOF_WORKSPACE`` has adequate disk space when building
-   the toolchain. About 15GB is needed per toolchain.
+Point the ``$SOF_WORKSPACE`` environment variable to the directory in
+which you store all sof work.
 
-Step 0 Set up the workspace directory
-=====================================
+The code examples assume ``$SOF_WORKSPACE`` is the top-level working
+directory. Clone all git repositories at the same directory level
+because some default configuration files refer to other clones using
+relative locations like ``../sof/``.
+
+Make sure that ``$SOF_WORKSPACE`` has adequate disk space when building
+the toolchain. About 15GB is needed per toolchain.
 
   .. code-block:: bash
 
      SOF_WORKSPACE=~/work/sof
      mkdir -p "$SOF_WORKSPACE"
 
-Step 1 Set up build environment
-===============================
+Step 2. Set up build environment
+********************************
 
-Install packaged dependencies
------------------------------
+Install package dependencies
+============================
 .. note::
 
    This guide uses Ubuntu as an example but any modern distribution can be
@@ -67,7 +68,8 @@ Make sure that ``build-essential`` and ``git`` are installed:
   .. code-block:: bash
 
      sudo apt install autoconf flex bison texinfo help2man gawk libtool-bin \
-	      libncurses5 libncurses5-dev libssl-dev libgtk-3-dev tree ninja
+	      libncurses5 libncurses5-dev libssl-dev libgtk-3-dev tree \
+	      ninja-build gettext libasound2-dev
 
 * For Ubuntu 18.10:
 
@@ -100,7 +102,7 @@ in order for the Advanced Linux Sound Architecture (ALSA) to build.
    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 70 --slave /usr/bin/g++ g++ /usr/bin/g++-7
 
 Install CMake
--------------
+=============
 
 If you use Ubuntu 18.04+ you can install CMake with apt:
 
@@ -112,7 +114,7 @@ For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from
 sources. Refer to this short guide: https://cmake.org/install/.
 
 Build alsa-lib and alsa-utils
------------------------------
+=============================
 
 This project requires some new features in :git-alsa:`alsa-lib` and
 :git-alsa:`alsa-utils`, so build the newest ALSA from source code.
@@ -129,7 +131,10 @@ This project requires some new features in :git-alsa:`alsa-lib` and
    cd "$SOF_WORKSPACE"
    git clone git://git.alsa-project.org/alsa-lib
    cd alsa-lib
+   # To install alsa-lib systemwide
    ./gitcompile
+   # To install alsa-lib locally
+   ./gitcompile --prefix=$HOME/local
    sudo make install
 
 (Optional) To enable alsabat's frequency analysis, install the FFT library
@@ -146,7 +151,12 @@ Clone, build, and install alsa-utils.
    cd "$SOF_WORKSPACE"
    git clone git://git.alsa-project.org/alsa-utils
    cd alsa-utils
+   # To install alsa-utils systemwide
    ./gitcompile
+   # To install alsa-utils locally
+   ./gitcompile --prefix=$HOME/local \
+                --with-alsa-inc-prefix=$HOME/local/include \
+		--with-alsa-prefix=$HOME/local/lib
    sudo make install
 
 If you run into alsa-lib linking errors, try to re-build it with the libdir
@@ -174,8 +184,8 @@ Create or append to the ``LD_LIBRARY_PATH`` environment variable.
 
 .. _build-toolchains-from-source:
 
-Step 2 Build toolchains from source
-===================================
+Step 3. Build toolchains from source
+************************************
 
 Build the xtensa cross-compilation toolchains with crosstool-ng for
 Intel |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL|, |TGL|
@@ -186,7 +196,7 @@ the Docker image.
 For more details go to https://crosstool-ng.github.io/
 
 crosstool-ng
-------------
+============
 
 Clone both repos and check out the ``sof-gcc10.2`` and ``sof-gcc10x`` branch.
 
@@ -210,7 +220,7 @@ Build crosstool-ng and install it in its own source directory.
    make install
 
 Toolchains
-----------
+==========
 
 The config files provided refer to ``../xtensa-overlay/`` and point at
 different ``./builds/xtensa-*-elf`` subdirectories. Copy the ones you
@@ -220,6 +230,8 @@ download gcc components.
 
 .. code-block:: bash
 
+   unset LD_LIBRARY_PATH
+		
    # Baytrail/Cherrytrail
    cp config-byt-gcc10.2-gdb9 .config
    ./ct-ng build
@@ -256,6 +268,7 @@ to build all toolchains without interruption:
 
 .. code-block:: bash
 
+   unset LD_LIBRARY_PATH;
    time for i in config*gcc10.2-gdb9; do
       cp "$i" .config && ./ct-ng build || break ;
    done
@@ -275,7 +288,7 @@ Remove the temporary build files (~7GB per toolchain):
 
 .. code-block:: bash
 
-   rm -rf .build
+   rm -rf $SOF_WORKSPACE/crosstool-ng/.build
 
 .. note::
 
@@ -289,7 +302,7 @@ Remove the temporary build files (~7GB per toolchain):
 
 
 Additional headers
-------------------
+==================
 
 To get some required headers, clone the following newlib repository and
 switch to the `xtensa` branch.
@@ -333,8 +346,8 @@ This should take a few minutes.
 The required headers are now in ``"$SOF_WORKSPACE"/xtensa-root``, and
 cross-compilation toolchains for xtensa DSPs are set up.
 
-Step 3 Build and sign firmware binaries
-=======================================
+Step 4. Build and sign firmware binaries
+****************************************
 
 After the SOF environment is set up, clone the *sof* repo:
 
@@ -347,7 +360,7 @@ After the SOF environment is set up, clone the *sof* repo:
 
 Copy the commented ``installer/sample-config.mk`` to
 ``installer/config.mk``, then select a list of platforms and provide an
-optional target hostname in the latter file. Then run:
+optional target hostname in the latter file. Then run the installer:
 
 .. code-block:: bash
 
@@ -365,9 +378,21 @@ can skip the next two sections.
 The installer also builds and deploys some user-space binaries from the
 ``sof/tools/`` subdirectory.
 
+.. note::
+
+   If interrupted, the installer process might leave corrupted files
+   in the ``installer-builds`` subdirectory. In this case, all
+   subsequent attempts to run the installer end with an error. To
+   resolve this issue, delete the ``installer-builds`` directory and
+   run the installer again.
+
+   .. code-block:: bash
+
+      rm -rf $SOF_WORKSPACE/sof/installer-builds
+      make -C installer/
 
 Re-configure and rebuild from scratch
--------------------------------------
+=====================================
 
 To rebuild |SOF| from scratch, the installer Makefile above relies on
 the :git-sof-mainline:`scripts/xtensa-build-all.sh` script. If you need
@@ -417,7 +442,7 @@ builds with -r and speed up the build with -j [n]
    The same export mechanism should work also when building with Docker.
 
 Incremental builds
-------------------
+==================
 
 This is a more detailed build guide for the *sof* repo. Unlike
 ``xtensa-build-all.sh``, this doesn't rebuild everything every time. The
@@ -472,7 +497,7 @@ matching each platform in the same script or above.
 
 
 Firmware build results
-----------------------
+======================
 
 The firmware binary files are located in build_<platform>/src/arch/xtensa/.
 The installer copies them to your target machine's ``/lib/firmware/intel/sof``
@@ -483,14 +508,14 @@ folder.
    sof-apl.ri  sof-bdw.ri  sof-byt.ri  sof-cht.ri  sof-cnl.ri  sof-hsw.ri
 
 
-Step 4 Build topology and tools
-===============================
+Step 5. Build topology and tools
+********************************
 
 You can probably skip this section if you use the firmware installer in
 the previous section.
 
 One-step rebuild from scratch
------------------------------
+=============================
 
 Without any argument :git-sof-mainline:`scripts/build-tools.sh` builds
 the default CMake target "ALL" of :git-sof-mainline:`tools/`.
@@ -499,13 +524,15 @@ the default CMake target "ALL" of :git-sof-mainline:`tools/`.
 
    cd "$SOF_WORKSPACE"/sof/
    ./scripts/build-tools.sh
+
+To see the list of options, run :git-sof-mainline:`scripts/build-tools.sh` with the ``-h`` option.
+
+.. code-block:: bash
+
    ./scripts/build-tools.sh -h
-   usage: ./scripts/build-tools.sh [-t|-f]
-       [-t] Build test topologies
-       [-f] Build fuzzer"
 
 Incremental build
------------------
+=================
 
 .. code-block:: bash
 
@@ -523,7 +550,7 @@ If your ``cmake --version`` is 3.13 or higher, you may prefer the new -B option:
    rm -rf   build_tools/ # no need to change directory ever
 
 Topology and tools build results
---------------------------------
+================================
 
 The topology files are located in the *tools/build_tools/topology*
 folder.  The installer Makefile copies them to the target machine's
@@ -534,8 +561,8 @@ installer Makefile copies them to the target directory of your choice.
 
 .. _Build Linux kernel:
 
-Build Linux kernel
-******************
+Step 6. Build Linux kernel
+**************************
 
 |SOF| uses the Linux kernel dev branch, and it must work with other dev
 branch firmware and topology. This short section shows how to build
@@ -558,9 +585,11 @@ the kconfig repo, and the :ref:`sof_driver_arch`.
       make defconfig
       git clone https://github.com/thesofproject/kconfig
       scripts/kconfig/merge_config.sh .config ./kconfig/base-defconfig ./kconfig/sof-defconfig  ./kconfig/mach-driver-defconfig ./kconfig/hdaudio-codecs-defconfig
-      (optional) make menuconfig
 
-   Select the SOF driver support and disable SST drivers.
+   Optionally, you can also run ``make menuconfig``, navigate to
+   Device Drivers > Sound card support > Advanced Linux Sound
+   Architecture, and select the **Prefer SOF driver over SST on BY/CHT
+   platforms** option.
 
 #. Make the kernel deb package to install on the target machine.
 
@@ -568,8 +597,8 @@ the kconfig repo, and the :ref:`sof_driver_arch`.
 
       make deb-pkg -j 4
 
-#. Copy the three resulting *.deb* files to the target machine and install
-   them.
+#. Copy the three resulting *.deb* files from $SOF_WORKSPACE to the
+   target machine and install them.
 
    .. code-block:: bash
 
