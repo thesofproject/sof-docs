@@ -23,6 +23,7 @@ Platform and board specific support is continually added to the SOF project as d
    "Intel Icelake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "64KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "Intel Jasperlake", "Xtensa HiFi3", "2 @ 120 - 400MHz", "64KB LP SRAM / 1024KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "Intel Tigerlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Alderlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "NXP i.MX8", "Xtensa HiFi4", "1 @ 666MHz", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8X", "Xtensa HiFi4", "1 @ 640MHz", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8M", "Xtensa HiFi4", "1 @ 800MHz", "64 KB TCM / 256 KB OCRAM / 8MB SDRAM", "1 x SAI, MICFIL"
