@@ -131,14 +131,14 @@ Depending on your Linux version, install the following tools:
   .. code-block:: bash
 
      sudo apt-get install doxygen python3-pip python3-wheel make \
-        default-jre graphviz
+        default-jre graphviz cmake ninja-build
 
 * For Fedora use:
 
   .. code-block:: bash
 
      sudo dnf install doxygen python3-pip python3-wheel make \
-        java graphviz
+        java graphviz cmake ninja-build
 
 For either Linux environment, install the remaining python-based
 tools:
