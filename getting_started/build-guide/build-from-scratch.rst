@@ -1,7 +1,7 @@
 .. _build-from-scratch:
 
-Build SOF from scratch
-######################
+Build toolchains and SOF from sources
+#####################################
 
 .. contents::
    :local:
@@ -19,9 +19,9 @@ modifications.
 
 .. note::
 
-   Building |SOF| from scratch might take several hours. We recommend
-   that you use Docker to build SOF. For more information, see
-   :ref:`build-with-docker`.
+   Building the toolchains from source might take several hours. We
+   recommend that you use Docker to build SOF. For more information,
+   see :ref:`build-with-docker`.
 
 Step 1. Set up the workspace directory
 **************************************
@@ -34,8 +34,9 @@ directory. Clone all git repositories at the same directory level
 because some default configuration files refer to other clones using
 relative locations like ``../sof/``.
 
-Make sure that ``$SOF_WORKSPACE`` has adequate disk space when building
-the toolchain. About 15GB is needed per toolchain.
+Make sure that ``$SOF_WORKSPACE`` has adequate disk space when
+building the toolchain. About 15GB is needed per toolchain. You can
+reclaim some of the disk space after building the toolchain.
 
   .. code-block:: bash
 
@@ -113,8 +114,8 @@ If you use Ubuntu 18.04+ you can install CMake with apt:
 For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from
 sources. Refer to this short guide: https://cmake.org/install/.
 
-Build alsa-lib and alsa-utils
-=============================
+Build alsa-lib and alsa-utils from source
+=========================================
 
 This project requires some new features in :git-alsa:`alsa-lib` and
 :git-alsa:`alsa-utils`, so build the newest ALSA from source code.
@@ -380,11 +381,13 @@ The installer also builds and deploys some user-space binaries from the
 
 .. note::
 
-   If interrupted, the installer process might leave corrupted files
-   in the ``installer-builds`` subdirectory. In this case, all
-   subsequent attempts to run the installer end with an error. To
-   resolve this issue, delete the ``installer-builds`` directory and
-   run the installer again.
+   The installer is much faster than the lower level ``./scripts/``,
+   on which it relies, because it does not delete the build
+   directories every time it runs. However, some "big" configuration
+   changes, such as switching to a different toolchain or some rare
+   build failures, can leave the ``installer-builds/build_*``
+   directories in an inappropriate state. In such a case, just delete
+   these directories and run the installer again.
 
    .. code-block:: bash
 
