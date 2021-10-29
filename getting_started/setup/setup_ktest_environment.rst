@@ -125,6 +125,15 @@ mess up what the numbers below point to!
       => saved_entry=4
 
 
+Fedora and derived distributions have a more elaborate system to manage
+"installed" kernels. Instead of extracting ``menuentry`` lines from
+``/boot/grub/grub.cfg`` with the ``awk`` command above, to list all
+installed kernels use: ``grubby --info=ALL``.
+
+After copying it to ``/boot``/, "install" a new kernel with:
+``grubby --add-kernel /boot/vmlinuz-softest --title=softest``.  Check
+``grubby``'s documentation for more details.
+
 6. Install openssh-server
 -------------------------
 
@@ -312,9 +321,20 @@ Save the following in sof-dev.conf.
   #REBOOT_SCRIPT = ssh $SSH_USER@$MACHINE "sed -i 's|^default.*$|default test|' /boot/loader/loader.conf"
 
   TEST_START
+  # TEST_TYPE can be: build, install, boot, ...
   TEST_TYPE = boot
   BUILD_TYPE = useconfig:${THIS_DIR}/sof-dev-defconfig
   BUILD_NOCLEAN = 1
+
+
+For Fedora and derived distributions, make the following changes:
+
+.. code-block:: perl
+
+  GRUB_MENU    = "title" of the kernel entry as displayed by: 'grubby --info=ALL'
+  GRUB_REBOOT  = grub2-reboot
+  REBOOT_TYPE  = grub2bls
+  POST_INSTALL = ssh  -o 'ProxyCommand none' $SSH_USER@$MACHINE sudo dracut --hostonly --force --kver ${LOCALVERSION}
 
 7. Build and test
 -----------------
