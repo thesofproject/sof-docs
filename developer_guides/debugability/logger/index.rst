@@ -136,6 +136,20 @@ Examples
     distribution kernels ``sof_debug=1`` module option for ``snd_sof`` might be
     needed if the /sys/kernel/debug/sof/trace file is not present)
 
+.. note::
+  If sof-logger is started (or restarted) while firmware is active, the initial
+  trace messages might be incomplete. This can happen as current (as of SOF version
+  1.9) trace is implemented with a ringbuffer between firmware and the kernel driver.
+  When sof-logger is started, kernel will always start to read the ringbuffer from
+  0 position, independently of firmware state. If firmware write pointer just wrapped
+  around when sof-logger is started, sof-logger will only show the traces after
+  the wrap. Firmware write position is also reset whenever firmware is booted,
+  including runtime suspend and resume. To capture traces over runtime suspend
+  events, the kernel trace interface will signal end of file at runtime suspend.
+  When sof-logger notices the end of file marker, it will reopen the trace
+  file and start reading from position 0 and thus be in sync with the firmware
+  when it is resumed.
+
 Trace filtering
 ***************
 
