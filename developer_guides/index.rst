@@ -14,6 +14,7 @@ terminology before reading further.
    unit_tests
    xtrun/index
    topology/topology
+   topology2/topology2
    uuid/index.rst
    debugability/index
    tuning/sof-ctl
