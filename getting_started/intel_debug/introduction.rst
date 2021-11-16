@@ -142,60 +142,61 @@ wrong file is selected at any of the three layers.
 4. Chromebooks and SOF
 ----------------------
 
-As stated above, starting from 2019/2020 Intel Chromeboooks have been
-configured with the *community* key which means they can run
+As stated above, starting from 2019/2020, Intel Chromeboooks have been
+configured with the *community* key. It means that Chromebooks can run
 audio firmware signed by anyone. The entire filesystem is locked by
-default instead but there are a couple options to disable security for
-development purposes. In all cases the very first step is to switch the
+default instead, but there are several options to disable security for
+development purposes. In all cases the first step is to switch the
 Chromebook to (non-secure) `Developer Mode
 <https://chromium.googlesource.com/chromiumos/docs/+/HEAD/developer_mode.md>`_.
-Developer Mode is in fact the only strictly required step if you only
+Developer Mode is the only required step if you only
 want to install and run your own SOF firmware and are not interested in
-changing anything else in ChromeOS.
+changing anything else in Chrome OS.
 
 If you need the flexibility to make more changes, Chromebooks can run
-Linux in several, non-mutually exclusive ways. All the options listed
-below will let you run any SOF firmware at will. One of the biggest
+Linux in several non-mutually exclusive ways. All the options listed
+below let you run any SOF firmware. One of the biggest
 differences between them is how to install and run your own Linux
 kernel.
 
-- **ChromeOS** has direct hardware access but ChromeOS development
-  cannot happen on ChromeOS itself, it requires a separate workstation
-  similar to how most embedded development typically does. Setting up
-  the ``cros_sdk`` is documented in the `ChromeOS developer guide
+- **Chrome OS** has direct hardware access, but Chrome OS development
+  cannot happen on Chrome OS itself. It requires a separate workstation
+  similar to how most embedded development typically does. For
+  information about setting up the ``cros_sdk``, see the `Chromium OS
+  Developer Guide
   <https://chromium.googlesource.com/chromiumos/docs/+/HEAD/developer_guide.md>`_.
   The ``cros_sdk`` is a complete environment that lets you modify
-  anything in ChromeOS and even build an entire system image. The
-  ``cros_sdk`` requires significant disk space and there is some
-  learning effort if you're not already familiar with Gentoo's build
-  system "Portage"; especially for the Linux kernel.
+  anything in Chrome OS and even build an entire system image. The
+  ``cros_sdk`` requires significant disk space and some learning
+  effort if you are not already familiar with Portage, a package
+  management system in Gentoo, and Linux kernel build process.
 
 - `Crostini
   <https://chromium.googlesource.com/chromiumos/docs/+/HEAD/containers_and_vms.md>`_
-  is a secure Linux Virtual Machine that does not have direct access to
-  the hardware and cannot be used for SOF (it does not require Developer
-  Mode). Listed here for completeness. It may be possible to use
-  Crostini as your pseudo-separate ``cros_sdk`` workstation but a
-  different, more powerful system that you never have to reboot is an
-  obviously much better ``cros_sdk`` option.
+  is a secure Linux Virtual Machine that does not have direct access
+  to the hardware and cannot be used for SOF. It does not require
+  Developer Mode. Crostini is listed here for completeness. You might
+  use Crostini as your pseudo-separate ``cros_sdk`` workstation, but a
+  different, more powerful system that you never have to reboot is a
+  much better ``cros_sdk`` option.
 
 - **Crouton** is a non-secure chroot that does allow direct hardware
   access and can be used for SOF. It lets you install a choice of
-  popular Linux distributions which you can use to develop on the device
-  itself: make regular backups! The Zephyr project has `very detailed
+  popular Linux distributions, which you can use for development on the device
+  itself. Make regular backups! The Zephyr project has `very detailed
   specific instructions
   <https://docs.zephyrproject.org/2.7.0/boards/xtensa/intel_adsp_cavs25/doc/index.html>`_
   on how to use Crouton for SOF. Most of these instructions are not
-  Zephyr-specific. With Crouton you can configure and compile a Linux
-  kernel as usual, however the kernel *installation* process is similar
+  Zephyr-specific. With Crouton, you can configure and compile a Linux
+  kernel as usual. However, the kernel *installation* process is similar
   to the ``cros_sdk`` process with a couple of small twists.
 
 - Finally, it is possible to **dual-boot** or completely replace
-  ChromeOS by a regular Linux distribution on *some* Chromebooks and
-  forget it is a Chromebook entirely. This comes at a price however: it
+  Chrome OS with a regular Linux distribution on *some* Chromebooks and
+  forget it is a Chromebook entirely. However, this comes at a price: it
   is the least secure option and the more likely to make your device
   permanently unusable ("brick"). That level of risk is highly dependent
-  on your particular Chromebook model. If that does not scare you then
-  https://chrx.org/ is a good starting point; pay special attention to
-  the "note on security". This is the only option that lets you manage
+  on your particular Chromebook model. If that does not scare you, then
+  https://chrx.org/ is a good starting point. Pay special attention to
+  the note on security. This is the only option that lets you manage
   kernel installations as a typical Linux distribution does.
