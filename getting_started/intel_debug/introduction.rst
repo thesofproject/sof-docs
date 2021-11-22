@@ -168,8 +168,8 @@ kernel.
   The ``cros_sdk`` is a complete environment that lets you modify
   anything in Chrome OS and even build an entire system image. The
   ``cros_sdk`` requires significant disk space and some learning
-  effort if you are not already familiar with Portage, a package
-  management system in Gentoo, and Linux kernel build process.
+  effort if you are not already familiar with Portage, a build system
+  in Gentoo, and especially with building the Linux kernel in Portage.
 
 - `Crostini
   <https://chromium.googlesource.com/chromiumos/docs/+/HEAD/containers_and_vms.md>`_
