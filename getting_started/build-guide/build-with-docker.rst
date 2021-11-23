@@ -57,16 +57,10 @@ Docker is a popular container management framework. To install Docker and get th
 #. Get a Docker image with the SOF build environment.
 
    To easily build SOF binaries, we need a Docker image containing all
-   of the cross-compiler and build environment dependencies. We can
-   either build a Docker image from a DockerFile or pull an image
-   binary from Docker Hub.
+   of the cross-compiler and build environment dependencies. Get the
+   Docker image by using one of the following options:
 
-   .. note::
-
-        Building the container from DockerFile will take more than 2 hours,
-        so we recommend using the pre-built image.
-
-   - Pull the Docker image from Docker Hub and retag the image with `sof` for scripts:
+   - Option 1. Pull the Docker image from Docker Hub and retag the image with `sof` for scripts:
 
      .. code-block:: bash
 
@@ -79,8 +73,13 @@ Docker is a popular container management framework. To install Docker and get th
         Dockerhub, the image is hosted in a personal Docker Hub repo
         until the official image can go live.
 
-   - Build a Docker image:
+   - Option 2. Build a Docker image:
 
+     .. note::
+
+        Building the container from DockerFile takes more than two hours,
+        so we recommend using the pre-built image (Option 1).
+     
      Run the Docker build from the SOF repository.
 
      .. code-block:: bash
