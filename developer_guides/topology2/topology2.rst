@@ -6,8 +6,8 @@ Topology 2.0
 This is a high-level keyword extension on top of the existing ALSA conf topology format designed
 to:
 
-* Simplify the ALSA conf topology definitions by providing high level "classes". Topology
-  designers need to write less config for commonly defined objects.
+* Simplify the ALSA conf topology definitions by providing high level "classes". In this way, topology
+  designers can write less configurations for commonly defined objects.
 
 * Allow simple reuse of objects. Define once and reuse (like M4) with the ability to alter object
   configuration attributes from defaults.
@@ -139,10 +139,10 @@ values separated by '.'.
 
 The ``unique`` qualifier indicates that multiple data objects instantiated within the same alsaconf node should
 have unique values for their ``name`` attribute. If two data objects are instantiated within the same alsaconf
-node with the same ``name`` attribute, there will be no errors. But the two object instances will be merged,
-And the attribute values in the second instance will override the attribute values in the first one. Therefore, it is the topology
-writer's responbility to ensure that multiple instances within the same parent node have different unique attribute
-values.
+node with the same ``name`` attribute, errors will not occur, but the two object instances will be merged.
+Additionally, the attribute values in the second instance will override the attribute values in the first one.
+Therefore, it is the topology writer's responsibility to ensure that multiple instances within the same parent
+node have different unique attribute values.
 
 Let's consider another class definition example for the ``pga`` widget belonging to the class group ``Widget``:
 
@@ -249,7 +249,7 @@ using the following advanced keywords:
  
 * **Deprecated:** Attributes that have been deprecated and should not be set in the object instance.
 
-* **Automatic:** Attributes which values are computed by the alsatplg compiler.
+* **Automatic:** Attributes whose values are computed by the alsatplg compiler.
 
 Let's add some extra attributes and advanced qualifers into the pga class definition:
 
@@ -860,7 +860,7 @@ class is instantiated as:
 	}
 
 This ensures that all child objects within the volume-playback object will inherit the
-index attribute value from it. So the pga widget object will have the same index. And by the same
+index attribute value from it. So the pga widget object will have the same index. By the same
 rule, the mixer control object within the pga widget object will also have the same index attribute
 value of 1.
 
