@@ -6,10 +6,10 @@ Topology 2.0
 This is a high-level keyword extension on top of the existing ALSA conf topology format designed
 to:
 
-* Simplify the ALSA conf topology definitions by providing high level "classes" so topology
+* Simplify the ALSA conf topology definitions by providing high level "classes". Topology
   designers need to write less config for commonly defined objects.
 
-* Allow simple reuse of objects. Define once and reuse (like M4) with the ability to alter objects
+* Allow simple reuse of objects. Define once and reuse (like M4) with the ability to alter object
   configuration attributes from defaults.
 
 * Allow data type and value verification. This is not done today and frequently crops up in FW bug
@@ -17,44 +17,44 @@ to:
 
 .. contents::
 
-1. Ingredients
-**************
+Ingredients
+***********
 
-A typical 2.0 configuration file consists of the following:
+A typical 2.0 configuration file consists of the following components:
 
 * Classes
 * Objects
 * Arguments
 * Conditional includes
 
-1.1 Classes
------------
+Classes
+-------
 
-Topology today has some common definitions that are often reused throughout with slightly altered
-configurations such as widgets (components), pipelines, dais, pcm and controls. Topology 2.0
-introduces the concept of reusable "class" like definitions that can be used to create commonly
-used topology objects. Classes are defined with a new keyword “Class”.
+Topology today has some common definitions that are often reused with slightly altered
+configurations, such as widgets (components), pipelines, dais, pcm, and controls. Topology 2.0
+introduces the concept of reusable class-like definitions that you can use to create commonly
+used topology objects. Classes are defined with a new keyword ``Class``.
 
-A class definition always starts with the "Class" keyword followed by 2 nodes. The first node contains
-the class group and the second node contains the class name. For example:
+A class definition always starts with the ``Class`` keyword followed by two nodes. The first node contains
+the class group, and the second node contains the class name. For example:
 
 .. code-block:: bash
 
 	Class.Base.data {}
 
-Note that '.' is the node separator in the alsaconf syntax. In the above line, "Base" is the class
-group and "data" is the class name. Currently, the alsatplg compiler supports the following class groups:
+Note that '.' is the node separator in the alsaconf syntax. In the above line, ``Base`` is the class
+group and ``data`` is the class name. Currently, the alsatplg compiler supports the following class groups:
 widget, pipeline, DAI, control and base. Most of the commonly used topology objects can be classified into
-one of these groups. If there's need for a new class group, the alsatplg compiler should be updated to add
+one of these groups. If a new class group is required, the alsatplg compiler should be updated to add
 support for it.
 
-1.1.1 Class Ingredients
-'''''''''''''''''''''''
+Class Ingredients
+'''''''''''''''''
 
 A minimalistic class definition should consist of the following:
 
-* One or more attributes declared with the keyword "DefineAttribute". Attributes are parameters that
-  are used to describe the object. For ex:
+* One or more attributes declared with the keyword ``DefineAttribute``. Attributes are parameters that
+  are used to describe the object. For example:
   
   .. code-block:: bash
 
@@ -62,11 +62,11 @@ A minimalistic class definition should consist of the following:
 		type "string"
 	}
 
-"name" is an attribute of type string.
+  "name" is an attribute of type string.
 
 
 * Basic attribute qualifiers with the constructor array and unique attribute name. Attribute qualifiers
-  should be declared within the "attributes {}" node in the class definition.
+  should be declared within the ``attributes {}`` node in the class definition.
   
   .. code-block:: bash
 
@@ -87,10 +87,10 @@ A minimalistic class definition should consist of the following:
 		unique	"name"
 	}
 
-1.1.2 A Simple Class
-''''''''''''''''''''
+A Simple Class
+''''''''''''''
 
-An example of a simple class definition with 2 attributes and qualifiers is as follows:
+The following example demonstrates a simple class definition with two attributes and qualifiers:
 
 .. code-block:: bash
 
@@ -124,27 +124,27 @@ An example of a simple class definition with 2 attributes and qualifiers is as f
 		}
 	}
 
-The "data" class definition belonging to the "base" class group, contains 2 attributes namely,
-name and bytes, both of type "string". By default, all attributes are give the type "integer" unless
-specified otherwise like above. Currently, topology 2.0 supports only "integer" and "string" types for
-attributes.
+The ``data`` class definition belonging to the ``base`` class group contains two attributes,
+name and bytes, both of type ``string``. By default, all attributes have the ``integer`` type, unless
+specified otherwise, like in the example above. Currently, topology 2.0 supports only ``integer`` and
+``string`` types for attributes.
 
 The attribute qualifiers are used to describe how to instantiate an object from the class definition
 and validate the attribute values.
 
-In the above definition, the "constructor" array tells the compiler how to build the object's name.
-A data object instantiated with the name "EQIIR-Coefficients" will be given the name,
-"data.EQIIR-Coefficients" i.e. the class name followed by '.' followed by the constructor attribute
+In the above definition, the ``constructor`` array tells the compiler how to build the object's name.
+A data object instantiated with the name ``EQIIR-Coefficients`` will be given the name
+``data.EQIIR-Coefficients``, that is the class name followed by '.' followed by the constructor attribute
 values separated by '.'.
 
-The "unique" qualifier indicates that two data objects instantiated within the same alsaconf node should
-have unique values for their "name" attribute. If two data objects are instantiated within the same alsaconf
-node with the same "name" attribute, there be no errors but the two object instances with be merged
-with the second instance overriding the attribute values in the first one. Therefore, it is the topology
-writer's responbility to ensure that two instances within the same parent node have different unique attribute
+The ``unique`` qualifier indicates that multiple data objects instantiated within the same alsaconf node should
+have unique values for their ``name`` attribute. If two data objects are instantiated within the same alsaconf
+node with the same ``name`` attribute, there will be no errors. But the two object instances will be merged,
+And the attribute values in the second instance will override the attribute values in the first one. Therefore, it is the topology
+writer's responbility to ensure that multiple instances within the same parent node have different unique attribute
 values.
 
-Let's consider another class definition example for the "pga" widget belonging to the class group "Widget".
+Let's consider another class definition example for the ``pga`` widget belonging to the class group ``Widget``:
 
 .. code-block:: bash
 
@@ -178,16 +178,18 @@ Let's consider another class definition example for the "pga" widget belonging t
 		}
 	}
 
-Note that the pga object names are constructed with the class name "pga" followed by 2 attribute values, index
-and instance, ex: pga.1.1. Also note that both the attributes wil be given the type "integer" by default because
-the definitions do not specify the type. Also, note that in practice, the unique instance attribute should also be
-part of the constructor.
+Note that the pga object names are constructed with the class name
+``pga`` followed by two attribute values, index and instance. For
+example, ``pga.1.1``. Both attributes will have the ``integer`` type
+by default because the definitions do not specify the type. In
+practice, the unique instance attribute should also be part of the
+constructor.
 
-1.1.3 Attribute default values
-''''''''''''''''''''''''''''''
+Attribute default values
+''''''''''''''''''''''''
 
 Optionally, class definitions can be extended to give default values for their attributes. Let's add a 
-"uuid" attribute of type string to the pga class above and give it a default value.
+``uuid`` attribute of type ``string`` to the ``pga`` class and give it a default value:
 
 .. code-block:: bash
 
@@ -231,14 +233,14 @@ Optionally, class definitions can be extended to give default values for their a
 
 All pga objects will automatically be given the default uuid as specified above in the class definition.
 
-1.1.4 Advanced attribute qualifiers
-'''''''''''''''''''''''''''''''''''
+Advanced attribute qualifiers
+'''''''''''''''''''''''''''''
 
-Apart from the mandatory basic attribute qualifiers, attributes in the class definition can be qualified
+Apart from the mandatory basic attribute qualifiers, you can qualify attributes in the class definition
 using the following advanced keywords:
 
 * **Mandatory:** Attributes qualified as mandatory should be provided with a value in the object
-  instance, failing which the alsatplg compiler will emit and error. Objects with default values in the class
+  instance, failing which the alsatplg compiler will emit an error. Objects with default values in the class
   definition need not be qualified as mandatory.  Also, note that attributes in the constructor array are
   mandatory by default as they are required for building the object's name.
 
@@ -247,7 +249,7 @@ using the following advanced keywords:
  
 * **Deprecated:** Attributes that have been deprecated and should not be set in the object instance.
 
-* **Automatic:** Attributes whose values are computed by the alsatplg compiler.
+* **Automatic:** Attributes which values are computed by the alsatplg compiler.
 
 Let's add some extra attributes and advanced qualifers into the pga class definition:
 
@@ -307,11 +309,13 @@ Let's add some extra attributes and advanced qualifers into the pga class defini
 		uuid 		"7e:67:7e:b7:f4:5f:88:41:af:14:fb:a8:bd:bf:86:82"
 	}
 	
-1.1.5 Automatic attributes
-''''''''''''''''''''''''''
-In some cases, an attribute's value depends on other attribute values and need to be computed during
-build time. Such attributes are qualified with the "automatic" keyword in the class definition. Please
-refer to buffer_ for the complete class definition.
+Automatic attributes
+''''''''''''''''''''
+
+In some cases, an attribute value depends on other attribute values
+and need to be computed during build time. Such attributes are
+qualified with the ``automatic`` keyword in the class definition.
+Refer to buffer_ for the complete class definition.
 
 .. code-block:: bash
 
@@ -337,15 +341,19 @@ refer to buffer_ for the complete class definition.
 		}
 	}
 
-In the above, case the buffer's size attribute value will be computed based on the pipeline parameters to which the buffer
-belongs. Currently, the alsatplg compiler only has support for computing the automatic attribute "size" for the buffer objects.
-If needed, support for automatic attributes in new class definitions should be added in the alsatplg compiler.
+In the example above, the ``size`` attribute value of ``buffer`` is
+computed based on the pipeline parameters, to which the buffer
+belongs. Currently, the alsatplg compiler only has support for
+computing the automatic attribute ``size`` for the buffer objects.
+Support for automatic attributes in new class definitions
+should be added in the alsatplg compiler if necessary.
 
-1.1.6 Attribute Constraints
-'''''''''''''''''''''''''''
+Attribute Constraints
+'''''''''''''''''''''
+
 One of the key features of Topology 2.0 is validation of the values provided for objects. This is achieved
 with the help of constraints added to the attribute definition. Constraints can be added to an attribute using
-the "constraints" keyword as follows:
+the ``constraints`` keyword:
 
 .. code-block:: bash
 
@@ -353,12 +361,12 @@ the "constraints" keyword as follows:
 		constraints {}
 	}
 
-Currently, 3 types of constraints are supported:
+Currently, three types of constraints are supported:
 
-* min: min value for attribute, applicable only to integer type attributes
-* max: max value for attribute, applicable only to integer type attributes
+* **min:** The minimum value for an attribute, applicable only to integer type attributes.
+* **max:** The maximum value for an attribute, applicable only to integer type attributes.
 
-  For example, the pga class definition can be expanded with an attribute for "ramp_step_ms" with min and
+  For example, the pga class definition can be expanded with an attribute for ``ramp_step_ms`` with min and
   max values as follows:
 
   .. code-block:: bash
@@ -370,9 +378,9 @@ Currently, 3 types of constraints are supported:
 		}
 	}
 
-* valid values: an array of acceptable human-readable values, applicable only to string type attributes.
+* **valid values:** an array of acceptable human-readable values, applicable only to string type attributes.
 
-  For example, the pga class can have an attribue for "ramp_step_type" with pre-defined values as follows:
+  For example, the pga class can have an attribue for ``ramp_step_type`` with pre-defined values as follows:
   
   .. code-block:: bash
   
@@ -388,17 +396,23 @@ Currently, 3 types of constraints are supported:
 		}
 	}
 
-When the pga is class is instantiated with a value that doesn't belong in the valid_values array for ramp_step_type,
-the alsatplg compiler will emit an error along with the list of permitted values.
+When the pga class is instantiated with a value that does not belong in
+the ``valid_values`` array for ``ramp_step_type``, the alsatplg compiler emits
+an error along with the list of valid values.
 
-1.1.7 Attributes with token references
-''''''''''''''''''''''''''''''''''''''
-Typically, a lot of objects contain a private data section that is composed of sets of tuple arrays. Some of the attributes in
-a class definition may need to be packed into the tuple array. Such attributes are identified with the "token_ref" node
-which contains the name of the tuple array that the attribute should be built into. For example, both the ramp_step_ms and
-ramp_step_type attributes in the pga class need to be added to the tuple array. So, they are contain the token_ref node 
-with the value "sof_tkn_volume.word" indicating that the attributes should be packed with the "sof_tkn_volume tuple" array
-of type "word" as shown below.
+Attributes with token references
+''''''''''''''''''''''''''''''''
+
+Typically, a lot of objects contain a private data section that is
+composed of sets of tuple arrays. Some of the attributes in a class
+definition may need to be packed into the tuple array. Such attributes
+are identified with the ``token_ref`` node which contains the name of
+the tuple array that the attribute should be built into. For example,
+both the ``ramp_step_ms`` and ``ramp_step_type`` attributes in the pga
+class need to be added to the tuple array. So, they contain the
+token_ref node with the value ``sof_tkn_volume.word`` indicating that
+the attributes should be packed with the ``sof_tkn_volume tuple``
+array of type ``word``:
 
 .. code-block:: bash
 
@@ -427,10 +441,12 @@ of type "word" as shown below.
 			}
 		}
 
-Sometimes, valid_values for attributes might need to be translated from the human readable values to integer tuple values so
-that it can be parsed correctly by the kernel driver. In the example above, valid values for ramp_step_type are defined
-as human readable string values such as linear, log etc. which are translated to tuple values 0, 1, etc respectively before 
-getting added to the tuple array.
+Sometimes, ``valid_values`` for attributes might need to be translated
+from the human readable values to integer tuple values so that it can
+be parsed correctly by the kernel driver. In the example above, valid
+values for ``ramp_step_type`` are defined as human readable string
+values, such as linear and log. These values are translated to tuple
+values (0, 1, etc) before getting added to the tuple array.
 
 .. code-block:: bash
 
@@ -454,10 +470,12 @@ getting added to the tuple array.
 		}
 	}
 
-1.1.8 A complete class definition
-'''''''''''''''''''''''''''''''''
+.. _complete_class_definition:
+	
+A complete class definition
+'''''''''''''''''''''''''''
 
-Puting it all together, the complete defintiion for the pga widget class is as follows:
+Putting it all together, the following example demonstrates the complete definition for the pga widget class:
 
 .. code-block:: bash
 
@@ -549,24 +567,27 @@ Puting it all together, the complete defintiion for the pga widget class is as f
 		ramp_step_ms	200
 	}
 
-1.2 Objects
------------
+Objects
+-------
+
 Objects are used to instantiate multiple instances of the same class to avoid duplicating
-common attribute definitions. Objects are instantiated with the new keyword "Object" followed by
-3 nodes in order as follows:
+common attribute definitions. Objects are instantiated with the new keyword ``Object`` followed by
+three nodes:
 
 .. code-block:: bash
 
 	Object.Widget.pga."1" {}
 
-The nodes refer to the following:
+The nodes refer to the following elements:
 
-* Class group to which the object's class belongs i.e. "Widget"
-* Class name i.e. "pga"
-* Unique attribute value: This is the value for the attribute that is qualified as "unique" in the
-  class definition i.e. "instance"
+* Class group to which the object class belongs. In this case, the class belongs to ``Widget``.
+* Class name. That is ``pga``.
+* Unique attribute value. This is the value for the attribute that is qualified as ``unique`` in the
+  class definition. That is ``instance``.
 
-Using the pga class definition in section 1.1.8, a pga widget object can be instantiated as follows:
+Using the pga class definition as described in
+:ref:`complete_class_definition`, you can instantiate a pga widget
+object in the following way:
 
 .. code-block:: bash
 
@@ -574,16 +595,21 @@ Using the pga class definition in section 1.1.8, a pga widget object can be inst
 		index 5
 	}
 
-where 1 is the value for the unique attribute ("instance") in the pga class definition and the
-"index" attribute is given the value 5. Since, there are no other mandatory attributes in the
-class defintion, the above instance is fully valid. The key thing to notice in the instantiation
-is that there is no need to duplicate commonly used attribute values in the object instantiation.
-Objects automatically inherit the default values for attributes from their class definition.
+where ``1`` is the value for the unique attribute ``instance`` in the pga class definition and the
+``index`` attribute is given the value of 5. As the class definition contains no other mandatory
+attributes, the above instance is fully valid.
 
-1.2.1 Modifying default attributes
-''''''''''''''''''''''''''''''''''
+.. important::
+
+   You do not need to duplicate commonly used attribute values in the
+   object instantiation. Objects automatically inherit the default
+   values for attributes from their class definition.
+
+Modifying default attributes
+''''''''''''''''''''''''''''
+
 Attributes that have default values in the class definition can be overwritten by specifying the
-new value in the object instance as follows:
+new value in the object instance:
 
 .. code-block:: bash
 
@@ -592,11 +618,12 @@ new value in the object instance as follows:
 		ramp_step_ms	300
 	}
 
-The above object overrides the ramp_step_ms default value of 200ms set in the class definition with the
-new value of 300ms.
+The above object overrides the ``ramp_step_ms`` default value of 200 |_| ms set in the class definition with the
+new value of 300 |_| ms.
 
-1.2.2 Objects within classes
-''''''''''''''''''''''''''''
+Objects within classes
+''''''''''''''''''''''
+
 Class definitions can optionally also include child objects that need to be instantiated for every
 instance of the class object. For example, a pga widget typically always contains a volume mixer control.
 The mixer control class definition is as follows:
@@ -695,13 +722,13 @@ The mixer control class definition is as follows:
 		mute_led_direction	0
 	}
 
-A mixer conrol object can be added to the pga widget class definition as below:
+You can add a mixer control object to the pga widget class definition:
 
 .. code-block:: bash
 
 	Class.Widget."pga" {
 		# Attributes, qualifiers and default values are skipped for simplicity.
-		# Please refer to the complete class definition in Section 1.1.8 above for details
+		# Refer to the complete class definition in "Complete Class Definition" for details
 
 		# volume control for pga widget
 		Object.Control.mixer."1" {
@@ -711,14 +738,15 @@ A mixer conrol object can be added to the pga widget class definition as below:
 		}
 	}
 
-The mixer control "My Volume Control" will be programmatically added to all pga objects.
+The mixer control ``My Volume Control`` will be programmatically added to all pga objects.
 
-1.2.3 Object attribute inheritance
-''''''''''''''''''''''''''''''''''
-One thing to note in the above object instantiation is that the mixer object has 2 mandatory attributes,
-index and instance but the index attribute value is missing in the instance. This is because the mixer control
-object inherits the index attribute value from it's parent pga object when it gets instantiated. For ex, lets take
-a pga object instance.
+Object attribute inheritance
+''''''''''''''''''''''''''''
+
+One thing to note in the above object instantiation is that the mixer object has two mandatory attributes,
+index and instance. But the index attribute value is missing in the instance. This is because the mixer control
+object inherits the index attribute value from its parent pga object when it gets instantiated. For example,
+consider the following pga object instance:
 
 .. code-block:: bash
 
@@ -726,12 +754,15 @@ a pga object instance.
 		index 5
 	}
 
-The index value "5" will be inherited by the mixer control object in the pga class definition. Inheritance is
-implied only when a child object's class definition shares an attribute of the same name with its parent class
-definition. In the case of mixer control class and pga widget class, the shared attribute is "index".
+The mixer control object in the pga class definition inherits the index value of ``5``. Inheritance occurs
+only when a child object's class definition shares an attribute of the same name with its parent class
+definition. In the case of mixer control class and pga widget class, the shared attribute is ``index``.
 
-1.2.4 Setting child object attributes
-'''''''''''''''''''''''''''''''''''''
+.. _setting_child_object_attributes:
+
+Setting child object attributes
+'''''''''''''''''''''''''''''''
+
 Let's consider the pga class definition with the mixer control object again:
 
 .. code-block:: bash
@@ -748,8 +779,8 @@ Let's consider the pga class definition with the mixer control object again:
 		}
 	}
 
-Note that the mixer control object has it's name set in the pga widget class definition. But, ideally we want to
-give the mixer control a new name whenever a new pga widget object is instantiated. This can be achieved as follows:
+Note that the mixer control object has its name set in the pga widget class definition. But, ideally, we want to
+give the mixer control a new name whenever a new pga widget object is instantiated. You can do it like this:
 
 .. code-block:: bash
 
@@ -763,13 +794,14 @@ give the mixer control a new name whenever a new pga widget object is instantiat
 		}
 	}
 
-Now, the mixer control object is assigned the name "My Control Volume 5".
+Now, the mixer control object is assigned the name ``My Control Volume 5``.
 
 
-1.2.5 Nested Objects
-''''''''''''''''''''
+Nested Objects
+''''''''''''''
+
 Objects can also be instantiated as child objects within other object instances. For example, a
-switch control can be added to pga widget objects during instantiation as follows:
+switch control can be added to pga widget objects during instantiation:
 
 .. code-block:: bash
 
@@ -790,12 +822,13 @@ switch control can be added to pga widget objects during instantiation as follow
 		}
 	}
 
-Note how the "unique" attribute for the two mixer control objects differ to keep the mixer instances unique.
+Note how the ``unique`` attribute for the two mixer control objects differs to keep the mixer instances unique.
 
-1.2.6 Recursive object attribute inheritance
-''''''''''''''''''''''''''''''''''''''''''''
+Recursive object attribute inheritance
+''''''''''''''''''''''''''''''''''''''
+
 Objects can be nested within objects that are nested within other objects themselves. In this case, the attribute
-values cam be inherited all the way from the top-level parent object. For example, consider the following class
+values can be inherited all the way from the top-level parent object. For example, consider the following class
 definition for volume-playback pipeline:
 
 .. code-block:: bash
@@ -827,14 +860,15 @@ class is instantiated as:
 	}
 
 This ensures that all child objects within the volume-playback object will inherit the
-index attribute value from it. So the pga widget object will have the same index and by the same
+index attribute value from it. So the pga widget object will have the same index. And by the same
 rule, the mixer control object within the pga widget object will also have the same index attribute
-value of "1".
+value of 1.
 
-1.2.7 Setting child object attributes deep down in the parent object tree
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-In section 1.2.4, we saw that we can set child attribute values from its parent object instance.
-For example, the mixer control object's name can be set from the pga widget object instace. This
+Setting child object attributes deep down in the parent object tree
+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+In :ref:`setting_child_object_attributes`, we saw that we can set child attribute values from its parent object instance.
+For example, you can set the mixer control object's name from the pga widget object instance. This
 can be extended further and it is possible to set the mixer control name from the parent object of
 the pga object. Consider the volume playback object instance in the previous section. We can set the
 mixer control name for the pga object as follows:
@@ -852,11 +886,12 @@ mixer control name for the pga object as follows:
 	}
 
 
-1.3. Arguments in top-level configuration files
------------------------------------------------
+Arguments in top-level configuration files
+------------------------------------------
+
 Arguments are used to pass build-time parameters that can be used for building multiple binaries
 from the same configuration file. Consider the following top-level topology configuration file
-with 2 pipelines:
+with two pipelines:
 
 .. code-block:: bash
 
@@ -902,19 +937,24 @@ with 2 pipelines:
 		}
 	}
 
-The value for the "dynamic_pipeline" attribute in the volume-playback objects in the above example
-will be expanded from the provided value for the DYNAMIC_PIPELINE argument when building the
-topology binary with the -DDYNAMIC_PIPELINE=1 or -DDYNAMIC_PIPELINE=0 option.
+In this example, the value for the ``dynamic_pipeline`` attribute in the volume-playback objects
+is expanded from the provided value for the ``DYNAMIC_PIPELINE`` argument when building the
+topology binary with the ``-DDYNAMIC_PIPELINE=1`` or ``-DDYNAMIC_PIPELINE=0`` option.
 
-Note that the alsatplg compiler only parses the arguments that are defined at the top-level node in the
-machine topology file.
+.. note::
 
-1.4 Includes
-------------
-When building a top-level configuration file, it should include all the class definitions for the objects
-being instantiated, failing which the compiler will emit errors calling out missing class definitions. The
-include paths for searching for dependencies can be specified as below. All paths are relative to the
-directory specified by the environment variable "ALSA_CONFIG_DIR".
+   The alsatplg compiler only parses the arguments that are defined at
+   the top-level node in the machine topology file.
+
+Includes
+--------
+
+When building a top-level configuration file, it should include all
+class definitions for the objects being instantiated, failing which
+the compiler will emit errors calling out missing class definitions.
+All paths are relative to the directory specified by the environment
+variable ``ALSA_CONFIG_DIR``. You can specify the include paths for
+dependencies as follows:
 
 .. code-block:: bash
 
@@ -922,7 +962,7 @@ directory specified by the environment variable "ALSA_CONFIG_DIR".
 	<searchdir:include/controls>
 	<searchdir:include/components>
 
-and the class definitions can be included as follows:
+Include the class definitions as follows:
 
 .. code-block:: bash
 
@@ -931,8 +971,11 @@ and the class definitions can be included as follows:
 	<pcm.conf>
 	<volume-playback.conf>
 
-3. Simple machine topology
-**************************
+.. _simple_machine_topology:
+	
+Simple machine topology
+***********************
+
 A machine topology typically consists of the following:
 
 * Include paths pointing to the search directory for class definitions includes
@@ -943,8 +986,8 @@ A machine topology typically consists of the following:
 * PCM objects
 * Top-level pipeline connections
 
-Let's look at a simple machine topology configuration file that includes a volume-playback pipeline,
-a HDA type DAI link, a playback PCM and the top-level connection.
+Let's consider a simple machine topology configuration file that includes a volume-playback pipeline,
+a HDA type DAI link, a playback PCM, and the top-level connection:
 
 .. code-block:: bash
 
@@ -1038,11 +1081,11 @@ a HDA type DAI link, a playback PCM and the top-level connection.
 	}
 	
 Note that the above configuration file only includes the top-level route between the buffer widget 
-"buffer.1.1" in the volume-playback pipeline and the dai widget "dai.HDA.1.playback". The connections
+``buffer.1.1`` in the volume-playback pipeline and the dai widget ``dai.HDA.1.playback``. The connections
 between the widgets in the volume-playback pipeline are defined in the class definition.
 
 Let's peek into the volume-playback pipeline class definition to look at the route objects contained within
-the class definition. Please refer to volume-playback_ for the complete class definition.
+the class definition. Refer to volume-playback_ for the complete class definition.
 
 .. code-block:: bash
 
@@ -1126,7 +1169,7 @@ the class definition. Please refer to volume-playback_ for the complete class de
 		mips		5000
 	}
 
-The pipeline class definition is fairly straight-forward to follow except for the route object instances.
+The pipeline class definition is fairly easy to follow except for the route object instances.
 Let's analyze it a bit further. The route class definition is defined as follows:
 
 .. code-block:: bash
@@ -1171,9 +1214,9 @@ Let's analyze it a bit further. The route class definition is defined as follows
 		}
 	}
 	
-Note that a route object is expected to have instance, source and sink attributes.
+Note that a route object is expected to have instance, source, and sink attributes.
 
-Let's look at the route objects in the volume-playback class again:
+Let's consider the route objects in the volume-playback class again:
 
 .. code-block:: bash
 
@@ -1194,14 +1237,14 @@ Let's look at the route objects in the volume-playback class again:
 		}
 	}
 
-Notice that the source and sink attributes are defined for all of the routes. For ex: the second route object,
-"Object.Base.route.2" has a sink attribute value of "pga..1". Referring back to the pga widget class definition
-in Section 1.1.8, we know that a pga widget object's constructor has 2 attributes, namely, index and instance.
+Notice that the source and sink attributes are defined for all of the routes. For example, the second route object
+``Object.Base.route.2`` has a sink attribute value of ``pga..1``. Referring back to the pga widget class definition
+in :ref:`complete_class_definition`, we know that a pga widget object's constructor has two attributes, ``index`` and ``instance``.
 We know the instance of the pga widget in the volume-playback class is 1 by looking at the list of widgets.
 But the index attribute value for the pga widget in the pipeline is unknown. It will only be set from a top-level
-topology config file as in Section 3. Therefore, the index attribute is left empty in the class definition
-and it will populated with the appropriate value by the alsatplg compiler when the route object is built. For the
-machine topology above, the route object "Object.base.route.2" will be built with the right pipeline ID's as follows:
+topology config file as in :ref:`simple_machine_topology`. Therefore, the index attribute is left empty in the class definition.
+The alsatplg compiler will populate the index attribute with the appropriate value when the route object is built. For the
+machine topology above, the route object ``Object.base.route.2`` will be built with the right pipeline IDs as follows:
 
 .. code-block:: bash
 
@@ -1210,13 +1253,14 @@ machine topology above, the route object "Object.base.route.2" will be built wit
 		sink "pga.1.1"
 	}
 
-Currently, the alsatplg supports the feature of filling in attribute values only for the route object source
+Currently, alsatplg can fill in attribute values only for the route object source
 and sink attributes. If needed, this feature can be extended for other types of objects.
 
-4. Conditional includes
-***********************
+Conditional includes
+********************
+
 Conditional includes allow building multiple topology binaries from the same input configuration file.
-For example, let's consider the HDA generic machine topology. The number of DMIC's determines wether
+For example, let's consider the HDA generic machine topology. The number of DMICs determines whether
 the DMIC configuration file should be included or not. This can be achieved as follows:
 
 .. code-block:: bash
@@ -1231,19 +1275,23 @@ the DMIC configuration file should be included or not. This can be achieved as f
 		"[1-4]"	"include/platform/intel/dmic-generic.conf"
 	}
 
-The regular expression "[1-4]" indicates that the dmic-generic.conf file should be included if
+The regular expression ``[1-4]`` indicates that the dmic-generic.conf file should be included if
 the DMIC_COUNT argument value is between 1 and 4. Assuming the top-level file is called
-"sof-hda-generic.conf", two separate topology binaries can be built as follows:
+``sof-hda-generic.conf``, you can build two separate topology binaries with the following commands:
 
-**`alsatplg -p -c sof-hda-generic.conf -o sof-hda-generic.tplg`** for machines with no DMIC's
+* For machines with no DMICs:
 
-**`alsatplg -D DMIC_COUNT=2 -p -c sof-hda-generic.conf -o sof-hda-generic-2ch.tplg`** for machines with 2 DMIC's.
+  ``alsatplg -p -c sof-hda-generic.conf -o sof-hda-generic.tplg``
 
-Conditional includes are not limited to top-level configuration files. They can be added to any node
-in the configuration file to include the configuration at the specified node. For example, we conditionally
-include the right filter coefficients for the byte controls in a EQIIR widget as follows:
+* For machines with two DMICs:
 
-Define the argument for the coefficients in the top-level topology file as follows:
+  ``alsatplg -D DMIC_COUNT=2 -p -c sof-hda-generic.conf -o sof-hda-generic-2ch.tplg``
+
+Conditional includes are not limited to top-level configuration files. You can add them to any node
+in the configuration file to include the configuration at the specified node. For example, we can conditionally
+include the right filter coefficients for the byte controls in the EQIIR widget.
+
+Define the argument for the coefficients in the top-level topology file:
 
 .. code-block:: bash
 
@@ -1252,7 +1300,7 @@ Define the argument for the coefficients in the top-level topology file as follo
 	       default "highpass_40hz_0db_48khz"
 	}
 
-And then the coefficients can be included as follows:
+And then include the coefficients:
 
 .. code-block:: bash
 
@@ -1267,49 +1315,61 @@ And then the coefficients can be included as follows:
 		}
 	}
 
-5. Building 2.0 configuration files
-***********************************
-Topology 2.0 configuration files can be compiled to produce the topology binary files using the
-alsatplg compiler as follows:
+Building 2.0 configuration files
+********************************
 
-alsatplg <-D args=values> -p -c input.conf -o output.tplg
-
-The -D switch is used to pass comma-separated argument values to the top-level configuration file.
-
-The -P switch can be used to convert a 2.0 configuration file to the 1.0 configuration file as
-follows:
-
-alsatplg <-D args=values> -P input.conf -o output.conf
-
-6. Topology reminders
-*********************
-
-1. "index" refers to the pipeline ID in pipeline, widget and control class groups
-
-2. "id" in the DAI class group objects refers to the link ID as defined in the machine driver in the kernel
-
-7. Alsaconf reminders
-*********************
-
-1. "." refers to a node separator. "foo.bar value" is quivalent to 
+You can use alsatplg to compile Topology 2.0 configuration files and produce the topology binary files:
 
 .. code-block:: bash
+
+   alsatplg <-D args=values> -p -c input.conf -o output.tplg
+
+The ``-D`` switch is used to pass comma-separated argument values to the top-level configuration file.
+
+You can use the ``-P`` switch to convert a 2.0 configuration file to the 1.0 configuration file:
+
+.. code-block:: bash
+
+   alsatplg <-D args=values> -P input.conf -o output.conf
+
+Topology reminders
+******************
+
+Review the following topology considerations:
+
+- "index" refers to the pipeline ID in pipeline, widget, and control class groups.
+
+- "id" in the DAI class group objects refers to the link ID as defined in the machine driver in the kernel.
+
+Alsaconf reminders
+******************
+
+Review the following alsaconf considerations:
+
+- "." refers to a node separator. "foo.bar value" is quivalent to the following:
+
+  .. code-block:: bash
 
 	foo {
 		bar value
 	}
 
-2. Arrays are defined with [] as below
+- Arrays are defined with []. For example:
 
-.. code-block:: bash
+  .. code-block:: bash
 
 	!constructor [
 		"foo"
 		"bar"
 	]
 
-It is recommended to use the "!" in the array definitions in the class definition. This is to ensure that if the class
-configuration file is included more than once from different sources, the array items will not be duplicated.
+  We recommend to use the exclamation mark (!) in array definitions
+  within the class definition. Use it to ensure that the array items
+  are not duplicated if the class configuration file is included more
+  than once from different sources.
 
 .. _volume-playback: https://github.com/thesofproject/sof/blob/main/tools/topology/topology2/include/pipelines/volume-playback.conf
 .. _buffer: https://github.com/thesofproject/sof/blob/main/tools/topology/topology2/include/components/buffer.conf
+
+.. |_| unicode:: 0xA0
+   :trim:
