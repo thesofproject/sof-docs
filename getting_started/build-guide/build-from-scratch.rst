@@ -157,7 +157,9 @@ Clone, build, and install alsa-utils.
    # To install alsa-utils locally
    ./gitcompile --prefix=$HOME/local \
                 --with-alsa-inc-prefix=$HOME/local/include \
-		--with-alsa-prefix=$HOME/local/lib
+		--with-alsa-prefix=$HOME/local/lib \
+		--with-systemdsystemunitdir=$HOME/local/lib/systemd \
+		--with-udev-rules-dir=$HOME/local/lib/udev
    sudo make install
 
 If you run into alsa-lib linking errors, try to re-build it with the libdir
