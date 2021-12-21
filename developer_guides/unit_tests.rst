@@ -35,6 +35,28 @@ and re-use to build unit tests. Like this:
   ``-DINIT_CONFIG`` and a new build directory
 - Build and run the tests with ``make test`` or ``ninja test``.
 
+.. note::
+
+   Use -DTOOLCHAIN=xt option.
+
+   As of December 2021, -DTOOLCHAIN=xtensa-<platform_type>-elf is not
+   supported. You can use a native toolchain, see below.
+
+If you get this double ``uintptr_t`` definition error:
+
+.. code-block:: bash
+
+   [  2%] Building C object test/cmocka/CMakeFiles/common_mock.dir/src/common_mocks.c.o
+   In file included from sof/test/cmocka/src/common_mocks.c:29:
+   sof/but/cmocka_git/src/cmocka_git/include/cmocka.h:132:
+                         error: redefinition of typedef ‘uintptr_t’
+   xcc/install/builds/RG-2017.8-linux/X4H3I16w2D48w3a_2017_8/xtensa-elf/include/stdint.h:252:
+                         error: previous declaration of ‘uintptr_t’ was here
+
+... then append this to your cmake invocation: ``-DEXTRA_CFLAGS=-D_UINTPTR_T_DEFINED=1``
+
+Additional unit tests options can be found in :ref:`cmake`.
+
 Example: Running tests for APL
 ==============================
 
@@ -44,12 +66,6 @@ Example: Running tests for APL
    cmake -DBUILD_UNIT_TESTS=ON -DTOOLCHAIN=xt -DINIT_CONFIG=apollolake_defconfig \
        -DROOT_DIR=/xcc/install/builds/RG-2017.8-linux/X4H3I16w2D48w3a_2017_8/xtensa-elf ..
    make -j4 && ctest -j8
-
-.. note::
-
-   Use -DTOOLCHAIN=xt option, -DTOOLCHAIN=xtensa-<platform_type>-elf is not supported
-
-Additional unit tests options can be found in :ref:`cmake`.
 
 Compiling unit tests without a cross-compilation toolchain
 ==========================================================
