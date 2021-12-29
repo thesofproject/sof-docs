@@ -3,6 +3,9 @@
 Firmware Architecture
 #####################
 
+Overview
+========
+
 Currently SOF has support for the Cadence Xtensa DSP architecture in UP and SMP 
 modes in the upstream code base today.
 
@@ -44,6 +47,17 @@ main sections:
 Each section above is well insulated from the other sections by partitioning 
 code into separate directories and by using DSP and platform agnostic generic 
 APIs for orchestration between the sections.
+
+.. toctree::
+   :maxdepth: 1
+
+   mem-mgmt
+   pm-runtime/index
+   schedulers
+   drivers/index
+   components/index
+   pipelines/index
+   kd_integration/index
 
 Vendor Specific Architecture Information
 ========================================
