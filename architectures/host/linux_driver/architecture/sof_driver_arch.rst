@@ -1,7 +1,17 @@
 .. _sof_driver_arch:
 
-SOF Driver Architecture
-#######################
+SOF Linux Driver Architecture
+#############################
+
+|SOF| can either operate as a standalone firmware or alongside a host OS
+driver for configuration and control. The |SOF| OS driver is responsible for
+loading firmware, loading configuration and managing firmware use cases.
+Currently |SOF| has a driver for the Linux OS.
+
+The |SOF| driver code is dual licensed GPLv2 and BSD and this means the user
+can choose which licence they want to use (either BSD or GPLv2). The driver
+stack is designed with maximum resuse so that large portions of it can be
+taken and integrated into other OSs or RTOSs.
 
 .. contents::
    :local:
