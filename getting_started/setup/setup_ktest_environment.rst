@@ -256,7 +256,7 @@ If you don't know what options are needed, you can start using configurations ma
    git clone https://github.com/thesofproject/kconfig.git
    cd linux
    make defconfig
-   scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig ../kconfig/sof-mach-driver-defconfig ../kconfig/hdaudio-codecs-defconfig
+   scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig ../kconfig/mach-driver-defconfig ../kconfig/hdaudio-codecs-defconfig
    cp .config ../sof-dev-defconfig
    make mrproper
    cd ..
