@@ -1,6 +1,6 @@
 .. _architectures:
 
-Supported Architectures
+Architecture
 #######################
 
 SOF is intended to run on many different hardware architectures and is therefore
@@ -15,4 +15,4 @@ should always be consulted for the low level details.
    :maxdepth: 2
 
    host/index
-   dsp/index
+   firmware/index

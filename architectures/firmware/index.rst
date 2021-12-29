@@ -1,7 +1,7 @@
-.. _architecture-dsp:
+.. _architecture-firmware:
 
-DSP Architecture
-################
+Firmware Architecture
+#####################
 
 Currently SOF has support for the Cadence Xtensa DSP architecture in UP and SMP 
 modes in the upstream code base today.
@@ -43,7 +43,7 @@ main sections:
 
 Each section above is well insulated from the other sections by partitioning 
 code into separate directories and by using DSP and platform agnostic generic 
-APIs for orchestration between the sections. 
+APIs for orchestration between the sections.
 
 Adding a new DSP architecture to SOF
 ====================================
@@ -77,7 +77,6 @@ as thinly as possible (i.e. to compile out). It also means removing unused code
 from the SOF build in order to use the RTOS version if desireable i.e.
 allocator, schedulers, messaging etc. The final stage is to link the SOF audio
 code to the RTOS.
-
 
 Vendor Specific Architecture Information
 ========================================
