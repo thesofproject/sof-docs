@@ -24,6 +24,7 @@ terminology before reading further.
    virtualization/running
    fuzzing/index
    testbench/index
+   add_new_arch
 
 Technical Notes
 ***************
