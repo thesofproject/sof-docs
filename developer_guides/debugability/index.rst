@@ -11,3 +11,4 @@ Debugability
    coredump-reader/index
    probes/index
    ri-info/index
+   perf-counters/index
