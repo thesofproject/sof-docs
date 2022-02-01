@@ -205,22 +205,19 @@ Create a linux development environment
 2. Add a set of useful remotes
 ------------------------------
 
+The SOF contributions can be handled by different maintainers, so it's useful to point directly
+to maintainer trees.
+
 .. code-block:: bash
 
    git remote add sof https://github.com/thesofproject/linux.git
    git remote add takashi git://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git
    git remote add broonie git://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git
-   git remote add liam    git://git.kernel.org/pub/scm/linux/kernel/git/lrg/asoc.git
-   git remote add keyon   git://github.com/keyonjie/linux.git
    git remote add vinod   git://git.kernel.org/pub/scm/linux/kernel/git/vkoul/sound.git
-   git remote add plb     git://github.com/plbossart/sound.git
    git fetch sof
    git fetch takashi
    git fetch broonie
-   git fetch liam
-   git fetch keyon
    git fetch vinod
-   git fetch plb
 
 All of these branches will be accessible and can be updated from any
 worktree. Clone once and use fetch to update the main working tree.
@@ -254,9 +251,8 @@ If you don't know what options are needed, you can start using configurations ma
 .. code-block:: bash
 
    git clone https://github.com/thesofproject/kconfig.git
-   cd linux
-   make defconfig
-   scripts/kconfig/merge_config.sh .config ../kconfig/base-defconfig ../kconfig/sof-defconfig ../kconfig/mach-driver-defconfig ../kconfig/hdaudio-codecs-defconfig
+   cd sof-dev
+   bash ../kconfig/kconfig-sof-default.sh
    cp .config ../sof-dev-defconfig
    make mrproper
    cd ..
@@ -265,6 +261,14 @@ If you don't know what options are needed, you can start using configurations ma
 
    Use make proper since ktest.pl requires the source directory
    to be clean. All compilation happens in the -build directory.
+
+.. note::
+
+   SOF developers and the Intel CI also use "kconfig-sof-nocodec.sh" on Up2 and UpExtreme boards.
+
+.. note::
+
+   Distributions should not use the options provided in kconfig/sof-dev-defconfig
 
 6. Edit ktest configuration as needed
 -------------------------------------
