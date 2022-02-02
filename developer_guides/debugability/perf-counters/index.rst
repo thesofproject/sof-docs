@@ -20,10 +20,10 @@ Performance Counters usage
 Currently, you can only enable performance counters statically during FW build in
 one of two ways:
 
-* Select **Performance counter** from **Debug** menu using ``make menuconfig``
+- Select **Performance counter** from **Debug** menu using ``make menuconfig``.
 
-* Add ``CONFIG_PERFORMANCE_COUNTERS=y`` to specific FW config, for
-example, tigerlake_defconfig.
+- Add ``CONFIG_PERFORMANCE_COUNTERS=y`` to specific FW config, for
+  example, tigerlake_defconfig.
 
 
 After you enable the performance counters, they are logged periodically for each
