@@ -21,18 +21,36 @@ current distro release is always preferred.
    build-guide/build-3rd-party-toolchain
    build-guide/build-with-zephyr
 
-Set up SOF on hardware
-**********************
+Set up SOF on a Linux machine
+*****************************
 
-SOF runs on a variety of devices with varying audio capabilities so
-instructions may differ between devices.
+You can build the Linux kernel with the latest SOF code and install it locally or remotely with ktest. 
+
+Do this first:
 
 .. toctree::
    :maxdepth: 1
 
-   setup/setup_minnowboard_turbot
-   setup/setup_up_2_board
-   setup/setup_ktest_environment
+   setup_linux/prepare_build_environment
+
+Then proceed based on if you are installing locally or through ktest:
+
+.. toctree::
+   :maxdepth: 1
+
+   setup_linux/install_locally
+   setup_linux/setup_ktest_environment
+
+Set up SOF on a special device
+******************************
+
+SOF also runs on the MinnowBoard Turbot and the Up Squared board with Hifiberry Dac+.
+
+.. toctree::
+   :maxdepth: 1
+
+   setup_special_device/setup_minnowboard_turbot
+   setup_special_device/setup_up_2_board
 
 Debug Audio issues on Intel platforms
 *************************************
