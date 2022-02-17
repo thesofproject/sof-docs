@@ -22,10 +22,7 @@ Architecture details of any vendor specific code and flows. This is architecture
 specific to a single vendor that falls outside the scope of the high level 
 generic SOF architecture.
 
-Intel
------
-
 .. toctree::
    :maxdepth: 1
 
-   intel/index
+   intel/cavs/index
