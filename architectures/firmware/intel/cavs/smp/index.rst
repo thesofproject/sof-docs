@@ -1,7 +1,7 @@
 .. _architecture-intel-smp:
 
-Intel Architecture
-##################
+Intel SMP Architecture
+######################
 
 Description
 ***********
