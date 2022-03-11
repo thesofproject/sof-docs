@@ -33,7 +33,7 @@ main sections:
    the audio components and pipelines to send/receive data to/from the host
    and external codecs.
 
-   ..	figure::  ../images/fw-arch-diag.png
+   ..	figure::  ./images/fw-arch-diag.png
 	:align: center
 	:alt: SOF Architecture
 	:width: 800px
