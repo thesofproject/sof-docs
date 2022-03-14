@@ -1,0 +1,42 @@
+@startuml
+allowmixing
+
+scale max 1280 width
+
+package "SOF" {
+
+  package "Application layer - user space" as APPLICATION_LAYER {
+      component "3rd party algorithms" - private" as 3RD_PARTY_ALGOS
+      component "Loadable libraries" as LOADABLE_COMPONENTS
+      component "Built-in Processing components" as BUILTIN_COMPONENTS
+
+      BUILTIN_COMPONENTS -[hidden]right- LOADABLE_COMPONENTS
+      LOADABLE_COMPONENTS -[hidden]right- 3RD_PARTY_ALGOS
+  }
+
+  package "Kernel space" {
+
+    package "Media Processing Pipelines layer - kernel extension" as KERNEL_EXTENSION {
+        component "Communication" as COMMUNICATION
+        component "Pipelines and Component Infrastructure" as PIPELINE_COMPONENT_INFRASTRUCTURE
+        component "AVS Scheduling" as AVS_SCHEDULERS
+
+        COMMUNICATION -[hidden]right- PIPELINE_COMPONENT_INFRASTRUCTURE
+        PIPELINE_COMPONENT_INFRASTRUCTURE -[hidden]right- AVS_SCHEDULERS
+    }
+
+    package "Zephyr RTOS layer" as RTOS {
+        component "Services" as SERVICES
+        component "SoC HAL" as SOC
+        component "Drivers" as DRIVERS
+
+        SERVICES --[hidden]right-- SOC
+        SOC --[hidden]right-- DRIVERS
+    }
+
+    APPLICATION_LAYER -[hidden]down- KERNEL_EXTENSION
+    KERNEL_EXTENSION -[hidden]down- RTOS
+  }
+}
+
+@enduml

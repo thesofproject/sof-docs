@@ -1,9 +1,9 @@
-.. _overview:
+.. _sof-legacy-overview:
 
 Overview
 ##########
 
-Currently SOF has support for the Cadence Xtensa DSP architecture in UP and SMP 
+Currently SOF has support for the Cadence Xtensa DSP architecture in UP and SMP
 modes in the upstream code base.
 
 The diagram below shows the high-level firmware architecture with the
@@ -41,6 +41,6 @@ main sections:
 	`Sound Open Firmware Architecture using Intel Bay Trail Platform`
 
 
-Each section above is well insulated from the other sections by partitioning 
-code into separate directories and by using DSP and platform agnostic generic 
+Each section above is well insulated from the other sections by partitioning
+code into separate directories and by using DSP and platform agnostic generic
 APIs for orchestration between the sections.
