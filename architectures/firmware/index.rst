@@ -7,6 +7,7 @@ Firmware Architecture
    :maxdepth: 1
 
    sof-xtos/index
+   sof-zephyr/index
 
 Vendor Specific Architecture Information
 ========================================
