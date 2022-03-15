@@ -1,0 +1,68 @@
+@startuml
+allowmixing
+
+scale max 1280 width
+
+package "SOF" {
+
+  package "Application layer" as APP_CUSTOMIZATION {
+
+    package "Example Loadable Components" as LOADABLE_COMPONENTS {
+      component "3rd Party Post-Processing" as PROCESSING_3RD_PARTY
+      component "WoV" as WOV_MODULE
+      component "ACA" as ACA_MODULE
+      component "Other modules" as OTHER_MODULES
+
+      PROCESSING_3RD_PARTY -[hidden]right- WOV_MODULE
+      WOV_MODULE -[hidden]right- ACA_MODULE
+      ACA_MODULE -[hidden]right- OTHER_MODULES
+    }
+
+    package "Built-in Components" as BUILTIN_COMPONENTS {
+      component "Copier" as COPIER
+      component "SRC" as SRC
+      component "Mixers" as MIXERS
+      component "History Buffer/KPB" as HISTORY_BUFFER
+      component "Probe" as PROBE
+
+      COPIER -[hidden]right- SRC
+      SRC -[hidden]right- MIXERS
+      MIXERS -[hidden]right- HISTORY_BUFFER
+      HISTORY_BUFFER -[hidden]right- PROBE
+    }
+
+      BUILTIN_COMPONENTS -[hidden]down- LOADABLE_COMPONENTS
+  }
+
+  package "System Services" as SYS_SERVICES {
+
+    interface "System Services" as SS
+
+    package "Media Processing Pipelines Services extension" as KERNEL_EXTENSION {
+        component "Communication" as COMMUNICATION
+        component "Pipelines and Component Infrastructure" as PIPELINE_COMPONENT_INFRASTRUCTURE
+        component "AVS Scheduling" as AVS_SCHEDULERS
+
+        COMMUNICATION -[hidden]right- PIPELINE_COMPONENT_INFRASTRUCTURE
+        PIPELINE_COMPONENT_INFRASTRUCTURE -[hidden]right- AVS_SCHEDULERS
+    }
+
+    package "Zephyr" as ZEPHYR {
+        component "Services" as SERVICES
+    }
+
+    SS -[hidden]down- KERNEL_EXTENSION
+    SS -[hidden]down- ZEPHYR
+
+    KERNEL_EXTENSION -[hidden]right- ZEPHYR
+  }
+
+  APP_CUSTOMIZATION -[hidden]down- SYS_SERVICES
+  BUILTIN_COMPONENTS .down. SS
+  PROCESSING_3RD_PARTY .down. SS
+  WOV_MODULE .down. SS
+  ACA_MODULE .down. SS
+  OTHER_MODULES .down. SS
+}
+
+@enduml

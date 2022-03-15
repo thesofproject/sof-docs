@@ -7,3 +7,4 @@ SOF with Zephyr Architecture
    :maxdepth: 1
 
    overview
+   app_layer/index
