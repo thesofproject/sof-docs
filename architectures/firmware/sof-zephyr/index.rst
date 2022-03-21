@@ -8,3 +8,4 @@ SOF with Zephyr Architecture
 
    overview
    app_layer/index
+   mpp_layer/index
