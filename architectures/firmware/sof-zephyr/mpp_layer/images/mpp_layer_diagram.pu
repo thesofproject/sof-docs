@@ -1,0 +1,55 @@
+@startuml
+
+allowmixing
+
+scale max 1024 width
+
+package "SOF" {
+
+	package "Media Processing Pipelines layer" as MEDIA_PROCESSING_PIPELINES {
+		package "MPP Scheduling" as MPP_SCHEDULING {
+		component "LL Tasks" as LL_TASKS
+		component "DP Tasks" as DP_TASKS
+
+		DP_TASKS -[hidden]down- LL_TASKS
+		}
+
+		package "Communication" as COMMUNICATION {
+			component "IPC Message Processing and common command definitions" as IPC_MESSAGE_PROCESSING
+			component "Async Messaging" as ASYNC_MESSAGING
+
+			IPC_MESSAGE_PROCESSING -[hidden]right- ASYNC_MESSAGING
+		}
+
+		package "Pipeline/Component Infrastructure" as PIPELINE_COMPONENT_INFRASTRUCTURE {
+			component "Pipeline Management" as PIPELINE_MANAGEMENT
+			component "Host/DAI Gateways" as HOST_DAI_GATEWAYS
+			component "Processing Component Management" as PROCESSING_COMPONENT_MANAGEMENT
+
+			PIPELINE_MANAGEMENT -[hidden]right- HOST_DAI_GATEWAYS
+			HOST_DAI_GATEWAYS -[hidden]right- PROCESSING_COMPONENT_MANAGEMENT
+		}
+
+		COMMUNICATION -[hidden]down- PIPELINE_COMPONENT_INFRASTRUCTURE
+		COMMUNICATION -[hidden]right- MPP_SCHEDULING
+	}
+
+	package "Zephyr" as ZEPHYR {
+		interface "Zephyr Services, SoC HAL and Driver Interfaces" as SS
+
+		component "SoC HAL" as SOC
+		component "Drivers" as DRIVERS
+		component "XTHAL" as XTHAL
+		component "Services" as SERVICES
+
+		SS -[hidden]down- SERVICES
+		SERVICES -[hidden]right- SOC
+		SOC -[hidden]right- DRIVERS
+		DRIVERS -[hidden]right- XTHAL
+	}
+
+	MEDIA_PROCESSING_PIPELINES -[hidden]down- ZEPHYR
+	PIPELINE_COMPONENT_INFRASTRUCTURE -[hidden]down- ZEPHYR
+}
+
+@enduml
