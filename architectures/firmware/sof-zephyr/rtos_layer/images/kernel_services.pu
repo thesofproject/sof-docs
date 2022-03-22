@@ -1,0 +1,57 @@
+@startuml
+allowmixing
+
+scale max 1280 width
+
+package "SOF" {
+  package "Kernel Infrastructure" {
+    interface "Zephyr System Services" as SS
+
+    package "Services" {
+        component "Memory Manager" as MEMORY_MANAGER
+        component "Power Manager" as POWER_MANAGER
+        component "IPC/IDC" as IXC
+        component "Logging" as LOGGING
+        component "Debug" as DEBUG
+        component "Interrupt Handler" as INTERRUPT_HANDLER
+    }
+
+    SS .down. MEMORY_MANAGER
+    SS .down. POWER_MANAGER
+    SS .down. IXC
+    SS .down. LOGGING
+    SS .down. DEBUG
+    SS .down. INTERRUPT_HANDLER
+  }
+
+  package "Kernel Extension" {
+    interface "Extended System Services" as ESS
+
+    component "AVS Scheduling" as AVS_Scheduling
+
+    package "Extended Services" as EXTENDED_SERVICES {
+          component "Firmware Manager" as FIRMWARE_MANAGEMENT
+          component "Pipeline Management" as PIPELINE_MANAGEMENT
+          component "Async Messaging" as ASYNC_MESSAGING
+          component "Processing Component Management" as COMPONENT_MANAGEMENT
+          component "IPC Message Processing" as IPC_MESSAGE_PROCESSING
+    }
+
+    ESS .down. FIRMWARE_MANAGEMENT
+    ESS .down. PIPELINE_MANAGEMENT
+    ESS .down. ASYNC_MESSAGING
+    ESS .down. IPC_MESSAGE_PROCESSING
+    ESS .down. COMPONENT_MANAGEMENT
+
+    AVS_Scheduling -[hidden]down- EXTENDED_SERVICES
+  }
+
+  package "Loadable modules" {
+      component "WoV" as WOV
+
+      WOV .down. SS
+      WOV .down. ESS
+  }
+}
+
+@enduml

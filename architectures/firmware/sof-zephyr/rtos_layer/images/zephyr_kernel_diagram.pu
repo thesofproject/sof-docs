@@ -1,0 +1,124 @@
+@startuml
+allowmixing
+
+scale max 1280 width
+
+package "Kernel space" {
+
+  package "Media Processing Pipelines - kernel extension" as MPP_KERNEL_EXTENSION {
+    interface "Extended System Services" as ESS
+
+    component "Firmware Manager" as FIRMWARE_MANAGER
+
+    package "Communication" as COMMUNICATION {
+        component "IPC Message Processing" as IPC_MESSAGE_PROCESSING
+        component "Async Messaging" as ASYNC_MESSAGING
+
+        IPC_MESSAGE_PROCESSING -[hidden]right- ASYNC_MESSAGING
+    }
+
+    package "Pipeline/Component Infrastructure" as PIPELINE_COMPONENT_INFRASTRUCTURE {
+        component "Pipeline Management" as PIPELINE_MANAGEMENT
+        component "Host/DAI Gateways" as HOST_DAI_GATEWAYS
+        component "Processing Component Management" as PROCESSING_COMPONENT_MANAGEMENT
+
+        PIPELINE_MANAGEMENT -[hidden]right- HOST_DAI_GATEWAYS
+        HOST_DAI_GATEWAYS -[hidden]right- PROCESSING_COMPONENT_MANAGEMENT
+    }
+
+    package "AVS Scheduling" as AVS_SCHEDULING {
+        component "Data Processing (DP) Tasks (EDF based)" as DP_TASKS
+        component "Low Latency (LL) Tasks" as LL_TASKS
+
+        DP_TASKS -[hidden]right- LL_TASKS
+    }
+
+    FIRMWARE_MANAGER -[hidden]right- PIPELINE_COMPONENT_INFRASTRUCTURE
+    FIRMWARE_MANAGER -[hidden]down- COMMUNICATION
+    COMMUNICATION -[hidden]right- AVS_SCHEDULING
+
+    ESS -[hidden]down- FIRMWARE_MANAGER
+    ESS -[hidden]down- PIPELINE_COMPONENT_INFRASTRUCTURE
+  }
+
+  package "Zephyr" as Zephyr_RTOS {
+    interface "Zephyr System Services" as SS
+
+    package "Schedulers" as SCHEDULERS {
+        component "RTOS Scheduling" as RTOS_SCHEDULER
+    }
+
+    package "Services" as SERVICES {
+        component "Memory Manager" as MEMORY_MANAGER
+        component "Power Manager" as POWER_MANAGER
+        component "IPC/IDC" as IXC
+        component "Logging" as LOGGING
+        component "Debug" as DEBUG
+        component "Timer Manager" as TIMER_MANAGER
+        component "Interrupt Handler" as INTERRUPT_HANDLER
+
+        MEMORY_MANAGER -[hidden]right- POWER_MANAGER
+        POWER_MANAGER -[hidden]right- IXC
+        IXC -[hidden]down- LOGGING
+        LOGGING -[hidden]right- TIMER_MANAGER
+        TIMER_MANAGER -[hidden]right- INTERRUPT_HANDLER
+    }
+
+    package "SoC HAL" as SOC {
+        component "OEM SoC 1" as SOC_1
+        component "OEM SoC 2" as SOC_2
+        component "Other SoCs" as OTHER_SOCS
+
+        SOC_1 -[hidden]right- SOC_2
+        SOC_2 -[hidden]right- OTHER_SOCS
+    }
+
+    package "Drivers" as DRIVERS {
+        package "Common Drivers" as COMMON_DRIVERS {
+          component "GPDMA" as GPDMA
+          component "Timer" as TIMER
+          component "SHA-384" as SHA384
+          component "Watchdog" as WATCHDOG
+          component "IPC" as IPC
+          component "IDC" as IDC
+        }
+
+          package "Audio Drivers" as AUDIO_DRIVERS{
+          component "DMIC" as DMIC
+          component "I2S" as I2S
+          component "SDW" as SDW
+          component "HDA" as HDA
+
+          DMIC -[hidden]right- I2S
+          I2S -[hidden]right- SDW
+          SDW -[hidden]right- HDA
+        }
+
+        package "Sensing Drivers" as SENSING_DRIVERS {
+          component "I2C" as I2C
+          component "GPIO" as GPIO
+          component "I3C" as I3C
+          component "SPI" as SPI
+          component "UART" as UART
+
+          I2C -[hidden]right- GPIO
+          GPIO -[hidden]right- I3C
+          I3C -[hidden]right- SPI
+          SPI -[hidden]right- UART
+        }
+    }
+
+    component "XTHAL" as XTHAL
+
+    SS -[hidden]down- SCHEDULERS
+    SS -[hidden]down- SERVICES
+    SCHEDULERS -[hidden]right- SERVICES
+    SERVICES -[hidden]right- SOC
+    SERVICES --[hidden]down-- DRIVERS
+    DRIVERS -[hidden]down- XTHAL
+  }
+
+  MPP_KERNEL_EXTENSION --[hidden]down-- Zephyr_RTOS
+}
+
+@enduml
