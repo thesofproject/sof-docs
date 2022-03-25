@@ -49,7 +49,7 @@ there can be more than once choice for other ingredients as shown in the diagram
 	:alt: SDK Overview
 	:width: 1000px
 
-	`SDK example configuration showing development flow for SOF on the Intel Apollolake platform running Linux OS. Note the choice of compiler toolchains and choice of optional DSP emulators.`
+	`SDK example configuration showing development flow for SOF on the Intel Apollo Lake platform running Linux OS. Note the choice of compiler toolchains and choice of optional DSP emulators.`
 
 
 SOF source code, tools, and topologies

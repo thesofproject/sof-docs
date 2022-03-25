@@ -217,7 +217,7 @@ DAI_ADD macro defined as follows:
 | **dai_index**: index of the dai in the firmware. Please note that the
   DAI’s of different types can have the same dai_index. The dai_index
   information can be found by looking in platform-specific dai array
-  definitions in the firmware. For example, for apollolake these are
+  definitions in the firmware. For example, for Apollo Lake these are
   defined in src/platform/apollolake/dai.c.
 | **dai_be**: name of CPU DAI as defined in DAI array in the platform driver.
 | **buffer**: Source/sink buffer the DAI is connected to. This completes the

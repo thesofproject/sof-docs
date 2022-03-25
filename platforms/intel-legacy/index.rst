@@ -8,7 +8,7 @@ Intel platforms based on the Tensilica Hifi2-EP DSP supported by the |SOF|.
 +------------+--------------------------------------------------+
 | Atom/PCI   | Merrifield (Edison)                              |
 +------------+--------------------------------------------------+
-| Atom/ACPI  | Baytrail, Cherrytrail, Braswell                  |
+| Atom/ACPI  | Bay Trail, Cherry Trail, Braswell                |
 +------------+--------------------------------------------------+
 | Core/ACPI  | Broadwell (Chromebook Pixel 2015, Dell XPS)      |
 +------------+--------------------------------------------------+

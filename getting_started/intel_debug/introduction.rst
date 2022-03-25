@@ -6,14 +6,14 @@ Overview of Intel hardware platforms
 ACPI platforms (introduced before and up to 2015)
 *************************************************
 
-On Baytrail, Cherrytrail, Braswell, and Broadwell devices (also referred to
+On Bay Trail, Cherry Trail, Braswell, and Broadwell devices (also referred to
 as `legacy` devices), the DSP enumeration is handled by the ACPI
 subsystem.
 
 1. Local audio accessories (mics, speakers, headset)
 ----------------------------------------------------
 
-On Baytrail, Cherrytrail, Braswell, and Broadwell, the BIOS can either
+On Bay Trail, Cherry Trail, Braswell, and Broadwell, the BIOS can either
 enable or disable the DSP:
 
 * Enable the DSP. In this case, a DSP driver is required. This mode is
@@ -28,7 +28,7 @@ enable or disable the DSP:
 
 On Broadwell, HDMI/DP is handled by an HDaudio controller.
 
-On Baytrail/Cherrytrail and Braswell, the BIOS can enable two modes:
+On Bay Trail/Cherry Trail and Braswell, the BIOS can enable two modes:
 
 * HDAudio-based solution (similar to Broadwell).
 
@@ -55,12 +55,12 @@ exposes PCM devices and no audio processing capabilities.
 When OEM platforms integrate digital microphones attached directly
 to the Intel chipset (aka DMIC), or they use I2C/I2S or SoundWire
 interfaces, the DSP must be enabled by the BIOS. There is, however, one
-more option. On Skylake and Kabylake platforms, the Intel DSP is handled by
+more option. On Skylake and Kaby Lake platforms, the Intel DSP is handled by
 the ``snd-soc-skl`` module which relies on closed-source firmware.
 
-SOF is available on Intel PCI devices starting with GeminiLake, and
+SOF is available on Intel PCI devices starting with Gemini Lake, and
 has since been the only solution provided by Intel for the following
-platforms: CometLake, IceLake, and TigerLake.
+platforms: Comet Lake, Ice Lake, and Tiger Lake.
 
 Since multiple drivers can register for the same PCI ID, it was (until
 recently) common for users and distributions to use the wrong
@@ -107,7 +107,7 @@ used.
 The Intel ME (Management Engine) is responsible for authentication of
 the firmware, whether it is signed by an Intel production key (consumer
 products), a community key (open development systems and Chromebooks
-since GeminiLake) or an OEM key. If the Intel ME is disabled by an
+since Gemini Lake) or an OEM key. If the Intel ME is disabled by an
 OEM, or disabled by user-accessible BIOS options, the firmware
 authentication will fail and the firmware boot will not complete. If
 the ME is disabled by the OEM, the only solution is to fall-back

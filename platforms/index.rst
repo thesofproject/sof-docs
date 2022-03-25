@@ -14,16 +14,16 @@ Platform and board specific support is continually added to the SOF project as d
 
    "Host Testbench", "PC command line", "N/A", "N/A", "N/A", "N/A Files are used to simulate audio interfaces"
    "Qemu", "All supported SOF HW platforms", "N/A", "N/A", "N/A", "WiP Files will be used to simulate audio interfaces"
-   "Intel Baytrail / Merrifield", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "25MHz", "96KB IRAM / 192KB DRAM", "3 x SSP (I2S, PCM)"
-   "Intel Cherrytrail / Braswell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "19.2MHz", "96KB IRAM / 192KB DRAM", "6 x SSP (I2S, PCM)"
+   "Intel Bay Trail / Merrifield", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "25MHz", "96KB IRAM / 192KB DRAM", "3 x SSP (I2S, PCM)"
+   "Intel Cherry Trail / Braswell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "19.2MHz", "96KB IRAM / 192KB DRAM", "6 x SSP (I2S, PCM)"
    "Intel Broadwell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "24MHz", "320KB IRAM / 640KB DRAM", "2 x SSP (I2S, PCM)"
-   "Intel Apollolake / Geminilake", "Xtensa HiFi3", "2 @ 100 - 400MHz", "19.2MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
-   "Intel Cannonlake / Whiskeylake / Cometlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "24MHz", "64KB LP / 3008KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Suecreek", "Xtensa HiFi3", "2 @ 120 - 400MHz","24MHz", "64KB LP SRAM / 4096KB HP SRAM", "6 x SSP (I2S, PCM), DMIC"
-   "Intel Icelake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Jasperlake", "Xtensa HiFi3", "2 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 1024KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Tigerlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Alderlake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Apollo Lake / Gemini Lake", "Xtensa HiFi3", "2 @ 100 - 400MHz", "19.2MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
+   "Intel Cannon Lake / Whiskey Lake / Comet Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "24MHz", "64KB LP / 3008KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Sue Creek", "Xtensa HiFi3", "2 @ 120 - 400MHz","24MHz", "64KB LP SRAM / 4096KB HP SRAM", "6 x SSP (I2S, PCM), DMIC"
+   "Intel Ice Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Jasper Lake", "Xtensa HiFi3", "2 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 1024KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Tiger Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Alder Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "NXP i.MX8", "Xtensa HiFi4", "1 @ 666MHz", "TBD", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8X", "Xtensa HiFi4", "1 @ 640MHz", "TBD", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8M", "Xtensa HiFi4", "1 @ 800MHz", "TBD", "64 KB TCM / 256 KB OCRAM / 8MB SDRAM", "1 x SAI, MICFIL"
@@ -42,14 +42,14 @@ Footprint
 =========
 
 DSP platforms can vary from vendor to vendor but in general SOF can run on
-small platforms like Intel Baytrail DSP with 96kb of instruction RAM and 168kb
+small platforms like Intel Bay Trail DSP with 96kb of instruction RAM and 168kb
 of data RAM. The SOF footprint can be shrunk to approximately 50kb of TEXT
 and DATA by fine-tuning runtime features via Kconfig.
 
 DSP Clock Speed
 ===============
 
-Required DSP clock speed depends on the DSP processing load, so it can vary greatly depending on pipeline topology and the algorithm design that is running. SOF can run several volume passthrough pipelines on the Intel Baytrail DSP at 50MHz using unoptimized C code (SIMD disabled and compiled with GCC).
+Required DSP clock speed depends on the DSP processing load, so it can vary greatly depending on pipeline topology and the algorithm design that is running. SOF can run several volume passthrough pipelines on the Intel Bay Trail DSP at 50MHz using unoptimized C code (SIMD disabled and compiled with GCC).
 
 Toolchain
 =========
