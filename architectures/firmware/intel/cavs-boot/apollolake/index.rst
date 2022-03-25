@@ -1,7 +1,7 @@
 .. _cavs-boot-apl:
 
-Apollolake Boot Process
-#######################
+Apollo Lake Boot Process
+########################
 
 .. toctree::
    :maxdepth: 1

@@ -120,9 +120,9 @@ To build the SOF binaries for one or more platforms:
 .. code-block:: bash
 
    cd "${SOF_WORKSPACE}"/sof/
-   # Baytrail
+   # Bay Trail
    ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh byt
-   # Baytrail and Apollo Lake
+   # Bay Trail and Apollo Lake
    ./scripts/docker-run.sh ./scripts/xtensa-build-all.sh byt apl
 
 Build inside container

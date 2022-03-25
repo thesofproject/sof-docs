@@ -1,7 +1,7 @@
 .. _apl-boot-ldr:
 
-Apollolake Boot Loader
-######################
+Apollo Lake Boot Loader
+#######################
 
 * Additional HPSRAM memory initialization.
 * L2 cache disabled in ``boot_entry`` (enabled by default by APL ROM).

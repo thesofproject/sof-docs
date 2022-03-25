@@ -38,7 +38,7 @@ main sections:
 	:alt: SOF Architecture
 	:width: 800px
 
-	`Sound Open Firmware Architecture using Intel Baytrail Platform`
+	`Sound Open Firmware Architecture using Intel Bay Trail Platform`
 
 
 Each section above is well insulated from the other sections by partitioning 

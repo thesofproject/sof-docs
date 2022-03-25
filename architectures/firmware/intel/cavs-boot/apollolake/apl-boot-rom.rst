@@ -1,7 +1,7 @@
 .. _apl-boot-rom:
 
-Apollolake Boot ROM
-###################
+Apollo Lake Boot ROM
+####################
 
 Progress of the boot process is reflected by the status information updated by
 the ROM in an SRAM area called *FW Registers*. It is available to the host

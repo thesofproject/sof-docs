@@ -235,7 +235,7 @@ download gcc components.
 
    unset LD_LIBRARY_PATH
 		
-   # Baytrail/Cherrytrail
+   # Bay Trail / Cherry Trail
    cp config-byt-gcc10.2-gdb9 .config
    ./ct-ng build
    # Haswell/Broadwell
@@ -244,7 +244,7 @@ download gcc components.
    # Apollo Lake
    cp config-apl-gcc10.2-gdb9 .config
    ./ct-ng build
-   # Cannon Lake, Ice Lake, Jasper Lake and Tiger Lake
+   # Cannon Lake, Ice Lake, Jasper Lake, and Tiger Lake
    cp config-cnl-gcc10.2-gdb9 .config
    ./ct-ng build
    # i.MX8/i.MX8X

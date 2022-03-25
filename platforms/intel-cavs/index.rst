@@ -15,7 +15,7 @@ Intel CAVS platforms supported by the |SOF|.
 |         |ver. 2.5  | Tiger Lake                              |
 +---------+----------+-----------------------------------------+
 
-.. note:: While the Sky Lake and Kaby Lake platforms are also based on the
+.. note:: While the Skylake and Kaby Lake platforms are also based on the
 	  cAVS 1.5 architecture, they are not supported at this time due to
 	  differences in boot flow and memory architecture.
 
