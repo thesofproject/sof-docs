@@ -1,0 +1,38 @@
+@startuml
+
+scale max 1280 width
+
+skinparam maxMessageSize 400
+skinparam BoxPadding 4
+
+box "SOF Firmware" #LightBlue
+	participant "MPP Scheduling"
+	participant "Zephyr Thread"
+	participant "Timer"
+end box
+
+"Timer" -> "MPP Scheduling": sys_tick callback
+activate "MPP Scheduling"
+
+loop for each Task with Budget
+	"MPP Scheduling"-> "MPP Scheduling": reset task with budget\ncycles_consumed_in_sys_tick
+	"MPP Scheduling" -> "Zephyr Thread": k_thread_priority_set(thread, MEDIUM_PRIO)
+	"MPP Scheduling" -> "Zephyr Thread": k_thread_time_slice_set(thread, slice_ticks = budget)
+	note right: Reset priority and budget\nto default value
+	"MPP Scheduling"-> "Zephyr Thread": k_thread_runtime_stats_get(thread)
+	activate "Zephyr Thread"
+		return return thread_cycles - absolute number of cycles consumed
+	"MPP Scheduling"-> "MPP Scheduling": save thread_ref_cycles = thread_cycles as a reference
+end
+
+loop for each DP task
+	opt if DP task is ready for processing
+		"MPP Scheduling"-> "MPP Scheduling": re-calculate task deadline
+		"MPP Scheduling" -> "Zephyr Thread": k_thread_deadline_set(thread, deadline)
+		"MPP Scheduling" -> "Zephyr Thread": resume thread
+	end
+end
+
+deactivate "MPP Scheduling"
+
+@enduml

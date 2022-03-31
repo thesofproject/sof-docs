@@ -1,0 +1,108 @@
+@startuml
+
+Title Tasks scheduling on multiple DSP cores
+
+legend
+Assumptions:
+1) 1ms system tick
+
+Notes:
+2) Core #0 has only LL tasks assigned schedule in 1ms period
+3) Core #1 has one DP task assigned that is dependent on Core #0 LL tasks data, scheduled in 1ms period
+(e.g. multicore pipeline with DP module scheduled on separate core)
+4) Core #2 has LL tasks scheduled in 1ms period and DP task scheduled in 2ms period
+(e.g. pipeline processing with LL and DP components components where DP component has 2ms scheduling period)
+end legend
+
+scale 1 as 300 pixels
+
+concise "DSP #2" as DSP_2
+concise "DSP #1" as DSP_1
+concise "DSP #0" as DSP_0
+
+concise "Timer interrupt" as Interrupt
+
+@DSP_0
+0 is "LL proc."
+0.5 is {-}
+
+1 is "LL proc."
+1.5 is {-}
+
+2 is "LL proc."
+2.5 is {-}
+
+3 is "LL proc."
+3.5 is {-}
+
+4 is "LL proc."
+4.5 is {-}
+
+@0 <-> @1: DSP#0 LL schedule period (1ms)
+
+@DSP_1
+0 is {-}
+
+1 is "DP proc."
+1.6 is {-}
+
+2 is "DP proc."
+2.6 is {-}
+
+3 is "DP proc."
+3.6 is {-}
+
+4 is "DP proc."
+4.6 is {-}
+5 is {-}
+
+@0 <-> @1: delay one period (waiting for first DSP#0 LL data)
+@1 <-> @2: DSP#1 DP schedule period (1ms)
+
+@DSP_2
+
+0 is "LL proc."
+0.3 is {-}
+
+1 is "LL proc."
+1.3 is {-}
+
+2 is "LL proc."
+2.3 is "DP proc."
+
+3 is "LL proc."
+3.3 is "DP proc."
+3.7 is {-}
+
+4 is "LL proc."
+4.3 is "DP proc."
+
+@0 <-> @1: DSP#2 LL schedule period (1ms)
+@2.3 <-> @4.3: DSP#2 DP schedule period (2ms)
+
+@0
+Interrupt -[#DarkViolet]> DSP_0
+Interrupt -[#DarkViolet]> DSP_1
+Interrupt -[#DarkViolet]> DSP_2
+
+@1
+Interrupt -[#DarkViolet]> DSP_0
+Interrupt -[#DarkViolet]> DSP_1
+Interrupt -[#DarkViolet]> DSP_2
+
+@2
+Interrupt -[#DarkViolet]> DSP_0
+Interrupt -[#DarkViolet]> DSP_1
+Interrupt -[#DarkViolet]> DSP_2
+
+@3
+Interrupt -[#DarkViolet]> DSP_0
+Interrupt -[#DarkViolet]> DSP_1
+Interrupt -[#DarkViolet]> DSP_2
+
+@4
+Interrupt -[#DarkViolet]> DSP_0
+Interrupt -[#DarkViolet]> DSP_1
+Interrupt -[#DarkViolet]> DSP_2
+
+@enduml

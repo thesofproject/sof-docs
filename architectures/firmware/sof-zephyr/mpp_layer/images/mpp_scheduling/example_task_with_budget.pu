@@ -1,0 +1,50 @@
+@startuml
+
+skinparam maxMessageSize 400
+skinparam BoxPadding 4
+
+box "SOF Firmware" #LightBlue
+	participant "Firmware Manager"
+	participant "MPP Scheduling"
+	participant "Zephyr Scheduler"
+	participant "Zephyr Thread"
+end box
+
+activate "Zephyr Scheduler"
+
+"Zephyr Scheduler"-> "Zephyr Thread": schedule IPC Task with Budget (TWB) thread\n(MEDIUM_PRIO)
+activate "Zephyr Thread"
+
+	"Zephyr Thread"-> "Zephyr Thread": run
+	"Zephyr Thread"-> "MPP Scheduling": on processing complete
+	activate "MPP Scheduling"
+		"MPP Scheduling"-> "Zephyr Thread": k_thread_runtime_stats_get
+		activate "Zephyr Thread"
+		return
+		"MPP Scheduling"-> "MPP Scheduling": update IPC Task with budget\ncycles_consumed_in_sys_tick
+	return
+	"Zephyr Thread"-> "Zephyr Thread": suspend TWB Zephyr Thread\n(k_sem_take)
+return
+
+"Zephyr Scheduler"-> "Zephyr Thread": schedule EDF thread\n(LOW_PRIO)
+activate "Zephyr Thread"
+	"Zephyr Thread"-> "Zephyr Thread": run
+
+	activate "Firmware Manager"
+	"Firmware Manager"-> "Firmware Manager": Host IPC message received
+		"Firmware Manager"-> "MPP Scheduling": request IPC processing
+		activate "MPP Scheduling"
+		"MPP Scheduling"-> "Zephyr Thread": resume IPC TWB Zephyr Thread\n(k_sem_give)
+		"MPP Scheduling" --> "Firmware Manager"
+		deactivate "MPP Scheduling"
+	deactivate "Firmware Manager"
+
+"Zephyr Thread" --> "Zephyr Scheduler": EDF thread gets preempted
+deactivate "Zephyr Thread"
+
+"Zephyr Scheduler"-> "Zephyr Thread": schedule IPC task with budget thread\n(MEDIUM_PRIO)
+	activate "Zephyr Thread"
+		"Zephyr Thread"-> "Zephyr Thread": run
+	return
+
+@enduml
