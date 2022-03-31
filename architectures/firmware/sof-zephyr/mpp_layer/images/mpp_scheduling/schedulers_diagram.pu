@@ -1,0 +1,60 @@
+@startuml
+allowmixing
+
+scale max 1280 width
+
+package “RTOS layer” {
+
+	package "SOF kernel extension" as KERNEL_EXTENSION {
+		package "MPP Scheduling" as MPP_SCHEDULING {
+			component "LL Tasks" as LL_TASKS
+			component "DP Tasks" as DP_TASKS
+			component "Tasks with Budget" as TWB
+			component "Idle Tasks" as IDLE_TASKS
+
+			LL_TASKS -[hidden]right- DP_TASKS
+			DP_TASKS -[hidden]right- TWB
+			TWB -[hidden]right- IDLE_TASKS
+		}
+	}
+
+	package "Zephyr" as ZEPHYR_LAYER {
+		package "Services" as SERVICES {
+			component "Timing" as TIMING
+			component "Interrupts" as INTERRUPTS
+		}
+
+		package "Scheduling" as SCHEDULING {
+			component "Threads" as THREADS
+			component "EDF Scheduler" as EDF
+			component "Time-Slice Scheduler" as TIME_SLICE_SCHEDULING
+
+			THREADS -[hidden]right- EDF
+			EDF -[hidden]right- TIME_SLICE_SCHEDULING
+		}
+
+		package "Drivers" as DRIVERS {
+			component "Timer" as TIMER_DRV
+			component "Watchdog" as WATCHDOG_DRV
+		}
+
+		package “SoC HAL” as SOC_HAL {
+			component "OEM SoC 1" as OEM_SOC_1
+			component "OEM SoC 2" as OEM_SOC_2
+			component "Other SoCs" as OTHER_SOCS
+		}
+
+		component "XTHAL" as XTHAL
+
+		SERVICES -[hidden]right- SCHEDULING
+		SERVICES -[hidden]down- XTHAL
+		SCHEDULING -[hidden]down- SOC_HAL
+		SCHEDULING -[hidden]down- DRIVERS
+		DRIVERS -[hidden]right- SOC_HAL
+		DRIVERS -[hidden]right- XTHAL
+	}
+
+	KERNEL_EXTENSION -[hidden]down- ZEPHYR_LAYER
+}
+
+@enduml

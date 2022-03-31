@@ -1,0 +1,88 @@
+@startuml
+
+scale max 1280 width
+
+skinparam maxMessageSize 400
+skinparam BoxPadding 4
+
+box "SOF" #LightBlue
+	participant "MPP Scheduling"
+	participant "Zephyr Scheduler"
+	participant "Zephyr Thread"
+	participant "Timer"
+end box
+
+"Timer" -> "MPP Scheduling": sys_tick callback
+activate "MPP Scheduling"
+	loop for each core
+		"MPP Scheduling"-> "Zephyr Scheduler": resume LL Zephyr Thread\n(k_sem_give)
+		activate "Zephyr Scheduler"
+	end
+
+	"MPP Scheduling"-> "MPP Scheduling": DP and Task with Budget\nZephyr Threads update
+
+"Zephyr Scheduler"-> "Zephyr Thread": schedule LL Zephyr Thread\n(context switch)
+ deactivate "MPP Scheduling"
+	activate "Zephyr Thread"
+	"Zephyr Thread"-> "Zephyr Thread": zephyr_ll_run
+	activate "Zephyr Thread"
+
+		loop for each LL pending task
+		note left: LL pending tasks are scheduled operations\nthat are waiting for certain circumstances\n(like data arrival) to start processing
+			opt if task is ready for processing
+				"Zephyr Thread"-> "Zephyr Thread": move task \nto LL run queue
+			end
+		end
+
+		loop for each task in LL queues
+			"Zephyr Thread"-> "Zephyr Thread": run LL task callback
+		end
+	return
+
+	"Zephyr Thread"-> "Zephyr Thread": suspend LL Zephyr Thread\n(k_sem_take)
+	return
+
+loop for each Task With Budget (TwB) Zephyr Thread
+	"Zephyr Scheduler"-> "Zephyr Thread": schedule TwB Zephyr Thread\n(context switch)
+		activate "Zephyr Thread"
+		"Zephyr Thread"-> "Zephyr Thread": run
+
+		alt if time_slice (budget) timeout
+			"Zephyr Thread"-> "Zephyr Scheduler": time_slice timeout
+				"Zephyr Scheduler"-> "MPP Scheduling": time_slice callback(thread)
+				activate "MPP Scheduling"
+					"MPP Scheduling"-> "Zephyr Thread": k_thread_priority_set(thread, LOW_PRIO)
+					note right: when budget is consumed\nreset time_slice to default\nand lower priority
+					"MPP Scheduling"-> "Zephyr Thread": k_thread_time_slice_set(thread, slice_ticks = budget)
+				deactivate "MPP Scheduling"
+
+		else if processing complete (no time_slice timeout)
+			"Zephyr Thread"-> "MPP Scheduling": on processing complete (thread)
+			activate "MPP Scheduling"
+				"MPP Scheduling"-> "Zephyr Thread": k_thread_runtime_stats_get(thread)
+				activate "Zephyr Thread"
+					return return thread_cycles - absolute number of cycles consumed by thread
+				"MPP Scheduling"->"MPP Scheduling": update thread\ncycles_consumed_in_sys_tick += (thread_cycles - thread_ref_cycles)
+				note right: thread_ref_cycles is a reference number of cycles consumed by thread\nupdated on each sys_tick start and processing complete
+				"MPP Scheduling"->"MPP Scheduling": update thread_ref_cycles = thread_cycles
+				return
+			deactivate "MPP Scheduling"
+
+			"Zephyr Thread" -> "Zephyr Thread": suspend TwB Zephyr Thread\n(k_sem_take)
+			note left: TwB Threads are expected to be resumed when there is new data for processing\nfor example IPC TwB Thread will be resumed on IPC interrupt
+			"Zephyr Thread" --> "Zephyr Scheduler"
+			deactivate "Zephyr Thread"
+		end
+end
+
+loop for each DP Zephyr Thread
+	"Zephyr Scheduler"-> "Zephyr Thread": schedule DP Zephyr Thread with earlieast deadline\n(context switch)
+	note right: TwB Threads with low priority are treated\nas threads with max deadline and will be\nscheduled after DP threads complete processing
+	activate "Zephyr Thread"
+		"Zephyr Thread"-> "Zephyr Thread": run
+		note right: DP thread runs till completion\nor till earlier deadline or\nhigher priority thread is available
+		return
+	deactivate "Zephyr Thread"
+end
+
+@enduml

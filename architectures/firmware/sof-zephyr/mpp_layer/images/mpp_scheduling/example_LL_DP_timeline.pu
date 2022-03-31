@@ -1,0 +1,95 @@
+@startuml
+
+Title Task scheduling on DSP core
+
+legend
+Assumptions:
+1) 1ms scheduling
+2) 0.1ms takes LL task execution
+3) 0.5ms takes execution of all DP tasks
+end legend
+
+scale 1 as 200 pixels
+
+concise "DP Tasks Processing" as DP_Processing
+concise "LL Tasks Processing" as LL_Processing
+robust "DSP" as DSP
+concise "Timer Interrupt" as Interrupt
+
+DSP is Idle
+
+@DSP
+@1.2 <-> @2: Time available for\nDP tasks execution
+@2.2 <-> @2.7: Actual execution time\nof DP tasks
+@3 <-> @3.2: Actual execution time\nof LL tasks
+
+@Interrupt
+@0 <-> @1 : Schedule period
+
+@0
+Interrupt -> DSP
+DSP -> LL_Processing
+DSP is "Scheduling tasks"
+LL_Processing is Busy
+DP_Processing is {-}
+
+@+0.2
+DSP -> DP_Processing
+LL_Processing is {-}
+DP_Processing is Busy
+
+@+0.5
+DP_Processing -> DSP
+DP_Processing is {-}
+DSP is Idle
+
+@1
+Interrupt -> DSP
+DSP -> LL_Processing
+DSP is "Scheduling tasks"
+LL_Processing is Busy
+
+@+0.2
+DSP -> DP_Processing
+LL_Processing is {-}
+DP_Processing is Busy
+
+@+0.5
+DP_Processing -> DSP
+DP_Processing is {-}
+DSP is Idle
+
+@2
+Interrupt -> DSP
+DSP -> LL_Processing
+DSP is "Scheduling tasks"
+LL_Processing is Busy
+
+@+0.2
+DSP -> DP_Processing
+LL_Processing is {-}
+DP_Processing is Busy
+
+@+0.5
+DP_Processing -> DSP
+DP_Processing is {-}
+DSP is Idle
+
+@3
+Interrupt -> DSP
+DSP -> LL_Processing
+DSP is "Scheduling tasks"
+LL_Processing is Busy
+
+@+0.2
+DSP -> DP_Processing
+
+LL_Processing is {-}
+DP_Processing is Busy
+
+@+0.5
+DP_Processing -> DSP
+DP_Processing is {-}
+DSP is Idle
+
+@enduml

@@ -1,0 +1,39 @@
+blockdiag edf_scheduling {
+
+	node_width = 250;
+	node_height = 120;
+	default_fontsize = 16;
+
+	Comp_1 -> Comp_2
+	comment_1 -> Comp_2 [style=dashed]
+	Comp_2 -> Comp_3
+	comment_2 -> Comp_3 [style=dashed]
+	Comp_3 -> Comp_4
+	comment_3 -> Comp_4 [style=dashed]
+	Comp_4 -> sink
+	comment_4 -> sink [style=dashed]
+
+	Comp_1 [label="DP component 1\n
+		*processing period\n
+		*compute requirement"]
+	Comp_2 [label="DP component 2\n
+		*processing period\n
+		*compute requirement"]
+	Comp_3 [label="DP component 3\n
+		*processing period\n
+		*compute requirement"]
+	Comp_4 [label="DP component 4\n
+		*processing period\n
+		*compute requirement"]
+
+	sink [label="real time sink", shape=endpoint, fontsize = 16]
+
+	comment_1 [label="DP1 to deliver data let\n
+		DP2 meet its objective"]
+	comment_2 [label="DP2 to deliver data let\n
+		DP3 meet its objective"]
+	comment_3 [label="DP3 to deliver data let\n
+		DP4 meet its objective"]
+	comment_4 [label="DP4 to deliver data\n
+		to real time-sink"]
+}

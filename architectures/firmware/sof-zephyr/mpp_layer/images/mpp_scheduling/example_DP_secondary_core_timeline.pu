@@ -1,0 +1,136 @@
+@startuml
+
+Title DP tasks scheduling on secondary DSP core
+
+legend
+Assumptions:
+1) 1ms scheduling
+2) No LL tasks assigned to example secondary DSP core
+3) DP Task B do not depend on Task A completion
+(otherwise, Task B would start on next timer interrupt after A
+completion)
+end legend
+
+scale 1 as 150 pixels
+
+concise "Task B" as Task_B
+concise "Task A" as Task_A
+
+concise "DP task processing" as DP_Processing
+robust "DSP" as DSP
+concise "Timer interrupt" as Interrupt
+
+
+@Task_A
+0 is Busy
+1.5 is {-}
+
+4 is Busy
+5.5 is {-}
+
+8 is Busy
+9.5 is {-}
+
+@0 <-> @4: Task A schedule period (4ms)
+@4 <-> @5.5: Task A execution time (1.5ms)
+
+DP_Processing@0 -[#Orange]> Task_A@0
+DP_Processing@1 -[#Orange]> Task_A@1
+DP_Processing@1.5 -[#Orange]> Task_A@1.5
+
+
+@Task_B
+0 is Busy
+2 is {-}
+
+6 is Busy
+8 is {-}
+
+@0 <-> @6: Task B schedule period (6ms)
+@6 <-> @8: Task B execution time (2ms)
+
+DP_Processing@1.5 -[#Brown]> Task_B@0
+DP_Processing@2 -[#Brown]> Task_B@0.5
+DP_Processing@3 -[#Brown]> Task_B@1.5
+DP_Processing@3.5 -[#Brown]> Task_B@2
+
+DSP is Idle
+DP_Processing is {-}
+
+@0
+DP_Processing is "A"
+
+@0
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DSP is "Scheduling"
+DP_Processing is "A"
+
+@1
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "A"
+
+@1.5
+DP_Processing -> DSP
+DSP -> DP_Processing
+DP_Processing is "B"
+
+@2
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "B"
+
+@3
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "B"
+
+@3.5
+DP_Processing -> DSP
+DSP is Idle
+DP_Processing is {-}
+
+@4
+Interrupt -[#DarkViolet]> DSP
+DSP is "Scheduling"
+DSP -> DP_Processing
+DP_Processing is "A"
+
+@5
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "A"
+
+@5.5
+DP_Processing -> DSP
+DSP is Idle
+DP_Processing is {-}
+
+@6.001
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DSP is "Scheduling"
+DP_Processing is "B"
+
+@7.001
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "B"
+
+@8.001
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "A"
+
+@9.001
+Interrupt -[#DarkViolet]> DSP
+DSP -> DP_Processing
+DP_Processing is "A"
+
+@9.5
+DP_Processing -> DSP
+DSP is Idle
+DP_Processing is {-}
+
+@enduml

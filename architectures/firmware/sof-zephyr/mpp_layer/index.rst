@@ -11,3 +11,4 @@ to the Application layer.
    :maxdepth: 1
 
    mpp_overview
+   mpp_scheduling
