@@ -1,0 +1,56 @@
+@startuml
+
+scale max 1280 width
+
+box "Host" #LightSkyBlue
+	participant "driver" as driver
+end box
+
+box "SOF" #LightBlue
+	participant "Core #0: Zephyr lib" as sof_zephyr_lib_0
+	participant "Zephyr Power Manager" as zephyr_power_manager
+	participant "Zephyr SoC HAL" as soc_hal
+end box
+
+box "Hardware" #LightGreen
+	participant "Core #0: Control" as core_hw_control
+end box
+
+opt If D0ix is enabled
+	driver -> sof_zephyr_lib_0: SET_D0ix(prevent D0ix) IPC request
+	activate sof_zephyr_lib_0
+		sof_zephyr_lib_0 -> zephyr_power_manager: pm_policy_state_lock_get\n(PM_STATE_RUNTIME_IDLE)
+		activate zephyr_power_manager
+		return
+	return
+end
+
+== DSP FW in PM_STATE_ACTIVE ==
+
+driver -> sof_zephyr_lib_0: SET_DX(PID: Core #0, D3) IPC request
+activate sof_zephyr_lib_0
+	sof_zephyr_lib_0 -> zephyr_power_manager: Read status of secondary cores
+	activate zephyr_power_manager
+		return
+
+	alt If any secondary core is powered up
+		sof_zephyr_lib_0 --> driver: SET_DX(ERROR) IPC response
+	else else
+		sof_zephyr_lib_0 -> zephyr_power_manager: pm_power_state_force\n(PM_STATE_SOFT_OFF, PID: Core #0)
+		activate zephyr_power_manager
+			zephyr_power_manager -> soc_hal: pm_power_state_set\n(PM_STATE_SOFT_OFF, PID: Core #0)
+			activate soc_hal
+				soc_hal -> soc_hal: Save context
+				soc_hal -> soc_hal: Prepare restore vector
+			return
+		return
+
+return SET_DX(SUCCESS) IPC response
+end
+
+driver -> core_hw_control: clear power register
+loop Until Core #0 power is down
+	driver -> core_hw_control: Read Core #0 power bit
+end
+
+@enduml

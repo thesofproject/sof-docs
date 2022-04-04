@@ -1,0 +1,41 @@
+@startuml
+
+box "SOF" #LightBlue
+	participant "Core #N: Zephyr lib" as sof_zephyr_lib
+	participant "Zephyr Power Manager" as zephyr_power_manager
+	participant "Zephyr SoC HAL" as soc_hal
+end box
+
+box "Hardware" #LightGreen
+	participant "Core #N: Control" as core_hw_control
+end box
+
+opt When Core is Idle
+
+	zephyr_power_manager -> sof_zephyr_lib: pm_policy_next_state (PID: Core #N, ticks)
+	activate sof_zephyr_lib
+		activate zephyr_power_manager
+		sof_zephyr_lib -> zephyr_power_manager: pm_policy_state_lock_get\n(PM_STATE_RUNTIME_IDLE)
+		activate zephyr_power_manager
+		return
+		alt if no lock on D0ix state
+			return PM_STATE_RUNTIME_IDLE
+		else if there is lock on D0ix state
+			return PM_STATE_ACTIVE
+		end
+
+	zephyr_power_manager -> soc_hal: pm_power_state_set\n(power_state, PID: Core #N)
+	activate soc_hal
+	alt If power_state is PM_STATE_IDLE
+		soc_hal -> soc_hal: arch_clear_power_gating_prevent (Core #N)
+		soc_hal -> core_hw_control: Clear power gating prevent
+	else if PM_STATE_RUNTIME_ACTIVE
+		soc_hal -> soc_hal: arch_set_power_gating_prevent (Core #N)
+		soc_hal -> core_hw_control: Set power gating prevent
+	end
+	return
+
+	deactivate zephyr_power_manager
+end
+
+@enduml
