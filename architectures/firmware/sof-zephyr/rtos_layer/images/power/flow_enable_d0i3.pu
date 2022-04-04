@@ -1,0 +1,29 @@
+@startuml
+
+box "Host" #LightSkyBlue
+	participant "driver" as driver
+end box
+
+box "SOF" #LightBlue
+	participant "Core #0: Zephyr lib" as sof_zephyr_lib
+	participant "Zephyr Power Manager" as zephyr_power_manager
+end box
+
+driver -> sof_zephyr_lib: SET_D0ix(prevent_power_gating = 0) IPC request
+activate sof_zephyr_lib
+	sof_zephyr_lib -> zephyr_power_manager: pm_policy_state_lock_put\n(PM_STATE_RUNTIME_IDLE)
+		activate zephyr_power_manager
+		return
+	sof_zephyr_lib -> zephyr_power_manager: pm_policy_state_lock_is_active\n(PM_STATE_RUNTIME_IDLE)
+		activate zephyr_power_manager
+		return
+
+	alt if D0ix is still locked
+		sof_zephyr_lib --> driver: return ERROR
+		note right: Zephyr PM Policy can be used concurrently\nand there can be more then one lock\non D0ix state
+	else
+		sof_zephyr_lib --> driver: return SUCCESS
+	end
+
+	deactivate sof_zephyr_lib
+@enduml

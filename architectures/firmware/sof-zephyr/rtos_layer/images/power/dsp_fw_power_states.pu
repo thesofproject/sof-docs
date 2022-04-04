@@ -1,0 +1,14 @@
+@startuml
+hide empty description
+
+state "D0 / D0ix" as D0 {
+	[*] --> PM_STATE_ACTIVE: Initialization
+	PM_STATE_ACTIVE -> PM_STATE_RUNTIME_IDLE
+	PM_STATE_RUNTIME_IDLE -> PM_STATE_ACTIVE
+	PM_STATE_ACTIVE --> [*]
+}
+
+[*] --> D0: Go to D0 / Power DSP on
+D0 --> [*]: Go to D3 / Power DSP Off
+
+@enduml

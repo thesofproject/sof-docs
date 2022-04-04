@@ -1,0 +1,10 @@
+@startuml
+
+[*] --> D3
+D3 --> D0
+D0 --> D0ix: SET_D0ix(wake = 0)
+D0ix --> D0: SET_D0ix(wake = 1)
+D0ix --> D3: ENTER_DX_STATE
+D0 --> D3: ENTER_DX_STATE
+
+@enduml

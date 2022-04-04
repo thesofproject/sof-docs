@@ -1,0 +1,30 @@
+node sw_driver [
+	<b>SW Driver</b>
+	* DSP power control over IPC protocol
+]
+
+node fw [
+	<b>SOF Zephyr Library</b>
+
+	* Exposes interface of <i>SOF with XTOS</i> for Host Power IPC handling
+	* Executes requested sequence of Zephyr power operations
+	* Waits and verifies power request completion
+
+	---
+	<b>Zephyr Power Management</b>
+	<i>Generic RTOS Power Management service</i>
+
+	* Manages System Power States
+	* Manages Power Policies
+	* Manages Device Runtime Power
+
+	---
+	<b>SoC HAL</b>
+	<i>Hardware specific power control</i>
+
+	* Moves SoC and its resources to power state requested by Zephyr
+	* Interacts directly with hardware and power registers
+	* Suppors different power states depending on the target SoC
+]
+
+sw_driver -down-> fw : <<IPC>> <b>Set Dx</b> - power state transition D0/D3\n<<IPC>> <b>Set D0ix</b> - power gating override (on/off)

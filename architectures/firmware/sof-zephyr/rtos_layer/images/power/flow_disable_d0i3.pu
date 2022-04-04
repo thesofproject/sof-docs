@@ -1,0 +1,19 @@
+@startuml
+
+box "Host" #LightSkyBlue
+	participant "Driver" as DRIVER
+end box
+
+box "SOF" #LightBlue
+	participant "Core #0: Zephyr lib" as sof_zephyr_lib
+	participant "Zephyr Power Manager" as zephyr_power_manager
+end box
+
+DRIVER -> sof_zephyr_lib: SET_D0ix(prevent_power_gating = 1) IPC request
+activate sof_zephyr_lib
+	sof_zephyr_lib -> zephyr_power_manager: pm_policy_state_lock_get\n(PM_STATE_RUNTIME_IDLE)
+	activate zephyr_power_manager
+	return
+return SET_D0ix IPC response
+
+@enduml
