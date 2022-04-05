@@ -1,0 +1,83 @@
+@startuml
+
+box "DSP #0 (primary)" #LightBlue
+	participant "DSP #0: AMS" as ams
+	participant "DSP #0: KR" as kr
+	participant "DSP #0: Custom module" as custom_module
+end box
+
+box "Shared SRAM"
+	participant "AMS database" as ams_db
+end box
+
+...
+
+group Register KEY_PHRASE_DETECTED producer
+	group Get Message ID
+		kr -> ams: am_service_get_message_type_id(KEY_PHRASE_DETECTED UUID)
+		activate ams
+		ams -> ams_db: Find ID for KEY_PHRASE_DETECTED message
+		activate ams_db
+		alt If no KEY_PHRASE_DETECTED is found
+			ams -> ams_db: Assign ID to KEY_PHRASE_DETECTED message
+			return
+		end
+		return
+	end
+
+	kr -> ams: am_service_register_producer(message_id)
+		activate ams
+		return
+end
+
+...
+
+group Register KEY_PHRASE_DETECTED consumer
+	group Get Message ID
+		custom_module-> custom_module
+	end
+
+	custom_module -> ams: am_service_register_consumer(message_id, callback)
+		activate ams
+		ams -> ams_db: Add KEY_PHRASE_DETECTED message consumer
+		return
+end
+
+...
+
+group Send Async Message
+	kr -> ams: am_service_send_message(lp_kpd_id, message)
+	activate ams
+
+	ams -> ams_db: Get KEY_PHRASE_DETECTED consumers
+	loop Until all consumer are called
+		ams -> ams_db: Get AMS consumer Processor ID
+
+		alt AMS Consumer Processor ID != Current Processor ID
+			ams -> ams: Forward AMS message to the consumer's core
+		else AMS Consumer Processor ID == Current Processor ID
+			ams -> ams_db: Get AMS consumer callback
+			ams -> ams: Call consumer AMS callback
+		end
+	end
+	return
+end
+
+...
+
+group Unregister KEY_PHRASE_DETECTED consumer
+	custom_module -> ams: am_service_unregister_consumer(message_id, callback)
+		activate ams
+		ams -> ams_db: Remove KEY_PHRASE_DETECTED message consumer
+		return
+end
+
+...
+
+group Unregister KEY_PHRASE_DETECTED producer
+	kr -> ams: am_service_unregister_producer(message_id)
+		activate ams
+		return
+end
+
+@enduml

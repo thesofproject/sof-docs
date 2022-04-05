@@ -12,3 +12,4 @@ to the Application layer.
 
    mpp_overview
    mpp_scheduling
+   async_messaging

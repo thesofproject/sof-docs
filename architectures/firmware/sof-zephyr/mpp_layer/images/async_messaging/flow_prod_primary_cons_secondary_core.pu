@@ -1,0 +1,153 @@
+@startuml
+
+scale max 1280 width
+
+box "DSP #0 (primary)" #LightBlue
+	participant "DSP #0: IXC Service" as ixc_service_dsp_0
+	participant "DSP #0: IDC" as idc_dsp_0
+	participant "DSP #0: AMS" as ams_dsp_0
+	participant "DSP #0: KR" as kr_dsp_0
+end box
+
+box "DSP #1 (secondary)" #LightGreen
+	participant "DSP #1: IDC" as idc_dsp_1
+	participant "DSP #1: Scheduler" as scheduler_dsp_1
+	participant "DSP #1: IDC Task" as idc_dsp_1
+	participant "DSP #1: IXC Service" as ixc_service_dsp_1
+	participant "DSP #1: AMS" as ams_dsp_1
+	participant "DSP #1: Custom module" as custom_module_dsp_1
+end box
+
+box "Shared SRAM"
+	participant "AMS database" as ams_db
+end box
+
+...
+
+group Register KEY_PHRASE_DETECTED producer
+	group Get Message ID
+		kr_dsp_0 -> ams_dsp_0: am_service_get_message_type_id(KEY_PHRASE_DETECTED UUID)
+		activate ams_dsp_0
+			ams_dsp_0 -> ams_db: Find ID for KEY_PHRASE_DETECTED message
+				activate ams_db
+				alt If no KEY_PHRASE_DETECTED is found
+					ams_dsp_0 -> ams_db: Assign ID to KEY_PHRASE_DETECTED message
+				end
+				return
+		return
+	end
+
+	kr_dsp_0 -> ams_dsp_0: am_service_register_producer(message_id)
+		activate ams_dsp_0
+		return
+end
+
+...
+
+group Register KEY_PHRASE_DETECTED consumer
+	group Get Message ID
+		custom_module_dsp_1 -> ams_dsp_1: am_service_get_message_type_id(KEY_PHRASE_DETECTED UUID)
+			activate ams_dsp_1
+
+		ams_dsp_0 -> ams_db: Find ID for KEY_PHRASE_DETECTED message
+			activate ams_db
+			alt If no KEY_PHRASE_DETECTED is found
+				ams_dsp_0 -> ams_db: Assign ID to KEY_PHRASE_DETECTED message
+			end
+			return
+	end
+
+	custom_module_dsp_1 -> ams_dsp_1: am_service_register_consumer(message_id)
+		activate ams_dsp_1
+		ams_dsp_1 -> ams_db: Add KEY_PHRASE_DETECTED message consumer
+		return
+end
+
+...
+
+group Send Async Message
+	kr_dsp_0 -> ams_dsp_0: am_service_send_message(message_id, message)
+		activate ams_dsp_0
+		ams_dsp_0 -> ams_db: Get KEY_PHRASE_DETECTED consumers
+
+		note left of ams_db
+		"External" means the consumers located on the other DSP cores.
+		"Internal" means the consumers located on the same DSP core.
+		end note
+
+		loop Until all consumer are called
+			ams_dsp_0 -> ams_db: Get AMS consumer Processor ID
+
+			alt AMS Consumer Processor ID != Current Processor ID
+				alt If a first time AMS consumer on this DSP core
+					alt If it is a first external AMS consumer
+						loop Until AMS message slot is reserved or limit of tries is reached
+							ams_dsp_0 -> ams_db: Reserve AMS message slot
+						end
+
+						ams_dsp_0 -> ams_db: Increment a 'core use count' for AMS slot
+						ams_dsp_0 -> ams_db: Set MOVEMENT_REPORT message
+						ams_dsp_0 -> ams_dsp_0: Flush/Invalidate L1 cache
+					end
+
+					ams_dsp_0 -> ixc_service_dsp_0: Send FORWARD_AMS_MESSAGE(ams_message_slot_id) IDC to the consumer's core
+					activate ixc_service_dsp_0
+						ixc_service_dsp_0 -> idc_dsp_0: IDC Interrupt
+						activate idc_dsp_0
+						idc_dsp_1 -> scheduler_dsp_1: Add/unblock IDC task
+						return
+					return
+				end
+			else AMS Consumer Processor ID == Current Processor ID
+				ams_dsp_0 -> ams_db: Get AMS consumer callback
+				ams_dsp_0 -> ams_dsp_0: Call consumer AMS callback
+			end
+		end
+		return
+
+	...
+
+	scheduler_dsp_1 -> idc_dsp_1: Execute task
+	activate idc_dsp_1
+		idc_dsp_1 -> ixc_service_dsp_1: Process IDC message
+		activate ixc_service_dsp_1
+		ixc_service_dsp_1 -> ams_dsp_1: FORWARD_AMS_MESSAGE(ams_message_slot_id)
+		activate ams_dsp_1
+			ams_dsp_1 -> ams_db: Get KEY_PHRASE_DETECTED consumers
+			loop Until all consumer are called
+				ams_dsp_1 -> ams_db: Get AMS consumer Processor ID
+
+				alt AMS Consumer Processor ID == Current Processor ID
+					ams_dsp_1 -> ams_db: Get AMS consumer callback
+					alt If Custom module consumer
+						ams_dsp_1 -> custom_module_dsp_1: Call AMS Custom module callback
+						activate custom_module_dsp_1
+						return
+					else
+						ams_dsp_1 -> ams_dsp_0: Call consumer AMS callback
+					end
+				end
+			end
+		return
+		return
+	return
+end
+
+...
+
+group Unregister KEY_PHRASE_DETECTED produce
+	kr_dsp_0 -> ams_dsp_0: am_service_unregister_producer(message_id)
+	activate ams_dsp_0
+	return
+end
+
+...
+
+group Unregister KEY_PHRASE_DETECTED consumer
+	custom_module_dsp_1 -> ams_dsp_1: am_service_unregister_consumer(message_id)
+	activate ams_dsp_1
+		ams_dsp_1 -> ams_db: Remove KEY_PHRASE_DETECTED message consumer
+	return
+end
+
+@enduml
