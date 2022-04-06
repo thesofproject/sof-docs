@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml',
-              'sphinx.ext.todo', 'sphinx.ext.extlinks',
+              'sphinx.ext.todo', 'sphinx.ext.extlinks', 'sphinxcontrib.blockdiag'
 ]
 
 
