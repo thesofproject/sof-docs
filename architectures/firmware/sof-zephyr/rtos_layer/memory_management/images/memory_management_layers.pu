@@ -1,0 +1,60 @@
+@startuml
+
+allowmixing
+
+scale max 1024 width
+
+component SOF {
+
+	package "Zephyr" as ZEPHYR_RTOS {
+		interface "Zephyr Memory Service interface" as ZMSI
+		hide ZMSI methods
+		hide ZMSI attributes
+
+		package "Drivers" as DRIVERS {
+			component "Memory Management Driver" as MEMORY_MGMT_DRIVER
+		}
+
+		package "Memory Manager" as ZEPHYR_MEM_MANAGER {
+			component "Multi Heap" as MULTI_HEAP
+			component "Memory Heaps" as MEM_HEAPS
+			component "Memory Blocks Allocator" as MEM_BLOCK_ALLOCATOR
+			component "Demand Paging" as DEMAND_PAGING
+
+			MULTI_HEAP .[hidden]right. MEM_HEAPS
+			MEM_HEAPS .[hidden]right. MEM_BLOCK_ALLOCATOR
+			MEM_BLOCK_ALLOCATOR .[hidden]right. DEMAND_PAGING
+		}
+
+		component "Device Tree" as DEV_TREE
+
+		ZMSI -[hidden]down- MEM_BLOCK_ALLOCATOR
+		ZEPHYR_MEM_MANAGER -[hidden]down- DRIVERS
+		DRIVERS -[hidden]right- DEV_TREE
+	}
+
+	package "Media Processing Pipelines layer" as MPP_LAYER {
+		component "Pipeline Manager" as PIPELINE_MANAGER
+		component "Communication" as COMMUNICATION
+		component "Component Manager" as COMPONENT_MANAGER
+		component "MPP Memory Manager" as MPP_MEM_MANAGER
+
+		PIPELINE_MANAGER -[hidden]right- COMMUNICATION
+		COMMUNICATION -[hidden]right- MPP_MEM_MANAGER
+		MPP_MEM_MANAGER -[hidden]right- COMPONENT_MANAGER
+
+	}
+
+	package "Application layer" as APP_LAYER {
+		component "Loadable Components" as LOADABLE_COMPONENTS
+		component "Built-in Components" as BUILT_IN_COMPONENTS
+
+		BUILT_IN_COMPONENTS -[hidden]right- LOADABLE_COMPONENTS
+	}
+
+	APP_LAYER -[hidden]down- MPP_LAYER
+	MPP_LAYER -[hidden]down- ZEPHYR_RTOS
+
+}
+
+@enduml

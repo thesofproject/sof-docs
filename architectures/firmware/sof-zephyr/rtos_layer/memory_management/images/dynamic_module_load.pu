@@ -1,0 +1,77 @@
+@startuml
+
+box "Host" #LightGreen
+	participant "Driver" as host_driver
+end box
+
+box "Media Processing Pipelines Layer" #LightSkyBlue
+	participant "Component Manager" as component_manager
+	participant "Library Manager" as lib_manager
+	participant "MPP Memory Manager" as mpp_memory_manager
+end box
+
+box "Zephyr RTOS" #LightBlue
+	participant "Memory Management Driver" as memory_management_driver
+end box
+
+box "Hardware" #LightGrey
+	participant "Memory" as hw_memory
+end box
+
+host_driver -> lib_manager: Load Library
+	activate lib_manager
+	lib_manager -> mpp_memory_manager: rmalloc(MEM_ZONE_RUNTIME, flags=NULL, MEM_CAPS_LOADABLE_LIBRARY, size)
+		activate mpp_memory_manager
+		return address to store library
+	lib_manager --> host_driver
+	deactivate lib_manager
+
+host_driver -> lib_manager: Transfer library over DMA\nto given address
+
+host_driver -> component_manager: Instantiate Component
+	activate component_manager
+
+	opt  if Component is Loadable and it is first instance
+		component_manager -> lib_manager: Load component
+		activate lib_manager
+
+		loop repeat for Component TEXT, RODATA
+			lib_manager -> lib_manager: read Component virtual address and size from manifest
+
+			lib_manager -> memory_management_driver: sys_mm_drv_map_region(virt*, phys=NULL, size, flags=NULL)
+				activate memory_management_driver
+				memory_management_driver -> memory_management_driver: allocate free phys pages
+				opt power up memory banks for allocated phys pages
+					memory_management_driver -> hw_memory: power up memory banks
+				end
+				memory_management_driver --> lib_manager
+				deactivate memory_management_driver
+
+			lib_manager -> lib_manager: read Component address offset from library manifest
+			lib_manager -> lib_manager: mem_copy(virt*, library_store_addr + offset, size)
+			lib_manager -> memory_management_driver: sys_mm_drv_update_region(virt*, size, flags= CODE / RODATA)
+				activate memory_management_driver
+				note right: update region flags to prevent overwrite
+				return
+
+		end
+
+		opt if Component has BSS
+			lib_manager -> memory_management_driver: sys_mm_drv_map_region(virt*, phys=NULL, bss_size, flags)
+			activate memory_management_driver
+			memory_management_driver -> memory_management_driver: allocate free phys pages
+			opt power up memory banks for allocated phys pages
+				memory_management_driver -> hw_memory: power up memory banks
+			end
+			memory_management_driver --> lib_manager
+			deactivate memory_management_driver
+		end
+
+		lib_manager --> component_manager
+		deactivate lib_manager
+	end
+
+	component_manager -> component_manager: Instantiate Component
+	component_manager --> host_driver
+
+@enduml
