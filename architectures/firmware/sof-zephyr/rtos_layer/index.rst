@@ -11,5 +11,6 @@ workloads.
    :maxdepth: 1
 
    zephyr_kernel_overview
+   memory_management/index
    power_management
    io_drivers/index

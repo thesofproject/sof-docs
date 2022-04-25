@@ -1,0 +1,26 @@
+@startuml
+
+box "SOF" #LightBlue
+	participant "Library Manager" as library_manager
+end box
+
+box "Zephyr" #LightGreen
+	participant "Memory Management Driver" as memory_management_driver
+end box
+
+box "Hardware" #LightGrey
+	participant "Memory" as hw_memory
+end box
+
+activate library_manager
+
+library_manager -> memory_management_driver: sys_mm_drv_map_region\n(virt*, phys=NULL, size, flags)
+	activate memory_management_driver
+	memory_management_driver -> memory_management_driver: allocate memory phys pages
+	opt if phys memory pages require power up
+		memory_management_driver -> hw_memory: power up memory banks
+	end
+
+	return
+
+@enduml
