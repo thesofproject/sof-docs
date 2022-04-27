@@ -11,6 +11,5 @@ SOF with XTOS Architecture
    pm-runtime/index
    schedulers
    drivers/index
-   components/index
    pipelines/index
    kd_integration/index
