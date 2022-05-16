@@ -10,3 +10,4 @@ SOF with Zephyr Architecture
    app_layer/index
    mpp_layer/index
    rtos_layer/index
+   zephyr_api_integration

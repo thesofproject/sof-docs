@@ -1,0 +1,53 @@
+component "app/mpp" as app
+
+component lib <<sof_api>> {
+	interface cpu
+	interface dai
+	interface dma
+	interface pm_runtime
+
+	' component dai_mng
+	' dai_mng -up- dai
+	' component dma_mng
+	' dma_mng -up- dma
+	' component pm_runtime_impl
+	' pm_runtime_impl -up- pm_runtime
+}
+
+app .down.> dai : uses
+app .down.> dma : uses
+app .down.> pm_runtime : uses
+app .down.> cpu : uses
+
+component "lib-zephyr" as lib_zephyr {
+	component "cpu-flows" as cpu_flows
+	cpu_flows -up- cpu
+}
+
+component "zephyr" as zephyr {
+	component "api" as zephyr_api
+}
+
+cpu_flows .down.> zephyr_api : uses
+zephyr_api -up- dai
+zephyr_api -up- dma
+zephyr_api -up- pm_runtime
+
+' component "arch/xtensa/lib" as arch_xtensa {
+' 	component arch_cpu
+' }
+' arch_cpu -up- cpu
+
+' component <i>vendor</i> {
+' 	component platform {
+' 		component dai_init
+' 		dai_init .up.> dai_mng : initialize
+' 		component dma_init
+' 		dma_init .up.> dma_mng : initialize
+' 		component platform_pm_runtime
+' 	}
+' 	component drivers
+' 	drivers .up.> dma : uses
+' }
+' arch_cpu .down.> platform
+' pm_runtime_impl .down.> platform_pm_runtime
