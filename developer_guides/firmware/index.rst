@@ -11,3 +11,4 @@ Developer guides and information for firmware development.
    component-tutorial/tut-intro
    porting
    cmake
+   async_messaging_best_practices

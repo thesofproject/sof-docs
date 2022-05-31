@@ -22,6 +22,8 @@ Asynchronous messages are one-way from producer to all consumers and allows to:
 Messages are exchanged over IDC protocol and shared memory with multi-core
 support. Message producers and consumers can be run on different cores.
 
+Development guide: :ref:`async_messaging_best_practices`
+
 .. TODO: Add link to AMS interface generated from code
 
 Asynchronous Messaging Flows
