@@ -1,0 +1,42 @@
+actor pipeline
+box "Module Adapter\no-- comp_ops"
+	participant "module_adapter" as module_adapter
+end box
+box "IADK Module Adapter\no-- module_interface"
+	participant "iadk_adapter" as iadk_adapter
+end box
+box "IADK Module\no-- ProcessingModuleInterface"
+	participant iadk_module
+end box
+
+pipeline -> module_adapter : <b>(1) ops->module_adapter_copy()</b>
+	activate module_adapter
+
+	module_adapter -> module_adapter : find min bytes\nto process
+
+	note left of module_adapter
+	This logic is WRONG for some modules!!
+	end note
+
+	module_adapter -> module_adapter : copy input from sources\nto internal buffers
+
+	module_adapter -> module_adapter : module_process()
+		activate module_adapter
+note left of module_adapter
+Why all those extra internal calls
+used only once??
+end note
+
+		module_adapter -> iadk_adapter : <b>(2) ops->process()</b>
+			activate iadk_adapter
+			iadk_adapter -> iadk_module : <b>(3) processing</b>
+		module_adapter <-- iadk_adapter
+		deactivate iadk_adapter
+
+	deactivate module_adapter
+
+	module_adapter -> module_adapter : module_adapter_process_output()
+		activate module_adapter
+		module_adapter -> module_adapter : copy output from internal buffers\ntosinks
+	deactivate module_adapter
+pipeline <-- module_adapter

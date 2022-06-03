@@ -8,3 +8,4 @@ Components
 
    component-overview
    component-mgmt-api
+   component-module-api

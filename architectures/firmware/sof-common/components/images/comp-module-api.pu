@@ -1,0 +1,160 @@
+scale 1024 width
+
+component "pipelines" {
+	class pipeline
+	hide pipeline methods
+	hide pipeline attributes
+}
+component "component" {
+
+	class comp_driver <<struct>> {
+	}
+	hide comp_driver methods
+	hide comp_driver attributes
+
+	class comp_dev <<struct>> {
+		state
+		position
+		frames
+		pipeline
+		min_sink_bytes
+		min_source_bytes
+		task
+		size
+		period
+		...
+	}
+	hide comp_dev methods
+
+	interface buffer
+	hide buffer methods
+	hide buffer attributes
+
+	interface comp_ops {
+		create() : comp_dev*
+		free(comp_dev*)
+		params(params)
+		dai_get_hw_params(params, dir)
+		dai_config(dai_config, dai_spec_config)
+		cmd(int cmd, void *data)
+		trigger(int cmd)
+		prepare()
+		reset()
+		copy()
+		position()
+		get_attribute()
+		set_attribute()
+		dai_ts_config()
+		dai_ts_start()
+		dai_ts_stop()
+		unbind()
+		get_large_config()
+		set_large_config()
+	}
+	hide comp_ops attributes
+
+
+	comp_driver -> comp_dev : creates
+	comp_dev *-right- comp_ops
+}
+pipeline -> comp_ops : calls
+
+component "module_adapter" {
+
+	class module_adapter <<struct>> {
+		ops : comp_ops =
+			.create = adapter_shim_new
+			.prepare = module_adapter_prepare
+			.params = module_adapter_params
+			.copy = module_adapter_copy
+
+		adapter_shim_new()
+		module_adapter_prepare()
+		module_adapter_params()
+		module_adapter_copy()
+	}
+
+	interface module_interface {
+		init(processing_module*)
+		prepare(processing_module*)
+		process(processing_module*)
+		set_configuration()
+		get_configuration()
+		set_processing_mode()
+		get_processing_mode()
+		reset()
+		free()
+	}
+	hide module_interface attributes
+
+	class processing_module <<struct>> {
+		stream_params
+		sink_buffer_list
+		period_bytes
+		deep_buff_bytes
+		output_buffer_size
+		input_buffers[]
+		output_buffers[]
+	}
+	hide processing_module methods
+
+	module_adapter -left-> processing_module : creates
+	module_adapter -> module_interface : calls
+
+}
+module_adapter -up-|> comp_ops
+
+component "cadence adapter" {
+	class cadence_codec {
+		cadence_codec_init()
+		cadence_codec_prepare()
+		cadence_codec_process()
+		cadence_codec_set_configuration()
+		cadence_codec_reset()
+		cadence_codec_free()
+	}
+	hide cadence_codec attributes
+
+	interface "Cadence Codec API" as cadence_codec_api
+	hide cadence_codec_api methods
+	hide cadence_codec_api attributes
+
+	cadence_codec -> cadence_codec_api : calls
+}
+cadence_codec -up-|> module_interface
+
+component "custom extensions" {
+	class "mp3 codec" as mp3_codec
+	hide mp3_codec methods
+	hide mp3_codec attributes
+
+	class "aac codec" as aac_codec
+	hide aac_codec methods
+	hide aac_codec attributes
+}
+mp3_codec -up-|> cadence_codec_api
+aac_codec -up-|> cadence_codec_api
+
+component "IADK adapter" {
+	class adp_interface {
+		intel_modules_init()
+		intel_modules_prepare()
+		intel_modules_process()
+	}
+	hide adp_interface attributes
+
+	interface ProcessingModuleInterface <<C++>> {
+		Init()
+		Delete()
+		Process()
+		Reset()
+		SetProcessingMode()
+		GetProcessingMode()
+		SetConfiguration(config_id, fragment_pos, data_in, data_out)
+		GetConfiguration(config_id, fragment_pos, data_out)
+	}
+	hide ProcessingModuleInterface attributes
+
+	adp_interface -> ProcessingModuleInterface : calls
+}
+adp_interface -up-|> module_interface

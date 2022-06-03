@@ -1,0 +1,22 @@
+actor pipeline
+box "Module Adapter\no-- comp_ops"
+	participant "module_adapter" as module_adapter
+end box
+box "IADK Module Adapter\no-- module_interface"
+	participant "iadk_adapter" as iadk_adapter
+end box
+box "IADK Module\no-- ProcessingModuleInterface"
+	participant iadk_module
+end box
+
+pipeline -> module_adapter : <b>(1) ops->module_adapter_prepare()</b>
+	activate module_adapter
+	module_adapter -> module_adapter : module_prepare()
+		activate module_adapter
+		module_adapter -> iadk_adapter : <b>(2) ops->prepare()</b>
+			activate iadk_adapter
+			iadk_adapter -> iadk_module : <b>(3) preparation</b>
+		module_adapter <-- iadk_adapter
+		deactivate iadk_adapter
+		module_adapter -> module_adapter : alloc buf descriptors
+		module_adapter -> module_adapter : alloc buffers
