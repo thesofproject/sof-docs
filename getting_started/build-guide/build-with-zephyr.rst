@@ -41,10 +41,9 @@ Check out and build
 
    .. code-block:: bash
 
-      mkdir $ZEPHYR_WORKSPACE
-      cd $ZEPHYR_WORKSPACE
-      west init
+      west init $ZEPHYR_WORKSPACE
       # Significantly smaller and faster than a full "west update"
+      cd $ZEPHYR_WORKSPACE
       west update hal_xtensa sof
 
 #. Build and sign a firmware image:
