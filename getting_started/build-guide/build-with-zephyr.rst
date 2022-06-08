@@ -30,8 +30,8 @@ Check out and build
    .. note::
 
       If you need a different SOF version than the one that west
-      automatically checks out, change to ``modules/audio/sof`` and use git
-      to select your preferred version. You need at least version 1.6 to use
+      automatically checks out, instructions below show how to change ``modules/audio/sof``
+      and select your preferred version. You need at least Zephyr version 1.6 to use
       it with Zephyr. Make sure you branch or tag your code in git;
       otherwise, a future ``west update`` may lose it. See the west user
       guide.
@@ -46,15 +46,19 @@ Check out and build
       cd $ZEPHYR_WORKSPACE
       west update hal_xtensa sof
 
-#. Build and sign a firmware image:
+#. Make sure the appropriate Zephyr SDK or other toolchain of your
+   choice can be found for your desired ``--board`` and that every
+   other Zephyr dependency is set up properly:
 
    .. code-block:: bash
 
-      cd $ZEPHYR_WORKSPACE
-      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh -h  # shows usage
-      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh $your_platforms
-      ls build-*/zephyr/zephyr.*
-        => build-*/zephyr/zephyr.ri ...
+      ls zephyr/boards/xtensa/
+      west build --board intel_adsp_cavs25 ./zephyr/samples/subsys/audio/sof/
+
+   For now the ``.elf`` file produced by ``west build`` is missing a
+   manifest and signature. The wrapper script below invokes *both*
+   ``west build`` and ``west sign`` and produces a complete ``.ri``
+   file; you won't need to call ``west build`` again.
 
 #. Fetch and switch to the latest SOF code
 
@@ -69,8 +73,29 @@ Check out and build
      git fetch sof
      git switch --track sof/main
 
-   You can also delete the ``sof`` clone downloaded by ``west`` and
-   replace it with an older clone; west will automatically adjust.
+     # If needed, correct submodule URLs in .git/config with latest .gitmodules file.
+     git submodule sync --recursive
+     # Download submodules
+     git submodule update --init --recursive
+
+   Alternatively, feel free to delete the ``sof`` clone downloaded by
+   ``west`` and replace it with any other ``sof`` clone you already
+   have; west will automatically adjust.
+
+#. Build and sign a firmware image:
+
+   .. code-block:: bash
+
+      cd $ZEPHYR_WORKSPACE
+      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh -h  # shows usage
+      ./modules/audio/sof/scripts/xtensa-build-zephyr.sh $your_platforms
+      ls build-*/zephyr/zephyr.*
+        => build-*/zephyr/zephyr.ri ...
+
+
+There is work in progress to substitute ``xtensa-build-zephyr.sh`` with
+a Python replacement ``xtensa-build-zephyr.py`` for Windows
+compatibility. It can already be used in many cases.
 
 Run
 ***
