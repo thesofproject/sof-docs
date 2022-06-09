@@ -10,7 +10,7 @@ Install the Kernel Locally
 Introduction
 ************
 	   
-Make sure you have `set up your development environment <prepare_build_environment.html>`_ before following these steps. This page will guide you through the process of installing the kernel locally on your machine. It will be installed in addition to your distro's default kernel so that you can always change back to that in case something goes wrong. If you are interested in learning more about this process, there are lots of online guides available, for example `Fedora* Quick Docs <https://docs.fedoraproject.org/en-US/quick-docs/kernel/build-custom-kernel/#_building_a_vanilla_upstream_kernel>`_ or `this wiki page <https://wiki.linuxquestions.org/wiki/How_to_build_and_install_your_own_Linux_kernel>`_.
+Make sure you have `set up your development environment <prepare_build_environment.html>`_ before following these steps. This page will guide you through the process of installing the kernel locally on your machine. It will be installed in addition to your distro's default kernel so that you can always change back to that in case something goes wrong. If you are interested in learning more about this process, there are lots of online guides available, for example `Fedora* Quick Docs <https://docs.fedoraproject.org/en-US/quick-docs/kernel/build-custom-kernel/#_building_a_vanilla_upstream_kernel>`_, `Arch Linux documentation <https://wiki.archlinux.org/title/Kernel/Traditional_compilation>`_ or `this wiki page <https://wiki.linuxquestions.org/wiki/How_to_build_and_install_your_own_Linux_kernel>`_.
 
 
 Build and install the kernel
