@@ -174,13 +174,13 @@ SOF_GIT = 'https://github.com/thesofproject'
 # as required.
 extlinks = {
     'git-sof-mainline':
-       (SOF_GIT + '/sof/tree/master/%s', ""),
+       (SOF_GIT + '/sof/tree/master/%s', None),
     'git-sof-docs-mainline':
-       (SOF_GIT + '/sof-docs/tree/master/%s', ""),
+       (SOF_GIT + '/sof-docs/tree/master/%s', None),
     'git-sof-kconfig':
-       (SOF_GIT + '/kconfig/tree/master/%s', ""),
+       (SOF_GIT + '/kconfig/tree/master/%s', None),
     'git-alsa':
-    ('https://git.alsa-project.org/?p=%s.git', ""),
+    ('https://git.alsa-project.org/?p=%s.git', None),
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
