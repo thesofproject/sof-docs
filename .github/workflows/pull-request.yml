@@ -102,7 +102,7 @@ jobs:
 
   lax:
     name: "PIP_IGNORE_INSTALLED=0 requirements-lax.txt"
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     # Makefile downgrades the Sphinx warnings, they are not errors any more
     env: {LAX: 1}
     steps:
