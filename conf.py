@@ -52,6 +52,12 @@ plantuml_output_format = 'svg'
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
+# Fixes "WARNING: Error when parsing function declaration."
+c_id_attributes = ["__sparse_cache"]
+# Not clear why Sphinx thinks some C files are C++
+cpp_id_attributes = c_id_attributes
+# cpp_paren_attributes = ["_ALIAS_OF", "__printf_like"]
+
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
 #
