@@ -17,15 +17,49 @@ Requirements
 Enabling Probes
 ***************
 
-- Enable the following Linux kernel configuration options:
+Kernel side
+===========
+
+- The probes support is enabled by Kconfig on supported platforms as a SOF client
+  driver, check the kernel config for ``SND_SOC_SOF_DEBUG_PROBES``.
+  The debugfs also needs to be enabled for the probes to be usable.
 
   .. code-block:: bash
 
      CONFIG_DEBUG_FS=y
-     CONFIG_SND_SOC_SOF_DEBUG_PROBES=y
-     CONFIG_SND_SOC_SOF_HDA_PROBES=y
 
-- Enable the Probe module in the SOF firmware ``kconfig`` using this command:
+- The probes client needs to be enabled via the 'enable' module parameter (e.g. ``/etc/modprobe.d/sof.conf``):
+
+  .. code-block:: bash
+
+     options snd_sof_probes enable=1
+
+  To make sure that the sound card for the probes is consistent between boots, a
+  card slot can be forced for the module.
+  For example to use card3, this can be added to the sof.conf file:
+
+  .. code-block:: bash
+
+     options snd slots=,,,snd_sof_probes
+
+  Remove and re-load the driver:
+
+  .. code-block:: bash
+
+     rmmod snd_sof_probes
+     modprobe snd_sof_probes
+
+  Verify that the card is available (if not, try to reboot):
+
+  .. code-block:: bash
+
+     cat /proc/asound/cards | grep sofprobes
+
+Firmware side
+=============
+
+- The Probe module can be enabled under the 'Probe' menu's 'Probes enabled' prompt (``PROBES``)
+  To edit the ``kconfig`` use this command:
 
   .. code-block:: bash
 
@@ -49,13 +83,14 @@ the last stage of extraction.
 
    .. code-block:: bash
 
-	  crecord -c0 -d23 -b8192 -f4 -FS32_LE -R48000 -C4 /tmp/extract.dat
+	  crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 /tmp/extract.dat
 
    Usage:
 
    .. code-block:: none
 
-      -d : device ID; equals 23 in the above example.
+      -c : card number; 3 in the above example if a slot is forced
+      -d : device ID; equals 0 in the above example (probes card only have 1 compressed capture stream).
       -b : buffer size. For probes, this is part of the probe
            initialization IPC and denotes the extraction stream buffer size on the host side.
       -f : fragments is basically number of periods for compress stream.
