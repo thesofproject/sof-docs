@@ -1,0 +1,65 @@
+@startuml
+
+box "Host" #LightGreen
+	participant "Driver" as host_driver
+end box
+
+box "SOF" #LightSkyBlue
+	participant "IPC4 Handler" as ipc4_handler
+	participant "Component Manager" as component_manager
+	participant "Library Manager" as library_manager
+end box
+
+box "Zephyr RTOS" #LightBlue
+	participant "Memory Management Driver" as memory_management_driver
+end box
+
+host_driver -> ipc4_handler: SOF_IPC4_MOD_INIT_INSTANCE
+	activate ipc4_handler
+	ipc4_handler -> library_manager: lib_manager_register_module()
+	activate library_manager
+	library_manager -> ipc4_handler: return status
+	deactivate library_manager
+	ipc4_handler -> component_manager: Create comp_driver
+		activate component_manager
+		component_manager -> library_manager: Allocate L2 memory for module
+		activate library_manager
+		library_manager -> memory_management_driver: Map L2 memory
+		deactivate library_manager
+		activate memory_management_driver
+		memory_management_driver -> library_manager
+		deactivate memory_management_driver
+		activate library_manager
+		library_manager -> memory_management_driver: Load module code and rodata \nfrom L3 to L2 memory
+		activate memory_management_driver
+		memory_management_driver -> library_manager
+		deactivate memory_management_driver
+		library_manager -> memory_management_driver: Initialize L2 memory for bss
+		activate memory_management_driver
+		memory_management_driver -> library_manager
+		deactivate memory_management_driver
+	loop Search library for shared module
+		library_manager -> library_manager: Check if shared module exists and is not loaded
+		library_manager -> memory_management_driver: Allocate/Map L2 memory for shared module
+		activate memory_management_driver
+		memory_management_driver -> library_manager
+		deactivate memory_management_driver
+		library_manager -> memory_management_driver: Load shared module code and rodata \nfrom L3 to L2 memory
+		activate memory_management_driver
+		memory_management_driver -> library_manager
+		deactivate memory_management_driver
+	end loop
+	alt IADK module
+		component_manager -> library_manager: Create/Initialize comp_driver \nwith IADK Module Adapter 
+		library_manager -> component_manager: return status
+	else SOF module
+		component_manager -> library_manager: Create/Initialize comp_driver 
+		library_manager -> component_manager: return status
+		deactivate library_manager
+	end alt
+	component_manager -> ipc4_handler: return status
+	deactivate component_manager
+ipc4_handler -> host_driver: Complete IPC request
+deactivate ipc4_handler
+
+@enduml
