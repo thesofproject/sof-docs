@@ -1,0 +1,49 @@
+@startuml
+
+box "Host" #LightGreen
+	participant "Driver" as host_driver
+end box
+
+box "SOF" #LightBlue
+	participant "IPC4 Handler" as ipc4_handler
+	participant "Library Manager" as library_manager
+	participant "MPP Memory Manager" as mpp_memory_manager
+end box
+
+box "ACE Platform" #LightYellow
+	participant "ROM EXT" as rom_ext
+end box
+
+
+host_driver -> ipc4_handler: SOF_IPC4_GLB_LOAD_LIBRARY
+	activate ipc4_handler
+	ipc4_handler -> library_manager: lib_manager_load_library()
+	activate library_manager
+	library_manager -> library_manager: Parse Manifest \nPrepare Storage Memory
+	library_manager -> mpp_memory_manager: Allocate L3 memory for library
+	activate mpp_memory_manager
+	mpp_memory_manager -> library_manager
+	deactivate mpp_memory_manager
+	library_manager -> library_manager: Prepare HDA DMA transfer
+	host_driver -> library_manager: Transfer library manifest over DMA\nto L3 memory
+	note right: if SoC does not support L3 memory\nthen L2 memory has to be used
+	opt if AUTH_API_ENABLED
+		library_manager -> rom_ext: Verify Manifest
+		activate rom_ext
+		rom_ext -> library_manager: result
+		deactivate rom_ext
+	end opt
+	host_driver -> library_manager: Transfer library code over DMA\nto L3 memory
+	opt if AUTH_API_ENABLED
+		library_manager -> rom_ext: Verify whole Library
+		activate rom_ext
+		rom_ext -> library_manager: result
+		deactivate rom_ext
+	end opt
+	library_manager -> library_manager: Update Library \ndescriptors table
+	library_manager -> ipc4_handler: return status
+	deactivate library_manager
+ipc4_handler -> host_driver: Complete IPC request
+deactivate ipc4_handler
+
+@enduml

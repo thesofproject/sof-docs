@@ -1,0 +1,56 @@
+@startuml
+
+box "Host" #LightGreen
+	participant "Driver" as host_driver
+end box
+
+box "SOF" #LightSkyBlue
+	participant "IPC4 Handler" as ipc4_handler
+	participant "Component Manager" as component_manager
+	participant "Library Manager" as library_manager
+end box
+
+box "Zephyr RTOS" #LightBlue
+	participant "Memory Management Driver" as memory_management_driver
+end box
+
+host_driver -> ipc4_handler: SOF_IPC4_MOD_DELETE_INSTANCE
+	activate ipc4_handler
+	ipc4_handler -> component_manager: Free comp_driver
+	activate component_manager
+	alt IADK module
+		component_manager -> library_manager: Deinitialize comp_driver \nwith Processing Module Adapter 
+		activate library_manager
+		library_manager -> component_manager: return status
+		deactivate library_manager
+	else SOF module
+		component_manager -> library_manager: Deinitialize comp_driver 
+		activate library_manager
+		library_manager -> component_manager: return status
+		deactivate library_manager
+	end alt
+	component_manager -> library_manager: Free comp_driver resources
+	activate library_manager
+	library_manager -> memory_management_driver: Free/Unmap L2 memory for code and rodata
+	activate memory_management_driver
+	memory_management_driver -> library_manager
+	deactivate memory_management_driver
+	library_manager -> memory_management_driver: Free/Unmap L2 memory for bss
+	activate memory_management_driver
+	memory_management_driver -> library_manager
+	deactivate memory_management_driver
+	loop Search library for shared module
+		library_manager -> library_manager: Check if shared module exists and is loaded
+		library_manager -> memory_management_driver: Free/Unmap L2 memory for shared module
+		activate memory_management_driver
+		memory_management_driver -> library_manager
+		deactivate memory_management_driver
+	end loop
+	library_manager -> component_manager: return status
+	deactivate library_manager
+	component_manager -> ipc4_handler: return status
+	deactivate component_manager
+ipc4_handler -> host_driver: Complete IPC request
+deactivate ipc4_handler
+
+@enduml
