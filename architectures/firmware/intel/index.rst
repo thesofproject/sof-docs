@@ -11,3 +11,4 @@ generic SOF architecture.
    :maxdepth: 1
 
    cavs/index
+   ace/index
