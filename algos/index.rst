@@ -37,6 +37,7 @@ Further information on specific algorithms is forthcoming.
 .. toctree::
    :maxdepth: 1
 
-   src/sample_rate_conversion
    demux/demux.rst
+   eq/equalizers_tuning
+   src/sample_rate_conversion
    tdfb/time_domain_fixed_beamformer
