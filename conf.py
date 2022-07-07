@@ -76,7 +76,7 @@ author = u'SOF Project developers'
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 
-version = release = "2.0"
+version = release = "2.2"
 
 #
 # The short X.Y version.
