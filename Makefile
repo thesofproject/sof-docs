@@ -9,7 +9,7 @@ else
   Q = @
 endif
 
-SOF_DOC_BUILD = ../sof/doc
+SOF_DOC_BUILD = ../sof/build_doxygen/
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = "SOF Project"
 SOURCEDIR     = .
