@@ -3,6 +3,13 @@
 Build and Run Testbench
 #######################
 
+First, you'll need to install some dependencies to run the testbench:
+
+.. code-block:: bash
+
+   sudo apt install valgrind bc # For Ubuntu/Debian
+   sudo dnf install valgrind bc # For Fedora
+
 Retrieve the required firmware from the ``thesofproject`` repository in
 Github as described in :ref:`build-from-scratch`. Start a shell at the
 firmware repository top level in the ``$SOF_WORKSPACE/sof`` directory as also described.
