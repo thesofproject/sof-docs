@@ -12,10 +12,9 @@ Intel platforms include: |BYT|, |CHT|, |HSW|, |BDW|, |APL|, |CNL|, |ICL|, |JSL|,
 
 Support also exists for NXP i.MX8/i.MX8X/i.MX8M platforms.
 
-The following steps describe how to install the SOF development
-environment on Ubuntu 16.04, 18.04, 18.10, and 20.04. They should work on
-19.04, 19.10 and other Linux distributions with minor or no
-modifications.
+The following steps describe how to install the SOF development environment on
+Ubuntu 16.04, 18.04, 18.10, and 20.04, and Fedora 36. They should work on Ubuntu
+19.04, 19.10 and other Linux distributions with minor or no modifications.
 
 .. note::
 
@@ -50,7 +49,7 @@ Install package dependencies
 ============================
 .. note::
 
-   This guide uses Ubuntu as an example but any modern distribution can be
+   This guide uses Ubuntu/Fedora as an example but any modern distribution can be
    used for SOF development.
 
 Due to continuous default package updates in distributions, SOF
@@ -58,39 +57,42 @@ documentation may not include explicit instructions for possible missing
 tools and packages. When you encounter missing dependencies, refer to your
 distribution's documentation on how to install them.
 
-Make sure that ``build-essential`` and ``git`` are installed:
+* For Fedora (tested with v36, other recent versions should work fine):
 
-.. code-block:: bash
+  .. code-block:: bash
 
-   sudo apt-get install build-essential git
+   sudo dnf group install "Development Tools" "C Development Tools and Libraries"
+   sudo dnf install ncurses-devel gtk3-devel gettext-devel texinfo help2man \
+     glibc-static libstdc++-static openssl-devel tree
 
 * For Ubuntu 20.04:
 
   .. code-block:: bash
 
-     sudo apt install autoconf flex bison texinfo help2man gawk libtool-bin \
-	      libncurses5 libncurses5-dev libssl-dev libgtk-3-dev tree \
-	      ninja-build gettext libasound2-dev
+     sudo apt install build-essential git autoconf flex bison texinfo help2man \
+        gawk libtool-bin libncurses5 libncurses5-dev libssl-dev libgtk-3-dev \
+	     tree ninja-build gettext libasound2-dev
 
 * For Ubuntu 18.10:
 
   .. code-block:: bash
 
-     sudo apt-get install libgtk-3-dev libsdl1.2-dev libspice-protocol-dev \
-        libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev libtool-bin \
-        acpica-tools valgrind texinfo virt-manager qemu-kvm \
-        libvirt-daemon-system libvirt-clients virtinst libfdt-dev libssl-dev \
-        pkg-config help2man gawk libncurses5 libncurses5-dev
+     sudo apt-get install build-essential git libgtk-3-dev libsdl1.2-dev \
+        libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev \
+        libusbredirhost-dev libtool-bin acpica-tools valgrind texinfo \
+        virt-manager qemu-kvm libvirt-daemon-system libvirt-clients virtinst \
+        libfdt-dev libssl-dev pkg-config help2man gawk libncurses5 \
+        libncurses5-dev
 
 * For Ubuntu 16.04 and 18.04:
 
   .. code-block:: bash
 
-     sudo apt-get install libgtk-3-dev libsdl1.2-dev libspice-protocol-dev \
-        libspice-server-dev libusb-1.0-0-dev libusbredirhost-dev libtool-bin \
-        iasl valgrind texinfo virt-manager qemu-kvm libvirt-bin virtinst \
-        libfdt-dev libssl-dev pkg-config help2man gawk libncurses5 \
-        libncurses5-dev
+     sudo apt-get install build-essential git libgtk-3-dev libsdl1.2-dev \
+        libspice-protocol-dev libspice-server-dev libusb-1.0-0-dev \
+        libusbredirhost-dev libtool-bin iasl valgrind texinfo virt-manager \
+        qemu-kvm libvirt-bin virtinst libfdt-dev libssl-dev pkg-config help2man \
+        gawk libncurses5 libncurses5-dev
 
 If you are using Ubuntu 16.04, the gcc version must be updated to gcc 7.3+
 in order for the Advanced Linux Sound Architecture (ALSA) to build.
@@ -105,11 +107,12 @@ in order for the Advanced Linux Sound Architecture (ALSA) to build.
 Install CMake
 =============
 
-If you use Ubuntu 18.04+ you can install CMake with apt:
+If you use Ubuntu 18.04+ or Fedora you can install CMake with apt/dnf:
 
 .. code-block:: bash
 
-   sudo apt-get install cmake
+   sudo apt-get install cmake # Ubuntu
+   sudo dnf install cmake # Fedora
 
 For Ubuntu 16.04, CMake from apt is outdated and you must install CMake from
 sources. Refer to this short guide: https://cmake.org/install/.
@@ -143,7 +146,8 @@ before you configure alsa-utils.
 
 .. code-block:: bash
 
-   sudo apt-get install libfftw3-dev libfftw3-doc
+   sudo apt-get install libfftw3-dev libfftw3-doc # Ubuntu
+   sudo dnf install fftw3-devel # Fedora
 
 Clone, build, and install alsa-utils.
 
@@ -234,7 +238,7 @@ download gcc components.
 .. code-block:: bash
 
    unset LD_LIBRARY_PATH
-		
+
    # Bay Trail / Cherry Trail
    cp config-byt-gcc10.2-gdb9 .config
    ./ct-ng build
