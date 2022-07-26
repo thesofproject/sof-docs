@@ -19,3 +19,11 @@ still in use as a substitute of Gateways.
 
 .. uml:: images/io_drivers_diagram.pu
    :caption: IO Drivers diagram
+
+Drivers
+*******
+
+.. toctree::
+   :maxdepth: 1
+
+   hda/hda_driver

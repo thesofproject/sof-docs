@@ -1,0 +1,15 @@
+@startuml
+
+component "host capture" as hc
+
+package FW {
+	component "Host Input" as hi
+	component "Link Output" as lo
+}
+
+component "link capture" as lc
+hc <- hi
+hi <- lo
+lo <- lc
+
+@enduml
