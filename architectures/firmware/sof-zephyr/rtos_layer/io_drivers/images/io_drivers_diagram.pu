@@ -1,0 +1,16 @@
+frame "SOF" {
+	component Gateway
+	component GatewayExtension <<type>>
+}
+
+frame "Zephyr" {
+	component IoDriver <<type>>
+	component DMA
+}
+
+Gateway *-right- GatewayExtension
+
+Gateway -down- IoDriver
+Gateway -down- DMA
+
+GatewayExtension ..> IoDriver

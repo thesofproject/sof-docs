@@ -11,3 +11,4 @@ workloads.
    :maxdepth: 1
 
    zephyr_kernel_overview
+   io_drivers/index
