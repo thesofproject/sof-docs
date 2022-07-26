@@ -1,0 +1,15 @@
+@startuml
+
+component "host playback" as hp
+
+package FW {
+	component "Host Output" as ho
+	component "Link Input" as li
+}
+
+component "link playback" as lp
+hp -> ho
+ho -> li
+li -> lp
+
+@enduml

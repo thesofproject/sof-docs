@@ -1,0 +1,12 @@
+
+@startuml
+allowmixing
+
+component "hd-a io driver" as io_drv
+component "hd-a gateway" as gateway
+component "hd-a dma" as dma
+
+io_drv -right-> gateway : provides
+gateway -down-> dma : use
+
+@enduml
