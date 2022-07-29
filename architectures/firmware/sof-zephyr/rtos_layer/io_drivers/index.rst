@@ -27,3 +27,4 @@ Drivers
    :maxdepth: 1
 
    hda/hda_driver
+   i2s/i2s_driver

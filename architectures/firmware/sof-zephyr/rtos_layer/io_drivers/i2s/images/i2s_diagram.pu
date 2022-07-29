@@ -1,0 +1,18 @@
+@startuml
+
+hide methods
+hide attributes
+
+class I2sSink --() Gateway
+class I2sSource --() Gateway
+class I2sDriver --() IoDriver
+class I2sChannel
+class I2sInputChannel
+
+I2sChannel  --* I2sDriver
+I2sInputChannel  --|> I2sChannel
+I2sOutputChannel --|> I2sChannel
+I2sSink --o I2sOutputChannel
+I2sSource --o I2sInputChannel
+
+@enduml
