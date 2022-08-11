@@ -28,3 +28,4 @@ Drivers
 
    hda/hda_driver
    i2s/i2s_driver
+   dmic/dmic_driver

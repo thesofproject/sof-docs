@@ -1,0 +1,23 @@
+@startuml
+
+participant "DMIC Manager" as dmic_manager
+participant "Zephyr PM Subsystem" as zephyr_pm
+participant "DMIC Driver" as dmic_driver
+
+-> dmic_manager : gateway_release()
+	activate dmic_manager
+	dmic_manager -> zephyr_pm : pm_runtime_device_put (dmic)
+
+		activate zephyr_pm
+		zephyr_pm -> zephyr_pm : decrease usage count
+		opt if usage == 0
+		zephyr_pm -> dmic_driver : pm_device_suspend
+			activate dmic_driver
+			return
+		end
+		return
+
+	deactivate dmic_manager
+<-- dmic_manager
+
+@enduml
