@@ -1,0 +1,19 @@
+
+participant "Dmic Input\nGateway" as dmic_input
+participant "DMA" as dma
+
+== Dmic Input : STOPPED ==
+
+-> dmic_input : STOPPED
+	dmic_input -> dma : stop()
+
+== Dmic Input : PAUSED ==
+
+-> dmic_input : PAUSED
+	dmic_input -> dma : init_transfer()
+	dmic_input -> dma : pause()
+
+== Dmic Input : RUNNING ==
+
+-> dmic_input : RUNNING
+	dmic_input -> dma : start()

@@ -1,0 +1,30 @@
+@startuml
+
+hide methods
+hide attributes
+
+component Zephyr {
+	class DmicDriver
+	interface dai_dmic_ops
+	interface dai_driver_api
+}
+
+component MPP {
+	interface Gateway
+
+	interface IoDriver
+	class DmicManager
+	class DmicInput
+}
+
+DmicDriver -up- dai_dmic_ops
+
+dai_dmic_ops -left-|> dai_driver_api : implements
+
+DmicManager -up- IoDriver
+DmicManager -left-> DmicInput : manages
+DmicInput -up- Gateway
+DmicInput -down-> dai_dmic_ops : calls
+DmicDriver --* DmicInput
+
+@enduml
