@@ -58,7 +58,7 @@ issues are possible.
 
 Use the following commands to check if the SOF driver is functional at the hardware device level:
 
-.. code-block::
+.. code-block:: console
 
    speaker-test -Dhw:0,0 -c2 -r48000 -f S16_LE
    arecord -Dhw:0,0 -c2 -r48000 -f S16_LE -d 10 test.wav
@@ -95,7 +95,7 @@ may not be enough to debug a specific issue, and the recommendation is
 to add the following options to the ``/etc/modprobe.d/sof-dyndbg.conf``
 file:
 
-.. code-block::
+.. code-block:: cfg
 
    options snd_sof_intel_byt dyndbg=+p
    options snd_sof_intel_bdw dyndbg=+p
@@ -137,7 +137,7 @@ Trace support might need to be enabled on distribution kernels in case the
 ``/sys/kernel/debug/sof/trace`` file is not present by adding sof_debug=1 option
 to snd_sof module:
 
-.. code-block::
+.. code-block:: cfg
 
    options snd_sof sof_debug=1
 
@@ -152,7 +152,7 @@ On devices designed for Windows, the presence of the microphone is
 reported as an NHLT endpoint (ACPI table in the BIOS). The SOF Linux
 driver will report this information with a 'dmesg' log such as
 
-.. code-block::
+.. code-block:: none
 
    [    4.301490] sof-audio-pci-intel-tgl 0000:00:1f.3: DMICs detected in NHLT tables: 2
 
@@ -165,7 +165,7 @@ the value with a kernel parameter which can be added in
 /etc/modprobe.d/alsa-base.conf (or any other configuration file with
 this .conf extension). A reboot is necessary after changing the value
 
-.. code-block::
+.. code-block:: cfg
 
    options snd_sof_intel_hda_common dmic_num=4
 
@@ -191,7 +191,7 @@ necessary to override the file installed in
 5.20+ a kernel parameter will be enough with no need to change and
 override installed topology files, e.g.
 
-.. code-block::
+.. code-block:: cfg
 
    options snd-sof-pci tplg_filename=sof-hda-generic-2ch-pdm1.tplg
 
@@ -219,11 +219,11 @@ End-users can verify if the hardware uses this configuration by
 running the 'alsa-info' command and checking for the presence an ACPI
 _HID, e.g.
 
-.. code-block::
+.. code-block:: none
 
    /sys/bus/acpi/devices/ESSX8336:00/status 	 15
 
-.. code-block::
+.. code-block:: none
 
    /sys/bus/acpi/devices/ESSX8326:00/status 	 15
 
@@ -260,7 +260,7 @@ added with the following option in
 e.g. /etc/modprobe.d/alsa-base.conf. Only the bits listed above can be
 modified, others need to be kept as is.
 
-.. code-block::
+.. code-block:: cfg
 
    options snd_soc_sof_es8336 quirk=<value>
 

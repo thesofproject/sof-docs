@@ -386,7 +386,7 @@ the first non-white space in the preceding line.  For example:
    1. And for numbered list items, the continuation
       line should align with the text of the line above.
 
-   .. code-block::
+   .. code-block:: none
 
       The text within a directive block should align with the
       first character of the directive name.
