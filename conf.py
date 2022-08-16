@@ -45,8 +45,13 @@ graphviz_dot_args=[
 plantuml = 'java -jar ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.jar') \
     + ' -config ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.cfg')
 
-# Temporarily set this to "none" for a build without diagrams but ~= 15
-# times faster from scratch.
+# More than half of the time building from scratch is consumed by the
+# sphinx extension "breathe" that converts doxygen XML. Most of the rest
+# is consumed by plantUML here. So you can set the variable below to
+# 'none' for an _almost instant_ sphinx build! (with zero UML diagram
+# and no doxygen). 'none' requires sphinxcontrib.plantuml>=0.11 but
+# pre-0.11 errors can be ignored.  (of course don't disable UML when
+# you're touching UML stuff)
 plantuml_output_format = 'svg'
 
 # Add any paths that contain templates here, relative to this directory.

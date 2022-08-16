@@ -44,8 +44,11 @@ apidocs:
 ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
 	ninja -C ${SOF_DOC_BUILD} $${VERBOSE:+-v} doc
 else
-	# To build doxygen APIs too run this first:
+	# To include doxygen APIs run this first:
 	#   cmake -GNinja -S ../sof/doc -B ${SOF_DOC_BUILD}
+	# Note this will make the build CONSIDERABLY LONGER!
+	# Conversely, you can have _instant builds from scratch_
+	# by disabling UML diagrams in the conf.py file.
 endif
 
 html: apidocs
