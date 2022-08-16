@@ -303,7 +303,7 @@ be scheduled.
 To specify the DSP core for a pipeline, use the SOF_TKN_SCHED_CORE token
 located in tools/topology/m4/pipeline.m4:
 
-.. code-block::
+.. code-block:: none
 
         W_PIPELINE(stream, period, priority, core, initiator, platform)
         ...
@@ -313,14 +313,14 @@ located in tools/topology/m4/pipeline.m4:
 Then specify this 'core' in your pipeline definition, such as in
 tools/topology/sof/pipe-dai-playback.m4:
 
-.. code-block::
+.. code-block:: none
 
         W_PIPELINE(N_DAI_OUT, SCHEDULE_PERIOD, SCHEDULE_PRIORITY, SCHEDULE_CORE, SCHEDULE_TIME_DOMAIN, pipe_dai_schedule_plat)
 
 To specify the DSP core for a component/widget, use the SOF_TKN_COMP_CORE_ID
 token located in tools/topology/m4/pga.m4:
 
-.. code-block::
+.. code-block:: none
 
         dnl W_PGA(name, format, periods_sink, periods_source, core, kcontrol0. kcontrol1...etc)
         ...

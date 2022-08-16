@@ -65,7 +65,7 @@ Set up a target
 
    d) Update the grub configuration.
 
-      .. code-block::
+      .. code-block:: console
 	 
 	 sudo update-grub
 

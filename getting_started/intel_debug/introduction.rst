@@ -71,7 +71,7 @@ The ``snd-intel-dspcfg`` module introduced in early 2020 exposes an API
 used by all drivers, and the user can now override default choices by
 setting the ``dsp_driver`` parameter. For example, setting
 
-.. code-block::
+.. code-block:: cfg
 
    options snd-intel-dspcfg dsp_driver=1
 
@@ -83,7 +83,7 @@ Conversely, when a platform does not require a DSP-based platform, but
 the DSP is still enabled by the OEM, the user or integration can
 force the SOF Linux driver to be used.
 
-.. code-block::
+.. code-block:: cfg
 
    options snd-intel-dspcfg dsp_driver=3
 
