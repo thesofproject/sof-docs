@@ -13,7 +13,21 @@ breathe>=4.7.3
 sphinx>=1.6.7
 docutils>=0.14
 sphinx_rtd_theme>=0.2.4
-sphinxcontrib-plantuml
+
+# - Version 0.11 is the first version that supports
+#   `plantuml_output_format=none` which is required for instant builds.
+#   https://pypi.org/project/sphinxcontrib-plantuml/0.11/
+#
+# - 0.24 is the last version successfully tested with
+#   PIP_IGNORE_INSTALLED=0 and Ubuntu 20.04 (see .github/worflows/)
+#
+# - Note 0.9 is the minimum to fix this fatal import failure:
+#
+#   sphinx.util.compat.Directive class is now deprecated. Please
+#      use instead docutils.parsers.rst.Directive
+#
+# https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=896485#12
+sphinxcontrib.plantuml>=0.11,<0.25
 
 
 # Differences between these "lax" version requirements and the official
