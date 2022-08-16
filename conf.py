@@ -45,8 +45,9 @@ graphviz_dot_args=[
 plantuml = 'java -jar ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.jar') \
     + ' -config ' + os.path.join(os.path.abspath('.'), 'scripts/plantuml.cfg')
 
-# Temporarily set this to "none" for a build without diagrams but ~= 15
-# times faster from scratch.
+# Temporarily set this to "none" for a build with NO UML diagram but ~= 15
+# times faster from scratch. Requires sphinxcontrib.plantuml>=0.11
+# (of course don't do this when you're touching UML stuff)
 plantuml_output_format = 'svg'
 
 # Add any paths that contain templates here, relative to this directory.
