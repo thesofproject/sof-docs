@@ -355,7 +355,7 @@ After the SOF environment is set up, clone the *sof* repo:
 .. code-block:: bash
 
    cd "$SOF_WORKSPACE"
-   git clone https://github.com/thesofproject/sof
+   git clone --recursive https://github.com/thesofproject/sof
    cd sof
 
 
