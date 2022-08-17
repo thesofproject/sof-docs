@@ -365,7 +365,10 @@ optional target hostname in the latter file. Then run the installer:
 
 .. code-block:: bash
 
-   make -C installer/
+   make -C installer/ [ -j 4 ]
+
+Adjust the ``-j 4`` example to your number of CPU cores or remove it
+when the build fails.
 
 This builds multiple platforms in parallel and deploys firmware and
 topologies to ``/lib/firmware/intel/`` on the local or remote
