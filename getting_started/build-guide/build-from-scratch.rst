@@ -231,31 +231,33 @@ Toolchains
 The config files provided refer to ``../xtensa-overlay/`` and point at
 different ``./builds/xtensa-*-elf`` subdirectories. Copy the ones you
 want to ``.config`` and build the cross-compiler(s) for your target
-platform(s). Note that ``./ct-ng build`` requires an network connection to
-download gcc components.
+platform(s). Note that ``./ct-ng build`` requires an network connection
+to download gcc components.  While other steps take minutes at most,
+building all toolchains may last about an hour depending on your network
+connection and the performance of your system.
 
 .. code-block:: bash
 
    unset LD_LIBRARY_PATH
 
-   # Bay Trail / Cherry Trail
-   cp config-byt-gcc10.2-gdb9 .config
-   ./ct-ng build
-   # Haswell/Broadwell
-   cp config-hsw-gcc10.2-gdb9 .config
-   ./ct-ng build
-   # Apollo Lake
-   cp config-apl-gcc10.2-gdb9 .config
-   ./ct-ng build
-   # Cannon Lake, Ice Lake, Jasper Lake, and Tiger Lake
-   cp config-cnl-gcc10.2-gdb9 .config
-   ./ct-ng build
-   # i.MX8/i.MX8X
-   cp config-imx-gcc10.2-gdb9 .config
-   ./ct-ng build
-   # i.MX8M
-   cp config-imx8m-gcc10.2-gdb9 .config
-   ./ct-ng build
+   # byt = Bay Trail / Cherry Trail
+   # hsw = Haswell/Broadwell
+   # apl = Apollo Lake
+   # cnl = Cannon Lake, Ice Lake, Jasper Lake, and Tiger Lake
+   # imx = i.MX8/i.MX8X
+   # imx8m = i.MX8M
+
+   # Omit the toolchains you don't want to save (a lot of) time
+   time for i in byt hsw apl cnl imx imx8m; do
+     cp config-$i-gcc10.2-gdb9 .config &&
+        time ./ct-ng build || break
+   done
+
+   # ... or just build all toolchains
+   time for i in config*gcc10.2-gdb9; do
+      cp "$i" .config && time ./ct-ng build || break
+   done
+
 
 ``./ct-ng`` is a Linux kernel style Makefile; so the sample commands below
 can be used to fix some out of date ``config-*-gcc10.2-gdb9`` file or find
@@ -267,18 +269,6 @@ default values missing from it:
    cp config-apl-gcc10.2-gdb9 .config
    ./ct-ng oldconfig V=1
    diff -u config-apl-gcc10.2-gdb9 .config
-
-While other steps take minutes at most, building all toolchains may last
-about an hour depending on the performance of your system. Run this loop
-to build all toolchains without interruption:
-
-.. code-block:: bash
-
-   unset LD_LIBRARY_PATH;
-   time for i in config*gcc10.2-gdb9; do
-      cp "$i" .config && ./ct-ng build || break ;
-   done
-
 
 "Install" toolchains in the expected location by linking
 from ``$SOF_WORKSPACE`` to them:
