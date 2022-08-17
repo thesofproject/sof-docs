@@ -311,9 +311,11 @@ switch to the `xtensa` branch.
    git checkout -b xtensa origin/xtensa
 
 Temporarily add toolchains to your PATH variable. This is *not* required
-when using high-level scripts described below; it's only required here or
-when invoking CMake manually. In other words, you don't need to adjust your
-PATH permanently because no risk of interfere with non-SOF tasks exists.
+when using the high-level, "every day" build scripts described in the
+next sections. It's only required for this once-off ``newlib`` headers
+step or when invoking CMake manually. In other words, you don't need to
+change your PATH permanently which would interfere with other, non-SOF
+work.
 
 .. code-block:: bash
 
@@ -324,6 +326,7 @@ Build and install the newlib headers for each toolchain:
 .. code-block:: bash
 
    XTENSA_ROOT="${SOF_WORKSPACE}"/xtensa-root
+   cd "${SOF_WORKSPACE}"/newlib-xtensa
    time for toolchain in ../xtensa-*-elf; do
       ./configure --target="${toolchain#../}" --prefix="$XTENSA_ROOT" &&
       make && make install || break;
