@@ -212,15 +212,14 @@ Clone both repos and check out the ``sof-gcc10.2`` and ``sof-gcc10x`` branch.
    cd "$SOF_WORKSPACE"
    git clone https://github.com/thesofproject/xtensa-overlay
    git clone https://github.com/thesofproject/crosstool-ng
-   cd xtensa-overlay
-   git checkout sof-gcc10.2
-   cd ../crosstool-ng
-   git checkout sof-gcc10x
+   git -C xtensa-overlay/ checkout  sof-gcc10.2
+   git -C crosstool-ng/   checkout  sof-gcc10x
 
 Build crosstool-ng and install it in its own source directory.
 
 .. code-block:: bash
 
+   cd crosstool-ng/
    ./bootstrap
    ./configure --prefix=$(pwd)
    make
