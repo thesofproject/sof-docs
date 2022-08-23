@@ -28,7 +28,8 @@ Platform and board specific support is continually added to the SOF project as d
    "NXP i.MX8X", "Xtensa HiFi4", "1 @ 640MHz", "TBD", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8M", "Xtensa HiFi4", "1 @ 800MHz", "TBD", "64 KB TCM / 256 KB OCRAM / 8MB SDRAM", "1 x SAI, MICFIL"
    "NXP i.MX8ULP", "Xtensa HiFi4", "1 @ 520MHz", "TBD", "64 KB TCM / 256 KB OCRAM / 8MB SDRAM", "1 x SAI"
-   "AMD Renoir", "Xtensa HiFi3", "1 @ 600MHz", "TBD", "20 KB LP SRAM / 1152 KB IRAM/DRAM", "1 x SP (I2S, PCM), 1 x BT (I2S, PCM), DMIC"
+   "AMD Renoir", "Xtensa HiFi3", "1 @ 200-600MHz", "TBD", "20 KB LP SRAM / 1152 KB IRAM/DRAM", "1 x SP (I2S, PCM), 1 x BT (I2S, PCM), DMIC"
+   "AMD Rembrandt", "Xtensa HiFi5", "1 @ 200-800MHz", "TBD", "1.75 MB HP SRAM / 512 KB IRAM/DRAM", "1 x SP (I2S, PCM), 1 x BT (I2S, PCM), 1 x HS(I2S, PCM), DMIC"
    "Mediatek mt8195", "Xtensa HiFi4", "1 @ 220 - 720MHz", "TBD", "256 KB SRAM / 16 MB DRAM", "2 x TDM Out, 1 x TDM In, DMIC"
 
 When support for a new platform is being added, certain interfaces required by
