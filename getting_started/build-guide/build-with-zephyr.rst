@@ -17,10 +17,12 @@ This guide describes how to build and run |SOF| as a Zephyr application.
 Prepare
 *******
 
-- The easiest way to build Zephyr is to use its recommended toolchain which is included in its SDK. Refer to `Install Zephyr SDK <https://docs.zephyrproject.org/latest/getting_started/index.html#install-zephyr-sdk>`_ for details.
-
 - Install **west**. Zephyr uses west as a source management and building system. Follow
-  the Zephyr `Getting Started <https://docs.zephyrproject.org/latest/getting_started/index.html#>`_ guide for dependencies and for the west installation.
+  the Zephyr `Getting Started <https://docs.zephyrproject.org/latest/getting_started/index.html#>`_ guide for dependencies and for the west installation, for sof zephyr build, just need follow with below chapters:
+  Select and Update OS
+  Install dependencies
+  Get Zephyr and install Python dependencies
+  Install Zephyr SDK
 
 Clone and initialize SOF project
 ********************************
