@@ -1,0 +1,41 @@
+actor host as "Host"
+participant cldma as "CodeLoadDMA"
+participant mw0 as "MemWnd0"
+participant core0 as "DSP Core0"
+participant rom as "DSP ROM"
+participant fw as "DSP FW"
+
+activate rom
+activate host
+host -> cldma : init_host_side()
+
+rom -> cldma : init_dsp_side()
+note right: Unified cAVS1.5+ flow
+
+host -> mw0 : wait for (FSR_ROM_INIT_DONE)
+  mw0 <- rom : FSR_ROM_INIT_DONE
+host <-- mw0
+
+host -> cldma : write(base fw binary)
+  cldma <- rom : read() : base fw manifest
+  rom -> rom : veirfy(base fw manifest)
+  cldma <- rom : read() : base fw code
+  mw0 <- rom : FSR_ROM_FW_ENTERED
+
+  create fw
+  rom -> fw : start()
+    activate fw
+    fw -> fw : initialization()
+    host <- fw : <<IPC Notification>> FW Ready
+    deactivate fw
+
+loop libraries loading
+  host -> cldma : write(library binary)
+  host -> fw : <<IPC>> Load Library
+    activate fw
+    cldma <- fw : read() : library manifest
+    fw -> fw : verify(library manifest)
+    cldma <- fw : read() : library code
+    host <-- fw
+    deactivate fw
+end loop
