@@ -1,0 +1,21 @@
+actor Host
+participant mw0 as "MemWnd0"
+participant core0 as "DSP Core0"
+participant rom as "DSP ROM"
+
+Host -> core0 : power up and reset
+
+Host -> rom : <<IPC>> ROM Control(set_boot_config)
+Host -> core0 : unstall
+  core0 -> rom : ResetVector()
+    activate rom
+
+Host -> mw0 : wait for(FSR_ROM_INIT_DONE)
+
+  rom -> rom : Process ROM Control
+
+  mw0 <- rom : FwRegsSetState(FSR_ROM_INIT_DONE)
+
+Host <-- mw0
+
+Host -> Host : binaries loading

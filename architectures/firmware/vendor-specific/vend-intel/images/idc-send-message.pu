@@ -1,0 +1,30 @@
+participant core0
+participant core1
+participant idc
+participant platform
+
+core0 -> idc : idc_init()
+   activate idc
+
+   idc -> platform : interrupt_register(irq, auto_unmask, irq_handler, idc)
+      activate platform
+   idc <-- platform
+   deactivate platform
+
+core0 <-- idc
+deactivate idc
+
+core0 -> idc : idc_send_msg(idc_msg, mode)
+   activate idc
+
+   idc -> core1 : irq_handler()
+      activate core1
+   idc <-- core1
+   deactivate core1
+core0 <-- idc
+deactivate idc
+
+core1 -> idc : idc_do_cmd(data)
+   activate idc
+idc <-- core1
+deactivate idc
