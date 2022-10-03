@@ -316,7 +316,7 @@ events that are already in the circular buffer will be dropped.
 
 .. TODO: Add link to SOF Telemetry interface documentation
 
-.. _Schedulers:
+.. _schedulers_zephyr:
 
 Schedulers
 ----------
