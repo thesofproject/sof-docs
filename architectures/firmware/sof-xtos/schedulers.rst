@@ -1,4 +1,4 @@
-.. _schedulers:
+.. _schedulers_xtos:
 
 Schedulers
 ##########
