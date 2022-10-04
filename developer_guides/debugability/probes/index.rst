@@ -65,6 +65,28 @@ Firmware side
 
 	 make menuconfig
 
+  The following options available
+
+  Required for audio probes:
+
+  .. code-block:: bash
+
+	CONFIG_PROBE=y			# enable probes
+	CONFIG_PROBE_POINTS_MAX=16	# max probepoints
+
+  Required for logging through probes interface:
+
+  .. code-block:: bash
+
+	CONFIG_LOG_BACKEND_SOF_PROBE=y
+	CONFIG_ZEPHYR_LOG=y
+
+  This option enables the probes logging automatically when probes extraction DMA is started:
+
+  .. code-block:: bash
+
+	CONFIG_LOG_BACKEND_SOF_PROBE_OUTPUT_AUTO_ENABLE=y
+
 - Refer to **Step 3 Build firmware binaries** in :ref:`Build SOF from Scratch <build-from-scratch>` for reference.
 
 Note that you do not need to modify the audio topology file.
@@ -100,6 +122,7 @@ the last stage of extraction.
      - Use ``aplay`` to start the playback stream.
      - Pause the playback stream. (optional)
      - Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
+
 
    For example, to add a buffer with 7 probe points:
 
@@ -160,3 +183,13 @@ Usage and ouput:
 
 As a result, ``buffer_7.wav`` is generated in the *tools/build_tools/probes* folder. The wave file can then be examined with your tool of choice
 such as ``Audacity``.
+
+
+Simple logging case
+*******************
+
+With the crecord and sof-probes in path, probes logging backend with auto enable option it is possible to get the firmware logs to stdout with this command combination:
+
+.. code-block:: bash
+
+	crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 | sof-probes -l
