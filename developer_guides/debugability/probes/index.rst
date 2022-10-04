@@ -124,7 +124,7 @@ the last stage of extraction.
      - Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
 
 
-   For example, to add a buffer with 7 probe points:
+   For example, to add buffer 7 with a probe point:
 
    .. code-block:: bash
 
