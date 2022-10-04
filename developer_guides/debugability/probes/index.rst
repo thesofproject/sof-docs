@@ -124,7 +124,7 @@ the last stage of extraction.
      - Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
 
 
-   For example, to add buffer 7 with a probe point:
+   For example, to add buffer 7 with a probe point (IPC3):
 
    .. code-block:: bash
 
@@ -160,6 +160,52 @@ the last stage of extraction.
 			swidget->comp_id, index, swidget->id, tw->name,
 			strnlen(tw->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) > 0
 				? tw->sname : "none");
+
+   For IPC4 system, the above example looks like this:
+
+   .. code-block:: bash
+
+	  echo 2,0,0 > probe_points
+
+  The semantics of the buffer_id are quite different on IPC4 system:
+
+  .. code-block:: c
+
+		typedef union probe_point_id {
+			uint32_t full_id;
+			struct {
+				uint32_t  module_id   : 16;	/**< Target module ID */
+				uint32_t  instance_id : 8;	/**< Target module instance ID */
+				uint32_t  type        : 2;	/**< Probe point type as specified by ProbeType enumeration */
+				uint32_t  index       : 6;	/**< Queue index inside target module */
+			} fields;
+		} __attribute__((packed, aligned(4))) probe_point_id_t;
+
+  .. code-block:: c
+
+		/**
+		 * Description of probe point
+		 */
+		struct probe_point {
+			probe_point_id_t buffer_id;	/**< ID of buffer to which probe is attached */
+			uint32_t purpose;	/**< PROBE_PURPOSE_xxx */
+			uint32_t stream_tag;	/**< Stream tag of DMA via which data will be provided for injection.
+						 *   For extraction purposes, stream tag is ignored when received,
+						 *   but returned actual extraction stream tag via INFO function.
+						 */
+		} __attribute__((packed, aligned(4)));
+
+Enabling the log in IPC3 system (in case auto enable is not on):
+
+   .. code-block:: bash
+
+	  echo 0,1,0 > probe_points
+
+And on IPC4 system:
+
+   .. code-block:: bash
+
+	  echo 0,0,0 > probe_points
 
 2. Unpause the playback stream. (optional)
 #. Close the playback stream when done.
