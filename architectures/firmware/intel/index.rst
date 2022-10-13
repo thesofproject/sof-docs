@@ -10,4 +10,4 @@ generic SOF architecture.
 .. toctree::
    :maxdepth: 1
 
-   vend-intel/index
+   cavs/index

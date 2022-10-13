@@ -8,4 +8,4 @@ Firmware Architecture
 
    sof-xtos/index
    sof-zephyr/index
-   vendor-specific/index
+   intel/index
