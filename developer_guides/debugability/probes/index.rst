@@ -12,10 +12,14 @@ from each buffer.
 Requirements
 ************
 
+.. _install-tinycompress:
+
 - Install `tinycompress <https://github.com/alsa-project/tinycompress>`_ (crecord tool)
 
 Enabling Probes
 ***************
+
+.. _kernel-side:
 
 Kernel side
 ===========
@@ -55,6 +59,8 @@ Kernel side
 
      cat /proc/asound/cards | grep sofprobes
 
+.. _firmware-side:
+
 Firmware side
 =============
 
@@ -81,13 +87,9 @@ Firmware side
 	CONFIG_LOG_BACKEND_SOF_PROBE=y
 	CONFIG_ZEPHYR_LOG=y
 
-  This option enables the probes logging automatically when probes extraction DMA is started:
+  Refer to :ref:`Simple logging case<simple-logging-case>` for quick guide to use probes logging interface.
 
-  .. code-block:: bash
-
-	CONFIG_LOG_BACKEND_SOF_PROBE_OUTPUT_AUTO_ENABLE=y
-
-- Refer to **Step 3 Build firmware binaries** in :ref:`Build SOF from Scratch <build-from-scratch>` for reference.
+- Refer to **Step 3 Build firmware binaries** in :ref:`Build SOF from Scratch <build-from-scratch>` for reference on how to build SOF FW.
 
 Note that you do not need to modify the audio topology file.
 
@@ -195,21 +197,11 @@ the last stage of extraction.
 						 */
 		} __attribute__((packed, aligned(4)));
 
-Enabling the log in IPC3 system (in case auto enable is not on):
-
-   .. code-block:: bash
-
-	  echo 0,1,0 > probe_points
-
-And on IPC4 system:
-
-   .. code-block:: bash
-
-	  echo 0,0,0 > probe_points
-
 2. Unpause the playback stream. (optional)
 #. Close the playback stream when done.
 #. Close the crecord tool.
+
+.. _data-parsing:
 
 Data parsing
 ************
@@ -230,12 +222,29 @@ Usage and ouput:
 As a result, ``buffer_7.wav`` is generated in the *tools/build_tools/probes* folder. The wave file can then be examined with your tool of choice
 such as ``Audacity``.
 
+.. _simple-logging-case:
 
 Simple logging case
 *******************
 
-With the crecord and sof-probes in path, probes logging backend with auto enable option it is possible to get the firmware logs to stdout with this command combination:
+With the :ref:`crecord<install-tinycompress>` and :ref:`sof-probes<data-parsing>` in path, FW built with :ref:`probes logging enabled<firmware-side>`, and probes enabled from :ref:`Linux side<kernel-side>`, it should be possible to extract the logs with following steps:
+
+#. crecord has to be started first:
 
 .. code-block:: bash
 
 	crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 | sof-probes -l
+
+#. then to enable logs through probes sysfw interface use following commands as root,
+
+     IPC3 system:
+
+.. code-block:: bash
+
+	echo 0,1,0 > /sys/kernel/debug/sof/probe_points
+
+     IPC4 system:
+
+.. code-block:: bash
+
+	echo 0,0,0 > /sys/kernel/debug/sof/probe_points
