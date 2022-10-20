@@ -1,0 +1,31 @@
+scale max 1024 width
+
+node "DSP Core #0 Memory Block" as core_0 {
+	node "Application Heap (local)" as app_0 #lightgreen {
+		component "Pipelines @Core #0" as ppl_0
+		component "LL Modules & Tasks @Core #0" as ll_0
+		component "DP Modules & Tasks @Core #0" as dp_0
+	}
+
+	node "Application Heap (shared)" as app_shared_0 #lightyellow {
+		component "Shared buffers"
+	}
+
+	node "System Heap (shared)" as sys_0 #lightblue {
+		component "Devices"
+	}
+}
+
+ppl_0 -[hidden]down-> ll_0
+ll_0 -[hidden]down-> dp_0
+
+node "DSP Core #1 Memory Block" as core_1 {
+	node "Application Heap (local)" as app_1 #lightgreen {
+		component "Pipelines @Core #1" as ppl_1
+		component "LL Modules & Tasks @Core #1" as ll_1
+		component "DP Modules & Tasks @Core #1" as dp_1
+	}
+}
+
+ppl_1 -[hidden]down-> ll_1
+ll_1 -[hidden]down-> dp_1
