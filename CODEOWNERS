@@ -1,5 +1,8 @@
-#This file identifies people who are automatically notified when Pull Requests are made for /sof-docs. 
-#At this time, the following people are notified and are expected to review the PRs:
-#Liam Girdwood (technical review), Anton Bobkov (technical/grammatical/style review), and Deb Taylor (grammatical/style review).
+# This file identifies people who are automatically notified when Pull Requests are made for /sof-docs. 
+# At this time, the following people are notified and are expected to review the PRs:
+# Liam Girdwood (technical review), # Deb Taylor (grammatical/style review),
+# Marcin Maka (technical review) and Michal Wasko (technical review).
 
-* @lgirdwood @anton-intel @deb-intel @intelkevinputnam @greg-intel
+# So if a pull request only touches javascript files, only these owners
+
+* @lgirdwood @deb-intel @intelkevinputnam @greg-intel @mmaka1 @mwasko
