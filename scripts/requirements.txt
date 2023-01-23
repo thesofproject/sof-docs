@@ -1,8 +1,8 @@
 # This file hardcodes validated versions with '==',
 # see requirements-lax.txt for an alternative.
-breathe==4.14.1
-sphinx==2.4.4
-docutils==0.16
+breathe==4.29.2
+sphinx==4.5.0
+docutils==0.17.1
 sphinx_rtd_theme
 sphinxcontrib-plantuml
 sphinxcontrib-blockdiag
