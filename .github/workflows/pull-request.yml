@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # FIXME: remove this time consuming step once github stops
       # providing a broken package index, see
@@ -74,7 +74,7 @@ jobs:
       # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
       - name: upload HTML for deploy
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: html
           path: _build/html
@@ -87,7 +87,7 @@ jobs:
       # download the build result from the same workflow
       # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
       - name: download HTML
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: html
           path: html
@@ -106,7 +106,7 @@ jobs:
     # Makefile downgrades the Sphinx warnings, they are not errors any more
     env: {LAX: 1}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       # FIXME: remove this time consuming step once github stops
       # providing a broken package index, see
