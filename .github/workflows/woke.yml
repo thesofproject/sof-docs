@@ -19,7 +19,7 @@ jobs:
     name: woke check for all file
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@3
       - name: woke
         uses: get-woke/woke-action@v0
         with:
