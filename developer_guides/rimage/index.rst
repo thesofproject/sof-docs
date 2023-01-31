@@ -19,7 +19,7 @@ For more details see:
    :maxdepth: 1
 
    extended_manifest
-
+   ipc4_extended_module_config
 
 
 Build flow
