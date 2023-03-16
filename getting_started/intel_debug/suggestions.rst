@@ -114,23 +114,47 @@ file:
 
 .. code-block:: cfg
 
-   options snd_sof_intel_byt dyndbg=+p
-   options snd_sof_intel_bdw dyndbg=+p
-   options snd_sof_intel_ipc dyndbg=+p
-   options snd_sof_intel_hda_common dyndbg=+p
-   options snd_sof_intel_hda dyndbg=+p
-   options snd_sof dyndbg=+p
-   options snd_sof_pci dyndbg=+p
-   options snd_sof_acpi dyndbg=+p
-   options snd_sof_of dyndbg=+p
-   options snd_sof_nocodec dyndbg=+p
-   options soundwire_bus dyndbg=+p
-   options soundwire_generic_allocation dyndbg=+p
-   options soundwire_cadence dyndbg=+p
-   options soundwire_intel_init dyndbg=+p
-   options soundwire_intel dyndbg=+p
-   options snd_soc_skl_hda_dsp dyndbg=+p
-   options snd_intel_dspcfg dyndbg=+p
+   # ACPI
+   options snd_sof_acpi dyndbg=+pmf
+   options snd_sof_acpi_intel_byt dyndbg=+pmf
+   options snd_sof_acpi_intel_bdw dyndbg=+pmf
+   options snd_sof_intel_byt dyndbg=+pmf
+   options snd_sof_intel_bdw dyndbg=+pmf
+
+   # PCI
+   options snd_sof_pci dyndbg=+pmf
+   options snd_sof_pci_intel_apl dyndbg=+pmf
+   options snd_sof_pci_intel_cnl dyndbg=+pmf
+   options snd_sof_pci_intel_icl dyndbg=+pmf
+   options snd_sof_pci_intel_tgl dyndbg=+pmf
+   options snd_sof_pci_intel_mtl dyndbg=+pmf
+   options snd_sof_pci_intel_lnl dyndbg=+pmf
+
+   # DSP selection
+   options snd_intel_dspcfg dyndbg=+pmf
+   options snd_intel_sdw_acpi dyndbg=+pmf
+
+   # SOF internals
+   options snd_sof_intel_ipc dyndbg=+pmf
+   options snd_sof_intel_hda_common dyndbg=+pmf
+   options snd_sof_intel_hda_mlink dyndbg=+pmf
+   options snd_sof_intel_hda dyndbg=+pmf
+   options snd_sof dyndbg=+pmf
+   options snd_sof_nocodec dyndbg=+pmf
+
+   # HDA
+   options snd_hda_intel dyndbg=+pmf
+   options snd-hda-codec-realtek dyndbg=+pmf
+   options snd-hda-codec-generic dyndbg=+pmf
+   options snd-hda-codec-hdmi dyndbg=+pmf
+   options snd-hda-codec dyndbg=+pmf
+
+   # SoundWire core
+   options soundwire_bus dyndbg=+pmf
+   options soundwire_generic_allocation dyndbg=+pmf
+   options soundwire_cadence dyndbg=+pmf
+   options soundwire_intel_init dyndbg=+pmf
+   options soundwire_intel dyndbg=+pmf
 
 Note that this list is only an example.
 
