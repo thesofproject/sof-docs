@@ -1,0 +1,21 @@
+@startuml
+
+box "SOF" #LightBlue
+	participant "Component Management" as component_management
+	participant "MPP Memory Manager" as mpp_memory_manager
+end box
+
+box "Zephyr" #LightGreen
+	participant "Zephyr Memory Manager" as zephyr_memory_manager
+end box
+
+activate component_management
+component_management -> mpp_memory_manager: rmalloc(mem_zone, flags, caps, size)
+	activate mpp_memory_manager
+
+	mpp_memory_manager -> mpp_memory_manager: find memory heap that\nmatch zone and caps
+	mpp_memory_manager -> zephyr_memory_manager: k_heap_alloc (heap, size)
+		activate zephyr_memory_manager
+		return
+	mpp_memory_manager --> component_management
+@enduml

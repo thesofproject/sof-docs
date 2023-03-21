@@ -1,0 +1,42 @@
+@startuml
+
+box "SOF" #LightBlue
+	participant "MPP Memory Manager" as mpp_memory_manager
+end box
+
+box "Zephyr" #LightGreen
+	participant "Memory Manager" as zephyr_memory_manager
+	participant "Memory Management Driver" as memory_management_driver
+end box
+
+box "Hardware" #LightGrey
+	participant "Memory" as hw_memory
+end box
+
+
+-> memory_management_driver: sys_mm_drv_mm_init
+	activate memory_management_driver
+	memory_management_driver -> memory_management_driver: read unused_main_mem_start_marker\nfrom linker
+	note right: The marker is used to\n identify where base firmware\n ends in memory (text, data, bss)
+
+	memory_management_driver -> memory_management_driver: sys_mm_drv_unmap_region(unused_main_mem_start, unused_size)
+		activate memory_management_driver
+		opt If architecture support granular memory banks power control
+			memory_management_driver -> hw_memory: power down unused memory banks
+			deactivate memory_management_driver
+		end
+
+	deactivate memory_management_driver
+
+-> mpp_memory_manager: mpp_mem_init
+	activate mpp_memory_manager
+	mpp_memory_manager -> mpp_memory_manager: read memory zones\nbase address and size
+	loop for each memory region create heap
+		mpp_memory_manager -> zephyr_memory_manager: k_heap_init\n(heap, mem*, size)
+			activate zephyr_memory_manager
+			return
+	end
+
+	deactivate mpp_memory_manager
+
+@enduml

@@ -22,24 +22,41 @@ snd-intel-dspcfg dsp_driver=1" to ``/etc/modprobe.d/alsa-base.conf``.
 If no sound can be heard and jack detection is not functional, an
 HDaudio external codec configuration is likely. In some cases, the
 Linux drivers are missing configuration information and may only
-enable two of the four speakers present. All of these cases are orthogonal
-to SOF issues in that the SOF driver cannot compensate for codec driver
-problems on its own.
+enable two of the four speakers present.
+
+All of these cases are orthogonal to SOF issues in that the SOF driver
+cannot compensate for codec driver problems on its own. The HDaudio
+codec configuration is handled by the legacy HDAudio driver
+(snd-hda-intel), which is not maintained directly by SOF developers.
 
 Try booting into Windows first, then reboot into Linux
 ******************************************************
 
-On some platforms, such as with an HDaudio codec connected to amplifiers
-over an I2C/I2S link, the codec driver needs to perform a set of
-amplifier configurations. This is often handled in Windows but not in
-Linux codec drivers. A classic example of such issues is when
+On some platforms, such as with an HDaudio codec connected to
+amplifiers over an I2C/I2S link, the codec driver needs to perform a
+set of amplifier configurations. This is often handled in Windows but
+not in Linux codec drivers. A classic example of such issues is when
 headphone playback works, but speaker playback does not (or not on all
-speakers).
+speakers). Booting first in Windows then rebooting in Linux may help
+setup the right configuration, but additional work is needed to patch
+the Linux kernel.
 
-These types of issues also occur with the HDaudio legacy driver
-and are not part of SOF bugs proper. To fix such issues, either obtain
-direct support from the codec vendor, or reverse-engineer the missing
-configuration by snooping HDaudio commands in a Windows environment.
+Reverse-engineer the Windows audio driver
+*****************************************
+
+The HDaudio driver configures the codec with 'verb' commands to
+e.g. setup the 'pins' or a coefficient. The exact values used are
+device-specific, and in the absence of any documentation from the
+codec vendor need to be reverse-engineered by snooping HDAudio
+commands in a Windows environment.
+
+The following links provide additional information on snooping the
+commands and determining what needs to be added to the Linux
+kernel. These links are not maintained by SOF developers.
+
+* `ASUS Linux blog <https://asus-linux.org/blog/sound-2021-01-11/>`_
+
+* `How to sniff verbs from a Windows sound driver <https://github.com/ryanprescott/realtek-verb-tools/wiki/How-to-sniff-verbs-from-a-Windows-sound-driver>`_
 
 Make sure the ME is enabled
 ***************************
@@ -97,23 +114,47 @@ file:
 
 .. code-block:: cfg
 
-   options snd_sof_intel_byt dyndbg=+p
-   options snd_sof_intel_bdw dyndbg=+p
-   options snd_sof_intel_ipc dyndbg=+p
-   options snd_sof_intel_hda_common dyndbg=+p
-   options snd_sof_intel_hda dyndbg=+p
-   options snd_sof dyndbg=+p
-   options snd_sof_pci dyndbg=+p
-   options snd_sof_acpi dyndbg=+p
-   options snd_sof_of dyndbg=+p
-   options snd_sof_nocodec dyndbg=+p
-   options soundwire_bus dyndbg=+p
-   options soundwire_generic_allocation dyndbg=+p
-   options soundwire_cadence dyndbg=+p
-   options soundwire_intel_init dyndbg=+p
-   options soundwire_intel dyndbg=+p
-   options snd_soc_skl_hda_dsp dyndbg=+p
-   options snd_intel_dspcfg dyndbg=+p
+   # ACPI
+   options snd_sof_acpi dyndbg=+pmf
+   options snd_sof_acpi_intel_byt dyndbg=+pmf
+   options snd_sof_acpi_intel_bdw dyndbg=+pmf
+   options snd_sof_intel_byt dyndbg=+pmf
+   options snd_sof_intel_bdw dyndbg=+pmf
+
+   # PCI
+   options snd_sof_pci dyndbg=+pmf
+   options snd_sof_pci_intel_apl dyndbg=+pmf
+   options snd_sof_pci_intel_cnl dyndbg=+pmf
+   options snd_sof_pci_intel_icl dyndbg=+pmf
+   options snd_sof_pci_intel_tgl dyndbg=+pmf
+   options snd_sof_pci_intel_mtl dyndbg=+pmf
+   options snd_sof_pci_intel_lnl dyndbg=+pmf
+
+   # DSP selection
+   options snd_intel_dspcfg dyndbg=+pmf
+   options snd_intel_sdw_acpi dyndbg=+pmf
+
+   # SOF internals
+   options snd_sof_intel_ipc dyndbg=+pmf
+   options snd_sof_intel_hda_common dyndbg=+pmf
+   options snd_sof_intel_hda_mlink dyndbg=+pmf
+   options snd_sof_intel_hda dyndbg=+pmf
+   options snd_sof dyndbg=+pmf
+   options snd_sof_nocodec dyndbg=+pmf
+
+   # HDA
+   options snd_hda_intel dyndbg=+pmf
+   options snd-hda-codec-realtek dyndbg=+pmf
+   options snd-hda-codec-generic dyndbg=+pmf
+   options snd-hda-codec-hdmi dyndbg=+pmf
+   options snd-hda-codec dyndbg=+pmf
+
+   # SoundWire core
+   options soundwire_bus dyndbg=+pmf
+   options soundwire_generic_allocation dyndbg=+pmf
+   options soundwire_cadence dyndbg=+pmf
+   options soundwire_intel_init dyndbg=+pmf
+   options soundwire_intel dyndbg=+pmf
 
 Note that this list is only an example.
 
