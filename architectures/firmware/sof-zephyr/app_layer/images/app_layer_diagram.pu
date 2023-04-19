@@ -7,7 +7,7 @@ package "SOF" {
 
   package "Application layer" as APP_CUSTOMIZATION {
 
-    package "Example Loadable Components" as LOADABLE_COMPONENTS {
+    package "Example Loadable Module" as LOADABLE_MODULE {
       component "3rd Party Post-Processing" as PROCESSING_3RD_PARTY
       component "WoV" as WOV_MODULE
       component "ACA" as ACA_MODULE
@@ -18,7 +18,7 @@ package "SOF" {
       ACA_MODULE -[hidden]right- OTHER_MODULES
     }
 
-    package "Built-in Components" as BUILTIN_COMPONENTS {
+    package "Built-in Module" as BUILTIN_MODULE {
       component "Copier" as COPIER
       component "SRC" as SRC
       component "Mixers" as MIXERS
@@ -31,7 +31,7 @@ package "SOF" {
       HISTORY_BUFFER -[hidden]right- PROBE
     }
 
-      BUILTIN_COMPONENTS -[hidden]down- LOADABLE_COMPONENTS
+      BUILTIN_MODULE -[hidden]down- LOADABLE_MODULE
   }
 
   package "System Services" as SYS_SERVICES {
@@ -58,7 +58,7 @@ package "SOF" {
   }
 
   APP_CUSTOMIZATION -[hidden]down- SYS_SERVICES
-  BUILTIN_COMPONENTS .down. SS
+  BUILTIN_MODULE .down. SS
   PROCESSING_3RD_PARTY .down. SS
   WOV_MODULE .down. SS
   ACA_MODULE .down. SS
