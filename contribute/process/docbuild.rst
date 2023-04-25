@@ -124,6 +124,11 @@ creating drawings:
    drawing syntax into an image. You need to have a Java runtime environment
    (JRE) installed when generating documentation.
 
+There is a sof-docs Docker image recipe that can be used as an alternative to
+installing the documentation tools on local OS. If you choose to use Docker then
+please skip the tools installation steps and go directly to
+:ref:`run_documentation_processors`
+
 Depending on your Linux version, install the following tools:
 
 * For Ubuntu use:
@@ -202,13 +207,18 @@ another ``make html`` and the output layout and style is changed.
 The ``read-the-docs`` theme is installed as part of the
 ``requirements.txt`` list above.
 
+.. _run_documentation_processors:
+
 Run documentation processors
 ****************************
 
 The sof-docs directory contains all the .rst source files, extra tools, and
 Makefile for generating a local copy of the SOF technical documentation.
 
-* Generate the HTML output by using the following commands:
+You can generate the HTML documentation by using local build tools (1) or by
+Docker image (2)
+
+1. Generate the HTML output by using the following commands (**local build**):
 
   .. code-block:: bash
 
@@ -227,6 +237,28 @@ diagrams. When done, view the HTML output with your browser, starting at
 If your changes are not related to any UML diagram, you can build more
 than 10 times faster from scratch by temporarily changing the
 ``plantuml_output_format`` line in :git-sof-docs-mainline:`conf.py`.
+
+2. Generate the HTML output by using the following commands (**Docker build**):
+
+  .. code-block:: bash
+
+     cd thesofproject
+     # Build both sof (Doxygen) and sof-docs UML and reStruredText
+     ./sof-docs/scripts/docker_build/docker-build.sh
+
+The docker build script will copy the sof and sof-docs source code from host
+working directory to image, build the documentation and when completed copy back
+output to the host (./sof-docs/_build)
+
+The first docker build run will take more time due to image creation and
+installation of all the necessary build tools. Each next build is much faster
+and can additionally be speed up by selecting only sof-docs to build:
+
+  .. code-block:: bash
+
+     cd thesofproject
+     # Re-build only sof-docs
+     ./sof-docs/scripts/docker_build/docker-build.sh docs
 
 Publish content
 ***************
