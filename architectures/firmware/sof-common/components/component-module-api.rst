@@ -1,4 +1,4 @@
-.. apps-comp-world:
+.. _apps-comp-world:
 
 Component & Module Interfaces
 #############################
