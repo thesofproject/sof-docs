@@ -204,18 +204,21 @@ Instance descriptions can have one of the following forms:
 - ``X.*`` - each component on selected pipeline *X*
 - ``X.Y`` - component on pipeline *X* with id *Y*
 
-Trace level changes works in the same order as options given in a command line, and a new set overwrites old values. It allows you to easily enable verbose logs only for selected components and keep the lowest possible log level (critical) for others, as shown in the following example:
+Trace level changes work in the same order as options given in a command line, and a new set overwrites old values.
+It allows you to easily enable verbose logs only for selected components and keep the lowest possible log level (critical) for
+others, as shown in the following example:
 
    sof-logger -l ldc_file -t -Fcritical=* -Fverbose="dai*, volume1.1"
 
 A similar example may be prepared for components on a particular pipeline:
 
-   sof-loggerr -l ldc_file -t -Fc=* -Fv=*1.*
+   sof-logger -l ldc_file -t -Fc=* -Fv=*1.*
 
 .. note::
   To track a verbose message, select the "Trace verbose" option under the "Trace" menu from the firmware build.
 
-Active trace filters are stored in the firmware runtime memory, so after a firmware restart (such as after power gating in sleep mode) filters settings will be reset.
+Active trace filters are stored in the firmware runtime memory, so after a firmware restart (such as after power gating
+in sleep mode) filters settings will be reset.
 
 Consider disabling power gating during your debug session by entering the following:
 
@@ -231,7 +234,7 @@ Consider disabling power gating during your debug session by entering the follow
 
     cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
 
-The logger trace filtration affects only traces sent after the filter setup,
+The logger trace filtering affects only traces sent after the filter setup,
 so traces already stored on the kernel side are not affected.
 
 Filters are set up incrementally, so when loggers are run twice with
@@ -242,11 +245,11 @@ default state, a firmware reset is needed.
 Detailed description
 --------------------
 
-The filtration mechanism occurs on the firmware side so, after changing the
-log level to verbose for each component, the DSP can be overhelmed by
+The filtering mechanism occurs on the firmware side so, after changing the
+log level to verbose for each component, the DSP can be overwhelmed by
 tracing.
 
-Core functionality is provided by the DSP, so filtration does not work in
+Core functionality is provided by the DSP, so filtering does not work in
 offline mode - during conversion in a previously saved input file.
 
 Communication between the firmware and logger is occurs through driver
