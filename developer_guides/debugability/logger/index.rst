@@ -228,21 +228,23 @@ Disabling DSP power gating
 
 After a firmware reset (such as after power gating in suspend mode) custom filter settings will be lost.
 Thus consider disabling power gating during your debug session. The way this is done is slightly different on every platform,
-Consider disabling power gating during your debug session by entering the following:
+two examples follow:
 
-.. code:: bash
+1. Intel PCI based:
+
+.. code-block:: bash
 
   sudo su
   echo on >/sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio contoller" | awk '{print $1;}')/power/control
 
-.. note::
-  The current device power status can be read by entering this command:
+2. NXP imx8mp:
 
-  .. code:: bash
+.. code-block:: bash
 
-    cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
+  sudo su
+  echo on>/sys/class/devlink/platform:power-domains:audiomix-pd--platform:3b6e8000.dsp/consumer/power/control
 
-
+To re-enable automatic suspend use ``echo auto``, the current status can be read from the runtime_status file in these sysfs directories.
 
 Trace filtering details
 -----------------------
