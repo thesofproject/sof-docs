@@ -129,7 +129,7 @@ Examples
 
 
 .. note::
-  debugfs files used by ``sof-logger``
+  debugfs files used by sof-logger:
 
   - ``etrace``: direct access to the shared TRACE window of the SOF firmware
   - ``trace``: using DMA to stream debug trace information from SOF firmware (on
@@ -214,12 +214,17 @@ A similar example may be prepared for components on a particular pipeline:
 
    sof-logger -l ldc_file -t -Fc=* -Fv=*1.*
 
-.. note::
-  To track a verbose message, select the "Trace verbose" option under the "Trace" menu from the firmware build.
+Verbose and debug log levels
+----------------------------
 
-Active trace filters are stored in the firmware runtime memory, so after a firmware restart (such as after power gating
-in sleep mode) filters settings will be reset.
+To enable verbose and debug trace messages, select the "Trace->Trace verbose" option in the firmware build
+menuconfig (in addition to setting the proper log levels as described above).
 
+Disabling DSP power gating
+--------------------------
+
+After a firmware reset (such as after power gating in suspend mode) custom filter settings will be lost.
+Thus consider disabling power gating during your debug session. The way this is done is slightly different on every platform,
 Consider disabling power gating during your debug session by entering the following:
 
 .. code:: bash
@@ -234,29 +239,31 @@ Consider disabling power gating during your debug session by entering the follow
 
     cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
 
-The logger trace filtering affects only traces sent after the filter setup,
-so traces already stored on the kernel side are not affected.
 
-Filters are set up incrementally, so when loggers are run twice with
-different settings, then filters from the first run will not be restored to
-the default state but will be replaced by a new one. To reset filters to the
-default state, a firmware reset is needed.
 
-Detailed description
---------------------
+Trace filtering details
+-----------------------
 
-The filtering mechanism occurs on the firmware side so, after changing the
-log level to verbose for each component, the DSP can be overwhelmed by
-tracing.
+* The filtering mechanism occurs on the firmware side so, after changing the
+  log level to verbose for each component, the DSP can be overwhelmed by
+  tracing.
 
-Core functionality is provided by the DSP, so filtering does not work in
-offline mode - during conversion in a previously saved input file.
+* Core functionality is provided by the DSP, so filtering does not work in
+  offline mode - during conversion in a previously saved input file.
 
-Communication between the firmware and logger is occurs through driver
-debug file systems. The logger writes new trace settings to ``sys/kernel/debug/sof/filter``. These will be used to create *IPC* messages with new
-trace levels. A simple text data format is used:
+* The trace filtering affects only traces sent after the filter setup,
+  so traces already stored on the kernel side are not affected. If a certain log level is needed before a filter has been setup the DECLARE_TR_CTX()
+  macro at the beginning of the respective component's source file can be adapted.
 
-``log1_level uuid1_id pipe1_id comp1_id; [log2_level uuid2_id pipe2_id comp2_id;]\n``
+* Filters are set up incrementally, so when loggers are run twice with
+  different settings, then filters from the first run will not be restored to
+  the default state but will be replaced by a new one. Active trace filters are stored in the firmware runtime memory. To reset the filters to the
+  default state, a firmware reset is needed.
 
-Any unused uuid_id should be set here to 0; other unused fields should be
-set to -1. ``log_level`` must always be set to a valid value that represents ``LOG_LEVEL_*`` defined values.
+* Communication between the firmware and logger occurs through the kernel debugfs. The logger writes new trace settings to ``sys/kernel/debug/sof/filter``.
+  These will be used to create *IPC* messages with new trace levels. A simple text data format is used:
+
+  ``log1_level uuid1_id pipe1_id comp1_id; [log2_level uuid2_id pipe2_id comp2_id;]\n``
+
+  Any unused uuid_id should be set here to 0; other unused fields should be
+  set to -1. ``log_level`` must always be set to a valid value that represents ``LOG_LEVEL_*`` defined values.
