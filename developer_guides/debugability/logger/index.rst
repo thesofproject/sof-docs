@@ -150,6 +150,9 @@ Examples
   file and start reading from position 0 and thus be in sync with the firmware
   when it is resumed.
 
+  Sometimes error messages about dropped logs are printed. If that is a problem,
+  increasing DMA_TRACE_LOCAL_SIZE in the relevant platform.h file can be helpful.
+ 
 Trace filtering
 ***************
 
