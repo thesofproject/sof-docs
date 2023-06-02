@@ -16,7 +16,7 @@ Make sure you have `set up your development environment <prepare_build_environme
 Build and install the kernel
 ****************************
 
-1. Change directory to ``~/sof/linux`` that you created on the setup page.
+1. Change directory to ``~/work/sof/linux`` that you created on the setup page.
 
 #. Load the base kernel configuration.
 
