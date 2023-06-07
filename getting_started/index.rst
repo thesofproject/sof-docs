@@ -75,3 +75,12 @@ This section provides guides for integrators and for users working with i.MX pla
 
    nxp/sof_imx_user_guide
 
+Building loadable modules using LMDK
+************************************
+
+This section descibes process of building loadable modules using LMDK.
+
+.. toctree::
+   :maxdepth: 1
+
+   loadable_modules/lmdk_user_guide
