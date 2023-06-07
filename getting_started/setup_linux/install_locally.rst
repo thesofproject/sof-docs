@@ -116,7 +116,7 @@ If you run into issues or no longer need the custom kernel, you can remove it.
 
   .. code-block:: bash
 
-     cd ~/sof/linux
+     cd ~/work/sof/linux
      sudo rm /boot/*-$(make kernelversion)
      sudo rm -rf /lib/modules/$(make kernelversion)
      sudo update-grub
@@ -125,7 +125,7 @@ If you run into issues or no longer need the custom kernel, you can remove it.
 
   .. code-block:: bash
 
-     cd ~/sof/linux
+     cd ~/work/sof/linux
      sudo rm /boot/*-$(make kernelversion)*
      sudo rm -rf /lib/modules/$(make kernelversion)
      sudo grubby --remove-kernel=/boot/vmlinuz-$(make kernelversion)
