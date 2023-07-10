@@ -58,3 +58,8 @@ sphinxcontrib.plantuml>=0.11,<0.25
 #  - Downgrade if successfully tested.
 #  - Test with plantum set to "none" in conf.py. We don't want small
 #    typo fixes to depend on UML diagrams.
+
+# Workaround for warning "'ImageDraw' object has no attribute 'textsize'"
+# with pillow 10.0.0, see
+# https://github.com/thesofproject/sof-docs/issues/472
+pillow<10
