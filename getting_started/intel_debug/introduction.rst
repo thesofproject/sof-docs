@@ -97,12 +97,12 @@ the following elements are present on the file system.
 1. Firmware binary
 ------------------
 
-The firmware file, ``/lib/firmware/intel/sof/sof-tgl.ri``, contains
-all DSP code and tables. On PCI devices, the firmware can only be
-signed by an Intel production key which prevents community users from
-installing their own firmware. Notable exceptions include Google
-Chromebooks and Up2/Up-Extreme boards, where the *community key* is
-used.
+The firmware file, ``/lib/firmware/intel/sof/sof-tgl.ri`` (example
+location for Intel Tiger Lake), contains all DSP code and tables. On
+PCI devices, the firmware can only be signed by an Intel production
+key which prevents community users from installing their own firmware.
+Notable exceptions include Google Chromebooks and Up2/Up-Extreme
+boards, where the *community key* is used.
 
 The Intel ME (Management Engine) is responsible for authentication of
 the firmware, whether it is signed by an Intel production key (consumer
