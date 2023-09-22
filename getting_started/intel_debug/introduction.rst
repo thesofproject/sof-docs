@@ -120,28 +120,35 @@ configuration issue.
 Linux SOF will look up firmware files at the following paths:
 
 .. list-table:: Firmware look-up paths per Intel platform
-   :widths: 50 50 25
+   :widths: 55 5 50 25
    :header-rows: 1
 
    * - Platform
+     - IPC type
      - Firmware load path
      - Notes
    * - Raptor Lake and older
+     - IPC3
      - /lib/firmware/intel/sof/sof-PLAT.ri
      - PLAT = glk, cml, ..., rpl
    * - Raptor Lake and older (community signed)
+     - IPC3
      - /lib/firmware/intel/sof/community/sof-PLAT.ri
      - PLAT = glk, cml, ..., rpl
-   * - Meteor Lake and newer
+   * - Tiger Lake and newer
+     - IPC4
      - /lib/firmware/intel/sof-ipc4/PLAT/sof-PLAT.ri
-     - PLAT = mtl, lnl, ...
-   * - Meteor Lake and newer (community signed)
+     - PLAT = tgl, adl, rpl, mtl, lnl, ...
+   * - Tiger Lake and newer (community signed)
+     - IPC4
      - /lib/firmware/intel/sof-ipc4/PLAT/community/sof-PLAT.ri
-     - PLAT = mtl, lnl, ...
-   * - Meteor Lake and newer Loadable Module
+     - PLAT = tgl, adl, rpl, mtl, lnl, ...
+   * - Tiger Lake and newer Loadable Module
+     - IPC4
      - /lib/firmware/intel/sof-ipc4-lib/PLAT/UUID.bin
      - PLAT as above, UUID = UUID of the module
-   * - Meteor Lake and newer Loadable Module (community signed)
+   * - Tiger Lake and newer Loadable Module (community signed)
+     - IPC4
      - /lib/firmware/intel/sof-ipc4-lib/PLAT/community/UUID.bin
      - PLAT as above, UUID = UUID of the module
 
@@ -158,20 +165,24 @@ be instantiated by the SOF driver. The topology can be regenerated and
 reconfigured with tools but requires expert knowledge of the ALSA/ASoC/topology frameworks.
 
 .. list-table:: Firmware topology file look-up paths per Intel platform
-   :widths: 50 50 25
+   :widths: 50 5 50 25
    :header-rows: 1
 
    * - Platform
+     - IPC type
      - Topology load path
      - Notes
    * - Raptor Lake and older
+     - IPC3
      - /lib/firmware/intel/sof-tplg/sof-CONFIG.tplg
      - CONFIG = topology variant needed for detected hardware configuration
-   * - Meteor Lake and newer
-     - /lib/firmware/intel/sof-ace-tplg/sof-CONFIG.tplg
+   * - Tiger Lake and newer
+     - IPC4
+     - /lib/firmware/intel/sof-ipc4-tplg/sof-CONFIG.tplg
      - CONFIG = topology variant needed for detected hardware configuration
 
 Important notices:
+ - For compatibility reasons for **Meteor Lake and newer** ``/lib/firmware/intel/sof-ace-tplg`` must be symlinked to ``/lib/firmware/intel/sof-ipc4-tplg``
  - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
  - The topology folder and filename can be overridden with "tplg_path" and "tplg_filename" `snd_sof_pci` kernel parameters.
 
