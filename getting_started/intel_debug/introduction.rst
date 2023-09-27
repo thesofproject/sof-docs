@@ -97,12 +97,12 @@ the following elements are present on the file system.
 1. Firmware binary
 ------------------
 
-The firmware file, ``/lib/firmware/intel/sof/sof-tgl.ri``, contains
-all DSP code and tables. On PCI devices, the firmware can only be
-signed by an Intel production key which prevents community users from
-installing their own firmware. Notable exceptions include Google
-Chromebooks and Up2/Up-Extreme boards, where the *community key* is
-used.
+The firmware file, ``/lib/firmware/intel/sof/sof-tgl.ri`` (example
+location for Intel Tiger Lake), contains all DSP code and tables. On
+PCI devices, the firmware can only be signed by an Intel production
+key which prevents community users from installing their own firmware.
+Notable exceptions include Google Chromebooks and Up2/Up-Extreme
+boards, where the *community key* is used.
 
 The Intel ME (Management Engine) is responsible for authentication of
 the firmware, whether it is signed by an Intel production key (consumer
@@ -117,12 +117,63 @@ Linux kernel to query whether or not the firmware authentication is enabled,
 which means `dmesg` logs cannot be provided to alert the user to an ME
 configuration issue.
 
+Linux SOF will look up firmware files at the following paths:
+
+.. list-table:: Firmware look-up paths per Intel platform
+   :widths: 50 50 25
+   :header-rows: 1
+
+   * - Platform
+     - Firmware load path
+     - Notes
+   * - Raptor Lake and older
+     - /lib/firmware/intel/sof/sof-PLAT.ri
+     - PLAT = glk, cml, ..., rpl
+   * - Raptor Lake and older (community signed)
+     - /lib/firmware/intel/sof/community/sof-PLAT.ri
+     - PLAT = glk, cml, ..., rpl
+   * - Meteor Lake and newer
+     - /lib/firmware/intel/sof-ipc4/PLAT/sof-PLAT.ri
+     - PLAT = mtl, lnl, ...
+   * - Meteor Lake and newer (community signed)
+     - /lib/firmware/intel/sof-ipc4/PLAT/community/sof-PLAT.ri
+     - PLAT = mtl, lnl, ...
+   * - Meteor Lake and newer Loadable Module
+     - /lib/firmware/intel/sof-ipc4-lib/PLAT/UUID.bin
+     - PLAT as above, UUID = UUID of the module
+   * - Meteor Lake and newer Loadable Module (community signed)
+     - /lib/firmware/intel/sof-ipc4-lib/PLAT/community/UUID.bin
+     - PLAT as above, UUID = UUID of the module
+
+Important notices:
+ - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
+ - The firmware folder and filename can be overridden with "fw_path" and "fw_filename" SOF kernel parameters.
+ - The loadable module library path can be overridden with "lib_path" SOF kernel parameter.
+
 2. Topology file
 ----------------
 
 The topology file, such as ``/lib/firmware/intel/sof-tplg/sof-hda-generic-2ch.tplg``, describes the processing graph and controls to
 be instantiated by the SOF driver. The topology can be regenerated and
 reconfigured with tools but requires expert knowledge of the ALSA/ASoC/topology frameworks.
+
+.. list-table:: Firmware topology file look-up paths per Intel platform
+   :widths: 50 50 25
+   :header-rows: 1
+
+   * - Platform
+     - Topology load path
+     - Notes
+   * - Raptor Lake and older
+     - /lib/firmware/intel/sof-tplg/sof-CONFIG.tplg
+     - CONFIG = topology variant needed for detected hardware configuration
+   * - Meteor Lake and newer
+     - /lib/firmware/intel/sof-ace-tplg/sof-CONFIG.tplg
+     - CONFIG = topology variant needed for detected hardware configuration
+
+Important notices:
+ - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
+ - The topology folder and filename can be overridden with "tplg_path" and "tplg_filename" `snd_sof_pci` kernel parameters.
 
 3. UCM file
 -----------

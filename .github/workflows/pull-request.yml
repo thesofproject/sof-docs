@@ -32,7 +32,7 @@ jobs:
   supported-reqs:
 
     name: 'Supported scripts/requirements.txt'
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -81,7 +81,7 @@ jobs:
 
   deploy:
     needs: supported-reqs
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/publish' }}
     steps:
       # download the build result from the same workflow

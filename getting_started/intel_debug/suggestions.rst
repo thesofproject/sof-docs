@@ -214,7 +214,7 @@ The following command can then be used to check if the microphones are active at
 
 .. code-block:: bash
 
-   arecord -Dhw:0,6 -c4 -r48000 -sS32_LE -d 10 test.wav
+   arecord -Dhw:0,6 -c4 -r48000 -fS32_LE -d 10 test.wav
 
 In 99% of the cases, hardware designers connect the two microphones on
 the PDM0 controller. Some platforms use PDM1, which cannot really be

@@ -129,7 +129,7 @@ Examples
 
 
 .. note::
-  debugfs files used by ``sof-logger``
+  debugfs files used by sof-logger:
 
   - ``etrace``: direct access to the shared TRACE window of the SOF firmware
   - ``trace``: using DMA to stream debug trace information from SOF firmware (on
@@ -150,6 +150,9 @@ Examples
   file and start reading from position 0 and thus be in sync with the firmware
   when it is resumed.
 
+  Sometimes error messages about dropped logs are printed. If that is a problem,
+  increasing DMA_TRACE_LOCAL_SIZE in the relevant platform.h file can be helpful.
+ 
 Trace filtering
 ***************
 
@@ -204,56 +207,68 @@ Instance descriptions can have one of the following forms:
 - ``X.*`` - each component on selected pipeline *X*
 - ``X.Y`` - component on pipeline *X* with id *Y*
 
-Trace level changes works in the same order as options given in a command line, and a new set overwrites old values. It allows you to easily enable verbose logs only for selected components and keep the lowest possible log level (critical) for others, as shown in the following example:
+Trace level changes work in the same order as options given in a command line, and a new set overwrites old values.
+It allows you to easily enable verbose logs only for selected components and keep the lowest possible log level (critical) for
+others, as shown in the following example:
 
    sof-logger -l ldc_file -t -Fcritical=* -Fverbose="dai*, volume1.1"
 
 A similar example may be prepared for components on a particular pipeline:
 
-   sof-loggerr -l ldc_file -t -Fc=* -Fv=*1.*
+   sof-logger -l ldc_file -t -Fc=* -Fv=*1.*
 
-.. note::
-  To track a verbose message, select the "Trace verbose" option under the "Trace" menu from the firmware build.
+Verbose and debug log levels
+----------------------------
 
-Active trace filters are stored in the firmware runtime memory, so after a firmware restart (such as after power gating in sleep mode) filters settings will be reset.
+To enable verbose and debug trace messages, select the "Trace->Trace verbose" option in the firmware build
+menuconfig (in addition to setting the proper log levels as described above).
 
-Consider disabling power gating during your debug session by entering the following:
+Disabling DSP power gating
+--------------------------
 
-.. code:: bash
+After a firmware reset (such as after power gating in suspend mode) custom filter settings will be lost.
+Thus consider disabling power gating during your debug session. The way this is done is slightly different on every platform,
+two examples follow:
+
+1. Intel PCI based:
+
+.. code-block:: bash
 
   sudo su
   echo on >/sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio contoller" | awk '{print $1;}')/power/control
 
-.. note::
-  The current device power status can be read by entering this command:
+2. NXP imx8mp:
 
-  .. code:: bash
+.. code-block:: bash
 
-    cat /sys/devices/pci0000\:00/0000\:$(lspci -nn | grep "audio controller" | awk '{print $1;}')/power/runtime_status
+  sudo su
+  echo on>/sys/class/devlink/platform:power-domains:audiomix-pd--platform:3b6e8000.dsp/consumer/power/control
 
-The logger trace filtration affects only traces sent after the filter setup,
-so traces already stored on the kernel side are not affected.
+To re-enable automatic suspend use ``echo auto``, the current status can be read from the runtime_status file in these sysfs directories.
 
-Filters are set up incrementally, so when loggers are run twice with
-different settings, then filters from the first run will not be restored to
-the default state but will be replaced by a new one. To reset filters to the
-default state, a firmware reset is needed.
+Trace filtering details
+-----------------------
 
-Detailed description
---------------------
+* The filtering mechanism occurs on the firmware side so, after changing the
+  log level to verbose for each component, the DSP can be overwhelmed by
+  tracing.
 
-The filtration mechanism occurs on the firmware side so, after changing the
-log level to verbose for each component, the DSP can be overhelmed by
-tracing.
+* Core functionality is provided by the DSP, so filtering does not work in
+  offline mode - during conversion in a previously saved input file.
 
-Core functionality is provided by the DSP, so filtration does not work in
-offline mode - during conversion in a previously saved input file.
+* The trace filtering affects only traces sent after the filter setup,
+  so traces already stored on the kernel side are not affected. If a certain log level is needed before a filter has been setup the DECLARE_TR_CTX()
+  macro at the beginning of the respective component's source file can be adapted.
 
-Communication between the firmware and logger is occurs through driver
-debug file systems. The logger writes new trace settings to ``sys/kernel/debug/sof/filter``. These will be used to create *IPC* messages with new
-trace levels. A simple text data format is used:
+* Filters are set up incrementally, so when loggers are run twice with
+  different settings, then filters from the first run will not be restored to
+  the default state but will be replaced by a new one. Active trace filters are stored in the firmware runtime memory. To reset the filters to the
+  default state, a firmware reset is needed.
 
-``log1_level uuid1_id pipe1_id comp1_id; [log2_level uuid2_id pipe2_id comp2_id;]\n``
+* Communication between the firmware and logger occurs through the kernel debugfs. The logger writes new trace settings to ``sys/kernel/debug/sof/filter``.
+  These will be used to create *IPC* messages with new trace levels. A simple text data format is used:
 
-Any unused uuid_id should be set here to 0; other unused fields should be
-set to -1. ``log_level`` must always be set to a valid value that represents ``LOG_LEVEL_*`` defined values.
+  ``log1_level uuid1_id pipe1_id comp1_id; [log2_level uuid2_id pipe2_id comp2_id;]\n``
+
+  Any unused uuid_id should be set here to 0; other unused fields should be
+  set to -1. ``log_level`` must always be set to a valid value that represents ``LOG_LEVEL_*`` defined values.
