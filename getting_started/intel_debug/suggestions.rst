@@ -294,12 +294,33 @@ driver:
    #define SOC_ES8336_HEADSET_MIC1		BIT(8)
 
 
-The default quirk value for the platform can be read from
+The default and actual quirk values for the platform can be obtained
+from the kernel logs in the line as follows:
+
+.. code-block:: none
+
+    ...
+    sof-essx8336 sof-essx8336: quirk mask 0x1a0
+    ...
+
+for the unchanged mask, or:
+
+.. code-block:: none
+
+    ...
+    sof-essx8336 sof-essx8336: Overriding quirk 0x1a0 => 0x120
+    ...
+
+for the quirk overriding.
+
+The overridden quirk value can also be obtained from the
 /sys/module/snd_soc_sof_es8336/parameters/quirk (the value is reported
-as plain integer, not hexadecimal). Changes to the default can be
-added with the following option in
+as a plain integer, not hexadecimal). If the quirk is not overridden,
+the `-1` value is returned.
+
+Changes to the default can be added with the following option in
 e.g. /etc/modprobe.d/alsa-base.conf. Only the bits listed above can be
-modified, others need to be kept as is.
+modified; others need to remain as is.
 
 .. code-block:: cfg
 
