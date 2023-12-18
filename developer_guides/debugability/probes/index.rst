@@ -135,35 +135,50 @@ the last stage of extraction.
    Refer to the host side struct sof_probe_point_desc defined in ``sound/soc/sof/probe.h``
    or struct probe_point in ``/src/include/ipc/probe.h`` from sof for the meaning of the triplets:
 
-	.. code-block:: c
+   .. code-block:: c
 
-		/**
-		 * Description of probe point
-		 */
-		struct probe_point {
-			uint32_t buffer_id;	/**< ID of buffer to which probe is attached */
-			uint32_t purpose;	/**< PROBE_PURPOSE_EXTRACTION or PROBE_PURPOSE_INJECTION */
-			uint32_t stream_tag;	/**< Stream tag of DMA via which data will be provided for injection.
-						 *   For extraction purposes, stream tag is ignored when received,
-						 *   but returned actual extraction stream tag via INFO function.
-						 */
-		} __attribute__((packed));
+	/**
+	 * Description of probe point
+	 */
+	struct probe_point {
+		uint32_t buffer_id;	/**< ID of buffer to which probe is attached */
+		uint32_t purpose;	/**< PROBE_PURPOSE_EXTRACTION or PROBE_PURPOSE_INJECTION */
+		uint32_t stream_tag;	/**< Stream tag of DMA via which data will be provided for injection.
+					 *   For extraction purposes, stream tag is ignored when received,
+					 *   but returned actual extraction stream tag via INFO function.
+					 */
+	} __attribute__((packed));
 
-  In the above example, 7 stands for the ``buffer_id`` which is a monolithic
-  counter value that follows a component instantiation order.
+   In the above example, 7 stands for the ``buffer_id`` which is a monolithic
+   counter value that follows a component instantiation order.
 
-  One way to find out the right instance of ``buffer_id`` is to enable
-  dev_dbg in ``sound/sound/soc/sof/topology.c`` and search for the widget id
-  from the following messages:
+   One way to find out the right instance of ``buffer_id`` is to enable
+   dev_dbg in ``sound/sound/soc/sof/topology.c`` and search for the widget id
+   from the following messages:
 
-	.. code-block:: c
+   .. code-block:: c
 
-		dev_dbg(scomp->dev, "tplg: ready widget id %d pipe %d type %d name : %s stream %s\n",
-			swidget->comp_id, index, swidget->id, tw->name,
-			strnlen(tw->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) > 0
-				? tw->sname : "none");
+	dev_dbg(scomp->dev,
+		"tplg: widget %d (%s) is ready [type: %d, pipe: %d, pins: %d / %d, stream: %s]\n",
+		swidget->comp_id, w->name, swidget->id, index,
+		swidget->num_input_pins, swidget->num_output_pins,
+		strnlen(w->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) > 0 ? w->sname : "none");
 
-   For IPC4 system, the above example looks like this:
+   On a booted system the list can be acquired with
+
+   .. code-block:: bash
+
+	dmesg | grep "tplg: widget "
+	...
+	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 2 (gain.1.1) is ready [type: 6, pipe: 1, pins: 1 / 1, stream: none]
+	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 3 (mixin.1.1) is ready [type: 4, pipe: 1, pins: 1 / 3, stream: none]
+	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 4 (pipeline.1) is ready [type: 32, pipe: 1, pins: 0 / 0, stream: none]
+	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 5 (codec0_in) is ready [type: 0, pipe: 1, pins: 0 / 0, stream: none]
+	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 6 (iDisp2 Tx) is ready [type: 7, pipe: 1, pins: 0 / 0, stream: none]
+	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 7 (dai-copier.HDA.Analog.playback) is ready [type: 27, pipe: 2, pins: 1 / 0, stream: Analog]
+	...
+
+   For IPC4 system, the above example looks like this (extraction from gain.1.1):
 
    .. code-block:: bash
 
