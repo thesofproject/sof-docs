@@ -74,14 +74,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SOF Project'
-copyright = u'2023, SOF Project'
+copyright = u'2024, SOF Project'
 author = u'SOF Project developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 
-version = release = "2.7.0"
+version = release = "2.8.0"
 
 #
 # The short X.Y version.
