@@ -178,11 +178,42 @@ reconfigured with tools but requires expert knowledge of the ALSA/ASoC/topology 
      - CONFIG = topology variant needed for detected hardware configuration
    * - Tiger Lake and newer
      - IPC4
-     - /lib/firmware/intel/sof-ipc4-tplg/sof-CONFIG.tplg
+     - /lib/firmware/intel/sof-ipc4-tplg/PLAT/sof-CONFIG.tplg
      - CONFIG = topology variant needed for detected hardware configuration
 
+Practical notes on IPC4 deployment
+ - In practice the topology files should be grouped by generations and platforms should be symlinked to the matching generation
+ - For compatibility reasons for **Meteor Lake**'s ``/lib/firmware/intel/sof-ace-tplg`` must be symlinked to ``/lib/firmware/intel/sof-ipc4-tplg/ACE1``
+
+::
+
+   .
+   └── intel
+       ├── sof-ace-tplg -> sof-ipc4-tplg/ACE1
+       └── sof-ipc4-tplg
+           ├── ACE1
+           │   ├── sof-*.tplg
+           │   ├── ...
+           │   └── sof-*.tplg
+           ├── ACE2 -> ACE1
+           ├── adl -> CAVS2.5
+           ├── adl-n -> CAVS2.5
+           ├── adl-s -> CAVS2.5
+           ├── arl -> ACE1
+           ├── arl-s -> ACE1
+           ├── CAVS2.5
+           │   ├── sof-*.tplg
+           │   ├── ...
+           │   └── sof-*.tplg
+           ├── ehl -> CAVS2.5
+           ├── lnl -> ACE2
+           ├── mtl -> ACE1
+           ├── rpl -> CAVS2.5
+           ├── rpl-s -> CAVS2.5
+           ├── tgl -> CAVS2.5
+           └── tgl-h -> CAVS2.5
+
 Important notices:
- - For compatibility reasons for **Meteor Lake and newer** ``/lib/firmware/intel/sof-ace-tplg`` must be symlinked to ``/lib/firmware/intel/sof-ipc4-tplg``
  - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
  - The topology folder and filename can be overridden with "tplg_path" and "tplg_filename" `snd_sof_pci` kernel parameters.
 
