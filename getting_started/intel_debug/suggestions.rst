@@ -136,6 +136,7 @@ file:
 
    # SOF internals
    options snd_sof_intel_hda_common dyndbg=+pmf
+   options snd_sof_intel_hda_generic dyndbg=+pmf
    options snd_sof_intel_hda_mlink dyndbg=+pmf
    options snd_sof_intel_hda dyndbg=+pmf
    options snd_sof dyndbg=+pmf
