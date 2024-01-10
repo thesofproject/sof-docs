@@ -182,7 +182,7 @@ reconfigured with tools but requires expert knowledge of the ALSA/ASoC/topology 
      - CONFIG = topology variant needed for detected hardware configuration
 
 Important notices:
- - For compatibility reasons for **Meteor Lake and newer** ``/lib/firmware/intel/sof-ace-tplg`` must be symlinked to ``/lib/firmware/intel/sof-ipc4-tplg``
+ - For compatibility reasons with respect to **Meteor Lake** ``/lib/firmware/intel/sof-ace-tplg`` must be symlinked to ``/lib/firmware/intel/sof-ipc4-tplg``
  - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
  - The topology folder and filename can be overridden with "tplg_path" and "tplg_filename" `snd_sof_pci` kernel parameters.
 
