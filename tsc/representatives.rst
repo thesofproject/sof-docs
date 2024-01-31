@@ -21,9 +21,9 @@ The TSC is currently made of the following contributors
 +---------------+----------------------+------------------+
 | Google        | Curtis Malainey      | @cujomalainey    |
 +---------------+----------------------+------------------+
-| Google        | Dylan Reid           | @dgreid          |
+| Google        | Johny Lin            | @johnylin76      |
 +---------------+----------------------+------------------+
-| Google        | Ben Zhang            | @bzhg            |
+| Google        | Unseated             |                  |
 +---------------+----------------------+------------------+
 | AMD           | Carl Wakeland        | @cwakeland       |
 +---------------+----------------------+------------------+
