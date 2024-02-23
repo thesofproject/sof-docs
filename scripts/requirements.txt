@@ -1,11 +1,13 @@
 # This file hardcodes validated versions with '==',
 # see requirements-lax.txt for an alternative.
-breathe==4.29.2
-sphinx==4.5.0
-docutils==0.17.1
+
+sphinx>=7
+breathe
+docutils
 sphinx_rtd_theme
 sphinxcontrib-plantuml
 sphinxcontrib-blockdiag
+sphinxcontrib-applehelp
 
 
 # Workaround for warning "'ImageDraw' object has no attribute 'textsize'"
