@@ -6,11 +6,10 @@ breathe
 docutils
 sphinx_rtd_theme
 sphinxcontrib-plantuml
-sphinxcontrib-blockdiag
 sphinxcontrib-applehelp
 
 
-# Workaround for warning "'ImageDraw' object has no attribute 'textsize'"
-# with pillow 10.0.0, see
-# https://github.com/thesofproject/sof-docs/issues/472
+# blockdiag is orphaned and not compatible with pillow>=10,
+# see https://github.com/thesofproject/sof-docs/issues/472
+sphinxcontrib-blockdiag
 pillow<10

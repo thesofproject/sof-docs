@@ -1,3 +1,6 @@
+// FIXME: blockdiag is orphaned and not compatible with Pillow anymore:
+// https://github.com/blockdiag/blockdiag/pull/171
+
 blockdiag edf_scheduling {
 
 	node_width = 250;
