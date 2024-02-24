@@ -58,16 +58,24 @@ Set up a target
 	 sudo emacs /etc/default/grub
 
    b) Change ``GRUB_DEFAULT=[n]`` to ``GRUB_DEFAULT=saved``.
-      
-   c) Add ``GRUB_DISABLE_SUBMENU=y`` to the end of the file and save it.
 
-      This step is necessary because submenus confuse ktest.
+   c) You must disable GRUB submenus because they confuse ktest:
+
+      .. code-block:: console
+
+	echo 'GRUB_DISABLE_SUBMENU=y' | sudo tee -a /etc/default/grub.d/disable-submenu.cfg
 
    d) Update the grub configuration.
 
       .. code-block:: console
-	 
-	 sudo update-grub
+
+	# Better safe than _very_ sorry
+	sudo cp /boot/grub/grub.cfg /boot/grub/saved_grub.cfg
+
+	sudo update-grub
+
+	# Make sure submenus are actually disabled
+	grep submenu /boot/grub/grub.cfg
 
 #. Set the default kernel.
 
@@ -84,7 +92,7 @@ Set up a target
 	# Print your currently booted (and known-safe) option
 	cat /proc/cmdline
 	# List the grub entries
-	awk '/^menuentry/ { print i++, '\t', $0 }' /boot/grub/grub.cfg
+	awk '/^menuentry|submenu/ { print i++, '\t', $0 }' /boot/grub/grub.cfg
 	# Find the entry that matches the output of the
 	# first command you ran, and take note of its number
 	sudo grub-set-default [n] # Where [n] is that number
@@ -135,7 +143,7 @@ Set up a target
          #=> saved_entry=6
 
       # Show all, numbered kernel choices without (re)booting
-      awk '/^menuentry/ { print i++, '\t', $0 }' /boot/grub/grub.cfg
+      awk '/^menuentry|submenu/ { print i++, '\t', $0 }' /boot/grub/grub.cfg
          #=> 5  menuentry ...
          #=> 6  menuentry 'Ubuntu, with Linux 5.4.0-53-generic' --class ubuntu ...
          #=> 7  menuentry ...
