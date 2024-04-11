@@ -119,6 +119,7 @@ configuration issue.
 
 Linux SOF will look up firmware files at the following paths:
 
+.. _intel_firmware_paths:
 .. list-table:: Firmware look-up paths per Intel platform
    :widths: 55 5 50 25
    :header-rows: 1
