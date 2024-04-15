@@ -112,7 +112,7 @@ the I2S IO Driver.
 Loopback mode
 ======================================
 
-I2S transmitter and receiver share data pins at IP level - the Tx pin of the transmitter 
+The I2S transmitter and receiver share data pins at the IP level. The Tx pin of the transmitter 
 is connected to the Rx pin of the receiver. This may be used for easy creation of digital 
 loopbacks (LBM, loopback mode) - the receiver always does see what the sender is sending. 
 
