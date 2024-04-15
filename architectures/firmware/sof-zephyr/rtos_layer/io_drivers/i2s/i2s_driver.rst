@@ -116,7 +116,7 @@ The I2S transmitter and receiver share data pins at the IP level. The Tx pin of 
 is connected to the Rx pin of the receiver. This may be used for easy creation of digital 
 loopbacks (LBM, loopback mode) - the receiver always does see what the sender is sending. 
 
-Please note that 
+Please note the following: 
 
  - all the parameters of transmitter and receiver, like number of channels, data rates 
 and format, must match each other
