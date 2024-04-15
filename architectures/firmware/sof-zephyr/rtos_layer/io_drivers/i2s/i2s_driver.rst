@@ -119,7 +119,6 @@ loopbacks (LBM, loopback mode) - the receiver always does see what the sender is
 Please note the following: 
 
  - all the parameters of transmitter and receiver, like number of channels, data rates, and format must match each other
-and format, must match each other
  - the lines are connected internally, so LBM mode may be used even if the I2S pins are not 
 physically available
 
