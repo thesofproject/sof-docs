@@ -12,3 +12,4 @@ Debugability
    probes/index
    ri-info/index
    perf-counters/index
+   shell/index
