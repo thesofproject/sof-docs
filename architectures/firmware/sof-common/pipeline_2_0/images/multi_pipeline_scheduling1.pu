@@ -1,0 +1,34 @@
+ left to right direction
+ 
+package pipeline1{
+    (LL1) #ADD1B2
+    (LL2) #ADD1B2
+    rectangle buffer1 #ADD1B2
+    rectangle buffer2 #ADD1B2
+    (LL3) #ADD1B2
+    (LL4) #ADD1B2
+    rectangle buffer3 #ADD1B2
+    rectangle buffer4 #ADD1B2
+ }
+
+package pipeline2{
+    (LL5) #B4A7E5
+    (LL6) #B4A7E5
+    rectangle buffer5 #B4A7E5
+    rectangle buffer6 #B4A7E5
+}
+
+LL1 --> buffer1
+buffer1 --> LL2
+LL2 --> buffer2
+
+LL5 --> buffer5
+buffer5 --> LL6
+LL6 --> buffer6
+    
+LL3 --> buffer3
+buffer3 --> LL4
+LL4 --> buffer4
+
+buffer2 --> LL3
+buffer6 --> LL3
