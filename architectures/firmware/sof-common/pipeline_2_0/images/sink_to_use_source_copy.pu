@@ -1,0 +1,18 @@
+left to right direction
+(**Module3** //use sink//) as mod3
+rectangle "//source// **BUFFER** //sink// " as buf2
+rectangle "//useSource// **S2S_copy** //useSink// " as copy1
+(//sink// **Module4**) as mod4
+
+(**Module1** //Source//) as mod1
+rectangle "//source// **BUFFER** //sink// " as buf1
+rectangle "//useSource// **S2S_copy** //useSink// " as copy2
+(//use source// **Module2**) as mod2 
+
+mod1 --> copy1
+copy1 --> buf1
+buf1 --> mod2
+
+mod3 --> copy2
+copy2 --> buf2
+buf2 --> mod4
