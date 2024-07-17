@@ -108,3 +108,16 @@ stream with already running ones.
 
 "Single" I2S links may be synchronized and aggregated by sending I2sSyncData to
 the I2S IO Driver.
+
+Loopback mode
+======================================
+
+The I2S transmitter and receiver share data pins at the IP level. The Tx pin of the transmitter 
+is connected to the Rx pin of the receiver. This may be used for easy creation of digital 
+loopbacks (LBM, loopback mode) - the receiver always does see what the sender is sending. 
+
+Please note the following: 
+
+ - all the parameters of transmitter and receiver, like number of channels, data rates, and format must match each other
+ - the lines are connected internally, so LBM mode may be used even if the I2S pins are not physically available
+
