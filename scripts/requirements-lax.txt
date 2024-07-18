@@ -14,6 +14,7 @@ sphinx>=4.5.0
 docutils>=0.17.1
 sphinx_rtd_theme>=0.2.4
 sphinxcontrib-blockdiag>=3.0.0
+sphinxcontrib-jquery
 
 # - Version 0.11 is the first version that supports
 #   `plantuml_output_format=none` which is required for instant builds.

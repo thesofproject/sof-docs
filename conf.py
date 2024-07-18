@@ -35,7 +35,8 @@ sys.path.insert(0, os.path.abspath('.'))
 # FIXME: blockdiag is orphaned and not compatible with Pillow anymore:
 # https://github.com/thesofproject/sof-docs/issues/472
 extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml',
-              'sphinx.ext.todo', 'sphinx.ext.extlinks', 'sphinxcontrib.blockdiag'
+              'sphinx.ext.todo', 'sphinx.ext.extlinks', 'sphinxcontrib.blockdiag',
+              'sphinxcontrib.jquery'
 ]
 
 
