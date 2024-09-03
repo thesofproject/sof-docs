@@ -87,7 +87,7 @@ jobs:
       # download the build result from the same workflow
       # https://docs.github.com/en/actions/guides/storing-workflow-data-as-artifacts
       - name: download HTML
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: html
           path: html
