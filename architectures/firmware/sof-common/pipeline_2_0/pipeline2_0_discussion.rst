@@ -17,8 +17,6 @@ previous version of the document here: https://github.com/orgs/thesofproject/dis
 
 some of the changes have already been implemented, but with a lot of workarounds i.e. in DP processing.
 
-The main change for pipeline2.0 is 
-
 Module scheduling
 -----------------
 
@@ -168,6 +166,29 @@ In current implementation there is another trigger - copy data from/to shadow bu
 
 Module binding 
 ----------------
+
+In pipeline2.0 a buffer is no longer a main connector between modules, but its functionality is limited to the main purpose: a storage space for audio samples. The pipeline structure must be therefore stored using some other structures.
+See "Module creation and pipeline iteration" for some details. 
+
+*other implentation details - TODO*
+
+Buffer APIs (2.0 new)
+=======================
+
+All buffers in the system must implement 3 types of API:
+ - sink API (described before - exposed to a data produce module)
+ - source API (described before - exposed to a data consumer module)
+ - audio_buffer API (exposed to pipeline code, not to the modules)
+
+Audio buffer is a "base abstract class" for all buffers in the system. It provides API  required for buffer mainenance - creation, deletion, etc. This API should not be exposed to the modules.
+
+
+(1.0 compatibility) before 2.0 is implemented, some features for module binding (ilke "is_walked" flag, etc.) must be also put into audio_buffer API. 
+
+Note that modules have access to sink or source API only, modules cannot use audio_buffer API because (as described) there are more types of data sources / data recievers than buffers. That generates a requirement: sink/source API must 
+provide all required data/functions for a module to configure and use data source. For performance reasons there may be neccessary keeping a shortcuts to certains strucures, like audio data parameters, in all APIs.
+
+Also the pipeline code must maitain buffers using audio_buffer API only, there must not be any "side calls" to buffers code. 
 
 Buffer facory (2.0 new)
 =======================
