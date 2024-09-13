@@ -3,6 +3,10 @@
 Coredump-reader
 ###############
 
+NOTE: These instructions do not work with SOF running on Zephyr,
+please refer to
+https://docs.zephyrproject.org/latest/services/debugging/coredump.html
+
 Tool for processing FW stack dumps. In verbose mode it prints the stack leading
 to the core dump including DSP registers and function calls.
 It outputs unwrapped gdb command function call addresses to human readable
