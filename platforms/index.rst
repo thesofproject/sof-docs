@@ -14,16 +14,8 @@ Platform and board specific support is continually added to the SOF project as d
 
    "Host Testbench", "PC command line", "N/A", "N/A", "N/A", "N/A Files are used to simulate audio interfaces"
    "Qemu", "All supported SOF HW platforms", "N/A", "N/A", "N/A", "WiP Files will be used to simulate audio interfaces"
-   "Intel Bay Trail / Merrifield", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "25MHz", "96KB IRAM / 192KB DRAM", "3 x SSP (I2S, PCM)"
-   "Intel Cherry Trail / Braswell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "19.2MHz", "96KB IRAM / 192KB DRAM", "6 x SSP (I2S, PCM)"
-   "Intel Broadwell", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "24MHz", "320KB IRAM / 640KB DRAM", "2 x SSP (I2S, PCM)"
-   "Intel Apollo Lake / Gemini Lake", "Xtensa HiFi3", "2 @ 100 - 400MHz", "19.2MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
-   "Intel Cannon Lake / Whiskey Lake / Comet Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "24MHz", "64KB LP / 3008KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Sue Creek", "Xtensa HiFi3", "2 @ 120 - 400MHz","24MHz", "64KB LP SRAM / 4096KB HP SRAM", "6 x SSP (I2S, PCM), DMIC"
-   "Intel Ice Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Jasper Lake", "Xtensa HiFi3", "2 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 1024KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Tiger Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
-   "Intel Alder Lake", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Tiger Lake with IPC4", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Alder Lake with IPC4", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
    "NXP i.MX8", "Xtensa HiFi4", "1 @ 666MHz", "TBD", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8X", "Xtensa HiFi4", "1 @ 640MHz", "TBD", "64 KB TCM / 448 KB OCRAM / 8MB SDRAM", "1 x ESAI, 1 x SAI"
    "NXP i.MX8M", "Xtensa HiFi4", "1 @ 800MHz", "TBD", "64 KB TCM / 256 KB OCRAM / 8MB SDRAM", "1 x SAI, MICFIL"
@@ -37,6 +29,32 @@ Platform and board specific support is continually added to the SOF project as d
 When support for a new platform is being added, certain interfaces required by
 SOF infrastructure must be implemented. Refer to Platform API documentation
 for details.
+
+Some platforms have been supported by SOF in the past, but are no longer
+supported in SOF mainline ("main" branch). Below table lists such platforms,
+the last SOF major release that had support for the platform and the stable
+branch to use. For every SOF release, a stable branch is created and critical
+bugfixes can be submitted and released via these stable branches.
+
+.. csv-table:: Platforms No Longer Supported in Mainline
+   :header: "Platform", "Last Release", "Branch", "Architecture", "Cores/Clocks", "Platform Clock", "Memory", "Audio Interfaces"
+   :widths: 20, 10, 10, 20, 10, 10, 10, 20
+
+   "Intel Bay Trail / Merrifield", "2.2", "stable-v2.2", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "25MHz", "96KB IRAM / 192KB DRAM", "3 x SSP (I2S, PCM)"
+   "Intel Cherry Trail / Braswell", "2.2", "stable-v2.2", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "19.2MHz", "96KB IRAM / 192KB DRAM", "6 x SSP (I2S, PCM)"
+   "Intel Broadwell", "2.2", "stable-v2.2", "Xtensa HiFi2 EP", "1 @ 50 - 400MHz", "24MHz", "320KB IRAM / 640KB DRAM", "2 x SSP (I2S, PCM)"
+   "Intel Apollo Lake / Gemini Lake", "2.2", "stable-v2.2", "Xtensa HiFi3", "2 @ 100 - 400MHz", "19.2MHz", "128KB LP SRAM / 512KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC"
+   "Intel Cannon Lake / Whiskey Lake / Comet Lake", "2.2", "stable-v2.2", "Xtensa HiFi3", "4 @ 120 - 400MHz", "24MHz", "64KB LP / 3008KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Sue Creek", "2.2", "stable-v2.2", "Xtensa HiFi3", "2 @ 120 - 400MHz","24MHz", "64KB LP SRAM / 4096KB HP SRAM", "6 x SSP (I2S, PCM), DMIC"
+   "Intel Ice Lake", "2.2", "stable-v2.2", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 3008KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Jasper Lake", "2.2", "stable-v2.2", "Xtensa HiFi3", "2 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 1024KB HP SRAM", "3 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Tiger Lake with IPC3", "2.2", "stable-v2.2", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+   "Intel Alder Lake with IPC3", "2.2", "stable-v2.2", "Xtensa HiFi3", "4 @ 120 - 400MHz", "38.4MHz", "64KB LP SRAM / 2944KB HP SRAM", "6 x SSP (I2S, PCM), HDA, DMIC, Soundwire"
+
+The periodic sof-bin releases
+<https://github.com/thesofproject/sof-bin/releases>
+contain latest binaries for all platforms, both from SOF main and
+latest binaries from "stable-vX.YY" branches.
 
 Minimum Platform Requirements
 *****************************
