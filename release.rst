@@ -26,7 +26,7 @@ kernel, and documentation. Download the source code as a zip or tar.gz file:
 Source and Binary Releases
 --------------------------
 
-The latest SOF release is v2.10.0 (July 2024).
+The latest SOF release is v2.11.0 (Sept 2024).
 
 View new feature information and release downloads for the latest and
 previous releases on GitHub. Firmware and SDK tool source code and binary
