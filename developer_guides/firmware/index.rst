@@ -12,3 +12,4 @@ Developer guides and information for firmware development.
    porting
    cmake
    async_messaging_best_practices
+   llext_modules
