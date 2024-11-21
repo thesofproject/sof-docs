@@ -13,8 +13,6 @@ to multiple contributors:
 +---------------+-------------------+---------------+
 | Intel         | Marcin Maka       | @mmaka1       |
 +---------------+-------------------+---------------+
-| Intel         | Pierre Bossart    | @plbossart    |
-+---------------+-------------------+---------------+
 | Intel         | Ranjani Sridharan | @ranj063      |
 +---------------+-------------------+---------------+
 | NXP           | Daniel Baluta     | @dbaluta      |
