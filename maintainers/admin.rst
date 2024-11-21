@@ -17,7 +17,7 @@ to multiple contributors:
 +---------------+-------------------+---------------+
 | NXP           | Daniel Baluta     | @dbaluta      |
 +---------------+-------------------+---------------+
-| Google        | Curtis Malainey   | @cujomalainey |
+| Google        | Johny Lin         | @johnylin76   |
 +---------------+-------------------+---------------+
 
 Administrators may override specific merge rules, for example merge a
