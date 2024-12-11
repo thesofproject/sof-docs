@@ -94,7 +94,10 @@ User space and filesystem requirements
 Selecting the SOF driver is not enough. Audio is properly configured only if
 the following elements are present on the file system.
 
-1. Firmware binary
+1. Firmware
+-----------
+
+1.1. Base firmware
 ------------------
 
 The firmware file, ``/lib/firmware/intel/sof/sof-tgl.ri`` (example
@@ -116,6 +119,46 @@ must re-enable it. Unfortunately, no documented mechanism exists for the
 Linux kernel to query whether or not the firmware authentication is enabled,
 which means `dmesg` logs cannot be provided to alert the user to an ME
 configuration issue.
+
+.. _loadable-libraries:
+
+1.2. Loadable libraries
+-----------------------
+
+An IPC4 library is a container of a single or multiple modules (bundle) which
+can be loaded to the firmware after it is booted up.
+Library loading is  supported on Meteor Lake (ACE1) or newer platforms.
+
+Background information: the base firmware always resides in DSP SRAM while the
+loaded library is stored in DRAM memory and only the needed code is copied to
+SRAM for execution. By moving modules out from the base firmware to a library
+can reduce the overall SRAM use depending on the device configuration and
+topology.
+
+See :ref:`llext_modules` for technical details.
+
+1.3. Monolithic and modular SOF releases
+----------------------------------------
+
+SOF project releases for Intel platforms are either monolithic (only a single firmware binary) or modular (base firmware and external libraries).
+
+1.3.1. Modular SOF releases
+---------------------------
+
+See :ref:`loadable-libraries` for details about library support in general.
+
+The released libraries are:
+ - **sof-PLAT-openmodules.ri** : the bundle contains modules for audio processing not included in the base firmware
+ - **sof-PLAT-debug.ri** : the bundle contains modules that are needed for firmware debugging and profiling. Used by developers and for bug reporting if needed
+ - **UUID.bin** : Mainly 3rd party libraries identified by UUID. If the library contains multiple modules then a UUID symlink must be provided for each one.
+
+Notes:
+ - The Kernel will attempt to load \*-openmodules.ri followed by \*-debug.ri from the library path after the base firmware boot if they exist.
+ - additional libraries referenced by topology files or drivers will be loaded based on the UUID of the module from the library path.
+
+
+1.4 Firmware lookup paths
+-------------------------
 
 Linux SOF will look up firmware files at the following paths:
 
@@ -144,14 +187,14 @@ Linux SOF will look up firmware files at the following paths:
      - IPC4
      - /lib/firmware/intel/sof-ipc4/PLAT/community/sof-PLAT.ri
      - PLAT = tgl, adl, rpl, mtl, lnl, ...
-   * - Tiger Lake and newer Loadable Module
+   * - Meteor Lake and newer Loadable libraries
      - IPC4
-     - /lib/firmware/intel/sof-ipc4-lib/PLAT/UUID.bin
-     - PLAT as above, UUID = UUID of the module
-   * - Tiger Lake and newer Loadable Module (community signed)
+     - /lib/firmware/intel/sof-ipc4-lib/PLAT/
+     - PLAT = mtl, lnl, ...
+   * - Meteor Lake and newer Loadable libraries (community signed)
      - IPC4
-     - /lib/firmware/intel/sof-ipc4-lib/PLAT/community/UUID.bin
-     - PLAT as above, UUID = UUID of the module
+     - /lib/firmware/intel/sof-ipc4-lib/PLAT/community/
+     - PLAT = mtl, lnl, ...
 
 Important notices:
  - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
