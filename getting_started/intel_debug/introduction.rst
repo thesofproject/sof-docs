@@ -127,7 +127,7 @@ configuration issue.
 
 An IPC4 library is a container of a single or multiple modules (bundle) which
 can be loaded to the firmware after it is booted up.
-Library loading is  supported on Meteor Lake (ACE1) or newer platforms.
+Library loading is supported on Meteor Lake (ACE1) or newer platforms.
 
 Background information: the base firmware always resides in DSP SRAM while the
 loaded library is stored in DRAM memory and only the needed code is copied to
@@ -137,64 +137,75 @@ topology.
 
 See :ref:`llext_modules` for technical details.
 
-1.3. Monolithic and modular SOF releases
-----------------------------------------
+1.3. Non-modular and modular firmware releases
+----------------------------------------------
 
-SOF project releases for Intel platforms are either monolithic (only a single firmware binary) or modular (base firmware and external libraries).
+SOF project releases for Intel platforms are either a single firmware or modular firmware based.
 
-1.3.1. Modular SOF releases
----------------------------
+1.3.1. Non-modular firmware releases
+------------------------------------
 
-See :ref:`loadable-libraries` for details about library support in general.
+The release contains single a firmware image: **sof-PLAT.ri**
 
-The released libraries are:
+1.3.2. Modular firmware releases
+--------------------------------
+
+Modular SOF release is technically supported with IPC4 on Meteor Lake (MTL) or newer platforms since it depends on Loadable Library support (see :ref:`loadable-libraries` for details).
+
+Description of files provided by a modular release:
+ - **sof-PLAT.ri** : The base firmware
  - **sof-PLAT-openmodules.ri** : the bundle contains modules for audio processing not included in the base firmware
  - **sof-PLAT-debug.ri** : the bundle contains modules that are needed for firmware debugging and profiling. Used by developers and for bug reporting if needed
- - **UUID.bin** : Mainly 3rd party libraries identified by UUID. If the library contains multiple modules then a UUID symlink must be provided for each one.
+ - **UUID.bin** : On demand loadable library identified by UUID. If the library contains multiple modules then a UUID symlink must be provided for each one.
+
+The main firmware can be shipped as a
+ - single binary (**sof-PLAT.ri**)
+ - split release when the base firmware (**sof-PLAT.ri**), processing modules (**sof-PLAT-openmodules.ri**) and debug/developer modules (**sof-PLAT-debug.ri**) are provided as separate binaries.
+
+  - After the base firmware boot, the kernel will load the **sof-PLAT-openmodules.ri** and **sof-PLAT-debug.ri** bundles to the firmware to provide equivalent functionality as the single binary release.
 
 Notes:
- - The Kernel will attempt to load \*-openmodules.ri followed by \*-debug.ri from the library path after the base firmware boot if they exist.
- - additional libraries referenced by topology files or drivers will be loaded based on the UUID of the module from the library path.
-
+ - additional libraries referenced by topology files or drivers will be loaded based on the UUID of the module from the library path (**UUID.bin**).
 
 1.4 Firmware lookup paths
 -------------------------
 
-Linux SOF will look up firmware files at the following paths:
+Linux SOF will look up firmware files at the following paths.
 
-.. _intel_firmware_paths:
-.. list-table:: Firmware look-up paths per Intel platform
-   :widths: 55 5 50 25
-   :header-rows: 1
+Look-up paths per Intel platform for **non-modular firmware releases**
 
-   * - Platform
-     - IPC type
-     - Firmware load path
-     - Notes
-   * - Raptor Lake and older
-     - IPC3
-     - /lib/firmware/intel/sof/sof-PLAT.ri
-     - PLAT = glk, cml, ..., rpl
-   * - Raptor Lake and older (community signed)
-     - IPC3
-     - /lib/firmware/intel/sof/community/sof-PLAT.ri
-     - PLAT = glk, cml, ..., rpl
-   * - Tiger Lake and newer
-     - IPC4
-     - /lib/firmware/intel/sof-ipc4/PLAT/sof-PLAT.ri
-     - PLAT = tgl, adl, rpl, mtl, lnl, ...
-   * - Tiger Lake and newer (community signed)
-     - IPC4
-     - /lib/firmware/intel/sof-ipc4/PLAT/community/sof-PLAT.ri
-     - PLAT = tgl, adl, rpl, mtl, lnl, ...
-   * - Meteor Lake and newer Loadable libraries
-     - IPC4
-     - /lib/firmware/intel/sof-ipc4-lib/PLAT/
-     - PLAT = mtl, lnl, ...
-   * - Meteor Lake and newer Loadable libraries (community signed)
-     - IPC4
-     - /lib/firmware/intel/sof-ipc4-lib/PLAT/community/
-     - PLAT = mtl, lnl, ...
+.. _intel_non_modular_firmware_paths:
+
++-----------------------------------------------------------+--------+------------------------------------------------+-----------+-----------------------------------+
+|Platform                                                   |IPC type|Load path                                       |File name  |Notes                              |
++===========================================================+========+================================================+===========+===================================+
+|Raptor Lake and older                                      |IPC3    |/lib/firmware/intel/sof/                        |sof-PLAT.ri|PLAT = glk, cml, ..., rpl          |
++-----------------------------------------------------------+        +------------------------------------------------+           |                                   |
+|Raptor Lake and older (community signed)                   |        |/lib/firmware/intel/sof/community/              |           |                                   |
++-----------------------------------------------------------+--------+------------------------------------------------+           +-----------------------------------+
+|Tiger Lake and newer                                       |IPC4    |/lib/firmware/intel/sof-ipc4/PLAT/              |           |PLAT = tgl, adl, rpl, mtl, lnl, ...|
++-----------------------------------------------------------+        +------------------------------------------------+           |                                   |
+|Tiger Lake and newer (community signed)                    |        |/lib/firmware/intel/sof-ipc4/PLAT/community/    |           |                                   |
++-----------------------------------------------------------+--------+------------------------------------------------+-----------+-----------------------------------+
+
+Look-up paths per Intel platform for **modular firmware releases (IPC4 only)**
+
+.. _intel_modular_firmware_paths:
+
++-----------------------------------------------------------+------------------------------------------------+-----------------------------+----------------------+
+|Platform                                                   |Load path                                       |File name                    |Notes                 |
++===========================================================+================================================+=============================+======================+
+|Meteor Lake and newer                                      |/lib/firmware/intel/sof-ipc4/PLAT/              ||                            || PLAT = mtl, lnl, ...|
+|                                                           |                                                || sof-PLAT.ri                || [*] PLAT = ptl, ... |
+|                                                           |                                                || sof-PLAT-openmodules.ri [*]|                      |
+|                                                           |                                                || sof-PLAT-debug.ri       [*]|                      |
++-----------------------------------------------------------+------------------------------------------------+                             |                      |
+|Meteor Lake and newer (community signed)                   |/lib/firmware/intel/sof-ipc4/PLAT/community/    |                             |                      |
++-----------------------------------------------------------+------------------------------------------------+-----------------------------+                      |
+|Meteor Lake and newer Loadable libraries                   |/lib/firmware/intel/sof-ipc4-lib/PLAT/          |UUID.bin                     |                      |
++-----------------------------------------------------------+------------------------------------------------+                             |                      |
+|Meteor Lake and newer Loadable libraries (community signed)|/lib/firmware/intel/sof-ipc4-lib/PLAT/community/|                             |                      |
++-----------------------------------------------------------+------------------------------------------------+-----------------------------+----------------------+
 
 Important notices:
  - The standard Linux firmware search path and order is followed. The above table covers the base "/lib/firmware" case. See https://docs.kernel.org/driver-api/firmware/fw_search_path.html for more information.
