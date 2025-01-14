@@ -1332,6 +1332,53 @@ You can use the ``-P`` switch to convert a 2.0 configuration file to the 1.0 con
 
    alsatplg <-D args=values> -P input.conf -o output.conf
 
+Split topologies
+****************
+
+Linux kernel can load multiple topologies, a topology for a single function.
+This feature is useful to support SDCA setups with standardized components. And no need to create topologies
+for every new product. To achieve this, you need to split the topology into multiple tplg files.
+The split topology files should be named as follows:
+
+.. code-block:: bash
+
+        sof-<platform>-<function>-id<BE id number>.tplg
+
+Currently <platform> is only needed for the DMIC function and not needed for SDCA functions in general.
+It should be mtl, lnl, etc.
+
+Where <function> should be one of
+
+.. code-block:: bash
+
+        sdca-jack: SDCA headphone and headset.
+        sdca-<n>amp: SDCA amp, where n is the amp link numbers.
+        sdca-mic: SDCA host mic.
+        dmic-<n>ch: PCH DMIC, where n is the number of supported channels. Currently, only 2ch and 4ch are supported.
+        hdmi-pcm<id>: HDMI with PCM id starts from <id>. The <id> is 3 for the "sof-hda-dsp" card and 5 for other cards.
+
+
+For example
+
+.. code-block:: bash
+
+        sof-sdca-2amp-id2.tplg
+        sof-sdca-mic-id4.tplg
+        sof-arl-dmic-2ch-id5.tplg
+        sof-hdmi-pcm5-id7.tplg
+
+The split topologies are the subset of the monolithic topology. Usually, you just need to add a description with proper
+macro settings to disable the features that you don't need and set the first BE ID that in the topology in the cmake file
+to generate the split topologies.
+
+For example
+
+.. code-block:: bash
+
+        "cavs-sdw\;sof-arl-sdca-2amp-id2\;PLATFORM=mtl,NUM_SDW_AMP_LINKS=2,SDW_JACK=false,\
+        SDW_AMP_FEEDBACK=false,SDW_SPK_STREAM=Playback-SmartAmp,NUM_HDMIS=0"
+
+
 Topology reminders
 ******************
 
