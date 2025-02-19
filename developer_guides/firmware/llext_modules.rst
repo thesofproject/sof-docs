@@ -78,7 +78,7 @@ Installation
 ************
 
 As specified in
-:ref:`Firmware look-up paths per Intel platform <intel_firmware_paths>`
+:ref:`Firmware look-up paths per Intel platform <intel_modular_firmware_paths>`
 the |SOF| Linux kernel driver loads SOF modules by their UUIDs,
 specified in the topology. For SOF in-tree modules the process of creation and
 installation of modules in a deployment tree is automated by the
