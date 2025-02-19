@@ -132,7 +132,6 @@ except ImportError:
     sys.stderr.write('Warning: sphinx_rtd_theme missing. Use pip to install it.\n')
 else:
     html_theme = "sphinx_rtd_theme"
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
     html_theme_options = {
         'canonical_url': '',
         'analytics_id': 'GTM-M4BL5NF',
