@@ -1,0 +1,7 @@
+left to right direction
+(**Module1** //use Source//) as mod1
+rectangle "//source// **BUFFER** //sink// " as buf1
+(//use sink// **Module2**) as Mod2 
+
+mod1 --> buf1
+buf1 --> Mod2

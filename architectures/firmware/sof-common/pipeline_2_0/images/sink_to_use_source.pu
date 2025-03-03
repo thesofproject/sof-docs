@@ -1,0 +1,9 @@
+left to right direction
+(**Module3** //use sink//) as mod3
+(//sink// **Module4**) as mod4
+
+(**Module1** //Source//) as mod1
+(//use source// **Module2**) as mod2 
+
+mod1 --> mod2
+mod3 --> mod4
