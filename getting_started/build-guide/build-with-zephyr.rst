@@ -31,6 +31,7 @@ Initialize the west manifest ``$ZEPHYR_WORKSPACE/sof/west.yml`` using the ``west
 
       .. code-block:: bash
 
+         ZEPHYR_WORKSPACE=~/work/sof/zephyr
          mkdir $ZEPHYR_WORKSPACE && cd $ZEPHYR_WORKSPACE
          west init -m https://github.com/thesofproject/sof
 
