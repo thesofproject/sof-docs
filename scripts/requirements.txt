@@ -1,15 +1,17 @@
 # This file hardcodes validated versions with '==',
 # see requirements-lax.txt for an alternative.
 
-sphinx>=7
+sphinx>=8.2.1
 breathe
 docutils
+plantuml
 sphinx_rtd_theme
+sphinxcontrib-jquery
 sphinxcontrib-plantuml
 sphinxcontrib-applehelp
 
-
-# blockdiag is orphaned and not compatible with pillow>=10,
+# blockdiag is orphaned and not compatible with pillow 10,
 # see https://github.com/thesofproject/sof-docs/issues/472
+# however it is compatible with pillow 11.1
 sphinxcontrib-blockdiag
-pillow<10
+pillow>=11.1
