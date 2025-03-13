@@ -115,7 +115,7 @@ it can be launched to an audio editor tool such as mhWaveEdit:
 .. code-block:: bash
 
    paplay audio_out.wav
-   mhWaveEdit audio_out.wav
+   mhwaveedit audio_out.wav
 
 .. figure:: fig_mhwaveedit.png
 
