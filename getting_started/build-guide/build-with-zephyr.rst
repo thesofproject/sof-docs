@@ -163,17 +163,17 @@ Check out and build using west tool directly
 
    .. code-block:: bash
 
-      west build --build-dir build-tgl --board intel_adsp_cavs25 ./sof/app
+      west build --build-dir build-tgl --board intel_adsp/cavs25 ./sof/app
 
    
-   Note that the SOF project defines platform names that have Zephyr board counterparts. In the above example, the *Tigerlake* platform matches the ``inteL_adsp_cavs25`` Zephyr board. This is why the output directory is named ``build-tgl``; however, you may use any name you wish.
+   Note that the SOF project defines platform names that have Zephyr board counterparts. In the above example, the *Tigerlake* platform matches the ``intel_adsp/cavs25`` Zephyr board target (see `Zephyr HWMv2 board terminology <https://docs.zephyrproject.org/latest/hardware/porting/board_porting.html#board-terminology>`_). This is why the output directory is named ``build-tgl``; however, you may use any name you wish.
 
    .. note::
       To add verbosity to the build output use the -v -v flags. Example:
-        ``west -v -v build --build-dir build-tgl --board intel_adsp_cavs25 ./sof/app``
+        ``west -v -v build --build-dir build-tgl --board intel_adsp/cavs25 ./sof/app``
 
       To perform a complete clean rebuild, use the --pristine flag. Example:
-        ``west -v -v build --build-dir build-tgl --pristine always --board intel_adsp_cavs25 ./sof/app``
+        ``west -v -v build --build-dir build-tgl --pristine always --board intel_adsp/cavs25 ./sof/app``
 
    The ``.elf`` file produced by the ``west build`` is missing a
    manifest and signature. A a result, you must sign the file using the **rimage tool**
