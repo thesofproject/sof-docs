@@ -238,8 +238,8 @@ Docker image (2)
 
      cd thesofproject
      # API documentation (Doxygen)
-     cmake -S sof/doc -B sof/doc -GNinja
-     ninja -C sof/doc -v doc
+     cmake -S sof/doc -B sof/build_doxygen -GNinja
+     ninja -C sof/build_doxygen -v doc
      # UML and reStructuredText
      make  -C sof-docs VERBOSE=1 html
 
@@ -305,7 +305,7 @@ publishing.
 
 .. note::
    In some situations it is necessary to clean all the files and build from
-   the very beginning. To do this, use the ``make clean`` command.
+   the very beginning. To do this, use the ``make -C sof-docs clean`` command.
 
 Installation troubleshooting
 ****************************
