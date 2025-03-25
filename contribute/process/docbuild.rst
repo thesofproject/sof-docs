@@ -163,6 +163,20 @@ tools:
 
       PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
 
+   The hardcoded package versions might need additional libraries installed
+   in order to compile them. For example, to resolve the following error:
+
+   .. code-block:: bash
+
+      ERROR: Could not build wheels for pillow, which is required to install pyproject.toml-based projects
+
+   you should install:
+
+   .. code-block:: bash
+
+      sudo apt install libjpeg-dev zlib1g-dev
+
+
 For Windows, install the needed tools manually:
 
 * Python (3.7+) from https://www.python.org/downloads/
