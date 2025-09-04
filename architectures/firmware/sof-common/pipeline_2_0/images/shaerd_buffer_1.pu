@@ -1,0 +1,16 @@
+left to right direction
+(LL1)
+rectangle buffer1
+(LL2)
+rectangle buffer2
+(LL3)
+rectangle buffer3
+(...)
+
+LL1 --> buffer1
+buffer1 --> LL2
+LL2 --> buffer2
+buffer2 --> LL3
+LL3 --> buffer3
+buffer3 --> ...
+
