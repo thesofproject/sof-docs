@@ -14,3 +14,4 @@ to the Application layer.
    mpp_scheduling
    async_messaging
    lib_manager
+   dp_scheduling

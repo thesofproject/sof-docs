@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+ 
+package pipeline2{
+    (LL3)  #f6ed80
+    rectangle "BUF3\n\n1ms of data\n" as buf3 
+    (DP2)  #ADD1B2
+    note bottom of DP2
+        period 5ms
+        LPT: 1ms
+    end note
+    rectangle "BUF4\n\n5ms of data\n" as buf4 
+    (LL4)  #f6ed80
+}
+
+package pipeline1{
+    (LL1) #f6ed80
+    rectangle "BUF1\n\n16ms of data\n" as buf1
+    (DP1) #ADD1B2
+    note bottom of DP1
+        period 10ms
+        LPT:  8ms
+    end note
+    rectangle "BUF2\n\n4ms of data\n" as buf2 
+    (LL2)  #f6ed80
+ }
+
+LL1 --> buf1
+buf1 --> DP1
+DP1 --> buf2
+buf2 --> LL2
+
+LL3 --> buf3
+buf3 --> DP2
+DP2 --> buf4
+buf4 --> LL4
+
+@enduml

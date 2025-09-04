@@ -1,0 +1,16 @@
+left to right direction
+(LL1) as mod1 
+(DP1) as mod2 #ADD1B2
+(DP2) as mod3 #ADD1B2
+(LL2) as mod4 
+(DP3) as mod5 #7D3CFF
+(DP4) as mod6 #7D3CFF
+(LL3) as mod7 
+
+
+mod1-->mod2
+mod2-->mod3
+mod3-->mod4
+mod4-->mod5
+mod5-->mod6
+mod6-->mod7

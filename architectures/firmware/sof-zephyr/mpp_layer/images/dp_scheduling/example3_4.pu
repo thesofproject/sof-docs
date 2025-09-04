@@ -1,0 +1,34 @@
+@startuml
+left to right direction
+(LL1) as mod1 #f6ed80
+
+rectangle "BUF1\n\n2ms of data\n" as buf1
+
+(DP1) as mod2 #ADD1B2
+
+note bottom of mod2
+  period 5ms
+  LPT:  2ms
+end note
+
+rectangle "BUF2\n\n10ms of data\n" as buf2
+
+(DP2) as mod3 #ADD1B2
+
+note bottom of mod3
+  period 10ms
+  LPT:  6ms
+end note
+
+rectangle "BUF3\n\n0ms of data\n" as buf3
+
+(LL2) as mod4 #f6ed80
+
+
+mod1--> buf1
+buf1 --> mod2
+mod2-->buf2
+buf2 --> mod3
+mod3-->buf3
+buf3 --> mod4
+@enduml 
