@@ -13,7 +13,6 @@ breathe>=4.29.2
 sphinx>=4.5.0
 docutils>=0.17.1
 sphinx_rtd_theme>=0.2.4
-sphinxcontrib-blockdiag>=3.0.0
 sphinxcontrib-jquery
 
 # - Version 0.11 is the first version that supports
@@ -56,8 +55,3 @@ sphinxcontrib.plantuml>=0.11
 #  - Downgrade if successfully tested.
 #  - Test with plantum set to "none" in conf.py. We don't want small
 #    typo fixes to depend on UML diagrams.
-
-# Workaround for warning "'ImageDraw' object has no attribute 'textsize'"
-# with pillow 10.0.0, see
-# https://github.com/thesofproject/sof-docs/issues/472
-pillow<10
