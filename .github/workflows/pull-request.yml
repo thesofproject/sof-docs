@@ -37,6 +37,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # The supported build is pinned by scripts/constraints.txt, which
+      # targets a modern Python (>= 3.11). Use setup-python rather than the
+      # runner's system Python so the lockfile installs as validated.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
       # FIXME: remove this time consuming step once github stops
       # providing a broken package index, see
       # https://github.com/actions/virtual-environments/issues/1757#issuecomment-777700920
@@ -49,8 +56,8 @@ jobs:
       - name: PATH += .local/bin
         run: echo "$HOME/.local/bin" >> $GITHUB_PATH
 
-      - name: 'pip install -r scripts/requirements.txt'
-        run: pip install -r scripts/requirements.txt
+      - name: 'pip install -r scripts/requirements.txt -c scripts/constraints.txt'
+        run: pip install -r scripts/requirements.txt -c scripts/constraints.txt
 
       # No YAML anchors; this is copy/paste
       - name: configure SOF doc

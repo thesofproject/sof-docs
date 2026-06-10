@@ -1,5 +1,12 @@
-# This file hardcodes validated versions with '==',
-# see requirements-lax.txt for an alternative.
+# Top-level dependencies for the *supported* documentation build.
+#
+# For a reproducible install, pair this with the lockfile that pins the
+# full transitive tree to exact, validated versions:
+#
+#   pip install -r scripts/requirements.txt -c scripts/constraints.txt
+#
+# For an unpinned "best effort" install (e.g. a drive-by typo fix), see
+# requirements-lax.txt instead.
 
 sphinx>=7
 breathe
