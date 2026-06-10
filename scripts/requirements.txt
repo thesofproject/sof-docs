@@ -7,9 +7,3 @@ docutils
 sphinx_rtd_theme
 sphinxcontrib-plantuml
 sphinxcontrib-applehelp
-
-
-# blockdiag is orphaned and not compatible with pillow>=10,
-# see https://github.com/thesofproject/sof-docs/issues/472
-sphinxcontrib-blockdiag
-pillow<10

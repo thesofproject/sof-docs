@@ -128,7 +128,7 @@ deadline for data delivery:
 
 EDF scheduling example
 
-.. blockdiag:: images/mpp_scheduling/edf_scheduling.diag
+.. graphviz:: images/mpp_scheduling/edf_scheduling.dot
 
 The capture pipelines operate in the same way.
 
