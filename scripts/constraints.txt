@@ -1,0 +1,43 @@
+# scripts/constraints.txt — lockfile for the *supported* documentation build.
+#
+# This pins the full transitive dependency tree to exact, known-good
+# versions so that the supported build is reproducible. Install with:
+#
+#   pip install -r scripts/requirements.txt -c scripts/constraints.txt
+#
+# requirements.txt lists the top-level packages we depend on; this file
+# locks every resolved version (direct and indirect).
+#
+# Validated on Python 3.14 (requires Python >= 3.11, the Sphinx 9 floor).
+#
+# To regenerate after intentionally bumping a dependency:
+#   python3 -m venv /tmp/lock && . /tmp/lock/bin/activate
+#   pip install -r scripts/requirements.txt
+#   pip freeze > scripts/constraints.txt   # then re-add this header
+
+alabaster==1.0.0
+babel==2.18.0
+breathe==4.36.0
+certifi==2026.5.20
+charset-normalizer==3.4.7
+docutils==0.22.4
+idna==3.18
+imagesize==2.0.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+packaging==26.2
+Pygments==2.20.0
+requests==2.34.2
+roman-numerals==4.1.0
+snowballstemmer==3.1.1
+Sphinx==9.1.0
+sphinx_rtd_theme==3.1.0
+sphinxcontrib-applehelp==2.0.0
+sphinxcontrib-devhelp==2.0.0
+sphinxcontrib-htmlhelp==2.1.0
+sphinxcontrib-jquery==4.1
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-plantuml==0.31
+sphinxcontrib-qthelp==2.0.0
+sphinxcontrib-serializinghtml==2.0.0
+urllib3==2.7.0

@@ -151,30 +151,21 @@ tools:
 .. code-block:: bash
 
    cd ~/thesofproject/sof-docs
-   pip3 install --user -r scripts/requirements.txt
+   pip3 install --user -r scripts/requirements.txt -c scripts/constraints.txt
 
-.. note:: The :git-sof-docs-mainline:`scripts/requirements.txt` file hardcodes
-   versions using ``==``, which may not be compatible with your other
-   projects. In that case you can either setup a Python ``virtualenv`` or
-   try the unsupported :git-sof-docs-mainline:`scripts/requirements-lax.txt`
-   (more details inside this file):
+The :git-sof-docs-mainline:`scripts/constraints.txt` lockfile pins the full
+dependency tree to exact, validated versions for a reproducible build. It
+targets a modern Python (3.11 or newer); use a ``virtualenv`` if those pinned
+versions conflict with your other projects.
+
+.. note:: For a quick "best effort" install that is not pinned (for example a
+   drive-by typo fix), you can skip the lockfile and use the unsupported
+   :git-sof-docs-mainline:`scripts/requirements-lax.txt` instead (more details
+   inside this file):
 
    .. code-block:: bash
 
       PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
-
-   The hardcoded package versions might need additional libraries installed
-   in order to compile them. For example, to resolve the following error:
-
-   .. code-block:: bash
-
-      ERROR: Could not build wheels for pillow, which is required to install pyproject.toml-based projects
-
-   you should install:
-
-   .. code-block:: bash
-
-      sudo apt install libjpeg-dev zlib1g-dev
 
 
 For Windows, install the needed tools manually:
