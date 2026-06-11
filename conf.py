@@ -102,7 +102,10 @@ language = 'en'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build','.tox' ]
+# Note: a virtualenv created inside this source tree (.venv, venv, env, ...)
+# would otherwise be scanned by Sphinx and flood the build with warnings
+# about .rst files shipped in installed packages.
+exclude_patterns = ['_build', '.tox', '.venv*', 'venv', 'env']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
