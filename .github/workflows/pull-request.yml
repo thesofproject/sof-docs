@@ -62,10 +62,15 @@ jobs:
       - name: 'pip install -r requirements.txt -c constraints.txt'
         run: pip install -r scripts/requirements.txt -c scripts/constraints.txt
 
-      - name: configure SOF doc
+      - name: configure and build SOF API docs (Doxygen)
         run: |
           git clone https://github.com/thesofproject/sof
           cmake -GNinja -S sof/doc -B _build_doxy
+          # Build the API XML up front. The html build below is strict
+          # (-W), so any doc/source drift -- e.g. a doxygengroup that no
+          # longer exists in sof -- fails the PR here instead of silently
+          # dropping API sections.
+          ninja -C _build_doxy doc
 
       # SOF_DOC_BUILD overrides the Makefile default (../sof/build_doxygen,
       # the documented sibling layout) because CI checks sof out *inside*
@@ -139,10 +144,11 @@ jobs:
            # We don't want plantUML to raise the contribution bar
            sed -i -e 's/^\(plantuml_output_format *=\).*/\1 "none"/' conf.py
 
-      - name: configure SOF doc
+      - name: configure and build SOF API docs (Doxygen)
         run: |
           git clone https://github.com/thesofproject/sof
           cmake -GNinja -S sof/doc -B _build_doxy
+          ninja -C _build_doxy doc
 
       - name: build
         run: |
