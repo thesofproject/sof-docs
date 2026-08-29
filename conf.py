@@ -61,10 +61,10 @@ plantuml_output_format = 'svg'
 templates_path = ['_templates']
 
 # Fixes "WARNING: Error when parsing function declaration."
-c_id_attributes = ["__sparse_cache"]
-# Not clear why Sphinx thinks some C files are C++
+c_id_attributes = ["__sparse_cache", "__syscall"]
 cpp_id_attributes = c_id_attributes
 # cpp_paren_attributes = ["_ALIAS_OF", "__printf_like"]
+breathe_domain_by_extension = {"h": "c"}
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -198,8 +198,24 @@ extlinks = {
 html_static_path = ['static']
 
 def setup(app):
-# add_stylesheet() was renamed to add_css_file() in sphinx 1.8 released
-# in September 2018. add_stylesheet() will be removed in sphinx 4.0
+    import logging
+    from sphinx.util.logging import NAMESPACE, WarningStreamHandler
+
+    class BreatheAnonymousUnionFilter(logging.Filter):
+        def filter(self, record):
+            msg = record.getMessage()
+            # Suppress breathe limitation parsing anonymous union in struct bind_info
+            if "bind_info" in msg or "Expected identifier in nested name" in msg:
+                return False
+            return True
+
+    logger = logging.getLogger(NAMESPACE)
+    for handler in logger.handlers:
+        if isinstance(handler, WarningStreamHandler):
+            handler.filters.insert(0, BreatheAnonymousUnionFilter())
+
+    # add_stylesheet() was renamed to add_css_file() in sphinx 1.8 released
+    # in September 2018. add_stylesheet() will be removed in sphinx 4.0
     try:
         app.add_css_file('sof-custom.css')
     except AttributeError:

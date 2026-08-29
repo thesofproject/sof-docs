@@ -19,13 +19,14 @@ on:
 jobs:
   woke_pr:
     name: woke check for patch
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: get-woke/woke-action-reviewdog@v0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          # Change reviewdog reporter if you need [github-pr-check,github-check,github-pr-review].
+          # Change reviewdog reporter if you need
+          # [github-pr-check,github-check,github-pr-review].
           reporter: github-pr-review
           # Change reporter level if you need.
           # GitHub Status Check won't become failure with warning.

@@ -27,7 +27,7 @@ FROM ubuntu:24.04
 WORKDIR /home/thesofproject
 
 # Install sof-docs build tools. Ubuntu 24.04 ships Python 3.12, which
-# satisfies the supported lockfile (Sphinx 9 requires Python >= 3.11).
+# satisfies the supported lockfile (Sphinx 9 requires Python >= 3.12).
 RUN apt-get update && apt-get install -y --no-install-recommends \
    python3 python3-venv python3-pip \
    doxygen make default-jre graphviz cmake ninja-build \

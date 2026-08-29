@@ -8,7 +8,7 @@
 # requirements.txt lists the top-level packages we depend on; this file
 # locks every resolved version (direct and indirect).
 #
-# Validated on Python 3.14 (requires Python >= 3.11, the Sphinx 9 floor).
+# Validated on Python 3.14 (requires Python >= 3.12, the Sphinx 9.1 floor).
 #
 # To regenerate after intentionally bumping a dependency:
 #   python3 -m venv /tmp/lock && . /tmp/lock/bin/activate

@@ -155,7 +155,7 @@ tools:
 
 The :git-sof-docs-mainline:`scripts/constraints.txt` lockfile pins the full
 dependency tree to exact, validated versions for a reproducible build. It
-targets a modern Python (3.11 or newer); use a ``virtualenv`` if those pinned
+targets a modern Python (3.12 or newer); use a ``virtualenv`` if those pinned
 versions conflict with your other projects.
 
 .. note:: For a quick "best effort" install that is not pinned (for example a
