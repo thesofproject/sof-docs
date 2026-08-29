@@ -55,6 +55,10 @@ intrinsics (such as HiFi3) in your C programs.
 Unit tests
 **********
 
+.. note::
+   **This section describes legacy CMocka-based unit tests.** SOF is migrating to Zephyr's
+   ztest framework. For current unit testing practices, see :doc:`../unit_tests_ztest`.
+
 In the SOF project, ``xt-run`` is used as the executor for unit tests.
 
 The below example shows how you can add a simple unit test case for a sample

@@ -11,6 +11,7 @@ terminology before reading further.
 
    introduction
    firmware/index
+   unit_tests_ztest
    unit_tests
    xtrun/index
    topology/topology

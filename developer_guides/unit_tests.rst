@@ -1,7 +1,16 @@
 .. _unit_tests:
 
-Unit Tests
-##########
+Unit Tests (Legacy CMocka)
+###########################
+
+.. warning::
+   **DEPRECATED: This documentation describes the legacy CMocka-based unit testing framework.**
+   
+   SOF is migrating to Zephyr's native ztest framework. The CMocka tests are being phased out
+   and will be removed once the migration is complete.
+   
+   **For new unit tests, please use the ztest framework.** See :doc:`unit_tests_ztest` for
+   the current testing approach.
 
 Prerequisites
 *************
