@@ -1,0 +1,14 @@
+@startuml
+(**Module** //useSink//) as mod1
+(legacy **Module** //use audio_stream//) as mod2
+package comp_buffer{
+  left to right direction
+  usecase "shadow dp_queue" as DP1
+  usecase "comp_buffer \n audio_stream" as cb1
+}
+mod1 --> DP1 : all feaures available
+DP1 --> cb1
+cb1 --> mod2
+:scheduler: as sh
+sh ---> comp_buffer : trigger copy from shadow to audio_stream
+@enduml

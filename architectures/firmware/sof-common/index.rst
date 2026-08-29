@@ -10,3 +10,4 @@ with Zephyr.
    :maxdepth: 1
 
    components/index
+   pipeline_2_0/index

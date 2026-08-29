@@ -1,0 +1,7 @@
+left to right direction
+(**Module1** //Source//) as mod1
+rectangle "//useSource// **S2S_copy** //useSink// " as copy1
+(//sink// **Module2**) as mod2
+
+mod1 --> copy1
+copy1 --> mod2
