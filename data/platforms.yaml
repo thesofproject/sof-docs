@@ -1,0 +1,269 @@
+# SOF Supported Platforms Database (Single Source of Truth)
+# Used to generate documentation tables, compatibility matrices, and web cards.
+
+platforms:
+  - id: tgl
+    vendor: Intel
+    family: CAVS 2.5
+    name: Tiger Lake (TGL)
+    dsp_arch: Xtensa HiFi3
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces:
+      - "6 x SSP (I2S, TDM, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM (up to 4 channels)"
+      - "SoundWire (SDW 1.1/1.2)"
+    ipc_versions:
+      - IPC4
+      - IPC3
+    zephyr_target: intel_adsp_cavs25
+    target_alias: tgl
+    test_dut: Spider
+    status: Mainline Active
+
+  - id: mtl
+    vendor: Intel
+    family: ACE 1.5
+    name: Meteor Lake (MTL)
+    dsp_arch: Xtensa HiFi4
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM / IMR Paging"
+    audio_interfaces:
+      - "HD-Audio (HDA)"
+      - "SoundWire (SDW 1.2 multi-link)"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_ace15_mtlm
+    target_alias: mtl
+    status: Mainline Active
+
+  - id: arl
+    vendor: Intel
+    family: ACE 1.5
+    name: Arrow Lake (ARL / ARL-S)
+    dsp_arch: Xtensa HiFi4
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM / IMR Paging"
+    audio_interfaces:
+      - "HD-Audio (HDA)"
+      - "SoundWire (SDW 1.2)"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_ace15_mtlm
+    target_alias: arl-s
+    test_dut: Dragon Fly
+    status: Mainline Active
+
+  - id: lnl
+    vendor: Intel
+    family: ACE 2.0
+    name: Lunar Lake (LNL)
+    dsp_arch: Xtensa HiFi4
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "SRAM / IMR Paging / Power Islands"
+    audio_interfaces:
+      - "HD-Audio (HDA)"
+      - "SoundWire (SDW 1.2)"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_ace20_lnl
+    target_alias: lnl
+    status: Mainline Active
+
+  - id: ptl
+    vendor: Intel
+    family: ACE 3.0
+    name: Panther Lake (PTL)
+    dsp_arch: Xtensa HiFi5
+    cores: 4
+    clock_range: "120 - 800 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "HP SRAM / LP SRAM / Dynamic IMR Paging"
+    audio_interfaces:
+      - "SoundWire (SDW 1.2 multi-link)"
+      - "HD-Audio (HDA)"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_ace30_ptl
+    target_alias: ptl
+    test_dut: Aphid
+    status: Active Development
+
+  - id: nvl
+    vendor: Intel
+    family: ACE 3.0
+    name: Nova Lake (NVL)
+    dsp_arch: Xtensa HiFi5
+    cores: 4
+    clock_range: "120 - 800 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "HP SRAM / LP SRAM / Dynamic IMR Paging"
+    audio_interfaces:
+      - "SoundWire"
+      - "HD-Audio"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_ace30_ptl
+    target_alias: nvl
+    status: Future Target
+
+  - id: amd_renoir
+    vendor: AMD
+    family: Renoir
+    name: AMD Renoir
+    dsp_arch: Xtensa HiFi3
+    cores: 1
+    clock_range: "200 - 600 MHz"
+    platform_clock: "Variable"
+    memory: "20 KB LP SRAM / 1152 KB IRAM/DRAM"
+    audio_interfaces:
+      - "1 x SP (I2S, PCM)"
+      - "1 x BT (I2S, PCM)"
+      - "DMIC"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: amd_renoir
+    target_alias: rn
+    status: Mainline Supported
+
+  - id: amd_rembrandt
+    vendor: AMD
+    family: Rembrandt
+    name: AMD Rembrandt / Phoenix / Strix
+    dsp_arch: Xtensa HiFi5
+    cores: 1
+    clock_range: "200 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "1.75 MB HP SRAM / 512 KB IRAM/DRAM"
+    audio_interfaces:
+      - "1 x SP (I2S, PCM)"
+      - "1 x BT (I2S, PCM)"
+      - "1 x HS (I2S, PCM)"
+      - "DMIC"
+    ipc_versions:
+      - IPC4
+    zephyr_target: amd_rembrandt
+    target_alias: rmb
+    status: Mainline Supported
+
+  - id: nxp_imx8
+    vendor: NXP
+    family: i.MX8
+    name: NXP i.MX8 / i.MX8X / i.MX8M / i.MX8ULP / i.MX9
+    dsp_arch: Xtensa HiFi4
+    cores: 1
+    clock_range: "520 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "64 KB TCM / 256-448 KB OCRAM / SDRAM"
+    audio_interfaces:
+      - "ESAI"
+      - "SAI"
+      - "MICFIL"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: nxp_imx8
+    target_alias: imx8
+    status: Mainline Supported
+
+  - id: mtk_mt8195
+    vendor: MediaTek
+    family: MT8195
+    name: MediaTek MT8195 / MT8186 / MT8188
+    dsp_arch: Xtensa HiFi4 / HiFi5
+    cores: 1
+    clock_range: "220 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "256-512 KB SRAM / 16-17 MB DRAM"
+    audio_interfaces:
+      - "TDM In/Out"
+      - "I2S In/Out"
+      - "DMIC"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: mtk_mt8195
+    target_alias: mt8195
+    status: Mainline Supported
+
+  - id: teensy_41
+    vendor: PJRC / NXP
+    family: i.MX RT1062
+    name: Teensy 4.1 Audio DSP
+    dsp_arch: ARM Cortex-M7 (FPU + DSP instructions)
+    cores: 1
+    clock_range: "600 MHz"
+    platform_clock: "24 MHz OSC"
+    memory: "1024 KB On-chip RAM / 8 MB PSRAM / 16 MB Flash"
+    audio_interfaces:
+      - "I2S / SAI (Master / Slave)"
+      - "PDM Digital Microphone"
+      - "S/PDIF"
+      - "USB Audio 2.0 High-Speed Device/Host"
+    ipc_versions:
+      - Native SOF Embedded IPC
+    zephyr_target: teensy41
+    target_alias: teensy41
+    status: Active Integration
+    notes: "Direct microcontroller audio processing and hardware-in-the-loop bridge"
+
+  - id: esp32_p4
+    vendor: Espressif
+    family: ESP32-P4
+    name: ESP32-P4 Audio Bridge & Loopback Card
+    dsp_arch: RISC-V Dual-Core HP + FPU
+    cores: 2
+    clock_range: "400 MHz"
+    platform_clock: "40 MHz XTAL"
+    memory: "768 KB HP SRAM / 16-32 MB PSRAM"
+    audio_interfaces:
+      - "I2S (Master & Slave mode, configurable MCLK/BCLK/WS)"
+      - "PDM (Master & Slave stereo PDM Tx/Rx)"
+      - "High-Speed USB Audio Bridge"
+    ipc_versions:
+      - Bridge / Test Control Protocol
+    zephyr_target: esp32p4
+    target_alias: esp32-p4
+    test_dut: "Pallas (Tx) / Ceres (Rx) Loopback Pair"
+    status: Lab Hardware Tool
+    notes: "Essential test card for automated I2S/PDM loopback verification across Spider and Aphid"
+
+  - id: qemu_sim
+    vendor: Emulation
+    family: Simulation
+    name: QEMU DSP Simulator (ptl-sim, tgl-sim)
+    dsp_arch: Xtensa HiFi3 / HiFi4 / HiFi5
+    cores: "1 - 4"
+    clock_range: "Host Virtual Clock"
+    platform_clock: "N/A"
+    memory: "Simulated SRAM & Shared Host Memory"
+    audio_interfaces:
+      - "DMA File Sink / Source"
+      - "Virtual IPC Mailbox"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: native_sim / qemu_xtensa
+    target_alias: sim
+    status: Mainline Active
+    notes: "Enables headless CI pipeline validation and developer unit testing without physical silicon"

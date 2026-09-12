@@ -6,3 +6,4 @@ _build
 *.warnings
 .tox
 MANIFEST
+_generated_*.rst
