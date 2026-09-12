@@ -37,6 +37,12 @@ extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml',
               'sphinxcontrib.jquery'
 ]
 
+try:
+    import myst_parser
+    extensions.append('myst_parser')
+except ImportError:
+    pass
+
 
 graphviz_output_format='svg'
 graphviz_dot_args=[
@@ -119,30 +125,41 @@ todo_include_todos =False
 # a list of builtin themes.
 #
 try:
-    import sphinx_rtd_theme
-except ImportError:
-    html_theme = 'alabaster'
-    # This is required for the alabaster theme
-    # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-    html_sidebars = {
-        '**': [
-            'relations.html',  # needs 'show_related': True theme option to display
-            'searchbox.html',
-            ]
-        }
-    sys.stderr.write('Warning: sphinx_rtd_theme missing. Use pip to install it.\n')
-else:
-    html_theme = "sphinx_rtd_theme"
+    import pydata_sphinx_theme
+    html_theme = "pydata_sphinx_theme"
     html_theme_options = {
-        'canonical_url': '',
-        'analytics_id': 'GTM-M4BL5NF',
-        'logo_only': False,
-        'prev_next_buttons_location': 'None',
-        # Toc options
-        'collapse_navigation': False,
-        'sticky_navigation': True,
-        'navigation_depth': 4,
+        "github_url": "https://github.com/thesofproject/sof",
+        "external_links": [
+            {"name": "SOF Project Website", "url": "https://sofproject.org"}
+        ],
+        "navbar_end": ["theme-switcher", "navbar-icon-links"],
     }
+except ImportError:
+    try:
+        import sphinx_rtd_theme
+    except ImportError:
+        html_theme = 'alabaster'
+        # This is required for the alabaster theme
+        # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
+        html_sidebars = {
+            '**': [
+                'relations.html',  # needs 'show_related': True theme option to display
+                'searchbox.html',
+                ]
+            }
+        sys.stderr.write('Warning: sphinx_rtd_theme missing. Use pip to install it.\n')
+    else:
+        html_theme = "sphinx_rtd_theme"
+        html_theme_options = {
+            'canonical_url': '',
+            'analytics_id': 'GTM-M4BL5NF',
+            'logo_only': False,
+            'prev_next_buttons_location': 'None',
+            # Toc options
+            'collapse_navigation': False,
+            'sticky_navigation': True,
+            'navigation_depth': 4,
+        }
 
 
 # Here's where we (manually) list the document versions maintained on

@@ -51,7 +51,12 @@ else
 	# by disabling UML diagrams in the conf.py file.
 endif
 
-html: apidocs
+PYTHON ?= python3
+
+generate_data:
+	$(PYTHON) scripts/generate_matrices.py
+
+html: generate_data apidocs
 	$(SPHINXBUILD) -j auto -t $(DOC_TAG) -b html               \
 -d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS)    \
 -D breathe_projects.'SOF Project'="${SOF_DOC_BUILD}"/doxygen/xml \

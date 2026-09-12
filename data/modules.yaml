@@ -1,0 +1,157 @@
+# SOF Supported Features & Processing Modules Database (Single Source of Truth)
+
+modules:
+  - id: volume
+    name: "Volume / Mute"
+    category: "Basic Routing & Level"
+    description: "Multi-channel software volume attenuation, smooth ramp, and mute control."
+    architectures: ["CAVS 1.5+", "ACE 1.5+", "ARM Cortex-M", "RISC-V"]
+    llext_supported: true
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "Per-channel linear and log gain curves"
+      - "Smooth zipper noise attenuation"
+      - "Zero-overhead bypass when set to 0dB"
+
+  - id: mixer
+    name: "Audio Mixer"
+    category: "Basic Routing & Level"
+    description: "N-to-M channel audio stream summer with clipping protection and saturation."
+    architectures: ["CAVS 1.5+", "ACE 1.5+", "ARM Cortex-M", "RISC-V"]
+    llext_supported: true
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "Concurrent playback mixing"
+      - "Dynamic input stream attachment/detachment"
+
+  - id: src
+    name: "Sample Rate Converter (SRC)"
+    category: "Foundational DSP"
+    description: "Polyphase FIR resampler converting between standard sample rates (8kHz to 192kHz)."
+    architectures: ["CAVS 1.5+", "ACE 1.5+", "ARM Cortex-M"]
+    llext_supported: true
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "High SNR polyphase filtering"
+      - "Low group delay"
+      - "Multi-channel synchronous resampling"
+
+  - id: eq_fir_iir
+    name: "Parametric Equalizer (EQ FIR/IIR)"
+    category: "Audio Enhancement"
+    description: "Cascaded biquad IIR and high-order FIR equalization filters for speaker and microphone tuning."
+    architectures: ["CAVS 1.5+", "ACE 1.5+", "ARM Cortex-M"]
+    llext_supported: true
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "Multi-band parametric peak, notch, low/high shelf"
+      - "SIMD vectorized filter tap processing"
+      - "Live runtime coefficient updates over IPC"
+
+  - id: drc
+    name: "Dynamic Range Compressor (DRC)"
+    category: "Audio Enhancement"
+    description: "Multi-band and wide-band dynamic range compressor with configurable attack, release, and knee parameters."
+    architectures: ["CAVS 1.5+", "ACE 1.5+", "ARM Cortex-M"]
+    llext_supported: true
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "Speaker excursion and thermal protection"
+      - "Multiband crossover splitting"
+      - "RMS and peak signal level detection"
+
+  - id: aec
+    name: "Acoustic Echo Cancellation (AEC)"
+    category: "Voice & Telephony"
+    description: "Full-duplex acoustic echo cancellation removing speaker output from microphone capture streams."
+    architectures: ["CAVS 2.5", "ACE 1.5", "ACE 2.0", "ACE 3.0"]
+    llext_supported: true
+    ipc_versions: ["IPC4"]
+    key_features:
+      - "Double-talk detection"
+      - "Residual echo suppression"
+      - "Adaptive filter convergence"
+
+  - id: beamformer
+    name: "Beamformer (Microphone Array)"
+    category: "Voice & Telephony"
+    description: "Directional microphone array processing combining spatial PDM/DMIC microphone signals to isolate desired speakers."
+    architectures: ["CAVS 2.5", "ACE 1.5", "ACE 2.0", "ACE 3.0"]
+    llext_supported: true
+    ipc_versions: ["IPC4"]
+    key_features:
+      - "Multi-mic circular and linear array geometries"
+      - "Broadside and endfire steering"
+      - "Diffuse noise reduction"
+
+  - id: wov
+    name: "Wake-on-Voice / Keyword Detection"
+    category: "Voice & Telephony"
+    description: "Low-power keyword detection and pre-roll circular history buffer for voice assistant activation."
+    architectures: ["CAVS 1.8+", "ACE 1.5+", "ACE 3.0"]
+    llext_supported: false
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "Low-power DSP listening mode (D0ix)"
+      - "Zero-latency audio pre-roll buffer playback upon trigger"
+      - "Multi-slot capture streaming"
+
+  - id: aac_vfpu
+    name: "AAC Decoder / Encoder (VFPU)"
+    category: "Codecs & Compression"
+    description: "High-efficiency MPEG-4 Advanced Audio Coding accelerated using Tensilica Vector Floating-Point Unit (VFPU)."
+    architectures: ["CAVS 2.5", "ACE 1.5", "ACE 3.0"]
+    llext_supported: true
+    ipc_versions: ["IPC4"]
+    key_features:
+      - "Native hardware FPU math acceleration"
+      - "Low-power bitstream decoding and encoding"
+      - "Direct pipeline integration"
+
+  - id: mp3_vfpu
+    name: "MP3 Decoder / Encoder (VFPU)"
+    category: "Codecs & Compression"
+    description: "Optimized MPEG Audio Layer III processing leveraging VFPU SIMD intrinsics."
+    architectures: ["CAVS 2.5", "ACE 1.5", "ACE 3.0"]
+    llext_supported: true
+    ipc_versions: ["IPC4"]
+    key_features:
+      - "Optimized subband synthesis and MDCT"
+      - "Fast bit reservoir management"
+      - "High throughput low-overhead DSP execution"
+
+  - id: steam_audio
+    name: "Valve Steam Audio Spatializer"
+    category: "Spatial Audio"
+    description: "High-fidelity binaural 3D audio rendering using Head-Related Transfer Functions (HRTF)."
+    architectures: ["ACE 1.5", "ACE 3.0"]
+    llext_supported: true
+    ipc_versions: ["IPC4"]
+    key_features:
+      - "Full 3D spherical listener positioning"
+      - "Convolution-based HRTF binaural filtering"
+      - "Direct integration as LLEXT dynamic module"
+
+  - id: flac_opus_vorbis
+    name: "FLAC / Opus / Vorbis Codecs"
+    category: "Codecs & Compression"
+    description: "Lossless and low-latency audio codec support for high-resolution streaming and communications."
+    architectures: ["CAVS 2.5", "ACE 1.5", "ACE 3.0"]
+    llext_supported: true
+    ipc_versions: ["IPC4"]
+    key_features:
+      - "Lossless FLAC decompression"
+      - "Ultra-low delay Opus speech coding"
+      - "Dynamic bitrate adaptation"
+
+  - id: probes_telemetry
+    name: "Real-Time Probes & Telemetry"
+    category: "Diagnostics & Tools"
+    description: "Non-intrusive runtime audio probing and log extraction across DSP pipeline injection/extraction points."
+    architectures: ["All Supported Platforms"]
+    llext_supported: false
+    ipc_versions: ["IPC3", "IPC4"]
+    key_features:
+      - "Direct probe DMA streaming over TCP port 9999"
+      - "Zero-overhead disabled probe taps"
+      - "Multi-point simultaneous stream taps for verification"
