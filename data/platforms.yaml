@@ -595,7 +595,7 @@ platforms:
       - "S/PDIF"
       - "USB Audio 2.0 High-Speed Device/Host"
     ipc_versions:
-      - Native SOF Embedded IPC
+      - N/A
     zephyr_target: teensy41
     target_alias: teensy41
     status: Active Integration
@@ -615,11 +615,11 @@ platforms:
       - "PDM (Master & Slave stereo PDM Tx/Rx)"
       - "High-Speed USB Audio Bridge"
     ipc_versions:
-      - Bridge / Test Control Protocol
+      - N/A
     zephyr_target: esp32p4
     target_alias: esp32-p4
     test_dut: "Pallas (Tx) / Ceres (Rx) Loopback Pair"
-    status: Lab Hardware Tool
+    status: Active Integration
     notes: "Essential test card for automated I2S/PDM loopback verification across Spider and Aphid"
 
   - id: qemu_sim
