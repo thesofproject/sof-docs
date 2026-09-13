@@ -99,6 +99,49 @@ th,td {
   padding-left: 0 !important;
 }
 
+/* -- PyData Theme Custom Layout Dimensions --------------------------------- */
+
+:root {
+  --pst-sidebar-secondary: 13.5rem !important;
+}
+
+/* Widen overall container on wide displays */
+.bd-page-width {
+  max-width: 96rem !important;
+}
+
+/* Make left primary navigation sidebar narrower */
+@media (min-width: 960px) {
+  .bd-sidebar-primary {
+    width: 17% !important;
+    min-width: 210px !important;
+    max-width: 250px !important;
+    padding: 1.25rem 0.65rem 1rem !important;
+    font-size: 0.9rem !important;
+  }
+
+  /* Make right secondary TOC sidebar narrower */
+  .bd-sidebar-secondary {
+    width: 13.5rem !important;
+    padding: 1.5rem 0.5rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+}
+
+/* Expand main article container */
+@media (min-width: 1200px) {
+  .bd-main .bd-content .bd-article-container {
+    max-width: 82em !important;
+    padding: 1rem 1.75rem !important;
+  }
+
+  .bd-main .bd-content .bd-article-container .bd-article {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 1.25rem !important;
+  }
+}
+
 /* -- Sphinx-Tabs Modern Styling -------------------------------------------- */
 
 .sphinx-tabs {
