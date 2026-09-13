@@ -16,6 +16,11 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
 jobs:
   woke_pr:
     name: woke check for patch
@@ -27,7 +32,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Change reviewdog reporter if you need
           # [github-pr-check,github-check,github-pr-review].
-          reporter: github-pr-review
+          reporter: github-pr-check
           # Change reporter level if you need.
           # GitHub Status Check won't become failure with warning.
           level: warning

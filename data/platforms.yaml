@@ -590,7 +590,7 @@ platforms:
     platform_clock: "24 MHz OSC"
     memory: "1024 KB On-chip RAM / 8 MB PSRAM / 16 MB Flash"
     audio_interfaces:
-      - "I2S / SAI (Master / Slave)"
+      - "I2S / SAI (Controller / Target)"
       - "PDM Digital Microphone"
       - "S/PDIF"
       - "USB Audio 2.0 High-Speed Device/Host"
@@ -611,8 +611,8 @@ platforms:
     platform_clock: "40 MHz XTAL"
     memory: "768 KB HP SRAM / 16-32 MB PSRAM"
     audio_interfaces:
-      - "I2S (Master & Slave mode, configurable MCLK/BCLK/WS)"
-      - "PDM (Master & Slave stereo PDM Tx/Rx)"
+      - "I2S (Controller & Target mode, configurable MCLK/BCLK/WS)"
+      - "PDM (Controller & Target stereo PDM Tx/Rx)"
       - "High-Speed USB Audio Bridge"
     ipc_versions:
       - N/A

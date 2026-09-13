@@ -1,6 +1,7 @@
 # The following files can be ignored when running Woke.
 
 rules-woke.yaml
+.wokeignore
 conf.py
 *.pu
 tox.ini
@@ -12,7 +13,13 @@ release.rst
 introduction/index.rst
 maintainers/merge_rights.rst
 contribute/process/bug-tracking.rst
+contribute/process/images/*
 getting_started/setup/setup_up_2_board.rst
+developer_guides/setup_special_device/setup_up_2_board.rst
+developer_guides/virtualization/virtualization.rst
+developer_guides/firmware/component-tutorial/tut-ii-topology.rst
+developer_guides/subsystem_architecture/host/linux_driver/architecture/sof_driver_arch.rst
+developer_guides/tech/compile_wsl.rst
 developer_guides/virtualization/files/q-v6.sh
 developer_guides/topology/topology.rst
 developer_guides/fuzzing/testbench_afl_fuzzing.rst
