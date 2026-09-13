@@ -122,7 +122,21 @@ language = 'en'
 # Note: a virtualenv created inside this source tree (.venv, venv, env, ...)
 # would otherwise be scanned by Sphinx and flood the build with warnings
 # about .rst files shipped in installed packages.
-exclude_patterns = ['_build', '.tox', '.venv*', 'venv', 'env', 'README.md', 'scripts/*.md']
+exclude_patterns = [
+    '_build',
+    '.tox',
+    '.venv*',
+    'venv',
+    'env',
+    'README.md',
+    'scripts/*.md',
+    'sof',
+    'sof/**',
+    '_deps',
+    '_deps/**',
+    '_build_doxy',
+    '_build_doxy/**',
+]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'

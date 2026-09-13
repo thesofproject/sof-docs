@@ -64,7 +64,7 @@ jobs:
 
       - name: configure and build SOF API docs (Doxygen)
         run: |
-          git clone https://github.com/thesofproject/sof
+          git clone --depth 1 https://github.com/thesofproject/sof
           if ! grep -q "zephyr/include" sof/doc/sof.doxygen.in; then
             echo "INPUT += @top_srcdir@/zephyr/include" \
               >> sof/doc/sof.doxygen.in
@@ -156,7 +156,7 @@ jobs:
 
       - name: configure and build SOF API docs (Doxygen)
         run: |
-          git clone https://github.com/thesofproject/sof
+          git clone --depth 1 https://github.com/thesofproject/sof
           if ! grep -q "zephyr/include" sof/doc/sof.doxygen.in; then
             echo "INPUT += @top_srcdir@/zephyr/include" \
               >> sof/doc/sof.doxygen.in

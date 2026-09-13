@@ -79,7 +79,7 @@ In host-based deployments (such as PCs, Chromebooks, smartphones, automotive inf
                    { rank=same; sof_ipc; sof_tplg; sof_pm; }
                }
 
-               buses [label="Hardware Platform & Bus Drivers\n(Intel PCI / SoundWire Master / HDA, AMD ACP, NXP SAI, MediaTek)", fillcolor="#d5f5e3"];
+               buses [label="Hardware Platform & Bus Drivers\n(Intel PCI / SoundWire Manager / HDA, AMD ACP, NXP SAI, MediaTek)", fillcolor="#d5f5e3"];
 
                alsalib -> asoc [weight=10];
                asoc -> sof_tplg [weight=10, style=dashed, label="parse .tplg"];
@@ -161,7 +161,7 @@ In host-based deployments (such as PCs, Chromebooks, smartphones, automotive inf
                fontname = "Verdana-Bold";
                fontsize = 9;
 
-               dai_drivers [label="Hardware Interface Drivers (DAI)\n(SoundWire Slaves, I2S / SSP, DMIC / PDM, HD-Audio)", fillcolor="#bb8fce"];
+               dai_drivers [label="Hardware Interface Drivers (DAI)\n(SoundWire Peripherals, I2S / SSP, DMIC / PDM, HD-Audio)", fillcolor="#bb8fce"];
                zephyr [label="Zephyr RTOS Kernel\n(Multi-Threading, SMP/AMP, Sync, Native Drivers)", fillcolor="#bb8fce"];
 
                { rank=same; dai_drivers; zephyr; }
@@ -450,7 +450,7 @@ The SOF firmware architecture is strictly partitioned into two decoupled tiers:
 
                z_dma_mbx [label="Host DMA & Mailbox Drivers\n(HDA DMA, DW-DMA, Host IPC Doorbell Driver)", fillcolor="#d4e6f1", width=3.3];
                z_mem_hal [label="Memory Management & Cache HAL\n(sys_heap / k_malloc, Cache Coherence)", fillcolor="#ebdef0", width=3.5];
-               z_dai_drv [label="DAI Interface Drivers\n(SoundWire Master/Slave, I2S, DMIC)", fillcolor="#d4e6f1", width=3.4];
+               z_dai_drv [label="DAI Interface Drivers\n(SoundWire Manager/Device, I2S, DMIC)", fillcolor="#d4e6f1", width=3.4];
 
                z_dma_mbx -> z_mem_hal -> z_dai_drv [style=invis, weight=10];
                { rank=same; z_dma_mbx; z_mem_hal; z_dai_drv; }
