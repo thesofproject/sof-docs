@@ -12,15 +12,6 @@ build pipelines.
 
 .. include:: _generated_modules_table.rst
 
-Algorithm Specific Information
-******************************
+.. note::
 
-Further information on specific algorithms is forthcoming.
-
-.. toctree::
-   :maxdepth: 1
-
-   demux/demux.rst
-   eq/equalizers_tuning
-   src/sample_rate_conversion
-   tdfb/time_domain_fixed_beamformer
+   For detailed algorithm implementation guides, filter tuning workflows, and design tools, consult the :ref:`algorithm-specific-information` section in Developer Guides.

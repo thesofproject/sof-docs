@@ -115,3 +115,18 @@ Further information on specific platforms can be found here.
    intel-legacy/index
    intel-cavs/index
 
+.. _algorithm-specific-information:
+
+Algorithm Specific Information
+******************************
+
+Further information on specific algorithms, filter tuning, and design tools:
+
+.. toctree::
+   :maxdepth: 1
+
+   algorithms/demux/demux.rst
+   algorithms/eq/equalizers_tuning
+   algorithms/src/sample_rate_conversion
+   algorithms/tdfb/time_domain_fixed_beamformer
+
