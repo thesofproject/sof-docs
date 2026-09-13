@@ -99,17 +99,20 @@ th,td {
   padding-left: 0 !important;
 }
 
-/* -- Sphinx-Tabs & Dark Theme Styling ------------------------------------- */
+/* -- Sphinx-Tabs Modern Styling -------------------------------------------- */
 
-/* Tabs container & tablist */
 .sphinx-tabs {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.75rem;
+  padding: 0;
 }
 
 .sphinx-tabs [role="tablist"] {
-  border-bottom: 2px solid var(--pst-color-border, #d1d5db);
   display: flex;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--pst-color-border, #d1d5da);
+  margin-bottom: 0;
+  padding-left: 0;
   gap: 4px;
 }
 
@@ -118,123 +121,175 @@ th,td {
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 500;
-  padding: 0.55rem 1.25rem;
-  border-radius: 6px 6px 0 0;
+  line-height: 1.5;
+  padding: 0.6rem 1.25rem;
   border: 1px solid transparent;
   border-bottom: none;
+  border-radius: 6px 6px 0 0;
   background-color: transparent;
-  color: var(--pst-color-text-muted, #4b5563);
-  transition: all 0.15s ease-in-out;
+  color: var(--pst-color-text-muted, #677384);
   cursor: pointer;
-  margin: 0;
+  margin-bottom: -2px;
+  transition: all 0.15s ease-in-out;
 }
 
 .sphinx-tabs-tab:hover {
-  color: var(--pst-color-primary, #1a73e8);
+  color: var(--pst-color-primary, #0a7d91);
   background-color: var(--pst-color-surface, rgba(0, 0, 0, 0.04));
 }
 
-/* Active tab button in light mode */
-.sphinx-tabs-tab[aria-selected="true"] {
-  color: var(--pst-color-primary, #1a73e8) !important;
-  background-color: var(--pst-color-background, #ffffff) !important;
-  border: 2px solid var(--pst-color-border, #d1d5db) !important;
-  border-bottom: 2px solid var(--pst-color-background, #ffffff) !important;
-  font-weight: 600;
-  margin-bottom: -2px;
+.sphinx-tabs-tab:focus-visible {
+  outline: 2px solid var(--pst-color-accent, #0a7d91);
+  outline-offset: 2px;
 }
 
-/* Tab content panel in light mode */
+/* Active tab button (light mode default) */
+.sphinx-tabs-tab[aria-selected="true"] {
+  font-weight: 600;
+  color: var(--pst-color-primary, #0a7d91) !important;
+  background-color: var(--pst-color-on-background, #ffffff) !important;
+  border: 2px solid var(--pst-color-border, #d1d5da) !important;
+  border-top: 2px solid var(--pst-color-primary, #0a7d91) !important;
+  border-bottom: 2px solid var(--pst-color-on-background, #ffffff) !important;
+  margin-bottom: -2px;
+  z-index: 2;
+}
+
+/* Tab content panel (light mode default) */
 .sphinx-tabs-panel {
-  border: 2px solid var(--pst-color-border, #d1d5db);
+  border: 2px solid var(--pst-color-border, #d1d5da);
   border-top: none;
   border-radius: 0 0 6px 6px;
-  background-color: var(--pst-color-background, #ffffff);
-  color: var(--pst-color-text-base, inherit);
-  padding: 1rem;
+  background-color: var(--pst-color-on-background, #ffffff);
+  color: var(--pst-color-text-base, #222832);
+  padding: 1.25rem;
+  margin: 0;
+  position: relative;
+  z-index: 1;
 }
 
-/* -- Dark Mode Overrides (PyData Theme & System Dark Preference) -- */
+.sphinx-tabs-panel[hidden] {
+  display: none !important;
+}
+
+.sphinx-tabs-panel .highlight {
+  margin: 0 !important;
+  background-color: var(--pst-color-surface, #f8fafc) !important;
+  border: 1px solid var(--pst-color-border, #d1d5da) !important;
+  border-radius: 6px;
+}
+
+.sphinx-tabs-panel .highlight pre {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background-color: transparent !important;
+  color: inherit;
+}
+
+/* -- Dark Mode Overrides (PyData Theme data attributes) -- */
 
 html[data-theme="dark"] .sphinx-tabs [role="tablist"],
-html[data-theme="dark"] .sphinx-tabs-panel {
-  border-color: var(--pst-color-border, #48566b) !important;
+html[data-mode="dark"] .sphinx-tabs [role="tablist"] {
+  border-bottom-color: var(--pst-color-border, #48566b) !important;
 }
 
-html[data-theme="dark"] .sphinx-tabs-tab {
+html[data-theme="dark"] .sphinx-tabs-tab,
+html[data-mode="dark"] .sphinx-tabs-tab {
   color: var(--pst-color-text-muted, #9ca4af) !important;
   background-color: transparent !important;
 }
 
-html[data-theme="dark"] .sphinx-tabs-tab:hover {
+html[data-theme="dark"] .sphinx-tabs-tab:hover,
+html[data-mode="dark"] .sphinx-tabs-tab:hover {
   color: var(--pst-color-text-base, #ffffff) !important;
   background-color: var(--pst-color-surface, #29313d) !important;
 }
 
-html[data-theme="dark"] .sphinx-tabs-tab[aria-selected="true"] {
+html[data-theme="dark"] .sphinx-tabs-tab[aria-selected="true"],
+html[data-mode="dark"] .sphinx-tabs-tab[aria-selected="true"] {
   color: var(--pst-color-text-base, #ffffff) !important;
-  background-color: var(--pst-color-surface, #222832) !important;
+  background-color: #222832 !important;
   border-color: var(--pst-color-border, #48566b) !important;
-  border-bottom: 2px solid var(--pst-color-surface, #222832) !important;
+  border-top: 2px solid var(--pst-color-primary, #0a7d91) !important;
+  border-bottom: 2px solid #222832 !important;
 }
 
-html[data-theme="dark"] .sphinx-tabs-panel {
-  background-color: var(--pst-color-surface, #222832) !important;
+html[data-theme="dark"] .sphinx-tabs-panel,
+html[data-mode="dark"] .sphinx-tabs-panel {
+  background-color: #222832 !important;
+  border-color: var(--pst-color-border, #48566b) !important;
   color: var(--pst-color-text-base, #ced6dd) !important;
 }
 
-/* Code blocks inside tabs in dark mode */
 html[data-theme="dark"] .sphinx-tabs-panel .highlight,
-html[data-theme="dark"] .sphinx-tabs-panel pre,
-html[data-theme="dark"] .highlight {
-  background-color: var(--pst-color-on-background, #14181e) !important;
+html[data-mode="dark"] .sphinx-tabs-panel .highlight,
+html[data-theme="dark"] .highlight,
+html[data-mode="dark"] .highlight {
+  background-color: #14181e !important;
+  border-color: #364150 !important;
   color: var(--pst-color-text-base, #ced6dd) !important;
 }
 
-html[data-theme="dark"] button.copybtn {
-  background-color: var(--pst-color-surface, #29313d);
-  color: var(--pst-color-text-base, #ced6dd);
-  border-color: var(--pst-color-border, #48566b);
+html[data-theme="dark"] .sphinx-tabs-panel .highlight pre,
+html[data-mode="dark"] .sphinx-tabs-panel .highlight pre {
+  background-color: transparent !important;
+  color: #ced6dd !important;
 }
 
-/* System dark theme fallback */
+html[data-theme="dark"] button.copybtn,
+html[data-mode="dark"] button.copybtn {
+  background-color: var(--pst-color-surface, #29313d) !important;
+  color: var(--pst-color-text-base, #ced6dd) !important;
+  border-color: var(--pst-color-border, #48566b) !important;
+}
+
+/* -- System Dark Mode Fallback (@media prefers-color-scheme) -- */
+
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .sphinx-tabs [role="tablist"],
-  html:not([data-theme="light"]) .sphinx-tabs-panel {
-    border-color: var(--pst-color-border, #48566b) !important;
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs [role="tablist"] {
+    border-bottom-color: var(--pst-color-border, #48566b) !important;
   }
 
-  html:not([data-theme="light"]) .sphinx-tabs-tab {
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-tab {
     color: var(--pst-color-text-muted, #9ca4af) !important;
+    background-color: transparent !important;
   }
 
-  html:not([data-theme="light"]) .sphinx-tabs-tab:hover {
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-tab:hover {
     color: var(--pst-color-text-base, #ffffff) !important;
     background-color: var(--pst-color-surface, #29313d) !important;
   }
 
-  html:not([data-theme="light"]) .sphinx-tabs-tab[aria-selected="true"] {
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-tab[aria-selected="true"] {
     color: var(--pst-color-text-base, #ffffff) !important;
-    background-color: var(--pst-color-surface, #222832) !important;
+    background-color: #222832 !important;
     border-color: var(--pst-color-border, #48566b) !important;
-    border-bottom: 2px solid var(--pst-color-surface, #222832) !important;
+    border-top: 2px solid var(--pst-color-primary, #0a7d91) !important;
+    border-bottom: 2px solid #222832 !important;
   }
 
-  html:not([data-theme="light"]) .sphinx-tabs-panel {
-    background-color: var(--pst-color-surface, #222832) !important;
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-panel {
+    background-color: #222832 !important;
+    border-color: var(--pst-color-border, #48566b) !important;
     color: var(--pst-color-text-base, #ced6dd) !important;
   }
 
-  html:not([data-theme="light"]) .sphinx-tabs-panel .highlight,
-  html:not([data-theme="light"]) .sphinx-tabs-panel pre,
-  html:not([data-theme="light"]) .highlight {
-    background-color: var(--pst-color-on-background, #14181e) !important;
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-panel .highlight,
+  html:not([data-theme="light"]):not([data-mode="light"]) .highlight {
+    background-color: #14181e !important;
+    border-color: #364150 !important;
     color: var(--pst-color-text-base, #ced6dd) !important;
   }
 
-  html:not([data-theme="light"]) button.copybtn {
-    background-color: var(--pst-color-surface, #29313d);
-    color: var(--pst-color-text-base, #ced6dd);
-    border-color: var(--pst-color-border, #48566b);
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-panel .highlight pre {
+    background-color: transparent !important;
+    color: #ced6dd !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) button.copybtn {
+    background-color: var(--pst-color-surface, #29313d) !important;
+    color: var(--pst-color-text-base, #ced6dd) !important;
+    border-color: var(--pst-color-border, #48566b) !important;
   }
 }
+
