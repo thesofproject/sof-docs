@@ -136,8 +136,8 @@ def generate_modules_table():
 
     with open(out_file, "w", encoding="utf-8") as f:
         f.write(".. csv-table:: SOF Supported Audio Processing Modules & Algorithms\n")
-        f.write("   :header: \"Algorithm\", \"Source\", \"Category\", \"SIMD\", \"Key Capabilities\"\n")
-        f.write("   :widths: 20, 10, 16, 20, 34\n\n")
+        f.write('   :header: "Algorithm", "Source", "Category", "SIMD", "Key Capabilities", "Status"\n')
+        f.write("   :widths: 17, 8, 14, 21, 28, 12\n\n")
 
         for m in modules:
             name = m.get("name", "")
@@ -145,8 +145,9 @@ def generate_modules_table():
             cat = m.get("category", "")
             simd = ", ".join(m.get("simd", [])) if isinstance(m.get("simd"), list) else m.get("simd", "")
             feats = "; ".join(m.get("key_features", []))
+            status = m.get("status", "Upstream")
 
-            row = f'   "{name}", "{source}", "{cat}", "{simd}", "{feats}"\n'
+            row = f'   "{name}", "{source}", "{cat}", "{simd}", "{feats}", "{status}"\n'
             f.write(row)
 
     print(f"Generated {out_file} ({len(modules)} modules)")
