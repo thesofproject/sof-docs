@@ -4,10 +4,12 @@ generate_matrices.py - Generate RST tables and documentation from YAML databases
 
 Reads:
   - data/platforms.yaml
+  - data/legacy_platforms.yaml
   - data/modules.yaml
 
 Outputs:
   - platforms/_generated_platforms_table.rst
+  - platforms/_generated_legacy_platforms_table.rst
   - algos/_generated_modules_table.rst
 """
 
@@ -24,14 +26,31 @@ def load_yaml(file_path):
         return yaml.safe_load(f)
 
 VENDOR_MAP = {
-    "Intel": ("icon_intel", "images/vendors/intel.svg"),
-    "AMD": ("icon_amd", "images/vendors/amd.svg"),
-    "NXP": ("icon_nxp", "images/vendors/nxp.svg"),
-    "MediaTek": ("icon_mediatek", "images/vendors/mediatek.svg"),
-    "PJRC / NXP": ("icon_pjrc", "images/vendors/pjrc.svg"),
-    "Espressif": ("icon_espressif", "images/vendors/espressif.svg"),
-    "Emulation": ("icon_qemu", "images/vendors/qemu.svg"),
+    "Intel": ("intel", "images/vendors/intel.svg"),
+    "AMD": ("amd", "images/vendors/amd.svg"),
+    "NXP": ("nxp", "images/vendors/nxp.svg"),
+    "MediaTek": ("mediatek", "images/vendors/mediatek.svg"),
+    "PJRC / NXP": ("pjrc", "images/vendors/pjrc.svg"),
+    "Espressif": ("espressif", "images/vendors/espressif.svg"),
+    "Emulation": ("qemu", "images/vendors/qemu.svg"),
 }
+
+def write_vendor_substitutions(f, prefix="icon"):
+    """Write image substitutions for vendor icons into the RST file."""
+    for vendor, (vendor_key, icon_rel_path) in VENDOR_MAP.items():
+        sub_name = f"{prefix}_{vendor_key}"
+        f.write(f".. |{sub_name}| image:: /{icon_rel_path}\n")
+        f.write("   :width: 18px\n")
+        f.write("   :height: 18px\n")
+        f.write("   :align: middle\n")
+        f.write("   :class: vendor-icon\n\n")
+
+def get_vendor_cell(vendor_raw, prefix="icon"):
+    sub_info = VENDOR_MAP.get(vendor_raw)
+    if sub_info:
+        sub_name = f"{prefix}_{sub_info[0]}"
+        return f"|{sub_name}| {vendor_raw}"
+    return vendor_raw
 
 def generate_platforms_table():
     platforms_file = DATA_DIR / "platforms.yaml"
@@ -46,26 +65,14 @@ def generate_platforms_table():
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     with open(out_file, "w", encoding="utf-8") as f:
-        # Write image substitutions for vendor icons
-        for vendor, (sub_name, icon_rel_path) in VENDOR_MAP.items():
-            f.write(f".. |{sub_name}| image:: /{icon_rel_path}\n")
-            f.write("   :width: 18px\n")
-            f.write("   :height: 18px\n")
-            f.write("   :align: middle\n")
-            f.write("   :class: vendor-icon\n\n")
+        write_vendor_substitutions(f, prefix="icon")
 
         f.write(".. csv-table:: Supported Hardware Platforms & Architectures\n")
         f.write('   :header: "Vendor", "Platform / SoC", "Family", "DSP Core / Arch", "Cores / Clocks", "Audio Interfaces", "IPC", "Target", "Status"\n')
         f.write("   :widths: 14, 18, 12, 16, 14, 22, 8, 10, 12\n\n")
 
         for p in platforms:
-            vendor_raw = p.get("vendor", "")
-            sub_info = VENDOR_MAP.get(vendor_raw)
-            if sub_info:
-                vendor_cell = f"|{sub_info[0]}| {vendor_raw}"
-            else:
-                vendor_cell = vendor_raw
-
+            vendor_cell = get_vendor_cell(p.get("vendor", ""), prefix="icon")
             name = p.get("name", "")
             family = p.get("family", "")
             arch = p.get("dsp_arch", "")
@@ -79,6 +86,41 @@ def generate_platforms_table():
             f.write(row)
 
     print(f"Generated {out_file} ({len(platforms)} platforms)")
+
+def generate_legacy_platforms_table():
+    legacy_file = DATA_DIR / "legacy_platforms.yaml"
+    if not legacy_file.exists():
+        print(f"Warning: {legacy_file} does not exist.")
+        return
+
+    data = load_yaml(legacy_file)
+    platforms = data.get("legacy_platforms", [])
+
+    out_file = DOCS_DIR / "platforms" / "_generated_legacy_platforms_table.rst"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(out_file, "w", encoding="utf-8") as f:
+        write_vendor_substitutions(f, prefix="icon_leg")
+
+        f.write(".. csv-table:: Platforms No Longer Supported in Mainline\n")
+        f.write('   :header: "Vendor", "Platform / SoC", "Last Release", "Branch", "Architecture", "Cores / Clocks", "Platform Clock", "Memory", "Audio Interfaces"\n')
+        f.write("   :widths: 14, 18, 10, 10, 15, 12, 10, 18, 20\n\n")
+
+        for p in platforms:
+            vendor_cell = get_vendor_cell(p.get("vendor", ""), prefix="icon_leg")
+            name = p.get("name", "")
+            last_rel = p.get("last_release", "")
+            branch = p.get("branch", "")
+            arch = p.get("dsp_arch", "")
+            cores_clocks = p.get("cores_clocks", "")
+            platform_clock = p.get("platform_clock", "")
+            memory = p.get("memory", "")
+            interfaces = p.get("audio_interfaces", "")
+
+            row = f'   "{vendor_cell}", "{name}", "{last_rel}", "{branch}", "{arch}", "{cores_clocks}", "{platform_clock}", "{memory}", "{interfaces}"\n'
+            f.write(row)
+
+    print(f"Generated {out_file} ({len(platforms)} legacy platforms)")
 
 def generate_modules_table():
     modules_file = DATA_DIR / "modules.yaml"
@@ -112,4 +154,5 @@ def generate_modules_table():
 
 if __name__ == "__main__":
     generate_platforms_table()
+    generate_legacy_platforms_table()
     generate_modules_table()
