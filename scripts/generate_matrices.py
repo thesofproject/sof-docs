@@ -23,6 +23,16 @@ def load_yaml(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f)
 
+VENDOR_MAP = {
+    "Intel": ("icon_intel", "images/vendors/intel.svg"),
+    "AMD": ("icon_amd", "images/vendors/amd.svg"),
+    "NXP": ("icon_nxp", "images/vendors/nxp.svg"),
+    "MediaTek": ("icon_mediatek", "images/vendors/mediatek.svg"),
+    "PJRC / NXP": ("icon_pjrc", "images/vendors/pjrc.svg"),
+    "Espressif": ("icon_espressif", "images/vendors/espressif.svg"),
+    "Emulation": ("icon_qemu", "images/vendors/qemu.svg"),
+}
+
 def generate_platforms_table():
     platforms_file = DATA_DIR / "platforms.yaml"
     if not platforms_file.exists():
@@ -36,11 +46,26 @@ def generate_platforms_table():
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     with open(out_file, "w", encoding="utf-8") as f:
+        # Write image substitutions for vendor icons
+        for vendor, (sub_name, icon_rel_path) in VENDOR_MAP.items():
+            f.write(f".. |{sub_name}| image:: /{icon_rel_path}\n")
+            f.write("   :width: 18px\n")
+            f.write("   :height: 18px\n")
+            f.write("   :align: middle\n")
+            f.write("   :class: vendor-icon\n\n")
+
         f.write(".. csv-table:: Supported Hardware Platforms & Architectures\n")
-        f.write("   :header: \"Platform / SoC\", \"Family\", \"DSP Core / Arch\", \"Cores / Clocks\", \"Audio Interfaces\", \"IPC\", \"Target\", \"Status\"\n")
-        f.write("   :widths: 18, 12, 16, 14, 22, 8, 10, 12\n\n")
+        f.write('   :header: "Vendor", "Platform / SoC", "Family", "DSP Core / Arch", "Cores / Clocks", "Audio Interfaces", "IPC", "Target", "Status"\n')
+        f.write("   :widths: 14, 18, 12, 16, 14, 22, 8, 10, 12\n\n")
 
         for p in platforms:
+            vendor_raw = p.get("vendor", "")
+            sub_info = VENDOR_MAP.get(vendor_raw)
+            if sub_info:
+                vendor_cell = f"|{sub_info[0]}| {vendor_raw}"
+            else:
+                vendor_cell = vendor_raw
+
             name = p.get("name", "")
             family = p.get("family", "")
             arch = p.get("dsp_arch", "")
@@ -50,7 +75,7 @@ def generate_platforms_table():
             target = p.get("target_alias", "")
             status = p.get("status", "")
 
-            row = f'   "{name}", "{family}", "{arch}", "{cores_clocks}", "{interfaces}", "{ipcs}", "{target}", "{status}"\n'
+            row = f'   "{vendor_cell}", "{name}", "{family}", "{arch}", "{cores_clocks}", "{interfaces}", "{ipcs}", "{target}", "{status}"\n'
             f.write(row)
 
     print(f"Generated {out_file} ({len(platforms)} platforms)")

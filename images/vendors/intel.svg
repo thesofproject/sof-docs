@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="8" fill="#0068B5"/>
+  <!-- Intel stylized swirl -->
+  <path d="M9 25 C14 31, 26 31, 31 25" fill="none" stroke="#4CC3FF" stroke-width="2" stroke-linecap="round"/>
+  <path d="M31 15 C26 9, 14 9, 9 15" fill="none" stroke="#4CC3FF" stroke-width="2" stroke-linecap="round"/>
+  <text x="20" y="24" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.5">intel</text>
+</svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="8" fill="#E7352B"/>
+  <rect x="9" y="9" width="22" height="22" rx="3" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+  <line x1="9" y1="20" x2="23" y2="20" stroke="#FFFFFF" stroke-width="2.5"/>
+  <text x="20" y="37" font-family="Arial, sans-serif" font-size="6" font-weight="bold" fill="#FFFFFF" text-anchor="middle">ESP32</text>
+</svg>
