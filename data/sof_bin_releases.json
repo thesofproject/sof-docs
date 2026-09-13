@@ -1,0 +1,122 @@
+[
+  {
+    "tag_name": "v2025.12.2",
+    "name": "v2025.12.2",
+    "published_at": "2026-01-27",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.12.2",
+    "asset_name": "sof-bin-2025.12.2.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.12.2/sof-bin-2025.12.2.tar.gz",
+    "asset_size_mb": 12.9,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2025.12.1",
+    "name": "v2025.12.1",
+    "published_at": "2026-01-22",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.12.1",
+    "asset_name": "sof-bin-2025.12.1.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.12.1/sof-bin-2025.12.1.tar.gz",
+    "asset_size_mb": 12.9,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2025.12",
+    "name": "v2025.12",
+    "published_at": "2025-12-19",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.12",
+    "asset_name": "sof-bin-2025.12.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.12/sof-bin-2025.12.tar.gz",
+    "asset_size_mb": 12.8,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2025.05.1",
+    "name": "v2025.05.1",
+    "published_at": "2025-08-19",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.05.1",
+    "asset_name": "sof-bin-2025.05.1.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.05.1/sof-bin-2025.05.1.tar.gz",
+    "asset_size_mb": 11.3,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2025.05",
+    "name": "v2025.05",
+    "published_at": "2025-06-13",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.05",
+    "asset_name": "sof-bin-2025.05.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.05/sof-bin-2025.05.tar.gz",
+    "asset_size_mb": 11.3,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2025.01.1",
+    "name": "v2025.01.1",
+    "published_at": "2025-03-31",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.01.1",
+    "asset_name": "sof-bin-2025.01.1.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.01.1/sof-bin-2025.01.1.tar.gz",
+    "asset_size_mb": 10.0,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2025.01",
+    "name": "v2025.01",
+    "published_at": "2025-01-31",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2025.01",
+    "asset_name": "sof-bin-2025.01.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2025.01/sof-bin-2025.01.tar.gz",
+    "asset_size_mb": 10.0,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2024.09.2",
+    "name": "v2024.09.2",
+    "published_at": "2024-12-05",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2024.09.2",
+    "asset_name": "sof-bin-2024.09.2.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2024.09.2/sof-bin-2024.09.2.tar.gz",
+    "asset_size_mb": 9.7,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2024.09.1",
+    "name": "v2024.09.1",
+    "published_at": "2024-11-08",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2024.09.1",
+    "asset_name": "sof-bin-2024.09.1.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2024.09.1/sof-bin-2024.09.1.tar.gz",
+    "asset_size_mb": 9.7,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2024.09",
+    "name": "v2024.09",
+    "published_at": "2024-09-27",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2024.09",
+    "asset_name": "sof-bin-2024.09.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2024.09/sof-bin-2024.09.tar.gz",
+    "asset_size_mb": 9.7,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2024.06",
+    "name": "v2024.06",
+    "published_at": "2024-07-18",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2024.06",
+    "asset_name": "sof-bin-2024.06.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2024.06/sof-bin-2024.06.tar.gz",
+    "asset_size_mb": 9.4,
+    "prerelease": false
+  },
+  {
+    "tag_name": "v2024.03",
+    "name": "v2024.03",
+    "published_at": "2024-04-02",
+    "html_url": "https://github.com/thesofproject/sof-bin/releases/tag/v2024.03",
+    "asset_name": "sof-bin-2024.03.tar.gz",
+    "asset_url": "https://github.com/thesofproject/sof-bin/releases/download/v2024.03/sof-bin-2024.03.tar.gz",
+    "asset_size_mb": 7.8,
+    "prerelease": false
+  }
+]
