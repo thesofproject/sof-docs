@@ -6,8 +6,9 @@ modules:
     name: "Volume / Mute"
     source: "SOF"
     category: "Basic Routing & Level"
+    status: "Upstream"
     description: "Multi-channel software volume attenuation, smooth ramp, and mute control."
-    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    simd: ["ARM SIMD", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Per-channel linear and log gain curves"
       - "Smooth zipper noise attenuation"
@@ -17,8 +18,9 @@ modules:
     name: "Audio Mixer"
     source: "SOF"
     category: "Basic Routing & Level"
+    status: "Upstream"
     description: "N-to-M channel audio stream summer with clipping protection and saturation."
-    simd: ["HiFi 3", "HiFi 5", "Scalar C"]
+    simd: ["ARM SIMD", "HiFi 3", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Concurrent playback mixing"
       - "Dynamic input stream attachment/detachment"
@@ -28,8 +30,9 @@ modules:
     name: "Sample Rate Converter (SRC)"
     source: "SOF"
     category: "Foundational DSP"
+    status: "Upstream"
     description: "Polyphase FIR resampler converting between standard sample rates (8kHz to 192kHz)."
-    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "High SNR polyphase filtering"
       - "Low group delay"
@@ -39,8 +42,9 @@ modules:
     name: "Asynchronous SRC (ASRC)"
     source: "SOF"
     category: "Foundational DSP"
+    status: "Upstream"
     description: "Drift-compensated asynchronous sample rate converter for independent clock domains."
-    simd: ["HiFi 3", "HiFi 5", "Scalar C"]
+    simd: ["HiFi 3", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Farrow polynomial interpolation"
       - "Continuous clock drift tracking"
@@ -50,6 +54,7 @@ modules:
     name: "Audio Demux"
     source: "SOF"
     category: "Basic Routing & Level"
+    status: "Upstream"
     description: "Demultiplexes a single multi-channel audio stream into multiple downstream sink pipelines."
     simd: ["Scalar C"]
     key_features:
@@ -61,6 +66,7 @@ modules:
     name: "Audio Mux"
     source: "SOF"
     category: "Basic Routing & Level"
+    status: "Upstream"
     description: "Multiplexes multiple synchronized input streams into a combined multi-channel output stream."
     simd: ["Scalar C"]
     key_features:
@@ -72,6 +78,7 @@ modules:
     name: "Channel Map / Remap"
     source: "SOF"
     category: "Basic Routing & Level"
+    status: "Upstream"
     description: "Flexible channel remapping, slot swapping, and channel replication component."
     simd: ["Scalar C"]
     key_features:
@@ -83,8 +90,9 @@ modules:
     name: "Tone Generator"
     source: "SOF"
     category: "Diagnostics & Testing"
+    status: "Upstream"
     description: "Synthesizes diagnostic test tones for audio path verification."
-    simd: ["Scalar C"]
+    simd: ["RISC-V SIMD", "Scalar C"]
     key_features:
       - "Sine wave generation"
       - "Configurable frequency and amplitude"
@@ -95,8 +103,9 @@ modules:
     name: "Parametric Equalizer (EQ FIR)"
     source: "SOF"
     category: "Audio Enhancement"
+    status: "Upstream"
     description: "High-order finite impulse response (FIR) filter for precise phase and frequency response tuning."
-    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    simd: ["ARM SIMD", "HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "High-order linear-phase FIR filtering"
       - "Speaker and room impulse response correction"
@@ -106,8 +115,9 @@ modules:
     name: "Parametric Equalizer (EQ IIR)"
     source: "SOF"
     category: "Audio Enhancement"
+    status: "Upstream"
     description: "Cascaded biquad infinite impulse response (IIR) parametric equalizer."
-    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    simd: ["ARM SIMD", "HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Cascaded second-order biquad sections"
       - "Parametric peak, notch, low/high shelf"
@@ -117,8 +127,9 @@ modules:
     name: "Dynamic Range Compressor (DRC)"
     source: "SOF"
     category: "Audio Enhancement"
+    status: "Upstream"
     description: "Wideband dynamic range compressor with configurable attack, release, and threshold curves."
-    simd: ["HiFi 3", "HiFi 4", "Scalar C"]
+    simd: ["ARM SIMD", "HiFi 3", "HiFi 4", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Speaker excursion and thermal protection"
       - "Configurable attack, release, and knee"
@@ -128,8 +139,9 @@ modules:
     name: "Multiband DRC"
     source: "SOF"
     category: "Audio Enhancement"
+    status: "Upstream"
     description: "Multi-band dynamic range compressor with independent compression across frequency subbands."
-    simd: ["HiFi 3", "HiFi 4", "Scalar C"]
+    simd: ["HiFi 3", "HiFi 4", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Subband crossover splitting"
       - "Per-band threshold and ratio controls"
@@ -139,8 +151,9 @@ modules:
     name: "Crossover Filter"
     source: "SOF"
     category: "Audio Enhancement"
+    status: "Upstream"
     description: "2-way and 3-way Linkwitz-Riley crossover filter for multi-driver audio systems."
-    simd: ["HiFi 3", "Scalar C"]
+    simd: ["HiFi 3", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Linkwitz-Riley 4th order (LR4) splitting"
       - "Flat magnitude sum across crossover point"
@@ -150,8 +163,9 @@ modules:
     name: "DC Blocker"
     source: "SOF"
     category: "Audio Enhancement"
+    status: "Upstream"
     description: "High-pass filter removing hardware DC bias and sub-audible hum."
-    simd: ["HiFi 3", "HiFi 4", "Scalar C"]
+    simd: ["ARM SIMD", "HiFi 3", "HiFi 4", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Removes DC bias from digital mics and ADCs"
       - "Sub-audible rumble attenuation"
@@ -161,6 +175,7 @@ modules:
     name: "Smart Amp Protection"
     source: "SOF"
     category: "Speaker Protection"
+    status: "Upstream"
     description: "Speaker protection algorithm monitoring voltage/current feedback to maximize loudness safely."
     simd: ["HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -173,8 +188,9 @@ modules:
     name: "Beamformer (TDFB)"
     source: "SOF"
     category: "Voice & Telephony"
+    status: "Upstream"
     description: "Time-Domain Fixed Beamformer combining multi-microphone inputs to isolate target speakers."
-    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
     key_features:
       - "Multi-mic circular and linear array support"
       - "Broadside and endfire steering"
@@ -184,6 +200,7 @@ modules:
     name: "WebRTC Echo Cancellation (AEC)"
     source: "WebRTC"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Full-duplex acoustic echo cancellation removing loudspeaker playback from microphone capture."
     simd: ["HiFi 3", "HiFi 4", "VFPU", "Scalar C"]
     key_features:
@@ -195,6 +212,7 @@ modules:
     name: "WebRTC Mobile AEC (AECM)"
     source: "WebRTC"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Lightweight mobile acoustic echo canceller tailored for power-constrained DSPs and embedded targets."
     simd: ["HiFi 3", "HiFi 4", "VFPU", "Scalar C"]
     key_features:
@@ -206,6 +224,7 @@ modules:
     name: "WebRTC Noise Suppression (NS)"
     source: "WebRTC"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Spectral subtraction stationary noise suppression for voice clarity."
     simd: ["HiFi 3", "HiFi 4", "VFPU", "Scalar C"]
     key_features:
@@ -217,6 +236,7 @@ modules:
     name: "WebRTC Neural NS (NS2 / RNNoise)"
     source: "WebRTC"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Recurrent neural network deep learning noise suppression for non-stationary acoustic noise."
     simd: ["HiFi 3", "HiFi 4", "VFPU", "Scalar C"]
     key_features:
@@ -228,6 +248,7 @@ modules:
     name: "WebRTC Voice Activity Detector (VAD)"
     source: "WebRTC"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Low-power speech presence detector for call management and pipeline gating."
     simd: ["HiFi 3", "Scalar C"]
     key_features:
@@ -239,6 +260,7 @@ modules:
     name: "WebRTC Automatic Gain Control (AGC)"
     source: "WebRTC"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Adaptive digital gain controller and peak limiter for uniform speech loudness."
     simd: ["HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -250,6 +272,7 @@ modules:
     name: "Key Phrase Buffer (KPB / WoV)"
     source: "SOF"
     category: "Voice & Telephony"
+    status: "Upstream"
     description: "Low-power Wake-on-Voice pre-roll history circular buffer."
     simd: ["Scalar C"]
     key_features:
@@ -261,6 +284,7 @@ modules:
     name: "microWakeWord (TFLite Micro)"
     source: "Google"
     category: "Voice & Telephony"
+    status: "Active Development"
     description: "Embedded deep neural network keyword detector running on TensorFlow Lite for Microcontrollers."
     simd: ["HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -273,6 +297,7 @@ modules:
     name: "AAC Decoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "MPEG-4 Advanced Audio Coding (AAC-LC / HE-AAC) decoder."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
     key_features:
@@ -284,6 +309,7 @@ modules:
     name: "AAC Encoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "MPEG-4 AAC audio bitstream encoder for Bluetooth and streaming egress."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
     key_features:
@@ -295,6 +321,7 @@ modules:
     name: "MP3 Decoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "MPEG-1/2 Audio Layer III decoder leveraging optimized subband synthesis and MDCT."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
     key_features:
@@ -306,6 +333,7 @@ modules:
     name: "MP3 Encoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "Real-time fixed-point MP3 audio encoder for recording and broadcast."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -317,6 +345,7 @@ modules:
     name: "FLAC Decoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "Free Lossless Audio Codec decoder delivering bit-exact high-resolution audio."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -328,6 +357,7 @@ modules:
     name: "Opus Decoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "Interactive speech and music decoder optimized for ultra-low delay streaming."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -339,6 +369,7 @@ modules:
     name: "Vorbis Decoder"
     source: "FFmpeg"
     category: "Codecs & Compression"
+    status: "Active Development"
     description: "Ogg Vorbis lossy audio decoder with variable bitrate support."
     simd: ["VFPU", "HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
@@ -351,6 +382,7 @@ modules:
     name: "Steam Audio Spatializer"
     source: "Steam Audio"
     category: "Spatial Audio"
+    status: "Active Development"
     description: "3D binaural spatializer using Head-Related Transfer Functions (HRTF)."
     simd: ["VFPU", "HiFi 4", "HiFi 5", "Scalar C"]
     key_features:
@@ -363,6 +395,7 @@ modules:
     name: "Real-Time Probes & Telemetry"
     source: "SOF"
     category: "Diagnostics & Tools"
+    status: "Upstream"
     description: "Non-intrusive runtime audio probing and log extraction across pipeline points."
     simd: ["Scalar C"]
     key_features:
