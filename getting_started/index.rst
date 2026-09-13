@@ -201,8 +201,7 @@ Define the workspace directory and clone the SOF SDK source repositories:
    mkdir -p ${SOF_WORKSPACE}
    cd ${SOF_WORKSPACE}
 
-   # Clone VS Code workspace and core SOF repositories
-   git clone --progress https://github.com/thesofproject/vscode-workspace.git .
+   # Clone core SOF repositories
    git clone --progress --recursive https://github.com/thesofproject/sof.git
    git clone --progress https://github.com/thesofproject/sof-test.git
    git clone --progress https://github.com/thesofproject/sof-docs.git
@@ -235,16 +234,62 @@ Create a dedicated Python virtual environment, install ``west``, and fetch all Z
    west init -l sof
    west update
 
-Step 3: Install Zephyr SDK Toolchain
-====================================
+Step 3: Install Firmware Toolchains
+===================================
 
-Download and install the cross-compilation toolchain using ``west sdk install``:
+The primary toolchain for most platforms is the open-source **Zephyr SDK**. For Intel Tensilica Xtensa DSP targets, developers may also optionally use proprietary **Cadence Xtensa Tools (XCC)** or the experimental open-source **LLVM/Clang Xtensa** toolchain.
+
+Option A: Zephyr SDK Toolchain (Default & Recommended)
+------------------------------------------------------
+
+Download and install the official cross-compilation toolchain using ``west sdk install``:
 
 .. code-block:: bash
 
    cd ${SOF_WORKSPACE}/zephyr
    west sdk install
    cd ${SOF_WORKSPACE}
+
+Option B: Cadence Xtensa Tools (Optional Proprietary XCC)
+---------------------------------------------------------
+
+Developers with a Cadence Tensilica license can compile firmware using the proprietary Cadence compiler suite. Ensure your Xtensa tools and core registry are installed and set the environment variables:
+
+.. code-block:: bash
+
+   # Set path to Cadence Xtensa installation
+   export XTENSA_TOOLS_ROOT=/path/to/myXtensa
+   export XTENSA_BUILDS_DIR=${XTENSA_TOOLS_ROOT}/install/builds
+   export XTENSA_SYSTEM=${XTENSA_BUILDS_DIR}/<toolchain-version>/<core-config>/config
+   export ZEPHYR_TOOLCHAIN_VARIANT=xt-clang  # or xcc
+
+The SOF build script ``xtensa-build-zephyr.py`` automatically checks for ``XTENSA_TOOLS_ROOT`` and configures the build for your target core.
+
+Option C: LLVM / Clang Xtensa Toolchain (Optional Open-Source)
+--------------------------------------------------------------
+
+For open-source development on Xtensa targets without a Cadence license, an experimental Clang/LLVM cross-compiler toolchain is available:
+
+.. code-block:: bash
+
+   cd ${SOF_WORKSPACE}
+
+   # Clone and build LLVM Xtensa compiler
+   git clone https://github.com/thesofproject/llvm-project.git
+   mkdir -p llvm-project/build && cd llvm-project/build
+   cmake -G Ninja -DLLVM_ENABLE_PROJECTS="clang" \
+         -DLLVM_TARGETS_TO_BUILD="" \
+         -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="Xtensa" \
+         -DCMAKE_BUILD_TYPE=Release ..
+   ninja clang llc llvm-mc
+
+   # Configure Zephyr to use the LLVM toolchain
+   export ZEPHYR_TOOLCHAIN_VARIANT=llvm
+   export LLVM_TOOLCHAIN_PATH=${SOF_WORKSPACE}/llvm-project/build
+
+.. note::
+
+   **Integrated Assembler (IAS) Mandatory Policy**: All compilation targeting Xtensa via LLVM Clang must use the LLVM Integrated Assembler (IAS) (enabled by default with ``-fintegrated-as -mtext-section-literals -mlongcalls``). Never pass ``-fno-integrated-as``, as legacy GNU Assembler (GAS) cannot resolve label-difference relocations on Xtensa branch trampolines.
 
 Step 4: Build Firmware Images
 =============================
@@ -274,7 +319,71 @@ Build firmware binaries for your target platform using the SOF build script ``xt
      │   ├── sof-tgl.ri       # Signed firmware image (with optional security headers)
      │   └── sof-tgl.ldc      # SMEX trace dictionary for log decoding
 
-Step 5: Build Host Tools & Testbench
+Step 5: Deploy Firmware to Target Device
+========================================
+
+The SOF build script provides a built-in ``--deployable-build`` option that generates target filesystem directories and packages a deployable tarball:
+
+1. **Build with Deployable Layout**:
+
+   .. code-block:: bash
+
+      cd ${SOF_WORKSPACE}
+
+      # Build deployable firmware package for your target platform
+      ./sof/scripts/xtensa-build-zephyr.py --deployable-build tgl
+
+2. **Deployable Output Layout**:
+   The resulting files in ``build-sof-staging/`` match the target Linux filesystem paths based on IPC architecture:
+
+   - **IPC4 Platforms** (e.g. Tiger Lake, Meteor Lake, Arrow Lake, Panther Lake, Lunar Lake):
+
+     .. code-block:: text
+
+        build-sof-staging/sof/intel/sof-ipc4/
+        └── tgl/
+            ├── community/
+            │   └── sof-tgl.ri       # Signed firmware image
+            ├── dbgkey/
+            │   └── sof-tgl.ri       # Debug-key signed firmware
+            ├── sof-tgl.ri           # Default symlink
+            └── sof-tgl.ldc          # SMEX trace dictionary
+
+   - **IPC3 Platforms** (e.g. Apollo Lake, Cannon Lake, Ice Lake):
+
+     .. code-block:: text
+
+        build-sof-staging/sof/intel/sof/
+        ├── community/
+        │   └── sof-apl.ri
+        └── sof-apl.ldc
+
+3. **Deploy to Target Device (DUT)**:
+   Transfer the files to your target development board over SSH:
+
+   .. code-block:: bash
+
+      # Option A: Deploy complete archive via tarball extraction
+      scp build-sof-staging/sof-*.tar.gz root@<target-ip>:/tmp/
+      ssh root@<target-ip> 'tar -C / -xzf /tmp/sof-*.tar.gz && rm /tmp/sof-*.tar.gz'
+
+      # Option B: Direct copy of firmware binary and trace dictionary
+      # (Target path for IPC4: /lib/firmware/intel/sof-ipc4/<platform>/)
+      scp build-sof-staging/sof/intel/sof-ipc4/tgl/community/sof-tgl.ri root@<target-ip>:/lib/firmware/intel/sof-ipc4/tgl/
+      scp build-sof-staging/sof/intel/sof-ipc4/tgl/sof-tgl.ldc root@<target-ip>:/etc/sof/
+
+4. **Reload Kernel Audio Driver**:
+   Reload the SOF sound driver module to initialize the new firmware image:
+
+   .. code-block:: bash
+
+      # Unload and reload PCI audio driver (example for Tiger Lake)
+      ssh root@<target-ip> 'modprobe -r snd_sof_pci_intel_tgl && modprobe snd_sof_pci_intel_tgl'
+
+      # Check dmesg for DSP firmware boot verification
+      ssh root@<target-ip> 'dmesg | grep -i sof'
+
+Step 6: Build Host Tools & Testbench
 ====================================
 
 Build the host userspace utilities (such as ``sof-ctl``, topology compiler, and logging tools) as well as the native host audio testbench:
@@ -290,7 +399,7 @@ Build the host userspace utilities (such as ``sof-ctl``, topology compiler, and 
    # Build native host testbench for bit-exact algorithm verification
    ./sof/scripts/rebuild-testbench.sh
 
-Step 6: Build Loadable Modules (LLEXT)
+Step 7: Build Loadable Modules (LLEXT)
 ======================================
 
 Using Zephyr Linkable Loadable Extensions (LLEXT), standalone audio modules can be built and signed dynamically without modifying or recompiling the base firmware:
@@ -298,6 +407,7 @@ Using Zephyr Linkable Loadable Extensions (LLEXT), standalone audio modules can 
 - Modules are compiled as relocatable ELF objects (``.llext``) and signed with a manifest using ``rimage``.
 - In-tree modules can be built automatically using ``xtensa-build-zephyr.py`` or built with ``west build`` and CMake (using ``sof_llext_build()``).
 - For complete developer guides on implementing Module Adapters, manifest macros, Kconfig options, and signing workflows, refer to :ref:`llext_modules`.
+
 
 Set up SOF on a Linux machine
 *****************************
