@@ -614,14 +614,7 @@ Modern topologies are authored using **Topology 2 (ALSA Conf / m4)**:
 * **Runtime Dynamic Graph Building**: When the host OS boots, the kernel driver parses the binary container and sends IPC messages instructing the DSP firmware to construct the requested graph dynamically.
 * **Static ROM Topologies (Hostless)**: In standalone embedded deployments, topologies are pre-compiled into static ROM manifests or C structs embedded directly into the firmware image, removing runtime parsing overhead.
 
-Detailed Subsystem Architecture Guides
-**************************************
 
-For in-depth implementation specifications, driver models, and platform-specific firmware layers, consult the dedicated architectural guides below:
-
-.. toctree::
-   :maxdepth: 2
-
-   host/index
-   firmware/index
+.. note::
+   For detailed subsystem implementation specifications, host driver internals, and firmware architectural layers, see the :ref:`subsystem-architecture-guides` in Developer Guides.
 

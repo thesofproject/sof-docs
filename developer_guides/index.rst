@@ -91,6 +91,19 @@ This section describes the process of building loadable modules using LMDK.
 
    loadable_modules/lmdk_user_guide
 
+.. _subsystem-architecture-guides:
+
+Detailed Subsystem Architecture Guides
+**************************************
+
+For in-depth implementation specifications, driver models, and platform-specific firmware layers, consult the dedicated architectural guides below:
+
+.. toctree::
+   :maxdepth: 2
+
+   subsystem_architecture/host/index
+   subsystem_architecture/firmware/index
+
 Platform Specific Information
 *****************************
 
