@@ -91,3 +91,14 @@ This section describes the process of building loadable modules using LMDK.
 
    loadable_modules/lmdk_user_guide
 
+Platform Specific Information
+*****************************
+
+Further information on specific platforms can be found here.
+
+.. toctree::
+   :maxdepth: 2
+
+   intel-legacy/index
+   intel-cavs/index
+
