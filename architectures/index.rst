@@ -3,7 +3,7 @@
 Architecture & System Design
 ############################
 
-Sound Open Firmware (SOF) is built upon the **Zephyr RTOS** and is designed to run across diverse hardware architectures without being coupled to any specific DSP or host processor. SOF is architected to run on any architecture and SoC supported by Zephyr—spanning Tensilica Xtensa, ARM Cortex-M, and RISC-V targets. The architecture is strictly modular: silicon-specific and platform-specific implementations reside in partitioned directories and Zephyr device drivers, exposing generic, standardized APIs to the core framework.
+Sound Open Firmware (SOF) is built upon the **Zephyr RTOS** and is designed to run across diverse hardware architectures without being coupled to any specific DSP or host processor. SOF is designed to run on any architecture and SoC supported by Zephyr—spanning Tensilica Xtensa, ARM Cortex-M, and RISC-V targets. The architecture is strictly modular: silicon-specific and platform-specific implementations reside in partitioned directories and Zephyr device drivers, exposing generic, standardized APIs to the core framework.
 
 System & Software Architecture
 ******************************
@@ -347,7 +347,163 @@ In hostless deployments (such as smart speakers, conference microphones, standal
 High-Level Firmware Architecture
 ********************************
 
-The SOF firmware is built with a modular, layered architecture designed for deterministic real-time audio streaming.
+The SOF firmware architecture is strictly partitioned into two decoupled tiers:
+
+1. **SOF Application Layer (Upper Part)**: Houses the audio signal processing engine, real-time pipeline schedulers, inter-processor communication (IPC) protocol decoders, dynamic module loading (LLEXT), and heterogeneous memory management.
+2. **Zephyr RTOS Layer (Lower Part)**: Provides the real-time operating system kernel, preemptive multi-threading, SMP multi-core load balancing, hardware timer ticks, device drivers (DMA, DAI, mailbox), and platform hardware abstraction layers (HAL).
+
+.. graphviz::
+   :caption: Sound Open Firmware (SOF) High-Level Firmware Architecture: Application & Zephyr RTOS Layers
+   :align: center
+
+   digraph fw_architecture {
+       rankdir=TB;
+       nodesep=0.22;
+       ranksep=0.32;
+       compound=true;
+       node [shape=box, style="filled,rounded", fontname="Verdana", fontsize=9, margin="0.12,0.06"];
+       edge [fontname="Verdana", fontsize=8, color="#555555"];
+
+       // =========================================================================
+       // UPPER PART: SOF APPLICATION LAYER
+       // =========================================================================
+       subgraph cluster_sof_app {
+           label = "SOF Application Layer (Audio Processing & Framework)";
+           style = "filled,rounded";
+           color = "#1b4f72";
+           fillcolor = "#eef4f9";
+           fontname = "Verdana-Bold";
+           fontsize = 12;
+           fontcolor = "#154360";
+
+           // Top Box: Framework Services, IPC & Schedulers
+           subgraph cluster_sof_services {
+               label = "Framework Services, IPC & Schedulers";
+               style = "dashed,rounded";
+               color = "#2980b9";
+               fillcolor = "#ffffff";
+               fontname = "Verdana-Bold";
+               fontsize = 9;
+
+               sof_ipc [label="IPC Protocol Engine\n(IPC4 & IPC3 Dispatcher,\nCommand & Response Handlers)", fillcolor="#d4e6f1"];
+               sof_mem [label="Heterogeneous Memory System\n(HP/LP SRAM Pools, Dynamic IMR Paging,\nCache-Aligned Ring Buffers)", fillcolor="#ebdef0"];
+               sof_sched [label="Real-Time Pipeline Schedulers\n(Low-Latency LL Timer & EDF,\nAudio Task Queues)", fillcolor="#fdebd0"];
+
+               sof_ipc -> sof_mem -> sof_sched [style=invis];
+               { rank=same; sof_ipc; sof_mem; sof_sched; }
+           }
+
+           // Bottom Box: Audio Processing Graph & Endpoints
+           subgraph cluster_sof_pipeline {
+               label = "Audio Processing Graph (DAG), Modules & Stream Endpoints";
+               style = "dashed,rounded";
+               color = "#2980b9";
+               fillcolor = "#ffffff";
+               fontname = "Verdana-Bold";
+               fontsize = 9;
+
+               sof_ep_host [label="Host Audio Endpoints\n(Host DMA Copier Streams)", fillcolor="#f9e79f", shape=cds];
+               sof_modules [label="Audio Processing Modules\n(Volume, Mixer, SRC, EQ, DRC,\nAEC, Beamformer, Spatial Audio)", fillcolor="#a9dfbf"];
+               sof_llext [label="Dynamic Module Loader (LLEXT)\n(Relocatable Dynamic Modules,\nManifest & Signature Auth)", fillcolor="#d5f5e3"];
+               sof_ep_dai [label="DAI Audio Endpoints\n(SoundWire, I2S, PDM Copiers)", fillcolor="#f9e79f", shape=cds];
+
+               sof_ep_host -> sof_modules [label="PCM In", color="#27ae60", weight=20];
+               sof_modules -> sof_ep_dai [label="PCM Out", color="#27ae60", weight=20];
+               sof_llext -> sof_modules [label="loads", style=dashed, color="#2980b9", constraint=false];
+
+               sof_ep_host -> sof_modules -> sof_llext -> sof_ep_dai [style=invis];
+               { rank=same; sof_ep_host; sof_modules; sof_llext; sof_ep_dai; }
+           }
+
+           // Intra-App Control Flows
+           sof_ipc -> sof_ep_host [label="bind/control", style=dotted, color="#2980b9"];
+           sof_mem -> sof_modules [label="buffers", style=dotted, color="#7d3c98"];
+           sof_sched -> sof_modules [label="trigger", color="#d35400"];
+       }
+
+       // =========================================================================
+       // LOWER PART: ZEPHYR RTOS LAYER
+       // =========================================================================
+       subgraph cluster_zephyr_rtos {
+           label = "Zephyr RTOS Layer (Operating System & Platform HAL)";
+           style = "filled,rounded";
+           color = "#27ae60";
+           fillcolor = "#eafaf1";
+           fontname = "Verdana-Bold";
+           fontsize = 12;
+           fontcolor = "#145a32";
+
+           // Top Subcluster: Device Drivers & Hardware HAL
+           subgraph cluster_z_drivers {
+               label = "Device Drivers & Hardware Abstraction (HAL)";
+               style = "dashed,rounded";
+               color = "#27ae60";
+               fillcolor = "#ffffff";
+               fontname = "Verdana-Bold";
+               fontsize = 9;
+
+               z_mailbox [label="Hardware Mailbox & Doorbell\n(Host IPC Interrupt Driver)", fillcolor="#d4e6f1"];
+               z_dma_drv [label="DMA Device Drivers\n(HDA DMA, DW-DMA, Stream APIs)", fillcolor="#d4e6f1"];
+               z_dai_drv [label="DAI Interface Drivers\n(SoundWire Master/Slave, I2S, DMIC)", fillcolor="#d4e6f1"];
+
+               z_mailbox -> z_dma_drv -> z_dai_drv [style=invis];
+               { rank=same; z_mailbox; z_dma_drv; z_dai_drv; }
+           }
+
+           // Bottom Subcluster: Kernel Core, Memory & Power Subsystems
+           subgraph cluster_z_core {
+               label = "Zephyr Kernel Core, Memory & Power Subsystems";
+               style = "dashed,rounded";
+               color = "#27ae60";
+               fillcolor = "#ffffff";
+               fontname = "Verdana-Bold";
+               fontsize = 9;
+
+               z_log [label="Zephyr Logging & Tracing\n(Dictionary Logging, Trace DMA)", fillcolor="#eaeded"];
+               z_mem_hal [label="Memory Management & Cache HAL\n(sys_heap / k_malloc, Cache Coherence)", fillcolor="#ebdef0"];
+               z_kernel [label="Kernel Multi-Threading & SMP\n(Threads, Workqueues, Semaphores,\nMulti-Core DSP Load Balancing)", fillcolor="#d5f5e3"];
+               z_timer [label="Architecture Timers & Clocks\n(Core Timer Tick, Clock Control)", fillcolor="#d5f5e3"];
+               z_pm [label="Power Management (PM)\n(Device PM, Clock Gating, D0ix / D3)", fillcolor="#fdebd0"];
+
+               z_log -> z_mem_hal -> z_kernel -> z_timer -> z_pm [style=invis];
+               { rank=same; z_log; z_mem_hal; z_kernel; z_timer; z_pm; }
+           }
+
+           // Stacking driver cluster above core cluster
+           z_mailbox -> z_log [style=invis, weight=5];
+           z_dma_drv -> z_mem_hal [style=invis, weight=5];
+           z_dai_drv -> z_kernel [style=invis, weight=5];
+       }
+
+       // Inter-Layer Bindings:
+       // Left: IPC & Mailbox
+       sof_ipc -> z_mailbox [label="Doorbell ISR", color="#1b4f72"];
+       sof_ep_host -> z_dma_drv [label="DMA APIs", color="#2980b9"];
+
+       // Center: Memory & Logging
+       sof_mem -> z_mem_hal [label="sys_heap / Cache APIs", color="#7d3c98", weight=5];
+       sof_modules -> z_log [label="LOG_INF / Trace", color="#7f8c8d", style=dashed];
+
+       // Right: Schedulers, DAI & Kernel Core
+       sof_ep_dai -> z_dai_drv [label="DAI APIs", color="#2980b9"];
+       sof_sched -> z_kernel [label="k_thread / k_work", color="#d35400"];
+       sof_sched -> z_timer [label="Timer Tick ISR", color="#d35400"];
+       sof_sched -> z_pm [label="PM state", color="#d35400", style=dotted];
+   }
+
+Firmware Subsystem Architecture Breakdown
+=========================================
+
+The firmware stack comprises the following key components across the two layers:
+
+* **Audio Processing Modules**: Standardized DSP processing components chained within directed acyclic graphs (DAGs). Core components include Volume / Mute, Software Mixer, Sample Rate Converter (SRC), Parametric Equalizer (EQ FIR/IIR), Dynamic Range Compressor (DRC), Acoustic Echo Cancellation (AEC), Direction-of-Arrival (DoA) Beamformer, and Spatial Audio.
+* **Dynamic Module Loader (LLEXT)**: Enables out-of-tree and closed-source vendor algorithms to be dynamically loaded, linked, and verified into DSP SRAM at runtime without rebuilding the base firmware.
+* **Real-Time Pipeline Schedulers**: Coordinates pipeline execution periods. Low-Latency (LL) timer-driven tasks run at fixed 1ms intervals (or native audio frames), while Earliest Deadline First (EDF) and workqueue tasks handle bulk non-real-time audio transformations.
+* **IPC Protocol Engine**: Handles asynchronous communication with the host OS over platform doorbells and mailboxes, supporting both Intel IPC4 and legacy IPC3 message formats.
+* **Heterogeneous Memory System**: Manages partitioned memory pools spanning High-Power (HP) and Low-Power (LP) SRAM, dynamic Intermediate Memory Residency (IMR) DRAM paging, and cache-aligned zero-copy audio ring buffers.
+* **Audio Stream Endpoints**: Interface boundaries that move audio data between host shared memory (Host DMA Copier) and physical audio interface hardware (SoundWire, I2S, PDM copiers).
+* **Zephyr RTOS Integration**: Powers the underlying DSP core with preemptive multi-threading, SMP multi-core task migration, architecture hardware timers, unified device drivers, runtime power management (D0ix/D3), and high-throughput dictionary logging.
+
 
 Zephyr RTOS Foundation
 ======================

@@ -263,7 +263,7 @@ The SOF build script ``xtensa-build-zephyr.py`` automatically checks for ``XTENS
 Optional: LLVM / Clang Xtensa Toolchain (Open-Source Fork)
 ----------------------------------------------------------
 
-For open-source development on Intel ADSP Xtensa targets without a Cadence license, use Liam Girdwood's Xtensa LLVM/Clang development fork (`llvm-project <https://github.com/lgirdwood/llvm-project.git>`_).
+For open-source development on Intel ADSP Xtensa targets without a Cadence license, use the open-source Xtensa LLVM/Clang development fork (`llvm-project <https://github.com/lgirdwood/llvm-project.git>`_).
 
 1. **Clone and Build LLVM/Clang Compiler**:
 
@@ -658,4 +658,17 @@ If you no longer need the custom kernel or need to revert to your distribution's
 .. note::
 
    **Remote Kernel Deployment with ktest**: If you have dedicated test hardware and wish to automate kernel installation and testing over SSH, see :ref:`setup-ktest-environment` in the Developer Guides.
+
+Next Steps
+**********
+
+Congratulations! You have set up your development environment, built and installed the Sound Open Firmware DSP binary, and installed the matching SOF Linux kernel drivers.
+
+You are now ready to begin developing, testing, and debugging with Sound Open Firmware:
+
+* Explore :ref:`architectures` to understand the firmware execution model, audio pipelines, and topology architecture.
+* Learn about developing custom audio processing algorithms in :ref:`algos`.
+* Follow hands-on testing, debugging, and probe streaming tutorials in :ref:`developer_guides`.
+* Review hardware setup, board pinouts, and loopback setups in :ref:`platforms`.
+
 
