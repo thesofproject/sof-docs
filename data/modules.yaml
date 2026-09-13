@@ -8,7 +8,7 @@ modules:
     category: "Basic Routing & Level"
     status: "Upstream"
     description: "Multi-channel software volume attenuation, smooth ramp, and mute control."
-    simd: ["ARM SIMD", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["ARM", "HiFi 3", "HiFi 4", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "Per-channel linear and log gain curves"
       - "Smooth zipper noise attenuation"
@@ -20,7 +20,7 @@ modules:
     category: "Basic Routing & Level"
     status: "Upstream"
     description: "N-to-M channel audio stream summer with clipping protection and saturation."
-    simd: ["ARM SIMD", "HiFi 3", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["ARM", "HiFi 3", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "Concurrent playback mixing"
       - "Dynamic input stream attachment/detachment"
@@ -32,7 +32,7 @@ modules:
     category: "Foundational DSP"
     status: "Upstream"
     description: "Polyphase FIR resampler converting between standard sample rates (8kHz to 192kHz)."
-    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "High SNR polyphase filtering"
       - "Low group delay"
@@ -44,7 +44,7 @@ modules:
     category: "Foundational DSP"
     status: "Upstream"
     description: "Drift-compensated asynchronous sample rate converter for independent clock domains."
-    simd: ["HiFi 3", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["HiFi 3", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "Farrow polynomial interpolation"
       - "Continuous clock drift tracking"
@@ -92,7 +92,7 @@ modules:
     category: "Diagnostics & Testing"
     status: "Upstream"
     description: "Synthesizes diagnostic test tones for audio path verification."
-    simd: ["RISC-V SIMD", "Scalar C"]
+    simd: ["RISCV", "Scalar C"]
     key_features:
       - "Sine wave generation"
       - "Configurable frequency and amplitude"
@@ -105,7 +105,7 @@ modules:
     category: "Audio Enhancement"
     status: "Upstream"
     description: "High-order finite impulse response (FIR) filter for precise phase and frequency response tuning."
-    simd: ["ARM SIMD", "HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["ARM", "HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "High-order linear-phase FIR filtering"
       - "Speaker and room impulse response correction"
@@ -117,7 +117,7 @@ modules:
     category: "Audio Enhancement"
     status: "Upstream"
     description: "Cascaded biquad infinite impulse response (IIR) parametric equalizer."
-    simd: ["ARM SIMD", "HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["ARM", "HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "Cascaded second-order biquad sections"
       - "Parametric peak, notch, low/high shelf"
@@ -129,7 +129,7 @@ modules:
     category: "Audio Enhancement"
     status: "Upstream"
     description: "Wideband dynamic range compressor with configurable attack, release, and threshold curves."
-    simd: ["ARM SIMD", "HiFi 3", "HiFi 4", "RISC-V SIMD", "Scalar C"]
+    simd: ["ARM", "HiFi 3", "HiFi 4", "RISCV", "Scalar C"]
     key_features:
       - "Speaker excursion and thermal protection"
       - "Configurable attack, release, and knee"
@@ -141,7 +141,7 @@ modules:
     category: "Audio Enhancement"
     status: "Upstream"
     description: "Multi-band dynamic range compressor with independent compression across frequency subbands."
-    simd: ["HiFi 3", "HiFi 4", "RISC-V SIMD", "Scalar C"]
+    simd: ["HiFi 3", "HiFi 4", "RISCV", "Scalar C"]
     key_features:
       - "Subband crossover splitting"
       - "Per-band threshold and ratio controls"
@@ -153,7 +153,7 @@ modules:
     category: "Audio Enhancement"
     status: "Upstream"
     description: "2-way and 3-way Linkwitz-Riley crossover filter for multi-driver audio systems."
-    simd: ["HiFi 3", "RISC-V SIMD", "Scalar C"]
+    simd: ["HiFi 3", "RISCV", "Scalar C"]
     key_features:
       - "Linkwitz-Riley 4th order (LR4) splitting"
       - "Flat magnitude sum across crossover point"
@@ -165,7 +165,7 @@ modules:
     category: "Audio Enhancement"
     status: "Upstream"
     description: "High-pass filter removing hardware DC bias and sub-audible hum."
-    simd: ["ARM SIMD", "HiFi 3", "HiFi 4", "RISC-V SIMD", "Scalar C"]
+    simd: ["ARM", "HiFi 3", "HiFi 4", "RISCV", "Scalar C"]
     key_features:
       - "Removes DC bias from digital mics and ADCs"
       - "Sub-audible rumble attenuation"
@@ -190,7 +190,7 @@ modules:
     category: "Voice & Telephony"
     status: "Upstream"
     description: "Time-Domain Fixed Beamformer combining multi-microphone inputs to isolate target speakers."
-    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISC-V SIMD", "Scalar C"]
+    simd: ["HiFi 2 EP", "HiFi 3", "HiFi 4", "HiFi 5", "RISCV", "Scalar C"]
     key_features:
       - "Multi-mic circular and linear array support"
       - "Broadside and endfire steering"
