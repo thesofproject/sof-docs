@@ -246,7 +246,7 @@ platforms:
     zephyr_target: intel_ace30_ptl
     target_alias: ptl
     test_dut: Aphid
-    status: Active Development
+    status: Mainline Active
 
   - id: wcl
     vendor: Intel
@@ -266,7 +266,7 @@ platforms:
       - IPC4
     zephyr_target: intel_ace30_wcl
     target_alias: wcl
-    status: Active Development
+    status: Mainline Active
 
   - id: nvl
     vendor: Intel
@@ -286,7 +286,7 @@ platforms:
       - IPC4
     zephyr_target: intel_adsp_ace40_nvl
     target_alias: nvl
-    status: Future Target
+    status: Mainline Active
 
   - id: nvl_s
     vendor: Intel
@@ -306,7 +306,7 @@ platforms:
       - IPC4
     zephyr_target: intel_adsp_ace40_nvls
     target_alias: nvl-s
-    status: Future Target
+    status: Mainline Active
 
   - id: amd_renoir
     vendor: AMD
