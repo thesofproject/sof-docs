@@ -234,15 +234,10 @@ Create a dedicated Python virtual environment, install ``west``, and fetch all Z
    west init -l sof
    west update
 
-Step 3: Install Firmware Toolchains
-===================================
+Step 3: Install Zephyr SDK Toolchain (Mandatory)
+================================================
 
-The primary toolchain for most platforms is the open-source **Zephyr SDK**. For Intel Tensilica Xtensa DSP targets, developers may also optionally use proprietary **Cadence Xtensa Tools (XCC)** or the experimental open-source **LLVM/Clang Xtensa** toolchain.
-
-Option A: Zephyr SDK Toolchain (Default & Recommended)
-------------------------------------------------------
-
-Download and install the official cross-compilation toolchain using ``west sdk install``:
+The **Zephyr SDK** is the mandatory cross-compilation toolchain required for building SOF. Download and install the official toolchain using ``west sdk install``:
 
 .. code-block:: bash
 
@@ -250,8 +245,8 @@ Download and install the official cross-compilation toolchain using ``west sdk i
    west sdk install
    cd ${SOF_WORKSPACE}
 
-Option B: Cadence Xtensa Tools (Optional Proprietary XCC)
----------------------------------------------------------
+Optional: Cadence Xtensa Tools (Proprietary XCC)
+------------------------------------------------
 
 Developers with a Cadence Tensilica license can compile firmware using the proprietary Cadence compiler suite. Ensure your Xtensa tools and core registry are installed and set the environment variables:
 
@@ -265,27 +260,93 @@ Developers with a Cadence Tensilica license can compile firmware using the propr
 
 The SOF build script ``xtensa-build-zephyr.py`` automatically checks for ``XTENSA_TOOLS_ROOT`` and configures the build for your target core.
 
-Option C: LLVM / Clang Xtensa Toolchain (Optional Open-Source)
---------------------------------------------------------------
+Optional: LLVM / Clang Xtensa Toolchain (Open-Source Fork)
+----------------------------------------------------------
 
-For open-source development on Xtensa targets without a Cadence license, an experimental Clang/LLVM cross-compiler toolchain is available:
+For open-source development on Intel ADSP Xtensa targets without a Cadence license, use Liam Girdwood's Xtensa LLVM/Clang development fork (`llvm-project <https://github.com/lgirdwood/llvm-project.git>`_).
 
-.. code-block:: bash
+1. **Clone and Build LLVM/Clang Compiler**:
 
-   cd ${SOF_WORKSPACE}
+   .. code-block:: bash
 
-   # Clone and build LLVM Xtensa compiler
-   git clone https://github.com/thesofproject/llvm-project.git
-   mkdir -p llvm-project/build && cd llvm-project/build
-   cmake -G Ninja -DLLVM_ENABLE_PROJECTS="clang" \
-         -DLLVM_TARGETS_TO_BUILD="" \
-         -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="Xtensa" \
-         -DCMAKE_BUILD_TYPE=Release ..
-   ninja clang llc llvm-mc
+      cd ${SOF_WORKSPACE}
 
-   # Configure Zephyr to use the LLVM toolchain
-   export ZEPHYR_TOOLCHAIN_VARIANT=llvm
-   export LLVM_TOOLCHAIN_PATH=${SOF_WORKSPACE}/llvm-project/build
+      # Clone the Xtensa development fork (llvm-stable branch)
+      git clone -b llvm-stable https://github.com/lgirdwood/llvm-project.git
+      cd llvm-project
+
+      # Configure and build LLVM and Clang
+      cmake -G Ninja -S llvm -B build \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DLLVM_ENABLE_PROJECTS="clang;lld" \
+        -DLLVM_TARGETS_TO_BUILD="host" \
+        -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="Xtensa" \
+        -DLLVM_ENABLE_ASSERTIONS=OFF \
+        -DLLVM_OPTIMIZED_TABLEGEN=ON
+
+      ninja -C build
+
+2. **Build compiler-rt Builtins**:
+
+   Intel ADSP targets require specific builtins to be compiled with correct target features (windowed ABI, HiFi coprocessor disabled to prevent boot-time exceptions):
+
+   .. code-block:: bash
+
+      # Compile and install compiler-rt builtins for Xtensa Windowed ABI
+      ./scripts/build_windowed_rt.sh
+
+      # (Optional) For Call0 ABI if needed:
+      # ./scripts/build_call0_rt.sh
+
+3. **Integrate Fork Development Branches into Workspace**:
+
+   Pull the required ``llvm-stable`` development branches into your workspace repositories:
+
+   .. code-block:: bash
+
+      cd ${SOF_WORKSPACE}
+
+      # 1. SOF repository
+      cd sof
+      git remote add lgirdwood https://github.com/lgirdwood/sof.git
+      git fetch lgirdwood llvm-stable
+      git checkout -b llvm-stable-work
+      git pull lgirdwood llvm-stable
+      cd ..
+
+      # 2. Zephyr repository
+      cd zephyr
+      git remote add lgirdwood https://github.com/lgirdwood/zephyr.git
+      git fetch lgirdwood llvm-stable
+      git checkout -b llvm-stable-work
+      git pull lgirdwood llvm-stable
+      cd ..
+
+      # 3. Xtensa HAL repository (modules/hal/xtensa)
+      cd modules/hal/xtensa
+      git remote add lgirdwood https://github.com/lgirdwood/hal_xtensa.git
+      git fetch lgirdwood llvm-stable
+      git checkout -b llvm-stable-work
+      git pull lgirdwood llvm-stable
+      cd ../../..
+
+4. **Build SOF Using Clang**:
+
+   Pass ``--llvm-clang`` pointing to your LLVM build directory:
+
+   .. code-block:: bash
+
+      cd ${SOF_WORKSPACE}
+      source .venv/bin/activate
+
+      # Meteor Lake / Arrow Lake (mtl / arl)
+      ./sof/scripts/xtensa-build-zephyr.py -p mtl --llvm-clang ${SOF_WORKSPACE}/llvm-project/build --build-dir-suffix -llvm
+
+      # Tiger Lake (tgl)
+      ./sof/scripts/xtensa-build-zephyr.py -p tgl --llvm-clang ${SOF_WORKSPACE}/llvm-project/build --build-dir-suffix -llvm
+
+      # Panther Lake (ptl)
+      ./sof/scripts/xtensa-build-zephyr.py -p ptl --llvm-clang ${SOF_WORKSPACE}/llvm-project/build --build-dir-suffix -llvm
 
 .. note::
 
@@ -399,29 +460,80 @@ Build the host userspace utilities (such as ``sof-ctl``, topology compiler, and 
    # Build native host testbench for bit-exact algorithm verification
    ./sof/scripts/rebuild-testbench.sh
 
-Step 7: Build Loadable Modules (LLEXT)
-======================================
-
-Using Zephyr Linkable Loadable Extensions (LLEXT), standalone audio modules can be built and signed dynamically without modifying or recompiling the base firmware:
-
-- Modules are compiled as relocatable ELF objects (``.llext``) and signed with a manifest using ``rimage``.
-- In-tree modules can be built automatically using ``xtensa-build-zephyr.py`` or built with ``west build`` and CMake (using ``sof_llext_build()``).
-- For complete developer guides on implementing Module Adapters, manifest macros, Kconfig options, and signing workflows, refer to :ref:`llext_modules`.
-
-
 Set up SOF on a Linux machine
 *****************************
 
-You can build the Linux kernel with the latest SOF code and install it locally or remotely with ktest. 
+You can build the Linux kernel with the latest SOF code and install it locally or remotely with ktest.
 
-Do this first:
+.. _prepare-build-environment:
 
-.. toctree::
-   :maxdepth: 1
+Set up a Development Environment to Build the Kernel
+====================================================
 
-   setup_linux/prepare_build_environment
+These instructions will help you set up a development environment for the SOF branch of the Linux kernel. If you have dedicated test hardware, you can use ktest to install it over SSH. Otherwise, you can install it locally on your device in addition to your default kernel.
 
-Then proceed based on if you are installing locally or through ktest:
+Prerequisites:
+
+* **Development device**: PC running Fedora 35+ or Ubuntu 20.04+.
+* **Target device**: PC running Fedora 35+ or Ubuntu 20.04+, with secure boot disabled. If the target device is different than the development device, you must be able to SSH into the target (typically on the same local network or VPN).
+
+1. **Create a working directory**:
+
+   This directory can be located anywhere. Set ``SOF_WORKSPACE`` to your preferred location:
+
+   .. code-block:: bash
+
+      export SOF_WORKSPACE=~/work/sof
+      mkdir -p $SOF_WORKSPACE
+      cd $SOF_WORKSPACE
+
+2. **Install kernel build dependencies**:
+
+   .. tabs::
+
+      .. tab:: Ubuntu / Debian
+
+         .. code-block:: bash
+
+            sudo apt update
+            sudo apt install -y git libncurses-dev gawk flex bison openssl libssl-dev dkms \
+                libelf-dev libudev-dev libpci-dev libiberty-dev autoconf dwarves zstd
+
+      .. tab:: Fedora / RHEL
+
+         .. code-block:: bash
+
+            sudo dnf install -y fedpkg ccache
+            fedpkg clone -a kernel
+            cd kernel
+            sudo dnf builddep -y kernel.spec
+            cd ..
+
+3. **Download the configuration scripts**:
+
+   .. code-block:: bash
+
+      git clone https://github.com/thesofproject/kconfig.git
+
+.. _get-kernel-source:
+
+4. **Get the kernel source**:
+
+   We strongly recommend cloning with git as it makes updates straightforward:
+
+   .. code-block:: bash
+
+      git clone https://github.com/thesofproject/linux.git --depth=1
+      cd linux
+
+   .. note::
+
+      If a maintainer requests that you check out a different branch to test a bug fix, add ``-b [branch]`` to this command. Alternatively, download a zip archive from the `SOF Linux fork on GitHub <https://github.com/thesofproject/linux>`_.
+
+Install Kernel on Target
+========================
+
+Your device is now ready to configure and build the kernel. How to proceed depends on whether you are installing locally or on dedicated test hardware:
 
 .. toctree::
    :maxdepth: 1

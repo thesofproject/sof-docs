@@ -251,11 +251,11 @@ Configure SSH without password
 Build and install the kernel with ktest
 ***************************************
 
-Follow the `prepare build environment <prepare_build_environment.html>`_ instructions before proceeding.
+Follow the :ref:`prepare build environment <prepare-build-environment>` instructions before proceeding.
 
 1. Prepare the ktest environment.
 
-   If you run this in a different terminal than you used for the `prepare build environment <prepare_build_environment.html>`_ instructions, you need to re-set the SOF_WORKSPACE variable by running ``export SOF_WORKSPACE = ~/work/sof``.
+   If you run this in a different terminal than you used for the :ref:`prepare build environment <prepare-build-environment>` instructions, you need to re-set the SOF_WORKSPACE variable by running ``export SOF_WORKSPACE=~/work/sof``.
 
    .. code-block:: bash
 
