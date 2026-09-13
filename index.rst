@@ -25,6 +25,8 @@ Overview & Quick Navigation
     Deep-dives into Topology 2, LLEXT dynamic module loading, real-time trace probing, and debugging.
 * :ref:`API Reference <api>`
     Doxygen-generated C API documentation for firmware interfaces, components, and driver ABIs.
+* :ref:`Frequently Asked Questions (FAQ) <faq>`
+    Quick answers to architectural, algorithmic, hardware compatibility, simulation, and licensing questions.
 
 Documentation Sections
 **********************
@@ -45,3 +47,4 @@ Documentation Sections
    maintainers/index.rst
    api/index.rst
    presentations/index.rst
+   faq/index.rst

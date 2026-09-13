@@ -12,5 +12,11 @@ sphinx>=7
 breathe
 docutils
 sphinx_rtd_theme
+pydata-sphinx-theme
+myst-parser
+sphinx-copybutton
+sphinx-tabs
 sphinxcontrib-plantuml
 sphinxcontrib-applehelp
+sphinxcontrib-jquery
+pyyaml

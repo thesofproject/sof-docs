@@ -3,7 +3,7 @@
 Architecture & System Design
 ############################
 
-Sound Open Firmware (SOF) is designed to run across diverse hardware architectures and is not coupled to any specific DSP or host processor. The architecture is strictly modular: silicon-specific and platform-specific implementations reside in partitioned directories, exposing generic, standardized APIs to the core framework.
+Sound Open Firmware (SOF) is built upon the **Zephyr RTOS** and is designed to run across diverse hardware architectures without being coupled to any specific DSP or host processor. SOF is architected to run on any architecture and SoC supported by Zephyr—spanning Tensilica Xtensa, ARM Cortex-M, and RISC-V targets. The architecture is strictly modular: silicon-specific and platform-specific implementations reside in partitioned directories and Zephyr device drivers, exposing generic, standardized APIs to the core framework.
 
 System & Software Architecture
 ******************************
@@ -438,18 +438,7 @@ At the heart of the firmware is the audio processing pipeline framework:
 
        ctl_vol -> comp_vol [style=dashed, color="#d35400", label="IPC Set Value"];
        ctl_eq -> comp_eq [style=dashed, color="#d35400", label="IPC Set Data"];
-   }
-
-Memory Hierarchy & Dynamic Paging
-=================================
-SOF manages heterogeneous memory spaces:
-* **Tightly Coupled Memories (IRAM/DRAM)**: Low-latency memory dedicated to performance-critical DSP interrupt service routines.
-* **High-Power / Low-Power SRAM Pools**: Dynamically power-gated SRAM banks utilized to minimize power draw during playback.
-* **Isolated Memory Regions (IMR) & Dynamic Paging**: For platforms with constrained on-chip SRAM, SOF dynamically pages code and data between host DRAM (IMR) and DSP SRAM, enabling large features (like complex neural networks or large codec libraries) to execute without requiring oversized SRAM.
-
-Dynamic Module Loading (LLEXT)
-==============================
-Using Zephyr's **Linkable Loadable Extensions (LLEXT)**, SOF supports loading standalone audio modules (such as 3rd-party spatializers, voice algorithms, or proprietary codecs) into DSP memory at runtime without recompiling the base firmware image.
+    }
 
 Audio Topology Architecture
 ***************************
