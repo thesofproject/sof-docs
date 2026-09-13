@@ -1,5 +1,6 @@
 # SOF Supported Platforms Database (Single Source of Truth)
 # Used to generate documentation tables, compatibility matrices, and web cards.
+# Each SoC has its own distinct row.
 
 platforms:
   - id: tgl
@@ -22,6 +23,127 @@ platforms:
     zephyr_target: intel_adsp_cavs25
     target_alias: tgl
     test_dut: Spider
+    status: Mainline Active
+
+  - id: tgl_h
+    vendor: Intel
+    family: CAVS 2.5
+    name: Tiger Lake-H (TGL-H)
+    dsp_arch: Xtensa HiFi3
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces:
+      - "6 x SSP (I2S, TDM, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM"
+      - "SoundWire (SDW 1.1/1.2)"
+    ipc_versions:
+      - IPC4
+      - IPC3
+    zephyr_target: intel_adsp_cavs25_tgph
+    target_alias: tgl-h
+    status: Mainline Active
+
+  - id: adl
+    vendor: Intel
+    family: CAVS 2.5
+    name: Alder Lake (ADL)
+    dsp_arch: Xtensa HiFi3
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces:
+      - "6 x SSP (I2S, TDM, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM"
+      - "SoundWire (SDW 1.2)"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_cavs25
+    target_alias: adl
+    status: Mainline Active
+
+  - id: adl_n
+    vendor: Intel
+    family: CAVS 2.5
+    name: Alder Lake-N (ADL-N)
+    dsp_arch: Xtensa HiFi3
+    cores: 2
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2048 KB HP SRAM"
+    audio_interfaces:
+      - "SSP (I2S, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM"
+      - "SoundWire"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_cavs25
+    target_alias: adl-n
+    status: Mainline Active
+
+  - id: adl_s
+    vendor: Intel
+    family: CAVS 2.5
+    name: Alder Lake-S (ADL-S)
+    dsp_arch: Xtensa HiFi3
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces:
+      - "6 x SSP (I2S, TDM, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM"
+      - "SoundWire (SDW 1.2)"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_cavs25_tgph
+    target_alias: adl-s
+    status: Mainline Active
+
+  - id: rpl
+    vendor: Intel
+    family: CAVS 2.5
+    name: Raptor Lake (RPL)
+    dsp_arch: Xtensa HiFi3
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces:
+      - "6 x SSP (I2S, TDM, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM"
+      - "SoundWire (SDW 1.2)"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_cavs25
+    target_alias: rpl
+    status: Mainline Active
+
+  - id: rpl_s
+    vendor: Intel
+    family: CAVS 2.5
+    name: Raptor Lake-S (RPL-S)
+    dsp_arch: Xtensa HiFi3
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces:
+      - "6 x SSP (I2S, TDM, PCM)"
+      - "HD-Audio (HDA)"
+      - "DMIC / PDM"
+      - "SoundWire (SDW 1.2)"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_cavs25_tgph
+    target_alias: rpl-s
     status: Mainline Active
 
   - id: mtl
@@ -47,7 +169,27 @@ platforms:
   - id: arl
     vendor: Intel
     family: ACE 1.5
-    name: Arrow Lake (ARL / ARL-S)
+    name: Arrow Lake (ARL)
+    dsp_arch: Xtensa HiFi4
+    cores: 4
+    clock_range: "120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM / IMR Paging"
+    audio_interfaces:
+      - "HD-Audio (HDA)"
+      - "SoundWire (SDW 1.2)"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_ace15_mtlm
+    target_alias: arl
+    status: Mainline Active
+
+  - id: arl_s
+    vendor: Intel
+    family: ACE 1.5
+    name: Arrow Lake-S (ARL-S)
     dsp_arch: Xtensa HiFi4
     cores: 4
     clock_range: "120 - 400 MHz"
@@ -106,9 +248,29 @@ platforms:
     test_dut: Aphid
     status: Active Development
 
-  - id: nvl
+  - id: wcl
     vendor: Intel
     family: ACE 3.0
+    name: Wildcat Lake (WCL)
+    dsp_arch: Xtensa HiFi4
+    cores: 4
+    clock_range: "120 - 800 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "HP SRAM / LP SRAM / Dynamic IMR Paging"
+    audio_interfaces:
+      - "SoundWire"
+      - "HD-Audio"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_ace30_wcl
+    target_alias: wcl
+    status: Active Development
+
+  - id: nvl
+    vendor: Intel
+    family: ACE 4.0
     name: Nova Lake (NVL)
     dsp_arch: Xtensa HiFi5
     cores: 4
@@ -122,8 +284,28 @@ platforms:
       - "DMIC / PDM"
     ipc_versions:
       - IPC4
-    zephyr_target: intel_ace30_ptl
+    zephyr_target: intel_adsp_ace40_nvl
     target_alias: nvl
+    status: Future Target
+
+  - id: nvl_s
+    vendor: Intel
+    family: ACE 4.0
+    name: Nova Lake-S (NVL-S)
+    dsp_arch: Xtensa HiFi5
+    cores: 4
+    clock_range: "120 - 800 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "HP SRAM / LP SRAM / Dynamic IMR Paging"
+    audio_interfaces:
+      - "SoundWire"
+      - "HD-Audio"
+      - "SSP (I2S, PCM)"
+      - "DMIC / PDM"
+    ipc_versions:
+      - IPC4
+    zephyr_target: intel_adsp_ace40_nvls
+    target_alias: nvl-s
     status: Future Target
 
   - id: amd_renoir
@@ -149,7 +331,7 @@ platforms:
   - id: amd_rembrandt
     vendor: AMD
     family: Rembrandt
-    name: AMD Rembrandt / Phoenix / Strix
+    name: AMD Rembrandt
     dsp_arch: Xtensa HiFi5
     cores: 1
     clock_range: "200 - 800 MHz"
@@ -166,19 +348,58 @@ platforms:
     target_alias: rmb
     status: Mainline Supported
 
+  - id: amd_phoenix
+    vendor: AMD
+    family: Phoenix
+    name: AMD Phoenix
+    dsp_arch: Xtensa HiFi5
+    cores: 1
+    clock_range: "200 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "1.75 MB HP SRAM / 512 KB IRAM/DRAM"
+    audio_interfaces:
+      - "1 x SP (I2S, PCM)"
+      - "1 x BT (I2S, PCM)"
+      - "1 x HS (I2S, PCM)"
+      - "DMIC"
+    ipc_versions:
+      - IPC4
+    zephyr_target: acp_7_0
+    target_alias: acp_7_0
+    status: Mainline Supported
+
+  - id: amd_strix
+    vendor: AMD
+    family: Strix
+    name: AMD Strix Point
+    dsp_arch: Xtensa HiFi5
+    cores: 1
+    clock_range: "200 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "1.75 MB HP SRAM / 512 KB IRAM/DRAM"
+    audio_interfaces:
+      - "1 x SP (I2S, PCM)"
+      - "1 x BT (I2S, PCM)"
+      - "1 x HS (I2S, PCM)"
+      - "DMIC"
+    ipc_versions:
+      - IPC4
+    zephyr_target: acp_7_x
+    target_alias: acp7x
+    status: Mainline Supported
+
   - id: nxp_imx8
     vendor: NXP
     family: i.MX8
-    name: NXP i.MX8 / i.MX8X / i.MX8M / i.MX8ULP / i.MX9
+    name: NXP i.MX8
     dsp_arch: Xtensa HiFi4
     cores: 1
-    clock_range: "520 - 800 MHz"
+    clock_range: "666 MHz"
     platform_clock: "Variable"
-    memory: "64 KB TCM / 256-448 KB OCRAM / SDRAM"
+    memory: "64 KB TCM / 448 KB OCRAM / 8 MB SDRAM"
     audio_interfaces:
-      - "ESAI"
-      - "SAI"
-      - "MICFIL"
+      - "1 x ESAI"
+      - "1 x SAI"
     ipc_versions:
       - IPC3
       - IPC4
@@ -186,18 +407,112 @@ platforms:
     target_alias: imx8
     status: Mainline Supported
 
+  - id: nxp_imx8x
+    vendor: NXP
+    family: i.MX8X
+    name: NXP i.MX8X
+    dsp_arch: Xtensa HiFi4
+    cores: 1
+    clock_range: "640 MHz"
+    platform_clock: "Variable"
+    memory: "64 KB TCM / 448 KB OCRAM / 8 MB SDRAM"
+    audio_interfaces:
+      - "1 x ESAI"
+      - "1 x SAI"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: nxp_imx8x
+    target_alias: imx8x
+    status: Mainline Supported
+
+  - id: nxp_imx8m
+    vendor: NXP
+    family: i.MX8M
+    name: NXP i.MX8M
+    dsp_arch: Xtensa HiFi4
+    cores: 1
+    clock_range: "800 MHz"
+    platform_clock: "Variable"
+    memory: "64 KB TCM / 256 KB OCRAM / 8 MB SDRAM"
+    audio_interfaces:
+      - "1 x SAI"
+      - "MICFIL"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: nxp_imx8m
+    target_alias: imx8m
+    status: Mainline Supported
+
+  - id: nxp_imx8m_cm7
+    vendor: NXP
+    family: i.MX8M
+    name: NXP i.MX8M Mini (M7)
+    dsp_arch: ARM Cortex-M7
+    cores: 1
+    clock_range: "800 MHz"
+    platform_clock: "Variable"
+    memory: "128 KB TCM / DDR"
+    audio_interfaces:
+      - "1 x SAI"
+      - "MICFIL"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: imx8m_cm7
+    target_alias: imx8m_cm7
+    status: Mainline Supported
+
+  - id: nxp_imx8ulp
+    vendor: NXP
+    family: i.MX8ULP
+    name: NXP i.MX8ULP
+    dsp_arch: Xtensa HiFi4
+    cores: 1
+    clock_range: "520 MHz"
+    platform_clock: "Variable"
+    memory: "64 KB TCM / 256 KB OCRAM / 8 MB SDRAM"
+    audio_interfaces:
+      - "1 x SAI"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: nxp_imx8ulp
+    target_alias: imx8ulp
+    status: Mainline Supported
+
+  - id: nxp_imx95
+    vendor: NXP
+    family: i.MX95
+    name: NXP i.MX95
+    dsp_arch: ARM Cortex-M7
+    cores: 1
+    clock_range: "800 MHz"
+    platform_clock: "Variable"
+    memory: "1 MB SRAM / DDR"
+    audio_interfaces:
+      - "1 x SAI"
+      - "ESAI"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: imx95
+    target_alias: imx95
+    status: Active Development
+
   - id: mtk_mt8195
     vendor: MediaTek
     family: MT8195
-    name: MediaTek MT8195 / MT8186 / MT8188
-    dsp_arch: Xtensa HiFi4 / HiFi5
+    name: MediaTek MT8195
+    dsp_arch: Xtensa HiFi4
     cores: 1
-    clock_range: "220 - 800 MHz"
+    clock_range: "220 - 720 MHz"
     platform_clock: "Variable"
-    memory: "256-512 KB SRAM / 16-17 MB DRAM"
+    memory: "256 KB SRAM / 16 MB DRAM"
     audio_interfaces:
-      - "TDM In/Out"
-      - "I2S In/Out"
+      - "2 x TDM Out"
+      - "1 x TDM In"
       - "DMIC"
     ipc_versions:
       - IPC3
@@ -205,6 +520,65 @@ platforms:
     zephyr_target: mtk_mt8195
     target_alias: mt8195
     status: Mainline Supported
+
+  - id: mtk_mt8186
+    vendor: MediaTek
+    family: MT8186
+    name: MediaTek MT8186
+    dsp_arch: Xtensa HiFi5
+    cores: 1
+    clock_range: "300 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "512 KB SRAM / DRAM"
+    audio_interfaces:
+      - "2 x I2S Out"
+      - "1 x I2S In"
+      - "DMIC"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: mtk_mt8186
+    target_alias: mt8186
+    status: Mainline Supported
+
+  - id: mtk_mt8188
+    vendor: MediaTek
+    family: MT8188
+    name: MediaTek MT8188
+    dsp_arch: Xtensa HiFi5
+    cores: 1
+    clock_range: "26 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "512 KB SRAM / 17 MB DRAM"
+    audio_interfaces:
+      - "2 x TDM Out"
+      - "1 x TDM In"
+      - "DMIC"
+    ipc_versions:
+      - IPC3
+      - IPC4
+    zephyr_target: mtk_mt8188
+    target_alias: mt8188
+    status: Mainline Supported
+
+  - id: mtk_mt8196
+    vendor: MediaTek
+    family: MT8196
+    name: MediaTek MT8196
+    dsp_arch: Xtensa HiFi5
+    cores: 1
+    clock_range: "26 - 800 MHz"
+    platform_clock: "Variable"
+    memory: "SRAM / DRAM"
+    audio_interfaces:
+      - "TDM"
+      - "I2S"
+      - "DMIC"
+    ipc_versions:
+      - IPC4
+    zephyr_target: mtk_mt8196
+    target_alias: mt8196
+    status: Active Development
 
   - id: teensy_41
     vendor: PJRC / NXP
