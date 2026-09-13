@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 440">
+  <style>
+    .sof-bar {
+      fill: #202b38;
+      transition: fill 0.2s ease;
+    }
+    @media (prefers-color-scheme: dark) {
+      .sof-bar {
+        fill: #ffffff;
+      }
+    }
+  </style>
+  <rect class="sof-bar" x="71.5" y="119" width="54" height="155" rx="27" />
+  <rect class="sof-bar" x="152.5" y="65" width="54" height="310" rx="27" />
+  <rect class="sof-bar" x="232.5" y="11" width="55" height="426" rx="27.5" />
+  <rect class="sof-bar" x="313.5" y="119" width="55" height="233" rx="27.5" />
+</svg>

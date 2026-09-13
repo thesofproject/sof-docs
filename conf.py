@@ -198,7 +198,7 @@ html_context = {
 # html_theme_options = {}
 
 html_logo = 'images/logo_sof_white_200w.png'
-html_favicon = 'images/sof-favicon-16x16.png'
+html_favicon = 'images/sof-favicon.svg'
 
 numfig = True
 #numfig_secnum_depth = (2)
@@ -248,6 +248,11 @@ def setup(app):
         app.add_css_file('sof-custom.css')
     except AttributeError:
         app.add_stylesheet('sof-custom.css')
+
+    try:
+        app.add_js_file('sof-custom.js')
+    except AttributeError:
+        app.add_javascript('sof-custom.js')
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

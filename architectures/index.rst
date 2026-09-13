@@ -358,42 +358,44 @@ The SOF firmware architecture is strictly partitioned into two decoupled tiers:
 
    digraph fw_architecture {
        rankdir=TB;
-       nodesep=0.22;
-       ranksep=0.32;
+       nodesep=0.40;
+       ranksep=0.42;
        compound=true;
-       node [shape=box, style="filled,rounded", fontname="Verdana", fontsize=9, margin="0.12,0.06"];
+       node [shape=box, style="filled,rounded", fontname="Verdana", fontsize=9, margin="0.16,0.08"];
        edge [fontname="Verdana", fontsize=8, color="#555555"];
 
        // =========================================================================
        // UPPER PART: SOF APPLICATION LAYER
        // =========================================================================
        subgraph cluster_sof_app {
-           label = "SOF Application Layer (Audio Processing & Framework)";
+           label = "SOF Application Layer (Audio Framework & Processing)";
            style = "filled,rounded";
            color = "#1b4f72";
            fillcolor = "#eef4f9";
            fontname = "Verdana-Bold";
            fontsize = 12;
            fontcolor = "#154360";
+           margin = 16;
 
-           // Top Box: Framework Services, IPC & Schedulers
+           // Row 1: Framework Services, Control & Scheduling
            subgraph cluster_sof_services {
-               label = "Framework Services, IPC & Schedulers";
+               label = "Framework Services, Control & Scheduling";
                style = "dashed,rounded";
                color = "#2980b9";
                fillcolor = "#ffffff";
                fontname = "Verdana-Bold";
                fontsize = 9;
+               margin = 12;
 
-               sof_ipc [label="IPC Protocol Engine\n(IPC4 & IPC3 Dispatcher,\nCommand & Response Handlers)", fillcolor="#d4e6f1"];
-               sof_mem [label="Heterogeneous Memory System\n(HP/LP SRAM Pools, Dynamic IMR Paging,\nCache-Aligned Ring Buffers)", fillcolor="#ebdef0"];
-               sof_sched [label="Real-Time Pipeline Schedulers\n(Low-Latency LL Timer & EDF,\nAudio Task Queues)", fillcolor="#fdebd0"];
+               sof_ipc [label="IPC Protocol Engine\n(IPC4 & IPC3 Protocol Dispatcher,\nCommand & Response Handlers)", fillcolor="#d4e6f1", width=3.3];
+               sof_mem [label="Heterogeneous Memory System\n(HP/LP SRAM Pools, Dynamic IMR Paging,\nCache-Aligned Ring Buffers)", fillcolor="#ebdef0", width=3.5];
+               sof_sched [label="Real-Time Pipeline Schedulers\n(Low-Latency LL Timer & EDF Schedulers,\nAudio Task Queues)", fillcolor="#fdebd0", width=3.4];
 
-               sof_ipc -> sof_mem -> sof_sched [style=invis];
+               sof_ipc -> sof_mem -> sof_sched [style=invis, weight=10];
                { rank=same; sof_ipc; sof_mem; sof_sched; }
            }
 
-           // Bottom Box: Audio Processing Graph & Endpoints
+           // Row 2: Audio Processing Graph & Endpoints
            subgraph cluster_sof_pipeline {
                label = "Audio Processing Graph (DAG), Modules & Stream Endpoints";
                style = "dashed,rounded";
@@ -401,24 +403,26 @@ The SOF firmware architecture is strictly partitioned into two decoupled tiers:
                fillcolor = "#ffffff";
                fontname = "Verdana-Bold";
                fontsize = 9;
+               margin = 12;
 
-               sof_ep_host [label="Host Audio Endpoints\n(Host DMA Copier Streams)", fillcolor="#f9e79f", shape=cds];
-               sof_modules [label="Audio Processing Modules\n(Volume, Mixer, SRC, EQ, DRC,\nAEC, Beamformer, Spatial Audio)", fillcolor="#a9dfbf"];
-               sof_llext [label="Dynamic Module Loader (LLEXT)\n(Relocatable Dynamic Modules,\nManifest & Signature Auth)", fillcolor="#d5f5e3"];
-               sof_ep_dai [label="DAI Audio Endpoints\n(SoundWire, I2S, PDM Copiers)", fillcolor="#f9e79f", shape=cds];
+               sof_ep_host [label="Host Audio Endpoints\n(Host DMA Copier Ingest Streams)", fillcolor="#f9e79f", width=3.3];
+               sof_modules [label="Audio Processing Modules & LLEXT Loader\n(Volume, Mixer, SRC, EQ, DRC, AEC, Beamformer,\nDynamic Relocatable LLEXT Modules)", fillcolor="#a9dfbf", width=3.5];
+               sof_ep_dai [label="DAI Audio Endpoints\n(SoundWire, I2S, PDM Copiers)", fillcolor="#f9e79f", width=3.4];
 
-               sof_ep_host -> sof_modules [label="PCM In", color="#27ae60", weight=20];
-               sof_modules -> sof_ep_dai [label="PCM Out", color="#27ae60", weight=20];
-               sof_llext -> sof_modules [label="loads", style=dashed, color="#2980b9", constraint=false];
-
-               sof_ep_host -> sof_modules -> sof_llext -> sof_ep_dai [style=invis];
-               { rank=same; sof_ep_host; sof_modules; sof_llext; sof_ep_dai; }
+               sof_ep_host -> sof_modules [label="PCM In", color="#27ae60", constraint=false];
+               sof_modules -> sof_ep_dai [label="PCM Out", color="#27ae60", constraint=false];
+               sof_ep_host -> sof_modules -> sof_ep_dai [style=invis, weight=10];
+               { rank=same; sof_ep_host; sof_modules; sof_ep_dai; }
            }
 
-           // Intra-App Control Flows
-           sof_ipc -> sof_ep_host [label="bind/control", style=dotted, color="#2980b9"];
-           sof_mem -> sof_modules [label="buffers", style=dotted, color="#7d3c98"];
-           sof_sched -> sof_modules [label="trigger", color="#d35400"];
+           // Intra-Application Alignment & Signals
+           sof_ipc -> sof_ep_host [style=invis, weight=20];
+           sof_mem -> sof_modules [style=invis, weight=20];
+           sof_sched -> sof_ep_dai [style=invis, weight=20];
+
+           sof_ipc -> sof_ep_host [label="controls", style=dotted, color="#2980b9", constraint=false];
+           sof_mem -> sof_modules [label="buffers", style=dotted, color="#7d3c98", constraint=false];
+           sof_sched -> sof_modules [label="triggers", color="#d35400", constraint=false];
        }
 
        // =========================================================================
@@ -432,8 +436,9 @@ The SOF firmware architecture is strictly partitioned into two decoupled tiers:
            fontname = "Verdana-Bold";
            fontsize = 12;
            fontcolor = "#145a32";
+           margin = 16;
 
-           // Top Subcluster: Device Drivers & Hardware HAL
+           // Row 3: Device Drivers & Hardware HAL
            subgraph cluster_z_drivers {
                label = "Device Drivers & Hardware Abstraction (HAL)";
                style = "dashed,rounded";
@@ -441,54 +446,51 @@ The SOF firmware architecture is strictly partitioned into two decoupled tiers:
                fillcolor = "#ffffff";
                fontname = "Verdana-Bold";
                fontsize = 9;
+               margin = 12;
 
-               z_mailbox [label="Hardware Mailbox & Doorbell\n(Host IPC Interrupt Driver)", fillcolor="#d4e6f1"];
-               z_dma_drv [label="DMA Device Drivers\n(HDA DMA, DW-DMA, Stream APIs)", fillcolor="#d4e6f1"];
-               z_dai_drv [label="DAI Interface Drivers\n(SoundWire Master/Slave, I2S, DMIC)", fillcolor="#d4e6f1"];
+               z_dma_mbx [label="Host DMA & Mailbox Drivers\n(HDA DMA, DW-DMA, Host IPC Doorbell Driver)", fillcolor="#d4e6f1", width=3.3];
+               z_mem_hal [label="Memory Management & Cache HAL\n(sys_heap / k_malloc, Cache Coherence)", fillcolor="#ebdef0", width=3.5];
+               z_dai_drv [label="DAI Interface Drivers\n(SoundWire Master/Slave, I2S, DMIC)", fillcolor="#d4e6f1", width=3.4];
 
-               z_mailbox -> z_dma_drv -> z_dai_drv [style=invis];
-               { rank=same; z_mailbox; z_dma_drv; z_dai_drv; }
+               z_dma_mbx -> z_mem_hal -> z_dai_drv [style=invis, weight=10];
+               { rank=same; z_dma_mbx; z_mem_hal; z_dai_drv; }
            }
 
-           // Bottom Subcluster: Kernel Core, Memory & Power Subsystems
+           // Row 4: Kernel Core, Scheduling & Power Subsystems
            subgraph cluster_z_core {
-               label = "Zephyr Kernel Core, Memory & Power Subsystems";
+               label = "Zephyr Kernel Core, Scheduling & Power Subsystems";
                style = "dashed,rounded";
                color = "#27ae60";
                fillcolor = "#ffffff";
                fontname = "Verdana-Bold";
                fontsize = 9;
+               margin = 12;
 
-               z_log [label="Zephyr Logging & Tracing\n(Dictionary Logging, Trace DMA)", fillcolor="#eaeded"];
-               z_mem_hal [label="Memory Management & Cache HAL\n(sys_heap / k_malloc, Cache Coherence)", fillcolor="#ebdef0"];
-               z_kernel [label="Kernel Multi-Threading & SMP\n(Threads, Workqueues, Semaphores,\nMulti-Core DSP Load Balancing)", fillcolor="#d5f5e3"];
-               z_timer [label="Architecture Timers & Clocks\n(Core Timer Tick, Clock Control)", fillcolor="#d5f5e3"];
-               z_pm [label="Power Management (PM)\n(Device PM, Clock Gating, D0ix / D3)", fillcolor="#fdebd0"];
+               z_log [label="Zephyr Logging & Tracing\n(Dictionary Logging, Trace DMA Hooks)", fillcolor="#eaeded", width=3.3];
+               z_kernel [label="Kernel Multi-Threading & SMP\n(Threads, Workqueues, Semaphores,\nMulti-Core DSP Load Balancing)", fillcolor="#d5f5e3", width=3.5];
+               z_timer_pm [label="Clocks, Timers & Power Management\n(Core Timer Tick, Device PM, D0ix / D3)", fillcolor="#fdebd0", width=3.4];
 
-               z_log -> z_mem_hal -> z_kernel -> z_timer -> z_pm [style=invis];
-               { rank=same; z_log; z_mem_hal; z_kernel; z_timer; z_pm; }
+               z_log -> z_kernel -> z_timer_pm [style=invis, weight=10];
+               { rank=same; z_log; z_kernel; z_timer_pm; }
            }
 
-           // Stacking driver cluster above core cluster
-           z_mailbox -> z_log [style=invis, weight=5];
-           z_dma_drv -> z_mem_hal [style=invis, weight=5];
-           z_dai_drv -> z_kernel [style=invis, weight=5];
+           // Intra-Zephyr Alignment & Signals
+           z_dma_mbx -> z_log [style=invis, weight=20];
+           z_mem_hal -> z_kernel [style=invis, weight=20];
+           z_dai_drv -> z_timer_pm [style=invis, weight=20];
+
+           z_dma_mbx -> z_log [label="trace DMA", style=dotted, color="#7f8c8d", constraint=false];
+           z_mem_hal -> z_kernel [label="allocates", style=dashed, color="#7d3c98", constraint=false];
+           z_dai_drv -> z_timer_pm [label="PM clock gating", style=dotted, color="#d35400", constraint=false];
+           z_timer_pm -> z_kernel [label="timer ticks", color="#27ae60", constraint=false];
        }
 
-       // Inter-Layer Bindings:
-       // Left: IPC & Mailbox
-       sof_ipc -> z_mailbox [label="Doorbell ISR", color="#1b4f72"];
-       sof_ep_host -> z_dma_drv [label="DMA APIs", color="#2980b9"];
-
-       // Center: Memory & Logging
-       sof_mem -> z_mem_hal [label="sys_heap / Cache APIs", color="#7d3c98", weight=5];
-       sof_modules -> z_log [label="LOG_INF / Trace", color="#7f8c8d", style=dashed];
-
-       // Right: Schedulers, DAI & Kernel Core
-       sof_ep_dai -> z_dai_drv [label="DAI APIs", color="#2980b9"];
-       sof_sched -> z_kernel [label="k_thread / k_work", color="#d35400"];
-       sof_sched -> z_timer [label="Timer Tick ISR", color="#d35400"];
-       sof_sched -> z_pm [label="PM state", color="#d35400", style=dotted];
+       // =========================================================================
+       // INTER-LAYER SPINES (STRAIGHT DOWN PARALLEL VERTICAL EDGES)
+       // =========================================================================
+       sof_ep_host -> z_dma_mbx [label="DMA & IPC APIs", color="#2980b9", weight=20];
+       sof_modules -> z_mem_hal [label="SRAM Heap & Cache APIs", color="#7d3c98", weight=20];
+       sof_ep_dai -> z_dai_drv [label="DAI Driver APIs", color="#2980b9", weight=20];
    }
 
 Firmware Subsystem Architecture Breakdown
