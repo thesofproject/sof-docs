@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="8" fill="#FFFFFF" stroke="#D8D8D8" stroke-width="1"/>
+  <!-- Tri-color bars on top -->
+  <rect x="9" y="8" width="6" height="3" rx="1.5" fill="#F58220"/>
+  <rect x="17" y="8" width="6" height="3" rx="1.5" fill="#00A1DE"/>
+  <rect x="25" y="8" width="6" height="3" rx="1.5" fill="#9BC53D"/>
+  <text x="10" y="27" font-family="Arial, sans-serif" font-size="15" font-weight="900" fill="#F58220">N</text>
+  <text x="20" y="27" font-family="Arial, sans-serif" font-size="15" font-weight="900" fill="#00A1DE">X</text>
+  <text x="30" y="27" font-family="Arial, sans-serif" font-size="15" font-weight="900" fill="#9BC53D">P</text>
+</svg>

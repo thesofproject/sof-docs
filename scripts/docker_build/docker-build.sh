@@ -16,8 +16,8 @@ docker build -t ubuntu-sofdocs -f ./sof-docs/scripts/docker_build/Dockerfile ./
 docker run -d --rm --name sofdocs_container ubuntu-sofdocs sleep infinity
 
 if [ $build_docs_only = "FALSE" ]; then
-  echo "Copy SOF Doxygen generated documentation from container to host ./sof/doc/"
-  docker cp sofdocs_container:/home/thesofproject/sof/doc ./sof/
+  echo "Copy SOF Doxygen generated documentation from container to host ./sof/build_doxygen/"
+  docker cp sofdocs_container:/home/thesofproject/sof/build_doxygen ./sof/
 fi
 
 echo "Copy SOF-DOCS generated documentation from container to host ./sof-docs/_build .."

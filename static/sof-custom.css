@@ -21,10 +21,13 @@
 
 /* code block highlight color in rtd changed to lime green, no no no */
 
-.rst-content tt.literal, .rst-content code.literal, .highlight {
+.wy-nav-content .rst-content tt.literal,
+.wy-nav-content .rst-content code.literal,
+.wy-nav-content .highlight {
    background: #f0f0f0;
 }
-.rst-content tt.literal, .rst-content code.literal {
+.wy-nav-content .rst-content tt.literal,
+.wy-nav-content .rst-content code.literal {
     color: #000000;
 }
 
@@ -40,7 +43,7 @@ div > p + ul, div > p + ol {
 
 /* add some space before the figure caption */
 p.caption  {
-#    border-top: 1px solid;
+    /* border-top: 1px solid; */
     margin-top: 1em;
 }
 
@@ -95,3 +98,258 @@ th,td {
 .rst-content div.breathe-sectiondef {
   padding-left: 0 !important;
 }
+
+/* -- PyData Theme Custom Layout Dimensions --------------------------------- */
+
+:root {
+  --pst-sidebar-secondary: 11.5rem !important;
+}
+
+/* Widen overall container on wide displays */
+.bd-page-width {
+  max-width: 98rem !important;
+}
+
+/* Make left primary navigation sidebar slimmer */
+@media (min-width: 960px) {
+  .bd-sidebar-primary {
+    width: 13.5% !important;
+    min-width: 175px !important;
+    max-width: 210px !important;
+    padding: 1rem 0.45rem 1rem !important;
+    font-size: 0.86rem !important;
+  }
+
+  /* Make right secondary TOC sidebar slimmer */
+  .bd-sidebar-secondary {
+    width: 11.5rem !important;
+    min-width: 11.5rem !important;
+    max-width: 12.5rem !important;
+    padding: 1.25rem 0.35rem 1rem !important;
+    font-size: 0.80rem !important;
+  }
+}
+
+/* Vendor icon styling for platform tables */
+img.vendor-icon {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-right: 6px !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 4px !important;
+}
+
+table.docutils td:first-child {
+  white-space: nowrap !important;
+  font-weight: 600 !important;
+}
+
+/* Expand main article container */
+@media (min-width: 1200px) {
+  .bd-main .bd-content .bd-article-container {
+    max-width: 82em !important;
+    padding: 1rem 1.75rem !important;
+  }
+
+  .bd-main .bd-content .bd-article-container .bd-article {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    padding-top: 1.25rem !important;
+  }
+}
+
+/* -- Sphinx-Tabs Modern Styling -------------------------------------------- */
+
+.sphinx-tabs {
+  margin-top: 1.25rem;
+  margin-bottom: 1.75rem;
+  padding: 0;
+}
+
+.sphinx-tabs [role="tablist"] {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--pst-color-border, #d1d5da);
+  margin-bottom: 0;
+  padding-left: 0;
+  gap: 4px;
+}
+
+/* Base tab button */
+.sphinx-tabs-tab {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  line-height: 1.5;
+  padding: 0.6rem 1.25rem;
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background-color: transparent;
+  color: var(--pst-color-text-muted, #677384);
+  cursor: pointer;
+  margin-bottom: -2px;
+  transition: all 0.15s ease-in-out;
+}
+
+.sphinx-tabs-tab:hover {
+  color: var(--pst-color-primary, #0a7d91);
+  background-color: var(--pst-color-surface, rgba(0, 0, 0, 0.04));
+}
+
+.sphinx-tabs-tab:focus-visible {
+  outline: 2px solid var(--pst-color-accent, #0a7d91);
+  outline-offset: 2px;
+}
+
+/* Active tab button (light mode default) */
+.sphinx-tabs-tab[aria-selected="true"] {
+  font-weight: 600;
+  color: var(--pst-color-primary, #0a7d91) !important;
+  background-color: var(--pst-color-on-background, #ffffff) !important;
+  border: 2px solid var(--pst-color-border, #d1d5da) !important;
+  border-top: 2px solid var(--pst-color-primary, #0a7d91) !important;
+  border-bottom: 2px solid var(--pst-color-on-background, #ffffff) !important;
+  margin-bottom: -2px;
+  z-index: 2;
+}
+
+/* Tab content panel (light mode default) */
+.sphinx-tabs-panel {
+  border: 2px solid var(--pst-color-border, #d1d5da);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  background-color: var(--pst-color-on-background, #ffffff);
+  color: var(--pst-color-text-base, #222832);
+  padding: 1.25rem;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.sphinx-tabs-panel[hidden] {
+  display: none !important;
+}
+
+.sphinx-tabs-panel .highlight {
+  margin: 0 !important;
+  background-color: var(--pst-color-surface, #f8fafc) !important;
+  border: 1px solid var(--pst-color-border, #d1d5da) !important;
+  border-radius: 6px;
+}
+
+.sphinx-tabs-panel .highlight pre {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background-color: transparent !important;
+  color: inherit;
+}
+
+/* -- Dark Mode Overrides (PyData Theme data attributes) -- */
+
+html[data-theme="dark"] .sphinx-tabs [role="tablist"],
+html[data-mode="dark"] .sphinx-tabs [role="tablist"] {
+  border-bottom-color: var(--pst-color-border, #48566b) !important;
+}
+
+html[data-theme="dark"] .sphinx-tabs-tab,
+html[data-mode="dark"] .sphinx-tabs-tab {
+  color: var(--pst-color-text-muted, #9ca4af) !important;
+  background-color: transparent !important;
+}
+
+html[data-theme="dark"] .sphinx-tabs-tab:hover,
+html[data-mode="dark"] .sphinx-tabs-tab:hover {
+  color: var(--pst-color-text-base, #ffffff) !important;
+  background-color: var(--pst-color-surface, #29313d) !important;
+}
+
+html[data-theme="dark"] .sphinx-tabs-tab[aria-selected="true"],
+html[data-mode="dark"] .sphinx-tabs-tab[aria-selected="true"] {
+  color: var(--pst-color-text-base, #ffffff) !important;
+  background-color: #222832 !important;
+  border-color: var(--pst-color-border, #48566b) !important;
+  border-top: 2px solid var(--pst-color-primary, #0a7d91) !important;
+  border-bottom: 2px solid #222832 !important;
+}
+
+html[data-theme="dark"] .sphinx-tabs-panel,
+html[data-mode="dark"] .sphinx-tabs-panel {
+  background-color: #222832 !important;
+  border-color: var(--pst-color-border, #48566b) !important;
+  color: var(--pst-color-text-base, #ced6dd) !important;
+}
+
+html[data-theme="dark"] .sphinx-tabs-panel .highlight,
+html[data-mode="dark"] .sphinx-tabs-panel .highlight,
+html[data-theme="dark"] .highlight,
+html[data-mode="dark"] .highlight {
+  background-color: #14181e !important;
+  border-color: #364150 !important;
+  color: var(--pst-color-text-base, #ced6dd) !important;
+}
+
+html[data-theme="dark"] .sphinx-tabs-panel .highlight pre,
+html[data-mode="dark"] .sphinx-tabs-panel .highlight pre {
+  background-color: transparent !important;
+  color: #ced6dd !important;
+}
+
+html[data-theme="dark"] button.copybtn,
+html[data-mode="dark"] button.copybtn {
+  background-color: var(--pst-color-surface, #29313d) !important;
+  color: var(--pst-color-text-base, #ced6dd) !important;
+  border-color: var(--pst-color-border, #48566b) !important;
+}
+
+/* -- System Dark Mode Fallback (@media prefers-color-scheme) -- */
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs [role="tablist"] {
+    border-bottom-color: var(--pst-color-border, #48566b) !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-tab {
+    color: var(--pst-color-text-muted, #9ca4af) !important;
+    background-color: transparent !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-tab:hover {
+    color: var(--pst-color-text-base, #ffffff) !important;
+    background-color: var(--pst-color-surface, #29313d) !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-tab[aria-selected="true"] {
+    color: var(--pst-color-text-base, #ffffff) !important;
+    background-color: #222832 !important;
+    border-color: var(--pst-color-border, #48566b) !important;
+    border-top: 2px solid var(--pst-color-primary, #0a7d91) !important;
+    border-bottom: 2px solid #222832 !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-panel {
+    background-color: #222832 !important;
+    border-color: var(--pst-color-border, #48566b) !important;
+    color: var(--pst-color-text-base, #ced6dd) !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-panel .highlight,
+  html:not([data-theme="light"]):not([data-mode="light"]) .highlight {
+    background-color: #14181e !important;
+    border-color: #364150 !important;
+    color: var(--pst-color-text-base, #ced6dd) !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) .sphinx-tabs-panel .highlight pre {
+    background-color: transparent !important;
+    color: #ced6dd !important;
+  }
+
+  html:not([data-theme="light"]):not([data-mode="light"]) button.copybtn {
+    background-color: var(--pst-color-surface, #29313d) !important;
+    color: var(--pst-color-text-base, #ced6dd) !important;
+    border-color: var(--pst-color-border, #48566b) !important;
+  }
+}
+

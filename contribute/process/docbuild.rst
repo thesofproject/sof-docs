@@ -151,17 +151,22 @@ tools:
 .. code-block:: bash
 
    cd ~/thesofproject/sof-docs
-   pip3 install --user -r scripts/requirements.txt
+   pip3 install --user -r scripts/requirements.txt -c scripts/constraints.txt
 
-.. note:: The :git-sof-docs-mainline:`scripts/requirements.txt` file hardcodes
-   versions using ``==``, which may not be compatible with your other
-   projects. In that case you can either setup a Python ``virtualenv`` or
-   try the unsupported :git-sof-docs-mainline:`scripts/requirements-lax.txt`
-   (more details inside this file):
+The :git-sof-docs-mainline:`scripts/constraints.txt` lockfile pins the full
+dependency tree to exact, validated versions for a reproducible build. It
+targets a modern Python (3.12 or newer); use a ``virtualenv`` if those pinned
+versions conflict with your other projects.
+
+.. note:: For a quick "best effort" install that is not pinned (for example a
+   drive-by typo fix), you can skip the lockfile and use the unsupported
+   :git-sof-docs-mainline:`scripts/requirements-lax.txt` instead (more details
+   inside this file):
 
    .. code-block:: bash
 
       PIP_IGNORE_INSTALLED=0 pip3 install --user -r scripts/requirements-lax.txt
+
 
 For Windows, install the needed tools manually:
 
@@ -224,8 +229,8 @@ Docker image (2)
 
      cd thesofproject
      # API documentation (Doxygen)
-     cmake -S sof/doc -B sof/doc -GNinja
-     ninja -C sof/doc -v doc
+     cmake -S sof/doc -B sof/build_doxygen -GNinja
+     ninja -C sof/build_doxygen -v doc
      # UML and reStructuredText
      make  -C sof-docs VERBOSE=1 html
 
@@ -291,7 +296,7 @@ publishing.
 
 .. note::
    In some situations it is necessary to clean all the files and build from
-   the very beginning. To do this, use the ``make clean`` command.
+   the very beginning. To do this, use the ``make -C sof-docs clean`` command.
 
 Installation troubleshooting
 ****************************

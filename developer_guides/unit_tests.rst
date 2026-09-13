@@ -6,7 +6,7 @@ Unit Tests
 Prerequisites
 *************
 
-This guide assumes that you have the proper setup and that you know how to build firmware. If this is not correct, follow the instructions at :doc:`../getting_started/build-guide/build-from-scratch` first.
+This guide assumes that you have the proper setup and that you know how to build firmware. If this is not correct, follow the instructions at :ref:`build_sof` first.
 
 `Cmocka <https://cmocka.org/>`_ is fetched and built automatically.
 For a successful compilation, it needs a toolchain thats supports C stdlib.

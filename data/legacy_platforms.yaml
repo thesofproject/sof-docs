@@ -1,0 +1,169 @@
+# SOF Legacy Platforms Database (Platforms No Longer Supported in Mainline)
+# Used to generate the legacy platforms compatibility matrix.
+# Each SoC has its own distinct row.
+
+legacy_platforms:
+  - id: byt
+    vendor: Intel
+    name: Bay Trail (BYT)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi2 EP
+    cores_clocks: "1 @ 50 - 400 MHz"
+    platform_clock: "25 MHz"
+    memory: "96 KB IRAM / 192 KB DRAM"
+    audio_interfaces: "3 x SSP (I2S, PCM)"
+
+  - id: mrfl
+    vendor: Intel
+    name: Merrifield (MRFL)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi2 EP
+    cores_clocks: "1 @ 50 - 400 MHz"
+    platform_clock: "25 MHz"
+    memory: "96 KB IRAM / 192 KB DRAM"
+    audio_interfaces: "3 x SSP (I2S, PCM)"
+
+  - id: cht
+    vendor: Intel
+    name: Cherry Trail (CHT)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi2 EP
+    cores_clocks: "1 @ 50 - 400 MHz"
+    platform_clock: "19.2 MHz"
+    memory: "96 KB IRAM / 192 KB DRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM)"
+
+  - id: bsw
+    vendor: Intel
+    name: Braswell (BSW)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi2 EP
+    cores_clocks: "1 @ 50 - 400 MHz"
+    platform_clock: "19.2 MHz"
+    memory: "96 KB IRAM / 192 KB DRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM)"
+
+  - id: bdw
+    vendor: Intel
+    name: Broadwell (BDW)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi2 EP
+    cores_clocks: "1 @ 50 - 400 MHz"
+    platform_clock: "24 MHz"
+    memory: "320 KB IRAM / 640 KB DRAM"
+    audio_interfaces: "2 x SSP (I2S, PCM)"
+
+  - id: apl
+    vendor: Intel
+    name: Apollo Lake (APL)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "2 @ 100 - 400 MHz"
+    platform_clock: "19.2 MHz"
+    memory: "128 KB LP SRAM / 512 KB HP SRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM), HDA, DMIC"
+
+  - id: glk
+    vendor: Intel
+    name: Gemini Lake (GLK)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "2 @ 100 - 400 MHz"
+    platform_clock: "19.2 MHz"
+    memory: "128 KB LP SRAM / 512 KB HP SRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM), HDA, DMIC"
+
+  - id: cnl
+    vendor: Intel
+    name: Cannon Lake (CNL)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "4 @ 120 - 400 MHz"
+    platform_clock: "24 MHz"
+    memory: "64 KB LP / 3008 KB HP SRAM"
+    audio_interfaces: "3 x SSP (I2S, PCM), HDA, DMIC, SoundWire"
+
+  - id: whl
+    vendor: Intel
+    name: Whiskey Lake (WHL)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "4 @ 120 - 400 MHz"
+    platform_clock: "24 MHz"
+    memory: "64 KB LP / 3008 KB HP SRAM"
+    audio_interfaces: "3 x SSP (I2S, PCM), HDA, DMIC, SoundWire"
+
+  - id: cml
+    vendor: Intel
+    name: Comet Lake (CML)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "4 @ 120 - 400 MHz"
+    platform_clock: "24 MHz"
+    memory: "64 KB LP / 3008 KB HP SRAM"
+    audio_interfaces: "3 x SSP (I2S, PCM), HDA, DMIC, SoundWire"
+
+  - id: snc
+    vendor: Intel
+    name: Sue Creek (SNC)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "2 @ 120 - 400 MHz"
+    platform_clock: "24 MHz"
+    memory: "64 KB LP SRAM / 4096 KB HP SRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM), DMIC"
+
+  - id: icl
+    vendor: Intel
+    name: Ice Lake (ICL)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "4 @ 120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 3008 KB HP SRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM), HDA, DMIC, SoundWire"
+
+  - id: jsl
+    vendor: Intel
+    name: Jasper Lake (JSL)
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "2 @ 120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 1024 KB HP SRAM"
+    audio_interfaces: "3 x SSP (I2S, PCM), HDA, DMIC, SoundWire"
+
+  - id: tgl_ipc3
+    vendor: Intel
+    name: Tiger Lake (TGL) with IPC3
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "4 @ 120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM), HDA, DMIC, SoundWire"
+
+  - id: adl_ipc3
+    vendor: Intel
+    name: Alder Lake (ADL) with IPC3
+    last_release: "2.2"
+    branch: stable-v2.2
+    dsp_arch: Xtensa HiFi3
+    cores_clocks: "4 @ 120 - 400 MHz"
+    platform_clock: "38.4 MHz"
+    memory: "64 KB LP SRAM / 2944 KB HP SRAM"
+    audio_interfaces: "6 x SSP (I2S, PCM), HDA, DMIC, SoundWire"

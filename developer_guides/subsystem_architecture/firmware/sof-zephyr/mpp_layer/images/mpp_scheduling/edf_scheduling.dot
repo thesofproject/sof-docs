@@ -1,0 +1,23 @@
+digraph edf_scheduling {
+   rankdir = LR;
+   node [shape = box, fontsize = 12];
+
+   Comp_1 [label = "DP component 1\n* processing period\n* compute requirement"];
+   Comp_2 [label = "DP component 2\n* processing period\n* compute requirement"];
+   Comp_3 [label = "DP component 3\n* processing period\n* compute requirement"];
+   Comp_4 [label = "DP component 4\n* processing period\n* compute requirement"];
+
+   sink [label = "real time sink", shape = doublecircle];
+
+   comment_1 [label = "DP1 to deliver data let\nDP2 meet its objective", shape = note];
+   comment_2 [label = "DP2 to deliver data let\nDP3 meet its objective", shape = note];
+   comment_3 [label = "DP3 to deliver data let\nDP4 meet its objective", shape = note];
+   comment_4 [label = "DP4 to deliver data\nto real time-sink", shape = note];
+
+   Comp_1 -> Comp_2 -> Comp_3 -> Comp_4 -> sink;
+
+   comment_1 -> Comp_2 [style = dashed];
+   comment_2 -> Comp_3 [style = dashed];
+   comment_3 -> Comp_4 [style = dashed];
+   comment_4 -> sink   [style = dashed];
+}

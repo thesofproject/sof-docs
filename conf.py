@@ -32,12 +32,27 @@ sys.path.insert(0, os.path.abspath('.'))
 # ones.
 
 
-# FIXME: blockdiag is orphaned and not compatible with Pillow anymore:
-# https://github.com/thesofproject/sof-docs/issues/472
 extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml',
-              'sphinx.ext.todo', 'sphinx.ext.extlinks', 'sphinxcontrib.blockdiag',
-              'sphinxcontrib.jquery'
+              'sphinx.ext.todo', 'sphinx.ext.extlinks',
+              'sphinxcontrib.jquery',
+              'sphinx_copybutton',
+              'sphinx_tabs.tabs'
 ]
+
+# Copybutton configuration: strip console prompts ($, #, >>>) and handle continuation lines
+copybutton_prompt_text = r">>> |\.\.\. |\$ |# |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+copybutton_line_continuation_character = "\\"
+
+# Sphinx-tabs configuration
+sphinx_tabs_disable_tab_closing = True
+sphinx_tabs_disable_css_loading = True
+
+try:
+    import myst_parser
+    extensions.append('myst_parser')
+except ImportError:
+    pass
 
 
 graphviz_output_format='svg'
@@ -63,10 +78,10 @@ plantuml_output_format = 'svg'
 templates_path = ['_templates']
 
 # Fixes "WARNING: Error when parsing function declaration."
-c_id_attributes = ["__sparse_cache"]
-# Not clear why Sphinx thinks some C files are C++
+c_id_attributes = ["__sparse_cache", "__syscall"]
 cpp_id_attributes = c_id_attributes
 # cpp_paren_attributes = ["_ALIAS_OF", "__printf_like"]
+breathe_domain_by_extension = {"h": "c"}
 
 # The suffix(es) of source filenames.
 # You can specify multiple suffix as a list of string:
@@ -79,7 +94,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'SOF Project'
-copyright = u'2024, SOF Project'
+copyright = u'2026, SOF Project'
 author = u'SOF Project developers'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -104,7 +119,24 @@ language = 'en'
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ['_build','.tox' ]
+# Note: a virtualenv created inside this source tree (.venv, venv, env, ...)
+# would otherwise be scanned by Sphinx and flood the build with warnings
+# about .rst files shipped in installed packages.
+exclude_patterns = [
+    '_build',
+    '.tox',
+    '.venv*',
+    'venv',
+    'env',
+    'README.md',
+    'scripts/*.md',
+    'sof',
+    'sof/**',
+    '_deps',
+    '_deps/**',
+    '_build_doxy',
+    '_build_doxy/**',
+]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -118,30 +150,41 @@ todo_include_todos =False
 # a list of builtin themes.
 #
 try:
-    import sphinx_rtd_theme
-except ImportError:
-    html_theme = 'alabaster'
-    # This is required for the alabaster theme
-    # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-    html_sidebars = {
-        '**': [
-            'relations.html',  # needs 'show_related': True theme option to display
-            'searchbox.html',
-            ]
-        }
-    sys.stderr.write('Warning: sphinx_rtd_theme missing. Use pip to install it.\n')
-else:
-    html_theme = "sphinx_rtd_theme"
+    import pydata_sphinx_theme
+    html_theme = "pydata_sphinx_theme"
     html_theme_options = {
-        'canonical_url': '',
-        'analytics_id': 'GTM-M4BL5NF',
-        'logo_only': False,
-        'prev_next_buttons_location': 'None',
-        # Toc options
-        'collapse_navigation': False,
-        'sticky_navigation': True,
-        'navigation_depth': 4,
+        "github_url": "https://github.com/thesofproject/sof",
+        "external_links": [
+            {"name": "SOF Project Website", "url": "https://sofproject.org"}
+        ],
+        "navbar_end": ["theme-switcher", "navbar-icon-links"],
     }
+except ImportError:
+    try:
+        import sphinx_rtd_theme
+    except ImportError:
+        html_theme = 'alabaster'
+        # This is required for the alabaster theme
+        # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
+        html_sidebars = {
+            '**': [
+                'relations.html',  # needs 'show_related': True theme option to display
+                'searchbox.html',
+                ]
+            }
+        sys.stderr.write('Warning: sphinx_rtd_theme missing. Use pip to install it.\n')
+    else:
+        html_theme = "sphinx_rtd_theme"
+        html_theme_options = {
+            'canonical_url': '',
+            'analytics_id': 'GTM-M4BL5NF',
+            'logo_only': False,
+            'prev_next_buttons_location': 'None',
+            # Toc options
+            'collapse_navigation': False,
+            'sticky_navigation': True,
+            'navigation_depth': 4,
+        }
 
 
 # Here's where we (manually) list the document versions maintained on
@@ -169,7 +212,7 @@ html_context = {
 # html_theme_options = {}
 
 html_logo = 'images/logo_sof_white_200w.png'
-html_favicon = 'images/sof-favicon-16x16.png'
+html_favicon = 'images/sof-favicon.svg'
 
 numfig = True
 #numfig_secnum_depth = (2)
@@ -197,12 +240,33 @@ extlinks = {
 html_static_path = ['static']
 
 def setup(app):
-# add_stylesheet() was renamed to add_css_file() in sphinx 1.8 released
-# in September 2018. add_stylesheet() will be removed in sphinx 4.0
+    import logging
+    from sphinx.util.logging import NAMESPACE, WarningStreamHandler
+
+    class BreatheAnonymousUnionFilter(logging.Filter):
+        def filter(self, record):
+            msg = record.getMessage()
+            # Suppress breathe limitation parsing anonymous union in struct bind_info
+            if "bind_info" in msg or "Expected identifier in nested name" in msg:
+                return False
+            return True
+
+    logger = logging.getLogger(NAMESPACE)
+    for handler in logger.handlers:
+        if isinstance(handler, WarningStreamHandler):
+            handler.filters.insert(0, BreatheAnonymousUnionFilter())
+
+    # add_stylesheet() was renamed to add_css_file() in sphinx 1.8 released
+    # in September 2018. add_stylesheet() will be removed in sphinx 4.0
     try:
         app.add_css_file('sof-custom.css')
     except AttributeError:
         app.add_stylesheet('sof-custom.css')
+
+    try:
+        app.add_js_file('sof-custom.js')
+    except AttributeError:
+        app.add_javascript('sof-custom.js')
 
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.

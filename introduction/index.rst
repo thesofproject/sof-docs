@@ -3,246 +3,76 @@
 Introduction to the SOF Project
 ###############################
 
-|SOF| (SOF) is an open source audio Digital Signal Processing (DSP) firmware
-infrastructure and SDK. SOF provides infrastructure, real-time control
-pieces, and audio drivers as a community project. The project is governed by
-the |SOF| |TSC| (TSC) that includes prominent and active developers from the
-community. SOF is developed in public and hosted on the github platform.
+Sound Open Firmware (SOF) is a permissively licensed, open-source, vendor-independent audio Digital Signal Processing (DSP) firmware infrastructure, SDK, and host driver framework. 
 
-The firmware and SDK are intended for developers who are interested in
-audio or signal processing on modern DSPs. SOF provides a framework where
-audio developers can create, test, and tune the following:
+Governed under the Linux Foundation and directed by the SOF Technical Steering Committee (TSC), the project provides transparent, real-time audio processing infrastructure for modern computing devices spanning embedded microcontrollers to multi-core client architectures.
 
-- Audio processing pipelines and topologies.
+.. figure:: images/sof-waveform.jpeg
+   :alt: Sound Open Firmware audio DSP processing
+   :align: center
 
-- Audio processing components.
+Project Mission
+***************
 
-- DSP infrastructure and drivers.
+The mission of the SOF project is to:
 
-- Host OS infrastructure and drivers.
+1. **Democratize Audio DSP Development**: Provide open-source audio firmware and software infrastructure that can be blended with audio processing algorithms (including 3rd-party proprietary algorithms) to provide developers with a rich, customizable method to bring high-quality audio processing to many devices.
+2. **Standardize Across Architectures**: Enable a unified firmware core and API capable of running seamlessly across diverse DSP architectures (Xtensa HiFi3/HiFi4/HiFi5, ARM Cortex-M, RISC-V) and silicon vendors (Intel, AMD, NXP, MediaTek, Espressif, PJRC).
+3. **Foster Innovation in Audio Algorithms**: Empower audio algorithm researchers and software engineers to develop, deploy, and tune advanced signal processing modules (e.g. spatial audio, voice processing, noise cancellation, neural audio processing) with standard tooling.
+4. **Deliver Enterprise-Grade Reliability & Low Power**: Support aggressive power gating (D0ix runtime idle, D3 cold suspend), dynamic memory paging (IMR), and low-latency audio pipelines meeting demanding client and embedded requirements.
 
-..  figure::  images/pipeline-overview.png
-	:align: center
-	:alt: SDK Overview
-	:width: 1000px
-	:height: 300px
+Benefits of Audio DSP Offloading
+********************************
 
-	`Example Equalizer pipeline with host OS control of EQ coefficients and pipeline volume.`
+Modern computing platforms incorporate dedicated audio DSPs to offload real-time signal processing from host general-purpose CPUs. Offloading audio workloads to SOF provides four foundational advantages:
 
+1. **Lower Power than Host CPU**: Audio DSPs are purpose-built architectures optimized for continuous, energy-efficient streaming with specialized SIMD instruction sets (such as Tensilica HiFi or ARM Helium) and aggressive power gating (D0ix states, power-islanded SRAM pools). Offloading allows power-hungry host CPU cores and high-speed DRAM interfaces to remain in deep sleep states (C-states / S0ix) during audio playback and always-on voice listening.
+2. **Lower Latency Processing than Host**: Operating on dedicated real-time DSP hardware running the Zephyr RTOS enables deterministic, sub-millisecond pipeline scheduling without the scheduling jitter, thread preemption, page faults, or context-switching overhead inherent in general-purpose host operating systems.
+3. **More Vertical Audio Stack**: All audio pre-processing (microphone array beamforming, acoustic echo cancellation, noise suppression) and post-processing (parametric equalization, dynamic range compression, speaker protection, spatial audio) are centralized directly within the DSP firmware for all physical audio endpoints (SoundWire, I2S, HD-Audio, USB, Bluetooth). This establishes a consistent, high-fidelity signal chain independent of host OS variants or user-space sound servers.
+4. **Free Up Host CPU for Other Work**: Intensive signal processing tasks—such as high-order polyphase sample rate conversion (SRC), multi-stream mixing, codec decoding/encoding, and neural speech enhancement—execute entirely on the DSP, liberating valuable host CPU cycles and memory bandwidth for applications, gaming, and OS workloads.
 
-|SOF| has a modular and generic codebase and can be ported to different DSP
-architectures or host platforms. See the list of currently supported DSP
-architecures and supported platforms.
+Architecture Overview
+*********************
 
+Sound Open Firmware supports two foundational deployment models tailored for diverse device form-factors:
 
-SDK Introduction and Overview
-=============================
+* **Host-Based Architecture**: Where the audio DSP is coupled to a host application processor running **Linux**, **Android**, or **ChromeOS**. The host OS driver stack (mainline Linux ``sound/soc/sof/``) manages firmware lifecycle, dynamic topology loading, and power management (D0ix/D3), while audio data streams through host DMA memory windows via IPC (IPC3/IPC4).
+* **Hostless (Standalone / Embedded) Architecture**: Where SOF runs autonomously on microcontrollers and standalone DSPs (such as the **ESP32-P4** or **Teensy 4.1 / i.MX RT1062**) atop the Zephyr RTOS. These systems process audio directly between physical hardware peripherals (I2S, SoundWire, PDM microphones, and Bluetooth transceivers) using ROM-embedded static topologies.
 
-The |SOF| SDK is comprised of many ingredients that can be customized for
-use in the firmware/software development lifecycle. Customization allows for
-a "best fit" development approach where the SDK can be optimized for a
-particular process or environment. Some SDK ingredients are optional while
-there can be more than once choice for other ingredients as shown in the diagram below.
+.. seealso::
+   For complete system stack diagrams, hostless designs, real-time pipeline DAGs, and memory hierarchy details, refer to the comprehensive :ref:`Architecture & System Design <architectures>` documentation.
 
-..	figure::  images/sdk-overview.png
-	:align: center
-	:alt: SDK Overview
-	:width: 1000px
 
-	`SDK example configuration showing development flow for SOF on the Intel Apollo Lake platform running Linux OS. Note the choice of compiler toolchains and choice of optional DSP emulators.`
+Development & Build Workflows
+*****************************
 
+The SOF project provides a comprehensive SDK comprising modern LLVM/Clang cross-compiler toolchains with Integrated Assembler (IAS), firmware image packaging and signing utilities (``rimage``), real-time string dictionary extractors (``smex``), QEMU DSP simulation environments, and automated hardware-in-the-loop test bridges.
 
-SOF source code, tools, and topologies
---------------------------------------
+.. seealso::
+   To explore the full SDK development workflow diagram and step-by-step compilation guides, see the :ref:`Getting Started Guides <getting_started>`.
 
-All firmware, tools, and topologies exists in the main SOF git repository.
-On a high level, the repo contains:
+Licensing & Governance
+**********************
 
-- Firmware - written in C with some architecture-specific assembler; it does not link to external dependencies.
+The SOF project embraces open, permissive licensing to encourage broad industry adoption while protecting community contributions:
 
-- Test Bench - allows firmware components and pipelines to run on developers' host PCs.
+Firmware License
+================
+* **BSD 3-Clause License**: The core firmware codebase is released under the permissive BSD 3-Clause license, with certain helper components under MIT.
+* **Proprietary & 3rd-Party Modules**: The permissive license permits commercial vendors and research teams to implement custom or proprietary audio processing modules without being forced to open-source proprietary IP.
 
-- Image Tools - C tools for converting ELF files to binary firmware images that can run on HW.
+Host Driver License
+===================
+* **Dual BSD / GPLv2**: Core platform-independent driver abstractions are dual-licensed BSD 3-Clause / GPLv2.
+* **Linux Kernel Upstream (GPLv2)**: The Linux kernel integration layers upstream in ``sound/soc/sof/`` are licensed under the GNU General Public License v2 (GPLv2).
 
-- Debug Tools - scripts and tools that can be used to debug firmware.
+Topology & SDK Tools License
+============================
+* All topology definitions, build scripts, packaging utilities (`rimage`), and development tools are licensed under permissive licenses (BSD 3-Clause or MIT).
 
-- Trace Tools - text-based tools that can display tracing data from firmware.
+Project Governance
+==================
+SOF is an open-source project hosted under the Linux Foundation. Technical direction is governed by the **Technical Steering Committee (TSC)**, representing member companies, independent developers, and audio hardware manufacturers. All architectural decisions, RFCs, and code reviews are conducted transparently in public on GitHub.
 
-- Tuning Tools - MATLAB/Octave scripts that can be used to create tuning coefficients for audio components.
-
-- Runtime Tools - command line applications that can be used to exchange data with running firmware.
-
-- Topologies - real and example topologies that show construction of simple and complex audio processing pipelines.
-
-
-Host OS Drivers
----------------
-
-SOF can be configured and controlled by a host OS driver or it can
-optionally run as standalone firmware. SOF host drivers currently support
-Linux OS.
-
-The SOF driver has a modular stack-based architecture that is dual-licensed
-BSD & GPL code, allowing it to be ported to other OSes and RTOSes.
-
-The host driver is responsible for:
-
-- Loading firmware from the host file system into DSP memories and booting.
-
-- Loading topologies from the host file system into DSP.
-
-- Exposing audio control devices to applications.
-
-- Exposing audio data endpoints to applications.
-
-- Managing IPC communication between the host and DSP.
-
-- Abstraction of the host-side DSP hardware to common API operations.
-
-The Linux SOF ALSA/ASoC driver is upstream in Linux v5.2 onwards.
-
-
-Firmware Toolchain
-------------------
-
-GNU GCC can be used as a free SOF compiler alongside proprietary DSP vendor
-compilers. The choice of compiler is up to the user, depending on features
-and budget. GCC complier is open source.
-
-
-DSP Emulator
-------------
-
-Qemu can be used to provide a functional emulator to simultaneously trace and
-debug driver and DSP firmware code. Proprietary emulators are also available.
-
-Emulation is also used within SOF CI for feature validation prior to merging
-new code.
-
-
-General FAQ
-===========
-
-What license does the firmware use?
-  The firmware is released using a standard BSD 3-clause license with some
-  files released under MIT.
-
-Do I need to open source my firmware code changes?
-  No. The firmware BSD and MIT licensed code means you can keep code
-  changes private. Patches are always welcomed if you do decide to open
-  source work.
-
-What license does the host driver use?
-  Most of the host driver code is dual-licensed BSD or GLPLv2 only
-  (user's choice). The part of the driver that is GPLv2 only is the Linux
-  integration layer at the top of the driver stack.
-
-Do I need to open source my driver code changes?
-  No, for the bottom two layers of the driver stack. For example, if you are
-  porting the driver to another OS, these changes can be kept private. Note
-  that all driver GPL source files are Linux-specific and should not be
-  ported to another OS.
-
-How can I get involved?
-  The best way to get involved is via github. You can also join our
-  low-volume `mailing list <http://alsa-project.org/mailman/listinfo/sound-open-firmware>`_.
-
-What is the development model?
-  |SOF| is entirely developed on github. Patches via Pull Requests are
-  reviewed, discussed, and tested by CI before being merged. The intended
-  release cadence is every 6 - 8 weeks. A stable release is tagged after
-  passing QA; development continues for the next release.
-
-Who works on |SOF|?
-  Professional developers from a number of companies (check the git
-  logs if you want to know) with some hobbyist developers, too.
-
-How do I add support for host architecture X?
-  See the SOF architecture pages.
-
-How do I add support for host platform X?
-  Adding a new host platform is a lot simpler than adding a new DSP
-  architecture. A new host platform consists of adding a new src/platform/
-  directory, together with mappings for memory, IRQs, GPIOs, and peripheral
-  devices in the DSP memory space. New drivers may also have to be added
-  (e.g. for DMA, I2S) to the drivers directory.
-
-How do I port to other OSes?
-  See the SOF host architecture page.
-
-What audio components are supported?
-  |SOF| now supports a small library of free and open source components that
-  are distrubuted alongside the source code. SOF can also support proprietary
-  audio processing components provided they are wrapped to use the SOF
-  component API. See the audio components page for a list of open
-  source components and their capabilites.
-
-How do I create my own pipelines?
-  Pipelines are currently defined using the M4 macro processing language.
-  The M4 topology is then preprocessed to the alsaconf format before being
-  compiled into a binary. An Eclipse-based GUI for pipeline construction is
-  currently under development.
-
-  Today, both static (built in) and dynamic (loaded at runtime) pipelines are
-  supported in upstream.
-
-Can I add my own media encoder/decoders?
-  Yes.
-
-Can I add non-audio functions?
-  Yes. The instruction sets used by DSPs are also good at non-audio
-  processing tasks such as low-power sensor signal processing. If
-  your DSP has physical IO ports to which other non-audio devices can be connected, then data can also be processed from these devices.
-
-Toolchain FAQ
-=============
-
-Which Xtensa toolchains does SOF currently support?
-  Two toolchain families are currently supported by SOF: The GCC and the Cadence XCC.
-
-  These families are subdivided into toolchains per Xtensa ISA because the Tensilica architecture contains a variable instruction set so you must use the toolchain variant that matches your platform.
-
-  1. Custom, open-source GCC toolchains built with crosstool-NG as
-     documented in the getting started guide. These must be built from
-     source. For instructions, refer to the following:
-
-     - :ref:`build-toolchains-from-source` in the Getting Started Guide
-       for building SOF from scratch
-
-     - `Toolchains and embedded distributions <http://wiki.linux-xtensa.org/index.php/Toolchain_and_Embedded_Distributions>`_
-
-  2. Cadence's partially closed source toolchains. The Cadence XCC compiler
-     is proprietary but uses the open source GNU binutils. XCC must be
-     bought from Cadence. For more information, see:
-
-     - :ref:`build-3rd-party-toolchain`
-
-     - `Cadence IP portfolio <https://ip.cadence.com/ipportfolio/tensilica-ip>`_
-
-     The Cadence binutils patches or overlays are located in the SOF git
-     repo.
-
-     Note that Cadence is not the only Tensilica user; some Xtensa
-     toolchains come from `elsewhere <https://docs.zephyrproject.org/latest/boards/xtensa/index.html>`_. However, as of June 2020, all platforms
-     supported by SOF come from Cadence.
-
-What are the primary differences between Cadence and gcc toolchains?
-  gcc toolchains are completely open source. Cadence's toolchains use either
-  a gcc-based or a clang-based open source frontend and a closed-source
-  backend that matches the platform.
-
-  XCC supports full Xtensa HiFi SIMD intrinsics whereas GCC has no HiFi SIMD
-  support. This can lead to large performance differences, especially in
-  code that deals with audio processing.
-
-Cadence xt-xcc or Cadence xt-clang?
-  It depends on the platform. As of June 2020, most platforms supported by
-  SOF rely on xt-xcc. Going forward, all newer platforms require xt-clang.
-  The gcc frontend doesn't support unusually large registers, hence the move
-  to xt-clang.
-
-  Note that xt-xcc does not fully support C99. xt-clang does.
-
-Is support for other toolchains forthcoming?
-  Going forward, we would like to support the LLVM C compiler. Patches are
-  welcome.
+.. seealso::
+   For answers to common architectural, audio module development, platform compatibility, simulation, and licensing questions, see the dedicated :ref:`Frequently Asked Questions (FAQ) <faq>` page.
