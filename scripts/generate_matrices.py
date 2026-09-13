@@ -135,19 +135,18 @@ def generate_modules_table():
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     with open(out_file, "w", encoding="utf-8") as f:
-        f.write(".. csv-table:: SOF Supported Audio Processing Modules & Features\n")
-        f.write("   :header: \"Module Name\", \"Category\", \"Architectures\", \"LLEXT Dynamic\", \"IPC\", \"Key Capabilities\"\n")
-        f.write("   :widths: 20, 16, 18, 10, 10, 30\n\n")
+        f.write(".. csv-table:: SOF Supported Audio Processing Modules & Algorithms\n")
+        f.write("   :header: \"Algorithm\", \"Source\", \"Category\", \"SIMD\", \"Key Capabilities\"\n")
+        f.write("   :widths: 20, 10, 16, 20, 34\n\n")
 
         for m in modules:
             name = m.get("name", "")
+            source = m.get("source", "SOF")
             cat = m.get("category", "")
-            archs = ", ".join(m.get("architectures", []))
-            llext = "Yes" if m.get("llext_supported") else "Static only"
-            ipcs = "/".join(m.get("ipc_versions", []))
+            simd = ", ".join(m.get("simd", [])) if isinstance(m.get("simd"), list) else m.get("simd", "")
             feats = "; ".join(m.get("key_features", []))
 
-            row = f'   "{name}", "{cat}", "{archs}", "{llext}", "{ipcs}", "{feats}"\n'
+            row = f'   "{name}", "{source}", "{cat}", "{simd}", "{feats}"\n'
             f.write(row)
 
     print(f"Generated {out_file} ({len(modules)} modules)")
