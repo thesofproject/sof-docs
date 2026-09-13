@@ -34,8 +34,18 @@ sys.path.insert(0, os.path.abspath('.'))
 
 extensions = ['breathe', 'sphinx.ext.graphviz', 'sphinxcontrib.plantuml',
               'sphinx.ext.todo', 'sphinx.ext.extlinks',
-              'sphinxcontrib.jquery'
+              'sphinxcontrib.jquery',
+              'sphinx_copybutton',
+              'sphinx_tabs.tabs'
 ]
+
+# Copybutton configuration: strip console prompts ($, #, >>>) and handle continuation lines
+copybutton_prompt_text = r">>> |\.\.\. |\$ |# |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+copybutton_line_continuation_character = "\\"
+
+# Sphinx-tabs configuration
+sphinx_tabs_disable_tab_closing = True
 
 try:
     import myst_parser
@@ -111,7 +121,7 @@ language = 'en'
 # Note: a virtualenv created inside this source tree (.venv, venv, env, ...)
 # would otherwise be scanned by Sphinx and flood the build with warnings
 # about .rst files shipped in installed packages.
-exclude_patterns = ['_build', '.tox', '.venv*', 'venv', 'env']
+exclude_patterns = ['_build', '.tox', '.venv*', 'venv', 'env', 'README.md', 'scripts/*.md']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'

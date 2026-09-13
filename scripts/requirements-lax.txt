@@ -14,6 +14,11 @@ sphinx>=4.5.0
 docutils>=0.17.1
 sphinx_rtd_theme>=0.2.4
 sphinxcontrib-jquery
+sphinx-copybutton
+sphinx-tabs
+pydata-sphinx-theme
+myst-parser
+pyyaml
 
 # - Version 0.11 is the first version that supports
 #   `plantuml_output_format=none` which is required for instant builds.

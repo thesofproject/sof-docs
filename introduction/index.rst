@@ -74,17 +74,5 @@ Project Governance
 ==================
 SOF is an open-source project hosted under the Linux Foundation. Technical direction is governed by the **Technical Steering Committee (TSC)**, representing member companies, independent developers, and audio hardware manufacturers. All architectural decisions, RFCs, and code reviews are conducted transparently in public on GitHub.
 
-Frequently Asked Questions (FAQ)
-********************************
-
-Can I create and load custom audio processing modules?
-  Yes. You can either build your module directly into the firmware image or package it as a dynamic LLEXT module loaded on demand by the host OS.
-
-Which IPC protocols are supported?
-  SOF supports both **IPC3** (legacy lightweight message protocol) and **IPC4** (structured multi-part message protocol designed for modern Intel and AMD architectures).
-
-How can I test SOF without hardware?
-  You can run the SOF **Host Testbench** on any Linux development machine to test audio processing components with WAV files, or run **QEMU DSP simulation** (`native_sim`, `qemu_xtensa`) for end-to-end driver and firmware boot simulation.
-
-Where can I review hardware compatibility?
-  Refer to the living :ref:`Supported Platforms Matrix <platforms>` for the full list of supported Intel CAVS/ACE, AMD, NXP, MediaTek, Teensy 4.1, and ESP32-P4 targets.
+.. seealso::
+   For answers to common architectural, audio module development, platform compatibility, simulation, and licensing questions, see the dedicated :ref:`Frequently Asked Questions (FAQ) <faq>` page.

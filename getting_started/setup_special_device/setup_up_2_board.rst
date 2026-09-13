@@ -54,7 +54,7 @@ guide, if needed.
 3. Update kernel
 ================
 
-Follow :ref:`Build Linux kernel` section
+Follow the :ref:`install-locally` guide.
 
 4. Firmware
 ===========

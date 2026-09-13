@@ -21,6 +21,15 @@ The memory support functionality is delivered at two levels:
 .. uml:: images/memory_management_layers.pu
    :caption: Example of Memory Management layers and interfaces
 
+Memory Hierarchy & Dynamic Paging
+*********************************
+
+SOF manages heterogeneous memory spaces across DSP and host domains:
+
+* **Tightly Coupled Memories (IRAM/DRAM)**: Low-latency memory dedicated to performance-critical DSP interrupt service routines and real-time audio threads.
+* **High-Power / Low-Power SRAM Pools**: Dynamically power-gated SRAM banks utilized to minimize power draw during active playback and low-power idle.
+* **Isolated Memory Regions (IMR) & Dynamic Paging**: For platforms with constrained on-chip SRAM, SOF dynamically pages code and data between host DRAM (IMR) and DSP SRAM, enabling large features (like complex neural networks or large codec libraries) to execute without requiring oversized on-chip SRAM.
+
 Read More
 *********
 

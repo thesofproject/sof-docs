@@ -3,12 +3,20 @@
 Getting Started Guides
 ######################
 
-Refer to the following getting started guides if you are new to SOF or if you are performing a task for the first time.
+Getting started with Sound Open Firmware (SOF) involves setting up the **Zephyr RTOS** development environment, obtaining the **SOF SDK** and required toolchains, building and signing firmware images for your target hardware or simulator, and deploying the audio topology and binaries. All SOF development—including firmware source code, toolchain integration, Linux kernel drivers, topology definitions, and automated CI testing—happens openly on `GitHub <https://github.com/thesofproject>`_.
+
+The high-level steps to get started include:
+
+1. **Prepare Your Environment**: Set up the Zephyr development workspace, install ``west``, and configure host dependencies and the Zephyr SDK.
+2. **Obtain Firmware Toolchains**: Use the recommended Zephyr SDK toolchain or platform-specific cross-compilers (such as Cadence XCC or open-source Clang/LLVM).
+3. **Build and Sign Firmware**: Compile firmware with ``west build`` or the Python build scripts, and generate signed manifests using ``rimage``.
+4. **Compile Audio Topologies**: Build ALSA Topology 2 configuration graphs (``.tplg``) matching your audio pipeline and hardware interfaces.
+5. **Deploy & Validate**: Install the firmware and topology onto target hardware or validate in simulation using the Host Testbench or QEMU DSP simulators.
 
 SOF SDK & Development Workflow
 ******************************
 
-The SOF SDK provides a complete toolkit connecting source code authoring to compilation, firmware manifest signing, simulation, and real-time on-target telemetry:
+The SOF SDK provides a complete toolkit connecting source code authoring to compilation, firmware manifest generation, code signing, simulation, and real-time on-target telemetry:
 
 .. graphviz::
    :caption: SOF SDK Tooling & Development Workflow
@@ -48,7 +56,7 @@ The SOF SDK provides a complete toolkit connecting source code authoring to comp
            fontsize = 10;
            fontcolor = "#1b4f72";
 
-           tool_llvm [label="Shared LLVM / Clang Cross-Compiler\n(Cross-Compiler with IAS)", fillcolor="#aed6f1"];
+           tool_llvm [label="Firmware Toolchain\n(Zephyr SDK / Clang / Cadence XCC)", fillcolor="#aed6f1"];
            tool_smex [label="smex Trace Extractor\n(String Dictionary Extractor)", width=2.2, fixedsize=shape, fillcolor="#aed6f1"];
            tool_rimage [label="rimage Signing Tool\n(Manifest & Security Header)", fillcolor="#aed6f1"];
            tool_alsatplg [label="Topology Compiler\n(alsatplg / tplg2)", width=2.2, fixedsize=shape, fillcolor="#aed6f1"];
@@ -121,30 +129,175 @@ The SOF SDK provides a complete toolkit connecting source code authoring to comp
 Core SDK Ingredients
 ====================
 
-* **Shared LLVM Toolchain**: Modern Clang/LLVM cross-compilers with Integrated Assembler (IAS) targeting Xtensa (HiFi3, HiFi4, HiFi5), ARM Cortex-M, and RISC-V.
-* **Firmware Packaging & Signing (`rimage`)**: Converts compiled ELF binaries into platform-specific signed manifests with hardware security headers.
-* **Trace & Log Decoding (`smex` & `sof-logger`)**: Extracts format strings from ELF binaries into a dictionary file (``.ldc``), allowing the DSP to transmit compressed numeric trace IDs decoded in real time on the host.
-* **Real-Time Telemetry & Probing**: The TCP probe server and ``dut-monitor`` capture raw, multi-channel DMA audio stream taps at runtime over TCP port 9999 without interrupting pipeline execution.
+* **Firmware Toolchain**: The **Zephyr SDK** is the default toolchain for most platforms. Proprietary compilers like the **Cadence Xtensa compiler (XCC)** are also available and supported for production Intel/Xtensa builds, while open-source **Clang/LLVM Xtensa with Integrated Assembler (IAS)** is available for developers who do not have access to the Cadence compiler. SOF includes optimized SIMD support across target architectures:
+
+  * **Tensilica Xtensa**: HiFi 3, HiFi 4, and HiFi 5 DSP SIMD instruction sets.
+  * **ARM**: ARM Cortex-M DSP extensions, Helium (Armv8.1-M Vector Extension / MVE), and Neon SIMD.
+  * **RISC-V**: RISC-V "V" Vector Extension (RVV 1.0) and Packed SIMD / DSP extensions.
+
+* **Firmware Packaging & Signing (`rimage`)**: Converts compiled ELF binaries into platform-specific signed manifests with optional security headers.
+
+* **Trace & Log Decoding (`smex` & `sof-logger`)**: Extracts format strings from ELF binaries into a dictionary file (``.ldc``), allowing the DSP to transmit compressed numeric trace IDs decoded in real time on the host. SOF also integrates natively with **Zephyr logging and tracing capabilities** (including Zephyr log backends and dictionary-based logging) for unified system and driver diagnostics.
+
+* **Real-Time Telemetry & Probing**: The TCP probe server captures raw, multi-channel DMA audio stream taps at runtime over TCP port 9999 without interrupting pipeline execution.
+
 * **Simulation Environments**:
-  * **Host Testbench (`testbench`)**: Compiles DSP processing components into native x86/ARM executables, allowing bit-exact verification, valgrind memory checking, and audio quality analysis using standard audio files.
-  * **QEMU DSP Simulators**: Full-system instruction-level simulators (`ptl-sim`, `tgl-sim`) used in automated CI pipelines.
-* **Algorithm Tuning Tools**: Python, MATLAB, and Octave scripts to calculate filter coefficients for parametric equalizers, DRCs, and beamforming arrays.
+
+  * **Host Testbench (`testbench`)**: Compiles DSP processing components into native host executables, allowing bit-exact verification, valgrind memory checking, and audio quality analysis using standard audio files.
+  * **QEMU DSP Simulators**: Full-system instruction-level simulators (`ptl-sim`, `tgl-sim`) used in automated CI pipelines, and can be used for debug, simulation of cache, and memory usage.
+
+* **Algorithm Tuning Tools**: Python, MATLAB, and Octave scripts used to calculate filter coefficients for parametric equalizers, DRCs, and beamforming arrays, and to tune modules for best performance.
+
+.. _build_sof:
+.. _build-with-zephyr:
+.. _build-from-scratch:
+.. _build-with-docker:
+.. _build-3rd-party-toolchain:
+.. _docker-topology-tools:
+.. _build-toolchains-from-source:
 
 Build SOF
 *********
 
-SOF can be built natively on a host PC or within a container. Use the
-container method if the version of your distro is more than six months old.
-The SOF SDK uses a recent version of some external dependencies so the
-current distro release is always preferred.
+This guide provides step-by-step instructions to set up the SOF SDK workspace, install system dependencies and the Zephyr SDK toolchain, build firmware images for target DSP platforms, and build host userspace tools.
 
-.. toctree::
-   :maxdepth: 1
+All instructions below can be copied directly into your terminal.
 
-   build-guide/build-from-scratch
-   build-guide/build-with-docker
-   build-guide/build-3rd-party-toolchain
-   build-guide/build-with-zephyr
+Prerequisites & System Dependencies
+===================================
+
+Install the required host packages and build tools for your Linux distribution:
+
+.. tabs::
+
+   .. tab:: Ubuntu / Debian
+
+      .. code-block:: bash
+
+         sudo apt update && sudo apt install --no-install-recommends \
+             git cmake ninja-build gperf ccache dfu-util device-tree-compiler wget \
+             python3-dev python3-pip python3-setuptools python3-tk python3-wheel xz-utils file \
+             make gcc gcc-multilib g++-multilib libsdl2-dev libmagic1 default-jre python3-venv \
+             octave libssl-dev libtool gettext libncurses-dev
+
+   .. tab:: Fedora / RHEL
+
+      .. code-block:: bash
+
+         sudo dnf groupinstall -y "Development Tools" && sudo dnf install -y \
+             git cmake ninja-build gperf ccache dfu-util dtc wget \
+             python3-devel python3-pip python3-setuptools xz file \
+             make gcc gcc-c++ SDL2-devel libmagic java-latest-openjdk-headless \
+             octave openssl-devel libtool gettext-devel ncurses-devel
+
+Step 1: Set Up Workspace & Clone Repositories
+=============================================
+
+Define the workspace directory and clone the SOF SDK source repositories:
+
+.. code-block:: bash
+
+   export SOF_WORKSPACE=$HOME/work/sof
+   mkdir -p ${SOF_WORKSPACE}
+   cd ${SOF_WORKSPACE}
+
+   # Clone VS Code workspace and core SOF repositories
+   git clone --progress https://github.com/thesofproject/vscode-workspace.git .
+   git clone --progress --recursive https://github.com/thesofproject/sof.git
+   git clone --progress https://github.com/thesofproject/sof-test.git
+   git clone --progress https://github.com/thesofproject/sof-docs.git
+   git clone --progress https://github.com/thesofproject/sof-bin.git
+
+Step 2: Set Up Python Environment & West
+========================================
+
+Create a dedicated Python virtual environment, install ``west``, and fetch all Zephyr and SOF dependencies:
+
+.. code-block:: bash
+
+   cd ${SOF_WORKSPACE}
+
+   # Create and activate Python virtual environment
+   python3 -m venv .venv
+   source .venv/bin/activate
+
+   # Install and initialize west
+   pip install west
+   west init .
+   west zephyr-export
+   west packages pip --install
+
+   # Install documentation and SDK requirements
+   pip install -r sof-docs/scripts/requirements.txt
+
+   # Initialize and update SOF west manifest
+   rm -fr .west
+   west init -l sof
+   west update
+
+Step 3: Install Zephyr SDK Toolchain
+====================================
+
+Download and install the cross-compilation toolchain using ``west sdk install``:
+
+.. code-block:: bash
+
+   cd ${SOF_WORKSPACE}/zephyr
+   west sdk install
+   cd ${SOF_WORKSPACE}
+
+Step 4: Build Firmware Images
+=============================
+
+Build firmware binaries for your target platform using the SOF build script ``xtensa-build-zephyr.py``:
+
+- **Build for all supported platforms**:
+
+  .. code-block:: bash
+
+     ./sof/scripts/xtensa-build-zephyr.py -a
+
+- **Build for a specific platform target**:
+
+  .. code-block:: bash
+
+     # Examples: tgl (Tiger Lake), mtl (Meteor Lake), ptl (Panther Lake), imx8 (NXP i.MX8)
+     ./sof/scripts/xtensa-build-zephyr.py tgl
+
+- **Output Staging Directory**:
+  The build produces signed firmware binaries and trace dictionary files placed in the staging directory:
+
+  .. code-block:: text
+
+     build-sof-staging/sof/
+     ├── community/
+     │   ├── sof-tgl.ri       # Signed firmware image (with optional security headers)
+     │   └── sof-tgl.ldc      # SMEX trace dictionary for log decoding
+
+Step 5: Build Host Tools & Testbench
+====================================
+
+Build the host userspace utilities (such as ``sof-ctl``, topology compiler, and logging tools) as well as the native host audio testbench:
+
+.. code-block:: bash
+
+   cd ${SOF_WORKSPACE}
+
+   # Build all userspace tools
+   ./sof/scripts/build-tools.sh -A
+   ./sof/scripts/build-tools.sh
+
+   # Build native host testbench for bit-exact algorithm verification
+   ./sof/scripts/rebuild-testbench.sh
+
+Step 6: Build Loadable Modules (LLEXT)
+======================================
+
+Using Zephyr Linkable Loadable Extensions (LLEXT), standalone audio modules can be built and signed dynamically without modifying or recompiling the base firmware:
+
+- Modules are compiled as relocatable ELF objects (``.llext``) and signed with a manifest using ``rimage``.
+- In-tree modules can be built automatically using ``xtensa-build-zephyr.py`` or built with ``west build`` and CMake (using ``sof_llext_build()``).
+- For complete developer guides on implementing Module Adapters, manifest macros, Kconfig options, and signing workflows, refer to :ref:`llext_modules`.
 
 Set up SOF on a Linux machine
 *****************************
