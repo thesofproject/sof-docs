@@ -156,8 +156,8 @@ Core SDK Ingredients
 .. _docker-topology-tools:
 .. _build-toolchains-from-source:
 
-Build SOF
-*********
+Build and Install SOF Firmware
+******************************
 
 This guide provides step-by-step instructions to set up the SOF SDK workspace, install system dependencies and the Zephyr SDK toolchain, build firmware images for target DSP platforms, and build host userspace tools.
 
@@ -460,127 +460,207 @@ Build the host userspace utilities (such as ``sof-ctl``, topology compiler, and 
    # Build native host testbench for bit-exact algorithm verification
    ./sof/scripts/rebuild-testbench.sh
 
-Set up SOF on a Linux machine
-*****************************
-
-You can build the Linux kernel with the latest SOF code and install it locally or remotely with ktest.
-
+.. _build-and-install-sof-linux-drivers:
 .. _prepare-build-environment:
+.. _install-locally:
 
-Set up a Development Environment to Build the Kernel
-====================================================
+Build and Install SOF Linux Drivers
+***********************************
 
-These instructions will help you set up a development environment for the SOF branch of the Linux kernel. If you have dedicated test hardware, you can use ktest to install it over SSH. Otherwise, you can install it locally on your device in addition to your default kernel.
+These instructions will help you set up a development environment for the SOF branch of the Linux kernel, configure and compile the kernel with the latest SOF audio drivers, and install it locally on your machine alongside your distribution's default kernel.
 
-Prerequisites:
+Prerequisites
+=============
 
 * **Development device**: PC running Fedora 35+ or Ubuntu 20.04+.
-* **Target device**: PC running Fedora 35+ or Ubuntu 20.04+, with secure boot disabled. If the target device is different than the development device, you must be able to SSH into the target (typically on the same local network or VPN).
+* **Target device**: PC running Fedora 35+ or Ubuntu 20.04+, with Secure Boot disabled. If the target device is different than the development device, you must be able to SSH into the target (typically on the same local network or VPN).
 
-1. **Create a working directory**:
+Step 1: Set Up Workspace
+========================
 
-   This directory can be located anywhere. Set ``SOF_WORKSPACE`` to your preferred location:
+Create a dedicated working directory for kernel development:
 
-   .. code-block:: bash
+.. code-block:: bash
 
-      export SOF_WORKSPACE=~/work/sof
-      mkdir -p $SOF_WORKSPACE
-      cd $SOF_WORKSPACE
+   export SOF_WORKSPACE=~/work/sof
+   mkdir -p $SOF_WORKSPACE
+   cd $SOF_WORKSPACE
 
-2. **Install kernel build dependencies**:
+Step 2: Install Kernel Build Dependencies
+=========================================
 
-   .. tabs::
+Install the required build tools and libraries for your Linux distribution:
 
-      .. tab:: Ubuntu / Debian
+.. tabs::
 
-         .. code-block:: bash
+   .. tab:: Ubuntu / Debian
 
-            sudo apt update
-            sudo apt install -y git libncurses-dev gawk flex bison openssl libssl-dev dkms \
-                libelf-dev libudev-dev libpci-dev libiberty-dev autoconf dwarves zstd
+      .. code-block:: bash
 
-      .. tab:: Fedora / RHEL
+         sudo apt update
+         sudo apt install -y git libncurses-dev gawk flex bison openssl libssl-dev dkms \
+             libelf-dev libudev-dev libpci-dev libiberty-dev autoconf dwarves zstd
 
-         .. code-block:: bash
+   .. tab:: Fedora / RHEL
 
-            sudo dnf install -y fedpkg ccache
-            fedpkg clone -a kernel
-            cd kernel
-            sudo dnf builddep -y kernel.spec
-            cd ..
+      .. code-block:: bash
 
-3. **Download the configuration scripts**:
+         sudo dnf install -y fedpkg ccache
+         fedpkg clone -a kernel
+         cd kernel
+         sudo dnf builddep -y kernel.spec
+         cd ..
 
-   .. code-block:: bash
+Step 3: Download Configuration Scripts & Kernel Source
+======================================================
 
-      git clone https://github.com/thesofproject/kconfig.git
+Clone the SOF kernel configuration repository and the SOF Linux kernel fork:
+
+.. code-block:: bash
+
+   cd $SOF_WORKSPACE
+
+   # Download SOF kconfig helper scripts
+   git clone https://github.com/thesofproject/kconfig.git
 
 .. _get-kernel-source:
 
-4. **Get the kernel source**:
+   # Clone SOF Linux kernel source
+   git clone https://github.com/thesofproject/linux.git --depth=1
+   cd linux
 
-   We strongly recommend cloning with git as it makes updates straightforward:
+.. note::
+
+   If a maintainer requests that you check out a specific branch to test a fix, add ``-b <branch>`` to the ``git clone`` command. Alternatively, download a zip archive from the `SOF Linux fork on GitHub <https://github.com/thesofproject/linux>`_.
+
+Step 4: Configure the Kernel
+============================
+
+1. **Load base kernel configuration**:
+   Copy the running kernel's configuration to use as a baseline:
 
    .. code-block:: bash
 
-      git clone https://github.com/thesofproject/linux.git --depth=1
-      cd linux
+      cd $SOF_WORKSPACE/linux
+      cp /boot/config-$(uname -r)* .config
+
+2. **Apply SOF-specific driver configuration**:
+   The SOF configuration scripts update the base configuration to enable the latest SOF audio drivers. Run one of the following scripts based on your needs (press **Enter** to accept default prompts):
+
+   - **For most users**:
+
+     .. code-block:: bash
+
+        ../kconfig/kconfig-distro-sof-update.sh
+
+   - **For additional debug logging and experimental platform support**:
+
+     .. code-block:: bash
+
+        ../kconfig/kconfig-distro-sof-dev-update.sh
 
    .. note::
 
-      If a maintainer requests that you check out a different branch to test a bug fix, add ``-b [branch]`` to this command. Alternatively, download a zip archive from the `SOF Linux fork on GitHub <https://github.com/thesofproject/linux>`_.
+      By default, these scripts run ``make localmodconfig`` to compile only the modules currently loaded on your system, significantly reducing compile times. If you want to compile all standard modules, remove or comment out the line ``make localmodconfig`` from the script before running it.
 
-Install Kernel on Target
+.. _compile-kernel-step:
+
+Step 5: Compile the Kernel
+==========================
+
+Compile the kernel and modules:
+
+.. code-block:: bash
+
+   cd $SOF_WORKSPACE/linux
+   make -j$(nproc --all)
+
+.. _install-kernel-step:
+
+Step 6: Install the Kernel Locally
+==================================
+
+Install the compiled kernel modules and kernel image:
+
+.. code-block:: bash
+
+   cd $SOF_WORKSPACE/linux
+   sudo make modules_install
+   sudo make install
+
+Your custom kernel is now installed alongside your distribution's default kernel.
+
+Step 7: Boot and Verify
+=======================
+
+1. Reboot your computer.
+2. At the GRUB boot menu, select the newly installed kernel (it will have ``-sof`` appended to its version string). On Ubuntu, this may be located under the **Advanced options for Ubuntu** submenu.
+3. Once booted, verify that the SOF driver initialized correctly:
+
+   .. code-block:: bash
+
+      uname -r
+      dmesg | grep -i sof
+
+Update and Rebuild the Kernel
+=============================
+
+To update your kernel source and rebuild when new driver fixes are available:
+
+1. **Pull the latest changes**:
+
+   .. code-block:: bash
+
+      cd $SOF_WORKSPACE/linux
+      git pull
+
+2. **Clean previous build artifacts** (recommended after branch switches or major code changes):
+
+   .. code-block:: bash
+
+      make clean
+
+3. **Recompile and reinstall**:
+
+   .. code-block:: bash
+
+      make -j$(nproc --all)
+      sudo make modules_install
+      sudo make install
+
+4. Reboot and select the updated kernel to test.
+
+Remove the Custom Kernel
 ========================
 
-Your device is now ready to configure and build the kernel. How to proceed depends on whether you are installing locally or on dedicated test hardware:
+If you no longer need the custom kernel or need to revert to your distribution's stock kernel:
+
+.. tabs::
+
+   .. tab:: Ubuntu / Debian
+
+      .. code-block:: bash
+
+         cd $SOF_WORKSPACE/linux
+         sudo rm /boot/*-$(make kernelversion)
+         sudo rm -rf /lib/modules/$(make kernelversion)
+         sudo update-grub
+
+   .. tab:: Fedora / RHEL
+
+      .. code-block:: bash
+
+         cd $SOF_WORKSPACE/linux
+         sudo rm /boot/*-$(make kernelversion)*
+         sudo rm -rf /lib/modules/$(make kernelversion)
+         sudo grubby --remove-kernel=/boot/vmlinuz-$(make kernelversion)
+
+Remote Deployment with ktest
+============================
+
+If you have dedicated test hardware, you can use ``ktest`` to install and test kernels over SSH:
 
 .. toctree::
    :maxdepth: 1
 
-   setup_linux/install_locally
    setup_linux/setup_ktest_environment
-
-Set up SOF on a special device
-******************************
-
-SOF also runs on the MinnowBoard Turbot and the Up Squared board with Hifiberry Dac+.
-
-.. toctree::
-   :maxdepth: 1
-
-   setup_special_device/setup_minnowboard_turbot
-   setup_special_device/setup_up_2_board
-
-Debug Audio issues on Intel platforms
-*************************************
-
-Intel platforms rely on different versions of DSP and audio hardware
-interfaces. The following sections provide hints for integrators and
-users when audio components are not working properly or are broken.
-
-.. toctree::
-   :maxdepth: 1
-
-   intel_debug/introduction
-   intel_debug/suggestions
-
-SOF on NXP platforms
-********************
-
-This section provides guides for integrators and for users working with i.MX platforms.
-
-.. toctree::
-   :maxdepth: 1
-
-   nxp/sof_imx_user_guide
-
-Building loadable modules using LMDK
-************************************
-
-This section descibes process of building loadable modules using LMDK.
-
-.. toctree::
-   :maxdepth: 1
-
-   loadable_modules/lmdk_user_guide

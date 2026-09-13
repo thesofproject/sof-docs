@@ -36,3 +36,48 @@ Some how-to technical notes that help explain how you can use SOF capabilities.
 
    tech/build-cmocka
    tech/compile_wsl
+
+Set up SOF on a special device
+******************************
+
+SOF also runs on the MinnowBoard Turbot and the Up Squared board with Hifiberry Dac+.
+
+.. toctree::
+   :maxdepth: 1
+
+   setup_special_device/setup_minnowboard_turbot
+   setup_special_device/setup_up_2_board
+
+Debug Audio issues on Intel platforms
+*************************************
+
+Intel platforms rely on different versions of DSP and audio hardware
+interfaces. The following sections provide hints for integrators and
+users when audio components are not working properly or are broken.
+
+.. toctree::
+   :maxdepth: 1
+
+   intel_debug/introduction
+   intel_debug/suggestions
+
+SOF on NXP platforms
+********************
+
+This section provides guides for integrators and for users working with i.MX platforms.
+
+.. toctree::
+   :maxdepth: 1
+
+   nxp/sof_imx_user_guide
+
+Building loadable modules using LMDK
+************************************
+
+This section describes the process of building loadable modules using LMDK.
+
+.. toctree::
+   :maxdepth: 1
+
+   loadable_modules/lmdk_user_guide
+
