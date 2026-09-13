@@ -655,12 +655,7 @@ If you no longer need the custom kernel or need to revert to your distribution's
          sudo rm -rf /lib/modules/$(make kernelversion)
          sudo grubby --remove-kernel=/boot/vmlinuz-$(make kernelversion)
 
-Remote Deployment with ktest
-============================
+.. note::
 
-If you have dedicated test hardware, you can use ``ktest`` to install and test kernels over SSH:
+   **Remote Kernel Deployment with ktest**: If you have dedicated test hardware and wish to automate kernel installation and testing over SSH, see :ref:`setup-ktest-environment` in the Developer Guides.
 
-.. toctree::
-   :maxdepth: 1
-
-   setup_linux/setup_ktest_environment

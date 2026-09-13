@@ -37,6 +37,16 @@ Some how-to technical notes that help explain how you can use SOF capabilities.
    tech/build-cmocka
    tech/compile_wsl
 
+Remote Deployment with ktest
+****************************
+
+Set up a target device and environment to deploy and test kernels over SSH using ``ktest``.
+
+.. toctree::
+   :maxdepth: 1
+
+   ktest/setup_ktest_environment
+
 Set up SOF on a special device
 ******************************
 
