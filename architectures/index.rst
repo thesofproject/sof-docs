@@ -507,12 +507,19 @@ The firmware stack comprises the following key components across the two layers:
 * **Zephyr RTOS Integration**: Powers the underlying DSP core with preemptive multi-threading, SMP multi-core task migration, architecture hardware timers, unified device drivers, runtime power management (D0ix/D3), and high-throughput dictionary logging.
 
 
-Zephyr RTOS Foundation
-======================
-Modern SOF firmware utilizes the **Zephyr RTOS** as its core real-time operating system foundation. Zephyr provides:
-* Preemptive multi-threading and deterministic thread scheduling across single-core and symmetric/asymmetric multi-core (SMP/AMP) DSP topologies.
-* Standard hardware abstraction layers (HAL) and unified device drivers (DMA, I2C, SPI, GPIO).
-* Native logging subsystems and memory management APIs.
+Audio Topology Architecture
+***************************
+
+Audio routing, component interconnects, and signal processing chains in SOF are completely decoupled from firmware code. Instead of hardcoding audio graphs in C, SOF uses **ALSA Topology**.
+
+What is an SOF Topology?
+========================
+
+A topology configuration file defines the complete audio hardware and software graph:
+* **Digital Audio Interfaces (DAI)**: Physical link configurations connected to external codecs, SoundWire links, PDM microphones, or HDMI transmitters.
+* **Pipeline Layout**: Directed acyclic graphs (DAG) defining which components (Volume, Mixer, SRC, EQ, DRC, AEC) are chained together.
+* **Stream Parameters**: Supported sample rates, channel maps, sample bit depths, and scheduling periods (e.g. 1ms low-latency timer or bulk).
+* **ALSA Mixer Controls**: Volume faders, mute switches, enum multiplexers, and vendor-specific binary coefficient blobs.
 
 Audio Processing Pipelines (DAGs)
 =================================
@@ -596,21 +603,7 @@ At the heart of the firmware is the audio processing pipeline framework:
 
        ctl_vol -> comp_vol [style=dashed, color="#d35400", label="IPC Set Value"];
        ctl_eq -> comp_eq [style=dashed, color="#d35400", label="IPC Set Data"];
-    }
-
-Audio Topology Architecture
-***************************
-
-Audio routing, component interconnects, and signal processing chains in SOF are completely decoupled from firmware code. Instead of hardcoding audio graphs in C, SOF uses **ALSA Topology**.
-
-What is an SOF Topology?
-========================
-
-A topology configuration file defines the complete audio hardware and software graph:
-* **Digital Audio Interfaces (DAI)**: Physical link configurations connected to external codecs, SoundWire links, PDM microphones, or HDMI transmitters.
-* **Pipeline Layout**: Directed acyclic graphs (DAG) defining which components (Volume, Mixer, SRC, EQ, DRC, AEC) are chained together.
-* **Stream Parameters**: Supported sample rates, channel maps, sample bit depths, and scheduling periods (e.g. 1ms low-latency timer or bulk).
-* **ALSA Mixer Controls**: Volume faders, mute switches, enum multiplexers, and vendor-specific binary coefficient blobs.
+   }
 
 Topology 2 Architecture
 =======================

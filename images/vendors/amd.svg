@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="8" fill="#121212" stroke="#333333" stroke-width="1"/>
+  <!-- AMD dual chevrons -->
+  <polygon points="10,12 18,12 14,16 10,16" fill="#00A389"/>
+  <polygon points="10,18 14,18 10,22" fill="#00A389"/>
+  <polygon points="20,10 28,18 20,26 16,26 23,18 16,10" fill="#ED1C24"/>
+  <text x="20" y="35" font-family="Arial, sans-serif" font-size="8" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">AMD</text>
+</svg>

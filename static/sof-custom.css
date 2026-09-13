@@ -102,30 +102,47 @@ th,td {
 /* -- PyData Theme Custom Layout Dimensions --------------------------------- */
 
 :root {
-  --pst-sidebar-secondary: 13.5rem !important;
+  --pst-sidebar-secondary: 11.5rem !important;
 }
 
 /* Widen overall container on wide displays */
 .bd-page-width {
-  max-width: 96rem !important;
+  max-width: 98rem !important;
 }
 
-/* Make left primary navigation sidebar narrower */
+/* Make left primary navigation sidebar slimmer */
 @media (min-width: 960px) {
   .bd-sidebar-primary {
-    width: 17% !important;
-    min-width: 210px !important;
-    max-width: 250px !important;
-    padding: 1.25rem 0.65rem 1rem !important;
-    font-size: 0.9rem !important;
+    width: 13.5% !important;
+    min-width: 175px !important;
+    max-width: 210px !important;
+    padding: 1rem 0.45rem 1rem !important;
+    font-size: 0.86rem !important;
   }
 
-  /* Make right secondary TOC sidebar narrower */
+  /* Make right secondary TOC sidebar slimmer */
   .bd-sidebar-secondary {
-    width: 13.5rem !important;
-    padding: 1.5rem 0.5rem 1rem !important;
-    font-size: 0.85rem !important;
+    width: 11.5rem !important;
+    min-width: 11.5rem !important;
+    max-width: 12.5rem !important;
+    padding: 1.25rem 0.35rem 1rem !important;
+    font-size: 0.80rem !important;
   }
+}
+
+/* Vendor icon styling for platform tables */
+img.vendor-icon {
+  display: inline-block !important;
+  vertical-align: middle !important;
+  margin-right: 6px !important;
+  width: 18px !important;
+  height: 18px !important;
+  border-radius: 4px !important;
+}
+
+table.docutils td:first-child {
+  white-space: nowrap !important;
+  font-weight: 600 !important;
 }
 
 /* Expand main article container */
