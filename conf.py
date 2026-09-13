@@ -153,6 +153,9 @@ try:
     import pydata_sphinx_theme
     html_theme = "pydata_sphinx_theme"
     html_theme_options = {
+        "logo": {
+            "link": "introduction/index",
+        },
         "github_url": "https://github.com/thesofproject/sof",
         "external_links": [
             {"name": "SOF Project Website", "url": "https://sofproject.org"}
