@@ -78,7 +78,7 @@ plantuml_output_format = 'svg'
 templates_path = ['_templates']
 
 # Fixes "WARNING: Error when parsing function declaration."
-c_id_attributes = ["__sparse_cache", "__syscall"]
+c_id_attributes = ["__sparse_cache", "__syscall", "__packed", "__aligned", "__kernel", "__user", "__section"]
 cpp_id_attributes = c_id_attributes
 # cpp_paren_attributes = ["_ALIAS_OF", "__printf_like"]
 breathe_domain_by_extension = {"h": "c"}
@@ -294,8 +294,24 @@ rst_epilog = """
 """
 
 
+# Look for Doxygen XML path if not already provided or overridden
+_breathe_xml_candidates = [
+    os.path.join(os.environ['SOF_DOC_BUILD'], 'doxygen/xml') if os.environ.get('SOF_DOC_BUILD') else None,
+    os.path.join(os.environ['SOF_ROOT'], 'build_doxygen/doxygen/xml') if os.environ.get('SOF_ROOT') else None,
+    os.path.abspath('../sof-dox-work/build_doxygen/doxygen/xml'),
+    os.path.abspath('../sof/build_doxygen/doxygen/xml'),
+    os.path.abspath('../sof-tgl/sof/build_doxygen/doxygen/xml'),
+    os.path.abspath('../sof/doc/doxygen/xml'),
+]
+
+_breathe_xml_path = None
+for _cand in _breathe_xml_candidates:
+    if _cand and os.path.isdir(_cand):
+        _breathe_xml_path = _cand
+        break
+
 breathe_projects = {
-   "SOF Project" : "../sof/doc/doxygen/xml",
+   "SOF Project" : _breathe_xml_path or "../sof/doc/doxygen/xml",
 }
 breathe_default_project = "SOF Project"
 breathe_default_members = ('members', 'undoc-members', 'content-only')
