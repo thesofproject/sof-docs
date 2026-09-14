@@ -16,7 +16,7 @@ keyphrase (keyword) is successfully detected. Offloading the keyphrase
 detection algorithm to the embedded processing environment (i.e. dedicated
 DSP) reduces system power consumption while listening for an utterance.
 
-To learn how to integrate a 3rd-party detection algorithm into the SOF firmware, refer to :ref:`KD-integration`.
+To learn how to integrate a 3rd-party detection algorithm into the SOF firmware, refer to :ref:`architecture-firmware` and the upstream `Module Adapter Specification <https://github.com/thesofproject/sof/tree/master/src/audio/module_adapter/README.md>`_.
 
 Keyword Detection pipelines
 ***************************
