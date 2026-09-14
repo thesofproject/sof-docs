@@ -76,10 +76,9 @@ modules don't have to use "tristate" in their Kconfig entries.
 Installation
 ************
 
-As specified in
-:ref:`Firmware look-up paths per Intel platform <intel_modular_firmware_paths>`
-the |SOF| Linux kernel driver loads SOF modules by their UUIDs,
-specified in the topology. For SOF in-tree modules the process of creation and
+The |SOF| Linux kernel driver loads SOF dynamic modules by their UUIDs
+(staging from ``/lib/firmware/intel/sof-ipc4/`` or platform module directories),
+as specified in the topology. For SOF in-tree modules the process of creation and
 installation of modules in a deployment tree is automated by the
 xtensa-build-zephyr.py script. It copies modules to the deployment tree as
 files with a "llext" extension and creates symbolic links to them named as

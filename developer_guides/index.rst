@@ -86,7 +86,6 @@ Guides for Linux ASoC kernel driver developers, topology authors, virtualization
 .. toctree::
    :maxdepth: 1
 
-   subsystem_architecture/host/index
    linux_driver/index
    topology2/topology2
    topology/topology
@@ -105,8 +104,6 @@ Hardware integration, platform memory layouts, boot architectures, and bringup c
 
    nxp/sof_imx_user_guide
    setup_special_device/setup_up_2_board
-   intel_debug/introduction
-   intel_debug/suggestions
 
 Simulation, Testing & Toolchain (SDK)
 *************************************
