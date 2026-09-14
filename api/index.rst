@@ -1,106 +1,62 @@
 .. _api:
+.. _uuid-api:
 
 API Documentation
 #################
 
-The Sound Open Firmware (SOF) C APIs are generated directly from the firmware
-source code annotations and header files using Doxygen and Breathe. All
-functions, data structures, enumerations, macros, and parameter descriptions are
-rendered natively in the middle content pane, fully integrated with search,
-cross-referencing, and dark/light themes.
+The Sound Open Firmware (SOF) C application programming interface (API) documentation
+is generated directly from the firmware source code comments and header files using
+Doxygen. This ensures that the documentation is always synchronized with the actual
+implementation across all supported audio components, pipeline infrastructure,
+hardware abstraction layers, and IPC protocols.
 
-.. note::
-   **Raw Doxygen Browser**: For full source file trees, include dependency
-   graphs, and call graphs, developers can also browse the standalone
-   `Raw Doxygen Interface <../doxygen/index.html>`_ generated during the build.
+.. raw:: html
 
-Audio Processing & Pipelines
-****************************
+   <div style="border-left: 4px solid var(--pst-color-primary, #0a7d91); padding: 1.5rem; margin: 1.5rem 0; border-radius: 8px; background-color: var(--pst-color-surface, #f8f9fa); border: 1px solid var(--pst-color-border, #e5e7eb); border-left-width: 4px;">
+     <h3 style="margin-top: 0; color: var(--pst-color-primary, #0a7d91); font-size: 1.3rem;">Sound Open Firmware Doxygen API Documentation</h3>
+     <p style="margin-bottom: 1.25rem; font-size: 1rem; line-height: 1.5;">
+       Browse the complete, interactive C API reference generated directly from the SOF firmware codebase, including data structures, function declarations, macros, enumerations, file hierarchies, and dependency call graphs.
+     </p>
+     <a href="../doxygen/index.html" style="font-weight: 600; padding: 0.65rem 1.4rem; border-radius: 5px; display: inline-block; text-decoration: none; background-color: #0a7d91; color: #ffffff;">
+       Open Doxygen API Reference &rarr;
+     </a>
+   </div>
 
-These interfaces define how audio processing components, pipelines, and stream
-buffers are structured and executed in the DSP.
-
-* :ref:`component-api`
-  Core component driver interface required for all pipeline processing blocks,
-  effects, mixers, volume controls, and endpoints. Documents lifecycle states,
-  command triggers, and endpoint binding.
-
-* :ref:`component-ext-api`
-  Component infrastructure extensions and internal helpers used by pipeline
-  runners, host/DAI endpoints, buffer consumers, and producers.
-
-* :ref:`audio-stream-api`
-  Audio buffer structures, stream layouts, channel mapping, bit depth conversions,
-  and frame-level processing utilities.
-
-Drivers & Hardware Abstraction
+Overview of Documented Modules
 ******************************
 
-These interfaces abstract physical DSP hardware blocks and peripheral controllers.
+The Doxygen documentation covers the entire public firmware and host-shared interface:
 
-* :ref:`dma-drivers-api`
-  Direct Memory Access (DMA) channel drivers, cyclic ring buffer transfers,
-  scatter-gather lists, and hardware DMA controller abstraction.
+* **Audio Components & Pipelines**:
+  Core component driver lifecycle (``component.h``), component extensions and buffer helpers (``component_ext.h``), and PCM stream buffer utilities (``audio_stream.h``).
 
-* :ref:`dai-drivers-api`
-  Digital Audio Interface (DAI) drivers covering I2S/SSP, SoundWire (ALH),
-  DMIC / PDM digital microphones, and High Definition Audio (HDA).
+* **Hardware Drivers & Interfaces**:
+  Direct Memory Access (``dma.h``), Digital Audio Interfaces for I2S/SSP, SoundWire/ALH, DMIC/PDM, and HDA (``dai.h``), Power Management runtime (``pm_runtime.h``), and platform hardware timers and interrupt controllers (``platform.h``).
 
-* :ref:`pm-runtime-api`
-  Power Management Runtime framework controlling dynamic power gating, core
-  power states, and D0, D0ix, and D3 transitions.
+* **Core RTOS & System Services**:
+  Real-time task scheduling (EDF, LL-Timer, LL-DMA, Zephyr DataProcessing threads in ``schedule.h``), memory allocation heaps (``alloc.h``), and component/pipeline UUID declarations (``uuid.h``).
 
-* :ref:`platform-api`
-  Platform-level hardware abstraction covering DSP clocks, interrupt controller
-  mapping, hardware timers, and memory region initialization.
+* **IPC & Host Interfaces**:
+  User/Kernel IPC ABI protocols and messaging envelopes (``ipc/header.h``, ``ipc/control.h``), and SRAM Window 0 firmware status registers and telemetry offsets (``kernel/mailbox.h``).
 
-Core Services & RTOS
-********************
+* **Source Code Graphs & File Browsing**:
+  Full source file tree, header include dependency graphs, and function call/caller graphs.
 
-These interfaces provide operating system, memory, and task services to firmware
-components.
+Building API Documentation Locally
+**********************************
 
-* :ref:`schedule-api`
-  Real-time task scheduling framework supporting dynamic Earliest Deadline First
-  (EDF), low-latency timer interrupts, DMA event scheduling, and Zephyr
-  preemptive DataProcessing threads.
+To build or refresh the Doxygen documentation alongside the Sphinx documentation:
 
-* :ref:`memory-alloc-api`
-  DSP memory management covering system heap, shared memory pools, cached, and
-  uncached memory allocation.
+.. code-block:: bash
 
-* :ref:`uuid-api`
-  Universally Unique Identifiers (UUIDs) utilized for component identification,
-  pipeline discovery, and telemetry trace tokens.
+   # From the sof-docs repository root
+   make apidocs   # Generates Doxygen XML and HTML
+   make html      # Generates Sphinx site and stages Doxygen at _build/html/doxygen/
 
-IPC & Host Interfaces
-*********************
+Alternatively, Doxygen can be built directly inside the SOF firmware repository:
 
-These interfaces specify the communication protocol and memory-mapped register
-conventions shared between DSP firmware and host drivers (such as the Linux
-kernel ``sound/soc/sof/`` driver).
+.. code-block:: bash
 
-* :ref:`api-uapi`
-  User/Kernel IPC ABI headers, messaging envelopes, component configuration
-  blobs, and runtime control parameters.
-
-* :ref:`fw-regs-api`
-  SRAM Window 0 firmware status registers, boot stage indicators, runtime error
-  codes, power management telemetry, and reading slot offsets.
-
-.. toctree::
-   :maxdepth: 1
-   :hidden:
-
-   component-api
-   component-ext-api
-   audio-stream-api
-   dma-drivers-api
-   dai-drivers-api
-   pm-runtime-api
-   platform-api
-   schedule-api
-   memory-alloc-api
-   uuid-api
-   uapi
-   fw-regs-api
+   # From the sof firmware repository root
+   cmake -GNinja -S doc -B build_doxygen
+   ninja -C build_doxygen doc
