@@ -161,18 +161,16 @@ Note that this list is only an example.
 Dynamic debug is a Linux kernel feature. For detailed information, see the
 official `kernel documentation <https://www.kernel.org/doc/html/latest/admin-guide/dynamic-debug-howto.html>`__.
 
-Install sof-logger
-******************
+Capture DSP Trace Logs
+**********************
 
 If an issue with the SOF firmware is reported, such as IPC errors, SOF
-developers will need DSP traces. This is typically done by installing
-``/usr/local/bin/sof-logger`` as well as the ``.ldc`` file, and using the
-following command to extract DSP traces:
-
+developers will need DSP traces. This is typically done by streaming traces
+from the kernel debugfs interface or TCP probe server:
 
 .. code-block:: bash
 
-   sof-logger -t -l sof-tgl.ldc
+   cat /sys/kernel/debug/sof/trace
 
 Trace support might need to be enabled on distribution kernels in case the
 ``/sys/kernel/debug/sof/trace`` file is not present by adding sof_debug=1 option

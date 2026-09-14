@@ -45,7 +45,7 @@ example, the **volume** component provides the following declaration:
 Note how the ``af14`` 16bit segment is split into two bytes at the beginning
 of the second line.
 
-``volume`` is the component name used by the sof-logger while printing the
+``volume`` is the component name used by trace decoders while printing the
 trace source name. ``volume_uuid`` is the symbol used later to associate the
 declared UUID with the volume of the component driver:
 

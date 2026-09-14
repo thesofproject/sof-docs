@@ -345,9 +345,9 @@ SOF exposes several memory windows to the user space through the kernel debugfs 
 Firmware Tracing
 ================
 
-The tracing feature in the SOF firmware allows the DSP to send trace messages to the host. This tracing feature fills in for the lack of a printf feature while executing firmware code on the DSP. The host configures and sets up the DMA buffer for receiving the trace messages from the DSP. Once the trace DMA triggers, the DSP periodically initiates a DMA transfer to copy over the trace messages to the host. These messages can then be parsed using the sof-logger utility which prints out the messages in chronological order.
+The tracing feature in the SOF firmware allows the DSP to send trace messages to the host. This tracing feature fills in for the lack of a printf feature while executing firmware code on the DSP. The host configures and sets up the DMA buffer for receiving the trace messages from the DSP. Once the trace DMA triggers, the DSP periodically initiates a DMA transfer to copy over the trace messages to the host. These messages can then be captured and decoded in real time via host trace probes or the TCP probe server.
 
-More information is available in the firmware debuggability sections for :ref:`dbg-traces` and :ref:`dbg-logger`.
+More information is available in the firmware debuggability sections for :ref:`dbg-traces` and :ref:`dbg-probes`.
 
 IPC Flooding
 ============
