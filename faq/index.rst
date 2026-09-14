@@ -9,40 +9,6 @@ This page addresses common architectural, algorithmic, development, and licensin
    :local:
    :depth: 2
 
-General & Architecture
-**********************
-
-What is Sound Open Firmware (SOF)?
-==================================
-Sound Open Firmware (SOF) is an open-source, vendor-neutral audio Digital Signal Processing (DSP) firmware infrastructure, SDK, and host driver framework governed under the Linux Foundation. It enables deterministic, ultra-low-latency, power-efficient audio signal processing across personal computers, smartphones, smart speakers, automotive infotainment, and embedded microcontrollers.
-
-How does SOF differ from traditional audio DSP firmware?
-========================================================
-Traditional audio DSP solutions rely on proprietary, closed-source binary blobs supplied by silicon vendors, offering little transparency, rigid pipeline configurations, and high friction for custom audio algorithms. SOF is:
-
-* **Open and Permissive**: Built with transparent BSD 3-Clause and MIT code, allowing developers to inspect, modify, debug, and optimize every line of firmware code.
-* **Architecture-Independent**: Operates seamlessly across Tensilica Xtensa, ARM Cortex-M, and RISC-V DSPs.
-* **Decoupled from Firmware**: Uses dynamic ALSA Topology (Topology 2) rather than hardcoded C pipelines, enabling dynamic runtime graph instantiation.
-* **Upstream First**: Supported natively in upstream Linux kernel releases (``sound/soc/sof/``).
-
-What deployment models does SOF support?
-========================================
-SOF supports two foundational architectures:
-
-* **Host-Based Architecture**: Coupled to a host application processor running **Linux**, **Android**, or **ChromeOS**. The host OS driver stack controls power states (D0ix/D3) and streams PCM audio over DMA windows via IPC (IPC3/IPC4).
-* **Hostless (Standalone / Embedded) Architecture**: Runs autonomously on microcontrollers and embedded DSPs (such as **ESP32-P4** or **Teensy 4.1 / i.MX RT1062**) atop the Zephyr RTOS, streaming audio directly between physical peripherals (I2S, PDM, Bluetooth) using static ROM topologies without requiring a host PC.
-
-Which Real-Time Operating System (RTOS) does SOF use?
-=====================================================
-Modern SOF releases run natively on the **Zephyr RTOS**, providing robust hardware abstraction layers (HAL), POSIX thread synchronization primitives, dynamic device drivers, and real-time scheduling. Legacy deployments also support Cadence Xtensa XTOS.
-
-Which IPC protocols are supported?
-==================================
-SOF supports two Inter-Processor Communication (IPC) protocols:
-
-* **IPC4**: A structured, multi-part messaging protocol designed for modern Intel (cAVS 2.5+, ACE 1.x, ACE 3.x) and AMD platforms. It supports granular pipeline gating, modular dynamic loading, and multi-core scheduling.
-* **IPC3**: A lightweight, mailbox-based message protocol used across earlier Intel CAVS architectures and legacy embedded DSP targets.
-
 Audio Processing & Module Development
 *************************************
 
@@ -59,16 +25,9 @@ Yes. Because the SOF firmware core is licensed under the permissive **BSD 3-Clau
 
 What audio processing components are available out-of-the-box?
 ==============================================================
-SOF includes a rich catalog of production-grade audio processing components:
-
-* **Core Mixing & Routing**: Volume control with smooth volume ramping, multi-channel Mixers, Matrix Mixers, Demux, and Multiplexers.
-* **Sample Rate Conversion**: High-order polyphase fractional and synchronous Sample Rate Converters (SRC).
-* **Acoustic Tuning**: Parametric IIR/FIR Equalizers (EQ) and multi-band Dynamic Range Control (DRC).
-* **Voice & Spatial Processing**: Directional Microphone Beamforming (TDFB), Acoustic Echo Cancellation (AEC), and Wake-on-Voice (WoV).
-* **Hardware-Accelerated Codecs**: MP3 and AAC decoders optimized for Tensilica Vector Floating-Point Units (VFPU).
-* **Spatial Audio**: Valve Steam Audio HRTF 3D binaural spatial rendering.
-
-Refer to the :ref:`Audio Algorithms & Features Catalog <algos>` for technical specifications and testbench instructions.
+For the complete catalog of production-grade audio processing components,
+codecs, filters, and dynamic modules available out-of-the-box in SOF,
+refer to the :ref:`Audio Processing Modules Catalog <algos>`.
 
 How are audio signal pipelines defined?
 =======================================
@@ -79,13 +38,16 @@ Hardware & Platform Support
 
 Where can I review hardware compatibility?
 ==========================================
-The living :ref:`Supported Platforms Matrix <platforms>` details all supported silicon architectures, core frequencies, memory tiers, audio interfaces, and IPC protocols across:
+Hardware compatibility for SOF is documented across two primary references:
 
-* **Intel Platforms**: Tiger Lake (TGL / CAVS 2.5), Meteor Lake (MTL / ACE 1.5), Arrow Lake (ARL-S / ACE 1.5), Lunar Lake (LNL / ACE 2.0), and Panther Lake (PTL / ACE 3.0).
-* **AMD Platforms**: Renoir, Rembrandt, Phoenix, and Strix.
-* **NXP Platforms**: i.MX8, i.MX8M, and i.MX9.
-* **MediaTek Platforms**: MT8195 and MT8186.
-* **Embedded Microcontrollers**: NXP i.MX RT1062 (**Teensy 4.1**) and Espressif **ESP32-P4** RISC-V audio bridges.
+* **SOF Supported Platforms Matrix**: Refer to the :ref:`platforms` page for
+  detailed specifications of all silicon targets, DSP architectures, memory
+  tiers, audio interfaces (SoundWire, I2S, PDM, HDA), and IPC protocols.
+* **Zephyr Project Supported Boards & Platforms**: Because modern SOF firmware
+  is built upon the Zephyr RTOS, it can be ported and executed across any
+  architecture, SoC, or board supported by upstream Zephyr. Refer to the
+  `Zephyr Supported Boards Catalog <https://docs.zephyrproject.org/latest/boards/index.html>`_
+  for the complete upstream hardware list.
 
 Can SOF run without a host computer?
 ====================================
