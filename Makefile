@@ -9,7 +9,13 @@ else
   Q = @
 endif
 
-SOF_DOC_BUILD = ../sof/build_doxygen/
+# Locate SOF firmware repository: check SOF_ROOT, or candidate directories
+ifeq ($(SOF_ROOT),)
+  SOF_ROOT := $(firstword $(wildcard ../sof-dox-work ../sof ../sof-tgl/sof /home/lrg/work/sof-dox-work))
+endif
+SOF_DOC_BUILD ?= $(if $(SOF_ROOT),$(SOF_ROOT)/build_doxygen,_build_doxygen)
+SOF_HAS_DOC := $(wildcard $(SOF_ROOT)/doc/CMakeLists.txt)
+
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = "SOF Project"
 SOURCEDIR     = .
@@ -34,21 +40,19 @@ help:
 .PHONY: help apidocs html clean
 
 
-# Generate the doxygen xml (for Sphinx) and copy the doxygen html to the
-# api folder for publishing along with the Sphinx-generated API docs.
-# Keep doxygen optional not to burden "drive-by" .rst contributors with
-# extra dependencies.
-
-APIS_CMAKE := ${SOF_DOC_BUILD}/build.ninja
+# Generate the doxygen xml (for Sphinx Breathe) and copy the doxygen html
+# for publishing along with the Sphinx-generated API docs.
 apidocs:
-ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
-	ninja -C ${SOF_DOC_BUILD} $${VERBOSE:+-v} doc
+ifneq ($(SOF_HAS_DOC),)
+	@if [ ! -f "$(SOF_DOC_BUILD)/build.ninja" ]; then \
+		echo "Configuring Doxygen build with CMake in $(SOF_DOC_BUILD)..."; \
+		cmake -GNinja -S "$(SOF_ROOT)/doc" -B "$(SOF_DOC_BUILD)"; \
+	fi
+	@echo "Building Doxygen documentation in $(SOF_DOC_BUILD)..."
+	ninja -C "$(SOF_DOC_BUILD)" $${VERBOSE:+-v} doc
 else
-	# To include doxygen APIs run this first:
-	#   cmake -GNinja -S ../sof/doc -B ${SOF_DOC_BUILD}
-	# Note this will make the build CONSIDERABLY LONGER!
-	# Conversely, you can have _instant builds from scratch_
-	# by disabling UML diagrams in the conf.py file.
+	@echo "Note: SOF firmware source tree (doc/CMakeLists.txt) not found."
+	@echo "      Specify SOF_ROOT=/path/to/sof to generate live C API documentation."
 endif
 
 PYTHON ?= python3
@@ -58,9 +62,14 @@ generate_data:
 
 html: generate_data apidocs
 	$(SPHINXBUILD) -j auto -t $(DOC_TAG) -b html               \
--d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS)    \
--D breathe_projects.'SOF Project'="${SOF_DOC_BUILD}"/doxygen/xml \
-$(ERROROPTS) $(O)
+		-d $(BUILDDIR)/doctrees $(SOURCEDIR) $(BUILDDIR)/html $(SPHINXOPTS)    \
+		$(if $(wildcard $(SOF_DOC_BUILD)/doxygen/xml),-D breathe_projects.'SOF Project'="$(abspath $(SOF_DOC_BUILD)/doxygen/xml)",) \
+		$(ERROROPTS) $(O)
+	@if [ -d "$(SOF_DOC_BUILD)/doxygen/html" ]; then \
+		echo "Copying raw Doxygen HTML to $(BUILDDIR)/html/doxygen..."; \
+		mkdir -p $(BUILDDIR)/html/doxygen; \
+		cp -r $(SOF_DOC_BUILD)/doxygen/html/* $(BUILDDIR)/html/doxygen/; \
+	fi
 	# Reminder: to see _all_ warnings you must "make clean" first.
 
 
@@ -68,8 +77,10 @@ $(ERROROPTS) $(O)
 
 clean:
 	rm -fr $(BUILDDIR)
-ifeq (${APIS_CMAKE},$(wildcard ${APIS_CMAKE}))
-	ninja -C ${SOF_DOC_BUILD} $${VERBOSE:+-v} doc-clean clean
+ifneq ($(SOF_HAS_DOC),)
+	@if [ -f "$(SOF_DOC_BUILD)/build.ninja" ]; then \
+		ninja -C "$(SOF_DOC_BUILD)" $${VERBOSE:+-v} doc-clean clean; \
+	fi
 endif
 
 # Copy material over to the GitHub pages staging repo
