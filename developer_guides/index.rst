@@ -103,10 +103,8 @@ Hardware integration, platform memory layouts, boot architectures, and bringup c
 .. toctree::
    :maxdepth: 1
 
-   intel-legacy/index
    nxp/sof_imx_user_guide
    setup_special_device/setup_up_2_board
-   setup_special_device/setup_minnowboard_turbot
    intel_debug/introduction
    intel_debug/suggestions
 
@@ -120,10 +118,8 @@ Verification frameworks, host audio simulation, fuzzing, and compiler toolchains
 
    unit_tests
    tech/cmake
-   tech/build-cmocka
    testbench/index
    xtrun/index
    fuzzing/index
-   add_new_arch
    tech/compile_wsl
 
