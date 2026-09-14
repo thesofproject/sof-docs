@@ -353,3 +353,60 @@ html[data-mode="dark"] button.copybtn {
   }
 }
 
+/* -- Breathe C API middle content pane styling (PyData theme) ------------- */
+
+.bd-article p.breathe-sectiondef-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.8rem;
+  margin-bottom: 0.8rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--pst-color-border, #e5e7eb);
+  color: var(--pst-color-text-base);
+}
+
+.bd-article dl.c.function,
+.bd-article dl.c.struct,
+.bd-article dl.c.enum,
+.bd-article dl.c.macro,
+.bd-article dl.c.type {
+  margin: 1.25rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--pst-color-border, #e5e7eb);
+  border-radius: 6px;
+  background-color: var(--pst-color-surface, #f8f9fa);
+}
+
+.bd-article dl.c > dt.sig {
+  font-family: var(--pst-font-family-monospace, monospace);
+  font-size: 0.92rem;
+  font-weight: 600;
+  padding: 0.4rem 0.6rem;
+  margin: -0.75rem -1rem 0.75rem -1rem;
+  border-bottom: 1px solid var(--pst-color-border, #e5e7eb);
+  background-color: rgba(0, 0, 0, 0.03);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  overflow-x: auto;
+}
+
+html[data-theme="dark"] .bd-article dl.c > dt.sig,
+html[data-mode="dark"] .bd-article dl.c > dt.sig {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.bd-article dl.c > dd {
+  margin-left: 0.5rem;
+  margin-bottom: 0;
+}
+
+.bd-article dl.c .field-list {
+  margin-top: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.bd-article dl.c .field-list dt {
+  font-weight: 600;
+  color: var(--pst-color-text-muted, #6c757d);
+}
+

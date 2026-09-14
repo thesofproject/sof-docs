@@ -1,126 +1,55 @@
 .. _developer_guides:
+.. _subsystem-architecture-guides:
 
 Developer Guides
 ################
 
-New developers are best starting by reading the introduction which describes the
-terminology before reading further.
+Firmware Development (FW)
+*************************
 
-.. toctree::
-   :maxdepth: 1
+Guides and specifications for developing, compiling, and debugging DSP firmware components, Zephyr RTOS integration, audio processing algorithms, dynamic modules, and firmware image signing.
 
-   introduction
-   firmware/index
-   unit_tests
-   xtrun/index
-   topology/topology
-   topology2/topology2
-   uuid/index.rst
-   debugability/index
-   tuning/sof-ctl
-   rimage/index.rst
-   linux_driver/index
-   virtualization/virtualization
-   virtualization/running
-   fuzzing/index
-   testbench/index
-   add_new_arch
+Upstream Firmware Feature Specifications
+========================================
 
-Technical Notes
-***************
+The SOF firmware repository maintains detailed, up-to-date specifications for each audio processing module, pipeline feature, and subsystem directly alongside the source code in `thesofproject/sof <https://github.com/thesofproject/sof>`_:
 
-Some how-to technical notes that help explain how you can use SOF capabilities.
+Core Infrastructure & Pipeline
+------------------------------
 
-.. toctree::
-   :maxdepth: 1
+* `Pipeline Architecture <https://github.com/thesofproject/sof/tree/main/src/audio/pipeline/README.md>`_
+* `Audio Buffer Management <https://github.com/thesofproject/sof/tree/main/src/audio/buffers/README.md>`_
+* `Scheduler <https://github.com/thesofproject/sof/tree/main/src/schedule/README.md>`_
+* `Module Framework <https://github.com/thesofproject/sof/tree/main/src/module/README.md>`_
+* `Module Adapter & IADK Integration <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_
+* `IPC Infrastructure (IPC3 & IPC4) <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_
+* `Firmware Initialization & Boot <https://github.com/thesofproject/sof/tree/main/src/init/README.md>`_
 
-   tech/build-cmocka
-   tech/compile_wsl
+Audio Processing Modules & Algorithms
+-------------------------------------
 
-Remote Deployment with ktest
-****************************
-
-Set up a target device and environment to deploy and test kernels over SSH using ``ktest``.
-
-.. toctree::
-   :maxdepth: 1
-
-   ktest/setup_ktest_environment
-
-Set up SOF on a special device
-******************************
-
-SOF also runs on the MinnowBoard Turbot and the Up Squared board with Hifiberry Dac+.
-
-.. toctree::
-   :maxdepth: 1
-
-   setup_special_device/setup_minnowboard_turbot
-   setup_special_device/setup_up_2_board
-
-Debug Audio issues on Intel platforms
-*************************************
-
-Intel platforms rely on different versions of DSP and audio hardware
-interfaces. The following sections provide hints for integrators and
-users when audio components are not working properly or are broken.
-
-.. toctree::
-   :maxdepth: 1
-
-   intel_debug/introduction
-   intel_debug/suggestions
-
-SOF on NXP platforms
-********************
-
-This section provides guides for integrators and for users working with i.MX platforms.
-
-.. toctree::
-   :maxdepth: 1
-
-   nxp/sof_imx_user_guide
-
-Building loadable modules using LMDK
-************************************
-
-This section describes the process of building loadable modules using LMDK.
-
-.. toctree::
-   :maxdepth: 1
-
-   loadable_modules/lmdk_user_guide
-
-.. _subsystem-architecture-guides:
-
-Detailed Subsystem Architecture Guides
-**************************************
-
-For in-depth implementation specifications, driver models, and platform-specific firmware layers, consult the dedicated architectural guides below:
-
-.. toctree::
-   :maxdepth: 2
-
-   subsystem_architecture/host/index
-   subsystem_architecture/firmware/index
-
-Platform Specific Information
-*****************************
-
-Further information on specific platforms can be found here.
-
-.. toctree::
-   :maxdepth: 2
-
-   intel-legacy/index
-   intel-cavs/index
+* `Volume Control <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_
+* `Mixer & Mixin / Mixout <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_
+* `Sample Rate Converter (SRC) <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_
+* `Parametric EQ (FIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `EQ (IIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_
+* `Dynamic Range Compressor (DRC) <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_
+* `Crossover <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_
+* `DC Blocker <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_
+* `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_
+* `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
+* `TensorFlow Lite Micro (TFLM) <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_
+* `MFCC Feature Extraction <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_
+* `Smart Amp Protection <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_
+* `Sound Dose Evaluator <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_
+* `Copier <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_
+* `PCM Format Converter <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_
 
 .. _algorithm-specific-information:
 
-Algorithm Specific Information
-******************************
+Algorithm Tuning & Implementation Guides
+========================================
 
-Further information on specific algorithms, filter tuning, and design tools:
+Detailed filter design, coefficient generation, and tuning workflows:
 
 .. toctree::
    :maxdepth: 1
@@ -129,4 +58,65 @@ Further information on specific algorithms, filter tuning, and design tools:
    algorithms/eq/equalizers_tuning
    algorithms/src/sample_rate_conversion
    algorithms/tdfb/time_domain_fixed_beamformer
+
+Firmware Packaging & Dynamic Modules
+====================================
+
+.. toctree::
+   :maxdepth: 1
+
+   rimage/index.rst
+   firmware/llext_modules
+   loadable_modules/lmdk_user_guide
+
+DSP Telemetry, Probes & Debugging
+=================================
+
+.. toctree::
+   :maxdepth: 1
+
+   debugability/index
+   uuid/index.rst
+
+Kernel & Host Driver Development (Kernel)
+*****************************************
+
+Guides for Linux ASoC kernel driver developers, topology authors, virtualization environments, and host tuning utilities.
+
+.. toctree::
+   :maxdepth: 1
+
+   linux_driver/index
+   topology2/topology2
+   topology/topology
+   virtualization/virtualization
+   virtualization/running
+   tuning/sof-ctl
+   ktest/setup_ktest_environment
+
+Hardware & Platform-Specific Guides (HW)
+****************************************
+
+Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors, legacy architectures, and embedded development boards.
+
+.. toctree::
+   :maxdepth: 1
+
+   nxp/sof_imx_user_guide
+   setup_special_device/setup_up_2_board
+
+Simulation, Testing & Toolchain (SDK)
+*************************************
+
+Verification frameworks, host audio simulation, fuzzing, and compiler toolchains.
+
+.. toctree::
+   :maxdepth: 1
+
+   unit_tests
+   tech/cmake
+   testbench/index
+   xtrun/index
+   fuzzing/index
+   tech/compile_wsl
 

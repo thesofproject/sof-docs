@@ -91,7 +91,7 @@ The SOF SDK provides a complete toolkit connecting source code authoring to comp
            fontsize = 10;
            fontcolor = "#4a235a";
 
-           runtime_diag [label="Live Probing & Telemetry\n(TCP Probe Server 9999, sof-logger)", width=3.3, fixedsize=shape, fillcolor="#d2b4de"];
+           runtime_diag [label="Live Probing & Telemetry\n(TCP Probe Server 9999, DMA Probes)", width=3.3, fixedsize=shape, fillcolor="#d2b4de"];
            sim_qemu [label="QEMU DSP Simulators\n(ptl-sim, tgl-sim in CI)", fillcolor="#d7bde2"];
            dut_boards [label="Target DUTs & Hardware Boards\n(Spider TGL, Dragon Fly ARL, Aphid PTL, Teensy 4.1)", width=3.3, fixedsize=shape, fillcolor="#d2b4de"];
 
@@ -137,7 +137,7 @@ Core SDK Ingredients
 
 * **Firmware Packaging & Signing (`rimage`)**: Converts compiled ELF binaries into platform-specific signed manifests with optional security headers.
 
-* **Trace & Log Decoding (`smex` & `sof-logger`)**: Extracts format strings from ELF binaries into a dictionary file (``.ldc``), allowing the DSP to transmit compressed numeric trace IDs decoded in real time on the host. SOF also integrates natively with **Zephyr logging and tracing capabilities** (including Zephyr log backends and dictionary-based logging) for unified system and driver diagnostics.
+* **Trace & Log Decoding (`smex` & DMA Probes)**: Extracts format strings from ELF binaries into a dictionary file (``.ldc``), allowing the DSP to transmit compressed numeric trace IDs decoded in real time on the host. SOF also integrates natively with **Zephyr logging and tracing capabilities** (including Zephyr log backends and dictionary-based logging) for unified system and driver diagnostics.
 
 * **Real-Time Telemetry & Probing**: The TCP probe server captures raw, multi-channel DMA audio stream taps at runtime over TCP port 9999 without interrupting pipeline execution.
 

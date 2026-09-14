@@ -33,8 +33,7 @@ different from built-in ones.
 Implementing LLEXT modules
 **************************
 
-At the moment only modules, implementing the Module Adapter API
-:ref:`apps-comp-world` are supported.
+At the moment only modules implementing the `Module Adapter API <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_ are supported.
 
 .. _multiple-adapter-modules:
 
@@ -77,10 +76,9 @@ modules don't have to use "tristate" in their Kconfig entries.
 Installation
 ************
 
-As specified in
-:ref:`Firmware look-up paths per Intel platform <intel_modular_firmware_paths>`
-the |SOF| Linux kernel driver loads SOF modules by their UUIDs,
-specified in the topology. For SOF in-tree modules the process of creation and
+The |SOF| Linux kernel driver loads SOF dynamic modules by their UUIDs
+(staging from ``/lib/firmware/intel/sof-ipc4/`` or platform module directories),
+as specified in the topology. For SOF in-tree modules the process of creation and
 installation of modules in a deployment tree is automated by the
 xtensa-build-zephyr.py script. It copies modules to the deployment tree as
 files with a "llext" extension and creates symbolic links to them named as
@@ -99,7 +97,7 @@ will be created, e.g.
    39656EB2-3B71-4049-8D3F-F92CD5C43C09.bin  -> mixin_mixout.llext
    3C56505A-24D7-418F-BDDC-C1F5A3AC2AE0.bin  -> mixin_mixout.llext
 
-See :ref:`apps-component-overview` for more information on UUID use by SOF
+See :ref:`uuid` for more information on UUID use by SOF
 component and module adapter drivers.
 
 It is also possible to avoid using the script by running ``west build`` to build
