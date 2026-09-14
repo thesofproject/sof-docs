@@ -17,32 +17,32 @@ The SOF firmware repository maintains detailed, up-to-date specifications for ea
 Core Infrastructure & Pipeline
 ------------------------------
 
-* `Pipeline Architecture <https://github.com/thesofproject/sof/tree/master/src/audio/pipeline/README.md>`_
-* `Audio Buffer Management <https://github.com/thesofproject/sof/tree/master/src/audio/buffers/README.md>`_
-* `Scheduler <https://github.com/thesofproject/sof/tree/master/src/schedule/README.md>`_
-* `Module Framework <https://github.com/thesofproject/sof/tree/master/src/module/README.md>`_
-* `Module Adapter & IADK Integration <https://github.com/thesofproject/sof/tree/master/src/audio/module_adapter/README.md>`_
-* `IPC Infrastructure (IPC3 & IPC4) <https://github.com/thesofproject/sof/tree/master/src/ipc/README.md>`_
-* `Firmware Initialization & Boot <https://github.com/thesofproject/sof/tree/master/src/init/README.md>`_
+* `Pipeline Architecture <https://github.com/thesofproject/sof/tree/main/src/audio/pipeline/README.md>`_
+* `Audio Buffer Management <https://github.com/thesofproject/sof/tree/main/src/audio/buffers/README.md>`_
+* `Scheduler <https://github.com/thesofproject/sof/tree/main/src/schedule/README.md>`_
+* `Module Framework <https://github.com/thesofproject/sof/tree/main/src/module/README.md>`_
+* `Module Adapter & IADK Integration <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_
+* `IPC Infrastructure (IPC3 & IPC4) <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_
+* `Firmware Initialization & Boot <https://github.com/thesofproject/sof/tree/main/src/init/README.md>`_
 
 Audio Processing Modules & Algorithms
 -------------------------------------
 
-* `Volume Control <https://github.com/thesofproject/sof/tree/master/src/audio/volume/README.md>`_
-* `Mixer & Mixin / Mixout <https://github.com/thesofproject/sof/tree/master/src/audio/mixin_mixout/README.md>`_
-* `Sample Rate Converter (SRC) <https://github.com/thesofproject/sof/tree/master/src/audio/src/README.md>`_ & `ASRC <https://github.com/thesofproject/sof/tree/master/src/audio/asrc/README.md>`_
-* `Parametric EQ (FIR) <https://github.com/thesofproject/sof/tree/master/src/audio/eq_fir/README.md>`_ & `EQ (IIR) <https://github.com/thesofproject/sof/tree/master/src/audio/eq_iir/README.md>`_
-* `Dynamic Range Compressor (DRC) <https://github.com/thesofproject/sof/tree/master/src/audio/drc/README.md>`_ & `Multiband DRC <https://github.com/thesofproject/sof/tree/master/src/audio/multiband_drc/README.md>`_
-* `Crossover <https://github.com/thesofproject/sof/tree/master/src/audio/crossover/README.md>`_
-* `DC Blocker <https://github.com/thesofproject/sof/tree/master/src/audio/dcblock/README.md>`_
-* `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/master/src/audio/tdfb/README.md>`_
-* `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/master/src/audio/rtnr/README.md>`_
-* `TensorFlow Lite Micro (TFLM) <https://github.com/thesofproject/sof/tree/master/src/audio/tensorflow/README.md>`_
-* `MFCC Feature Extraction <https://github.com/thesofproject/sof/tree/master/src/audio/mfcc/README.md>`_
-* `Smart Amp Protection <https://github.com/thesofproject/sof/tree/master/src/audio/smart_amp/README.md>`_
-* `Sound Dose Evaluator <https://github.com/thesofproject/sof/tree/master/src/audio/sound_dose/README.md>`_
-* `Copier <https://github.com/thesofproject/sof/tree/master/src/audio/copier/README.md>`_, `Mux <https://github.com/thesofproject/sof/tree/master/src/audio/mux/README.md>`_ & `Selector <https://github.com/thesofproject/sof/tree/master/src/audio/selector/README.md>`_
-* `PCM Format Converter <https://github.com/thesofproject/sof/tree/master/src/audio/pcm_converter/README.md>`_
+* `Volume Control <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_
+* `Mixer & Mixin / Mixout <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_
+* `Sample Rate Converter (SRC) <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_
+* `Parametric EQ (FIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `EQ (IIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_
+* `Dynamic Range Compressor (DRC) <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_
+* `Crossover <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_
+* `DC Blocker <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_
+* `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_
+* `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
+* `TensorFlow Lite Micro (TFLM) <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_
+* `MFCC Feature Extraction <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_
+* `Smart Amp Protection <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_
+* `Sound Dose Evaluator <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_
+* `Copier <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_
+* `PCM Format Converter <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_
 
 .. _algorithm-specific-information:
 
