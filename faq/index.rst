@@ -113,7 +113,7 @@ SOF provides two simulation options:
 
 How do I capture DSP firmware logs and trace data?
 ==================================================
-SOF uses an efficient string dictionary extraction system (**smex**). Format strings are extracted from firmware ELF binaries during compilation into a dictionary file (``.ldc``), allowing the DSP to transmit compact numeric trace IDs over DMA without CPU overhead. On the host, tools such as **sof-logger** and the **TCP Probe Server** (port 9999) decode these trace packets in real time.
+SOF uses an efficient string dictionary extraction system (**smex**). Format strings are extracted from firmware ELF binaries during compilation into a dictionary file (``.ldc``), allowing the DSP to transmit compact numeric trace IDs over DMA without CPU overhead. On the host, tools such as the **TCP Probe Server** (port 9999), DMA trace probes, and Zephyr log decoders decode these trace packets in real time.
 
 Licensing & Community Governance
 ********************************
