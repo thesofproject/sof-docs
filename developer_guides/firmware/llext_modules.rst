@@ -33,8 +33,7 @@ different from built-in ones.
 Implementing LLEXT modules
 **************************
 
-At the moment only modules, implementing the Module Adapter API
-:ref:`apps-comp-world` are supported.
+At the moment only modules implementing the `Module Adapter API <https://github.com/thesofproject/sof/tree/master/src/audio/module_adapter/README.md>`_ are supported.
 
 .. _multiple-adapter-modules:
 
@@ -99,7 +98,7 @@ will be created, e.g.
    39656EB2-3B71-4049-8D3F-F92CD5C43C09.bin  -> mixin_mixout.llext
    3C56505A-24D7-418F-BDDC-C1F5A3AC2AE0.bin  -> mixin_mixout.llext
 
-See :ref:`apps-component-overview` for more information on UUID use by SOF
+See :ref:`uuid` for more information on UUID use by SOF
 component and module adapter drivers.
 
 It is also possible to avoid using the script by running ``west build`` to build
