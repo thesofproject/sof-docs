@@ -17,6 +17,7 @@ Outputs:
 """
 
 import json
+import re
 import sys
 import urllib.request
 from pathlib import Path
@@ -157,6 +158,21 @@ def generate_modules_table():
 
     print(f"Generated {out_file} ({len(modules)} modules)")
 
+def parse_fw_version(body):
+    if not body:
+        return "N/A"
+    matches = re.findall(r'SOF\s*(v?\d+\.\d+(?:\.\d+)?)', body, re.IGNORECASE)
+    matches += re.findall(r'https://github.com/thesofproject/sof/releases/tag/(v\d+\.\d+(?:\.\d+)?)', body)
+    normalized = []
+    for m in matches:
+        norm = m if m.startswith('v') else 'v' + m
+        if norm not in normalized:
+            normalized.append(norm)
+    if normalized:
+        normalized.sort(key=lambda v: [int(x) for x in v.lstrip('v').split('.')], reverse=True)
+        return normalized[0]
+    return "N/A"
+
 def generate_sof_bin_releases():
     cache_file = DATA_DIR / "sof_bin_releases.json"
     releases = []
@@ -177,9 +193,11 @@ def generate_sof_bin_releases():
                         asset_url = a["browser_download_url"]
                         asset_size_mb = round(a["size"] / (1024 * 1024), 1)
                         break
+                fw_ver = parse_fw_version(r.get("body", ""))
                 releases.append({
                     "tag_name": r.get("tag_name"),
                     "name": r.get("name") or r.get("tag_name"),
+                    "fw_version": fw_ver,
                     "published_at": r.get("published_at", "")[:10],
                     "html_url": r.get("html_url"),
                     "asset_name": asset_name,
@@ -207,27 +225,48 @@ def generate_sof_bin_releases():
 
     out_file = DOCS_DIR / "_generated_sof_bin_releases.rst"
     latest = releases[0]
+    latest_fw = latest.get("fw_version", "N/A")
 
     with open(out_file, "w", encoding="utf-8") as f:
         # Latest Release Hero Card
+        fw_badge = ""
+        if latest_fw != "N/A":
+            fw_link = f"https://github.com/thesofproject/sof/releases/tag/{latest_fw}"
+            fw_badge = (
+                f'<a href="{fw_link}" target="_blank" style="background: rgba(13, 110, 253, 0.12); '
+                f'border: 1px solid var(--pst-color-primary, #0d6efd); color: var(--pst-color-primary, #0d6efd); '
+                f'font-size: 0.9rem; font-weight: 600; padding: 3px 10px; border-radius: 12px; '
+                f'font-family: monospace; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;">'
+                f'<span>Firmware {latest_fw}</span> ↗</a>'
+            )
+
         f.write(".. raw:: html\n\n")
         f.write('   <div style="border: 1px solid var(--pst-color-border, #444); border-radius: 8px; padding: 1.25rem 1.5rem; margin: 1.25rem 0 1.75rem 0; background: var(--pst-color-surface, rgba(255,255,255,0.03));">\n')
         f.write('     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 8px;">\n')
-        f.write('       <div style="font-size: 1.25rem; font-weight: bold;">\n')
+        f.write('       <div style="font-size: 1.25rem; font-weight: bold; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">\n')
         f.write('         <span>Latest Binary Release: </span>\n')
         f.write(f'         <span style="color: var(--pst-color-primary, #1e88e5); font-family: monospace;">{latest["tag_name"]}</span>\n')
+        if fw_badge:
+            f.write(f'         {fw_badge}\n')
         f.write('       </div>\n')
         f.write(f'       <div style="font-size: 0.9rem; color: #888;">Published on {latest["published_at"]}</div>\n')
         f.write('     </div>\n')
-        f.write('     <p style="margin: 0.5rem 0 1.25rem 0;">Official pre-built and signed firmware binaries, compiled topologies, and install scripts for Intel, AMD, and NXP platforms.</p>\n')
+        if latest_fw != "N/A":
+            f.write(f'     <p style="margin: 0.5rem 0 1.25rem 0;">Official pre-built and signed firmware binaries (bundled with <strong>SOF Firmware {latest_fw}</strong>), compiled topologies, and install scripts for Intel, AMD, and NXP platforms.</p>\n')
+        else:
+            f.write('     <p style="margin: 0.5rem 0 1.25rem 0;">Official pre-built and signed firmware binaries, compiled topologies, and install scripts for Intel, AMD, and NXP platforms.</p>\n')
         f.write('     <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">\n')
         if latest["asset_name"] != "N/A":
             f.write(f'       <a href="{latest["asset_url"]}" style="display: inline-flex; align-items: center; gap: 8px; background-color: #0d6efd; color: #ffffff !important; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: 500;">\n')
             f.write(f'         <span>Download {latest["asset_name"]} ({latest["asset_size_mb"]} MB)</span>\n')
             f.write('       </a>\n')
         f.write(f'       <a href="{latest["html_url"]}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--pst-color-border, #666); color: inherit; padding: 8px 16px; border-radius: 6px; text-decoration: none;">\n')
-        f.write('         <span>GitHub Release Notes &amp; Assets ↗</span>\n')
+        f.write('         <span>sof-bin Release Notes &amp; Assets ↗</span>\n')
         f.write('       </a>\n')
+        if latest_fw != "N/A":
+            f.write(f'       <a href="https://github.com/thesofproject/sof/releases/tag/{latest_fw}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--pst-color-border, #666); color: inherit; padding: 8px 16px; border-radius: 6px; text-decoration: none;">\n')
+            f.write(f'         <span>Firmware {latest_fw} Source Release ↗</span>\n')
+            f.write('       </a>\n')
         f.write('       <span id="sof-bin-live-status" style="margin-left: auto; font-size: 0.85rem;"></span>\n')
         f.write('     </div>\n')
         f.write('   </div>\n\n')
@@ -236,21 +275,24 @@ def generate_sof_bin_releases():
         f.write("Recent Binary Releases\n")
         f.write("**********************\n\n")
         f.write(".. csv-table::\n")
-        f.write('   :header: "Release Tag", "Release Date", "Binary Archive", "Archive Size", "GitHub Notes"\n')
-        f.write("   :widths: 16, 15, 30, 14, 25\n\n")
+        f.write('   :header: "Release Tag", "Firmware Version", "Release Date", "Binary Archive", "Archive Size", "GitHub Notes"\n')
+        f.write("   :widths: 15, 15, 14, 28, 13, 20\n\n")
 
         for r in releases:
             tag = r["tag_name"]
+            fw_ver = r.get("fw_version", "N/A")
             date = r["published_at"]
             asset_name = r["asset_name"]
             asset_url = r["asset_url"]
             size_str = f"{r['asset_size_mb']} MB" if r["asset_size_mb"] else "N/A"
             notes_url = r["html_url"]
 
+            tag_cell = f'`{tag} <{notes_url}>`_'
+            fw_cell = f'`{fw_ver} <https://github.com/thesofproject/sof/releases/tag/{fw_ver}>`_' if fw_ver != "N/A" else "N/A"
             download_cell = f'`{asset_name} <{asset_url}>`_' if asset_name != "N/A" else "N/A"
             notes_cell = f'`Release Notes <{notes_url}>`_'
 
-            f.write(f'   "`{tag} <{notes_url}>`_", "{date}", "{download_cell}", "{size_str}", "{notes_cell}"\n')
+            f.write(f'   "{tag_cell}", "{fw_cell}", "{date}", "{download_cell}", "{size_str}", "{notes_cell}"\n')
 
         f.write("\n")
 

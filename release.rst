@@ -72,6 +72,7 @@ SOF binary releases follow a **Calendar Versioning (CalVer)** scheme: ``vYYYY.MM
 
 * **Major Releases** (``vYYYY.MM``): Published periodically (aligned with upstream Linux kernel and Zephyr LTS releases).
 * **Maintenance & Patch Releases** (``vYYYY.MM.patch``): Critical bug fixes, hardware workarounds, and topology updates published from dedicated stable branches (e.g. ``stable-v2025.12``).
+* **Binary vs. Firmware Versioning**: Binary packages use CalVer (e.g. ``v2025.12.2``) and package specific upstream SOF firmware releases (e.g. ``v2.14.3``) along with matching topologies and kernel compatibility scripts.
 * **Daily CI Builds**: In addition to tagged releases, the `sof-bin main branch <https://github.com/thesofproject/sof-bin>`_ is updated daily with verified builds from the firmware development tree.
 
 .. seealso::
