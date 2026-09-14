@@ -76,9 +76,9 @@ manufacturer (OEM) for every specific motherboard model:
   MIPI SoundWire for smart amplifiers, I2S/TDM for the audio codec, PDM for 2-channel
   or 4-channel digital microphone arrays, and Intel HD-Audio (HDA) for display/HDMI audio.
 * **Multi-Point Clock Trees**:
-  Buses require intricate clock distribution across Master Clocks (MCLK), Bit Clocks (BCLK),
+  Buses require intricate clock distribution across Main Clocks (MCLK), Bit Clocks (BCLK),
   Word Clocks (WCLK/FS), and internal PLLs, where either the SoC or the peripheral can act
-  as the clock master.
+  as the clock provider.
 * **SoC and Codec/Amp GPIO Control Lines**:
   Discrete GPIO pins must be toggled in precise power-up sequences to enable external
   speaker amplifier power rails, reset smart amplifier ICs, switch speaker mute gates,
@@ -130,7 +130,7 @@ manufacturer (OEM) for every specific motherboard model:
 
            acpi_dsd [label="ACPI _DSD / Platform Mappings\n(Audio Interface Routing, Endpoints)", fillcolor="#fadbd8"];
            gpio_routing [label="GPIO & Power Routing\n(Amp Power, Reset, Jack IRQ)", fillcolor="#fadbd8"];
-           clock_tree [label="Clock Tree Configuration\n(Master/Slave, Frequencies)", fillcolor="#fadbd8"];
+           clock_tree [label="Clock Tree Configuration\n(Provider/Consumer, Frequencies)", fillcolor="#fadbd8"];
            ucm_quirks [label="ALSA Machine Driver & UCM\n(Channel Maps, Controls, Mixers)", fillcolor="#fadbd8"];
 
            { rank=same; acpi_dsd; gpio_routing; clock_tree; ucm_quirks; }
@@ -183,7 +183,7 @@ specific laptop. They lack the crucial **OEM board-level integration** that maps
 1. Which specific GPIO lines on the SoC or codec correspond to amplifier resets, power
    enables, or headset jack interrupts.
 2. Which I2C/SPI bus or SoundWire link ID the smart amplifiers reside on.
-3. Which clock rates and master/slave clock modes are wired between the SoC and codec.
+3. Which clock rates and provider/consumer clock modes are wired between the SoC and codec.
 4. How audio channels, speaker volumes, and mixer controls should be configured in
    the ALSA Use Case Manager (UCM).
 
@@ -249,7 +249,7 @@ hardware discovery**:
   and ``sound/soc/sdw/``) directly parses the BIOS ACPI data—including **NHLT**
   endpoints and formats, **SoundWire DISCO** properties, and ``_DSD`` device parameters—to
   dynamically instantiate the audio machine driver, configure clock dividers, discover
-  slave codecs, select matching topologies, and construct a working sound card.
+  peripheral codecs, select matching topologies, and construct a working sound card.
 * When the ACPI, NHLT, or DISCO data is incomplete, outdated, or wrong, Linux creates
   audio interfaces with wrong bit depths, binds non-existent microphone channels,
   or fails to enumerate codecs altogether, leading to silence, audio distortion, or

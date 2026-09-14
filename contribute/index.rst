@@ -479,15 +479,12 @@ which a bug is observed, e.g. |label-byt|, |label-apl|, |label-glk| ...
         :scale: 70
 
 *Branch* labels specify the branch or branches on which a bug is observed,
-e.g. |label-branch-v1.2|, |label-branch-glk|, |label-branch-master| ...
+e.g. |label-branch-v1.2|, |label-branch-glk| ...
 
 .. |label-branch-v1.2| image:: images/label-branch-v1-2.png
         :scale: 70
 
 .. |label-branch-glk| image:: images/label-branch-glk.png
-        :scale: 70
-
-.. |label-branch-master| image:: images/label-branch-master.png
         :scale: 70
 
 .. note::

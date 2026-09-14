@@ -33,7 +33,7 @@ different from built-in ones.
 Implementing LLEXT modules
 **************************
 
-At the moment only modules implementing the `Module Adapter API <https://github.com/thesofproject/sof/tree/master/src/audio/module_adapter/README.md>`_ are supported.
+At the moment only modules implementing the `Module Adapter API <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_ are supported.
 
 .. _multiple-adapter-modules:
 
