@@ -229,12 +229,9 @@ SOF Linux Maintainers
    * - Organization
      - Maintainer
      - GitHub Handle
-   * - Intel
+   * - Consultant
      - Pierre Bossart
      - `@plbossart <https://github.com/plbossart>`_
-   * - Intel
-     - Ranjani Sridharan
-     - `@ranj063 <https://github.com/ranj063>`_
    * - Intel
      - Kai Vehmanen
      - `@kv2019i <https://github.com/kv2019i>`_
