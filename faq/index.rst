@@ -209,6 +209,65 @@ the manufacturer happened to follow a standard silicon reference schematic, or
 upstream kernel community developers have manually reverse-engineered the board's
 ACPI tables, submitted DMI machine quirks, or crafted custom ALSA UCM profiles.
 
+Why does ACPI audio data not match my audio hardware?
+=====================================================
+A frequent problem when running Linux as a secondary operating system on consumer
+PCs and laptops is encountering BIOS/ACPI tables whose audio descriptions (such as
+**NHLT**, **DISCO**, and ``_DSD`` tables) contradict the actual motherboard hardware.
+For instance, the ACPI tables might describe four digital microphones when only two are
+physically wired, declare the wrong I2S link format, or list SoundWire endpoints on
+incorrect link IDs.
+
+The Root Cause: The Fast ODM/OEM Development Flow
+-------------------------------------------------
+Original Design Manufacturers (ODMs) and Original Equipment Manufacturers (OEMs)
+operate under extremely aggressive product delivery schedules. When bringing up audio
+on a new laptop model:
+
+1. **BIOS Tables Are Often Stale or Copied**:
+   Motherboard BIOS engineers frequently copy ACPI tables (including Intel/AMD
+   **NHLT** – *Non-HD Audio Link Table*, MIPI **SoundWire DISCO** – *Discovery and
+   Configuration* tables, and device-specific ``_DSD`` properties) from an earlier
+   reference design or older laptop model.
+2. **Hardcoded Windows Driver Workarounds**:
+   Fixing mistakes in the motherboard BIOS requires cross-team firmware engineering
+   cycles, BIOS rebuilding, and extensive validation passes. To meet tight shipping
+   deadlines, **it is significantly faster and easier for the audio integration engineer
+   to simply hardcode the correct hardware parameters into the proprietary Windows driver,
+   INF installation script, or registry settings**.
+3. **Windows Ignores the ACPI Bugs**:
+   Because the customized Windows driver explicitly overrides or bypasses the BIOS
+   tables using its hardcoded model profiles, audio works flawlessly on Windows despite
+   the inaccurate or corrupt ACPI tables underneath.
+
+The Impact on Linux-Based Devices
+---------------------------------
+Unlike proprietary monolithic drivers, **Linux relies strictly on standards-based
+hardware discovery**:
+
+* The upstream Linux kernel audio subsystem (``sound/soc/sof/``, ``sound/soc/intel/``,
+  and ``sound/soc/sdw/``) directly parses the BIOS ACPI data—including **NHLT**
+  endpoints and formats, **SoundWire DISCO** properties, and ``_DSD`` device parameters—to
+  dynamically instantiate the audio machine driver, configure clock dividers, discover
+  slave codecs, select matching topologies, and construct a working sound card.
+* When the ACPI, NHLT, or DISCO data is incomplete, outdated, or wrong, Linux creates
+  audio interfaces with wrong bit depths, binds non-existent microphone channels,
+  or fails to enumerate codecs altogether, leading to silence, audio distortion, or
+  failed DSP probing.
+
+How Linux Developers Work Around Broken ACPI Data
+-------------------------------------------------
+Because end-users cannot easily rewrite their motherboard BIOS, upstream Linux audio
+engineers and community contributors must reverse-engineer the actual hardware wiring
+and implement software quirks:
+
+* **DMI Machine Quirks**: The Linux kernel maintains extensive quirk tables
+  (``dmi_system_id``) that match a laptop's manufacturer, product name, and BIOS version
+  to force the correct channel counts, GPIO pin assignments, or SoundWire link mappings.
+* **NHLT & DSD Overrides**: When BIOS tables are irrecoverably broken, Linux audio
+  drivers implement fallback heuristics or load external ACPI DSD/SSDT overlays to
+  substitute correct hardware descriptors.
+
 Can SOF run without a host computer?
 ====================================
 Yes. The **Hostless (Standalone) Architecture** allows SOF to run independently on microcontrollers and embedded processors such as the **Teensy 4.1 (ARM Cortex-M7)** and **ESP32-P4 (dual-core RISC-V)**. In hostless mode, pipelines are instantiated at boot from static ROM configurations, processing audio directly between local microphones, line-ins, codecs, and Bluetooth transceivers.
