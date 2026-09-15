@@ -622,6 +622,27 @@ platforms:
     status: Active Integration
     notes: "Essential test card for automated I2S/PDM loopback verification across Spider and Aphid"
 
+  - id: esp32_c6
+    vendor: Espressif
+    family: ESP32-C6
+    name: ESP32-C6 Audio Node & Loopback Bridge
+    dsp_arch: RISC-V Single-Core HP (RV32IMAC)
+    cores: 1
+    clock_range: "160 MHz"
+    platform_clock: "40 MHz XTAL"
+    memory: "512 KB HP SRAM / 320 KB ROM"
+    audio_interfaces:
+      - "I2S (Controller & Target mode, S16_LE stereo playback/capture)"
+      - "Dynamic DAI Discovery & Static Volume Controls"
+      - "Hardware Loopback Bridge (XIAO / Waveshare C6-Zero)"
+    ipc_versions:
+      - N/A
+    zephyr_target: "xiao_esp32c6/esp32c6/hpcore, esp32c6_devkitc"
+    target_alias: esp32-c6
+    test_dut: "Seeed XIAO (Tx) / Waveshare C6-Zero (Rx) Pair"
+    status: Active Integration
+    notes: "Ultra-low-power RISC-V audio node with automated hardware loopback verification (PR #11200)"
+
   - id: qemu_sim
     vendor: Emulation
     family: Simulation

@@ -270,7 +270,7 @@ and implement software quirks:
 
 Can SOF run without a host computer?
 ====================================
-Yes. The **Hostless (Standalone) Architecture** allows SOF to run independently on microcontrollers and embedded processors such as the **Teensy 4.1 (ARM Cortex-M7)** and **ESP32-P4 (dual-core RISC-V)**. In hostless mode, pipelines are instantiated at boot from static ROM configurations, processing audio directly between local microphones, line-ins, codecs, and Bluetooth transceivers.
+Yes. The **Hostless (Standalone) Architecture** allows SOF to run independently on microcontrollers and embedded processors such as the **Teensy 4.1 (ARM Cortex-M7)**, **ESP32-P4 (dual-core RISC-V)**, and **ESP32-C6 (single-core RISC-V)**. In hostless mode, pipelines are instantiated at boot from static ROM configurations, processing audio directly between local microphones, line-ins, codecs, and Bluetooth transceivers.
 
 What physical audio buses and peripherals are supported?
 ========================================================
