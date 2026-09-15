@@ -37,7 +37,7 @@ Architecture Overview
 Sound Open Firmware supports two foundational deployment models tailored for diverse device form-factors:
 
 * **Host-Based Architecture**: Where the audio DSP is coupled to a host application processor running **Linux**, **Android**, or **ChromeOS**. The host OS driver stack (mainline Linux ``sound/soc/sof/``) manages firmware lifecycle, dynamic topology loading, and power management (D0ix/D3), while audio data streams through host DMA memory windows via IPC (IPC3/IPC4).
-* **Hostless (Standalone / Embedded) Architecture**: Where SOF runs autonomously on microcontrollers and standalone DSPs (such as the **ESP32-P4** or **Teensy 4.1 / i.MX RT1062**) atop the Zephyr RTOS. These systems process audio directly between physical hardware peripherals (I2S, SoundWire, PDM microphones, and Bluetooth transceivers) using ROM-embedded static topologies.
+* **Hostless (Standalone / Embedded) Architecture**: Where SOF runs autonomously on microcontrollers and standalone DSPs (such as the **ESP32-P4 / ESP32-C6** or **Teensy 4.1 / i.MX RT1062**) atop the Zephyr RTOS. These systems process audio directly between physical hardware peripherals (I2S, SoundWire, PDM microphones, and Bluetooth transceivers) using ROM-embedded static topologies.
 
 .. seealso::
    For complete system stack diagrams, hostless designs, real-time pipeline DAGs, and memory hierarchy details, refer to the comprehensive :ref:`Architecture & System Design <architectures>` documentation.

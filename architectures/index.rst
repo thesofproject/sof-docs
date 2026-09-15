@@ -11,7 +11,7 @@ System & Software Architecture
 The SOF software ecosystem supports two foundational deployment models tailored for different device form-factors:
 
 1. **Host-Based Architecture**: Where the audio DSP is coupled to an application processor running a general-purpose operating system (**Linux**, **Android**, or **ChromeOS**). The host manages firmware lifecycle, parses topologies, and streams audio over DMA memory windows via inter-processor communication (IPC).
-2. **Hostless (Standalone / Embedded) Architecture**: Where SOF firmware runs autonomously directly on a microcontroller or standalone DSP (such as the **ESP32-P4** or **Teensy 4.1 / i.MX RT1062**) atop Zephyr RTOS without requiring a host CPU or external operating system.
+2. **Hostless (Standalone / Embedded) Architecture**: Where SOF firmware runs autonomously directly on a microcontroller or standalone DSP (such as the **ESP32-P4 / ESP32-C6** or **Teensy 4.1 / i.MX RT1062**) atop Zephyr RTOS without requiring a host CPU or external operating system.
 
 Host-Based System & Software Architecture
 =========================================
@@ -194,7 +194,7 @@ The host-side driver is integrated directly upstream in the mainline Linux kerne
 Hostless (Standalone) Embedded Architecture
 ===========================================
 
-In hostless deployments (such as smart speakers, conference microphones, standalone audio bridges, hearing aids, IoT voice endpoints, and embedded test cards like the **ESP32-P4** and **Teensy 4.1 / i.MX RT1062**), SOF executes completely autonomously without requiring a host processor or general-purpose operating system:
+In hostless deployments (such as smart speakers, conference microphones, standalone audio bridges, hearing aids, IoT voice endpoints, and embedded test cards like the **ESP32-P4**, **ESP32-C6**, and **Teensy 4.1 / i.MX RT1062**), SOF executes completely autonomously without requiring a host processor or general-purpose operating system:
 
 * **Autonomous Zephyr Application**: SOF operates as a self-contained Zephyr RTOS native application. It initializes on-chip peripherals, configures audio clocks, and begins pipeline processing immediately upon boot without waiting for host firmware downloads or handshakes.
 * **Static Pre-Compiled Topologies**: Instead of relying on a host kernel driver to dynamically parse binary ``.tplg`` files at runtime, hostless systems utilize pre-compiled static topology graphs embedded directly in firmware flash ROM or compiled into static C data structures.
@@ -203,7 +203,7 @@ In hostless deployments (such as smart speakers, conference microphones, standal
 * **Local Controls & Embedded Telemetry**: Volume, mute, EQ profiles, and audio routing are controlled locally via GPIO buttons, rotary encoders, or local Zephyr application threads, with real-time diagnostic trace logging streamed over UART or USB CDC.
 
 .. graphviz::
-   :caption: SOF Hostless Embedded System Architecture (ESP32-P4 / Teensy 4.1)
+   :caption: SOF Hostless Embedded System Architecture (ESP32-P4 / ESP32-C6 / Teensy 4.1)
    :align: center
 
    digraph hostless_stack {
@@ -241,7 +241,7 @@ In hostless deployments (such as smart speakers, conference microphones, standal
 
        // 2. HOSTLESS AUDIO DSP FIRMWARE (MIDDLE)
        subgraph cluster_firmware {
-           label = "Hostless SOF Firmware (ESP32-P4 / Teensy 4.1 / Embedded MCU)";
+           label = "Hostless SOF Firmware (ESP32-P4 / ESP32-C6 / Teensy 4.1 / Embedded MCU)";
            style = "filled,rounded";
            color = "#27ae60";
            fillcolor = "#eafaf1";
