@@ -14,7 +14,15 @@ Requirements
 
 .. _install-tinycompress:
 
-- Install `tinycompress <https://github.com/alsa-project/tinycompress>`_ (crecord tool)
+- Install `tinycompress <https://github.com/alsa-project/tinycompress>`_ (sofprobeclient and crecord tools)
+
+  Since version 1.2.16, tinycompress includes ``sofprobeclient``, a dedicated
+  SOF probes client that replaces the ``crecord`` + ``sof-probes`` workflow with
+  a single command. It captures compressed probe data, parses it in real time,
+  prints log output to stdout, and writes audio probe data to
+  ``buffer_<id>.wav`` files in the current directory. The older ``crecord``
+  based workflow is still available but ``sofprobeclient`` is the recommended
+  tool.
 
 Enabling Probes
 ***************
@@ -87,6 +95,13 @@ Firmware side
 	CONFIG_LOG_BACKEND_SOF_PROBE=y
 	CONFIG_ZEPHYR_LOG=y
 
+  Optional, to automatically enable log output when probes DMA starts
+  (removes the need to manually set the logging probe point after every boot):
+
+  .. code-block:: bash
+
+	CONFIG_LOG_BACKEND_SOF_PROBE_OUTPUT_AUTO_ENABLE=y
+
   Refer to :ref:`Simple logging case<simple-logging-case>` for quick guide to use probes logging interface.
 
 - Refer to **Step 3 Build firmware binaries** in :ref:`Build SOF from Scratch <build-from-scratch>` for reference on how to build SOF FW.
@@ -98,9 +113,54 @@ Data extraction
 
 Extraction is the most common use case. It allows for data extraction from
 the audio component data buffer. It requires starting the compress stream by
-starting the crecord tool. Note that one compress stream may contain data
-from several extraction probe points which means data parsing is needed at
-the last stage of extraction.
+starting the ``sofprobeclient`` tool (or the ``crecord`` tool for the legacy
+workflow). Note that one compress stream may contain data from several
+extraction probe points which means data parsing is needed at the last stage
+of extraction. ``sofprobeclient`` handles this parsing automatically.
+
+Using sofprobeclient (recommended)
+==================================
+
+#. Start ``sofprobeclient`` to prepare the extraction stream:
+
+   .. code-block:: bash
+
+	  sofprobeclient
+
+   The defaults (card 3, device 0, buffer 8192, 4 fragments, S32_LE, 48000 Hz,
+   4 channels) match a typical SOF probes setup. Override with command-line
+   options if needed:
+
+   .. code-block:: none
+
+      -c  card number (default 3)
+      -d  device node (default 0)
+      -b  buffer size (default 8192)
+      -f  fragments (default 4)
+      -C  number of channels (default 4)
+      -R  sample rate (default 48000)
+      -F  format: S16_LE, S32_LE (default S32_LE)
+      -v  verbose mode
+      -D  enable parser debug messages
+      -l  length of record in seconds (0 = unlimited)
+
+#. Add probe points via ``debugfs`` as described below (see
+   :ref:`adding-probe-points`).
+
+#. ``sofprobeclient`` parses the data in real time:
+
+   - Log output from non-audio probe points is printed to **stdout**.
+   - Audio probe data is written to ``buffer_<id>.wav`` files in the current
+     directory. Buffer IDs are printed in hexadecimal (e.g.
+     ``buffer_0x1a.wav``). Audio files are auto-closed after 200 ms of
+     inactivity and new captures use incrementing indices
+     (``buffer_<id>-1.wav``, ``buffer_<id>-2.wav``, ...) to avoid overwriting
+     previous recordings.
+
+#. Stop ``sofprobeclient`` with ``Ctrl+C`` when done.
+
+Using crecord (legacy)
+======================
 
 #. Start the crecord tool to prepare the extraction stream (read the crecord
    readme file):
@@ -121,9 +181,17 @@ the last stage of extraction.
 
    The other parameters are "don't-cares" for the driver.
 
-     - Use ``aplay`` to start the playback stream.
-     - Pause the playback stream. (optional)
-     - Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
+.. _adding-probe-points:
+
+Adding probe points
+===================
+
+After starting the extraction stream (with either ``sofprobeclient`` or
+``crecord``), add probe points via the ``debugfs`` "probe_points" entry in
+``/sys/kernel/debug/sof``.
+
+  - Use ``aplay`` to start the playback stream.
+  - Pause the playback stream. (optional)
 
 
    For example, to add buffer 7 with a probe point (IPC3):
@@ -221,9 +289,14 @@ the last stage of extraction.
 Data parsing
 ************
 
-As previously mentioned, one compress stream can contain data from several
-extraction probe points which means data parsing is needed at the final
-stage of extraction. The following example demonstrates how to extract data. Use ``-p`` for parse.
+When using ``sofprobeclient``, data parsing happens automatically in real
+time — log output is printed to stdout and audio data is written to WAV files.
+No separate parsing step is needed.
+
+When using the legacy ``crecord`` workflow, one compress stream can contain data
+from several extraction probe points which means data parsing is needed at the
+final stage of extraction. The following example demonstrates how to extract
+data. Use ``-p`` for parse.
 
 Usage and ouput:
 
@@ -242,6 +315,27 @@ such as ``Audacity``.
 Simple logging case
 *******************
 
+Using sofprobeclient with auto-enable (recommended)
+====================================================
+
+With ``CONFIG_LOG_BACKEND_SOF_PROBE_OUTPUT_AUTO_ENABLE=y`` in the firmware
+configuration, log output is automatically enabled as soon as the probes DMA
+starts. There is no need to manually set a logging probe point after each boot.
+
+With FW built with :ref:`probes logging enabled<firmware-side>` (including the
+auto-enable option) and probes enabled from :ref:`Linux side<kernel-side>`, simply
+run:
+
+.. code-block:: bash
+
+	sofprobeclient
+
+Log output is printed to stdout in real time. Audio probe data (if any probe
+points are added) is written to WAV files in the current directory.
+
+Using crecord (legacy)
+======================
+
 With the :ref:`crecord<install-tinycompress>` and :ref:`sof-probes<data-parsing>` in path, FW built with :ref:`probes logging enabled<firmware-side>`, and probes enabled from :ref:`Linux side<kernel-side>`, it should be possible to extract the logs with following steps:
 
 #. crecord has to be started first:
@@ -250,7 +344,9 @@ With the :ref:`crecord<install-tinycompress>` and :ref:`sof-probes<data-parsing>
 
 	crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 | sof-probes -l
 
-#. then to enable logs through probes sysfw interface use following commands as root,
+#. If ``CONFIG_LOG_BACKEND_SOF_PROBE_OUTPUT_AUTO_ENABLE`` is not enabled in the
+   firmware, the logging probe point must be set manually after every boot.
+   Use the following commands as root to enable logs through probes sysfs interface,
 
      IPC3 system:
 
