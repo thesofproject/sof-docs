@@ -1,7 +1,12 @@
 .. _topology:
 
-SOF Topology
-############
+Legacy Topology 1.0 (M4-Based)
+##############################
+
+.. note::
+   **Legacy Topology Notice**:
+   This document describes the legacy M4 macro-based Topology 1.0 format. Modern SOF platforms standardize on ALSA Topology 2.0. For modern topology authoring, see :ref:`topology2`.
+
 
 Topology defines the audio processing pipeline that is used by the
 firmware. In SOF, topologies are defined using M4_ macro language,

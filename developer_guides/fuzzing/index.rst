@@ -4,7 +4,6 @@ Fuzzing
 #######
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   fuzzing_in_docker
    testbench_afl_fuzzing

@@ -1,130 +1,217 @@
 .. _unit_tests:
 
-Unit Tests
-##########
+Unit Testing with Zephyr Ztest & Twister
+########################################
 
-Prerequisites
-*************
+Sound Open Firmware (SOF) utilizes Zephyr's native **Ztest** testing framework and **Twister** test runner for unit testing and test-driven development (TDD). This modern testing architecture replaces legacy CMocka tests, seamlessly integrating SOF into the upstream Zephyr RTOS ecosystem.
 
-This guide assumes that you have the proper setup and that you know how to build firmware. If this is not correct, follow the instructions at :ref:`build_sof` first.
+With Ztest and Twister, developers can compile and run firmware unit tests directly on the host machine using the **native_sim** target, verifying DSP processing algorithms, memory allocation, and pipeline lifecycle logic in milliseconds without requiring physical hardware or proprietary DSP toolchains.
 
-`Cmocka <https://cmocka.org/>`_ is fetched and built automatically.
-For a successful compilation, it needs a toolchain thats supports C stdlib.
+Architecture Overview
+*********************
 
-Configuring for unit tests
-**************************
+Ztest unit tests execute in user space on the host development machine:
 
-Unit tests are built from the same, top-level CMakeLists.txt as the
-firmware but with different CMake flags: **-DBUILD_UNIT_TESTS=ON** and a
-couple others.
+.. code-block:: text
 
-Building unit tests can be more complex than building the firmware
-because for the firmware the script ``./xtensa-build-all.sh`` hides most
-the CMake configuration. For unit tests you must find a working
-combination of environment variables and CMake flags. Fortunately
-``./xtensa-build-all.sh`` logs some of its magic that you can "steal"
-and re-use to build unit tests. Like this:
+   +-------------------------------------------------------------+
+   |                     Twister Test Runner                     |
+   |   (Test Discovery, Parallel Execution, JUnit XML, Coverage) |
+   +-------------------------------------------------------------+
+                                  |
+                                  v
+   +-------------------------------------------------------------+
+   |                      native_sim Target                      |
+   |              (Host x86_64 / Linux POSIX Sandbox)            |
+   +-------------------------------------------------------------+
+                                  |
+                                  v
+   +-------------------------------------------------------------+
+   |                     Zephyr Ztest Suites                     |
+   |  - Core Libs (math, lists, buffers, objpool)                |
+   |  - Audio Components (eq_fir, volume, mixer, tone, tflm)     |
+   |  - IPC Envelopes & Component Adapters                       |
+   +-------------------------------------------------------------+
 
-- Export ``XTENSA_TOOLS_ROOT`` as you normally do when building the
-  firmware.
-- Build the firmware using ``./xtensa-build-all.sh`` and take note of the
-  following variables in the build log: ``PATH``, ``XTENSA_SYSTEM`` and
-  the ``-DROOT_DIR`` parameter.
-- ``export`` the ``PATH`` and ``XTENSA_SYSTEM`` values found above.
-- Run cmake with ``-DBUILD_UNIT_TESTS=ON``, the ``-DROOT_DIR`` parameter above,
-  ``-DINIT_CONFIG`` and a new build directory
-- Build and run the tests with ``make test`` or ``ninja test``.
+Prerequisites & Environment Setup
+*********************************
 
-.. note::
+Building and executing Ztest suites requires the Zephyr SDK, host build essentials, LLVM/Clang toolchain, and the ``west`` meta-tool.
 
-   Use -DTOOLCHAIN=xt option.
-
-   As of December 2021, -DTOOLCHAIN=xtensa-<platform_type>-elf is not
-   supported. You can use a native toolchain, see below.
-
-If you get this double ``uintptr_t`` definition error:
+1. Install Host Dependencies
+============================
 
 .. code-block:: bash
 
-   [  2%] Building C object test/cmocka/CMakeFiles/common_mock.dir/src/common_mocks.c.o
-   In file included from sof/test/cmocka/src/common_mocks.c:29:
-   sof/but/cmocka_git/src/cmocka_git/include/cmocka.h:132:
-                         error: redefinition of typedef ‘uintptr_t’
-   xcc/install/builds/RG-2017.8-linux/X4H3I16w2D48w3a_2017_8/xtensa-elf/include/stdint.h:252:
-                         error: previous declaration of ‘uintptr_t’ was here
+   sudo apt-get update
+   sudo apt-get install -y clang llvm ninja-build device-tree-compiler \
+     python3-pyelftools gcc-multilib g++-multilib
 
-... then append this to your cmake invocation: ``-DEXTRA_CFLAGS=-D_UINTPTR_T_DEFINED=1``
+2. Configure West Workspace
+===========================
 
-Additional unit tests options can be found in :ref:`cmake`.
-
-Example: Running tests for APL
-==============================
+Ensure your SOF workspace is initialized with ``west``:
 
 .. code-block:: bash
 
-   mkdir build_ut && cd build_ut
-   cmake -DBUILD_UNIT_TESTS=ON -DTOOLCHAIN=xt -DINIT_CONFIG=apollolake_defconfig \
-       -DROOT_DIR=/xcc/install/builds/RG-2017.8-linux/X4H3I16w2D48w3a_2017_8/xtensa-elf ..
-   make -j4 && ctest -j8
+   cd ~/work/sof
+   west init -l
+   west update --narrow --fetch-opt=--filter=tree:0
 
-Compiling unit tests without a cross-compilation toolchain
-==========================================================
+3. Set Toolchain Variant
+========================
 
-You can also compile and run unit tests with your native compiler:
+Configure Zephyr to use the LLVM/Clang compiler:
 
 .. code-block:: bash
 
-   rm -rf build_ut/
-   cmake -B build_ut/ -DBUILD_UNIT_TESTS_HOST=yes \
-     -DBUILD_UNIT_TESTS=ON -DINIT_CONFIG=something_defconfig
-   make -C build_ut/ -j8 && make -C build_ut/ test
+   export ZEPHYR_TOOLCHAIN_VARIANT=llvm
 
-The ``scripts/run-cmocks.sh`` script does all that and can also run unit
-tests with valgrind.
-
-Wrapping objects for unit tests
+Running Unit Tests with Twister
 *******************************
 
-If you need to mock a symbol, define it in a unit test and include the .h file. There are two cases where this isn't possible:
+The ``west twister`` command discovers, builds, and executes test suites across the repository.
 
-* Static functions in headers (those most probably are inline short functions
-  and don't have to be mocked).
+Executing All Unit Tests
+========================
 
-*	Static functions that are in the same file as tested functionality and are
-	exceedingly large so they can't be tested as one functionality.
+To execute all unit tests located under `sof/test/ztest/unit/` using the `native_sim` platform:
 
-Whatever the reason, mocking of those symbols can be done by using the --wrap linker functionality. To wrap the symbol follow these steps:
+.. code-block:: bash
 
-#. Create mocked symbol named __wrap_symbol_name
+   west twister --testsuite-root test/ztest/unit/ --platform native_sim \
+     --verbose --inline-logs
 
-#. Pass instruction for the linker -Wl, --wrap=symbol_name during compilation.
+Twister outputs real-time test status to the terminal and records structured results, build logs, and reports in the `twister-out/` directory.
 
-Now every symbol calls to symbol_name will call __wrap_symbol_name.
+Targeting Specific Test Suites
+==============================
 
-Instructions can be passed to the linker in the SOF UT environment using
-CFLAGS; however, they should be passed in separate variables in the makefile.
+To run a specific test suite or component (e.g., math or audio component tests):
 
-Example:
+.. code-block:: bash
 
-.. code-block:: cmake
+   # Run only math unit tests
+   west twister --testsuite-root test/ztest/unit/math/ --platform native_sim
 
-   # some tests before ...
-   cmocka_test(pipeline_connect_upstream
-       pipeline_connect_upstream.c
-       ...
-   )
-   target_link_libraries(pipeline_connect_upstream PRIVATE "-Wl,--wrap=symbol_name")
+   # Run matching a specific test scenario name
+   west twister --testsuite-root test/ztest/unit/ -s sof.unit.math --platform native_sim
 
-Full information about wrapping can be found here:
+Generating Code Coverage Reports
+================================
 
-https://lwn.net/Articles/558106/
+Twister integrates with `gcov` and `lcov` to calculate code coverage metrics:
 
-Notes
-*****
+.. code-block:: bash
 
-#. Use the **ctest -j** option while running tests that use xt-run
-   (to speed up tests significantly) by running multiple instances of the
-   xt-run simulator (it also speeds up the build if you have many unit tests).
+   west twister --testsuite-root test/ztest/unit/ --platform native_sim \
+     --coverage -p native_sim
 
-#. **ctest** only runs unit tests; to rebuild them, you have to explicitly
-   run **make**.
+Writing a Ztest Unit Test
+*************************
+
+A typical SOF Ztest defines a test suite fixture (`setup`, `before`, `after`, `teardown`), initializes the mock SOF infrastructure (`sys_comp_init`), and validates component execution with assertions.
+
+Example: Testing an Audio Processing Component
+===============================================
+
+Below is an annotated example of a Ztest unit test for an audio filter component:
+
+.. code-block:: c
+
+   // SPDX-License-Identifier: BSD-3-Clause
+   /*
+    * Copyright(c) 2026 Intel Corporation.
+    */
+
+   #include <zephyr/kernel.h>
+   #include <zephyr/ztest.h>
+   #include <rtos/sof.h>
+   #include <rtos/alloc.h>
+   #include <sof/audio/component.h>
+   #include <sof/audio/pipeline.h>
+   #include <sof/ipc/topology.h>
+
+   extern void sys_comp_module_eq_fir_interface_init(void);
+
+   /* Suite setup fixture: runs once before all tests in this suite */
+   static void *suite_setup(void)
+   {
+       struct sof *sof = sof_get();
+
+       /* Initialize SOF audio component framework */
+       sys_comp_init(sof);
+
+       if (!sof->ipc) {
+           sof->ipc = rzalloc(SOF_MEM_FLAG_COHERENT, sizeof(*sof->ipc));
+           sof->ipc->comp_data = rzalloc(SOF_MEM_FLAG_COHERENT, 4096);
+           k_spinlock_init(&sof->ipc->lock);
+           list_init(&sof->ipc->msg_list);
+           list_init(&sof->ipc->comp_list);
+       }
+
+       /* Register the component under test */
+       sys_comp_module_eq_fir_interface_init();
+       return NULL;
+   }
+
+   /* Register the test suite with setup fixture */
+   ZTEST_SUITE(sof_eq_fir_suite, NULL, suite_setup, NULL, NULL, NULL);
+
+   /* Unit test case: verify component creation and parameter validation */
+   ZTEST(sof_eq_fir_suite, test_eq_fir_create)
+   {
+       struct comp_dev *dev;
+       struct comp_ipc_config config = {
+           .id = 1,
+           .type = SOF_COMP_EQ_FIR,
+           .core = 0,
+       };
+
+       /* Test instantiation */
+       dev = comp_new(&config);
+       zassert_not_null(dev, "Failed to create EQ FIR component");
+       zassert_equal(dev->state, COMP_STATE_READY, "Component must initialize to READY state");
+
+       /* Free allocated component */
+       comp_free(dev);
+   }
+
+   /* Unit test case: verify processing with invalid channel configuration */
+   ZTEST(sof_eq_fir_suite, test_eq_fir_invalid_channels)
+   {
+       struct comp_dev *dev;
+       struct comp_ipc_config config = {
+           .id = 2,
+           .type = SOF_COMP_EQ_FIR,
+           .core = 0,
+       };
+
+       dev = comp_new(&config);
+       zassert_not_null(dev, "Failed to create component");
+
+       /* Attempt to set invalid parameters */
+       int ret = comp_set_attribute(dev, COMP_ATTR_CHANNELS, 0);
+       zassert_not_equal(ret, 0, "Zero channel count should return error");
+
+       comp_free(dev);
+   }
+
+Common Ztest Assertions
+=======================
+
+Ztest provides robust macros that output descriptive failures when conditions are violated:
+
+* ``zassert_true(cond, msg)``: Asserts that a boolean condition is true.
+* ``zassert_false(cond, msg)``: Asserts that a boolean condition is false.
+* ``zassert_equal(a, b, msg)``: Asserts that two values are equal.
+* ``zassert_not_equal(a, b, msg)``: Asserts that two values are not equal.
+* ``zassert_not_null(ptr, msg)``: Asserts that a pointer is not ``NULL``.
+* ``zassert_mem_equal(a, b, size, msg)``: Asserts that two memory buffers are bitwise identical.
+
+Deprecation Notice: Legacy CMocka
+*********************************
+
+.. warning::
+   **Legacy CMocka Deprecation**:
+   Prior versions of SOF used CMocka with custom build scripts (`scripts/run-cmocks.sh`). The CMocka framework has been deprecated and retired in favor of native Zephyr Ztest and Twister. All new unit tests must be authored using Ztest under `test/ztest/unit/`.
