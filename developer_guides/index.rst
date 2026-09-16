@@ -4,8 +4,22 @@
 Developer Guides
 ################
 
-Firmware Development (FW)
-*************************
+Sound Open Firmware (SOF) provides comprehensive architectural specifications, developer runbooks, and implementation guides covering the entire audio stack: from low-level DSP firmware and Zephyr RTOS integration to mainline Linux kernel drivers, embedded microcontroller audio bridges, and automated verification suites.
+
+The developer documentation is organized into five core technical pillars:
+
+1. :ref:`fw_development_pillar`
+2. :ref:`kernel_driver_pillar`
+3. :ref:`hardware_bringup_pillar`
+4. :ref:`testing_simulation_pillar`
+5. :ref:`telemetry_diagnostics_pillar`
+
+---
+
+.. _fw_development_pillar:
+
+1. Firmware Development (FW)
+****************************
 
 Guides and specifications for developing, compiling, and debugging DSP firmware components, Zephyr RTOS integration, audio processing algorithms, dynamic modules, and firmware image signing.
 
@@ -59,29 +73,26 @@ Detailed filter design, coefficient generation, and tuning workflows:
    algorithms/src/sample_rate_conversion
    algorithms/tdfb/time_domain_fixed_beamformer
 
-Firmware Packaging & Dynamic Modules
-====================================
+Firmware Packaging, Modules & Hostless Mode
+===========================================
+
+Firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
 
 .. toctree::
    :maxdepth: 1
 
    rimage/index.rst
    firmware/llext_modules
-   loadable_modules/lmdk_user_guide
+   firmware/hostless_firmware
 
-DSP Telemetry, Probes & Debugging
-=================================
+---
 
-.. toctree::
-   :maxdepth: 1
+.. _kernel_driver_pillar:
 
-   debugability/index
-   uuid/index.rst
+2. Kernel & Host Driver Development (Kernel)
+********************************************
 
-Kernel & Host Driver Development (Kernel)
-*****************************************
-
-Guides for Linux ASoC kernel driver developers, topology authors, virtualization environments, and host tuning utilities.
+Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, virtualization environments, and host tuning utilities.
 
 .. toctree::
    :maxdepth: 1
@@ -94,29 +105,52 @@ Guides for Linux ASoC kernel driver developers, topology authors, virtualization
    tuning/sof-ctl
    ktest/setup_ktest_environment
 
-Hardware & Platform-Specific Guides (HW)
-****************************************
+---
 
-Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors, legacy architectures, and embedded development boards.
+.. _hardware_bringup_pillar:
+
+3. Hardware & Platform Bringup (HW)
+***********************************
+
+Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors and embedded development boards.
 
 .. toctree::
    :maxdepth: 1
 
    nxp/sof_imx_user_guide
-   setup_special_device/setup_up_2_board
 
-Simulation, Testing & Toolchain (SDK)
-*************************************
+For embedded microcontroller audio bridges and hostless targets (Teensy 4.1, ESP32-P4, ESP32-C6), see :ref:`sof_hostless_firmware` and :ref:`sof_hardware_loopback_testing`.
 
-Verification frameworks, host audio simulation, fuzzing, and compiler toolchains.
+---
+
+.. _testing_simulation_pillar:
+
+4. Testing, Simulation & Toolchains (SDK & Test)
+************************************************
+
+Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulation, automated hardware loopback verification, Zephyr CMake build flags, and fuzzing.
 
 .. toctree::
    :maxdepth: 1
 
    unit_tests
-   tech/cmake
+   testing/hardware_loopback
    testbench/index
+   tech/cmake
    xtrun/index
    fuzzing/index
-   tech/compile_wsl
 
+---
+
+.. _telemetry_diagnostics_pillar:
+
+5. DSP Telemetry, Logging & Diagnostics (Debug)
+***********************************************
+
+Real-time DSP trace streaming over network probes, Zephyr structured logging, compile-time string dictionary extraction (`smex`), `sof-logger`, interactive Zephyr shell, and kernel debug probes.
+
+.. toctree::
+   :maxdepth: 1
+
+   debugability/index
+   uuid/index.rst
