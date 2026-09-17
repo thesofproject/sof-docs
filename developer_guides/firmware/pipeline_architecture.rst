@@ -170,7 +170,7 @@ Modules support different pin topologies depending on their functional role:
 
 Audio signal processing has diverse timing requirements. Simple volume adjustment must happen with sub-millisecond determinism to prevent hardware dropouts, whereas complex algorithms like Acoustic Echo Cancellation (AEC) or neural speech enhancement require flexible execution windows.
 
-To resolve these conflicting demands, SOF separates pipeline execution into two primary **Scheduling Domains**:
+To resolve these conflicting demands, SOF separates pipeline execution into multiple **Scheduling Domains** (see :ref:`scheduler_architecture` for a comprehensive deep dive):
 
 .. list-table::
    :widths: 20 40 40
@@ -457,6 +457,7 @@ For developers seeking low-level C implementation details, data structures, and 
 Related Guides
 ==============
 
+* :ref:`scheduler_architecture`: Multi-tier real-time scheduling (LL, DP, TWB), EDF mechanics, and multi-core execution.
 * :ref:`module_framework`: The standardized module interface, Source/Sink APIs, and memory sandboxing.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.

@@ -516,6 +516,7 @@ For developers seeking low-level C implementation details, data structures, and 
 Related Guides
 ==============
 
+* :ref:`scheduler_architecture`: Multi-tier real-time scheduling (LL, DP, TWB), EDF mechanics, and multi-core execution.
 * :ref:`pipeline_architecture`: How processing modules are assembled into directed acyclic execution graphs (DAGs).
 * :ref:`llext_modules`: Authoring, compiling, and signing dynamic loadable modules using Zephyr LLEXT.
 * :ref:`sof_hostless_firmware`: Instantiating static modules in autonomous embedded firmware.
