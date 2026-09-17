@@ -31,7 +31,7 @@ The SOF firmware repository maintains detailed, up-to-date specifications for ea
 Core Infrastructure & Pipeline
 ------------------------------
 
-* `Pipeline Architecture <https://github.com/thesofproject/sof/tree/main/src/audio/pipeline/README.md>`_
+* :ref:`pipeline_architecture` (High-level architecture; also see upstream `pipeline README <https://github.com/thesofproject/sof/tree/main/src/audio/pipeline/README.md>`_)
 * `Audio Buffer Management <https://github.com/thesofproject/sof/tree/main/src/audio/buffers/README.md>`_
 * `Scheduler <https://github.com/thesofproject/sof/tree/main/src/schedule/README.md>`_
 * `Module Framework <https://github.com/thesofproject/sof/tree/main/src/module/README.md>`_
@@ -73,14 +73,15 @@ Detailed filter design, coefficient generation, and tuning workflows:
    algorithms/src/sample_rate_conversion
    algorithms/tdfb/time_domain_fixed_beamformer
 
-Firmware Packaging, Modules & Hostless Mode
-===========================================
+Pipeline Architecture, Packaging & Modules
+==========================================
 
-Firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
+Core pipeline architecture, firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
 
 .. toctree::
    :maxdepth: 1
 
+   firmware/pipeline_architecture
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware

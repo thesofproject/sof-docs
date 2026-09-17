@@ -605,6 +605,9 @@ At the heart of the firmware is the audio processing pipeline framework:
        ctl_eq -> comp_eq [style=dashed, color="#d35400", label="IPC Set Data"];
    }
 
+.. seealso::
+   For an in-depth architectural explanation of how pipelines, modules, Low-Latency (LL) and Data Processing (DP) scheduling domains, circular buffers, lifecycle management, and the runtime state machine operate, see the :ref:`pipeline_architecture` developer guide.
+
 Topology 2 Architecture
 =======================
 
