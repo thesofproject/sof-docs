@@ -564,6 +564,7 @@ For developers seeking low-level C implementation details, data structures, and 
 Related Guides
 ==============
 
+* :ref:`audio_buffer_management`: Lockless circular ring buffers, multi-tier DSP memory (SRAM/DRAM), and cache coherency.
 * :ref:`pipeline_architecture`: How audio pipelines interact with the scheduling domains to stream data.
 * :ref:`module_framework`: The standardized module interface executed by LL and DP scheduler tasks.
 * :ref:`sof_hostless_firmware`: Autonomous firmware pipelines and timer configurations on embedded targets.

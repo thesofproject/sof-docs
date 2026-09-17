@@ -250,7 +250,7 @@ Execution Comparison
 4. Data Movement & Buffer Queues
 ********************************
 
-Audio samples move through the pipeline via continuous **Circular Ring Buffers**. Rather than allocating dynamic memory packets on every audio tick, SOF pre-allocates cache-aligned circular memory pools during pipeline initialization.
+Audio samples move through the pipeline via continuous **Circular Ring Buffers** (see :ref:`audio_buffer_management` for a comprehensive deep dive into lockless SPSC mechanics, sizing criteria, and DSP memory tiers). Rather than allocating dynamic memory packets on every audio tick, SOF pre-allocates cache-aligned circular memory pools during pipeline initialization.
 
 The Producer-Consumer Model
 ===========================
@@ -458,6 +458,7 @@ Related Guides
 ==============
 
 * :ref:`scheduler_architecture`: Multi-tier real-time scheduling (LL, DP, TWB), EDF mechanics, and multi-core execution.
+* :ref:`audio_buffer_management`: Lockless circular ring buffers, multi-tier DSP memory (SRAM/DRAM), and cache coherency.
 * :ref:`module_framework`: The standardized module interface, Source/Sink APIs, and memory sandboxing.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
