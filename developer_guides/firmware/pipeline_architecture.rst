@@ -109,7 +109,7 @@ Rather than placing all audio processing modules into one monolithic loop, SOF p
 2. Audio Modules & Pin Interfaces
 *********************************
 
-An **Audio Module** (or component) is the atomic building block of signal processing in SOF. Modules accept incoming audio frames on **Sink Pins** (inputs), process or transform the samples, and produce processed frames on **Source Pins** (outputs).
+An **Audio Module** (or component) is the atomic building block of signal processing in SOF. Modules accept incoming audio frames on **Sink Pins** (inputs), process or transform the samples, and produce processed frames on **Source Pins** (outputs). For an in-depth architectural guide on module containers, Source/Sink APIs, and memory sandboxing, see :ref:`module_framework`.
 
 .. graphviz::
    :caption: Anatomy of an SOF Audio Processing Module
@@ -457,6 +457,7 @@ For developers seeking low-level C implementation details, data structures, and 
 Related Guides
 ==============
 
+* :ref:`module_framework`: The standardized module interface, Source/Sink APIs, and memory sandboxing.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
 * :ref:`llext_modules`: Building dynamic loadable modules (LLEXT) that integrate into SOF pipelines.
