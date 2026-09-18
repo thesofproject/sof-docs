@@ -50,7 +50,7 @@ Audio Processing Modules & Algorithms
 * :ref:`dcblock` (High-level architecture; also see upstream `dcblock README <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_)
 * :ref:`tdfb` (High-level architecture; also see upstream `tdfb README <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_ & tuning guide :ref:`time-domain-fixed-beamformer`)
 * `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
-* `TensorFlow Lite Micro (TFLM) <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_
+* :ref:`tflm` (High-level architecture; also see upstream `TFLM README <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_)
 * `MFCC Feature Extraction <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_
 * `Smart Amp Protection <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_
 * `Sound Dose Evaluator <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_
@@ -94,6 +94,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/crossover
    firmware/dcblock
    firmware/tdfb
+   firmware/tflm
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
