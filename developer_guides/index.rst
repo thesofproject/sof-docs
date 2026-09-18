@@ -35,7 +35,7 @@ Core Infrastructure & Pipeline
 * :ref:`module_framework` (High-level architecture; also see upstream `module README <https://github.com/thesofproject/sof/tree/main/src/module/README.md>`_ & `module adapter README <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_)
 * :ref:`scheduler_architecture` (High-level architecture; also see upstream `scheduler README <https://github.com/thesofproject/sof/tree/main/src/schedule/README.md>`_)
 * :ref:`audio_buffer_management` (High-level architecture; also see upstream `buffer README <https://github.com/thesofproject/sof/tree/main/src/audio/buffers/README.md>`_)
-* `IPC Infrastructure (IPC3 & IPC4) <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_
+* :ref:`ipc_infrastructure` (High-level architecture; also see upstream `IPC README <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_)
 * `Firmware Initialization & Boot <https://github.com/thesofproject/sof/tree/main/src/init/README.md>`_
 
 Audio Processing Modules & Algorithms
@@ -84,6 +84,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/module_framework
    firmware/scheduler_architecture
    firmware/audio_buffer_management
+   firmware/ipc_infrastructure
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware

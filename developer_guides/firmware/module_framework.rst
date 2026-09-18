@@ -516,6 +516,7 @@ For developers seeking low-level C implementation details, data structures, and 
 Related Guides
 ==============
 
+* :ref:`ipc_infrastructure`: Host-to-DSP messaging, hardware mailbox windows, and dynamic IPC4 compound commands.
 * :ref:`audio_buffer_management`: Lockless circular ring buffers, multi-tier DSP memory (SRAM/DRAM), and cache coherency.
 * :ref:`scheduler_architecture`: Multi-tier real-time scheduling (LL, DP, TWB), EDF mechanics, and multi-core execution.
 * :ref:`pipeline_architecture`: How processing modules are assembled into directed acyclic execution graphs (DAGs).
