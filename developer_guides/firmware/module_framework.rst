@@ -521,6 +521,7 @@ Related Guides
 * :ref:`scheduler_architecture`: Multi-tier real-time scheduling (LL, DP, TWB), EDF mechanics, and multi-core execution.
 * :ref:`pipeline_architecture`: How processing modules are assembled into directed acyclic execution graphs (DAGs).
 * :ref:`volume_module`: Comprehensive architecture of the canonical volume control module, ramping, and SIMD optimization.
+* :ref:`mixin_mixout`: Multi-stream audio distribution, fan-out/fan-in routing, and direct-to-sink accumulation.
 * :ref:`llext_modules`: Authoring, compiling, and signing dynamic loadable modules using Zephyr LLEXT.
 * :ref:`sof_hostless_firmware`: Instantiating static modules in autonomous embedded firmware.
 * :ref:`topology2`: Declaring audio widgets and binding modules using ALSA Topology 2.0.
