@@ -461,6 +461,7 @@ Related Guides
 * :ref:`scheduler_architecture`: Multi-tier real-time scheduling (LL, DP, TWB), EDF mechanics, and multi-core execution.
 * :ref:`audio_buffer_management`: Lockless circular ring buffers, multi-tier DSP memory (SRAM/DRAM), and cache coherency.
 * :ref:`module_framework`: The standardized module interface, Source/Sink APIs, and memory sandboxing.
+* :ref:`volume_module`: Per-channel gain scaling, smooth ramping, zero-crossing muting, and SIMD acceleration.
 * :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
