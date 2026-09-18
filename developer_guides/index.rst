@@ -45,7 +45,7 @@ Audio Processing Modules & Algorithms
 * :ref:`mixin_mixout` (High-level architecture; also see upstream `mixin_mixout README <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_ & `mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/mixer/README.md>`_)
 * :ref:`src_asrc` (High-level architecture; also see upstream `SRC README <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC README <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_)
 * :ref:`eq_fir_iir` (High-level architecture; also see upstream `FIR README <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `IIR README <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_)
-* `Dynamic Range Compressor (DRC) <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_
+* :ref:`drc_multiband_drc` (High-level architecture; also see upstream `DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_)
 * `Crossover <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_
 * `DC Blocker <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_
 * `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_
@@ -90,6 +90,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/mixin_mixout
    firmware/src_asrc
    firmware/eq_fir_iir
+   firmware/drc_multiband_drc
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
