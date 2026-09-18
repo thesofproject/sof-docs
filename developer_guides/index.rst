@@ -43,7 +43,7 @@ Audio Processing Modules & Algorithms
 
 * :ref:`volume_module` (High-level architecture; also see upstream `volume README <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_)
 * :ref:`mixin_mixout` (High-level architecture; also see upstream `mixin_mixout README <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_ & `mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/mixer/README.md>`_)
-* `Sample Rate Converter (SRC) <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_
+* :ref:`src_asrc` (High-level architecture; also see upstream `SRC README <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC README <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_)
 * `Parametric EQ (FIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `EQ (IIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_
 * `Dynamic Range Compressor (DRC) <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_
 * `Crossover <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_
@@ -88,6 +88,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/fw_init_boot
    firmware/volume_module
    firmware/mixin_mixout
+   firmware/src_asrc
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
