@@ -548,6 +548,7 @@ Related Subsystem Architecture Guides
 
 * :ref:`module_framework`: The standardized module interface, Source/Sink APIs, and memory sandboxing that wraps the volume component.
 * :ref:`pipeline_architecture`: How volume modules are chained with copiers, mixers, and equalizers in audio processing DAGs.
+* :ref:`mixin_mixout`: Multi-stream audio distribution, fan-out/fan-in routing, and direct-to-sink accumulation.
 * :ref:`audio_buffer_management`: Lockless circular ring buffers supplying samples to the volume processing functions.
 * :ref:`ipc_infrastructure`: Control plane protocols and mailbox window communication for volume parameter updates.
 * :ref:`scheduler_architecture`: Real-time scheduling domains (LL and DP) driving periodic volume processing calls.
