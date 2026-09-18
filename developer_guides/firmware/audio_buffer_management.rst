@@ -618,6 +618,7 @@ For developers seeking low-level C implementation details, data structures, and 
 Related Guides
 ==============
 
+* :ref:`ipc_infrastructure`: Host-to-DSP messaging, hardware mailbox windows, and dynamic IPC4 compound commands.
 * :ref:`pipeline_architecture`: How audio buffers interconnect components into directed acyclic graphs (DAGs).
 * :ref:`module_framework`: The standardized module interface that consumes and produces audio samples through Source and Sink APIs.
 * :ref:`scheduler_architecture`: Real-time scheduling domains (LL, DP, TWB) that drive buffer read and write intervals.
