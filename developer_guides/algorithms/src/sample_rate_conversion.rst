@@ -3,6 +3,13 @@
 Sample Rate Conversion
 ######################
 
+.. seealso::
+
+   For a high-level firmware architectural overview of both Synchronous (SRC) and
+   Asynchronous (ASRC) converters—including multi-stage factorization, continuous
+   Farrow drift compensation, push vs pull topologies, and SIMD acceleration—see
+   :ref:`src_asrc`.
+
 Introduction
 ************
 
