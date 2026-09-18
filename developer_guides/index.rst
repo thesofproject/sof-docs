@@ -46,7 +46,7 @@ Audio Processing Modules & Algorithms
 * :ref:`src_asrc` (High-level architecture; also see upstream `SRC README <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC README <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_)
 * :ref:`eq_fir_iir` (High-level architecture; also see upstream `FIR README <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `IIR README <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_)
 * :ref:`drc_multiband_drc` (High-level architecture; also see upstream `DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_)
-* `Crossover <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_
+* :ref:`crossover` (High-level architecture; also see upstream `crossover README <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_)
 * `DC Blocker <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_
 * `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_
 * `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
@@ -91,6 +91,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/src_asrc
    firmware/eq_fir_iir
    firmware/drc_multiband_drc
+   firmware/crossover
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
