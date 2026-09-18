@@ -586,4 +586,5 @@ Related Guides
 * :ref:`module_framework`: How IPC parameter blobs configure processing modules and runtime algorithms.
 * :ref:`scheduler_architecture`: Real-time scheduling domains (LL, DP, TWB) that coordinate with IPC work queues.
 * :ref:`audio_buffer_management`: Allocating and binding circular ring buffers during IPC pipeline construction.
+* :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How ALSA Topology 2.0 configuration files generate IPC topology commands.

@@ -622,4 +622,5 @@ Related Guides
 * :ref:`pipeline_architecture`: How audio buffers interconnect components into directed acyclic graphs (DAGs).
 * :ref:`module_framework`: The standardized module interface that consumes and produces audio samples through Source and Sink APIs.
 * :ref:`scheduler_architecture`: Real-time scheduling domains (LL, DP, TWB) that drive buffer read and write intervals.
+* :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: Declaring buffer sizes, capabilities, and period counts in ALSA Topology 2.0 configuration files.
