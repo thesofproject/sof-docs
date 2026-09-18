@@ -568,5 +568,6 @@ Related Guides
 * :ref:`audio_buffer_management`: Lockless circular ring buffers, multi-tier DSP memory (SRAM/DRAM), and cache coherency.
 * :ref:`pipeline_architecture`: How audio pipelines interact with the scheduling domains to stream data.
 * :ref:`module_framework`: The standardized module interface executed by LL and DP scheduler tasks.
+* :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`sof_hostless_firmware`: Autonomous firmware pipelines and timer configurations on embedded targets.
 * :ref:`unit_tests`: Unit testing scheduler components and domain threads using Zephyr Ztest.
