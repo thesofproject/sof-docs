@@ -464,6 +464,7 @@ Related Guides
 * :ref:`volume_module`: Per-channel gain scaling, smooth ramping, zero-crossing muting, and SIMD acceleration.
 * :ref:`mixin_mixout`: Multi-pipeline audio mixing, stream splitting, dynamic clock domain decoupling, and matrix routing.
 * :ref:`src_asrc`: Synchronous polyphase conversion, asynchronous Farrow drift tracking, push/pull topologies, and SIMD acceleration.
+* :ref:`eq_fir_iir`: Finite and Infinite Impulse Response equalizers, linear-phase FIR tap folding, Direct Form I biquad cascades, and dynamic IPC blob updates.
 * :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
