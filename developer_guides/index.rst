@@ -48,7 +48,7 @@ Audio Processing Modules & Algorithms
 * :ref:`drc_multiband_drc` (High-level architecture; also see upstream `DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_)
 * :ref:`crossover` (High-level architecture; also see upstream `crossover README <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_)
 * :ref:`dcblock` (High-level architecture; also see upstream `dcblock README <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_)
-* `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_
+* :ref:`tdfb` (High-level architecture; also see upstream `tdfb README <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_ & tuning guide :ref:`time-domain-fixed-beamformer`)
 * `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
 * `TensorFlow Lite Micro (TFLM) <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_
 * `MFCC Feature Extraction <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_
@@ -93,6 +93,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/drc_multiband_drc
    firmware/crossover
    firmware/dcblock
+   firmware/tdfb
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware

@@ -468,6 +468,7 @@ Related Guides
 * :ref:`drc_multiband_drc`: Single-band and multi-band dynamic range compression, lookahead pre-delay buffers, adaptive release ballistics, and Linkwitz-Riley crossover splitting.
 * :ref:`crossover`: Linkwitz-Riley 4th-order (LR4) active multi-driver crossovers, 2-way/3-way/4-way splitting with all-pass phase alignment, and 1-to-N multi-sink buffer distribution.
 * :ref:`dcblock`: First-order recursive high-pass DC blocking filter, 0 Hz transmission nulling, 64-bit fixed-point accumulation, and dual circular buffer SIMD acceleration.
+* :ref:`tdfb`: Spatial acoustic filtering, filter-and-sum FIR banks, multi-microphone array geometries, and autonomous Direction of Arrival (DOA) tracking.
 * :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
