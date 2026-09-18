@@ -41,7 +41,7 @@ Core Infrastructure & Pipeline
 Audio Processing Modules & Algorithms
 -------------------------------------
 
-* `Volume Control <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_
+* :ref:`volume_module` (High-level architecture; also see upstream `volume README <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_)
 * `Mixer & Mixin / Mixout <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_
 * `Sample Rate Converter (SRC) <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_
 * `Parametric EQ (FIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `EQ (IIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_
@@ -86,6 +86,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/audio_buffer_management
    firmware/ipc_infrastructure
    firmware/fw_init_boot
+   firmware/volume_module
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
