@@ -469,6 +469,7 @@ Related Guides
 * :ref:`crossover`: Linkwitz-Riley 4th-order (LR4) active multi-driver crossovers, 2-way/3-way/4-way splitting with all-pass phase alignment, and 1-to-N multi-sink buffer distribution.
 * :ref:`dcblock`: First-order recursive high-pass DC blocking filter, 0 Hz transmission nulling, 64-bit fixed-point accumulation, and dual circular buffer SIMD acceleration.
 * :ref:`tdfb`: Spatial acoustic filtering, filter-and-sum FIR banks, multi-microphone array geometries, and autonomous Direction of Arrival (DOA) tracking.
+* :ref:`tflm`: Embedded neural network inference, static tensor arena memory planning, 8-bit affine quantization, and Tensilica NNLib SIMD acceleration.
 * :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
