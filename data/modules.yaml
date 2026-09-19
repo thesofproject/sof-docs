@@ -86,6 +86,18 @@ modules:
       - "Mono to stereo/surround replication"
       - "Channel swap and mute masking"
 
+  - id: level_multiplier
+    name: "Level Multiplier"
+    source: "SOF"
+    category: "Basic Routing & Level"
+    status: "Upstream"
+    description: "Ultra-low-latency Q9.23 linear scaling amplifier for capture sensitivity calibration and inter-stage matching."
+    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    key_features:
+      - "High-precision Q9.23 fixed-point multiplier (-138.47 dB to +48.17 dB)"
+      - "Zero-overhead fast-path bypass when configured for unity gain (0 dB)"
+      - "Runtime IPC4 calibration and LLEXT dynamic module packaging"
+
   - id: tone
     name: "Tone Generator"
     source: "SOF"
