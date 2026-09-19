@@ -207,6 +207,18 @@ modules:
       - "Variable speed scaling (0.5x to 2.0x) with exact GCD counter normalization"
       - "Interactive phase re-anchoring and mono downmix optimization"
 
+  - id: stft_process
+    name: "STFT Process"
+    source: "SOF"
+    category: "Audio Enhancement"
+    status: "Upstream"
+    description: "Modular Short-Time Fourier Transform frequency-domain filtering and synthesis engine."
+    simd: ["HiFi 3", "Scalar C"]
+    key_features:
+      - "Multi-channel 32-bit forward and inverse FFT with COLA windowing"
+      - "Dual-domain processing: Cartesian complex and polar magnitude/phase"
+      - "Single contiguous buffer layout and zero-copy polar memory overlay"
+
   - id: smart_amp
     name: "Smart Amp Protection"
     source: "SOF"

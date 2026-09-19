@@ -62,6 +62,7 @@ Audio Processing Modules & Algorithms
 * :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_)
 * :ref:`level_multiplier` (High-level architecture; also see upstream `Level Multiplier README <https://github.com/thesofproject/sof/tree/main/src/audio/level_multiplier/README.md>`_)
 * :ref:`phase_vocoder` (High-level architecture; also see upstream `Phase Vocoder source tree <https://github.com/thesofproject/sof/tree/main/src/audio/phase_vocoder>`_)
+* :ref:`stft_process` (High-level architecture; also see upstream `STFT Process README <https://github.com/thesofproject/sof/tree/main/src/audio/stft_process/README.md>`_)
 
 .. _algorithm-specific-information:
 
@@ -113,6 +114,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/aria
    firmware/level_multiplier
    firmware/phase_vocoder
+   firmware/stft_process
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
