@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 620" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { rx: 8px; ry: 8px; stroke-width: 1.5px; }
+      .box-pipeline { fill: #f1f5f9; stroke: #94a3b8; stroke-dasharray: 5,4; }
+      .box-copier { fill: #e0f2fe; stroke: #0284c7; }
+      .box-crossover { fill: #ede9fe; stroke: #7c3aed; }
+      .box-control { fill: #fef3c7; stroke: #d97706; }
+      .box-dai { fill: #ecfdf5; stroke: #059669; }
+      .box-hw { fill: #fef2f2; stroke: #dc2626; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #0f172a; }
+      .text-subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #64748b; }
+      .text-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; text-anchor: middle; }
+      .text-sublabel { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #475569; text-anchor: middle; }
+      .text-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; }
+      .line { stroke: #64748b; stroke-width: 1.5px; fill: none; }
+      .line-stream { stroke: #0284c7; stroke-width: 2.5px; fill: none; }
+      .line-control { stroke: #d97706; stroke-width: 1.5px; stroke-dasharray: 4,3; fill: none; }
+      .arrow-blue { fill: #0284c7; }
+      .arrow-amber { fill: #d97706; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow-blue" />
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow-amber" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg" />
+
+  <!-- Title & Header -->
+  <text x="30" y="32" class="text-title">Topology 2 Multi-Sink Pipeline Architecture &amp; IPC4 Output Pin Binding</text>
+  <text x="30" y="50" class="text-subtitle">One-to-Many Multi-DAI Routing for Independent Woofer and Tweeter Power Amplifiers</text>
+
+  <!-- ==================== UPSTREAM PLAYBACK PIPELINE 1 ==================== -->
+  <g transform="translate(30, 80)">
+    <!-- Pipeline Box -->
+    <rect width="450" height="490" class="box-pipeline" />
+    <text x="20" y="25" class="text-title" font-size="13" fill="#475569">Pipeline 1 (Host Ingest &amp; Crossover Split)</text>
+    <text x="20" y="42" class="text-subtitle">Stream Domain: 48 kHz / 32-bit LE / Stereo / Period: 48 frames (1 ms)</text>
+
+    <!-- Host Copier -->
+    <rect x="30" y="70" width="180" height="65" class="box box-copier" />
+    <text x="120" y="95" class="text-label" fill="#0369a1">Host Copier</text>
+    <text x="120" y="110" class="text-sublabel">PCM 0 Playback</text>
+    <text x="120" y="123" class="text-sublabel">host-gateway-playback</text>
+
+    <!-- Stream arrow -->
+    <path d="M 210 102 L 270 102" class="line-stream" marker-end="url(#arr-blue)" />
+
+    <!-- Buffer / Shared FIFO -->
+    <rect x="270" y="82" width="130" height="40" rx="4" ry="4" fill="#ffffff" stroke="#94a3b8" />
+    <text x="335" y="100" class="text-label" font-size="10" fill="#334155">Buffer: 2 Periods</text>
+    <text x="335" y="113" class="text-sublabel">96 frames / 32-bit</text>
+
+    <path d="M 335 122 L 335 190 L 250 190" class="line-stream" marker-end="url(#arr-blue)" />
+
+    <!-- Crossover Widget -->
+    <rect x="30" y="190" width="380" height="170" class="box box-crossover" />
+    <text x="220" y="215" class="text-label" fill="#6d28d9" font-size="14">Widget: crossover.1.1</text>
+    <text x="220" y="232" class="text-sublabel" fill="#5b21b6">UUID: d1:9a:8c:94:6a:80:31:41:ad:6c:b2:bd:a9:e3:5a:9f</text>
+
+    <!-- Input Pin Details -->
+    <rect x="50" y="245" width="140" height="40" rx="4" ry="4" fill="#ffffff" stroke="#a78bfa" />
+    <text x="120" y="262" class="text-label" font-size="10" fill="#6d28d9">Input Pin 0</text>
+    <text x="120" y="275" class="text-sublabel">Stereo Wideband</text>
+
+    <!-- Crossover Core Algorithm -->
+    <rect x="210" y="245" width="180" height="100" rx="4" ry="4" fill="#f5f3ff" stroke="#8b5cf6" />
+    <text x="300" y="265" class="text-label" font-size="11" fill="#4c1d95">LR4 Split Engine</text>
+    <text x="300" y="282" class="text-sublabel">Direct-Form 1 Biquads</text>
+    
+    <!-- Pins inside -->
+    <rect x="220" y="295" width="75" height="35" rx="3" ry="3" fill="#ffffff" stroke="#059669" />
+    <text x="257" y="310" class="text-label" font-size="9" fill="#065f46">Pin 0</text>
+    <text x="257" y="322" class="text-sublabel" font-size="8">Woofer</text>
+
+    <rect x="305" y="295" width="75" height="35" rx="3" ry="3" fill="#ffffff" stroke="#2563eb" />
+    <text x="342" y="310" class="text-label" font-size="9" fill="#1e40af">Pin 1</text>
+    <text x="342" y="322" class="text-sublabel" font-size="8">Tweeter</text>
+
+    <!-- Control Bytes Widget -->
+    <rect x="30" y="380" width="380" height="85" class="box box-control" />
+    <text x="220" y="405" class="text-label" fill="#b45309" font-size="12">Object.Control.bytes."1"</text>
+    <text x="220" y="420" class="text-sublabel" fill="#92400e">name "crossover.1.1_bytes_control"</text>
+    <text x="220" y="435" class="text-sublabel" fill="#78350f">IncludeByKey: "2way" / "3way" / "4way" conf</text>
+    <text x="220" y="450" class="text-code" fill="#b45309" text-anchor="middle">IPC4 Large Config: param_id = 0</text>
+
+    <path d="M 220 380 L 220 360" class="line-control" marker-end="url(#arr-amber)" />
+  </g>
+
+  <!-- ==================== DOWNSTREAM SINK PIPELINES ==================== -->
+  <!-- Woofer Pipeline (SSP0) -->
+  <g transform="translate(520, 80)">
+    <rect width="520" height="230" class="box-pipeline" />
+    <text x="20" y="25" class="text-title" font-size="13" fill="#065f46">Pipeline 2: Woofer Playback Path (Low Frequencies)</text>
+    <text x="20" y="42" class="text-subtitle">Bound via output_pin_binding.1: dai-copier.SSP.NoCodec-0.playback</text>
+
+    <!-- Pin 0 Stream Link from Crossover -->
+    <path d="M -95 240 L -40 240 L -40 100 L 30 100" class="line-stream" stroke="#059669" marker-end="url(#arr-blue)" />
+    <text x="-35" y="90" class="text-code" fill="#059669" font-weight="700">Pin 0 Out</text>
+
+    <!-- DAI Copier SSP0 -->
+    <rect x="30" y="70" width="190" height="65" class="box box-dai" />
+    <text x="125" y="95" class="text-label" fill="#065f46">DAI Copier (SSP0)</text>
+    <text x="125" y="110" class="text-sublabel">dai-copier.SSP.NoCodec-0</text>
+    <text x="125" y="123" class="text-sublabel">Format: 32-bit / 48 kHz / 2ch</text>
+
+    <path d="M 220 102 L 280 102" class="line-stream" stroke="#059669" marker-end="url(#arr-blue)" />
+
+    <!-- HW Amp / Transducer -->
+    <rect x="280" y="70" width="210" height="65" class="box box-hw" />
+    <text x="385" y="95" class="text-label" fill="#b91c1c">Woofer Power Amplifier</text>
+    <text x="385" y="110" class="text-sublabel">I2S / SoundWire / SSP0</text>
+    <text x="385" y="123" class="text-sublabel" font-weight="700" fill="#dc2626">Left/Right Bass Transducers</text>
+
+    <!-- Calibration Info Box -->
+    <rect x="30" y="155" width="460" height="60" rx="4" ry="4" fill="#ffffff" stroke="#cbd5e1" />
+    <text x="45" y="175" class="text-code" fill="#334155">• Passband: DC (0 Hz) up to Fc (e.g. 2200 Hz)</text>
+    <text x="45" y="195" class="text-code" fill="#059669">• High-frequency roll-off: -24 dB/oct (-48 dB at 2*Fc)</text>
+  </g>
+
+  <!-- Tweeter Pipeline (SSP2) -->
+  <g transform="translate(520, 340)">
+    <rect width="520" height="230" class="box-pipeline" />
+    <text x="20" y="25" class="text-title" font-size="13" fill="#1e40af">Pipeline 3: Tweeter Playback Path (High Frequencies)</text>
+    <text x="20" y="42" class="text-subtitle">Bound via output_pin_binding.2: dai-copier.SSP.NoCodec-2.playback</text>
+
+    <!-- Pin 1 Stream Link from Crossover -->
+    <path d="M -95 10 L -20 10 L -20 100 L 30 100" class="line-stream" stroke="#2563eb" marker-end="url(#arr-blue)" />
+    <text x="-15" y="90" class="text-code" fill="#2563eb" font-weight="700">Pin 1 Out</text>
+
+    <!-- DAI Copier SSP2 -->
+    <rect x="30" y="70" width="190" height="65" class="box box-copier" />
+    <text x="125" y="95" class="text-label" fill="#1e40af">DAI Copier (SSP2)</text>
+    <text x="125" y="110" class="text-sublabel">dai-copier.SSP.NoCodec-2</text>
+    <text x="125" y="123" class="text-sublabel">Format: 32-bit / 48 kHz / 2ch</text>
+
+    <path d="M 220 102 L 280 102" class="line-stream" stroke="#2563eb" marker-end="url(#arr-blue)" />
+
+    <!-- HW Amp / Tweeter -->
+    <rect x="280" y="70" width="210" height="65" class="box box-hw" />
+    <text x="385" y="95" class="text-label" fill="#b91c1c">Tweeter Power Amplifier</text>
+    <text x="385" y="110" class="text-sublabel">I2S / SoundWire / SSP2</text>
+    <text x="385" y="123" class="text-sublabel" font-weight="700" fill="#dc2626">Left/Right Silk Dome Tweeters</text>
+
+    <!-- Calibration Info Box -->
+    <rect x="30" y="155" width="460" height="60" rx="4" ry="4" fill="#ffffff" stroke="#cbd5e1" />
+    <text x="45" y="175" class="text-code" fill="#334155">• Passband: Fc (e.g. 2200 Hz) up to Nyquist (24 kHz)</text>
+    <text x="45" y="195" class="text-code" fill="#2563eb">• Low-frequency attenuation: -24 dB/oct protects voice coils</text>
+  </g>
+</svg>
