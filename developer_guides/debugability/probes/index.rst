@@ -1,265 +1,296 @@
 .. _dbg-probes:
 
-Probes
-######
+Audio Data Probes & Network Telemetry
+#####################################
 
-Typically, pipeline for audio data processing contains several components
-separated by data buffers; the probe module is a debug feature that allows
-for data extraction from (or injection into) these buffers. It aids in
-finding audio issues or bugs in audio components with possible data analysis
-from each buffer.
+In complex audio DSP processing graphs, a playback or capture pipeline contains multiple sequential processing modules (such as Volume, Equalizers, Dynamic Range Compressors, Sample Rate Converters, and Mixers) connected by intermediate circular audio buffers. When audio distortion, phase cancellation, or audible dropouts occur, inspecting only the final hardware endpoint does not reveal which component in the graph corrupted the audio stream.
 
-Requirements
-************
+The SOF **Probe Subsystem** provides a dynamic, non-intrusive tap mechanism that allows developers to:
 
-.. _install-tinycompress:
+1. **Extract Intermediate Audio Data**: Tap into any circular audio buffer in the pipeline graph in real time and capture raw audio samples via ALSA Compress Offload.
+2. **Inject Test Audio Vectors**: Feed synthetic test signals (chirps, impulse responses, multi-tone bursts) directly into an intermediate component buffer, isolating downstream algorithm behavior.
+3. **Stream High-Throughput Firmware Telemetry**: Utilize dedicated probe DMA channels to stream binary logs over the network via the **TCP Probe Server** (port 9999).
 
-- Install `tinycompress <https://github.com/alsa-project/tinycompress>`_ (crecord tool)
+.. figure:: images/probes_data_pipeline.svg
+   :alt: Audio Buffer Probes and Zephyr Interactive Shell Architecture
+   :align: center
+   :width: 100%
 
-Enabling Probes
-***************
+   Figure 331: Audio Buffer Probes & Zephyr Interactive Shell Architecture
 
-.. _kernel-side:
+---
 
-Kernel side
-===========
+Enabling Probes in Kernel and Firmware
+**************************************
 
-- The probes support is enabled by Kconfig on supported platforms as a SOF client
-  driver, check the kernel config for ``SND_SOC_SOF_DEBUG_PROBES``.
-  The debugfs also needs to be enabled for the probes to be usable.
+Kernel Configuration
+====================
 
-  .. code-block:: bash
+Probes operate as an ALSA SOF client driver backed by ``debugfs``:
 
-     CONFIG_DEBUG_FS=y
+1. **Kernel Kconfig Options**:
 
-- The probes client needs to be enabled via the 'enable' module parameter (e.g. ``/etc/modprobe.d/sof.conf``):
+   .. code-block:: cfg
 
-  .. code-block:: bash
+      CONFIG_SND_SOC_SOF_DEBUG_PROBES=y
+      CONFIG_DEBUG_FS=y
 
-     options snd_sof_probes enable=1
+2. **Module Configuration** (``/etc/modprobe.d/sof.conf``):
+   Enable the probes client driver upon boot and optionally lock its card slot assignment (e.g. Card 3):
 
-  To make sure that the sound card for the probes is consistent between boots, a
-  card slot can be forced for the module.
-  For example to use card3, this can be added to the sof.conf file:
+   .. code-block:: text
 
-  .. code-block:: bash
+      options snd_sof_probes enable=1
+      options snd slots=,,,snd_sof_probes
 
-     options snd slots=,,,snd_sof_probes
-
-  Remove and re-load the driver:
-
-  .. code-block:: bash
-
-     rmmod snd_sof_probes
-     modprobe snd_sof_probes
-
-  Verify that the card is available (if not, try to reboot):
-
-  .. code-block:: bash
-
-     cat /proc/asound/cards | grep sofprobes
-
-.. _firmware-side:
-
-Firmware side
-=============
-
-- The Probe module can be enabled under the 'Probe' menu's 'Probes enabled' prompt (``PROBES``)
-  To edit the ``kconfig`` use this command:
-
-  .. code-block:: bash
-
-	 make menuconfig
-
-  The following options available
-
-  Required for audio probes:
-
-  .. code-block:: bash
-
-	CONFIG_PROBE=y			# enable probes
-	CONFIG_PROBE_POINTS_MAX=16	# max probepoints
-
-  Required for logging through probes interface:
-
-  .. code-block:: bash
-
-	CONFIG_LOG_BACKEND_SOF_PROBE=y
-	CONFIG_ZEPHYR_LOG=y
-
-  Refer to :ref:`Simple logging case<simple-logging-case>` for quick guide to use probes logging interface.
-
-- Refer to **Step 3 Build firmware binaries** in :ref:`Build SOF from Scratch <build-from-scratch>` for reference on how to build SOF FW.
-
-Note that you do not need to modify the audio topology file.
-
-Data extraction
-***************
-
-Extraction is the most common use case. It allows for data extraction from
-the audio component data buffer. It requires starting the compress stream by
-starting the crecord tool. Note that one compress stream may contain data
-from several extraction probe points which means data parsing is needed at
-the last stage of extraction.
-
-#. Start the crecord tool to prepare the extraction stream (read the crecord
-   readme file):
+3. **Reload Driver**:
 
    .. code-block:: bash
 
-	  crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 /tmp/extract.dat
+      sudo rmmod snd_sof_probes 2>/dev/null
+      sudo modprobe snd_sof_probes
+      cat /proc/asound/cards | grep -i "sofprobes"
 
-   Usage:
+Firmware Configuration
+======================
 
-   .. code-block:: none
+In the SOF firmware Zephyr build, enable probe points in Kconfig:
 
-      -c : card number; 3 in the above example if a slot is forced
-      -d : device ID; equals 0 in the above example (probes card only have 1 compressed capture stream).
-      -b : buffer size. For probes, this is part of the probe
-           initialization IPC and denotes the extraction stream buffer size on the host side.
-      -f : fragments is basically number of periods for compress stream.
+.. code-block:: cfg
 
-   The other parameters are "don't-cares" for the driver.
+   # Enable runtime audio buffer probes
+   CONFIG_PROBE=y
+   CONFIG_PROBE_POINTS_MAX=16
 
-     - Use ``aplay`` to start the playback stream.
-     - Pause the playback stream. (optional)
-     - Add probe points via the ``debugfs`` "probe_points" entry in ``/sys/kernel/debug/sof``
+   # Enable probe logging backend
+   CONFIG_LOG_BACKEND_SOF_PROBE=y
+   CONFIG_ZEPHYR_LOG=y
 
+No modifications to the ALSA Topology file are required; probe tap points are attached dynamically to running pipelines at runtime.
 
-   For example, to add buffer 7 with a probe point (IPC3):
+---
 
-   .. code-block:: bash
+Audio Buffer Extraction & Injection Workflow
+********************************************
 
-	  echo 7,1,0 > probe_points
+Step 1: Discover Buffer IDs
+===========================
 
-   Refer to the host side struct sof_probe_point_desc defined in ``sound/soc/sof/probe.h``
-   or struct probe_point in ``/src/include/ipc/probe.h`` from sof for the meaning of the triplets:
+To attach a probe point, determine the internal buffer identifier of the target module:
 
-   .. code-block:: c
-
-	/**
-	 * Description of probe point
-	 */
-	struct probe_point {
-		uint32_t buffer_id;	/**< ID of buffer to which probe is attached */
-		uint32_t purpose;	/**< PROBE_PURPOSE_EXTRACTION or PROBE_PURPOSE_INJECTION */
-		uint32_t stream_tag;	/**< Stream tag of DMA via which data will be provided for injection.
-					 *   For extraction purposes, stream tag is ignored when received,
-					 *   but returned actual extraction stream tag via INFO function.
-					 */
-	} __attribute__((packed));
-
-   In the above example, 7 stands for the ``buffer_id`` which is a monolithic
-   counter value that follows a component instantiation order.
-
-   One way to find out the right instance of ``buffer_id`` is to enable
-   dev_dbg in ``sound/sound/soc/sof/topology.c`` and search for the widget id
-   from the following messages:
-
-   .. code-block:: c
-
-	dev_dbg(scomp->dev,
-		"tplg: widget %d (%s) is ready [type: %d, pipe: %d, pins: %d / %d, stream: %s]\n",
-		swidget->comp_id, w->name, swidget->id, index,
-		swidget->num_input_pins, swidget->num_output_pins,
-		strnlen(w->sname, SNDRV_CTL_ELEM_ID_NAME_MAXLEN) > 0 ? w->sname : "none");
-
-   On a booted system the list can be acquired with
-
-   .. code-block:: bash
-
-	dmesg | grep "tplg: widget "
-	...
-	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 2 (gain.1.1) is ready [type: 6, pipe: 1, pins: 1 / 1, stream: none]
-	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 3 (mixin.1.1) is ready [type: 4, pipe: 1, pins: 1 / 3, stream: none]
-	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 4 (pipeline.1) is ready [type: 32, pipe: 1, pins: 0 / 0, stream: none]
-	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 5 (codec0_in) is ready [type: 0, pipe: 1, pins: 0 / 0, stream: none]
-	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 6 (iDisp2 Tx) is ready [type: 7, pipe: 1, pins: 0 / 0, stream: none]
-	snd_sof:sof_widget_ready: sof-audio-pci-intel-tgl 0000:00:1f.3: tplg: widget 7 (dai-copier.HDA.Analog.playback) is ready [type: 27, pipe: 2, pins: 1 / 0, stream: Analog]
-	...
-
-   For IPC4 system, the above example looks like this (extraction from gain.1.1):
-
-   .. code-block:: bash
-
-	  echo 2,0,0 > probe_points
-
-  The semantics of the buffer_id are quite different on IPC4 system:
-
-  .. code-block:: c
-
-		typedef union probe_point_id {
-			uint32_t full_id;
-			struct {
-				uint32_t  module_id   : 16;	/**< Target module ID */
-				uint32_t  instance_id : 8;	/**< Target module instance ID */
-				uint32_t  type        : 2;	/**< Probe point type as specified by ProbeType enumeration */
-				uint32_t  index       : 6;	/**< Queue index inside target module */
-			} fields;
-		} __attribute__((packed, aligned(4))) probe_point_id_t;
-
-  .. code-block:: c
-
-		/**
-		 * Description of probe point
-		 */
-		struct probe_point {
-			probe_point_id_t buffer_id;	/**< ID of buffer to which probe is attached */
-			uint32_t purpose;	/**< PROBE_PURPOSE_xxx */
-			uint32_t stream_tag;	/**< Stream tag of DMA via which data will be provided for injection.
-						 *   For extraction purposes, stream tag is ignored when received,
-						 *   but returned actual extraction stream tag via INFO function.
-						 */
-		} __attribute__((packed, aligned(4)));
-
-2. Unpause the playback stream. (optional)
-#. Close the playback stream when done.
-#. Close the crecord tool.
-
-.. _data-parsing:
-
-Data parsing
-************
-
-As previously mentioned, one compress stream can contain data from several
-extraction probe points which means data parsing is needed at the final
-stage of extraction. The following example demonstrates how to extract data. Use ``-p`` for parse.
-
-Usage and ouput:
+For IPC3 Platforms
+------------------
+Buffer IDs follow component instantiation order. Inspect kernel ``dmesg``:
 
 .. code-block:: bash
 
-   $ ./sof-probes -p /tmp/extract.dat
-   sof-probes:	 Parsing file: /tmp/extract.dat
-   sof-probes:	 Creating wave file for buffer id: 7
-   sof-probes:	 done
+   dmesg | grep "tplg: widget "
+   # Output:
+   # snd_sof: tplg: widget 2 (gain.1.1) is ready [type: 6, pipe: 1, pins: 1 / 1]
+   # snd_sof: tplg: widget 3 (eq_fir.1.1) is ready [type: 12, pipe: 1, pins: 1 / 1]
+   # snd_sof: tplg: widget 7 (dai-copier.HDA.playback) is ready [type: 27, pipe: 1, pins: 1 / 0]
 
-As a result, ``buffer_7.wav`` is generated in the *tools/build_tools/probes* folder. The wave file can then be examined with your tool of choice
-such as ``Audacity``.
+For IPC4 Platforms
+------------------
+On IPC4 platforms (e.g. Tiger Lake, Meteor Lake, Arrow Lake, Panther Lake), the buffer ID is a structured 32-bit bitfield (``probe_point_id_t``):
 
-.. _simple-logging-case:
+.. code-block:: c
 
-Simple logging case
-*******************
+   typedef union probe_point_id {
+       uint32_t full_id;
+       struct {
+           uint32_t module_id   : 16; /**< Target module ID (e.g. 2 for gain) */
+           uint32_t instance_id : 8;  /**< Module instance counter (e.g. 0) */
+           uint32_t type        : 2;  /**< Probe point type (input vs output queue) */
+           uint32_t index       : 6;  /**< Pin/queue index within target module */
+       } fields;
+   } probe_point_id_t;
 
-With the :ref:`crecord<install-tinycompress>` and :ref:`sof-probes<data-parsing>` in path, FW built with :ref:`probes logging enabled<firmware-side>`, and probes enabled from :ref:`Linux side<kernel-side>`, it should be possible to extract the logs with following steps:
+Step 2: Start Compress Offload Capture (crecord)
+================================================
 
-#. crecord has to be started first:
-
-.. code-block:: bash
-
-	crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 | sof-probes -l
-
-#. then to enable logs through probes sysfw interface use following commands as root,
-
-     IPC3 system:
-
-.. code-block:: bash
-
-	echo 0,1,0 > /sys/kernel/debug/sof/probe_points
-
-     IPC4 system:
+The probe stream is captured through the ALSA Compress Offload interface using the ``crecord`` tool (provided by `tinycompress <https://github.com/alsa-project/tinycompress>`_):
 
 .. code-block:: bash
 
-	echo 0,0,0 > /sys/kernel/debug/sof/probe_points
+   # Start capture on Card 3, Device 0 with 8KB buffer and 4 periods
+   crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 /tmp/extract.dat &
+   CRECORD_PID=$!
+
+Step 3: Attach Probe Points via debugfs
+=======================================
+
+Write the probe attachment triplet into ``/sys/kernel/debug/sof/probe_points``:
+
+.. code-block:: bash
+
+   # Format: echo <buffer_id>,<purpose>,<stream_tag> > /sys/kernel/debug/sof/probe_points
+
+   # IPC3 Example: Extract from buffer 3 (EQ output), purpose=1 (EXTRACTION), stream_tag=0
+   echo 3,1,0 | sudo tee /sys/kernel/debug/sof/probe_points
+
+   # IPC4 Example: Extract from module 2, instance 0, purpose=0 (EXTRACTION), stream_tag=0
+   echo 2,0,0 | sudo tee /sys/kernel/debug/sof/probe_points
+
+Step 4: Play Audio & Stop Capture
+=================================
+
+.. code-block:: bash
+
+   # Start audio playback through the pipeline
+   aplay -D hw:0 -r 48000 -c 2 -f S16_LE /path/to/test_sweep.wav
+
+   # When complete, terminate crecord
+   kill -SIGINT $CRECORD_PID
+
+---
+
+Multi-Channel Demultiplexing (sof-probes)
+*****************************************
+
+Because a single compress capture stream can aggregate audio data from up to 16 simultaneous probe tap points, the raw ``extract.dat`` file contains interleaved multi-point packet frames.
+
+Use the **``sof-probes``** utility with the ``-p`` (parse) flag to demultiplex the stream into separate, uncompressed standard WAV files:
+
+.. code-block:: bash
+
+   # Demux raw probe extraction file
+   sof-probes -p /tmp/extract.dat
+
+   # Output generated:
+   # sof-probes: Parsing file: /tmp/extract.dat
+   # sof-probes: Creating wave file for buffer id: 3 -> buffer_3.wav
+   # sof-probes: Creating wave file for buffer id: 7 -> buffer_7.wav
+   # sof-probes: done
+
+Inspect the resulting ``buffer_*.wav`` files in audio analysis tools such as **Audacity**, MATLAB, or GNU Octave:
+
+* Compare pre-processing vs post-processing waveforms side-by-side.
+* Calculate Total Harmonic Distortion + Noise (THD+N) and Signal-to-Noise Ratio (SNR).
+* Visually identify clipping, unaligned sample phase, or dropped audio frames.
+
+---
+
+High-Throughput Network Probe Server (Port 9999)
+************************************************
+
+On remote hardware test stations (DUTs), running file-based captures over SSH introduces terminal overhead and network latency. SOF provides the **``sof_probe_server``** C streaming daemon listening on TCP port **9999**:
+
+.. code-block:: text
+
+   +-------------------------------------------------------------------------+
+   |                       Target DUT (Linux Kernel)                         |
+   |                                                                         |
+   |  [ DSP Audio Pipeline ] ---> [ Trace / Probe DMA ]                      |
+   |                                     |                                   |
+   |                                     v                                   |
+   |                         [ /dev/snd/comprC3D0 ]                          |
+   |                                     |                                   |
+   |                                     v                                   |
+   |                   [ sof_probe_server (TCP :9999) ]                      |
+   |                   (1MB Thread-Safe Circular Queue)                      |
+   +-------------------------------------------------------------------------+
+                                        |
+                          Private Lab Network Stream
+                                        v
+   +-------------------------------------------------------------------------+
+   |                       Host Analysis Workstation                         |
+   |                                                                         |
+   |  [ sof_probe_client.py ]       or       [ dut-monitor Dashboard ]       |
+   |   --display ascii --out /tmp/data.bin    (Live Decoded Logs: Section 4) |
+   +-------------------------------------------------------------------------+
+
+C Server Architecture
+=====================
+
+* **ALSA Compress Interface**: Directly opens ``/dev/snd/comprC*D*`` using native ALSA compress ioctls.
+* **1 MB Circular Buffer**: Uses a POSIX mutex and condition variable (``pthread_mutex_t`` / ``pthread_cond_t``) circular buffer to completely decouple kernel DMA extraction from network TCP socket writes.
+* **Low CPU Overhead**: Consumes negligible CPU cycles (<1%) on host and embedded cores.
+
+Running Probe Server on DUT
+===========================
+
+.. code-block:: bash
+
+   # Launch probe server on target DUT (Spider, Dragon Fly, Aphid)
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
+       'nohup /usr/local/bin/sof_probe_server -c 3 -d 0 -p 9999 -v > /tmp/probe_server.log 2>&1 &'
+
+Remote Data Collection via Python Client
+========================================
+
+On the development workstation, run ``sof_probe_client.py``:
+
+.. code-block:: bash
+
+   # Stream and save raw binary probe data
+   python3 tools/sof-probe-server/sof_probe_client.py \
+       --host spider --port 9999 \
+       --output /tmp/spider_probe_data.bin
+
+   # Display live ASCII logs decoded from probe stream
+   python3 tools/sof-probe-server/sof_probe_client.py \
+       --host spider --port 9999 \
+       --display ascii
+
+   # Preview raw packet headers in hexadecimal
+   python3 tools/sof-probe-server/sof_probe_client.py \
+       --host spider --port 9999 \
+       --display hex
+
+Integrated dut-monitor Multi-Pane Dashboard
+===========================================
+
+The ``dut-monitor`` terminal monitoring suite automatically connects to ``sof_probe_server`` on TCP port 9999. Decoded DSP firmware logs are displayed in real-time in **Section 4**, synchronized with live hardware power consumption telemetry (port 8080) and CPU thermal metrics.
+
+---
+
+Early Boot Probe Logging (snd-sof-probes)
+*****************************************
+
+The ``snd-sof-probes`` kernel module provides the ``logging_boot_enable`` parameter to capture initialization logs from the very start of firmware execution:
+
+.. code-block:: bash
+
+   # 1. Enable boot logging in kernel module
+   timeout 20 ssh -o ConnectTimeout=5 root@dragon-fly '
+       rmmod snd_sof_probes 2>/dev/null
+       modprobe snd_sof_probes logging_boot_enable=1
+       dmesg | grep "logging_boot"
+   '
+
+   # 2. Start probe server and initiate dummy stream to drain pre-buffered logs (up to 4 KB)
+   timeout 15 ssh -o ConnectTimeout=5 root@dragon-fly '
+       pkill -f sof_probe_server; pkill aplay; sleep 1
+       nohup /usr/local/bin/sof_probe_server -c 3 -d 0 -p 9999 -v > /tmp/probe.log 2>&1 &
+       nohup aplay -D hw:0 -r 48000 -c 2 -f S16_LE /dev/zero > /dev/null 2>&1 &
+   '
+
+   # 3. Stream early boot trace to workstation
+   timeout 60 python3 tools/sof-probe-server/sof_probe_client.py \
+       --host dragon-fly --port 9999 --display ascii --out /tmp/boot_trace.bin
+
+Subsequent test sessions can be launched back-to-back without reloading the kernel driver, as the ``fw_probe_active`` state machine tracks extraction state across multiple stream lifetimes.
+
+---
+
+Intel Arrow Lake mtrace Buffer Extraction
+*****************************************
+
+On Arrow Lake (ARL-S / Dragon Fly) platforms running ACE 1.5, firmware logs can also be retrieved directly from the hardware ``mtrace`` buffer:
+
+.. code-block:: bash
+
+   # Start mtrace reader prior to test execution or driver reload
+   timeout 15 ssh -o ConnectTimeout=5 root@dragon-fly \
+       'nohup ./mtrace-reader.py > /tmp/fw_mtrace.log 2>&1 &'
+
+   # Execute test audio pipeline
+   timeout 30 ssh -o ConnectTimeout=5 root@dragon-fly \
+       'aplay -D hw:0 -r 48000 -c 2 -f S16_LE /dev/zero -d 5'
+
+   # Retrieve formatted mtrace log
+   scp root@dragon-fly:/tmp/fw_mtrace.log ./fw_mtrace.log
+
+   # Terminate reader
+   timeout 15 ssh -o ConnectTimeout=5 root@dragon-fly 'pkill -f mtrace-reader'

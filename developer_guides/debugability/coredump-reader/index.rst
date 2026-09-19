@@ -1,86 +1,252 @@
 .. _dbg-coredump-reader:
 
-Coredump-reader
-###############
+DSP Crash Diagnostics & Zephyr Coredump
+#######################################
 
-NOTE: These instructions do not work with SOF running on Zephyr,
-please refer to
-https://docs.zephyrproject.org/latest/services/debugging/coredump.html
+Sound Open Firmware (SOF) incorporates an automated crash preservation and post-mortem analysis framework. Because embedded audio DSPs frequently operate without virtual memory management units (MMUs) or operating system paging, memory safety violations, unaligned memory accesses, or software assertions result in immediate CPU exception traps.
 
-Tool for processing FW stack dumps. In verbose mode it prints the stack leading
-to the core dump including DSP registers and function calls.
-It outputs unwrapped gdb command function call addresses to human readable
-function call format either to a file or stdout.
+To prevent critical fault telemetry from being lost upon a crash, modern SOF running on the **Zephyr RTOS** captures processor register state, call frames, and memory segments into hardware memory windows, enabling full symbolic post-mortem backtracing under GDB.
 
-Coredump-reader usage
+.. figure:: images/coredump_architecture.svg
+   :alt: SOF Firmware Crash Diagnostics and Zephyr Coredump Architecture
+   :align: center
+   :width: 100%
+
+   Figure 330: SOF Firmware Crash Diagnostics & Zephyr Coredump Architecture
+
+---
+
+Architecture Overview
 *********************
 
-Usage sof-coredump-reader.py [-h] [-a ARCH] [-c] [-l COLUMNCOUNT] [-v] (--stdout | -o OUTFILE) [--stdin | -i INFILE]
+The crash diagnostics framework spans four coordinated execution tiers:
 
--h				show this help message and exit
--a ARCH			determine architecture of dump file; valid archs are: LE64bit, LE32bit
--c				set output to be colourful
--l COLUMNCOUNT	set how many colums to group the output in
--v				increase output verbosity
---stdin			input is from stdin
--i INFILE		path to sys dump bin
---stdout		output is to stdout
--o OUTFILE		output is to FILE
+1. **Hardware Fault Trapping**: When a fatal fault occurs on the DSP core, the hardware exception vector invokes Zephyr's architecture-specific fatal error handler (``arch/xtensa/core/fatal.c``), freezing interrupts and capturing the CPU register state.
+2. **Zero-Allocation In-Memory Dump**: The Intel ADSP Memory Window coredump backend (``coredump_backend_intel_adsp_mem_window.c``) serializes register blocks, thread metadata, and active stack frames directly into a shared PCI memory window without performing any dynamic heap allocations.
+3. **Kernel Power Retention**: The Linux ``snd-sof`` driver inhibits runtime power management, preventing the host operating system from powering down DSP SRAM and erasing crash telemetry. The crash image is exposed via ``debugfs``.
+4. **Interactive GDB Post-Mortem**: Host tools (``coredump_gdbserver.py`` or ``sof-coredump-reader.py``) parse the binary crash dump and establish a GDB session against the firmware ELF binary, providing full symbolic backtraces and variable inspection.
 
+---
 
-sof-coredump-to-gdb.sh shows example usage of sof-coredump-reader.py
-We read from dump file into sof-coredump-reader.py, then we pipe its output to xt-gdb, which operates on given elf-file.
+Zephyr Coredump Subsystem Configuration
+***************************************
+
+SOF enables the native Zephyr coredump framework using the following Kconfig directives in target board configurations:
+
+.. code-block:: cfg
+
+   # Enable Zephyr Coredump Core
+   CONFIG_DEBUG_COREDUMP=y
+   CONFIG_DEBUG_COREDUMP_BACKEND_INTEL_ADSP_MEM_WINDOW=y
+   CONFIG_DEBUG_COREDUMP_MEMORY_DUMP_MIN=y
+
+   # Capture thread stacks and register windows
+   CONFIG_DEBUG_COREDUMP_SHELL=n
+
+Memory Window Backend Mechanics
+===============================
+
+During a fatal exception, the DSP heap may be corrupted, exhausted, or inaccessible. The ``coredump_backend_intel_adsp_mem_window`` backend operates under strict emergency constraints:
+
+* **Static Buffering**: Writes directly into the pre-mapped host-accessible DSP memory window (SRAM Window 0/3).
+* **Zero Allocation**: Executes without calling ``k_malloc()``, ``malloc()``, or acquiring RTOS synchronization primitives.
+* **ROM Status Handshake**: Latches ``FW_STATUS_PANIC`` into the DSP status outbox register, signaling the host kernel that a panic dump is ready for extraction.
+* **Halt Loop**: Enters a controlled low-power idle loop to prevent cascading memory corruption or repeated exception loops.
+
+---
+
+Captured Processor Architecture State
+*************************************
+
+On Tensilica Xtensa DSP architectures (e.g. Intel cAVS 2.5 on Tiger Lake, ACE 1.5 on Arrow Lake, ACE 3.0 on Panther Lake), the coredump captures complete architectural state:
+
+Special Registers
+=================
+
+* **``PC`` (Program Counter)**: Exact instruction address executing at the time of the fault.
+* **``PS`` (Processor State)**: CPU privilege level, interrupt mask, and register window pointer.
+* **``EXCCAUSE`` (Exception Cause)**: Hardware fault code identifying the failure type.
+* **``EXCVADDR`` (Exception Virtual Address)**: Memory address that triggered the violation (for load/store errors).
+* **``EPC1`` .. ``EPC7``**: Saved program counters across nested interrupt priority levels.
+
+Register Window File
+====================
+
+Xtensa processors employ a windowed register architecture consisting of up to 64 physical registers (``ar0`` .. ``ar63``). At any given moment, the active function operates on a 16-register sliding window (``a0`` .. ``a15``):
+
+* **``a0``**: Function return address (used to reconstruct caller stack frames).
+* **``a1``**: Stack pointer (points to local variables and spilled register frames).
+* **``a2`` .. ``a7``**: Incoming function parameters and return values.
+* **``a8`` .. ``a15``**: Local variables and temporary registers.
+
+The coredump backend dumps both the active register window and the spilled register frames on the stack, allowing GDB to reconstruct the full call hierarchy across all active function calls.
+
+---
+
+Kernel State Retention & Crash Extraction
+*****************************************
+
+Preventing Runtime D3 Power-Off
+===============================
+
+By default, Linux runtime power management (Runtime PM) automatically places idle audio DSPs into low-power D3 suspend, cutting power to DSP SRAM. If a crash occurs and the audio stream halts, Runtime PM would power off the DSP and permanently erase the coredump before the developer can inspect it.
+
+To preserve the crash telemetry in memory, configure the driver retention policy:
+
+1. **Kernel Configuration**:
+   Ensure ``CONFIG_SND_SOC_SOF_DEBUG_RETAIN_DSP_CONTEXT=y`` is enabled in the host kernel.
+
+2. **Module Parameter**:
+   Set ``sof_pci_debug=1`` in ``/etc/modprobe.d/sof.conf``:
+
+   .. code-block:: text
+
+      # Prevent DSP power-down on fatal exceptions
+      options snd_sof_pci sof_pci_debug=1
+
+Extracting the Dump File
+========================
+
+Once an exception occurs, the Linux driver logs the failure in ``dmesg`` and populates the ``debugfs`` exception node:
 
 .. code-block:: bash
 
-   ./sof-coredump-to-gdb.sh sof-apl dump_file
+   # Verify crash event in dmesg
+   sudo dmesg | grep -i "dsp exception"
 
-Usage with Linux SOF Driver
-***************************
+   # Extract raw coredump binary
+   sudo cat /sys/kernel/debug/sof/exception > /tmp/dsp-coredump.bin
 
-If a core dump occurs after a DSP error, the Linux SOF driver allows
-accessing the dump via debugfs. Consider the following example of capturing
-the dump file and processing it with coredump-reader:
+   # Check dump size
+   ls -lh /tmp/dsp-coredump.bin
+
+---
+
+Interactive GDB Post-Mortem Debugging Runbook
+*********************************************
+
+Step 1: Launch Zephyr Coredump GDB Server
+=========================================
+
+The Zephyr RTOS provides ``coredump_gdbserver.py``, which reads the binary dump file, maps the frozen DSP register and memory state, and emulates a live GDB remote stub:
 
 .. code-block:: bash
 
-   dut> cat /sys/kernel/debug/sof/exception >dsp-coredump
-   # transfer file to host
-   host> sof/tools/coredumper/sof-coredump-reader.py  -v -l 4 -i dsp-coredump -o dsp-coredump.gdb
-   host> xt-gdb sof/build_tlg_xcc/sof --command=dsp-coredump.gdb
-   [cut]
-   $1 = "Exception location:"
-   0xbe02fb29 is in ipc_glb_debug_message (/home/user/sof/src/ipc/handler-ipc3.c:1371).
-   [cut]
-   $2 = "backtrace"
-   #0  0xbe051b00 in literals ()
-   #1  0xbe04e277 in dump_stack (p=3187705884, addr=0x1cc6c29b, offset=3270769662, limit=380, stack_ptr=0x1) at /home/user//sof/src/arch/xtensa/include/arch/lib/cache.h:79
-   #2  0xbe04e2f7 in panic_dump (p=233492486, panic_info=0x0, data=0xbe0a4130) at /home/user/sof/src/arch/xtensa/include/arch/debug/panic.h:45
-   #3  0xbe02dfd9 in exception () at /home/user/sof/src/arch/xtensa/init.c:115
-   #4  0xbe050a28 in _GeneralException ()
-   #5  0xbe02fb29 in ipc_glb_debug_message (header=394016) at /home/user/sof/src/ipc/handler-ipc3.c:1373
-   [cut]
-   (xt-gdb) info all-registers
-   pc             0xbe051b00       0xbe051b00 <literals>
-   ar0            0x0      0
-   ar1            0xbe00a044       -1107255228
-   ar2            0x10000  65536
+   # Launch GDB server on localhost:1234
+   python3 ~/work/sof-tgl/zephyr/scripts/coredump/coredump_gdbserver.py \
+       --gdb-port 1234 \
+       build-sof-staging/sof/sof-tgl.elf \
+       /tmp/dsp-coredump.bin
 
-Notes:
+Step 2: Connect Interactive GDB Session
+=======================================
 
-- Coredump-reader only works with the xcc toolchain.
+In a second terminal, launch the target-specific cross-debugger (``xt-gdb`` or ``gdb-multiarch``) with the matching firmware ELF binary:
 
-- If the Linux kernel fails to probe, the exception file cannot be read.
+.. code-block:: bash
 
-- To prevent runtime suspend from powering off the DSP and erasing
-  the exception data, perform one of the following steps:
+   # For Cadence Xtensa toolchain:
+   xt-gdb build-sof-staging/sof/sof-tgl.elf -ex 'target remote :1234'
 
-   - Set the ``CONFIG_SND_SOC_SOF_DEBUG_RETAIN_DSP_CONTEXT`` option in the
-     kernel to ensure DSP is left powered on if a DSP crash occurs.
+   # For Open-Source LLVM / multiarch toolchains:
+   gdb-multiarch build-sof-staging/sof/sof-tgl.elf -ex 'target remote :1234'
 
-   - Disable runtime power management (PM) with a module parameter.
-     For example, for PCI devices::
-     options sof_pci_dev sof_pci_debug=1
+Step 3: Post-Mortem Triage Commands
+===================================
 
-- The DSP core dump information is also printed to kernel dmesg, but
-  sof-coredump-reader.py cannot parse this core dump format.
+Once attached, execute standard GDB inspection commands:
+
+.. code-block:: text
+
+   (gdb) bt
+   #0  eq_fir_process (dev=0x9e0a4e78) at src/audio/eq_fir/eq_fir.c:142
+   #1  0xbe02fb29 in comp_copy (dev=0x9e0a4e78) at src/audio/component.c:85
+   #2  0xbe04e277 in pipeline_task (arg=0x9e0a37d0) at src/audio/pipeline/pipeline.c:320
+   #3  0xbe050a28 in z_thread_entry (entry=0xbe04e200, p1=0x9e0a37d0, p2=0, p3=0)
+
+   (gdb) info registers
+   pc             0xbe051b00       0xbe051b00 <eq_fir_process+124>
+   ps             0x60020          393248
+   exccause       0xc              12 (LoadStoreError)
+   excvaddr       0xdeadbeef       -559038737
+   a0             0xbe02fb29       -1107092695
+   a1             0x9e0a4044       -1643495356
+   a2             0x9e0a4e78       -1643491720
+
+   (gdb) frame 0
+   (gdb) print *dev
+   $1 = {state = 2, frames = 48, rate = 48000, channels = 2, ...}
+
+   (gdb) list
+   140         for (int i = 0; i < dev->frames; i++) {
+   141             /* Attempting to read filter coefficients from unmapped address */
+   142             int32_t coef = cd->fir_coefs[i];
+   143             accum += (sample * coef) >> 15;
+
+---
+
+Legacy & Offline Coredump Reader
+********************************
+
+For environments without Python GDB server support or when triaging pre-Zephyr dumps, the ``sof-coredump-reader.py`` tool converts binary dumps into GDB script files:
+
+.. code-block:: bash
+
+   # Convert dump to GDB script
+   python3 tools/coredumper/sof-coredump-reader.py -v -l 4 \
+       -i /tmp/dsp-coredump.bin \
+       -o /tmp/dsp-coredump.gdb
+
+   # Run xt-gdb with generated script
+   xt-gdb build-sof-staging/sof/sof-tgl.elf --command=/tmp/dsp-coredump.gdb
+
+Command-Line Options
+====================
+
+.. list-table:: sof-coredump-reader.py Flags
+   :widths: 20 80
+   :header-rows: 1
+
+   * - Option
+     - Description
+   * - ``-a <arch>``
+     - Target architecture format (``LE32bit`` or ``LE64bit``).
+   * - ``-v``
+     - Increase output verbosity, printing raw stack offsets and registers.
+   * - ``-l <cols>``
+     - Group memory and stack dump columns for improved terminal readability.
+   * - ``-i <file>``
+     - Path to binary crash dump extracted from ``/sys/kernel/debug/sof/exception``.
+   * - ``-o <file>``
+     - Output path for generated GDB batch command script.
+
+---
+
+Common DSP Exception Causes & Triage Guide
+******************************************
+
+.. list-table:: Common Xtensa EXCCAUSE Fault Codes & Resolutions
+   :widths: 15 20 65
+   :header-rows: 1
+
+   * - Cause Code
+     - Exception Name
+     - Typical Root Cause & Debugging Action
+   * - **0**
+     - ``IllegalInstruction``
+     - Execution jumped to an invalid memory location or uninitialized function pointer. Inspect ``a0`` (return address) and stack backtrace to identify corrupt callback structures.
+   * - **9**
+     - ``LoadStoreAlignment``
+     - An unaligned 32-bit or 64-bit load/store was attempted on an odd address boundary. Ensure audio sample pointers are aligned to 4 or 8 bytes (``ALIGN_UP(ptr, 4)``).
+   * - **12**
+     - ``InstructionFetchError``
+     - Attempted to execute code from non-executable or powered-off DSP memory bank. Check dynamic power gating of SRAM banks or LLEXT dynamic module memory permissions.
+   * - **13**
+     - ``LoadStoreError``
+     - Attempted to access non-existent MMIO address or unmapped host DMA window. Inspect ``excvaddr`` in GDB to determine the illegal pointer address.
+   * - **28**
+     - ``IntegerDivideByZero``
+     - Division by zero in audio rate calculation or period size. Validate sample rate and channel count configurations received via IPC before dividing.
+   * - **Software Panic**
+     - ``k_panic() / SOF_ASSERT``
+     - Explicit assertion failure triggered by defensive runtime checks (e.g. buffer size overrun). Locate the assertion line from the symbol table and verify parameter constraints.

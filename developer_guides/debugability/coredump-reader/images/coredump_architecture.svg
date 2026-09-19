@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#dc2626" />
+    </linearGradient>
+
+    <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#b91c1c" />
+    </linearGradient>
+
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#7e22ce" />
+    </linearGradient>
+
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#0284c7" />
+    </linearGradient>
+
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#ef4444" />
+    </marker>
+    <marker id="arrPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Header -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#headerGrad)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 330: SOF Firmware Crash Diagnostics &amp; Zephyr Coredump Architecture
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      Hardware Fault Vectors, Memory Window Preserves, Kernel State Retention &amp; Symbolic GDB Backtrace
+    </text>
+  </g>
+
+  <!-- SECTION 1: Hardware Fault Vector & Exception Trapping (Top Tier) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="1040" height="110" rx="8" fill="url(#cardGrad)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#991b1b" />
+    <rect x="0" y="20" width="1040" height="8" fill="#991b1b" />
+    <text x="16" y="19" fill="#fef2f2" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      1. Hardware Exception Vectors &amp; Fatal Fault Trapping (Xtensa / RISC-V DSP)
+    </text>
+
+    <!-- Sub-cards -->
+    <g transform="translate(16, 38)">
+      <!-- Card 1.1: Hardware Fault Sources -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="310" height="60" rx="6" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+        <text x="12" y="18" fill="#fca5a5" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Hardware Exception Traps</text>
+        <text x="12" y="34" fill="#fecaca" font-size="9.5" font-family="monospace">EXCCAUSE: LoadStoreError, WindowOverflow</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Faulting address latched into EXCVADDR register</text>
+      </g>
+
+      <!-- Card 1.2: Zephyr Dispatcher -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="350" height="60" rx="6" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+        <text x="12" y="18" fill="#fca5a5" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Zephyr Fatal Error Dispatcher</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">z_xtensa_fatal_error() / fatal.c</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Freezes IRQs; preserves register window ar0..ar63, a0..a15</text>
+      </g>
+
+      <!-- Card 1.3: Software Panic -->
+      <g transform="translate(700, 0)">
+        <rect x="0" y="0" width="308" height="60" rx="6" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+        <text x="12" y="18" fill="#fca5a5" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Software Panic &amp; Watchdog Triggers</text>
+        <text x="12" y="34" fill="#fecaca" font-size="9.5" font-family="monospace">SOF_ASSERT() | k_panic()</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Watchdog expiration triggers isolated emergency stack</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors from Fault to Coredump -->
+  <path d="M 280 215 L 280 255" stroke="#ef4444" stroke-width="2" fill="none" marker-end="url(#arrRed)" />
+  <path d="M 800 215 L 800 255" stroke="#ef4444" stroke-width="2" fill="none" marker-end="url(#arrRed)" />
+
+  <!-- SECTION 2: Memory Window Serialization & Kernel Retention (Middle Tier) -->
+  <!-- Left Column: Zephyr Coredump Backend -->
+  <g transform="translate(30, 260)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#7e22ce" />
+    <rect x="0" y="20" width="505" height="8" fill="#7e22ce" />
+    <text x="16" y="19" fill="#faf5ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2A. Zephyr Coredump Subsystem &amp; Memory Window Serialization
+    </text>
+
+    <!-- Sub-cards inside Left Column -->
+    <g transform="translate(14, 38)">
+      <!-- Card 2A.1: Memory Window Backend -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Intel ADSP Memory Window Backend</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">CONFIG_DEBUG_COREDUMP_BACKEND_INTEL_ADSP_MEM_WINDOW=y</text>
+        <text x="10" y="48" fill="#d8b4fe" font-size="9" font-family="monospace">Direct write into PCI memory window; zero dynamic heap allocation</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Guaranteed operation even under severe memory pool exhaustion</text>
+      </g>
+
+      <!-- Card 2A.2: Structured Binary Format -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Structured Binary Coredump Packet Format</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">Header: Magic 0x5A45 ('ZE') | Target Arch: Xtensa LX6/LX7</text>
+        <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">Payload: [CPU Register Window] + [Thread Stacks] + [Memory Blocks]</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Encodes thread control blocks, priority, and faulting instruction pointer</text>
+      </g>
+
+      <!-- Card 2A.3: Status Handshake -->
+      <g transform="translate(0, 148)">
+        <rect x="0" y="0" width="477" height="96" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">ROM Status Register &amp; Hardware Lock</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">FW Status Update:</tspan> Latches <tspan font-family="monospace" fill="#e2e8f0">FW_STATUS_PANIC</tspan> into outbox register</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Trace Buffer Retention:</tspan> Last trace DMA burst preserved in SRAM</text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">DSP Core Halt:</tspan> Executes idle loop preventing cascading corruptions</text>
+        <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Hardware Watchdog Strobe:</tspan> Suppresses watchdog to allow host dump</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Column: Linux Driver Retention & debugfs -->
+  <g transform="translate(565, 260)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#0891b2" />
+    <rect x="0" y="20" width="505" height="8" fill="#0891b2" />
+    <text x="16" y="19" fill="#ecfeff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2B. Linux Kernel State Retention &amp; debugfs Extraction
+    </text>
+
+    <!-- Sub-cards inside Right Column -->
+    <g transform="translate(14, 38)">
+      <!-- Card 2B.1: Driver Power Retention -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+        <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">DSP Power State Retention Policy</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">CONFIG_SND_SOC_SOF_DEBUG_RETAIN_DSP_CONTEXT=y</text>
+        <text x="10" y="48" fill="#a5f3fc" font-size="9" font-family="monospace">options sof_pci_dev sof_pci_debug=1 [Inhibits runtime suspend]</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Prevents PCI runtime power management from cutting DSP memory power</text>
+      </g>
+
+      <!-- Card 2B.2: debugfs Exception Interface -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+        <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Kernel debugfs Exception Node</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">/sys/kernel/debug/sof/exception [Direct binary crash dump]</text>
+        <text x="10" y="47" fill="#a5f3fc" font-size="9" font-family="monospace">dmesg log emits decoded registers and exception backtrace</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Exposes full hardware exception window directly to userspace tools</text>
+      </g>
+
+      <!-- Card 2B.3: Crash Blob Extraction -->
+      <g transform="translate(0, 148)">
+        <rect x="0" y="0" width="477" height="96" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+        <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Automated Host Artifact Capture</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">One-Line Dump:</tspan> <tspan font-family="monospace" fill="#e2e8f0">cat /sys/.../exception &gt; dsp-coredump.bin</tspan></text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Remote Capture via SSH:</tspan> Automated crash capture in CI</text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Crash Archival:</tspan> Timestamped tarball with kernel dmesg and FW ELF</text>
+        <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">DUT Recovery:</tspan> Graceful recovery via driver reload or relay toggle</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors Down to Post-Mortem -->
+  <path d="M 280 555 L 280 585" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrEmerald)" />
+  <path d="M 820 555 L 820 585" stroke="#06b6d4" stroke-width="2" fill="none" marker-end="url(#arrEmerald)" />
+
+  <!-- SECTION 3: Host Symbolic Analysis & GDB Post-Mortem (Bottom Tier) -->
+  <g transform="translate(30, 590)">
+    <rect x="0" y="0" width="1040" height="125" rx="8" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="1040" height="8" fill="#047857" />
+    <text x="16" y="19" fill="#ecfdf5" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      3. Host Symbolic Analysis &amp; Interactive GDB Post-Mortem Triaging
+    </text>
+
+    <!-- Sub-cards in Bottom Section -->
+    <g transform="translate(16, 36)">
+      <!-- GDB Server Daemon -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="310" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Zephyr Coredump GDB Server</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="monospace">coredump_gdbserver.py build/zephyr.elf \</text>
+        <text x="10" y="49" fill="#a7f3d0" font-size="9.5" font-family="monospace">  --gdb-port 1234 dsp-coredump.bin</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Emulates remote target presenting frozen DSP state</text>
+      </g>
+
+      <!-- GDB Client Session -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="350" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Interactive GDB / LLDB Session</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">xt-gdb / gdb-multiarch -ex 'target remote :1234'</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#a7f3d0">bt</tspan>: Full symbolic backtrace with file and line</text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#a7f3d0">info registers</tspan>: Inspect PC, AR registers, window state</text>
+      </g>
+
+      <!-- Legacy / Offline Tools -->
+      <g transform="translate(700, 0)">
+        <rect x="0" y="0" width="308" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Offline &amp; Legacy Parsers</text>
+        <text x="10" y="34" fill="#a7f3d0" font-size="9.5" font-family="monospace">sof-coredump-reader.py -v -i dsp-coredump</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Generates automated GDB script (.gdb)</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">• Fully compatible with offline CI regression triage</text>
+      </g>
+    </g>
+  </g>
+</svg>
