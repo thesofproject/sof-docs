@@ -39,6 +39,16 @@ Core Infrastructure & Pipeline
 * :ref:`ipc_infrastructure` (High-level architecture; also see upstream `IPC README <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_)
 * :ref:`fw_init_boot` (High-level architecture; also see upstream `init README <https://github.com/thesofproject/sof/tree/main/src/init/README.md>`_)
 
+.. toctree::
+   :hidden:
+
+   firmware/pipeline_architecture
+   firmware/module_framework
+   firmware/scheduler_architecture
+   firmware/audio_buffer_management
+   firmware/ipc_infrastructure
+   firmware/fw_init_boot
+
 Audio Processing Modules & Algorithms
 -------------------------------------
 
@@ -66,20 +76,9 @@ Audio Processing Modules & Algorithms
 * :ref:`stft_process` (High-level architecture; also see upstream `STFT Process README <https://github.com/thesofproject/sof/tree/main/src/audio/stft_process/README.md>`_)
 * :ref:`media_codecs` (High-level architecture; also see upstream `Cadence Codec module adapter <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/module/cadence.c>`_ & `Codec README <https://github.com/thesofproject/sof/tree/main/src/audio/codec/README.md>`_)
 
-Firmware Architecture, Packaging & Core Subsystems
-==================================================
-
-Core pipeline architecture, firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
-
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
-   firmware/pipeline_architecture
-   firmware/module_framework
-   firmware/scheduler_architecture
-   firmware/audio_buffer_management
-   firmware/ipc_infrastructure
-   firmware/fw_init_boot
    firmware/volume_module
    firmware/mixin_mixout
    firmware/src_asrc
@@ -103,6 +102,15 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/phase_vocoder
    firmware/stft_process
    firmware/media_codecs
+
+Firmware Packaging, Dynamic Modules & Subsystems
+================================================
+
+Firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
+
+.. toctree::
+   :maxdepth: 1
+
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
@@ -146,7 +154,7 @@ Machine Learning & Speech Feature Extraction
 * :ref:`mfcc_tuning` (Mel-Frequency Cepstral Coefficients (MFCC), triangular Mel filterbank design, Slaney normalization, Whisper-compatible Mel spectrogram scaling, Voice Activity Detection (VAD), and TensorFlow Lite Micro (TFLM) keyword spotting co-design)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    tuning/runtime_tuning_sof_ctl
    tuning/drc_tuning
