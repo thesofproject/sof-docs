@@ -50,6 +50,18 @@ modules:
       - "Continuous clock drift tracking"
       - "Decoupled clock domain bridging"
 
+  - id: dmic
+    name: "Digital Microphone (DMIC) Decimation"
+    source: "SOF"
+    category: "Foundational DSP"
+    status: "Upstream"
+    description: "Hardware PDM receiver, multi-stage CIC decimation, and FIR compensator filter."
+    simd: ["Hardware Accelerator", "Scalar C"]
+    key_features:
+      - "High-performance PDM clock divider matching dual FIFOs"
+      - "Cascaded Integrator-Comb (CIC) decimation with FIR compensation"
+      - "Octave tuning tool for passband ripple (<0.1 dB) and stopband (>95 dB)"
+
   - id: demux
     name: "Audio Demux"
     source: "SOF"
@@ -97,6 +109,18 @@ modules:
       - "High-precision Q9.23 fixed-point multiplier (-138.47 dB to +48.17 dB)"
       - "Zero-overhead fast-path bypass when configured for unity gain (0 dB)"
       - "Runtime IPC4 calibration and LLEXT dynamic module packaging"
+
+  - id: up_down_mixer
+    name: "Up/Down Mixer"
+    source: "SOF"
+    category: "Basic Routing & Level"
+    status: "Upstream"
+    description: "Configurable matrix-based channel upmixer and downmixer with per-coefficient attenuation."
+    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    key_features:
+      - "Matrix coefficients for stereo, surround 5.1, and 7.1 mapping"
+      - "Channel energy normalization and clipping prevention"
+      - "Zero-copy passthrough when channel geometry matches"
 
   - id: tone
     name: "Tone Generator"
@@ -231,6 +255,18 @@ modules:
       - "Membrane excursion limiting"
       - "Maximizes acoustic output without damage"
 
+  - id: sound_dose
+    name: "Sound Dose & Exposure"
+    source: "SOF"
+    category: "Speaker Protection"
+    status: "Upstream"
+    description: "Hearing health monitoring and cumulative sound exposure limiter complying with EN 50332 and IEC 62368-1."
+    simd: ["HiFi 3", "Scalar C"]
+    key_features:
+      - "Continuous equivalent sound level (Leq) running integration"
+      - "Digital A-weighting and C-weighting IIR filter profiles"
+      - "Configurable Cumulative Sound Dose (CSD) threshold triggers and attenuation"
+
   # --- Voice, Telephony & Speech ---
   - id: tdfb
     name: "Beamformer (TDFB)"
@@ -339,6 +375,42 @@ modules:
       - "On-device neural network keyword spotting"
       - "TFLite Micro runtime execution"
       - "Low false-reject and false-alarm rates"
+
+  - id: mfcc
+    name: "Mel-Frequency Cepstral Coefficients (MFCC)"
+    source: "SOF"
+    category: "Voice & Telephony"
+    status: "Upstream"
+    description: "Speech feature extraction engine computing triangular Mel filterbank energies and DCT-II cepstra."
+    simd: ["HiFi 3", "Scalar C"]
+    key_features:
+      - "Configurable triangular Mel filterbanks (100 Hz to 8 kHz)"
+      - "Discrete Cosine Transform (DCT-II) with cepstral liftering"
+      - "Direct integration with wake word spotting and ASR frontends"
+
+  - id: mic_privacy_manager
+    name: "Microphone Privacy Manager"
+    source: "SOF"
+    category: "Voice & Telephony"
+    status: "Upstream"
+    description: "Hardware-enforced microphone capture mute and privacy state management."
+    simd: ["Scalar C"]
+    key_features:
+      - "Zero-sample hardware mute interlock"
+      - "GPIO privacy LED synchronization"
+      - "Host-independent privacy state enforcement"
+
+  - id: rtnr
+    name: "Realtek Neural Noise Reduction (RTNR)"
+    source: "Realtek"
+    category: "Voice & Telephony"
+    status: "Upstream"
+    description: "Deep neural network noise suppression engine isolating speech from non-stationary background noise."
+    simd: ["HiFi 4", "Scalar C"]
+    key_features:
+      - "Neural network recurrent inference"
+      - "Non-stationary transient acoustic noise suppression"
+      - "Dual-microphone directional voice enhancement"
 
   # --- Codecs & Compression ---
   - id: media_codecs
