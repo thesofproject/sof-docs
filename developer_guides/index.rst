@@ -49,7 +49,7 @@ Audio Processing Modules & Algorithms
 * :ref:`crossover` (High-level architecture; also see upstream `crossover README <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_)
 * :ref:`dcblock` (High-level architecture; also see upstream `dcblock README <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_)
 * :ref:`tdfb` (High-level architecture; also see upstream `tdfb README <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_ & tuning guide :ref:`time-domain-fixed-beamformer`)
-* `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
+* :ref:`rtnr` (High-level architecture; also see upstream `RTNR README <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_)
 * :ref:`tflm` (High-level architecture; also see upstream `TFLM README <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_)
 * :ref:`mfcc` (High-level architecture; also see upstream `MFCC README <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_)
 * :ref:`smart_amp` (High-level architecture; also see upstream `Smart Amp README <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_)
@@ -100,6 +100,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/sound_dose
    firmware/copier_mux_selector
    firmware/pcm_converter
+   firmware/rtnr
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
