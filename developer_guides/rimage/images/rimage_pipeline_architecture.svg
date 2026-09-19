@@ -1,0 +1,295 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="card-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="hdr-cyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="hdr-purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="hdr-amber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="hdr-rose" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e11d48"/>
+      <stop offset="100%" stop-color="#fb7185"/>
+    </linearGradient>
+
+    <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="640" rx="12" fill="url(#bg-grad)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Rimage: End-to-End Firmware Image Packaging &amp; Cryptographic Signing Pipeline
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Transformation from compiled Xtensa/Host ELF binaries into validated, hardware-authenticated .ri container images
+    </text>
+  </g>
+
+  <!-- 5-Stage Architecture Flow -->
+
+  <!-- STAGE 1: Input Ingestion & ELF Parsing -->
+  <g transform="translate(40, 95)" filter="url(#shadow)">
+    <rect width="180" height="420" rx="10" fill="url(#card-blue)" stroke="#0284c7" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="10" fill="url(#hdr-cyan)"/>
+    <rect y="24" width="180" height="10" fill="#0284c7"/>
+    <text x="90" y="22" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      1. ELF Ingestion
+    </text>
+
+    <!-- Content Items -->
+    <g transform="translate(12, 48)">
+      <rect width="156" height="58" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#38bdf8">Target ELF Binaries</text>
+      <text x="8" y="34" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• zephyr.elf (Base FW)</text>
+      <text x="8" y="48" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• bootloader.elf</text>
+
+      <rect y="68" width="156" height="68" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="86" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#38bdf8">Section Extraction</text>
+      <text x="8" y="102" font-family="ui-monospace, monospace" font-size="9.5" fill="#94a3b8">• .text (Executable Code)</text>
+      <text x="8" y="116" font-family="ui-monospace, monospace" font-size="9.5" fill="#94a3b8">• .rodata (Const Data)</text>
+      <text x="8" y="130" font-family="ui-monospace, monospace" font-size="9.5" fill="#94a3b8">• .bss (Zero-init Size)</text>
+
+      <rect y="146" width="156" height="68" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="164" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#38bdf8">Metadata Section</text>
+      <text x="8" y="180" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• .fw_metadata</text>
+      <text x="8" y="194" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">  - FW Version &amp; ABI</text>
+      <text x="8" y="208" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">  - Memory Windows</text>
+
+      <rect y="224" width="156" height="72" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="242" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#38bdf8">Dynamic Modules</text>
+      <text x="8" y="258" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• *.llext (Relocatable)</text>
+      <text x="8" y="272" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">  - Module Flag: -l</text>
+      <text x="8" y="286" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">  - Non-bootloader entry</text>
+
+      <rect y="306" width="156" height="50" rx="6" fill="#0284c7" fill-opacity="0.15" stroke="#0284c7"/>
+      <text x="78" y="324" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#38bdf8" text-anchor="middle">ELF Validator</text>
+      <text x="78" y="342" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Relocatable / Absolute</text>
+    </g>
+  </g>
+
+  <!-- Connect Stage 1 -> 2 -->
+  <line x1="220" y1="305" x2="250" y2="305" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- STAGE 2: Platform Configuration -->
+  <g transform="translate(252, 95)" filter="url(#shadow)">
+    <rect width="180" height="420" rx="10" fill="url(#card-blue)" stroke="#6366f1" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="10" fill="url(#hdr-purple)"/>
+    <rect y="24" width="180" height="10" fill="#6366f1"/>
+    <text x="90" y="22" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      2. TOML Configuration
+    </text>
+
+    <!-- Content Items -->
+    <g transform="translate(12, 48)">
+      <rect width="156" height="68" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#c084fc">Platform TOML</text>
+      <text x="8" y="34" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• config/tgl.toml</text>
+      <text x="8" y="48" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• config/mtl.toml.h</text>
+      <text x="8" y="62" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• config/ptl.toml.h</text>
+
+      <rect y="78" width="156" height="78" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="96" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#c084fc">Memory Zones</text>
+      <text x="8" y="112" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8">• ROM: Boot Code</text>
+      <text x="8" y="126" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8">• IMR: Isolated RAM</text>
+      <text x="8" y="140" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8">• HP/LP-SRAM Blocks</text>
+      <text x="8" y="152" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8">• Cached/Uncached VMA</text>
+
+      <rect y="166" width="156" height="68" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="184" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#c084fc">Manifest Layout</text>
+      <text x="8" y="200" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• format = "cse/css"</text>
+      <text x="8" y="214" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• version = 2.5 / 3.0</text>
+      <text x="8" y="228" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• image_size bound</text>
+
+      <rect y="244" width="156" height="62" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="262" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#c084fc">Module Registry</text>
+      <text x="8" y="278" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• UUID bindings</text>
+      <text x="8" y="292" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• Affinity &amp; instance max</text>
+
+      <rect y="316" width="156" height="42" rx="6" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1"/>
+      <text x="78" y="334" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc" text-anchor="middle">tomlc99 Parser</text>
+      <text x="78" y="350" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">Strict Bounds Verification</text>
+    </g>
+  </g>
+
+  <!-- Connect Stage 2 -> 3 -->
+  <line x1="432" y1="305" x2="462" y2="305" stroke="#c084fc" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+  <!-- STAGE 3: Manifest Synthesis & Memory Layout -->
+  <g transform="translate(464, 95)" filter="url(#shadow)">
+    <rect width="180" height="420" rx="10" fill="url(#card-blue)" stroke="#d97706" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="10" fill="url(#hdr-amber)"/>
+    <rect y="24" width="180" height="10" fill="#d97706"/>
+    <text x="90" y="22" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      3. Manifest Synthesis
+    </text>
+
+    <!-- Content Items -->
+    <g transform="translate(12, 48)">
+      <rect width="156" height="68" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fbbf24">Extended Manifest</text>
+      <text x="8" y="34" font-family="ui-monospace, monospace" font-size="9.5" fill="#fde68a">• Magic: 0x6e614d58</text>
+      <text x="8" y="48" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">• Tag: 'XMan'</text>
+      <text x="8" y="62" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Skipped by Boot ROM</text>
+
+      <rect y="78" width="156" height="78" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="96" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fbbf24">Security Headers</text>
+      <text x="8" y="112" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• CSE: $CPD (Partitions)</text>
+      <text x="8" y="126" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• CSS: $MN2 (Signatures)</text>
+      <text x="8" y="140" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• Signed Pkg Info</text>
+      <text x="8" y="152" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8">• ADSP Metadata Ext</text>
+
+      <rect y="166" width="156" height="78" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="184" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fbbf24">FW &amp; Module Table</text>
+      <text x="8" y="200" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• FW Desc: $AM1</text>
+      <text x="8" y="214" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• Modules: $AME</text>
+      <text x="8" y="228" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• Entry point &amp; VMA</text>
+      <text x="8" y="240" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• V2.5/3.0 offsets</text>
+
+      <rect y="254" width="156" height="54" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="272" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fbbf24">Page Alignment</text>
+      <text x="8" y="288" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• 4096-Byte Padding</text>
+      <text x="8" y="302" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• MAN_PAGE_SIZE bound</text>
+
+      <rect y="318" width="156" height="40" rx="6" fill="#d97706" fill-opacity="0.15" stroke="#d97706"/>
+      <text x="78" y="336" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#fbbf24" text-anchor="middle">Contiguous Buffer</text>
+      <text x="78" y="350" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">DMA-Ready Image Memory</text>
+    </g>
+  </g>
+
+  <!-- Connect Stage 3 -> 4 -->
+  <line x1="644" y1="305" x2="674" y2="305" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr-amber)"/>
+
+  <!-- STAGE 4: Hashing & Cryptographic Signing -->
+  <g transform="translate(676, 95)" filter="url(#shadow)">
+    <rect width="180" height="420" rx="10" fill="url(#card-blue)" stroke="#059669" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="10" fill="url(#hdr-emerald)"/>
+    <rect y="24" width="180" height="10" fill="#059669"/>
+    <text x="90" y="22" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      4. Crypto &amp; Signing
+    </text>
+
+    <!-- Content Items -->
+    <g transform="translate(12, 48)">
+      <rect width="156" height="74" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#34d399">Module Hashing</text>
+      <text x="8" y="34" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• SHA-256 (CAVS)</text>
+      <text x="8" y="48" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• SHA-384 (ACE)</text>
+      <text x="8" y="62" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• Hashed per .text/.data</text>
+      <text x="8" y="74" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Stored in $AME entry</text>
+
+      <rect y="84" width="156" height="78" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="102" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#34d399">RSA Signatures</text>
+      <text x="8" y="118" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• PKCS#1 v1.5 padding</text>
+      <text x="8" y="132" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">• RSA-2048 / RSA-3072</text>
+      <text x="8" y="146" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• Signs CSS payload</text>
+      <text x="8" y="158" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Key: otc_private.pem</text>
+
+      <rect y="172" width="156" height="74" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="190" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#34d399">External MEU / HSM</text>
+      <text x="8" y="206" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">• Flag: -s meu_offset</text>
+      <text x="8" y="220" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• Production OEM Keys</text>
+      <text x="8" y="234" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">• Emits .uns &amp; .met</text>
+      <text x="8" y="244" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Resign via -q / verify -y</text>
+
+      <rect y="256" width="156" height="52" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="274" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#34d399">Security Attributes</text>
+      <text x="8" y="290" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">• PV Bit Flag: -p</text>
+      <text x="8" y="302" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Anti-Rollback SVN</text>
+
+      <rect y="318" width="156" height="40" rx="6" fill="#059669" fill-opacity="0.15" stroke="#059669"/>
+      <text x="78" y="336" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#34d399" text-anchor="middle">Crypto Engine</text>
+      <text x="78" y="350" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8" text-anchor="middle">OpenSSL / Native Backend</text>
+    </g>
+  </g>
+
+  <!-- Connect Stage 4 -> 5 -->
+  <line x1="856" y1="305" x2="886" y2="305" stroke="#34d399" stroke-width="2" marker-end="url(#arr-emerald)"/>
+
+  <!-- STAGE 5: Packaging & Artifact Output -->
+  <g transform="translate(888, 95)" filter="url(#shadow)">
+    <rect width="172" height="420" rx="10" fill="url(#card-blue)" stroke="#e11d48" stroke-width="1.5"/>
+    <rect width="172" height="34" rx="10" fill="url(#hdr-rose)"/>
+    <rect y="24" width="172" height="10" fill="#e11d48"/>
+    <text x="86" y="22" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      5. Image Artifacts
+    </text>
+
+    <!-- Content Items -->
+    <g transform="translate(10, 48)">
+      <rect width="152" height="88" rx="6" fill="#0f172a" stroke="#e11d48"/>
+      <text x="8" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#fb7185">Primary Signed Image</text>
+      <text x="8" y="34" font-family="ui-monospace, monospace" font-size="10" font-weight="700" fill="#ffffff">• sof-*.ri</text>
+      <text x="8" y="50" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">1. [XMan] Ext Manifest</text>
+      <text x="8" y="64" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">2. [CSE/CSS] Signatures</text>
+      <text x="8" y="78" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">3. [Payload] Modules</text>
+
+      <rect y="98" width="152" height="74" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="116" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#94a3b8">Unsigned Payload</text>
+      <text x="8" y="132" font-family="ui-monospace, monospace" font-size="10" fill="#cbd5e1">• sof-*.ri.uns</text>
+      <text x="8" y="148" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Stripped of CSS/RSA</text>
+      <text x="8" y="162" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Input for MEU tool</text>
+
+      <rect y="182" width="152" height="74" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="200" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#94a3b8">Manifest Metadata</text>
+      <text x="8" y="216" font-family="ui-monospace, monospace" font-size="10" fill="#cbd5e1">• sof-*.ri.met</text>
+      <text x="8" y="232" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Standalone manifest</text>
+      <text x="8" y="246" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Verification artifact</text>
+
+      <rect y="266" width="152" height="88" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="8" y="284" font-family="system-ui, sans-serif" font-size="11" font-weight="600" fill="#38bdf8">Target Deployment</text>
+      <text x="8" y="300" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">/lib/firmware/intel/sof/</text>
+      <text x="8" y="316" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Loaded via snd-sof</text>
+      <text x="8" y="330" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• CSME / DSP Boot ROM</text>
+      <text x="8" y="344" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">• Verified in Hardware</text>
+    </g>
+  </g>
+
+  <!-- Bottom Summary Strip -->
+  <g transform="translate(40, 535)">
+    <rect width="1020" height="80" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="28" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#38bdf8">
+      Key Build Directive:
+    </text>
+    <text x="145" y="28" font-family="ui-monospace, monospace" font-size="11.5" fill="#f8fafc">
+      west sign -t rimage -- -k keys/otc_private.pem -c config/tgl.toml -o build/sof-tgl.ri build/zephyr.elf
+    </text>
+    <text x="20" y="54" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">
+      The host kernel driver (<tspan font-family="ui-monospace, monospace" fill="#cbd5e1">snd-sof</tspan>) parses the initial Extended Manifest for versioning and window geometry, skips past it to the CSE/CSS signature, and transfers the signed payload to DSP SRAM. The hardware Boot ROM authenticates the RSA PKCS#1 v1.5 signature against fused OEM root keys prior to core execution.
+    </text>
+  </g>
+</svg>
