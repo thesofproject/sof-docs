@@ -53,7 +53,7 @@ Audio Processing Modules & Algorithms
 * :ref:`tflm` (High-level architecture; also see upstream `TFLM README <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_)
 * :ref:`mfcc` (High-level architecture; also see upstream `MFCC README <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_)
 * :ref:`smart_amp` (High-level architecture; also see upstream `Smart Amp README <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_)
-* `Sound Dose Evaluator <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_
+* :ref:`sound_dose` (High-level architecture; also see upstream `Sound Dose README <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_)
 * `Copier <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_
 * `PCM Format Converter <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_
 
@@ -97,6 +97,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/tflm
    firmware/mfcc
    firmware/smart_amp
+   firmware/sound_dose
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware

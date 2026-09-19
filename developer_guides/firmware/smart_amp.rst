@@ -874,6 +874,7 @@ Related Architecture Guides
 ===========================
 
 * :ref:`drc_multiband_drc`: Wideband and multi-band dynamic range compression, lookahead pre-delay buffers, and speaker protection leveling.
+* :ref:`sound_dose`: Auditory health protection, IEC 61672-1 A-weighting acoustic integration, and autonomous headphone volume limiting.
 * :ref:`dcblock`: First-order recursive high-pass filter eliminating DC offsets before speaker power amplification.
 * :ref:`crossover`: Multi-way active digital frequency division splitting audio across woofers and tweeters.
 * :ref:`volume_module`: High-precision volume scaling, zero-crossing smooth ramping, and soft mute mechanics.
