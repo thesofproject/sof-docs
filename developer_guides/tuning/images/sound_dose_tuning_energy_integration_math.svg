@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="nodeGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="mathGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#1e1b4b" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="shadow3" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGrad3)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Fixed-Point Real-Time Energy Accumulation &amp; Logarithmic Math
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    Per-Sample Cascaded DF1 Filtering, 64-Bit Integration, Integer Log2 Conversion, and Timestamp Latching
+  </text>
+
+  <!-- Top Flow: Per-Sample Real-Time Processing (48,000 times/sec per channel) -->
+  <g transform="translate(40, 80)" filter="url(#shadow3)">
+    <rect width="920" height="175" rx="10" fill="url(#nodeGrad1)" stroke="#3b82f6" stroke-width="1.5" />
+    <rect x="0" y="0" width="920" height="30" rx="10" fill="#1e40af" fill-opacity="0.5" />
+    <text x="20" y="20" fill="#93c5fd" font-family="sans-serif" font-size="13" font-weight="700">
+      STAGE 1: Per-Sample Real-Time Inner Processing Loop (sound_dose_s16 / sound_dose_s32)
+    </text>
+
+    <!-- Block 1: Input PCM Sample -->
+    <g transform="translate(20, 50)">
+      <rect width="120" height="95" rx="6" fill="#0f172a" stroke="#475569" />
+      <text x="60" y="24" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">Input Sample</text>
+      <text x="60" y="46" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="13">x[n]</text>
+      <text x="60" y="66" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10.5">S16_LE (Q1.15)</text>
+      <text x="60" y="82" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10.5">S32_LE (Q1.31)</text>
+    </g>
+
+    <!-- Arrow -->
+    <line x1="140" y1="97" x2="168" y2="97" stroke="#64748b" stroke-width="2" />
+    <polygon points="168,93 176,97 168,101" fill="#64748b" />
+
+    <!-- Block 2: Gain Scaling Multiplier -->
+    <g transform="translate(180, 50)">
+      <rect width="135" height="95" rx="6" fill="#0f172a" stroke="#10b981" />
+      <text x="67" y="24" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">Gain Slew Core</text>
+      <text x="67" y="45" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">Q_MULTSR_32X32</text>
+      <text x="67" y="65" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="10.5">cd-&gt;gain (Q2.30)</text>
+      <text x="67" y="82" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="10">±0.05 dB / frame</text>
+    </g>
+
+    <!-- Fork to Sink -->
+    <line x1="315" y1="75" x2="360" y2="75" stroke="#10b981" stroke-width="2" />
+    <polygon points="360,71 368,75 360,79" fill="#10b981" />
+    <g transform="translate(370, 50)">
+      <rect width="105" height="48" rx="6" fill="#064e3b" stroke="#10b981" />
+      <text x="52" y="20" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="11" font-weight="700">Sink Buffer</text>
+      <text x="52" y="38" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="12">y[n] (Audio Out)</text>
+    </g>
+
+    <!-- Branch to A-Weighting Filter -->
+    <path d="M 315 110 L 340 110 L 340 110 L 360 110" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <polygon points="360,106 368,110 360,114" fill="#38bdf8" />
+
+    <!-- Block 3: DF1 IIR Filter -->
+    <g transform="translate(370, 92)">
+      <rect width="140" height="53" rx="6" fill="#0f172a" stroke="#38bdf8" />
+      <text x="70" y="20" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">A-Weight IIR DF1</text>
+      <text x="70" y="38" text-anchor="middle" fill="#cbd5e1" font-family="monospace" font-size="11">iir_df1(cd-&gt;iir[ch])</text>
+    </g>
+
+    <!-- Arrow -->
+    <line x1="510" y1="118" x2="538" y2="118" stroke="#64748b" stroke-width="2" />
+    <polygon points="538,114 546,118 538,122" fill="#64748b" />
+
+    <!-- Block 4: Square Power -->
+    <g transform="translate(550, 68)">
+      <rect width="130" height="77" rx="6" fill="#0f172a" stroke="#f59e0b" />
+      <text x="65" y="22" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Power Squarer</text>
+      <text x="65" y="44" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="12">y_A[n] · y_A[n]</text>
+      <text x="65" y="64" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="10">Q1.15² → Q2.30</text>
+    </g>
+
+    <!-- Arrow -->
+    <line x1="680" y1="106" x2="708" y2="106" stroke="#64748b" stroke-width="2" />
+    <polygon points="708,102 716,106 708,110" fill="#64748b" />
+
+    <!-- Block 5: 64-Bit Accumulator -->
+    <g transform="translate(720, 50)">
+      <rect width="175" height="95" rx="6" fill="#1e1b4b" stroke="#8b5cf6" stroke-width="1.5" />
+      <text x="87" y="24" text-anchor="middle" fill="#c4b5fd" font-family="sans-serif" font-size="12" font-weight="700">64-Bit Energy Accum</text>
+      <text x="87" y="47" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">cd-&gt;energy[ch] += ...</text>
+      <text x="87" y="68" text-anchor="middle" fill="#e9d5ff" font-family="sans-serif" font-size="10.5">Capacity: ~5.15×10¹³</text>
+      <text x="87" y="84" text-anchor="middle" fill="#a78bfa" font-family="sans-serif" font-size="10">Zero overflow risk (&lt; 2⁶³-1)</text>
+    </g>
+  </g>
+
+  <!-- Middle Downward Transition Arrow: Periodic 1.0s Trigger -->
+  <g transform="translate(500, 260)">
+    <line x1="0" y1="0" x2="0" y2="28" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,3" />
+    <polygon points="-6,28 0,38 6,28" fill="#f59e0b" />
+    <rect x="-140" y="6" width="280" height="20" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1" />
+    <text x="0" y="20" text-anchor="middle" fill="#fde68a" font-family="sans-serif" font-size="11" font-weight="700">
+      1.0-SECOND PERIODIC TRIGGER (frames_count ≥ 48000)
+    </text>
+  </g>
+
+  <!-- Bottom Flow: 1-Second Logarithmic Decibel Conversion & IPC Reporting -->
+  <g transform="translate(40, 305)" filter="url(#shadow3)">
+    <rect width="920" height="310" rx="10" fill="url(#mathGrad)" stroke="#6366f1" stroke-width="1.5" />
+    <rect x="0" y="0" width="920" height="30" rx="10" fill="#4338ca" fill-opacity="0.5" />
+    <text x="20" y="20" fill="#e0e7ff" font-family="sans-serif" font-size="13" font-weight="700">
+      STAGE 2: Periodic Logarithmic Conversion, MEL Calibration, and IPC Notification Dispatch
+    </text>
+
+    <!-- Sub-step 1: Energy Summation & 19-bit Shift -->
+    <g transform="translate(25, 45)">
+      <rect width="200" height="110" rx="6" fill="#0f172a" stroke="#818cf8" />
+      <text x="100" y="22" text-anchor="middle" fill="#a5b4fc" font-family="sans-serif" font-size="11.5" font-weight="700">1. Scaling &amp; Normalization</text>
+      <text x="15" y="44" fill="#f8fafc" font-family="monospace" font-size="11">energy_sum = Σ cd-&gt;energy[ch]</text>
+      <text x="15" y="66" fill="#cbd5e1" font-family="monospace" font-size="10.5">log_arg = energy_sum &gt;&gt; 19</text>
+      <text x="15" y="85" fill="#94a3b8" font-family="sans-serif" font-size="10">• Fits within uint32_t</text>
+      <text x="15" y="99" fill="#94a3b8" font-family="sans-serif" font-size="10">• Clamped: MAX(log_arg, 1)</text>
+    </g>
+
+    <text x="238" y="105" fill="#818cf8" font-family="sans-serif" font-size="16" font-weight="700">→</text>
+
+    <!-- Sub-step 2: Integer Base-2 Logarithm -->
+    <g transform="translate(255, 45)">
+      <rect width="200" height="110" rx="6" fill="#0f172a" stroke="#818cf8" />
+      <text x="100" y="22" text-anchor="middle" fill="#a5b4fc" font-family="sans-serif" font-size="11.5" font-weight="700">2. Integer Log2 Engine</text>
+      <text x="15" y="44" fill="#f8fafc" font-family="monospace" font-size="11">tmp = base2_logarithm(arg)</text>
+      <text x="15" y="64" fill="#cbd5e1" font-family="monospace" font-size="10">tmp += LOG_FIXED_OFFSET</text>
+      <text x="15" y="80" fill="#94a3b8" font-family="sans-serif" font-size="9.5">65536 * (19 - 30) = -720,896</text>
+      <text x="15" y="98" fill="#cbd5e1" font-family="monospace" font-size="10">tmp += log_offset_for_mean</text>
+    </g>
+
+    <text x="468" y="105" fill="#818cf8" font-family="sans-serif" font-size="16" font-weight="700">→</text>
+
+    <!-- Sub-step 3: Decibel Multiplication & Filter Offsets -->
+    <g transform="translate(485, 45)">
+      <rect width="210" height="110" rx="6" fill="#0f172a" stroke="#818cf8" />
+      <text x="105" y="22" text-anchor="middle" fill="#a5b4fc" font-family="sans-serif" font-size="11.5" font-weight="700">3. Decibel Scale &amp; Offsets</text>
+      <text x="15" y="44" fill="#f8fafc" font-family="monospace" font-size="10.5">mult = 10 / log2(10) · 2²⁹</text>
+      <text x="15" y="62" fill="#cbd5e1" font-family="monospace" font-size="10.5">tmp = Q_MULTSR_32X32(tmp)</text>
+      <text x="15" y="80" fill="#a5b4fc" font-family="sans-serif" font-size="10">+3.00 dB (Filter Norm Offset)</text>
+      <text x="15" y="96" fill="#a5b4fc" font-family="sans-serif" font-size="10">+3.01 dB (Full-scale Sine Ref)</text>
+    </g>
+
+    <text x="708" y="105" fill="#818cf8" font-family="sans-serif" font-size="16" font-weight="700">→</text>
+
+    <!-- Sub-step 4: Digital dBFS Level -->
+    <g transform="translate(725, 45)">
+      <rect width="170" height="110" rx="6" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.5" />
+      <text x="85" y="22" text-anchor="middle" fill="#e9d5ff" font-family="sans-serif" font-size="11.5" font-weight="700">4. Digital dBFS Level</text>
+      <text x="85" y="46" text-anchor="middle" fill="#c084fc" font-family="monospace" font-size="13" font-weight="700">cd-&gt;level_dbfs</text>
+      <text x="85" y="68" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">Stereo Correction:</text>
+      <text x="85" y="84" text-anchor="middle" fill="#cbd5e1" font-family="monospace" font-size="10">-1.5 dB × 2 = -3.0 dB</text>
+      <text x="85" y="99" text-anchor="middle" fill="#a855f7" font-family="sans-serif" font-size="9.5">Binaural Acoustic Sum</text>
+    </g>
+
+    <!-- Bottom Row: Calibration Offset Addition & Asynchronous IPC4 Event -->
+    <g transform="translate(25, 170)">
+      <rect width="520" height="120" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.2" />
+      <text x="20" y="24" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">
+        Acoustic Calibration Equation (MEL Derivation in Centi-Decibels)
+      </text>
+      <rect x="20" y="38" width="480" height="32" rx="4" fill="#064e3b" fill-opacity="0.5" />
+      <text x="260" y="60" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="13" font-weight="800">
+        MEL = dbfs_value + sens_dbfs_dbspl + volume_offset
+      </text>
+      <text x="20" y="90" fill="#94a3b8" font-family="sans-serif" font-size="11">
+        • <tspan fill="#e2e8f0" font-weight="600">sens_dbfs_dbspl</tspan>: Headphone sensitivity in dBSPL produced by 0 dBFS input (e.g. 10000 = 100.0 dB)
+      </text>
+      <text x="20" y="106" fill="#94a3b8" font-family="sans-serif" font-size="11">
+        • <tspan fill="#e2e8f0" font-weight="600">volume_offset</tspan>: Dynamic volume attenuation relative to maximum volume (e.g. -1200 = -12.0 dB)
+      </text>
+    </g>
+
+    <!-- Microsecond Timestamp & IPC Message Block -->
+    <g transform="translate(565, 170)">
+      <rect width="330" height="120" rx="8" fill="#0f172a" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="20" y="24" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">
+        IPC4 Asynchronous Notification
+      </text>
+      <text x="20" y="46" fill="#94a3b8" font-family="sans-serif" font-size="11">High-Precision 96-Bit Timestamp:</text>
+      <text x="20" y="64" fill="#e0f2fe" font-family="monospace" font-size="10.5">time_us = (frames * coef) &gt;&gt; 26</text>
+      <text x="20" y="86" fill="#cbd5e1" font-family="sans-serif" font-size="11">Dispatched via SOF IPC4 Global Event:</text>
+      <text x="20" y="104" fill="#38bdf8" font-family="monospace" font-size="10">SOF_IPC4_GLB_NOTIFICATION (Event 0xCA)</text>
+    </g>
+  </g>
+</svg>

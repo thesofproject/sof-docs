@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="hatsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="dutGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="apGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#065f46" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <filter id="shadow4" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="600" rx="14" fill="url(#bgGrad4)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Acoustic Laboratory Metrology &amp; Headphone Sensitivity Calibration
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    EN 50332 / IEC 60318-4 Head and Torso Simulator (HATS) Test Rig &amp; Parameter Derivation
+  </text>
+
+  <!-- Main System Diagram (Horizontal Pipeline) -->
+
+  <!-- Block 1: Host Workstation / Audio Analyzer -->
+  <g transform="translate(40, 95)" filter="url(#shadow4)">
+    <rect width="210" height="340" rx="10" fill="url(#apGrad)" stroke="#10b981" stroke-width="1.5" />
+    <rect x="0" y="0" width="210" height="36" rx="10" fill="#047857" />
+    <rect x="0" y="26" width="210" height="10" fill="#047857" />
+    <text x="105" y="24" text-anchor="middle" fill="#ecfdf5" font-family="sans-serif" font-size="13" font-weight="700">
+      ACOUSTIC ANALYZER
+    </text>
+    <text x="105" y="62" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="12" font-weight="600">
+      Audio Precision / SoundCheck
+    </text>
+
+    <!-- Inner panels -->
+    <g transform="translate(15, 80)">
+      <rect width="180" height="75" rx="6" fill="#064e3b" stroke="#059669" />
+      <text x="90" y="20" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">Stimulus Generator</text>
+      <text x="12" y="38" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• IEC 60268-1 Pink Noise</text>
+      <text x="12" y="52" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• ITU-T P.50 Artificial Voice</text>
+      <text x="12" y="66" fill="#fde68a" font-family="monospace" font-size="10">Digital Level: 0 dBFS</text>
+    </g>
+
+    <g transform="translate(15, 170)">
+      <rect width="180" height="95" rx="6" fill="#064e3b" stroke="#059669" />
+      <text x="90" y="20" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">Acoustic Acquisition</text>
+      <text x="12" y="38" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• Mic Conditioning Amp</text>
+      <text x="12" y="52" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• IEC 61672 A-Weighting</text>
+      <text x="12" y="68" fill="#a7f3d0" font-family="sans-serif" font-size="10.5">Measured Sound Level:</text>
+      <text x="12" y="86" fill="#fde68a" font-family="monospace" font-size="12" font-weight="700">L_p,HATS (dBA SPL)</text>
+    </g>
+
+    <g transform="translate(15, 280)">
+      <rect width="180" height="45" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="90" y="18" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10.5" font-weight="700">Calibration Script</text>
+      <text x="90" y="34" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">sof_sound_dose_tool.py</text>
+    </g>
+  </g>
+
+  <!-- Connection: Stimulus to DUT -->
+  <path d="M 250 155 L 290 155" fill="none" stroke="#10b981" stroke-width="2.5" />
+  <polygon points="290,150 300,155 290,160" fill="#10b981" />
+  <text x="275" y="145" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="9.5" font-weight="600">PCM 0 dBFS</text>
+
+  <!-- Block 2: SOF DUT (Target Under Test) -->
+  <g transform="translate(305, 95)" filter="url(#shadow4)">
+    <rect width="250" height="340" rx="10" fill="url(#dutGrad)" stroke="#3b82f6" stroke-width="1.5" />
+    <rect x="0" y="0" width="250" height="36" rx="10" fill="#1d4ed8" />
+    <rect x="0" y="26" width="250" height="10" fill="#1d4ed8" />
+    <text x="125" y="24" text-anchor="middle" fill="#eff6ff" font-family="sans-serif" font-size="13" font-weight="700">
+      SOF TARGET DUT
+    </text>
+    <text x="125" y="60" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-size="11.5" font-weight="600">
+      Spider (TGL) / Aphid (PTL) / Dragon Fly
+    </text>
+
+    <!-- Sub-blocks inside DUT -->
+    <g transform="translate(15, 75)">
+      <rect width="220" height="65" rx="6" fill="#0f172a" stroke="#38bdf8" />
+      <text x="110" y="20" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">SOF Audio Pipeline</text>
+      <text x="15" y="38" fill="#e2e8f0" font-family="monospace" font-size="10.5">Host Copier → Volume</text>
+      <text x="15" y="54" fill="#a7f3d0" font-family="monospace" font-size="10.5">→ Sound Dose Module → DAI</text>
+    </g>
+
+    <g transform="translate(15, 150)">
+      <rect width="220" height="75" rx="6" fill="#0f172a" stroke="#818cf8" />
+      <text x="110" y="20" text-anchor="middle" fill="#a5b4fc" font-family="sans-serif" font-size="11" font-weight="700">Sound Dose Module State</text>
+      <text x="15" y="38" fill="#cbd5e1" font-family="monospace" font-size="10">sens_dbfs_dbspl: <tspan fill="#fde68a">10040</tspan></text>
+      <text x="15" y="54" fill="#cbd5e1" font-family="monospace" font-size="10">volume_offset:   <tspan fill="#6ee7b7">0 (0 dB)</tspan></text>
+      <text x="15" y="68" fill="#cbd5e1" font-family="monospace" font-size="10">gain:            <tspan fill="#6ee7b7">0 (0 dB)</tspan></text>
+    </g>
+
+    <g transform="translate(15, 235)">
+      <rect width="220" height="85" rx="6" fill="#0f172a" stroke="#f59e0b" />
+      <text x="110" y="20" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Hardware Audio Codec</text>
+      <text x="15" y="38" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• High-SNR Headphone DAC</text>
+      <text x="15" y="54" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• Integrated Headphone Amp</text>
+      <text x="15" y="70" fill="#fde68a" font-family="monospace" font-size="10">Max V_out: ~150 mV RMS</text>
+    </g>
+  </g>
+
+  <!-- Connection: DUT to Headset -->
+  <path d="M 555 315 L 615 315" fill="none" stroke="#f59e0b" stroke-width="2.5" />
+  <polygon points="615,310 625,315 615,320" fill="#f59e0b" />
+  <text x="585" y="305" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="9.5" font-weight="600">Analog Out</text>
+
+  <!-- Block 3: Headset & HATS Test Rig -->
+  <g transform="translate(630, 95)" filter="url(#shadow4)">
+    <rect width="330" height="340" rx="10" fill="url(#hatsGrad)" stroke="#64748b" stroke-width="1.5" />
+    <rect x="0" y="0" width="330" height="36" rx="10" fill="#475569" />
+    <rect x="0" y="26" width="330" height="10" fill="#475569" />
+    <text x="165" y="24" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="700">
+      HATS ACOUSTIC FIXTURE
+    </text>
+    <text x="165" y="60" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11.5">
+      IEC 60318-4 / ITU-T P.57 Type 3.3 Artificial Ear
+    </text>
+
+    <!-- Headset under test -->
+    <g transform="translate(20, 75)">
+      <rect width="290" height="65" rx="6" fill="#0f172a" stroke="#94a3b8" />
+      <text x="145" y="20" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="11" font-weight="700">Transducer Under Evaluation</text>
+      <text x="15" y="38" fill="#e2e8f0" font-family="sans-serif" font-size="10.5">• In-Ear / On-Ear / Over-Ear Headphone</text>
+      <text x="15" y="54" fill="#a5b4fc" font-family="sans-serif" font-size="10.5">• Mounted on anatomical pinna with sealed seal</text>
+    </g>
+
+    <!-- Artificial Ear Simulator -->
+    <g transform="translate(20, 150)">
+      <rect width="290" height="85" rx="6" fill="#0f172a" stroke="#38bdf8" />
+      <text x="145" y="20" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Occluded Ear Simulator (IEC 60318-4)</text>
+      <text x="15" y="38" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">• Replicates human ear canal acoustic impedance</text>
+      <text x="15" y="54" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">• Built-in 1/2" laboratory reference microphone</text>
+      <text x="15" y="70" fill="#fde68a" font-family="monospace" font-size="10">P_acoustic: Sound pressure at eardrum</text>
+    </g>
+
+    <!-- Return cable back to AP -->
+    <g transform="translate(20, 245)">
+      <rect width="290" height="75" rx="6" fill="#064e3b" stroke="#10b981" />
+      <text x="145" y="20" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">Microphone Signal Return</text>
+      <text x="15" y="38" fill="#e2e8f0" font-family="sans-serif" font-size="10">• Preamp output: Calibrated mV/Pa signal</text>
+      <text x="15" y="54" fill="#a7f3d0" font-family="sans-serif" font-size="10">• Connected directly to APx555 input channel</text>
+    </g>
+  </g>
+
+  <!-- Return Path Cable: Routed cleanly below DUT box back to APx555 -->
+  <path d="M 650 370 L 590 370 L 590 444 L 210 444 L 210 435" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,3" />
+  <polygon points="206,432 210,422 214,432" fill="#10b981" />
+  <g transform="translate(320, 434)">
+    <rect width="220" height="20" rx="4" fill="#064e3b" stroke="#059669" stroke-width="1" />
+    <text x="110" y="14" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="10" font-weight="600">
+      Calibrated Mic Signal (mV/Pa)
+    </text>
+  </g>
+
+  <!-- Bottom Panel: Sensitivity Derivation Formula & Injection Sequence -->
+  <g transform="translate(40, 455)" filter="url(#shadow4)">
+    <rect width="920" height="125" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="25" y="26" fill="#38bdf8" font-family="sans-serif" font-size="13.5" font-weight="700">
+      Acoustic Sensitivity Derivation &amp; Live Calibration Protocol
+    </text>
+
+    <!-- Formula Box -->
+    <g transform="translate(25, 42)">
+      <rect width="420" height="68" rx="6" fill="#0f172a" stroke="#10b981" />
+      <text x="15" y="22" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Mathematical Calibration Formula:</text>
+      <text x="15" y="44" fill="#f8fafc" font-family="monospace" font-size="12" font-weight="700">
+        sens_dbfs_dbspl = round( (L_p,HATS - 0.0) · 100 )
+      </text>
+      <text x="15" y="60" fill="#94a3b8" font-family="sans-serif" font-size="10">
+        Example: L_p,HATS = 100.42 dBA SPL → sens_dbfs_dbspl = 10042 (centi-decibels)
+      </text>
+    </g>
+
+    <!-- Injection Box -->
+    <g transform="translate(465, 42)">
+      <rect width="430" height="68" rx="6" fill="#0f172a" stroke="#38bdf8" />
+      <text x="15" y="22" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Verification &amp; Deployment Sequence:</text>
+      <text x="15" y="40" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">1. Generate binary blob: <tspan fill="#fde68a" font-family="monospace">sof_sound_dose_tool.py --sens 100.4</tspan></text>
+      <text x="15" y="54" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">2. Inject to DUT over SSH: <tspan fill="#fde68a" font-family="monospace">sof-ctl -i 4 -n &lt;numid&gt; -s setup.bin</tspan></text>
+      <text x="15" y="68" fill="#a7f3d0" font-family="sans-serif" font-size="10.5">3. Verify reported MEL matches APx555 measured level within ±0.2 dBA</text>
+    </g>
+  </g>
+</svg>
