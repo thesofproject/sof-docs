@@ -60,6 +60,7 @@ Audio Processing Modules & Algorithms
 * :ref:`tone` (High-level architecture; also see upstream `Tone README <https://github.com/thesofproject/sof/tree/main/src/audio/tone/README.md>`_)
 * :ref:`up_down_mixer` (High-level architecture; also see upstream `Up/Down Mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/up_down_mixer/README.md>`_)
 * :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_)
+* :ref:`level_multiplier` (High-level architecture; also see upstream `Level Multiplier README <https://github.com/thesofproject/sof/tree/main/src/audio/level_multiplier/README.md>`_)
 
 .. _algorithm-specific-information:
 
@@ -109,6 +110,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/tone
    firmware/up_down_mixer
    firmware/aria
+   firmware/level_multiplier
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
