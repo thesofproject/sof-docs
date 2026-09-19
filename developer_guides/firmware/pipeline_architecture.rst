@@ -470,6 +470,7 @@ Related Guides
 * :ref:`dcblock`: First-order recursive high-pass DC blocking filter, 0 Hz transmission nulling, 64-bit fixed-point accumulation, and dual circular buffer SIMD acceleration.
 * :ref:`tdfb`: Spatial acoustic filtering, filter-and-sum FIR banks, multi-microphone array geometries, and autonomous Direction of Arrival (DOA) tracking.
 * :ref:`tflm`: Embedded neural network inference, static tensor arena memory planning, 8-bit affine quantization, and Tensilica NNLib SIMD acceleration.
+* :ref:`mfcc`: Real-time Mel-Frequency Cepstral Coefficients feature extraction, auditory filterbanks, OpenAI Whisper preprocessing, and Mel-domain VAD.
 * :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
