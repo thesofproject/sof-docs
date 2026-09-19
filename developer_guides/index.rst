@@ -55,7 +55,7 @@ Audio Processing Modules & Algorithms
 * :ref:`smart_amp` (High-level architecture; also see upstream `Smart Amp README <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_)
 * :ref:`sound_dose` (High-level architecture; also see upstream `Sound Dose README <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_)
 * :ref:`copier_mux_selector` (High-level architecture; also see upstream `Copier README <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux README <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector README <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_)
-* `PCM Format Converter <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_
+* :ref:`pcm_converter` (High-level architecture; also see upstream `PCM converter README <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_)
 
 .. _algorithm-specific-information:
 
@@ -99,6 +99,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/smart_amp
    firmware/sound_dose
    firmware/copier_mux_selector
+   firmware/pcm_converter
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
