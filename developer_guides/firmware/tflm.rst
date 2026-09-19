@@ -234,7 +234,7 @@ Deep neural networks cannot effectively process raw 16 kHz audio samples directl
 The MFCC / Filterbank Transformation Pipeline
 =============================================
 
-In Sound Open Firmware, the audio feature extraction stage (typically handled by the upstream :ref:`module_framework` component `mfcc`) converts 1D temporal audio into a compact 2D time-frequency spectrogram:
+In Sound Open Firmware, the audio feature extraction stage (typically handled by the upstream :ref:`module_framework` component :ref:`mfcc`) converts 1D temporal audio into a compact 2D time-frequency spectrogram:
 
 1. **Short-Time Windowing**:
    
@@ -814,11 +814,12 @@ For developers designing custom machine learning models, quantizing neural netwo
 
 * **Upstream Feature Extractor**:
   
-  - `thesofproject/sof: src/audio/mfcc/README.md <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_: Mel-Frequency Cepstral Coefficients feature generator.
+  - :ref:`mfcc`: Mel-Frequency Cepstral Coefficients feature generator and auditory filterbank engine (also see `src/audio/mfcc/README.md <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_).
 
 Related Subsystem Architecture Guides
 =====================================
 
+* :ref:`mfcc`: Mel-Frequency Cepstral Coefficients feature extraction, auditory filterbanks, OpenAI Whisper preprocessing, and Mel-domain VAD.
 * :ref:`tdfb`: Time-Domain Fixed Beamformer providing directional audio pre-processing and spatial noise nulling ahead of ML feature extraction.
 * :ref:`dcblock`: First-order recursive high-pass filter stripping ADC DC offsets prior to spectral transformation.
 * :ref:`module_framework`: Standardized module lifecycle, memory allocation, and IPC configuration handlers.
