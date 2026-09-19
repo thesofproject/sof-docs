@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad-hlclk" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-grad-hlc" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Mode Headers -->
+    <linearGradient id="hdr-cyan-hlc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="hdr-purple-hlc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald-hlc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-cyan-hlc" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-purple-hlc" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#a855f7"/>
+    </marker>
+    <marker id="arr-emerald-hlc" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-amber-hlc" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-hlc" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="660" rx="12" fill="url(#bg-grad-hlclk)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 22)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Hostless Clocking Topologies &amp; Audio Bridges
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Clock Provider Generation, Clock Consumer Synchronization, and Dual-Card Loopback Test Rigs
+    </text>
+  </g>
+
+  <!-- TOP LEFT: Mode 1: Provider Clock Mode (x=40, y=80, w=495, h=250) -->
+  <g transform="translate(40, 80)" filter="url(#shadow-hlc)">
+    <rect width="495" height="250" rx="10" fill="url(#card-grad-hlc)" stroke="#0891b2" stroke-width="1.2"/>
+    <rect width="495" height="26" rx="10" fill="url(#hdr-cyan-hlc)"/>
+    <rect y="20" width="495" height="6" fill="#0891b2"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Mode 1: Provider Mode (Standalone Audio Device / Smart Node)
+    </text>
+
+    <g transform="translate(14, 38)">
+      <!-- Box 1A: MCU Provider -->
+      <g transform="translate(0, 0)">
+        <rect width="215" height="190" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">SOF Hostless MCU (Clock Provider)</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">ESP32-P4 / Teensy 4.1</text>
+        <text x="10" y="50" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Internal Clock Generator:</text>
+        <text x="10" y="64" font-family="monospace" font-size="8" fill="#a5f3fc">• Audio PLL4 (i.MX RT)</text>
+        <text x="10" y="76" font-family="monospace" font-size="8" fill="#a5f3fc">• APLL (ESP32-P4)</text>
+        <text x="10" y="94" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Clock Outputs Generated:</text>
+        <text x="10" y="108" font-family="monospace" font-size="7.5" fill="#38bdf8">• MCLK: 12.288 MHz</text>
+        <text x="10" y="120" font-family="monospace" font-size="7.5" fill="#38bdf8">• BCLK: 1.536 MHz (32fs)</text>
+        <text x="10" y="132" font-family="monospace" font-size="7.5" fill="#38bdf8">• FSYNC: 48.000 kHz</text>
+        <text x="10" y="148" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Audio Data Transceiver:</text>
+        <text x="10" y="162" font-family="monospace" font-size="7.5" fill="#fcd34d">• DOUT: PCM Tx Stream</text>
+        <text x="10" y="174" font-family="monospace" font-size="7.5" fill="#fcd34d">• DIN:  PCM Rx Stream</text>
+      </g>
+
+      <!-- Arrow 1A -> 1B -->
+      <line x1="225" y1="95" x2="245" y2="95" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr-cyan-hlc)"/>
+
+      <!-- Box 1B: External Peripherals (Consumer) -->
+      <g transform="translate(252, 0)">
+        <rect width="215" height="190" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">External Peripherals (Clock Consumer)</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Synchronized to MCU Clocks</text>
+        <text x="10" y="52" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Audio Codec / DAC</tspan></text>
+        <text x="16" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Receives MCLK, BCLK, FSYNC</text>
+        <text x="10" y="86" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Smart Power Amp (DSM)</tspan></text>
+        <text x="16" y="100" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">I/V sense capture feedback</text>
+        <text x="10" y="120" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">S/PDIF Receiver / DAC</tspan></text>
+        <text x="16" y="134" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">SPDIF coaxial/optical lock</text>
+        <text x="10" y="154" font-family="system-ui, sans-serif" font-size="8" fill="#10b981">Zero host PC required</text>
+        <text x="10" y="168" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Autonomous boots from flash</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- TOP RIGHT: Mode 2: Consumer Clock Mode (x=565, y=80, w=495, h=250) -->
+  <g transform="translate(565, 80)" filter="url(#shadow-hlc)">
+    <rect width="495" height="250" rx="10" fill="url(#card-grad-hlc)" stroke="#7c3aed" stroke-width="1.2"/>
+    <rect width="495" height="26" rx="10" fill="url(#hdr-purple-hlc)"/>
+    <rect y="20" width="495" height="6" fill="#7c3aed"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Mode 2: Consumer Mode (Audio Test Bridge to Host DUT)
+    </text>
+
+    <g transform="translate(14, 38)">
+      <!-- Box 2A: Host DUT Provider -->
+      <g transform="translate(0, 0)">
+        <rect width="215" height="190" rx="6" fill="#0f172a" stroke="#7c3aed" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">Host DUT (Clock Provider)</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Spider (TGL) / Aphid (PTL)</text>
+        <text x="10" y="50" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">DSP Audio Interface:</text>
+        <text x="10" y="64" font-family="monospace" font-size="8" fill="#c084fc">• Intel cAVS 2.5 / ACE 3.0</text>
+        <text x="10" y="76" font-family="monospace" font-size="8" fill="#c084fc">• SSP / I2S / PDM Port</text>
+        <text x="10" y="94" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Clocks Driven to Bridge:</text>
+        <text x="10" y="108" font-family="monospace" font-size="7.5" fill="#e9d5ff">• BCLK: Driven by DUT</text>
+        <text x="10" y="120" font-family="monospace" font-size="7.5" fill="#e9d5ff">• FSYNC: Driven by DUT</text>
+        <text x="10" y="136" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">DMIC Clocking:</text>
+        <text x="10" y="150" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• PDM CLK driven by DUT</text>
+        <text x="10" y="162" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Bridge injects PDM DATA</text>
+      </g>
+
+      <!-- Arrow 2A -> 2B -->
+      <line x1="225" y1="95" x2="245" y2="95" stroke="#a855f7" stroke-width="2" marker-end="url(#arr-purple-hlc)"/>
+
+      <!-- Box 2B: Bridge Consumer -->
+      <g transform="translate(252, 0)">
+        <rect width="215" height="190" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#f0abfc">SOF Audio Bridge (Clock Consumer)</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">ESP32-P4 (Spider/Aphid Bridge)</text>
+        <text x="10" y="50" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Clock Configuration:</text>
+        <text x="10" y="64" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_SLAVE</text>
+        <text x="10" y="76" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_DMIC</text>
+        <text x="10" y="94" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">FIFO Synchronization:</text>
+        <text x="10" y="108" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• GDMA follows DUT ticks</text>
+        <text x="10" y="120" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Zero buffer slip / XRUN</text>
+        <text x="10" y="136" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">USB UAC2 to Linux Host:</text>
+        <text x="10" y="150" font-family="monospace" font-size="7.5" fill="#a7f3d0">arecord -D hw:&lt;card&gt;</text>
+        <text x="10" y="162" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Streams audio to test rig</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM: Mode 3: Dual-Board Hardware Loopback Verification (x=40, y=345, w=1020, h=290) -->
+  <g transform="translate(40, 345)" filter="url(#shadow-hlc)">
+    <rect width="1020" height="290" rx="10" fill="url(#card-grad-hlc)" stroke="#059669" stroke-width="1.2"/>
+    <rect width="1020" height="26" rx="10" fill="url(#hdr-emerald-hlc)"/>
+    <rect y="20" width="1020" height="6" fill="#059669"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Mode 3: Dual-Board Standalone Hardware Loopback (Mandatory Pre-Commit Verification Rig)
+    </text>
+
+    <g transform="translate(16, 38)">
+      <!-- Board 1: Transmitter (Clock Provider Tx) -->
+      <g transform="translate(0, 0)">
+        <rect width="330" height="230" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1"/>
+        <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">Board 1: Transmitter (Clock Provider Tx)</text>
+        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Pallas (ESP32-P4) / Board A (Teensy 4.1)</text>
+
+        <rect y="44" width="330" height="1" fill="#1e293b"/>
+
+        <text x="12" y="62" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">1. USB Audio Playback Stream (Host PC)</text>
+        <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">aplay -D hw:Pallas,0 test_1000hz.wav</text>
+
+        <text x="12" y="96" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">2. Hardware Clock Generation (Provider):</text>
+        <text x="24" y="110" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">• APLL / Audio PLL4 generates 48.000 kHz FSYNC</text>
+        <text x="24" y="122" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">• Generates 1.536 MHz BCLK (32-bit slot)</text>
+
+        <text x="12" y="142" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">3. Physical Pinout Driving (Header J1 / Pins):</text>
+        <text x="24" y="156" font-family="monospace" font-size="8" fill="#fcd34d">• BCLK  → Pin 2 (GPIO 20 / Pin 21)</text>
+        <text x="24" y="168" font-family="monospace" font-size="8" fill="#fcd34d">• FSYNC → Pin 4 (GPIO 21 / Pin 20)</text>
+        <text x="24" y="180" font-family="monospace" font-size="8" fill="#fcd34d">• DOUT  → Pin 6 (GPIO 22 / Pin 7)</text>
+        <text x="24" y="192" font-family="monospace" font-size="8" fill="#fcd34d">• PDM   → Pin 10 (CLK) + Pin 12 (DATA)</text>
+
+        <text x="12" y="214" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">Autonomous Tone Option: <tspan font-family="monospace">sof tone on</tspan></text>
+      </g>
+
+      <!-- Middle Interconnect: 7-wire Jumper Harness -->
+      <g transform="translate(345, 10)">
+        <rect width="295" height="210" rx="8" fill="#022c22" stroke="#10b981" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="14" y="22" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#a7f3d0">Hardware Cross-Jumper Link</text>
+        <text x="14" y="36" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">Direct Board-to-Board Interconnect</text>
+
+        <g transform="translate(10, 48)">
+          <text x="0" y="14" font-family="monospace" font-size="8" fill="#fef08a">Pallas (J1)</text>
+          <text x="120" y="14" font-family="system-ui" font-size="8" fill="#cbd5e1">Signal</text>
+          <text x="200" y="14" font-family="monospace" font-size="8" fill="#fef08a">Ceres (J1)</text>
+
+          <line y1="20" x2="275" y2="20" stroke="#047857" stroke-width="0.8"/>
+
+          <text x="0" y="34" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 2 (GPIO20)</text>
+          <path d="M 90 32 L 180 32" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-emerald-hlc)"/>
+          <text x="195" y="34" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 2 (BCLK)</text>
+
+          <text x="0" y="52" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 4 (GPIO21)</text>
+          <path d="M 90 50 L 180 50" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-emerald-hlc)"/>
+          <text x="195" y="52" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 4 (FSYNC)</text>
+
+          <text x="0" y="70" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 6 (GPIO22)</text>
+          <path d="M 90 68 L 180 68" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-emerald-hlc)"/>
+          <text x="195" y="70" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 8 (DIN)</text>
+
+          <text x="0" y="88" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 10 (PDM_CLK)</text>
+          <path d="M 90 86 L 180 86" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-emerald-hlc)"/>
+          <text x="195" y="88" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 10 (PDM_CLK)</text>
+
+          <text x="0" y="106" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 12 (PDM_DAT)</text>
+          <path d="M 90 104 L 180 104" stroke="#34d399" stroke-width="1.5" marker-end="url(#arr-emerald-hlc)"/>
+          <text x="195" y="106" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 12 (PDM_DAT)</text>
+
+          <text x="0" y="124" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 14 (GND)</text>
+          <line x1="90" y1="122" x2="190" y2="122" stroke="#64748b" stroke-width="2"/>
+          <text x="195" y="124" font-family="monospace" font-size="7.5" fill="#f8fafc">Pin 14 (GND)</text>
+        </g>
+
+        <text x="14" y="195" font-family="system-ui, sans-serif" font-size="7.5" fill="#6ee7b7">
+          No external breadboards or active transceivers required.
+        </text>
+      </g>
+
+      <!-- Board 2: Receiver (Clock Consumer Rx) -->
+      <g transform="translate(655, 0)">
+        <rect width="330" height="230" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1"/>
+        <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">Board 2: Receiver (Clock Consumer Rx)</text>
+        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Ceres (ESP32-P4) / Board B (Teensy 4.1)</text>
+
+        <rect y="44" width="330" height="1" fill="#1e293b"/>
+
+        <text x="12" y="62" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">1. Clock Configuration (Consumer):</text>
+        <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">sof mode i2s slave  |  sof mode pdm slave</text>
+
+        <text x="12" y="96" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">2. Hardware Capture &amp; Recording:</text>
+        <text x="24" y="110" font-family="monospace" font-size="8" fill="#34d399">arecord -D hw:Ceres,0 -r 48000 cap.wav</text>
+
+        <text x="12" y="130" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">3. Automated Pre-Commit Acceptance Criteria:</text>
+        <text x="24" y="144" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#38bdf8">I2S SNR</tspan>: <tspan fill="#4ade80">&gt; 80.0 dB</tspan> (Nominal: <tspan font-weight="700" fill="#4ade80">93.9 dB</tspan>)</text>
+        <text x="24" y="158" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#38bdf8">PDM SNR</tspan>: <tspan fill="#4ade80">&gt; 65.0 dB</tspan> (Nominal: <tspan font-weight="700" fill="#4ade80">83.7 dB</tspan>)</text>
+        <text x="24" y="172" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#38bdf8">Teensy SAI1</tspan>: <tspan fill="#4ade80">&gt; 80.0 dB</tspan> (Nominal: <tspan font-weight="700" fill="#4ade80">141.5 dB</tspan>)</text>
+        <text x="24" y="186" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#38bdf8">Teensy S/PDIF</tspan>: <tspan fill="#4ade80">&gt; 70.0 dB</tspan> (Nominal: <tspan font-weight="700" fill="#4ade80">109.0 dB</tspan>)</text>
+        <text x="24" y="200" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Dropped Frames / Glitches: <tspan font-weight="700" fill="#4ade80">0</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

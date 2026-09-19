@@ -1,0 +1,346 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad-hlgraph" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-grad-hlg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Pipeline Headers -->
+    <linearGradient id="hdr-blue-hlg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald-hlg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- Component Box Gradients -->
+    <linearGradient id="box-comp-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="box-comp-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b0764"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="box-comp-emerald" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="box-comp-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#164e63"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-cyan-hlg" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-emerald-hlg" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-amber-hlg" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-hlg" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="660" rx="12" fill="url(#bg-grad-hlgraph)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 22)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Hostless Static Audio Pipeline Graph (DAG)
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Component Declarations, Intermediate Ring Buffers, Kcontrol Interconnects &amp; Binary Calibration Injection
+    </text>
+  </g>
+
+  <!-- TOP HALF: Playback Audio Pipeline (Pipeline 1) (x=40, y=80, w=1020, h=265) -->
+  <g transform="translate(40, 80)" filter="url(#shadow-hlg)">
+    <rect width="1020" height="265" rx="10" fill="url(#card-grad-hlg)" stroke="#2563eb" stroke-width="1.2"/>
+    <rect width="1020" height="26" rx="10" fill="url(#hdr-blue-hlg)"/>
+    <rect y="20" width="1020" height="6" fill="#2563eb"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Pipeline 1 (Playback): USB / Bluetooth Endpoint → Volume → Parametric IIR EQ → DRC Limiter → Physical DAI (I2S / SAI)
+    </text>
+
+    <!-- Component Row: 5 Components and 4 Buffers Interspersed -->
+    <g transform="translate(16, 38)">
+      <!-- Comp 1: USB_PB (x=0, w=130, h=110) -->
+      <g transform="translate(0, 0)">
+        <rect width="130" height="110" rx="6" fill="url(#box-comp-blue)" stroke="#3b82f6" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">USB_PB (Comp 1)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#60a5fa">SOF_STATIC_COMP_HOST</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">USB Terminal ID:</text>
+        <text x="10" y="60" font-family="monospace" font-size="7.5" fill="#38bdf8">PLAYBACK_TERM_ID</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">UAC2 ISO Out Endpoint</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, 16-bit, 2ch</text>
+      </g>
+
+      <!-- Buffer 1 (x=140, w=55, h=60) -->
+      <g transform="translate(140, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#38bdf8">Buffer 1</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#bae6fd">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">S16_LE</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 2: VOL_PB (x=205, w=145, h=110) -->
+      <g transform="translate(205, 0)">
+        <rect width="145" height="110" rx="6" fill="url(#box-comp-cyan)" stroke="#06b6d4" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">VOL_PB (Comp 2)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#22d3ee">SOF_STATIC_COMP_MODULE</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Main Playback Volume</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Soft-ramp curve</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Linear / dB volume</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, 16-bit, 2ch</text>
+      </g>
+
+      <!-- Buffer 2 (x=360, w=55, h=60) -->
+      <g transform="translate(360, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#38bdf8">Buffer 2</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#bae6fd">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">S16_LE</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 3: EQ_PB (x=425, w=155, h=110) -->
+      <g transform="translate(425, 0)">
+        <rect width="155" height="110" rx="6" fill="url(#box-comp-purple)" stroke="#8b5cf6" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">EQ_PB (Comp 3)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#c084fc">SOF_STATIC_COMP_MODULE</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Parametric Biquad IIR</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• 4-band Direct Form II</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Hardware FPU execution</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, FLOAT, 2ch</text>
+      </g>
+
+      <!-- Buffer 3 (x=590, w=55, h=60) -->
+      <g transform="translate(590, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#c084fc">Buffer 3</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#e9d5ff">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">FLOAT</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 4: DRC_PB (x=655, w=145, h=110) -->
+      <g transform="translate(655, 0)">
+        <rect width="145" height="110" rx="6" fill="url(#box-comp-purple)" stroke="#8b5cf6" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">DRC_PB (Comp 4)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#c084fc">SOF_STATIC_COMP_MODULE</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Dynamic Range Compressor</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Speaker excursion limit</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Lookahead peak detector</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, FLOAT, 2ch</text>
+      </g>
+
+      <!-- Buffer 4 (x=810, w=55, h=60) -->
+      <g transform="translate(810, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#0284c7" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#38bdf8">Buffer 4</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#bae6fd">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">S16_LE</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 5: DAI_I2S_PB (x=875, w=115, h=110) -->
+      <g transform="translate(875, 0)">
+        <rect width="115" height="110" rx="6" fill="url(#box-comp-emerald)" stroke="#10b981" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">DAI_PB (Comp 5)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#34d399">SOF_STATIC_COMP_DAI</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Physical Serial Out:</text>
+        <text x="10" y="60" font-family="monospace" font-size="7.5" fill="#a7f3d0">ESP32 I2S / SAI1</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Provider or Consumer Clk</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">BCLK, FSYNC, DOUT</text>
+      </g>
+    </g>
+
+    <!-- Playback Kcontrols & Calibration Injection Row (y=165, h=85) -->
+    <g transform="translate(16, 165)">
+      <!-- Kcontrol Attachments for VOL_PB -->
+      <g transform="translate(205, 0)">
+        <rect width="145" height="78" rx="5" fill="#0f172a" stroke="#0e7490" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#67e8f9">Static Kcontrols (VOL)</text>
+        <text x="8" y="30" font-family="monospace" font-size="7.5" fill="#38bdf8">• KCONTROL_VOLUME</text>
+        <text x="14" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Target: VOL_PB, 0 dB default</text>
+        <text x="8" y="56" font-family="monospace" font-size="7.5" fill="#38bdf8">• KCONTROL_SWITCH</text>
+        <text x="14" y="68" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Playback Mute (PLAYBACK_FU)</text>
+      </g>
+
+      <!-- Calibration Blob & Kcontrol for EQ_PB -->
+      <g transform="translate(425, 0)">
+        <rect width="155" height="78" rx="5" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#d8b4fe">EQ Calibration &amp; Switch</text>
+        <text x="8" y="30" font-family="monospace" font-size="7.5" fill="#c084fc">• init_blob: IIR_2ch (51 words)</text>
+        <text x="14" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Biquad coefficients in ROM</text>
+        <text x="8" y="56" font-family="monospace" font-size="7.5" fill="#c084fc">• KCONTROL_SWITCH</text>
+        <text x="14" y="68" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Bypass toggle (sof eq pb bypass)</text>
+      </g>
+
+      <!-- Calibration Blob & Kcontrol for DRC_PB -->
+      <g transform="translate(655, 0)">
+        <rect width="145" height="78" rx="5" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#d8b4fe">DRC Profile &amp; Switch</text>
+        <text x="8" y="30" font-family="monospace" font-size="7.5" fill="#c084fc">• init_blob: DRC (35 words)</text>
+        <text x="14" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Static curve &amp; attack/decay</text>
+        <text x="8" y="56" font-family="monospace" font-size="7.5" fill="#c084fc">• KCONTROL_SWITCH</text>
+        <text x="14" y="68" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Bypass toggle (sof drc pb bypass)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM HALF: Capture Audio Pipeline (Pipeline 2) (x=40, y=365, w=1020, h=265) -->
+  <g transform="translate(40, 365)" filter="url(#shadow-hlg)">
+    <rect width="1020" height="265" rx="10" fill="url(#card-grad-hlg)" stroke="#059669" stroke-width="1.2"/>
+    <rect width="1020" height="26" rx="10" fill="url(#hdr-emerald-hlg)"/>
+    <rect y="20" width="1020" height="6" fill="#059669"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Pipeline 2 (Capture): Physical Ingress DAI (I2S / PDM) → TDFB Beamformer → Parametric EQ → Volume → USB / BT Host
+    </text>
+
+    <!-- Component Row: 5 Components and 4 Buffers Interspersed -->
+    <g transform="translate(16, 38)">
+      <!-- Comp 6: DAI_I2S_CAP (x=0, w=115, h=110) -->
+      <g transform="translate(0, 0)">
+        <rect width="115" height="110" rx="6" fill="url(#box-comp-emerald)" stroke="#10b981" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">DAI_CAP (Comp 6)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#34d399">SOF_STATIC_COMP_DAI</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Physical Serial In:</text>
+        <text x="10" y="60" font-family="monospace" font-size="7.5" fill="#a7f3d0">I2S / PDM Microphone</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Provider, Consumer, DMIC</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">BCLK, FSYNC, DIN</text>
+      </g>
+
+      <!-- Buffer 5 (x=125, w=55, h=60) -->
+      <g transform="translate(125, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#059669" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#34d399">Buffer 5</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#a7f3d0">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">S16_LE</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 7: TDFB_CAP (x=190, w=150, h=110) -->
+      <g transform="translate(190, 0)">
+        <rect width="150" height="110" rx="6" fill="url(#box-comp-purple)" stroke="#8b5cf6" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">TDFB_CAP (Comp 7)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#c084fc">SOF_STATIC_COMP_MODULE</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Fixed Beamformer</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Multi-mic spatial filter</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Directional acoustic focus</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, FLOAT, 2ch</text>
+      </g>
+
+      <!-- Buffer 6 (x=350, w=55, h=60) -->
+      <g transform="translate(350, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#c084fc">Buffer 6</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#e9d5ff">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">FLOAT</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 8: EQ_CAP (x=415, w=150, h=110) -->
+      <g transform="translate(415, 0)">
+        <rect width="150" height="110" rx="6" fill="url(#box-comp-purple)" stroke="#8b5cf6" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">EQ_CAP (Comp 8)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#c084fc">SOF_STATIC_COMP_MODULE</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Mic Calibration EQ</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• High-pass DC rejection</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Transducer equalization</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, FLOAT, 2ch</text>
+      </g>
+
+      <!-- Buffer 7 (x=575, w=55, h=60) -->
+      <g transform="translate(575, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#8b5cf6" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#c084fc">Buffer 7</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#e9d5ff">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">FLOAT</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 9: VOL_CAP (x=640, w=145, h=110) -->
+      <g transform="translate(640, 0)">
+        <rect width="145" height="110" rx="6" fill="url(#box-comp-cyan)" stroke="#06b6d4" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">VOL_CAP (Comp 9)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#22d3ee">SOF_STATIC_COMP_MODULE</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Capture Gain &amp; Mute</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Mic preamp digital gain</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Soft-ramp transitions</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, 16-bit, 2ch</text>
+      </g>
+
+      <!-- Buffer 8 (x=795, w=55, h=60) -->
+      <g transform="translate(795, 25)">
+        <rect width="55" height="60" rx="4" fill="#0f172a" stroke="#059669" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <text x="6" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#34d399">Buffer 8</text>
+        <text x="6" y="30" font-family="monospace" font-size="7" fill="#a7f3d0">3072 B</text>
+        <text x="6" y="44" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">S16_LE</text>
+        <text x="6" y="54" font-family="system-ui, sans-serif" font-size="6.5" fill="#64748b">Ring Buf</text>
+      </g>
+
+      <!-- Comp 10: USB_CAP (x=860, w=130, h=110) -->
+      <g transform="translate(860, 0)">
+        <rect width="130" height="110" rx="6" fill="url(#box-comp-blue)" stroke="#3b82f6" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">USB_CAP (Comp 10)</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#60a5fa">SOF_STATIC_COMP_HOST</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">USB Terminal ID:</text>
+        <text x="10" y="60" font-family="monospace" font-size="7.5" fill="#38bdf8">CAPTURE_TERM_ID</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">UAC2 ISO In Endpoint</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">48 kHz, 16-bit, 2ch</text>
+      </g>
+    </g>
+
+    <!-- Capture Kcontrols & Calibration Injection Row (y=165, h=85) -->
+    <g transform="translate(16, 165)">
+      <!-- Kcontrol Attachments for TDFB_CAP -->
+      <g transform="translate(190, 0)">
+        <rect width="150" height="78" rx="5" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#d8b4fe">TDFB Beam Controls</text>
+        <text x="8" y="30" font-family="monospace" font-size="7.5" fill="#c084fc">• KCONTROL_SWITCH</text>
+        <text x="14" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">TDFB Bypass switch</text>
+        <text x="8" y="56" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Shell toggle:</text>
+        <text x="14" y="68" font-family="monospace" font-size="7" fill="#a7f3d0">sof tdfb enable|bypass</text>
+      </g>
+
+      <!-- Calibration Blob & Kcontrol for EQ_CAP -->
+      <g transform="translate(415, 0)">
+        <rect width="150" height="78" rx="5" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#d8b4fe">Capture EQ Calibration</text>
+        <text x="8" y="30" font-family="monospace" font-size="7.5" fill="#c084fc">• init_blob: IIR_2ch</text>
+        <text x="14" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Mic high-pass biquads</text>
+        <text x="8" y="56" font-family="monospace" font-size="7.5" fill="#c084fc">• KCONTROL_SWITCH</text>
+        <text x="14" y="68" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Bypass toggle (sof eq cap)</text>
+      </g>
+
+      <!-- Kcontrols for VOL_CAP -->
+      <g transform="translate(640, 0)">
+        <rect width="145" height="78" rx="5" fill="#0f172a" stroke="#0e7490" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="8.5" font-weight="700" fill="#67e8f9">Static Kcontrols (VOL_CAP)</text>
+        <text x="8" y="30" font-family="monospace" font-size="7.5" fill="#38bdf8">• KCONTROL_VOLUME</text>
+        <text x="14" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Target: VOL_CAP (dB fader)</text>
+        <text x="8" y="56" font-family="monospace" font-size="7.5" fill="#38bdf8">• KCONTROL_SWITCH</text>
+        <text x="14" y="68" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">Capture Mute (CAPTURE_FU)</text>
+      </g>
+    </g>
+  </g>
+</svg>
