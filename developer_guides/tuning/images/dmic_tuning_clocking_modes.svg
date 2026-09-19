@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradDmic2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadowDmic2" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGradDmic2)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    DMIC Clock Generation &amp; Dual-FIFO Mode Matching Architecture
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    Shared Physical PDM Clock Distribution, Asymmetric FIR Decimation, and Duty-Cycle Tolerances
+  </text>
+
+  <!-- Left Container: Physical Clocking & Transducer Bus -->
+  <g transform="translate(30, 80)" filter="url(#shadowDmic2)">
+    <rect width="440" height="530" rx="10" fill="url(#cardGrad2)" stroke="#38bdf8" stroke-width="1.2" />
+    <rect x="0" y="0" width="440" height="32" rx="10" fill="#0284c7" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">
+      PHYSICAL CLOCK GENERATION &amp; BUS TOPOLOGY
+    </text>
+
+    <!-- Block 1: Primary Oscillator -->
+    <g transform="translate(20, 48)">
+      <rect width="400" height="85" rx="6" fill="#0f172a" stroke="#475569" />
+      <text x="15" y="24" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">DSP IO Clock Source (f_io)</text>
+      <text x="15" y="44" fill="#94a3b8" font-family="sans-serif" font-size="11">System Oscillator: 19.2 MHz (cAVS) or 38.4 MHz (ACE / PTL)</text>
+      <rect x="15" y="52" width="370" height="24" rx="4" fill="#1e293b" />
+      <text x="200" y="68" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11">
+        f_pdm = f_io / clkdiv,   PDM_CLKDIV register = clkdiv - 2
+      </text>
+    </g>
+
+    <!-- Block 2: Duty Cycle Analysis Box -->
+    <g transform="translate(20, 145)">
+      <rect width="400" height="150" rx="6" fill="#0f172a" stroke="#f59e0b" />
+      <text x="15" y="24" fill="#fbbf24" font-family="sans-serif" font-size="12" font-weight="700">Clock Duty Cycle &amp; Jitter Constraints</text>
+      <text x="15" y="44" fill="#cbd5e1" font-family="sans-serif" font-size="11">Even Divider (e.g. clkdiv=16): Perfect 50.0% Duty Cycle</text>
+      <text x="15" y="62" fill="#cbd5e1" font-family="sans-serif" font-size="11">Odd Divider (e.g. clkdiv=13): High phase = 6 cycles, Low = 7 cycles</text>
+      <rect x="15" y="72" width="370" height="28" rx="4" fill="#1e293b" />
+      <text x="200" y="90" text-anchor="middle" fill="#fcd34d" font-family="monospace" font-size="11">
+        D_min = 100 * floor(clkdiv/2) / clkdiv = 46.15% (OK if &gt;= 40%)
+      </text>
+      <text x="15" y="118" fill="#94a3b8" font-family="sans-serif" font-size="10.5">
+        MEMS Transducer Specification Limit: Typically 40% &lt;= D &lt;= 60%
+      </text>
+      <text x="15" y="135" fill="#f87171" font-family="sans-serif" font-size="10.5">
+        Warning: clkdiv &lt;= 4 is hardware prohibited in cAVS 1.5 - 2.5
+      </text>
+    </g>
+
+    <!-- Block 3: Physical PDM Bus Wiring -->
+    <g transform="translate(20, 308)">
+      <rect width="400" height="200" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="24" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">Stereo PDM Microphone Bus Sharing</text>
+      
+      <!-- Bus wires -->
+      <line x1="30" y1="50" x2="370" y2="50" stroke="#38bdf8" stroke-width="2" />
+      <text x="35" y="44" fill="#38bdf8" font-family="monospace" font-size="10.5">PDM_CLK (Shared Clock Line)</text>
+
+      <line x1="30" y1="95" x2="370" y2="95" stroke="#34d399" stroke-width="2" />
+      <text x="35" y="89" fill="#34d399" font-family="monospace" font-size="10.5">PDM_DATA (Shared Dual-Edge Data Line)</text>
+
+      <!-- Mic A Box -->
+      <g transform="translate(50, 110)">
+        <rect width="130" height="75" rx="5" fill="#1e293b" stroke="#38bdf8" />
+        <text x="65" y="20" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Mic A (Left)</text>
+        <text x="65" y="38" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-size="10">SELECT = GND / VDD</text>
+        <text x="65" y="54" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9.5">Drives on Rising Edge</text>
+        <text x="65" y="68" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Tri-states on Falling</text>
+      </g>
+
+      <!-- Mic B Box -->
+      <g transform="translate(220, 110)">
+        <rect width="130" height="75" rx="5" fill="#1e293b" stroke="#34d399" />
+        <text x="65" y="20" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Mic B (Right)</text>
+        <text x="65" y="38" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="10">SELECT = Opposite</text>
+        <text x="65" y="54" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5">Drives on Falling Edge</text>
+        <text x="65" y="68" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Tri-states on Rising</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Container: Dual-FIFO Concurrent Processing -->
+  <g transform="translate(490, 80)" filter="url(#shadowDmic2)">
+    <rect width="480" height="530" rx="10" fill="url(#cardGrad2)" stroke="#10b981" stroke-width="1.2" />
+    <rect x="0" y="0" width="480" height="32" rx="10" fill="#047857" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">
+      DUAL-FIFO CONCURRENT SAMPLING &amp; MATCHED MODES
+    </text>
+
+    <!-- Concept Explanation -->
+    <g transform="translate(20, 45)">
+      <rect width="440" height="85" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="20" fill="#f8fafc" font-family="sans-serif" font-size="11.5" font-weight="700">The Multi-Rate Challenge:</text>
+      <text x="15" y="38" fill="#94a3b8" font-family="sans-serif" font-size="11">
+        Both capture streams MUST share one physical PDM clock and CIC filter,
+      </text>
+      <text x="15" y="54" fill="#94a3b8" font-family="sans-serif" font-size="11">
+        yet output 48 kHz (telephony/recording) and 16 kHz (keyword detect) concurrently!
+      </text>
+      <text x="15" y="72" fill="#34d399" font-family="monospace" font-size="10.5">
+        Solution: f_pdm / M_cic = common base rate (e.g. 96 kHz)
+      </text>
+    </g>
+
+    <!-- Architecture Diagram: Split path -->
+    <g transform="translate(20, 140)">
+      <!-- Common CIC -->
+      <rect x="120" y="0" width="200" height="55" rx="6" fill="#1e3a8a" stroke="#3b82f6" />
+      <text x="220" y="22" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Shared Hardware CIC</text>
+      <text x="220" y="40" text-anchor="middle" fill="#93c5fd" font-family="monospace" font-size="10.5">M_cic = 25 (e.g. 2.4 MHz / 25 = 96 kHz)</text>
+
+      <!-- Split Arrows -->
+      <path d="M 170 55 L 170 85 L 100 85 L 100 110" fill="none" stroke="#38bdf8" stroke-width="2" />
+      <polygon points="96,110 100,118 104,110" fill="#38bdf8" />
+
+      <path d="M 270 55 L 270 85 L 340 85 L 340 110" fill="none" stroke="#10b981" stroke-width="2" />
+      <polygon points="336,110 340,118 344,110" fill="#10b981" />
+
+      <!-- Left Branch: FIFO A -->
+      <g transform="translate(0, 118)">
+        <rect width="200" height="135" rx="6" fill="#0f172a" stroke="#38bdf8" />
+        <rect x="0" y="0" width="200" height="22" rx="6" fill="#0284c7" fill-opacity="0.4" />
+        <text x="100" y="15" text-anchor="middle" fill="#e0f2fe" font-family="sans-serif" font-size="10.5" font-weight="700">FIFO A: Normal Audio</text>
+        <text x="100" y="42" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="700">M_fir_a = 2</text>
+        <text x="100" y="62" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11">Target Fs = 48 kHz</text>
+        <text x="100" y="80" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">96 kHz / 2 = 48 kHz</text>
+        <text x="100" y="98" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Filter: pdm_decim_02</text>
+        <text x="100" y="116" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9.5">High Performance DMA</text>
+      </g>
+
+      <!-- Right Branch: FIFO B -->
+      <g transform="translate(240, 118)">
+        <rect width="200" height="135" rx="6" fill="#0f172a" stroke="#10b981" />
+        <rect x="0" y="0" width="200" height="22" rx="6" fill="#047857" fill-opacity="0.4" />
+        <text x="100" y="15" text-anchor="middle" fill="#d1fae5" font-family="sans-serif" font-size="10.5" font-weight="700">FIFO B: Voice Detect (WOV)</text>
+        <text x="100" y="42" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="11" font-weight="700">M_fir_b = 6</text>
+        <text x="100" y="62" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11">Target Fs = 16 kHz</text>
+        <text x="100" y="80" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">96 kHz / 6 = 16 kHz</text>
+        <text x="100" y="98" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Filter: pdm_decim_06</text>
+        <text x="100" y="116" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5">Ultra-Low Power KPB</text>
+      </g>
+    </g>
+
+    <!-- Matched Modes Verification Table -->
+    <g transform="translate(20, 410)">
+      <rect width="440" height="100" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="20" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Common Production Matched Modes (f_io = 38.4 MHz):</text>
+      <text x="15" y="38" fill="#94a3b8" font-family="monospace" font-size="10">• Mode 1: clkdiv=16 (2.4 MHz), Mcic=25 (96k), Mfir_a=2 (48k), Mfir_b=6 (16k)</text>
+      <text x="15" y="56" fill="#94a3b8" font-family="monospace" font-size="10">• Mode 2: clkdiv=12 (3.2 MHz), Mcic=20 (160k), Mfir_a=4 (40k), Mfir_b=10 (16k)</text>
+      <text x="15" y="74" fill="#94a3b8" font-family="monospace" font-size="10">• Mode 3: clkdiv=20 (1.92 MHz), Mcic=20 (96k), Mfir_a=2 (48k), Mfir_b=6 (16k)</text>
+      <text x="15" y="92" fill="#34d399" font-family="sans-serif" font-size="9.5">Selected automatically by SOF dmic_init mode-matching algorithm</text>
+    </g>
+  </g>
+</svg>

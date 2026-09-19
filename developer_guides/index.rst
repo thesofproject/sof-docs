@@ -133,6 +133,7 @@ Acoustic, Transducer & Array Tuning
 ===================================
 
 * :ref:`crossover_tuning` (Linkwitz-Riley LR4 2-way, 3-way, and 4-way crossover filter design, phase-alignment merge, and multi-driver speaker tuning)
+* :ref:`dmic_tuning` (Digital Microphone acoustic calibration, 5th-order CIC and FIR decimation design, dual-FIFO mode matching, and array sensitivity/phase alignment)
 * :ref:`equalizers_tuning` (Parametric FIR & IIR equalizers, MLS acoustical measurement, and speaker tuning)
 * :ref:`time-domain-fixed-beamformer` (Time-Domain Fixed Beamformer array geometry and spatial filter design)
 * :ref:`sample_rate_conversion` (Polyphase FIR filter design and multi-stage resampling)
@@ -146,6 +147,7 @@ Acoustic, Transducer & Array Tuning
    tuning/smart_amp_tuning
    tuning/sound_dose_tuning
    tuning/crossover_tuning
+   tuning/dmic_tuning
    algorithms/eq/equalizers_tuning
    algorithms/tdfb/time_domain_fixed_beamformer
    algorithms/src/sample_rate_conversion
