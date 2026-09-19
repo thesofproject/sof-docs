@@ -1,1422 +1,958 @@
 .. _topology2:
 
-Topology 2.0
-############
-
-This is a high-level keyword extension on top of the existing ALSA conf topology format designed
-to:
-
-* Simplify the ALSA conf topology definitions by providing high level "classes". In this way, topology
-  designers can write less configurations for commonly defined objects.
-
-* Allow simple reuse of objects. Define once and reuse (like M4) with the ability to alter object
-  configuration attributes from defaults.
-
-* Allow data type and value verification. This is not done today and frequently crops up in FW bug
-  reports.
+==================================================
+ALSA Topology 2.0 Architecture & Developer Guide
+==================================================
 
 .. contents::
+   :local:
+   :depth: 3
 
-Ingredients
-***********
+Sound Open Firmware (SOF) utilizes **ALSA Topology 2.0 (Topology v2)** as its foundational configuration and audio graph description language. Built directly into upstream ALSA utilities (``alsatplg`` v1.2.7+), Topology 2.0 provides an **object-oriented pre-processing layer** on top of the standard ALSA configuration syntax.
 
-A typical 2.0 configuration file consists of the following components:
+By replacing legacy external macro expansion engines (such as ``m4``) with native class definitions, hierarchical inheritance, type validation, and dynamic attribute substitution, Topology 2.0 enables scalable, modular, and verified audio graph design across complex embedded Digital Signal Processors (DSPs).
 
-* Classes
-* Objects
-* Arguments
-* Conditional includes
+.. figure:: images/topology2_architecture_flow.svg
+   :alt: ALSA Topology 2.0 Architectural & Compilation Flow
+   :align: center
+   :width: 100%
 
-Classes
--------
-
-Topology today has some common definitions that are often reused with slightly altered
-configurations, such as widgets (components), pipelines, dais, pcm, and controls. Topology 2.0
-introduces the concept of reusable class-like definitions that you can use to create commonly
-used topology objects. Classes are defined with a new keyword ``Class``.
-
-A class definition always starts with the ``Class`` keyword followed by two nodes. The first node contains
-the class group, and the second node contains the class name. For example:
-
-.. code-block:: bash
-
-	Class.Base.data {}
-
-Note that '.' is the node separator in the alsaconf syntax. In the above line, ``Base`` is the class
-group and ``data`` is the class name. Currently, the alsatplg compiler supports the following class groups:
-widget, pipeline, DAI, control and base. Most of the commonly used topology objects can be classified into
-one of these groups. If a new class group is required, the alsatplg compiler should be updated to add
-support for it.
-
-Class Ingredients
-'''''''''''''''''
-
-A minimalistic class definition should consist of the following:
-
-* One or more attributes declared with the keyword ``DefineAttribute``. Attributes are parameters that
-  are used to describe the object. For example:
-  
-  .. code-block:: bash
-
-	DefineAttribute."name" {
-		type "string"
-	}
-
-  "name" is an attribute of type string.
+   ALSA Topology 2.0 Architectural & Compilation Flow. Shows the object-oriented source structure, the 5-stage ``alsatplg -p`` pre-processor compilation engine, and binary target deployment across monolithic, functional, and feature topologies.
 
 
-* Basic attribute qualifiers with the constructor array and unique attribute name. Attribute qualifiers
-  should be declared within the ``attributes {}`` node in the class definition.
-  
-  .. code-block:: bash
+Architectural Motivation & Key Advantages
+*****************************************
 
-	# attribute qualifiers
-	attributes {
-		#
-		# This tells the compiler how to construct the object's name. For example, if the
-		# name attribute is set to "EQIIR-Coefficients", the object name will be
-		# constructed as "class_name.EQIIR-Coefficients"
-		#
-		!constructor [
-			"name"
-		]
-		#
-		# objects of the same class instantiated within the same alsaconf node have unique
-		# name attribute
-		#
-		unique	"name"
-	}
+Traditional ALSA Topology v1 configurations relied heavily on the external macro processor ``m4``. While flexible, the ``m4`` approach suffered from significant maintenance and reliability challenges:
 
-A Simple Class
-''''''''''''''
+* **Lack of Type Safety & Validation**: Typographical errors in token names, invalid integer ranges, or mismatched UUIDs were not caught until firmware boot or audio playback failure on target hardware.
+* **Obtuse Build Failures**: Pre-processor errors reported line numbers against intermediate expanded macro dumps rather than the original source files, complicating debugging.
+* **Configuration Duplication**: Supporting variations of the same audio pipeline (e.g., changing bit depths or buffer sizes) required duplicating extensive blocks of boilerplate text.
+* **Cartesian Explosion across Board SKUs**: Monolithic topology files required building hundreds of individual ``.tplg`` binaries for every hardware permutation (e.g., combinations of speaker amplifiers, microphones, headphone jacks, and display outputs).
 
-The following example demonstrates a simple class definition with two attributes and qualifiers:
+Topology 2.0 resolves these issues through a structured, class-based object model:
 
-.. code-block:: bash
+* **Object-Oriented Syntax**: Developers define reusable templates using ``Class.Widget``, ``Class.Pipeline``, ``Class.DAI``, and ``Class.Control``, instantiating them cleanly as ``Object.Widget`` or ``Object.Pipeline``.
+* **Native Compiler Integration**: The ``alsatplg -p`` compiler processes classes, attribute inheritance, and qualifiers directly within its internal Abstract Syntax Tree (AST), reporting precise line numbers and file contexts on syntax or constraint errors.
+* **Dynamic Parameter Cascades**: Top-level arguments passed via ``-D KEY=VAL`` or ``@args`` dynamically cascade down nested object hierarchies via ``$VARIABLE`` substitution.
+* **Split & Feature Topology Architecture**: Supports modular sound cards where the Linux kernel dynamically loads independent **Functional Topologies** (e.g. per-endpoint SDCA graphs) overlaid with **Feature Topologies** (e.g. echo reference loops, 2-way speaker crossovers, and noise suppressors).
 
-	Class.Base."data" {
 
-		# name for the data object
-		DefineAttribute."name" {
-			type	"string"
-		}
+Core Language Ingredients & Syntax Reference
+********************************************
 
-		# bytes data
-		DefineAttribute."bytes" {
-			type	"string"
-		}
+A Topology 2.0 configuration tree consists of five foundational language primitives:
 
-		# attribute qualifiers
-		attributes {
-			#
-			# This tells the compiler how to construct the object's name. For example, if the
-			# name attribute is set to "EQIIR-Coefficients", the object name will be
-			# constructed as "data.EQIIR-Coefficients"
-			#
-			!constructor [
-				"name"
-			]
-			#
-			# data objects instantiated within the same alsaconf node should have unique
-			# name attribute
-			#
-			unique	"name"
-		}
-	}
+1. **Classes** (``Class.<Group>.<Name>``): Reusable templates defining attributes, default values, qualifiers, and internal child objects.
+2. **Objects** (``Object.<Group>.<Name>.<Instance>``): Concrete instantiations of classes with customized attributes.
+3. **Arguments & Defines** (``@args``, ``Define``): Dynamic variables parameterized at build time or within configuration blocks.
+4. **Conditional Includes** (``IncludeByKey.<Variable>``): Regular expression matching for platform or feature file inclusion.
+5. **Route Bindings** (``Object.Base.route``): Declarative directed audio stream links connecting component source pins to sink pins.
 
-The ``data`` class definition belonging to the ``base`` class group contains two attributes,
-name and bytes, both of type ``string``. By default, all attributes have the ``integer`` type, unless
-specified otherwise, like in the example above. Currently, topology 2.0 supports only ``integer`` and
-``string`` types for attributes.
+.. list-table:: Core Topology 2.0 Language Constructs
+   :widths: 22 20 58
+   :header-rows: 1
 
-The attribute qualifiers are used to describe how to instantiate an object from the class definition
-and validate the attribute values.
+   * - Keyword / Construct
+     - Scope
+     - Description
+   * - ``Class.<Group>.<Name>``
+     - Template Declaration
+     - Defines an object template within a compiler group (``Base``, ``Widget``, ``Pipeline``, ``DAI``, ``Control``, ``PCM``).
+   * - ``Object.<Group>.<Name>.<ID>``
+     - Object Instantiation
+     - Instantiates a concrete topology object, overriding default class attributes and registering it into the topology graph.
+   * - ``DefineAttribute."<name>"``
+     - Class Ingredient
+     - Declares an attribute name and its data type (``string``, ``integer``, ``compound``).
+   * - ``attributes { ... }``
+     - Class Ingredient
+     - Enforces object construction rules, mandatory fields, immutability, and uniqueness qualifiers.
+   * - ``Define { ... }``
+     - Variable Scoping
+     - Assigns default values to local variables accessible via ``$VARIABLE`` notation.
+   * - ``IncludeByKey.<Variable>``
+     - Pre-processor
+     - Evaluates a variable against regex patterns to conditionally include external configuration files.
+   * - ``Object.Base.route``
+     - Routing Graph
+     - Declares directed connections from component source pins (``source``) to sink pins (``sink``).
 
-In the above definition, the ``constructor`` array tells the compiler how to build the object's name.
-A data object instantiated with the name ``EQIIR-Coefficients`` will be given the name
-``data.EQIIR-Coefficients``, that is the class name followed by '.' followed by the constructor attribute
-values separated by '.'.
 
-The ``unique`` qualifier indicates that multiple data objects instantiated within the same alsaconf node should
-have unique values for their ``name`` attribute. If two data objects are instantiated within the same alsaconf
-node with the same ``name`` attribute, errors will not occur, but the two object instances will be merged.
-Additionally, the attribute values in the second instance will override the attribute values in the first one.
-Therefore, it is the topology writer's responsibility to ensure that multiple instances within the same parent
-node have different unique attribute values.
+Class Definitions
+=================
 
-Let's consider another class definition example for the ``pga`` widget belonging to the class group ``Widget``:
+Classes establish the schema and behavior of topology objects. A class definition begins with the ``Class`` keyword followed by two dot-separated tokens: the **class group** and the **class name**.
+
+Supported Class Groups
+----------------------
+
+The ``alsatplg`` compiler natively recognizes six fundamental class groups:
+
+* **``Class.Base``**: Low-level foundational constructs (e.g., data blobs, vendor tokens, audio format structures, route objects).
+* **``Class.Widget``**: DSP audio processing modules and hardware endpoints (e.g., PGA/Gain, Mixin, Mixout, EQ, DRC, Copier, Buffer).
+* **``Class.Pipeline``**: Reusable audio processing pipelines encapsulating scheduling parameters, internal widgets, and intra-pipeline routes.
+* **``Class.DAI``**: Physical Digital Audio Interfaces (e.g., Intel SSP, SoundWire ALH, DMIC, NXP SAI, ESAI).
+* **``Class.Control``**: ALSA userspace controls (e.g., mixer volume sliders, enum switches, binary configuration bytes).
+* **``Class.PCM``**: ALSA PCM stream endpoints exposed to host applications (e.g., playback, capture, deep buffer).
+
+Class Ingredients & Attributes
+------------------------------
+
+A robust class definition includes attribute declarations, attribute qualifiers, default properties, and optional child object composition:
 
 .. code-block:: bash
 
-	Class.Widget."pga" {
-		#
-		# Pipeline ID for the pga widget object
-		#
-		DefineAttribute."index" {}
+   Class.Base."data" {
+       # 1. Attribute declarations with explicit data types
+       DefineAttribute."name" {
+           type "string"
+       }
+       DefineAttribute."bytes" {
+           type "compound"
+       }
 
-		#
-		# pga object instance
-		#
-		DefineAttribute."instance" {}
-		
-		# attribute qualifiers
-		attributes {
-			#
-			# The PGA widget name is constructed using the index and instance
-			# attributes. For ex: "pga.1.1" or "pga.10.2" etc.
-			#
-			!constructor [
-				"index"
-				"instance"
-			]
-			
-			#
-			# pga widget objects instantiated within the same alsaconf node should have unique
-			# instance attribute
-			#
-			unique	"instance"
-		}
-	}
+       # 2. Attribute qualifiers
+       attributes {
+           # Defines which attributes construct the object's instance identifier
+           !constructor [
+               "name"
+           ]
+           # Enforces mandatory provision at instantiation time
+           !mandatory [
+               "bytes"
+           ]
+           # Enforces uniqueness within the enclosing configuration node
+           unique "name"
+       }
+   }
 
-Note that the pga object names are constructed with the class name
-``pga`` followed by two attribute values, index and instance. For
-example, ``pga.1.1``. Both attributes will have the ``integer`` type
-by default because the definitions do not specify the type. In
-practice, the unique instance attribute should also be part of the
-constructor.
+Attribute Qualifiers Matrix
+---------------------------
 
-Attribute default values
-''''''''''''''''''''''''
+Attribute qualifiers defined within the ``attributes {}`` node enforce compile-time validation:
 
-Optionally, class definitions can be extended to give default values for their attributes. Let's add a 
-``uuid`` attribute of type ``string`` to the ``pga`` class and give it a default value:
+.. list-table:: Topology 2.0 Attribute Qualifiers
+   :widths: 20 18 62
+   :header-rows: 1
 
-.. code-block:: bash
+   * - Qualifier
+     - Target
+     - Architectural Function
+   * - ``!constructor``
+     - Attribute Array
+     - Specifies the ordered tuple of attributes used to construct the object's name (e.g., ``[ "index" "instance" ]``).
+   * - ``!mandatory``
+     - Attribute Array
+     - Declares attributes that **must** be explicitly provided when instantiating the object; compilation fails if omitted.
+   * - ``!immutable``
+     - Attribute Array
+     - Locks attributes to their class-defined default values; instantiators are prohibited from overriding them (e.g., ``uuid``, ``type``).
+   * - ``!deprecated``
+     - Attribute Array
+     - Marks attributes scheduled for deprecation; compiler issues warnings if instantiated.
+   * - ``unique``
+     - Attribute Name
+     - Enforces that no two objects of this class within the same configuration node share the same attribute value.
 
-	Class.Widget."pga" {
-		#
-		# Pipeline ID for the pga widget object
-		#
-		DefineAttribute."index" {}
+Constraints & Token References
+------------------------------
 
-		#
-		# pga object instance
-		#
-		DefineAttribute."instance" {}
-		
-		DefineAttribute."uuid" {
-			type "string"
-		}
-		
-		# attribute qualifiers
-		attributes {
-			#
-			# The PGA widget name is constructed using the index and instance
-			# attributes. For ex: "pga.1.1" or "pga.10.2" etc.
-			#
-			!constructor [
-				"index"
-				"instance"
-			]
-			
-			#
-			# pga widget objects instantiated within the same alsaconf node should have unique
-			# instance attribute
-			#
-			unique	"instance"
-		}
-
-		# default attribute values		
-		uuid 			"7e:67:7e:b7:f4:5f:88:41:af:14:fb:a8:bd:bf:86:82"
-
-	}
-
-All pga objects will automatically be given the default uuid as specified above in the class definition.
-
-Advanced attribute qualifiers
-'''''''''''''''''''''''''''''
-
-Apart from the mandatory basic attribute qualifiers, you can qualify attributes in the class definition
-using the following advanced keywords:
-
-* **Mandatory:** Attributes qualified as mandatory should be provided with a value in the object
-  instance, failing which the alsatplg compiler will emit an error. Objects with default values in the class
-  definition need not be qualified as mandatory.  Also, note that attributes in the constructor array are
-  mandatory by default as they are required for building the object's name.
-
-* **Immutable:** Attribute values that are set in the class definition and cannot be modified in
-  the object instance.
- 
-* **Deprecated:** Attributes that have been deprecated and should not be set in the object instance.
-
-* **Automatic:** Attributes whose values are computed by the alsatplg compiler.
-
-Let's add some extra attributes and advanced qualifers into the pga class definition:
+Attributes can be constrained to specific ranges or enumerations and bound directly to SOF ABI vendor tokens:
 
 .. code-block:: bash
 
-	Class.Widget."pga" {
-		# attribute definitions
-		DefineAttribute.instance {
-			type	"integer"
-		}
-		DefineAttribute.index {
-			type	"integer"
-		}
-		DefineAttribute."type" {
-			type	"string"
-		}
-		DefineAttribute."uuid" {
-			type	"string"
-		}
-		DefineAttribute."preload_count" {}
-		
-		# attribute qualifiers
-		attributes {
-			#
-			# The PGA widget name is constructed using the index and instance attributes.
-			# For ex: "pga.1.1" or "pga.10.2" etc.
-			#
-			!constructor [
-				"index"
-				"instance"
-			]
+   DefineAttribute."curve_type" {
+       type "string"
+       # Enforce valid enumeration options
+       constraints {
+           !valid_values [
+               "windows_fade"
+               "linear"
+               "logarithmic"
+           ]
+       }
+       # Map directly to SOF vendor token
+       token_ref "sof_tkn_gain_curve_type"
+   }
 
-			#
-			# immutable attributes should be given default values and cannot be modified in the object instance
-			#
-			!immutable [
-				"uuid"
-				"type"
-			]
+   DefineAttribute."buffer_size" {
+       type "integer"
+       # Enforce numeric boundary constraints
+       constraints {
+           min 64
+           max 65536
+       }
+       token_ref "sof_tkn_buf_size"
+   }
 
-			#
-			# deprecated attributes should not be added in the object instance
-			#
-			!deprecated [
-				"preload_count"
-			]
 
-			#
-			# pga widget objects instantiated within the same alsaconf node should have
-			# unique instance attribute
-			#
-			unique	"instance"
-		}
+Objects & Instantiation
+=======================
 
-		# default attribute values
-		type 		"pga"
-		uuid 		"7e:67:7e:b7:f4:5f:88:41:af:14:fb:a8:bd:bf:86:82"
-	}
-	
-Automatic attributes
-''''''''''''''''''''
+Objects represent concrete instances of classes. When an object is instantiated, ``alsatplg`` resolves its constructor tuple, assigns default attributes from the parent class, applies local overrides, and registers the object into the topology graph.
 
-In some cases, an attribute value depends on other attribute values
-and need to be computed during build time. Such attributes are
-qualified with the ``automatic`` keyword in the class definition.
-Refer to buffer_ for the complete class definition.
+Instantiating an Object
+-----------------------
+
+To instantiate an object, declare ``Object.<Group>.<Class>.<Instance>``:
 
 .. code-block:: bash
 
-	Class.Widget."buffer" {
-		# Other attributes skipped for simplicity.
+   # Instantiate a PGA / Gain widget in pipeline 1, instance 1
+   Object.Widget.gain."1" {
+       index 1
+       curve_type "windows_fade"
+       curve_duration 100000
 
-		#
-		# Buffer size in bytes. Will be calculated based on the parameters of the pipeline to in which the
-		# buffer object belongs
-		#
-		DefineAttribute."size" {
-			# Token reference and type
-			token_ref	"sof_tkn_buffer.word"
-		}
-		
-		attributes {
-			#
-			# size attribute value for buffer objects is computed in the compiler
-			#
-			!automatic [
-				"size"
-			]
-		}
-	}
+       # Instantiate embedded mixer control
+       Object.Control.mixer."1" {
+           name "Main Playback Volume"
+           max 32
+       }
+   }
 
-In the example above, the ``size`` attribute value of ``buffer`` is
-computed based on the pipeline parameters, to which the buffer
-belongs. Currently, the alsatplg compiler only has support for
-computing the automatic attribute ``size`` for the buffer objects.
-Support for automatic attributes in new class definitions
-should be added in the alsatplg compiler if necessary.
+Nested Objects & Attribute Inheritance
+--------------------------------------
 
-Attribute Constraints
-'''''''''''''''''''''
-
-One of the key features of Topology 2.0 is validation of the values provided for objects. This is achieved
-with the help of constraints added to the attribute definition. Constraints can be added to an attribute using
-the ``constraints`` keyword:
+Topology 2.0 allows nesting child objects within parent objects or class definitions. Child objects automatically inherit attributes from their parent objects unless explicitly overridden:
 
 .. code-block:: bash
 
-	DefineAttribute."foo" {
-		constraints {}
-	}
+   Class.Pipeline."volume-playback" {
+       # Pipeline attributes
+       DefineAttribute."index" {
+           type "integer"
+       }
+       DefineAttribute."priority" {
+           type "integer"
+           default 0
+       }
 
-Currently, three types of constraints are supported:
+       # Internal child widgets inherit $index automatically
+       Object.Widget {
+           host-copier."1" {
+               index $index
+               stream_name "Playback Stream"
+           }
+           gain."1" {
+               index $index
+           }
+           mixin."1" {
+               index $index
+           }
+       }
+   }
 
-* **min:** The minimum value for an attribute, applicable only to integer type attributes.
-* **max:** The maximum value for an attribute, applicable only to integer type attributes.
 
-  For example, the pga class definition can be expanded with an attribute for ``ramp_step_ms`` with min and
-  max values as follows:
+Dynamic Variables & Conditional Includes
+========================================
 
-  .. code-block:: bash
+Topology 2.0 provides macro-free parameterization through ``Define`` blocks, build arguments (``@args``), and regular-expression-driven ``IncludeByKey`` directives.
 
-	DefineAttribute."ramp_step_ms" {
-		constraints {
-			min 200
-			max 500
-		}
-	}
+The Define Block & Variable Cascades
+------------------------------------
 
-* **valid values:** an array of acceptable human-readable values, applicable only to string type attributes.
-
-  For example, the pga class can have an attribue for ``ramp_step_type`` with pre-defined values as follows:
-  
-  .. code-block:: bash
-  
-  	DefineAttribute."ramp_step_type" {
-		type	"string"
-		constraints {
-			!valid_values [
-				"linear"
-				"log"
-				"linear_zc"
-				"log_zc"
-			]
-		}
-	}
-
-When the pga class is instantiated with a value that does not belong in
-the ``valid_values`` array for ``ramp_step_type``, the alsatplg compiler emits
-an error along with the list of valid values.
-
-Attributes with token references
-''''''''''''''''''''''''''''''''
-
-Typically, a lot of objects contain a private data section that is
-composed of sets of tuple arrays. Some of the attributes in a class
-definition may need to be packed into the tuple array. Such attributes
-are identified with the ``token_ref`` node which contains the name of
-the tuple array that the attribute should be built into. For example,
-both the ``ramp_step_ms`` and ``ramp_step_type`` attributes in the pga
-class need to be added to the tuple array. So, they contain the
-token_ref node with the value ``sof_tkn_volume.word`` indicating that
-the attributes should be packed with the ``sof_tkn_volume tuple``
-array of type ``word``:
+The ``Define`` block sets default variable values that can be referenced using ``$VARIABLE`` notation throughout the file:
 
 .. code-block:: bash
 
-		#
-		# Volume ramp step in milliseconds
-		#
-		DefineAttribute."ramp_step_ms" {
-			# Token set reference name
-			token_ref	"sof_tkn_volume.word"
-			constraints {
-				min 200
-				max 500
-			}
-		}
-		DefineAttribute."ramp_step_type" {
-			type	"string"
-			# Token set reference name
-			token_ref	"sof_tkn_volume.word"
-			constraints {
-				!valid_values [
-					"linear"
-					"log"
-					"linear_zc"
-					"log_zc"
-				]
-			}
-		}
+   Define {
+       PLATFORM            "ptl"
+       NUM_HDMIS           3
+       DEEP_BUFFER_PCM_ID  31
+       HEADSET_PCM_ID       0
+       SPK_AMPS_COUNT       2
+   }
 
-Sometimes, ``valid_values`` for attributes might need to be translated
-from the human readable values to integer tuple values so that it can
-be parsed correctly by the kernel driver. In the example above, valid
-values for ``ramp_step_type`` are defined as human readable string
-values, such as linear and log. These values are translated to tuple
-values (0, 1, etc) before getting added to the tuple array.
+   # Variable evaluation in object instantiation
+   Object.PCM.pcm."0" {
+       name "Headset Playback"
+       id $HEADSET_PCM_ID
+       direction "playback"
+   }
+
+Build Arguments (@args)
+-----------------------
+
+Top-level arguments allow passing parameters from the command line (via ``alsatplg -D KEY=VALUE``) or from CMake targets:
 
 .. code-block:: bash
 
-	DefineAttribute."ramp_step_type" {
-		type	"string"
-		# Token set reference name
-		token_ref	"sof_tkn_volume.word"
-		constraints {
-			!valid_values [
-				"linear"
-				"log"
-				"linear_zc"
-				"log_zc"
-			]
-			!tuple_values [
-				0
-				1
-				2
-				3
-			]
-		}
-	}
+   @args.DMIC_COUNT {
+       type integer
+       default 2
+   }
 
-.. _complete_class_definition:
-	
-A complete class definition
-'''''''''''''''''''''''''''
+   @args.FORMAT {
+       type string
+       default "s32le"
+   }
 
-Putting it all together, the following example demonstrates the complete definition for the pga widget class:
+Conditional Includes (IncludeByKey)
+-----------------------------------
+
+The ``IncludeByKey`` directive inspects a variable's value against a table of regular expressions, including the matching file:
 
 .. code-block:: bash
 
-	Class.Widget."pga" {
-		# attribute definitions
-		DefineAttribute.instance {
-			type	integer
-		}
-		DefineAttribute.index {
-			type	integer
-		}
-		DefineAttribute."type" {
-			type	"string"
-		}
-		DefineAttribute."uuid" {
-			type	"string"
-			# Token set reference name and type
-			token_ref	"sof_tkn_comp.uuid"
-		}
-		DefineAttribute."preload_count" {}
+   # Platform-specific hardware definitions
+   IncludeByKey.PLATFORM {
+       "tgl"   "platform/intel/tgl.conf"
+       "mtl"   "platform/intel/mtl.conf"
+       "lnl"   "platform/intel/lnl.conf"
+       "ptl"   "platform/intel/ptl.conf"
+   }
 
-		#
-		# Volume ramp step in milliseconds
-		#
-		DefineAttribute."ramp_step_ms" {
-			# Token set reference name
-			token_ref	"sof_tkn_volume.word"
-			constraints {
-				min 200
-				max 500
-			}
-		}
-		DefineAttribute."ramp_step_type" {
-			type	"string"
-			# Token set reference name
-			token_ref	"sof_tkn_volume.word"
-			constraints {
-				!valid_values [
-					"linear"
-					"log"
-					"linear_zc"
-					"log_zc"
-				]
-				!tuple_values [
-					0
-					1
-					2
-					3
-				]
-			}
-		}
-		
-		# attribute qualifiers
-		attributes {
-			#
-			# The PGA widget name is constructed using the index and instance attributes.
-			# For ex: "pga.1.1" or "pga.10.2" etc.
-			#
-			!constructor [
-				"index"
-				"instance"
-			]
+   # Feature gating based on channel count
+   IncludeByKey.DMIC_COUNT {
+       "[1-2]" "platform/intel/dmic-2ch.conf"
+       "[3-4]" "platform/intel/dmic-4ch.conf"
+   }
 
-			#
-			# immutable attributes cannot be modified in the object instance
-			#
-			!immutable [
-				"uuid"
-				"type"
-			]
 
-			#
-			# deprecated attributes should not be added in the object instance
-			#
-			!deprecated [
-				"preload_count"
-			]
+Pipeline Architecture & Multi-Pipeline Audio Routing
+****************************************************
 
-			#
-			# pga widget objects instantiated within the same alsaconf node should have
-			# unique instance attribute
-			#
-			unique	"instance"
-		}
+SOF decouples audio processing graphs into **Front-End (FE) Host Pipelines** and **Back-End (BE) DAI Pipelines**, interconnected dynamically using ``mixin`` and ``mixout`` components.
 
-		# default attribute values
-		type 		"pga"
-		uuid 		"7e:67:7e:b7:f4:5f:88:41:af:14:fb:a8:bd:bf:86:82"
-		ramp_step_ms	200
-	}
+.. figure:: images/topology2_pipeline_routing_graph.svg
+   :alt: Topology 2.0 Multi-Pipeline Audio Routing Graph
+   :align: center
+   :width: 100%
 
-Objects
--------
+   Topology 2.0 Multi-Pipeline Audio Routing Architecture. Demonstrates decoupled Front-End (FE) host pipelines mixing into Back-End (BE) DAI pipelines, complete with acoustic echo cancellation (AEC) feedback loops and full-duplex DMIC capture.
 
-Objects are used to instantiate multiple instances of the same class to avoid duplicating
-common attribute definitions. Objects are instantiated with the new keyword ``Object`` followed by
-three nodes:
+
+Front-End vs Back-End Decoupling
+================================
+
+* **Front-End (FE) Pipelines**:
+  Bound directly to ALSA PCM stream devices (``/dev/snd/pcmC0D0p``). FE pipelines contain a Host Copier, optional sample rate conversion (SRC) or volume adjustment, and terminate at a **``mixin``** component. They run in the host timer/DMA domain and are instantiated or stopped dynamically when userspace opens or closes an audio stream.
+* **Back-End (BE) Pipelines**:
+  Bound to physical hardware digital audio interfaces (Intel SSP, SoundWire ALH, DMIC, NXP SAI). BE pipelines begin at a **``mixout``** component, route through post-processing stages (Parametric EQ FIR/IIR, Dynamic Range Compression DRC, Smart Amplifier protection), and terminate at a DAI Copier. BE pipelines remain active to maintain hardware clock synchronization and power state stability.
+
+Inter-Pipeline Routing with Mixin and Mixout
+============================================
+
+The ``mixin`` and ``mixout`` components operate as zero-copy shared memory endpoints. Multiple FE pipelines can concurrently mix into a single BE mixout without sample rate mismatches or pipeline stalls:
 
 .. code-block:: bash
 
-	Object.Widget.pga."1" {}
+   # Cross-pipeline routes connecting FE mixin outputs to BE mixout inputs
+   Object.Base.route [
+       {
+           # Normal latency host playback stream (FE 0 -> BE 1)
+           source  "mixin.0.1"
+           sink    "mixout.1.1"
+       }
+       {
+           # Deep buffer power-saving stream (FE 15 -> BE 1)
+           source  "mixin.15.1"
+           sink    "mixout.1.1"
+       }
+   ]
 
-The nodes refer to the following elements:
+Dynamic Index Resolution
+------------------------
 
-* Class group to which the object class belongs. In this case, the class belongs to ``Widget``.
-* Class name. That is ``pga``.
-* Unique attribute value. This is the value for the attribute that is qualified as ``unique`` in the
-  class definition. That is ``instance``.
-
-Using the pga class definition as described in
-:ref:`complete_class_definition`, you can instantiate a pga widget
-object in the following way:
-
-.. code-block:: bash
-
-	Object.Widget.pga."1" {
-		index 5
-	}
-
-where ``1`` is the value for the unique attribute ``instance`` in the pga class definition and the
-``index`` attribute is given the value of 5. As the class definition contains no other mandatory
-attributes, the above instance is fully valid.
-
-.. important::
-
-   You do not need to duplicate commonly used attribute values in the
-   object instantiation. Objects automatically inherit the default
-   values for attributes from their class definition.
-
-Modifying default attributes
-''''''''''''''''''''''''''''
-
-Attributes that have default values in the class definition can be overwritten by specifying the
-new value in the object instance:
+In class definitions, internal routes reference relative component instances where the pipeline ID is unknown until instantiation:
 
 .. code-block:: bash
 
-	Object.Widget.pga."1" {
-		index		5
-		ramp_step_ms	300
-	}
-
-The above object overrides the ``ramp_step_ms`` default value of 200 |_| ms set in the class definition with the
-new value of 300 |_| ms.
-
-Objects within classes
-''''''''''''''''''''''
-
-Class definitions can optionally also include child objects that need to be instantiated for every
-instance of the class object. For example, a pga widget typically always contains a volume mixer control.
-The mixer control class definition is as follows:
-
-.. code-block:: bash
-
-	Class.Control."mixer" {
-		#
-		# Pipeline ID for the mixer object
-		#
-		DefineAttribute."index" {}
-
-		#
-		# Instance of mixer object in the same alsaconf node
-		#
-		DefineAttribute."instance" {}
-
-		#
-		# Mixer name. A mixer object is included in the built topology only if it is given a
-		# name
-		#
-		DefineAttribute."name" {
-			type	"string"
-		}
-
-		#
-		# Max volume setting
-		#
-		DefineAttribute."max" {}
-
-		DefineAttribute."invert" {
-			type	"string"
-			constraints {
-				!valid_values [
-					"true"
-					"false"
-				]
-			}
-		}
-
-		# use mute LED
-		DefineAttribute."mute_led_use" {
-			token_ref	"sof_tkn_mute_led.word"
-		}
-
-		# LED direction
-		DefineAttribute."mute_led_direction" {
-			token_ref	"sof_tkn_mute_led.word"
-		}
-
-		#
-		# access control for mixer
-		#
-		DefineAttribute."access" {
-			type	"compound"
-			constraints {
-				!valid_values [
-					"read_write"
-					"tlv_read_write"
-					"read"
-					"write"
-					"volatile"
-					"tlv_read"
-					"tlv_write"
-					"tlv_command"
-					"inactive"
-					"lock"
-					"owner"
-					"tlv_callback"
-				]
-			}
-		}
-
-		attributes {
-			#
-			# The Mixer object name is constructed using the index and instance arguments.
-			# For ex: "mixer.1.1" or "mixer.10.2" etc.
-			#
-			!constructor [
-				"index"
-				"instance"
-			]
-			!mandatory [
-				"max"
-			]
-			#
-			# mixer control objects instantiated within the same alsaconf node should have unique
-			# index attribute
-			#
-			unique	"instance"
-		}
-
-		# Default attribute values for mixer control
-		invert 		"false"
-		mute_led_use 		0
-		mute_led_direction	0
-	}
-
-You can add a mixer control object to the pga widget class definition:
-
-.. code-block:: bash
-
-	Class.Widget."pga" {
-		# Attributes, qualifiers and default values are skipped for simplicity.
-		# Refer to the complete class definition in "Complete Class Definition" for details
-
-		# volume control for pga widget
-		Object.Control.mixer."1" {
-				name "My Volume Control"
-				max 32
-			}
-		}
-	}
-
-The mixer control ``My Volume Control`` will be programmatically added to all pga objects.
-
-Object attribute inheritance
-''''''''''''''''''''''''''''
-
-One thing to note in the above object instantiation is that the mixer object has two mandatory attributes,
-index and instance. But the index attribute value is missing in the instance. This is because the mixer control
-object inherits the index attribute value from its parent pga object when it gets instantiated. For example,
-consider the following pga object instance:
-
-.. code-block:: bash
-
-	Object.Widget.pga.1 {
-		index 5
-	}
-
-The mixer control object in the pga class definition inherits the index value of ``5``. Inheritance occurs
-only when a child object's class definition shares an attribute of the same name with its parent class
-definition. In the case of mixer control class and pga widget class, the shared attribute is ``index``.
-
-.. _setting_child_object_attributes:
-
-Setting child object attributes
-'''''''''''''''''''''''''''''''
-
-Let's consider the pga class definition with the mixer control object again:
-
-.. code-block:: bash
-
-	Class.Widget."pga" {
-		# Attributes, qualifiers and default values are skipped for simplicity.
-		# Please refer to the complete class definition above for details
-
-		# volume control for pga widget
-		Object.Control.mixer."1" {
-				name "My Volume Control"
-				max 32
-			}
-		}
-	}
-
-Note that the mixer control object has its name set in the pga widget class definition. But, ideally, we want to
-give the mixer control a new name whenever a new pga widget object is instantiated. You can do it like this:
-
-.. code-block:: bash
-
-	Object.Widget.pga."1" {
-		index 5
-
-		# volume control'
-		Object.Control.mixer."1" {
-				name "My Control Volume 5"
-			}
-		}
-	}
-
-Now, the mixer control object is assigned the name ``My Control Volume 5``.
-
-
-Nested Objects
-''''''''''''''
-
-Objects can also be instantiated as child objects within other object instances. For example, a
-switch control can be added to pga widget objects during instantiation:
-
-.. code-block:: bash
-
-	Object.Widget.pga."1" {
-		index 5
-		
-		# volume control
-		Object.Control.mixer."1" {
-				name "My Control Volume 5"
-			}
-		}
-
-		# mute control
-		Object.Control.mixer."2" {
-				name "Mute Switch Control"
-				max 1
-			}
-		}
-	}
-
-Note how the ``unique`` attribute for the two mixer control objects differs to keep the mixer instances unique.
-
-Recursive object attribute inheritance
-''''''''''''''''''''''''''''''''''''''
-
-Objects can be nested within objects that are nested within other objects themselves. In this case, the attribute
-values can be inherited all the way from the top-level parent object. For example, consider the following class
-definition for volume-playback pipeline:
-
-.. code-block:: bash
-
-	Class.Pipeline."volume-playback" {
-		# Other attributes and qualifiers ommitted for simplicity
-		DefineAttribute."index" {}
-
-		DefineAttribute."format" {
-			type	"string"
-		}
-
-		# pipeline objects
-		Object.Widget {
-			# Other objects ommitted for simplicity
-
-			pga."1" {}
-		}
-	}
-
-Note that the pga widget object above has no index attribute value. An object of volume-playback
-class is instantiated as:
-
-.. code-block:: bash
-
-	Object.Pipeline.volume-playback.1 {
-		index 1
-		format s24le
-	}
-
-This ensures that all child objects within the volume-playback object will inherit the
-index attribute value from it. So the pga widget object will have the same index. By the same
-rule, the mixer control object within the pga widget object will also have the same index attribute
-value of 1.
-
-Setting child object attributes deep down in the parent object tree
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-In :ref:`setting_child_object_attributes`, we saw that we can set child attribute values from its parent object instance.
-For example, you can set the mixer control object's name from the pga widget object instance. This
-can be extended further and it is possible to set the mixer control name from the parent object of
-the pga object. Consider the volume playback object instance in the previous section. We can set the
-mixer control name for the pga object as follows:
-
-.. code-block:: bash
-
-	Object.Pipeline.volume-playback.1 {
-		index 1
-		format s24le
-		Object.Widget.pga.1 {
-			Object.Control.mixer.1 {
-				name	"My Control Volume 1"
-			}
-		}
-	}
-
-
-Arguments in top-level configuration files
-------------------------------------------
-
-Arguments are used to pass build-time parameters that can be used for building multiple binaries
-from the same configuration file. Consider the following top-level topology configuration file
-with two pipelines:
-
-.. code-block:: bash
-
-	# arguments
-	@args [ DYNAMIC_PIPELINE ]
-	@args.DYNAMIC_PIPELINE {
-	       type integer
-	       default 0
-	}
-
-	Object.Pipeline {
-		volume-playback.1 {
-			dynamic_pipeline $DYNAMIC_PIPELINE
-			index 1
-			Object.Widget.pipeline.1 {
-				stream_name 'dai.HDA.0.playback'
-			}
-			Object.Widget.host.playback {
-				stream_name 'Passthrough Playback 0'
-			}
-			Object.Widget.pga.1 {
-				Object.Control.mixer.1 {
-					name '1 My Playback Volume'
-				}
-			}
-			format s24le
-		}
-		volume-playback.3 {
-			dynamic_pipeline $DYNAMIC_PIPELINE
-			index 3
-			Object.Widget.pipeline.1 {
-				stream_name 'dai.HDA.2.playback'
-			}
-			Object.Widget.host.playback {
-				stream_name 'Passthrough Playback 1'
-			}
-			Object.Widget.pga.1 {
-				Object.Control.mixer.1 {
-					name '3 My Playback Volume'
-				}
-			}
-			format s24le
-		}
-	}
-
-In this example, the value for the ``dynamic_pipeline`` attribute in the volume-playback objects
-is expanded from the provided value for the ``DYNAMIC_PIPELINE`` argument when building the
-topology binary with the ``-DDYNAMIC_PIPELINE=1`` or ``-DDYNAMIC_PIPELINE=0`` option.
-
-.. note::
-
-   The alsatplg compiler only parses the arguments that are defined at
-   the top-level node in the machine topology file.
-
-Includes
---------
-
-When building a top-level configuration file, it should include all
-class definitions for the objects being instantiated, failing which
-the compiler will emit errors calling out missing class definitions.
-All paths are relative to the directory specified by the environment
-variable ``ALSA_CONFIG_DIR``. You can specify the include paths for
-dependencies as follows:
-
-.. code-block:: bash
-
-	<searchdir:include>
-	<searchdir:include/controls>
-	<searchdir:include/components>
-
-Include the class definitions as follows:
-
-.. code-block:: bash
-
-	<dai.conf>
-	<data.conf>
-	<pcm.conf>
-	<volume-playback.conf>
-
-.. _simple_machine_topology:
-	
-Simple machine topology
-***********************
-
-A machine topology typically consists of the following:
-
-* Include paths pointing to the search directory for class definitions includes
-* Conf file Includes containing class definitions
-* Arguments
-* Pipeline objects
-* BE DAI links objects
-* PCM objects
-* Top-level pipeline connections
-
-Let's consider a simple machine topology configuration file that includes a volume-playback pipeline,
-a HDA type DAI link, a playback PCM, and the top-level connection:
-
-.. code-block:: bash
-
-	# Include paths
-	<searchdir:include>
-	<searchdir:include/common>
-	<searchdir:include/components>
-	<searchdir:include/controls>
-	<searchdir:include/dais>
-	<searchdir:include/pipelines>
-
-	# Include class definitions
-	<vendor-token.conf>
-	<tokens.conf>
-	<volume-playback.conf>
-	<dai.conf>
-	<data.conf>
-	<pcm.conf>
-	<pcm_caps.conf>
-	<fe_dai.conf>
-	<hda.conf>
-	<hw_config.conf>
-	<manifest.conf>
-	<route.conf>
-
-	# arguments
-	@args.DYNAMIC_PIPELINE {
-	       type integer
-	       default 0
-	}
-	
-	# DAI definition
-	Object.Dai {
-		HDA.0 {
-			name 'Analog Playback and Capture'
-			id 4
-			default_hw_conf_id 4
-			Object.Base.hw_config.HDA0 {}
-			Object.Widget.dai.1 {
-				direction playback
-				index 1
-				type dai_in
-				stream_name 'Analog Playback and Capture'
-				period_sink_count 0
-				period_source_count 2
-				format s32le
-			}
-		}
-	}
-	
-	
-	# Pipeline Definition
-	Object.Pipeline {
-		volume-playback.1 {
-			dynamic_pipeline $DYNAMIC_PIPELINE
-			index 1
-			Object.Widget.pipeline.1 {
-				stream_name 'dai.HDA.0.playback'
-			}
-			Object.Widget.host.playback {
-				stream_name 'Passthrough Playback 0'
-			}
-			Object.Widget.pga.1 {
-				Object.Control.mixer.1 {
-					name '1 My Playback Volume'
-				}
-			}
-			format s24le
-		}
-	}
-	
-	# PCM Definitions
-	Object.PCM {
-		pcm.0 {
-			name 'HDA Analog'
-			Object.Base.fe_dai.'HDA Analog' {}
-			Object.PCM.pcm_caps.playback {
-				name 'Passthrough Playback 0'
-				formats 'S24_LE,S16_LE'
-			}
-			direction playback
-			id 0
-		}
-	}
-	
-	# Top-level pipeline connection
-	# Buffer.1. -> dai.HDA.1.playback
-	Object.Base.route.1 {
-		source 'buffer.1.1'
-		sink 'dai.HDA.1.playback'
-	}
-	
-Note that the above configuration file only includes the top-level route between the buffer widget 
-``buffer.1.1`` in the volume-playback pipeline and the dai widget ``dai.HDA.1.playback``. The connections
-between the widgets in the volume-playback pipeline are defined in the class definition.
-
-Let's peek into the volume-playback pipeline class definition to look at the route objects contained within
-the class definition. Refer to volume-playback_ for the complete class definition.
-
-.. code-block:: bash
-
-	Class.Pipeline."volume-playback" {
-		# pipeline attributes skipped for simplicity
-
-		attributes {
-			# pipeline name is constructed as "volume-playback.1"
-			!constructor [
-				"index"
-			]
-			!mandatory [
-				"format"
-			]
-			!immutable [
-				"direction"
-			]
-			#
-			# volume-playback objects instantiated within the same alsaconf node should have
-			# unique instance attribute
-			#
-			unique	"instance"
-		}
-
-		# Widget objects that constitute the volume-playback pipeline
-		Object.Widget {
-			pipeline."1" {}
-
-			host."playback" {
-				type		"aif_in"
-			}
-
-			buffer."1" {
-				periods	2
-				caps		"host"
-			}
-
-			pga."1" {
-				Object.Control.mixer.1 {
-					Object.Base.tlv."vtlv_m64s2" {
-						Object.Base.scale."m64s2" {}
-					}
-				}
-			}
-
-			buffer."2" {
-				periods	2
-				caps		"dai"
-			}
-		}
-
-		# Pipeline connections.
-		# The index attribute values for the source/sink widgets will be populated
-		# when the route objects are built
-		Object.Base {
-			route."1" {
-				source	"host..playback"
-				sink	"buffer..1"
-			}
-
-			route."2" {
-				source	"buffer..1"
-				sink	"pga..1"
-			}
-
-			route."3" {
-				source	"pga..1"
-				sink	"buffer..2"
-			}
-		}
-
-		# Default attribute values
-		direction 	"playback"
-		time_domain	"timer"
-		period		1000
-		channels	2
-		rate		48000
-		priority	0
-		core 		0
-		frames		0
-		mips		5000
-	}
-
-The pipeline class definition is fairly easy to follow except for the route object instances.
-Let's analyze it a bit further. The route class definition is defined as follows:
-
-.. code-block:: bash
-
-	Class.Base."route" {
-		# sink widget name
-		DefineAttribute."sink" {
-			type	"string"
-		}
-
-		# source widget name for route
-		DefineAttribute."source" {
-			type	"string"
-		}
-
-		# control name for the route
-		DefineAttribute."control" {
-			type	"string"
-		}
-
-		#
-		# Pipeline ID of the pipeline the route object belongs to
-		#
-		DefineAttribute."index" {}
-
-		# unique instance for route object in the same alsaconf node
-		DefineAttribute."instance" {}
-
-		attributes {
-			!constructor [
-				"instance"
-			]
-			!mandatory [
-				"source"
-				"sink"
-			]
-			#
-			# route objects instantiated within the same alsaconf node should have unique
-			# index attribute
-			#
-			unique	"instance"
-		}
-	}
-	
-Note that a route object is expected to have instance, source, and sink attributes.
-
-Let's consider the route objects in the volume-playback class again:
-
-.. code-block:: bash
-
-	Object.Base {
-		route."1" {
-			source	"host..playback"
-			sink	"buffer..1"
-		}
-
-		route."2" {
-			source	"buffer..1"
-			sink	"pga..1"
-		}
-
-		route."3" {
-			source	"pga..1"
-			sink	"buffer..2"
-		}
-	}
-
-Notice that the source and sink attributes are defined for all of the routes. For example, the second route object
-``Object.Base.route.2`` has a sink attribute value of ``pga..1``. Referring back to the pga widget class definition
-in :ref:`complete_class_definition`, we know that a pga widget object's constructor has two attributes, ``index`` and ``instance``.
-We know the instance of the pga widget in the volume-playback class is 1 by looking at the list of widgets.
-But the index attribute value for the pga widget in the pipeline is unknown. It will only be set from a top-level
-topology config file as in :ref:`simple_machine_topology`. Therefore, the index attribute is left empty in the class definition.
-The alsatplg compiler will populate the index attribute with the appropriate value when the route object is built. For the
-machine topology above, the route object ``Object.base.route.2`` will be built with the right pipeline IDs as follows:
-
-.. code-block:: bash
-
-	Object.base.route.2 {
-		source	"buffer.1.1"
-		sink "pga.1.1"
-	}
-
-Currently, alsatplg can fill in attribute values only for the route object source
-and sink attributes. If needed, this feature can be extended for other types of objects.
-
-Conditional includes
-********************
-
-Conditional includes allow building multiple topology binaries from the same input configuration file.
-For example, let's consider the HDA generic machine topology. The number of DMICs determines whether
-the DMIC configuration file should be included or not. This can be achieved as follows:
-
-.. code-block:: bash
-
-	@args.DMIC_COUNT {
-	       type integer
-	       default 0
-	}
-
-	# include DMIC config if needed
-	IncludeByKey.DMIC_INCLUDE {
-		"[1-4]"	"include/platform/intel/dmic-generic.conf"
-	}
-
-The regular expression ``[1-4]`` indicates that the dmic-generic.conf file should be included if
-the DMIC_COUNT argument value is between 1 and 4. Assuming the top-level file is called
-``sof-hda-generic.conf``, you can build two separate topology binaries with the following commands:
-
-* For machines with no DMICs:
-
-  ``alsatplg -p -c sof-hda-generic.conf -o sof-hda-generic.tplg``
-
-* For machines with two DMICs:
-
-  ``alsatplg -D DMIC_COUNT=2 -p -c sof-hda-generic.conf -o sof-hda-generic-2ch.tplg``
-
-Conditional includes are not limited to top-level configuration files. You can add them to any node
-in the configuration file to include the configuration at the specified node. For example, we can conditionally
-include the right filter coefficients for the byte controls in the EQIIR widget.
-
-Define the argument for the coefficients in the top-level topology file:
-
-.. code-block:: bash
-
-	@args.EQIIR_BYTES {
-	       type string
-	       default "highpass_40hz_0db_48khz"
-	}
-
-And then include the coefficients:
-
-.. code-block:: bash
-
-	Object.Widget.eqiir.1 {
-		Object.Control.bytes.1 {
-			name "my eqiir byte control"
-			# EQIIR filter coefficients
-			IncludeByKey.EQIIR_BYTES {
-				"[highpass.40hz.0db.48khz]" "include/components/eqiir/highpass_40hz_0db_48khz.conf"
-				"[highpass.40hz.20db.48khz]" "include/components/eqiir/highpass_40hz_20db_48khz.conf"
-			}
-		}
-	}
-
-Building 2.0 configuration files
+   # Inside Class.Pipeline."volume-playback"
+   Object.Base.route [
+       {
+           source  "gain.$index.1"
+           sink    "mixin.$index.1"
+       }
+   ]
+
+When instantiated as ``Object.Pipeline.volume-playback."5"``, ``alsatplg`` automatically expands ``$index`` to produce ``gain.5.1`` and ``mixin.5.1``.
+
+
+Conventions & ID Allocation Rules
+*********************************
+
+To prevent hardware resource collisions and ensure predictable ALSA userspace enumeration, SOF enforces strict numbering conventions across PCM stream IDs and Pipeline IDs.
+
+PCM ID Allocation Matrix
+========================
+
+Each ALSA PCM device requires a unique integer ID within the sound card:
+
+.. list-table:: SOF PCM Stream ID Allocation Conventions
+   :widths: 22 14 18 46
+   :header-rows: 1
+
+   * - Endpoint Description
+     - SoundWire ID
+     - HDA ID
+     - Override Variable / Purpose
+   * - **Primary Headphone / Jack**
+     - 0
+     - 0
+     - Primary stereo playback/capture stream
+   * - **Speaker Amplifier**
+     - 2
+     - —
+     - High-power external stereo/multichannel smart amplifier
+   * - **SoundWire Smart Mic**
+     - 4
+     - —
+     - Digital SoundWire capture stream
+   * - **Display Audio (HDMI 1)**
+     - 5
+     - 3
+     - ``HDMI1_PCM_ID`` (Intel iDisp digital display output)
+   * - **Display Audio (HDMI 2)**
+     - 6
+     - 4
+     - ``HDMI2_PCM_ID``
+   * - **Display Audio (HDMI 3)**
+     - 7
+     - 5
+     - ``HDMI3_PCM_ID``
+   * - **PCH DMIC0 Capture**
+     - 10
+     - 6
+     - ``DMIC0_PCM_ID`` (Onboard digital microphone array)
+   * - **PCH DMIC1 / Jack Echo Ref**
+     - 11
+     - —
+     - ``SDW_JACK_ECHO_REF_PCM_ID``
+   * - **Speaker Echo Reference**
+     - 12
+     - —
+     - ``SDW_SPK_ECHO_REF_PCM_ID`` (AEC loopback reference)
+   * - **Bluetooth Audio (BT/Offload)**
+     - 20
+     - —
+     - ``BT_PCM_ID`` (Coexists with speaker amp via dedicated ID)
+   * - **Deep Buffer (Jack Playback)**
+     - 31
+     - 31
+     - ``DEEP_BUFFER_PCM_ID`` (Extended 4000 µs DMA ring for D0ix)
+   * - **Deep Buffer (Speaker)**
+     - 35
+     - —
+     - ``DEEP_BUFFER_PCM_ID_2``
+   * - **Compress Offload (Jack)**
+     - 50
+     - 50
+     - ``COMPR_PCM_ID`` (MP3/AAC hardware-decoded stream)
+   * - **Compress Offload (Speaker)**
+     - 52
+     - —
+     - ``COMPR_2_PCM_ID``
+
+Pipeline ID Conventions & Stride-10 Rule
+========================================
+
+Pipeline IDs (the ``index`` attribute on pipeline objects) must be unique across the topology:
+
+* **SoundWire Stride-10 Rule**:
+  In SoundWire topologies, pipeline indexes follow the deterministic relationship:
+
+  .. math::
+
+     \text{Pipeline Index} = \text{PCM ID} \times 10
+
+  * **Front-End (FE) Pipeline**: Assigned index :math:`N` (e.g. PCM 0 → FE Pipeline 0).
+  * **Back-End (BE) Pipeline**: Assigned index :math:`N + 1` (e.g. BE Pipeline 1).
+  * *Example*: Speaker Stream (PCM ID 2) → FE Host Pipeline 20, BE DAI Pipeline 21.
+  * *Example*: SDW DMIC (PCM ID 4) → BE DAI Pipeline 41, FE Host Pipeline 40.
+* **HDMI Stride-10 Rule**:
+  HDMI display audio pipelines allocate Host pipelines at :math:`N0` and DAI pipelines at :math:`N1`:
+  * HDMI 1: Host Pipeline 50, DAI Pipeline 51.
+  * HDMI 2: Host Pipeline 60, DAI Pipeline 61.
+  * HDMI 3: Host Pipeline 70, DAI Pipeline 71.
+  * HDMI 4: Host Pipeline 80, DAI Pipeline 81.
+
+
+Step-by-Step Developer Workflows
 ********************************
 
-You can use alsatplg to compile Topology 2.0 configuration files and produce the topology binary files:
+Developing new audio capabilities in SOF requires modifying or adding topology definitions. Below are comprehensive, step-by-step guides for the three most common development tasks:
+
+1. **Creating a New Module (Component/Widget)**
+2. **Creating a New Pipeline Template**
+3. **Adding a New Silicon Platform**
+
+.. figure:: images/topology2_developer_workflow.svg
+   :alt: Topology 2.0 Developer Workflows
+   :align: center
+   :width: 100%
+
+   Structured Topology 2.0 Developer Workflows. Details the 5-step engineering procedures for authoring a new DSP module, a new pipeline template, and a new silicon platform.
+
+
+Tutorial 1: Creating a New Module (Widget/Component)
+====================================================
+
+When introducing a new DSP processing algorithm (e.g. a custom spatializer, filter, or neural network spotter), developers must define a corresponding Topology 2.0 widget class.
+
+Step 1: Create the Component Class File
+---------------------------------------
+
+Create a new file in ``tools/topology/topology2/include/components/<module_name>.conf`` (e.g. ``include/components/my_filter.conf``):
 
 .. code-block:: bash
 
-   alsatplg <-D args=values> -p -c input.conf -o output.tplg
+   #
+   # My Custom Audio Filter Component Definition
+   #
+   # Usage:
+   # Object.Widget.my_filter."1" {
+   #     index 1
+   # }
+   #
 
-The ``-D`` switch is used to pass comma-separated argument values to the top-level configuration file.
+   <include/controls/mixer.conf>
+   <include/controls/bytes.conf>
 
-You can use the ``-P`` switch to convert a 2.0 configuration file to the 1.0 configuration file:
+   Class.Widget."my_filter" {
+       # Pipeline ID to which this widget belongs
+       DefineAttribute."index" {
+           type "integer"
+       }
+
+       # Unique instance identifier within the pipeline
+       DefineAttribute."instance" {
+           type "integer"
+       }
+
+       # Include shared widget attributes (num_input_pins, formats, etc.)
+       <include/components/widget-common.conf>
+
+       attributes {
+           # Construct name as: my_filter.<index>.<instance>
+           !constructor [
+               "index"
+               "instance"
+           ]
+           !mandatory [
+               "num_input_pins"
+               "num_output_pins"
+               "num_input_audio_formats"
+               "num_output_audio_formats"
+           ]
+           !immutable [
+               "uuid"
+               "type"
+           ]
+           unique "instance"
+       }
+
+       # Embedded ALSA Controls
+       Object.Control {
+           # Binary tuning coefficients control
+           bytes."1" {
+               name "MyFilter Coefficients"
+           }
+           # Runtime bypass/enable switch
+           mixer."1" {
+               name "MyFilter Switch"
+               Object.Base.channel.1 {
+                   name "fc"
+                   shift 0
+               }
+               Object.Base.ops.1 {
+                   name "ctl"
+                   info "volsw"
+                   get 259    # SOF switch get handler
+                   put 259    # SOF switch put handler
+               }
+               max 1
+           }
+       }
+
+       # Default Widget Properties
+       uuid            "a4:b2:3c:5d:7e:8f:90:12:34:56:78:9a:bc:de:f0:12"
+       type            "effect"
+       no_pm           "true"
+       num_input_pins  1
+       num_output_pins 1
+   }
+
+Step 2: Declare Audio Format Support
+------------------------------------
+
+If the component requires specific sample rates or bit depths, define supported input and output audio formats in the class definition or during object instantiation:
 
 .. code-block:: bash
 
-   alsatplg <-D args=values> -P input.conf -o output.conf
+   Object.Base.input_audio_format [
+       {
+           in_rate             48000
+           in_bit_depth        32
+           in_valid_bit_depth  32
+           in_channels         2
+       }
+   ]
+   Object.Base.output_audio_format [
+       {
+           out_rate            48000
+           out_bit_depth       32
+           out_valid_bit_depth 32
+           out_channels        2
+       }
+   ]
 
-Split topologies
-****************
+Step 3: Test Widget Compilation
+-------------------------------
 
-Linux kernel can load multiple topologies, a topology for a single function.
-This feature is useful to support SDCA setups with standardized components. And no need to create topologies
-for every new product. To achieve this, you need to split the topology into multiple tplg files.
-The split topology files should be named as follows:
-
-.. code-block:: bash
-
-        sof-<platform>-<function>-id<BE id number>.tplg
-
-Currently <platform> is only needed for the DMIC function and not needed for SDCA functions in general.
-It should be mtl, lnl, etc.
-
-Where <function> should be one of
-
-.. code-block:: bash
-
-        sdca-jack: SDCA headphone and headset.
-        sdca-<n>amp: SDCA amp, where n is the amp link numbers.
-        sdca-mic: SDCA host mic.
-        dmic-<n>ch: PCH DMIC, where n is the number of supported channels. Currently, only 2ch and 4ch are supported.
-        hdmi-pcm<id>: HDMI with PCM id starts from <id>. The <id> is 3 for the "sof-hda-dsp" card and 5 for other cards.
-
-
-For example
+Validate that the new widget class compiles cleanly into an ALSA topology binary:
 
 .. code-block:: bash
 
-        sof-sdca-2amp-id2.tplg
-        sof-sdca-mic-id4.tplg
-        sof-arl-dmic-2ch-id5.tplg
-        sof-hdmi-pcm5-id7.tplg
+   alsatplg -p -c test-my-filter.conf -o test-my-filter.tplg
 
-The split topologies are the subset of the monolithic topology. Usually, you just need to add a description with proper
-macro settings to disable the features that you don't need and set the first BE ID that in the topology in the cmake file
-to generate the split topologies.
 
-For example
+Tutorial 2: Creating a New Pipeline Template
+============================================
+
+Pipelines package a set of interconnected widgets into an autonomous, schedulable execution unit.
+
+Step 1: Create the Pipeline Class File
+--------------------------------------
+
+Create a new file in ``tools/topology/topology2/include/pipelines/cavs/<pipeline_name>.conf`` (e.g. ``include/pipelines/cavs/my-processing-playback.conf``):
 
 .. code-block:: bash
 
-        "cavs-sdw\;sof-arl-sdca-2amp-id2\;PLATFORM=mtl,NUM_SDW_AMP_LINKS=2,SDW_JACK=false,\
-        SDW_AMP_FEEDBACK=false,SDW_SPK_STREAM=Playback-SmartAmp,NUM_HDMIS=0"
+   #
+   # Processing Playback Pipeline: Host Copier -> Gain -> MyFilter -> Mixin
+   #
+
+   <include/common/input_audio_format.conf>
+   <include/common/output_audio_format.conf>
+   <include/components/host-copier.conf>
+   <include/components/gain.conf>
+   <include/components/my_filter.conf>
+   <include/components/mixin.conf>
+   <include/components/pipeline.conf>
+
+   Class.Pipeline."my-processing-playback" {
+
+       <include/pipelines/pipeline-common.conf>
+
+       attributes {
+           !constructor [
+               "index"
+           ]
+           !immutable [
+               "direction"
+           ]
+           unique "instance"
+       }
+
+       # Internal Pipeline Widgets
+       Object.Widget {
+           host-copier."1" {
+               type "aif_in"
+               num_input_audio_formats 3
+               num_output_audio_formats 1
+               num_output_pins 1
+           }
+
+           gain."1" {
+               num_input_audio_formats 1
+               num_output_audio_formats 1
+           }
+
+           my_filter."1" {
+               num_input_audio_formats 1
+               num_output_audio_formats 1
+           }
+
+           mixin."1" {}
+
+           pipeline."1" {
+               priority    0
+               lp_mode     0
+           }
+       }
+
+       # Intra-Pipeline Linear Routes
+       Object.Base.route [
+           {
+               source  "host-copier.$index.1"
+               sink    "gain.$index.1"
+           }
+           {
+               source  "gain.$index.1"
+               sink    "my_filter.$index.1"
+           }
+           {
+               source  "my_filter.$index.1"
+               sink    "mixin.$index.1"
+           }
+       ]
+
+       direction        "playback"
+       dynamic_pipeline 1
+       time_domain      "timer"
+       period           1000
+   }
+
+Step 2: Instantiate in a Top-Level Topology
+-------------------------------------------
+
+Include your new pipeline in the board configuration file and bind it to an ALSA PCM device:
+
+.. code-block:: bash
+
+   Object.Pipeline.my-processing-playback."0" {
+       index 0
+       Object.Widget.host-copier.1 {
+           stream_name "Main Playback"
+           pcm_id      0
+       }
+   }
+
+   # Cross-route from FE mixin to BE mixout
+   Object.Base.route [
+       {
+           source  "mixin.0.1"
+           sink    "mixout.1.1"
+       }
+   ]
 
 
-Topology reminders
-******************
+Tutorial 3: Adding a New Silicon Platform
+=========================================
 
-Review the following topology considerations:
+Adding support for a new hardware platform (e.g. a new Intel SoC stepping or a new vendor DSP) requires configuring platform hardware tokens, DAI parameters, and CMake build targets.
 
-- "index" refers to the pipeline ID in pipeline, widget, and control class groups.
+Step 1: Create the Platform Configuration File
+----------------------------------------------
 
-- "id" in the DAI class group objects refers to the link ID as defined in the machine driver in the kernel.
+Create a new configuration file in ``tools/topology/topology2/platform/<vendor>/<platform>.conf`` (e.g. ``platform/intel/new_soc.conf``):
 
-Alsaconf reminders
-******************
+.. code-block:: bash
 
-Review the following alsaconf considerations:
+   # Platform-specific definitions for new_soc
+   Define {
+       PLATFORM                 "new_soc"
+       SSP_BLOB_VERSION         0x106
+       DMIC_DRIVER_VERSION      4
+       NUM_HDMIS                4
+       BT_MCLK                  24576000
+       HDA_HOST_OUTPUT_CLASS    "aif_in"
+       HDA_HOST_INPUT_CLASS     "aif_out"
+   }
 
-- "." refers to a node separator. "foo.bar value" is quivalent to the following:
+Step 2: Hook into Top-Level Configurations
+------------------------------------------
 
-  .. code-block:: bash
+Add the new platform identifier to the ``IncludeByKey.PLATFORM`` dispatch table in top-level topology entry points (e.g. ``cavs-sdw.conf``, ``sof-hda-generic.conf``):
 
-	foo {
-		bar value
-	}
+.. code-block:: bash
 
-- Arrays are defined with []. For example:
+   IncludeByKey.PLATFORM {
+       "tgl"        "platform/intel/tgl.conf"
+       "mtl"        "platform/intel/mtl.conf"
+       "lnl"        "platform/intel/lnl.conf"
+       "ptl"        "platform/intel/ptl.conf"
+       "new_soc"    "platform/intel/new_soc.conf"
+   }
 
-  .. code-block:: bash
+Step 3: Register CMake Production Targets
+-----------------------------------------
 
-	!constructor [
-		"foo"
-		"bar"
-	]
+Add target generation entries to ``production/tplg-targets-<family>.cmake`` using the semicolon-delimited tuple format:
 
-  We recommend to use the exclamation mark (!) in array definitions
-  within the class definition. Use it to ensure that the array items
-  are not duplicated if the class configuration file is included more
-  than once from different sources.
+.. code-block:: text
 
-.. _volume-playback: https://github.com/thesofproject/sof/blob/main/tools/topology/topology2/include/pipelines/volume-playback.conf
-.. _buffer: https://github.com/thesofproject/sof/blob/main/tools/topology/topology2/include/components/buffer.conf
+   "input-conf;output-name;variables"
 
-.. |_| unicode:: 0xA0
-   :trim:
+Example entry in ``production/tplg-targets-ace3.cmake``:
+
+.. code-block:: cmake
+
+   list(APPEND TPLGS
+       "cavs-sdw\;sof-newsoc-sdw-cs42l43-l0-cs35l56-l12\;PLATFORM=new_soc,NUM_SDW_AMP_LINKS=2,SDW_JACK=true"
+       "sof-hda-generic\;sof-newsoc-hda-generic\;PLATFORM=new_soc,NUM_HDMIS=4,DMIC_COUNT=2"
+   )
+
+Step 4: Build and Verify on DUT
+-------------------------------
+
+Build the new topology target using CMake:
+
+.. code-block:: bash
+
+   # Build all Topology 2.0 targets
+   cmake --build . --target topologies2
+
+   # Or build the specific target
+   cmake --build . --target sof-newsoc-sdw-cs42l43-l0-cs35l56-l12
+
+
+Modular Topology Model: Functional vs Feature Topologies
+********************************************************
+
+Modern audio architectures—particularly those adhering to MIPI SoundWire Device Class Audio (SDCA)—demand high modularity. To avoid an unsustainable explosion of monolithic binary topology files, SOF introduces **Split Topologies**, dividing the audio graph into **Functional Topologies** and **Feature Topologies**.
+
+.. figure:: images/topology2_split_functional_feature_model.svg
+   :alt: Modular Topology Model: Functional & Feature Topologies
+   :align: center
+   :width: 100%
+
+   Modular Topology Model: Functional & Feature Topologies. Illustrates dynamic ACPI/SDCA endpoint discovery by the Linux SOF driver, sequential loading of per-endpoint functional sub-topologies, and modular layering of feature overlays into a single unified runtime ALSA graph.
+
+
+Functional Topologies (Split Topologies)
+========================================
+
+A **Functional Topology** is an independent, self-contained topology binary that encapsulates exactly one physical audio function or hardware endpoint (e.g., a headphone jack, a stereo speaker amplifier array, a digital microphone, or display audio).
+
+Naming Convention
+-----------------
+
+Split functional topology files follow a standardized naming structure:
+
+.. code-block:: text
+
+   sof-<platform>-<function>-id<BE_ID>.tplg
+
+* **``<platform>``**: Platform family identifier (e.g., ``tgl``, ``mtl``, ``ptl``). Platform prefix is mandatory only for DMIC functions (due to platform-specific NHLT microphone array blobs) and omitted for generic SDCA endpoints.
+* **``<function>``**: Specific audio endpoint capability:
+  * ``sdca-jack``: SDCA headphone / headset combo jack.
+  * ``sdca-<N>amp``: SDCA smart speaker amplifiers, where ``<N>`` indicates the number of amplifier links (e.g. ``sdca-1amp``, ``sdca-2amp``, ``sdca-4amp``).
+  * ``sdca-mic``: SDCA digital microphone stream.
+  * ``dmic-<N>ch``: PCH digital microphone array (e.g. ``dmic-2ch``, ``dmic-4ch``).
+  * ``hdmi-pcm<ID>``: Intel display audio starting from PCM ID ``<ID>`` (e.g. ``hdmi-pcm5``).
+* **``id<BE_ID>``**: The back-end DAI link ID allocated by the Linux machine driver.
+
+Examples of Functional Topologies:
+
+.. code-block:: text
+
+   sof-sdca-jack-id0.tplg          # Headset jack on BE link 0
+   sof-sdca-2amp-id2.tplg          # Dual smart amplifiers on BE link 2
+   sof-sdca-mic-id4.tplg           # SoundWire microphone on BE link 4
+   sof-ptl-dmic-2ch-id5.tplg       # PTL 2-channel PCH DMIC on BE link 5
+   sof-hdmi-pcm5-id7.tplg          # Display audio starting at PCM 5 on BE link 7
+
+Dynamic Kernel Assembly (sof-function-topology-lib.c)
+-----------------------------------------------------
+
+Rather than loading a single hardcoded topology file specified by ACPI, the modern SOF machine driver (``sof_sdw``) queries the hardware at boot:
+
+1. **ACPI / SDCA Matching**: The driver inspects the ACPI DSDT table and scans the SoundWire bus to enumerate active peripheral devices (codecs, amplifiers, microphones).
+2. **Topology List Assembly**: In ``sound/soc/intel/common/sof-function-topology-lib.c``, ``sof_sdw_get_tplg_files()`` inspects each registered DAI link and generates the required functional topology filenames matching detected peripherals.
+3. **Sequential Firmware Request**: The kernel requests and parses each ``.tplg`` file sequentially using ``firmware_request_nowarn()``.
+4. **Unified Graph Ingestion**: The SOF topology core parses the components and routes from each file, dynamically binding them into a cohesive ALSA sound card graph.
+
+
+Feature Topologies
+==================
+
+A **Feature Topology** is an orthogonal topology overlay that adds specialized DSP processing capabilities or feedback pipelines to an existing functional graph without altering physical hardware DAI routing.
+
+Common Feature Topologies
+-------------------------
+
+* **Speaker Echo Reference (``sof-sdca-amp-ref.tplg`` / ``sof-sdca-amp-ref-dai.tplg``)**:
+  Extracts a reference tap from the speaker playback pipeline (``mixout.21``) and routes it into the capture domain for Acoustic Echo Cancellation (AEC). Enables clean full-duplex speakerphone communication during loud media playback.
+* **Jack Echo Reference (``sof-sdca-jack-ref-dai.tplg``)**:
+  Echo reference loopback for headphone/headset communication.
+* **2-Way Speaker Crossover (``sof-sdca-2amp-id2-xover.tplg``)**:
+  Splits stereo audio into 4 channels (Low-Left, Low-Right, High-Left, High-Right) using Linkwitz-Riley 4th order (LR4) IIR filters and a channel selector, targeting bi-amplified tweeter/woofer speaker systems.
+* **Deep Buffer Audio Streams (``DEEP_BUF_SPK=true``)**:
+  Instantiates high-latency (4000 µs) host DMA ring buffers, allowing the host CPU to remain asleep in deep ACPI S0ix / Modern Standby while audio continues playing seamlessly.
+
+Build Configuration for Functional & Feature Topologies
+-------------------------------------------------------
+
+Split and feature topologies are configured in ``production/tplg-targets-sdca-generic.cmake``:
+
+.. code-block:: text
+
+   # Split Functional Topologies
+   "cavs-sdw\;sof-sdca-jack-id0\;SDW_JACK_OUT_STREAM=Playback-SimpleJack,SDW_JACK_IN_STREAM=Capture-SimpleJack,NUM_HDMIS=0"
+   "cavs-sdw\;sof-sdca-2amp-id2\;NUM_SDW_AMP_LINKS=2,SDW_JACK=false,SDW_AMP_FEEDBACK=false,SDW_SPK_STREAM=Playback-SmartAmp,NUM_HDMIS=0,DEEP_BUF_SPK=true"
+   "cavs-sdw\;sof-sdca-mic-id4\;SDW_JACK=false,SDW_DMIC=1,NUM_HDMIS=0,SDW_DMIC_STREAM=Capture-SmartMic"
+
+   # Feature Topologies (Echo Reference & Crossover Overlays)
+   "cavs-sdw\;sof-sdca-amp-ref\;SDW_JACK=false,NUM_HDMIS=0,JACK_RATE=48000,SDW_AMP_FEEDBACK=false,SDW_SPK_ECHO_REF=true,SDW_SPK_ECHO_REF_PCM_ID=12"
+   "cavs-sdw\;sof-sdca-2amp-id2-xover\;NUM_SDW_AMP_LINKS=2,SDW_JACK=false,SDW_AMP_FEEDBACK=false,SDW_SPK_STREAM=Playback-SmartAmp,NUM_HDMIS=0,SDW_AMP_NUM_CHANNELS=4,SDW_AMP_XOVER=true"
+
+
+Compiling, Inspecting & Debugging Topologies
+********************************************
+
+Compiling with alsatplg
+=======================
+
+Topology 2.0 configuration files are compiled into binary ``.tplg`` files using ``alsatplg`` with the mandatory pre-processor flag (``-p``):
+
+.. code-block:: bash
+
+   # Basic compilation
+   alsatplg -p -c cavs-sdw.conf -o sof-sdw-output.tplg
+
+   # Compilation with parameter overrides
+   alsatplg -D PLATFORM=ptl -D NUM_HDMIS=3 -D DMIC_COUNT=2 -p -c cavs-sdw.conf -o sof-ptl-sdw.tplg
+
+Decompilation & Inspection (alsatplg -P)
+========================================
+
+To inspect how classes, object inheritance, and dynamic variables expand during pre-processing, use the uppercase ``-P`` flag to emit expanded ALSA conf text:
+
+.. code-block:: bash
+
+   # Convert Topology 2.0 object-oriented conf into flat ALSA conf v1
+   alsatplg -D PLATFORM=ptl -P cavs-sdw.conf -o expanded_debug.conf
+
+The output file contains the fully resolved object graph, allowing developers to verify exact widget IDs, constructor values, and route connections.
+
+Target DUT Verification Commands
+================================
+
+Once deployed to ``/lib/firmware/intel/sof-ipc4/`` on the target DUT (Spider, Aphid, or Dragon Fly), verify topology loading and ALSA device registration:
+
+.. code-block:: bash
+
+   # 1. Inspect kernel dmesg for topology loading logs
+   dmesg | grep -E "sof.*(tplg|topology|soundwire)"
+
+   # 2. List registered ALSA playback and capture PCM devices
+   aplay -l
+   arecord -l
+
+   # 3. Dump all mixer controls and kcontrols created by topology widgets
+   amixer -c 0 scontrols
+   amixer -c 0 contents
+
+   # 4. Inspect active DSP pipelines and memory usage via debugfs
+   cat /sys/kernel/debug/sof/memory_info
+
+
+Troubleshooting & Diagnostic Matrix
+***********************************
+
+.. list-table:: Topology 2.0 Troubleshooting Guide
+   :widths: 24 36 40
+   :header-rows: 1
+
+   * - Error / Symptom
+     - Root Cause
+     - Diagnostic & Resolution
+   * - ``alsatplg: error: mandatory attribute missing``
+     - An object omitted an attribute required by ``!mandatory`` in the class definition.
+     - Inspect compiler error output for the attribute name; provide the missing attribute in the object instantiation block.
+   * - ``alsatplg: error: unique qualifier violated``
+     - Two objects of the same class within the same configuration node have identical constructor or instance values.
+     - Ensure each widget or pipeline object within a node has a distinct instance number (e.g. ``gain."1"`` vs ``gain."2"``).
+   * - ``IPC error: comp ID not found in pipeline``
+     - Route refers to a widget name that does not exist, or route was defined with an incorrect pipeline index.
+     - Run ``alsatplg -P`` to inspect expanded names. Verify that ``source`` and ``sink`` strings match exact widget constructor names.
+   * - ``Failed to open topology file: sof-ptl-dmic-2ch-id5.tplg``
+     - Split functional topology is missing from ``/lib/firmware/intel/sof-ipc4/``.
+     - Verify that all split functional targets were compiled by checking ``production/tplg-targets-*.cmake``; copy missing ``.tplg`` files to the target root filesystem.
+   * - ``ALSA audio underrun / XRUN on deep buffer stream``
+     - Host buffer period size or ring geometry is insufficient for host sleep latency.
+     - Ensure deep buffer pipeline period is set to 4000 µs with at least 4 periods allocated in ``host-copier``.
