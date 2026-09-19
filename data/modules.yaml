@@ -123,6 +123,18 @@ modules:
       - "Parametric peak, notch, low/high shelf"
       - "Low computational latency"
 
+  - id: aria
+    name: "Aria (Automatic Regressive Input Amplifier)"
+    source: "SOF"
+    category: "Audio Enhancement"
+    status: "Upstream"
+    description: "Dynamic pre-amplifier and lookahead peak limiter with 1ms algorithmic latency."
+    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    key_features:
+      - "Target pre-amplification boost (0, 6, 12, 18 dB)"
+      - "Instantaneous regressive ducking to prevent 0 dBFS clipping"
+      - "1ms lookahead circular buffer and per-sample linear interpolation"
+
   - id: drc
     name: "Dynamic Range Compressor (DRC)"
     source: "SOF"
