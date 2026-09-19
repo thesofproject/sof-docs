@@ -127,6 +127,7 @@ Dynamics & Transducer Protection Tuning
 
 * :ref:`drc_tuning` (Single-band DRC and Multiband DRC compression curves, adaptive ballistics, and speaker protection)
 * :ref:`smart_amp_tuning` (Smart Amplifier Dynamic Speaker Management, I/V sense feedback calibration, Thiele-Small modeling, thermal and excursion protection)
+* :ref:`sound_dose_tuning` (Sound Dose Evaluator, IEC 61672-1 Class 1 A-weighting, EN 50332 / IEC 62368-1 compliance, HATS acoustic sensitivity calibration, and closed-loop exposure regulation)
 
 Acoustic, Transducer & Array Tuning
 ===================================
@@ -143,6 +144,7 @@ Acoustic, Transducer & Array Tuning
    tuning/runtime_tuning_sof_ctl
    tuning/drc_tuning
    tuning/smart_amp_tuning
+   tuning/sound_dose_tuning
    tuning/crossover_tuning
    algorithms/eq/equalizers_tuning
    algorithms/tdfb/time_domain_fixed_beamformer

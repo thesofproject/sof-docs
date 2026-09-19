@@ -262,12 +262,14 @@ modules:
     source: "SOF"
     category: "Speaker Protection"
     status: "Upstream"
-    description: "Hearing health monitoring and cumulative sound exposure limiter complying with EN 50332 and IEC 62368-1."
+    description: "Auditory health monitoring and cumulative sound exposure limiter complying with IEC 62368-1 Clause 10.6, EN 50332-1/-2/-3, and WHO-ITU H.870."
     simd: ["HiFi 3", "Scalar C"]
     key_features:
-      - "Continuous equivalent sound level (Leq) running integration"
-      - "Digital A-weighting and C-weighting IIR filter profiles"
-      - "Configurable Cumulative Sound Dose (CSD) threshold triggers and attenuation"
+      - "IEC 61672-1 Class 1 A-weighting cascaded Direct Form I IIR biquad filtering"
+      - "Overflow-proof 64-bit real-time energy accumulation and integer base-2 logarithm decibel conversion"
+      - "Autonomous 1-second asynchronous IPC4 notification dispatch without host polling"
+      - "Smooth per-frame exponential slew gain limiter (0.05 dB/frame) eliminating clicks and pops"
+      - "Acoustic laboratory HATS calibration, rolling 7-day CSD tracking, and runtime control via sof-ctl"
 
   # --- Voice, Telephony & Speech ---
   - id: tdfb

@@ -1,0 +1,206 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="safeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#065f46" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="advisoryGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#854d0e" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="dangerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#991b1b" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#b91c1c" stop-opacity="0.95" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="620" rx="14" fill="url(#bgGrad)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title & Subtitle -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" letter-spacing="0.5">
+    International Sound Exposure Standards &amp; Dose Protection Boundaries
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    IEC 62368-1 Clause 10.6 • EN 50332-1/-2/-3 • WHO-ITU H.870 (3 dB Exchange Rate Formulation)
+  </text>
+
+  <!-- Section 1: Three Regulatory Exposure Zones -->
+  <!-- Safe Zone -->
+  <g transform="translate(40, 85)" filter="url(#dropShadow)">
+    <rect width="280" height="230" rx="10" fill="url(#safeGrad)" stroke="#10b981" stroke-width="1.8" />
+    <rect x="0" y="0" width="280" height="38" rx="10" fill="#047857" />
+    <rect x="0" y="28" width="280" height="10" fill="#047857" />
+    <text x="140" y="24" text-anchor="middle" fill="#ecfdf5" font-family="sans-serif" font-size="14" font-weight="700">
+      SAFE EXPOSURE REGIME
+    </text>
+    <text x="140" y="65" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="22" font-weight="800">
+      &lt; 80 dBA
+    </text>
+    <text x="140" y="85" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="12" font-weight="600">
+      Weekly Dose: &lt; 100% CSD (1.6 Pa²h)
+    </text>
+    <line x1="20" y1="98" x2="260" y2="98" stroke="#059669" stroke-width="1" />
+    <text x="25" y="122" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Permissible: Up to 40 hrs / week</text>
+    <text x="25" y="144" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Cochlear State: Normal homeostasis</text>
+    <text x="25" y="166" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Outer hair cells (OHC) unperturbed</text>
+    <text x="25" y="188" fill="#e2e8f0" font-family="sans-serif" font-size="12">• SOF Action: Autonomous passive logging</text>
+    <text x="25" y="210" fill="#a7f3d0" font-family="sans-serif" font-size="11" font-weight="600">✔ Full user volume control allowed</text>
+  </g>
+
+  <!-- Advisory Zone -->
+  <g transform="translate(360, 85)" filter="url(#dropShadow)">
+    <rect width="280" height="230" rx="10" fill="url(#advisoryGrad)" stroke="#f59e0b" stroke-width="1.8" />
+    <rect x="0" y="0" width="280" height="38" rx="10" fill="#b45309" />
+    <rect x="0" y="28" width="280" height="10" fill="#b45309" />
+    <text x="140" y="24" text-anchor="middle" fill="#fffbeb" font-family="sans-serif" font-size="14" font-weight="700">
+      ADVISORY WARNING REGIME
+    </text>
+    <text x="140" y="65" text-anchor="middle" fill="#fde68a" font-family="monospace" font-size="22" font-weight="800">
+      80 to 89 dBA
+    </text>
+    <text x="140" y="85" text-anchor="middle" fill="#fef3c7" font-family="sans-serif" font-size="12" font-weight="600">
+      Weekly Dose: 80% to 100% CSD
+    </text>
+    <line x1="20" y1="98" x2="260" y2="98" stroke="#d97706" stroke-width="1" />
+    <text x="25" y="122" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Permissible: 5 to 40 hrs / week</text>
+    <text x="25" y="144" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Cochlear State: Metabolic fatigue</text>
+    <text x="25" y="166" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Temporary Threshold Shift (TTS) risk</text>
+    <text x="25" y="188" fill="#e2e8f0" font-family="sans-serif" font-size="12">• SOF Action: High-frequency notifications</text>
+    <text x="25" y="210" fill="#fde68a" font-family="sans-serif" font-size="11" font-weight="600">⚠ System issues advisory alert dialog</text>
+  </g>
+
+  <!-- Hazardous Zone -->
+  <g transform="translate(680, 85)" filter="url(#dropShadow)">
+    <rect width="280" height="230" rx="10" fill="url(#dangerGrad)" stroke="#ef4444" stroke-width="1.8" />
+    <rect x="0" y="0" width="280" height="38" rx="10" fill="#b91c1c" />
+    <rect x="0" y="28" width="280" height="10" fill="#b91c1c" />
+    <text x="140" y="24" text-anchor="middle" fill="#fef2f2" font-family="sans-serif" font-size="14" font-weight="700">
+      HAZARDOUS DOSE REGIME
+    </text>
+    <text x="140" y="65" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="22" font-weight="800">
+      &gt;= 90 dBA or &gt; 100% CSD
+    </text>
+    <text x="140" y="85" text-anchor="middle" fill="#fee2e2" font-family="sans-serif" font-size="12" font-weight="600">
+      Mandatory Regulatory Intervention
+    </text>
+    <line x1="20" y1="98" x2="260" y2="98" stroke="#dc2626" stroke-width="1" />
+    <text x="25" y="122" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Permissible: &lt; 23 min at 100 dBA</text>
+    <text x="25" y="144" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Cochlear State: Irreversible apoptosis</text>
+    <text x="25" y="166" fill="#e2e8f0" font-family="sans-serif" font-size="12">• Permanent Threshold Shift (PTS)</text>
+    <text x="25" y="188" fill="#e2e8f0" font-family="sans-serif" font-size="12">• SOF Action: Smooth attenuation ramp</text>
+    <text x="25" y="210" fill="#fca5a5" font-family="sans-serif" font-size="11" font-weight="600">⛔ Mandatory volume cap &amp; user ACK</text>
+  </g>
+
+  <!-- Section 2: 3 dB Equal Energy Exchange Principle Timeline -->
+  <g transform="translate(40, 340)" filter="url(#dropShadow)">
+    <rect width="920" height="135" rx="10" fill="url(#cardGrad)" stroke="#475569" stroke-width="1.5" />
+    <text x="25" y="28" fill="#38bdf8" font-family="sans-serif" font-size="14" font-weight="700">
+      The 3 dB Equal-Energy Exchange Principle: Weekly Exposure Halving Schedule (WHO-ITU H.870 / IEC 62368-1)
+    </text>
+    <text x="25" y="46" fill="#94a3b8" font-family="sans-serif" font-size="11.5">
+      T_safe(MEL) = 40 hours · 10^((80 - MEL) / 10)  •  Every +3 dB increase halves the permissible exposure window before reaching 100% CSD
+    </text>
+
+    <!-- Step Boxes across timeline -->
+    <!-- 80 dBA -->
+    <g transform="translate(25, 60)">
+      <rect width="105" height="60" rx="6" fill="#065f46" stroke="#10b981" stroke-width="1.2" />
+      <text x="52" y="23" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="14" font-weight="700">80 dBA</text>
+      <text x="52" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">40 Hours</text>
+      <text x="52" y="54" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="9">Baseline (100% CSD)</text>
+    </g>
+    <!-- Arrow -->
+    <text x="138" y="95" fill="#64748b" font-family="sans-serif" font-size="12" font-weight="700">→</text>
+
+    <!-- 83 dBA -->
+    <g transform="translate(150, 60)">
+      <rect width="105" height="60" rx="6" fill="#047857" stroke="#10b981" stroke-width="1.2" />
+      <text x="52" y="23" text-anchor="middle" fill="#6ee7b7" font-family="monospace" font-size="14" font-weight="700">83 dBA</text>
+      <text x="52" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">20 Hours</text>
+      <text x="52" y="54" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="9">2x Energy Density</text>
+    </g>
+    <text x="263" y="95" fill="#64748b" font-family="sans-serif" font-size="12" font-weight="700">→</text>
+
+    <!-- 86 dBA -->
+    <g transform="translate(275, 60)">
+      <rect width="105" height="60" rx="6" fill="#854d0e" stroke="#f59e0b" stroke-width="1.2" />
+      <text x="52" y="23" text-anchor="middle" fill="#fde68a" font-family="monospace" font-size="14" font-weight="700">86 dBA</text>
+      <text x="52" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">10 Hours</text>
+      <text x="52" y="54" text-anchor="middle" fill="#fef3c7" font-family="sans-serif" font-size="9">4x Energy Density</text>
+    </g>
+    <text x="388" y="95" fill="#64748b" font-family="sans-serif" font-size="12" font-weight="700">→</text>
+
+    <!-- 89 dBA -->
+    <g transform="translate(400, 60)">
+      <rect width="105" height="60" rx="6" fill="#b45309" stroke="#f59e0b" stroke-width="1.2" />
+      <text x="52" y="23" text-anchor="middle" fill="#fde68a" font-family="monospace" font-size="14" font-weight="700">89 dBA</text>
+      <text x="52" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">5 Hours</text>
+      <text x="52" y="54" text-anchor="middle" fill="#fef3c7" font-family="sans-serif" font-size="9">8x Energy Density</text>
+    </g>
+    <text x="513" y="95" fill="#64748b" font-family="sans-serif" font-size="12" font-weight="700">→</text>
+
+    <!-- 92 dBA -->
+    <g transform="translate(525, 60)">
+      <rect width="105" height="60" rx="6" fill="#991b1b" stroke="#ef4444" stroke-width="1.2" />
+      <text x="52" y="23" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="14" font-weight="700">92 dBA</text>
+      <text x="52" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">2.5 Hours</text>
+      <text x="52" y="54" text-anchor="middle" fill="#fee2e2" font-family="sans-serif" font-size="9">16x Energy Density</text>
+    </g>
+    <text x="638" y="95" fill="#64748b" font-family="sans-serif" font-size="12" font-weight="700">→</text>
+
+    <!-- 95 dBA -->
+    <g transform="translate(650, 60)">
+      <rect width="105" height="60" rx="6" fill="#991b1b" stroke="#ef4444" stroke-width="1.2" />
+      <text x="52" y="23" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="14" font-weight="700">95 dBA</text>
+      <text x="52" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">75 Minutes</text>
+      <text x="52" y="54" text-anchor="middle" fill="#fee2e2" font-family="sans-serif" font-size="9">32x Energy Density</text>
+    </g>
+    <text x="763" y="95" fill="#64748b" font-family="sans-serif" font-size="12" font-weight="700">→</text>
+
+    <!-- 100 dBA -->
+    <g transform="translate(775, 60)">
+      <rect width="120" height="60" rx="6" fill="#7f1d1d" stroke="#f87171" stroke-width="1.6" />
+      <text x="60" y="23" text-anchor="middle" fill="#fca5a5" font-family="monospace" font-size="14" font-weight="700">100 dBA</text>
+      <text x="60" y="42" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="800">23.7 Min</text>
+      <text x="60" y="54" text-anchor="middle" fill="#fca5a5" font-family="sans-serif" font-size="9" font-weight="700">EN 50332 Hard Cap</text>
+    </g>
+  </g>
+
+  <!-- Section 3: EN 50332 Product Compliance Metrics -->
+  <g transform="translate(40, 495)" filter="url(#dropShadow)">
+    <rect width="920" height="105" rx="10" fill="url(#cardGrad)" stroke="#475569" stroke-width="1.5" />
+    <text x="25" y="26" fill="#38bdf8" font-family="sans-serif" font-size="14" font-weight="700">
+      Harmonized European Test Standards &amp; Equipment Limits (EN 50332 Series)
+    </text>
+
+    <g transform="translate(25, 40)">
+      <rect width="270" height="52" rx="6" fill="#1e293b" stroke="#334155" />
+      <text x="12" y="20" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">EN 50332-1 (Packaged Sets)</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="sans-serif" font-size="11">Player + Headphone max output ≤ 100 dBA</text>
+    </g>
+
+    <g transform="translate(325, 40)">
+      <rect width="270" height="52" rx="6" fill="#1e293b" stroke="#334155" />
+      <text x="12" y="20" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">EN 50332-2 (Standalone Player/Phone)</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="sans-serif" font-size="11">Max output voltage V_out ≤ 150 mV RMS</text>
+    </g>
+
+    <g transform="translate(625, 40)">
+      <rect width="270" height="52" rx="6" fill="#1e293b" stroke="#334155" />
+      <text x="12" y="20" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">EN 50332-3 (Sound Dose Management)</text>
+      <text x="12" y="38" fill="#94a3b8" font-family="sans-serif" font-size="11">Active CSD metering, rolling 7-day storage</text>
+    </g>
+  </g>
+</svg>
