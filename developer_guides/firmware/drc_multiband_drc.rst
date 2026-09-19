@@ -567,6 +567,7 @@ For developers seeking low-level implementation details, mathematical structures
 Related Subsystem Architecture Guides
 =====================================
 
+* :ref:`smart_amp`: Adaptive speaker protection, real-time current/voltage (I/V) sense telemetry, and excursion/thermal limiters.
 * :ref:`volume_module`: Per-channel gain scaling, smooth volume ramping, and zero-crossing muting.
 * :ref:`eq_fir_iir`: Finite and Infinite Impulse Response equalizers, linear-phase filtering, and biquad cascades.
 * :ref:`src_asrc`: Sample rate conversion architecture handling fixed and drifting clocks across heterogeneous audio interfaces.
