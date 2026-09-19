@@ -195,6 +195,18 @@ modules:
       - "Sub-audible rumble attenuation"
       - "Near-zero phase distortion in audio band"
 
+  - id: phase_vocoder
+    name: "Phase Vocoder"
+    source: "SOF"
+    category: "Audio Enhancement"
+    status: "Upstream"
+    description: "Frequency-domain time-scale modification (0.5x to 2.0x speed) without pitch alteration."
+    simd: ["HiFi 3", "Scalar C"]
+    key_features:
+      - "Real-time Short-Time Fourier Transform (STFT) analysis & synthesis"
+      - "Variable speed scaling (0.5x to 2.0x) with exact GCD counter normalization"
+      - "Interactive phase re-anchoring and mono downmix optimization"
+
   - id: smart_amp
     name: "Smart Amp Protection"
     source: "SOF"
