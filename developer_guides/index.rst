@@ -56,6 +56,7 @@ Audio Processing Modules & Algorithms
 * :ref:`sound_dose` (High-level architecture; also see upstream `Sound Dose README <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_)
 * :ref:`copier_mux_selector` (High-level architecture; also see upstream `Copier README <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux README <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector README <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_)
 * :ref:`pcm_converter` (High-level architecture; also see upstream `PCM converter README <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_)
+* :ref:`kpb_wov` (High-level architecture; also see driver guide :ref:`keyword_detect`)
 
 .. _algorithm-specific-information:
 
@@ -101,6 +102,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/copier_mux_selector
    firmware/pcm_converter
    firmware/rtnr
+   firmware/kpb_wov
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
