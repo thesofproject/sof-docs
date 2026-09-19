@@ -1,0 +1,257 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="blueCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="accentCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <linearGradient id="accentPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <linearGradient id="accentGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="accentAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Title & Header Bar -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#accentCyan)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 325: Cadence Xtensa Simulator (xt-run) Architecture &amp; Emulation Ecosystem
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      Cycle-Accurate &amp; Fast Functional Simulation, Tensilica HiFi DSP Extensions, Memory Modeling &amp; Host Semi-Hosting
+    </text>
+  </g>
+
+  <!-- SECTION 1: Developer & Orchestration Layer (Top) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="1040" height="110" rx="8" fill="url(#blueCard)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#0369a1" />
+    <rect x="0" y="20" width="1040" height="8" fill="#0369a1" />
+    <text x="16" y="19" fill="#f0f9ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      1. Developer Orchestration &amp; Test Runner Layer (Host Linux Workstation)
+    </text>
+
+    <!-- Subcards -->
+    <g transform="translate(16, 38)">
+      <!-- Box A1: CLI Execution -->
+      <rect x="0" y="0" width="310" height="60" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="12" font-weight="600" font-family="system-ui, sans-serif">Interactive Terminal CLI</text>
+      <text x="12" y="36" fill="#e2e8f0" font-size="10.5" font-family="monospace">xt-run [flags] &lt;binary.elf&gt; [args]</text>
+      <text x="12" y="50" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Direct invocation, flags &amp; parameter passing</text>
+
+      <!-- Box A2: Execution Control Flags -->
+      <rect x="330" y="0" width="350" height="60" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="12" font-weight="600" font-family="system-ui, sans-serif">Simulation Control &amp; Telemetry Flags</text>
+      <text x="12" y="36" fill="#7dd3fc" font-size="10.5" font-family="monospace">--turbo | --summary | --mem_model</text>
+      <text x="12" y="50" fill="#cbd5e1" font-size="10" font-family="monospace">--profile=&lt;out&gt; | --client-gdb=&lt;port&gt;</text>
+
+      <!-- Box A3: Automated Orchestrators -->
+      <rect x="700" y="0" width="308" height="60" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="12" font-weight="600" font-family="system-ui, sans-serif">Automated Automation Drivers</text>
+      <text x="12" y="36" fill="#e2e8f0" font-size="10.5" font-family="monospace">sof-testbench-helper.sh -x</text>
+      <text x="12" y="50" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">Twister / CTest test harness execution</text>
+    </g>
+  </g>
+
+  <!-- Connectors Down from Orchestration Layer -->
+  <path d="M 230 215 L 230 255" stroke="#06b6d4" stroke-width="2" fill="none" marker-end="url(#arrowCyan)" />
+  <path d="M 720 215 L 720 255" stroke="#06b6d4" stroke-width="2" fill="none" marker-end="url(#arrowCyan)" />
+
+  <!-- SECTION 2: Left Column - Core Configuration & Toolchain Registry -->
+  <g transform="translate(30, 260)">
+    <rect x="0" y="0" width="370" height="290" rx="8" fill="url(#blueCard)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="370" height="28" rx="8" fill="#7e22ce" />
+    <rect x="0" y="20" width="370" height="8" fill="#7e22ce" />
+    <text x="16" y="19" fill="#faf5ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2. Toolchain &amp; Processor Core Configuration
+    </text>
+
+    <!-- Sub-elements inside Section 2 -->
+    <g transform="translate(14, 38)">
+      <!-- Environment Setup -->
+      <rect x="0" y="0" width="342" height="68" rx="6" fill="#0f172a" stroke="#9333ea" stroke-width="1" />
+      <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Environment Variable Context</text>
+      <text x="10" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">XTENSA_SYSTEM=&lt;path/to/Xtensa/system&gt;</text>
+      <text x="10" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">XTENSA_CORE=&lt;target_core_descriptor&gt;</text>
+      <text x="10" y="62" fill="#c084fc" font-size="9.5" font-family="monospace">scripts/set_xtensa_params.sh &lt;platform&gt;</text>
+
+      <!-- Target Core Descriptors Matrix -->
+      <rect x="0" y="78" width="342" height="110" rx="6" fill="#0f172a" stroke="#9333ea" stroke-width="1" />
+      <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Supported Target DSP Cores</text>
+      <text x="10" y="35" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel cAVS 2.5 (Spider):</tspan> <tspan font-family="monospace" fill="#e2e8f0">cavs2x_LX6HiFi3_2017_8</tspan></text>
+      <text x="10" y="52" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 1.5/2.0 (ARL/LNL):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace10_LX7HiFi4_2022_10</tspan></text>
+      <text x="10" y="69" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 3.0 (Aphid PTL):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace30_LX7HiFi4_PIF</tspan></text>
+      <text x="10" y="86" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 4.0 (Nova Lake):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace4px_HiFi5MMU_PIF_nlib</tspan></text>
+      <text x="10" y="103" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#a855f7">NXP / AMD / MTK:</tspan> <tspan font-family="monospace" fill="#cbd5e1">hifi4_nxp, LX7_HiFi5, mt8186</tspan></text>
+
+      <!-- Linker Support Package -->
+      <rect x="0" y="198" width="342" height="42" rx="6" fill="#0f172a" stroke="#9333ea" stroke-width="1" />
+      <text x="10" y="16" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Linker Support Package (LSP)</text>
+      <text x="10" y="32" fill="#e2e8f0" font-size="9.5" font-family="monospace">-mlsp=sim -Wl,--sections-placement sections.txt</text>
+    </g>
+  </g>
+
+  <!-- Horizontal Connector from Core Config to Simulation Engine -->
+  <path d="M 400 375 L 435 375" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrowPurple)" />
+
+  <!-- SECTION 3: Right Column - Core Simulation Execution Engine -->
+  <g transform="translate(440, 260)">
+    <rect x="0" y="0" width="630" height="290" rx="8" fill="url(#blueCard)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="630" height="28" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="630" height="8" fill="#047857" />
+    <text x="16" y="19" fill="#ecfdf5" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      3. Cadence Xtensa Simulation Engine Core (xt-run Execution Pipeline)
+    </text>
+
+    <!-- Sub-elements inside Section 3 -->
+    <g transform="translate(16, 38)">
+      <!-- Pipeline Block 1: Execution Engine Dual Modes -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="288" height="112" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="12" y="18" fill="#6ee7b7" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Execution Engine Dual Modes</text>
+
+        <rect x="10" y="28" width="268" height="34" rx="4" fill="#134e4a" stroke="#0d9488" stroke-width="1" />
+        <text x="18" y="44" fill="#ccfbf1" font-size="10" font-weight="700" font-family="system-ui, sans-serif">Fast Functional Mode (--turbo)</text>
+        <text x="18" y="56" fill="#99f6e4" font-size="9" font-family="system-ui, sans-serif">JIT translation, high throughput (~50-100x speedup)</text>
+
+        <rect x="10" y="68" width="268" height="36" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1" />
+        <text x="18" y="83" fill="#f8fafc" font-size="10" font-weight="700" font-family="system-ui, sans-serif">Cycle-Accurate Pipeline Mode</text>
+        <text x="18" y="96" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Fetch, Decode, Read, Exec E0-E3, Writeback</text>
+      </g>
+
+      <!-- Pipeline Block 2: Tensilica HiFi DSP Instruction Extensions -->
+      <g transform="translate(305, 0)">
+        <rect x="0" y="0" width="293" height="112" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="12" y="18" fill="#6ee7b7" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Tensilica HiFi DSP Extensions (TIE)</text>
+
+        <text x="12" y="38" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">HiFi 3 / 4 / 5 SIMD:</tspan> Dual/Quad 32b MACs, Viterbi</text>
+        <text x="12" y="55" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Vector Register File:</tspan> 64-bit vector regs <tspan font-family="monospace">p0..p7</tspan></text>
+        <text x="12" y="72" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Accumulator Space:</tspan> 72-bit accumulators <tspan font-family="monospace">ae_ac0..ae_ac3</tspan></text>
+        <text x="12" y="89" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">VFPU / FPU Support:</tspan> IEEE-754 vector floats</text>
+        <text x="12" y="104" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Alignment Engine:</tspan> Circular addressing &amp; <tspan font-family="monospace">AE_LA*</tspan></text>
+      </g>
+
+      <!-- Pipeline Block 3: Memory & Cache Model -->
+      <g transform="translate(0, 122)">
+        <rect x="0" y="0" width="598" height="118" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="12" y="18" fill="#6ee7b7" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Memory Hierarchy &amp; Bus Contention Model (--mem_model)</text>
+
+        <g transform="translate(10, 26)">
+          <!-- Cache Sub-block -->
+          <rect x="0" y="0" width="180" height="82" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1" />
+          <text x="10" y="16" fill="#38bdf8" font-size="10" font-weight="600" font-family="system-ui, sans-serif">L1 Cache Modeling</text>
+          <text x="10" y="32" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">Instruction Cache (I$)</text>
+          <text x="10" y="46" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Hit/Miss rates, Line fills</text>
+          <text x="10" y="60" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">Data Cache (D$)</text>
+          <text x="10" y="74" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Write-back/Write-through</text>
+
+          <!-- TCM Sub-block -->
+          <rect x="195" y="0" width="180" height="82" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1" />
+          <text x="10" y="16" fill="#a855f7" font-size="10" font-weight="600" font-family="system-ui, sans-serif">Tightly-Coupled Memories</text>
+          <text x="10" y="32" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">IRAM (Zero-Waitstate)</text>
+          <text x="10" y="46" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Direct DSP instruction fetch</text>
+          <text x="10" y="60" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">DRAM (Banked Memory)</text>
+          <text x="10" y="74" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Single-cycle dual 32b load/store</text>
+
+          <!-- External Bus Sub-block -->
+          <rect x="390" y="0" width="188" height="82" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1" />
+          <text x="10" y="16" fill="#f59e0b" font-size="10" font-weight="600" font-family="system-ui, sans-serif">External System Interconnect</text>
+          <text x="10" y="32" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">PIF / AXI Bus Interface</text>
+          <text x="10" y="46" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">DMA &amp; Host window buffers</text>
+          <text x="10" y="60" fill="#cbd5e1" font-size="9" font-family="system-ui, sans-serif">Contention &amp; Stall Analysis</text>
+          <text x="10" y="74" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Multi-cycle memory wait states</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors Down to Diagnostics & Output Backends -->
+  <path d="M 580 550 L 580 585" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowGreen)" />
+  <path d="M 880 550 L 880 585" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrowGreen)" />
+
+  <!-- SECTION 4: Bottom Row - I/O, Diagnostics & Telemetry Backends -->
+  <g transform="translate(30, 590)">
+    <rect x="0" y="0" width="1040" height="125" rx="8" fill="url(#blueCard)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#b45309" />
+    <rect x="0" y="20" width="1040" height="8" fill="#b45309" />
+    <text x="16" y="19" fill="#fef3c7" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      4. Semi-Hosting I/O, Remote Debugging &amp; Performance Telemetry Backends
+    </text>
+
+    <!-- Subcards in Bottom Section -->
+    <g transform="translate(16, 36)">
+      <!-- Backend 1: Semi-Hosting I/O -->
+      <rect x="0" y="0" width="240" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Semi-Hosting Host Bridge</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#fde68a">simcall</tspan> trap instruction</text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Standard I/O (<tspan font-family="monospace" fill="#cbd5e1">printf, stdout</tspan>)</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• File I/O (raw PCM audio streams)</text>
+
+      <!-- Backend 2: Remote GDB Server -->
+      <rect x="255" y="0" width="250" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">GDB Server &amp; Trace Debugger</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#fde68a">--client-gdb=&lt;port&gt;</tspan> server</text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Hardware breakpoints &amp; watchpoints</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• HiFi vector register inspection (<tspan font-family="monospace" fill="#cbd5e1">p0..p7</tspan>)</text>
+
+      <!-- Backend 3: xt-gprof Profiling Engine -->
+      <rect x="520" y="0" width="250" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">xt-gprof Call-Graph Profiler</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#fde68a">--profile=&lt;profile.out&gt;</tspan></text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Subroutine execution frequency</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• MCPS budget calculation &amp; hotspots</text>
+
+      <!-- Backend 4: Execution Metrics Summary -->
+      <rect x="785" y="0" width="223" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Cycle &amp; Stall Telemetry</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#fde68a">--summary</tspan> statistics report</text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Total cycles &amp; Instructions Per Cycle</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Pipeline bubbles &amp; memory stalls</text>
+    </g>
+  </g>
+</svg>
