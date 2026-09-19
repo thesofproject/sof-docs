@@ -471,6 +471,7 @@ Related Guides
 * :ref:`tdfb`: Spatial acoustic filtering, filter-and-sum FIR banks, multi-microphone array geometries, and autonomous Direction of Arrival (DOA) tracking.
 * :ref:`tflm`: Embedded neural network inference, static tensor arena memory planning, 8-bit affine quantization, and Tensilica NNLib SIMD acceleration.
 * :ref:`mfcc`: Real-time Mel-Frequency Cepstral Coefficients feature extraction, auditory filterbanks, OpenAI Whisper preprocessing, and Mel-domain VAD.
+* :ref:`smart_amp`: Adaptive speaker protection, real-time current/voltage (I/V) sense telemetry, thermal/excursion limiters, and two-layer generic/inner model architecture.
 * :ref:`fw_init_boot`: Boot flow, hardware mailbox FW Ready handshake, and Zephyr initialization.
 * :ref:`topology2`: How pipelines and widgets are declared using ALSA Topology 2.0 configuration classes.
 * :ref:`sof_hostless_firmware`: How to create static pipelines compiled into ROM for standalone microcontrollers.
