@@ -1,0 +1,277 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad-hostless" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-grad-hl" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Layer Headers -->
+    <linearGradient id="hdr-blue-hl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="hdr-purple-hl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6d28d9"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+    <linearGradient id="hdr-cyan-hl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald-hl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="hdr-amber-hl" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-cyan-hl" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-purple-hl" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#8b5cf6"/>
+    </marker>
+    <marker id="arr-emerald-hl" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-hl" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="660" rx="12" fill="url(#bg-grad-hostless)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Hostless Embedded Firmware: System Architecture
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Autonomous Zephyr RTOS Foundation, Static Pipeline Loader, Processing Engine &amp; Endpoint Ecosystem
+    </text>
+  </g>
+
+  <!-- Layer 1: Zephyr RTOS Foundation (x=40, y=85, w=1020, h=75) -->
+  <g transform="translate(40, 85)" filter="url(#shadow-hl)">
+    <rect width="1020" height="75" rx="8" fill="url(#card-grad-hl)" stroke="#1d4ed8" stroke-width="1.2"/>
+    <rect width="1020" height="24" rx="8" fill="url(#hdr-blue-hl)"/>
+    <rect y="18" width="1020" height="6" fill="#1d4ed8"/>
+    <text x="16" y="16" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Zephyr RTOS Hardware Foundation &amp; Board Bringup
+    </text>
+
+    <g transform="translate(16, 32)">
+      <g transform="translate(0, 0)">
+        <rect width="230" height="32" rx="5" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#93c5fd">Kernel Init &amp; Device Tree Bindings</text>
+      </g>
+      <g transform="translate(245, 0)">
+        <rect width="230" height="32" rx="5" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#93c5fd">Hardware Audio PLL &amp; Clock Tree</text>
+      </g>
+      <g transform="translate(490, 0)">
+        <rect width="240" height="32" rx="5" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#93c5fd">DMA Engine (eDMA / GDMA Transfers)</text>
+      </g>
+      <g transform="translate(745, 0)">
+        <rect width="243" height="32" rx="5" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="20" font-family="system-ui, sans-serif" font-size="9" fill="#93c5fd">Hardware FPU &amp; Vector DSP Acceleration</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Downward Arrow from Layer 1 to Layer 2 -->
+  <line x1="550" y1="165" x2="550" y2="185" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr-cyan-hl)"/>
+
+  <!-- Layer 2 Left: SOF Hostless Core & Static Topology Loader (x=40, y=190, w=495, h=300) -->
+  <g transform="translate(40, 190)" filter="url(#shadow-hl)">
+    <rect width="495" height="300" rx="10" fill="url(#card-grad-hl)" stroke="#0e7490" stroke-width="1.2"/>
+    <rect width="495" height="26" rx="10" fill="url(#hdr-cyan-hl)"/>
+    <rect y="20" width="495" height="6" fill="#0e7490"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      SOF Static Pipeline Engine (static_pipeline_loader.c)
+    </text>
+
+    <g transform="translate(14, 38)">
+      <!-- Sub-box 1: C Topology Definition -->
+      <g transform="translate(0, 0)">
+        <rect width="467" height="68" rx="6" fill="#0f172a" stroke="#0e7490" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#67e8f9">ROM-Compiled Static Topology Descriptor</text>
+        <text x="12" y="34" font-family="monospace" font-size="8.5" fill="#e0f2fe">struct sof_static_topology</text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Defines pipelines, components, buffers, routes, and kcontrols in flash memory.
+        </text>
+        <text x="12" y="60" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">
+          • Zero IPC parsing overhead; instantiated instantly during firmware initialization.
+        </text>
+      </g>
+
+      <!-- Sub-box 2: In-Memory Audio Processing Engine -->
+      <g transform="translate(0, 78)">
+        <rect width="467" height="110" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#67e8f9">In-Memory Audio Processing Pipeline</text>
+
+        <!-- Component badges -->
+        <g transform="translate(10, 28)">
+          <rect width="80" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.7"/>
+          <text x="10" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#e0f2fe">Volume / Ramp</text>
+
+          <rect x="90" width="85" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.7"/>
+          <text x="100" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#e0f2fe">Parametric EQ</text>
+
+          <rect x="185" width="80" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.7"/>
+          <text x="195" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#e0f2fe">DRC Limiter</text>
+
+          <rect x="275" width="85" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.7"/>
+          <text x="285" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#e0f2fe">TDFB Array</text>
+
+          <rect x="370" width="77" height="24" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="0.7"/>
+          <text x="380" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#e0f2fe">Tone Gen</text>
+        </g>
+
+        <text x="12" y="70" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Intermediate ring buffers allocated via <tspan font-family="monospace" fill="#38bdf8">SOF_STATIC_BUFFER()</tspan> in SRAM/PSRAM.
+        </text>
+        <text x="12" y="84" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Deterministic Low-Latency scheduler executes 1 ms processing ticks on Core 0.
+        </text>
+        <text x="12" y="98" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">
+          • Dynamic coefficient injection via compiled-in binary calibration blobs.
+        </text>
+      </g>
+
+      <!-- Sub-box 3: Static Kcontrols & Defaults -->
+      <g transform="translate(0, 198)">
+        <rect width="467" height="52" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="12" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#67e8f9">Static Kcontrols &amp; Board Calibration</text>
+        <text x="12" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          Initializes volume gains (0 dB unity), soft-unmute ramps, EQ/DRC bypass toggles,
+        </text>
+        <text x="12" y="44" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">
+          and channel mappings directly from flash without waiting for ALSA mixer setup.
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Layer 2 Right: Hardware & Virtual Endpoint Ecosystem (x=565, y=190, w=495, h=300) -->
+  <g transform="translate(565, 190)" filter="url(#shadow-hl)">
+    <rect width="495" height="300" rx="10" fill="url(#card-grad-hl)" stroke="#6d28d9" stroke-width="1.2"/>
+    <rect width="495" height="26" rx="10" fill="url(#hdr-purple-hl)"/>
+    <rect y="20" width="495" height="6" fill="#6d28d9"/>
+    <text x="16" y="18" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Endpoint Ecosystem: USB, Bluetooth &amp; Physical DAIs
+    </text>
+
+    <g transform="translate(14, 38)">
+      <!-- Sub-box 1: USB Audio Class 2.0 (UAC2) -->
+      <g transform="translate(0, 0)">
+        <rect width="467" height="74" rx="6" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#d8b4fe">USB Audio Class 2.0 (UAC2 Bridge)</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#e9d5ff">usb_audio.c / zephyr/usb/class/usbd_uac2.h</text>
+        <text x="12" y="46" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Asynchronous ISO endpoints with SOF microframe rate feedback.
+        </text>
+        <text x="12" y="58" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Maps UAC2 Feature Units to SOF volume and mute static controls.
+        </text>
+        <text x="12" y="69" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">
+          • Provides standard USB audio card to external host PCs and test rigs.
+        </text>
+      </g>
+
+      <!-- Sub-box 2: Bluetooth LE Audio & Classic -->
+      <g transform="translate(0, 84)">
+        <rect width="467" height="74" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#d8b4fe">Bluetooth LE Audio &amp; Wireless Transceiver</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#e9d5ff">bt_audio.c / bt_service.c (ESP32-C6 Coprocessor Link)</text>
+        <text x="12" y="46" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • LE Audio Broadcast (Auracast) and Unicast with LC3 compression.
+        </text>
+        <text x="12" y="58" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Dual-chip coprocessor architecture (HCI over UART / Shared I2S bus).
+        </text>
+        <text x="12" y="69" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">
+          • A2DP Sink/Source &amp; HFP/mSBC voice call support.
+        </text>
+      </g>
+
+      <!-- Sub-box 3: Physical Serial DAIs -->
+      <g transform="translate(0, 168)">
+        <rect width="467" height="82" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#d8b4fe">Physical Serial Audio DAIs</text>
+        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • <tspan font-family="monospace" fill="#c084fc">I2S / TDM Transceiver</tspan>: Multi-channel audio (ESP32 I2S, Teensy SAI1).
+        </text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • <tspan font-family="monospace" fill="#c084fc">PDM / DMIC Receiver</tspan>: Pulse-density decimation for microphone arrays.
+        </text>
+        <text x="12" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • <tspan font-family="monospace" fill="#c084fc">S/PDIF Optical/Coaxial</tspan>: High-fidelity 24-bit audio stream output.
+        </text>
+        <text x="12" y="74" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">
+          • Dynamic Provider/Consumer clock switching (<tspan font-family="monospace">sof mode i2s master|slave</tspan>).
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bidirectional Connection Between Pipeline and Endpoints -->
+  <path d="M 535 340 L 565 340" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr-purple-hl)"/>
+  <path d="M 565 350 L 535 350" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-cyan-hl)"/>
+
+  <!-- Layer 3: Interactive Zephyr Shell & Diagnostic Console (x=40, y=505, w=1020, h=135) -->
+  <g transform="translate(40, 505)" filter="url(#shadow-hl)">
+    <rect width="1020" height="135" rx="10" fill="url(#card-grad-hl)" stroke="#047857" stroke-width="1.2"/>
+    <rect width="1020" height="24" rx="10" fill="url(#hdr-emerald-hl)"/>
+    <rect y="18" width="1020" height="6" fill="#047857"/>
+    <text x="16" y="16" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Interactive Zephyr Shell Diagnostics &amp; Hardware Telemetry (esp32_shell.c)
+    </text>
+
+    <g transform="translate(16, 32)">
+      <!-- Left Column: Shell Commands -->
+      <g transform="translate(0, 0)">
+        <rect width="480" height="88" rx="6" fill="#0f172a" stroke="#047857" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#6ee7b7">Diagnostic &amp; Control CLI (UART / USB CDC ACM)</text>
+        <text x="12" y="34" font-family="monospace" font-size="8" fill="#34d399">sof status</text>
+        <text x="90" y="34" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">: Print pipelines, sample rate, MAC, route, volume</text>
+        <text x="12" y="48" font-family="monospace" font-size="8" fill="#34d399">sof mode &lt;i2s|pdm&gt; &lt;master|slave|dmic&gt;</text>
+        <text x="240" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">: Switch clocking mode</text>
+        <text x="12" y="62" font-family="monospace" font-size="8" fill="#34d399">sof vol &lt;pb|cap&gt; &lt;dB&gt;  |  sof mute &lt;pb|cap&gt; &lt;on|off&gt;</text>
+        <text x="12" y="76" font-family="monospace" font-size="8" fill="#34d399">sof eq|drc|tdfb &lt;enable|bypass&gt;  |  sof tone &lt;on|off&gt;</text>
+      </g>
+
+      <!-- Right Column: Verification & Testbench -->
+      <g transform="translate(505, 0)">
+        <rect width="483" height="88" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#6ee7b7">Hardware Testbench &amp; Loopback Validation</text>
+        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • <tspan font-family="monospace" fill="#34d399">sof cap dump --samples N</tspan>: Real-time raw PCM buffer inspection.
+        </text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • <tspan font-family="monospace" fill="#34d399">sof regs</tspan>: Dump live hardware I2S/PDM control registers, FIFOs &amp; dividers.
+        </text>
+        <text x="12" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • <tspan font-family="monospace" fill="#34d399">sof bt status|broadcast|scan</tspan>: LE Audio Auracast broadcast management.
+        </text>
+        <text x="12" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
+          • Standalone pre-commit loopback validation (<tspan font-family="monospace" fill="#fcd34d">test_p4_loopback.py</tspan>, <tspan font-family="monospace" fill="#fcd34d">test_teensy_loopback.py</tspan>).
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>
