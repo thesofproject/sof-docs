@@ -391,12 +391,15 @@ modules:
     source: "SOF"
     category: "Voice & Telephony"
     status: "Upstream"
-    description: "Speech feature extraction engine computing triangular Mel filterbank energies and DCT-II cepstra."
-    simd: ["HiFi 3", "Scalar C"]
+    description: "Speech feature extraction engine computing triangular Mel filterbank energies, Slaney normalization, and DCT-II cepstra."
+    tuning_guide: "developer_guides/tuning/mfcc_tuning"
+    simd: ["HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
-      - "Configurable triangular Mel filterbanks (100 Hz to 8 kHz)"
-      - "Discrete Cosine Transform (DCT-II) with cepstral liftering"
-      - "Direct integration with wake word spotting and ASR frontends"
+      - "Configurable triangular Mel filterbanks (20 Hz to 8 kHz) with Slaney area normalization"
+      - "Dual-mode operation: 80-bin Mel spectrogram (Whisper ASR) or 13-cepstra MFCC (TFLM microWakeWord)"
+      - "Discrete Cosine Transform (DCT-II) with sinusoidal cepstral liftering"
+      - "Embedded Voice Activity Detection (VAD) and Discontinuous Transmission (DTX) silence suppression"
+      - "Sparse packed triangular filterbank vector storage with >95% SRAM memory reduction"
 
   - id: mic_privacy_manager
     name: "Microphone Privacy Manager"

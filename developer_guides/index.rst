@@ -140,6 +140,11 @@ Acoustic, Transducer & Array Tuning
 * :ref:`sample_rate_conversion` (Polyphase FIR filter design and multi-stage resampling)
 * :ref:`demux` (Multi-channel routing matrix configuration)
 
+Machine Learning & Speech Feature Extraction
+============================================
+
+* :ref:`mfcc_tuning` (Mel-Frequency Cepstral Coefficients (MFCC), triangular Mel filterbank design, Slaney normalization, Whisper-compatible Mel spectrogram scaling, Voice Activity Detection (VAD), and TensorFlow Lite Micro (TFLM) keyword spotting co-design)
+
 .. toctree::
    :maxdepth: 1
 
@@ -150,6 +155,7 @@ Acoustic, Transducer & Array Tuning
    tuning/sound_dose_tuning
    tuning/crossover_tuning
    tuning/dmic_tuning
+   tuning/mfcc_tuning
    algorithms/eq/equalizers_tuning
    algorithms/tdfb/time_domain_fixed_beamformer
    algorithms/src/sample_rate_conversion

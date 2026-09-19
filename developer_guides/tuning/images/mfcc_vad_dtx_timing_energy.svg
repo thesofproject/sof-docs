@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+    <linearGradient id="cardGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="shadow4" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="660" fill="url(#bgGrad4)"/>
+  <rect x="15" y="15" width="1170" height="630" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title Header -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="22" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="0.5">Voice Activity Detection (VAD) &amp; DTX Silence Suppression Timeline</text>
+    <text x="0" y="44" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">A-Weighted Noise Floor Tracking, Asymmetric Convergence, Hangover Smoothing, and Discontinuous Transmission Bandwidth Savings</text>
+  </g>
+
+  <!-- Main Timing Diagram (3 Panels) -->
+  <!-- Panel 1: Signal Energy vs Adaptive Noise Floor -->
+  <g transform="translate(40, 95)" filter="url(#shadow4)">
+    <rect width="1120" height="180" rx="8" fill="url(#cardGrad4)" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="12" font-weight="700">PANEL 1: A-WEIGHTED SPEECH SIGNAL ENERGY (E_sig) VS ADAPTIVE NOISE FLOOR (E_noise)</text>
+
+    <!-- Legend -->
+    <g transform="translate(800, 14)">
+      <line x1="0" y1="8" x2="25" y2="8" stroke="#38bdf8" stroke-width="2.5"/>
+      <text x="32" y="12" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10.5">Signal Energy E_sig (Q9.23)</text>
+      <line x1="200" y1="8" x2="225" y2="8" stroke="#f59e0b" stroke-width="2"/>
+      <text x="232" y="12" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="10.5">Noise Floor E_noise</text>
+    </g>
+
+    <!-- Graph Coordinates -->
+    <g transform="translate(60, 40)">
+      <!-- Grid Lines -->
+      <line x1="0" y1="110" x2="1000" y2="110" stroke="#475569" stroke-width="1.5"/>
+      <line x1="0" y1="10" x2="0" y2="110" stroke="#475569" stroke-width="1.5"/>
+
+      <!-- Phases Annotations -->
+      <rect x="0" y="10" width="160" height="100" fill="#0284c7" fill-opacity="0.08"/>
+      <text x="80" y="25" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle">INIT CONVERGENCE</text>
+      <text x="80" y="38" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="8.5" text-anchor="middle">100 frames (α_fast = 0.020)</text>
+
+      <rect x="160" y="10" width="200" height="100" fill="#1e293b" fill-opacity="0.3"/>
+      <text x="260" y="25" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle">QUIET BACKGROUND</text>
+
+      <rect x="360" y="10" width="300" height="100" fill="#047857" fill-opacity="0.12"/>
+      <text x="510" y="25" fill="#34d399" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">ACTIVE SPOKEN UTTERANCE ("HEY SOF")</text>
+
+      <rect x="660" y="10" width="160" height="100" fill="#b45309" fill-opacity="0.12"/>
+      <text x="740" y="25" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" text-anchor="middle">HANGOVER (200 ms)</text>
+
+      <rect x="820" y="10" width="180" height="100" fill="#1e293b" fill-opacity="0.3"/>
+      <text x="910" y="25" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle">SILENCE INTERVAL</text>
+
+      <!-- Noise Floor Curve (Amber): Starts high, drops fast during init, then tracks flat, rises very slowly -->
+      <path d="M 0 30 C 40 70, 100 95, 160 98
+               L 360 98
+               C 420 96, 520 94, 660 93
+               C 720 93, 820 95, 1000 96"
+            fill="none" stroke="#f59e0b" stroke-width="2"/>
+
+      <!-- Signal Energy Curve (Cyan): Rapid transients and vowels -->
+      <path d="M 0 45 C 50 80, 110 96, 160 98
+               L 360 98
+               C 380 20, 420 15, 460 45
+               C 480 80, 500 25, 540 20
+               C 580 50, 620 90, 660 97
+               L 1000 97"
+            fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+
+      <!-- Threshold marker arrow at speech burst -->
+      <line x1="440" y1="45" x2="440" y2="95" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="2,2"/>
+      <text x="445" y="70" fill="#ec4899" font-family="system-ui, sans-serif" font-size="9" font-weight="700">ΔE &gt;&gt; 0.30</text>
+    </g>
+  </g>
+
+  <!-- Panel 2: Energy Delta, Threshold & VAD Flag Decision -->
+  <g transform="translate(40, 290)" filter="url(#shadow4)">
+    <rect width="1120" height="165" rx="8" fill="url(#cardGrad4)" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#34d399" font-family="system-ui, sans-serif" font-size="12" font-weight="700">PANEL 2: ENERGY DELTA ΔE, THRESHOLD (0.30 Q9.23), AND BINARY VAD DECISION WITH HANGOVER</text>
+
+    <g transform="translate(60, 40)">
+      <line x1="0" y1="95" x2="1000" y2="95" stroke="#475569" stroke-width="1.5"/>
+      <line x1="0" y1="5" x2="0" y2="95" stroke="#475569" stroke-width="1.5"/>
+
+      <!-- Threshold Line at y=65 -->
+      <line x1="0" y1="65" x2="1000" y2="65" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="4,3"/>
+      <text x="1005" y="69" fill="#ec4899" font-family="monospace" font-size="10">Threshold = 0.30 (2516582)</text>
+
+      <!-- Delta Curve -->
+      <path d="M 0 95 L 360 95
+               C 380 20, 420 15, 460 45
+               C 480 75, 500 25, 540 20
+               C 580 50, 620 90, 660 95
+               L 1000 95"
+            fill="none" stroke="#a855f7" stroke-width="2"/>
+
+      <!-- VAD Binary Output Waveform (Green Pulse) -->
+      <!-- Low from 0 to 365, High from 365 to 820 (365 to 660 speech + 660 to 820 hangover), Low after 820 -->
+      <path d="M 0 115 L 365 115 L 365 75 L 820 75 L 820 115 L 1000 115"
+            fill="none" stroke="#10b981" stroke-width="3"/>
+      <text x="10" y="110" fill="#94a3b8" font-family="monospace" font-size="10">VAD=0 (Silence)</text>
+      <text x="480" y="70" fill="#34d399" font-family="monospace" font-size="11" font-weight="700">VAD=1 (Speech + Hangover)</text>
+
+      <!-- Hangover Bracket -->
+      <line x1="660" y1="85" x2="820" y2="85" stroke="#fbbf24" stroke-width="2"/>
+      <line x1="660" y1="80" x2="660" y2="90" stroke="#fbbf24" stroke-width="2"/>
+      <line x1="820" y1="80" x2="820" y2="90" stroke="#fbbf24" stroke-width="2"/>
+      <text x="740" y="100" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle">20 Hops (200 ms) Hold</text>
+    </g>
+  </g>
+
+  <!-- Panel 3: Discontinuous Transmission (DTX) Packet Flow Comparison -->
+  <g transform="translate(40, 470)" filter="url(#shadow4)">
+    <rect width="1120" height="160" rx="8" fill="url(#cardGrad4)" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="12" font-weight="700">PANEL 3: DTX PACKET FLOW &amp; BUS BANDWIDTH COMPARISON</text>
+
+    <!-- Legacy / Continuous Flow -->
+    <g transform="translate(40, 42)">
+      <text x="0" y="15" fill="#f43f5e" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Standard Continuous Transmission (DTX Disabled):</text>
+      <text x="400" y="15" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">100 frames/sec sent continuously. 100% bus awake duty cycle.</text>
+      <!-- Row of solid red/blue packets -->
+      <g transform="translate(0, 24)">
+        <rect x="0" y="0" width="1020" height="14" rx="2" fill="#ef4444" fill-opacity="0.3" stroke="#ef4444" stroke-width="1"/>
+        <text x="510" y="11" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Continuous Stream: Constant DSP DMA, Host Interrupts, and Memory Bus Thrashing</text>
+      </g>
+    </g>
+
+    <!-- SOF DTX Flow -->
+    <g transform="translate(40, 95)">
+      <text x="0" y="15" fill="#10b981" font-family="system-ui, sans-serif" font-size="11" font-weight="700">SOF DTX-Enabled Stream (dtx_trailing_silence_hops = 20, dtx_silence_hops_interval = 500):</text>
+      <text x="620" y="15" fill="#34d399" font-family="system-ui, sans-serif" font-size="10" font-weight="700">&gt; 85% Transmission Reduction in Quiet Environments</text>
+
+      <g transform="translate(0, 24)">
+        <!-- Silence gap 0 to 365 -->
+        <rect x="0" y="0" width="365" height="16" rx="2" fill="#0f172a" stroke="#334155" stroke-dasharray="3,3"/>
+        <text x="180" y="12" fill="#64748b" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">[SILENCE SUPPRESSED: 0 BYTES TRANSMITTED]</text>
+
+        <!-- Active Speech Packets 365 to 660 -->
+        <rect x="368" y="0" width="295" height="16" rx="2" fill="#059669" stroke="#10b981" stroke-width="1.5"/>
+        <text x="515" y="12" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="9" font-weight="700" text-anchor="middle">ACTIVE SPEECH FRAMES</text>
+
+        <!-- Trailing Silence Packets 665 to 820 -->
+        <rect x="665" y="0" width="155" height="16" rx="2" fill="#d97706" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="742" y="12" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="9" font-weight="600" text-anchor="middle">TRAILING SILENCE</text>
+
+        <!-- Silence gap 820 to 1000 -->
+        <rect x="822" y="0" width="145" height="16" rx="2" fill="#0f172a" stroke="#334155" stroke-dasharray="3,3"/>
+        <text x="895" y="12" fill="#64748b" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">[BUS ASLEEP]</text>
+
+        <!-- Keepalive Ping at 970 -->
+        <rect x="970" y="0" width="25" height="16" rx="2" fill="#8b5cf6" stroke="#c084fc"/>
+        <text x="982" y="12" fill="#ffffff" font-family="monospace" font-size="8" text-anchor="middle">PING</text>
+      </g>
+    </g>
+  </g>
+</svg>
