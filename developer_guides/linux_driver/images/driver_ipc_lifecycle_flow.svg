@@ -1,0 +1,340 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad-ipc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b0f19"/>
+    </linearGradient>
+
+    <linearGradient id="card-grad-ipc" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Header Gradients -->
+    <linearGradient id="hdr-cyan-ipc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-purple-ipc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-emerald-ipc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-ipc" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arr-cyan-ipc" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-purple-ipc" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-emerald-ipc" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-amber-ipc" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="680" fill="url(#bg-grad-ipc)"/>
+
+  <!-- TITLE BLOCK -->
+  <g transform="translate(40, 20)">
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="800" fill="#f8fafc" letter-spacing="-0.5px">
+      SOF Linux Driver IPC Architecture: IPC3 vs IPC4 &amp; Transaction Lifecycle
+    </text>
+    <text x="0" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8">
+      Dual Protocol Architecture (Fixed Envelope Mailbox vs 64-bit Bitpacked Registers) and Unified Driver Execution Loop
+    </text>
+  </g>
+
+  <!-- TOP LEFT: IPC3 Classic Protocol (x=40, y=70, w=495, h=250) -->
+  <g transform="translate(40, 70)" filter="url(#shadow-ipc)">
+    <rect width="495" height="250" rx="8" fill="url(#card-grad-ipc)" stroke="#0891b2" stroke-width="1.2"/>
+    <rect width="495" height="24" rx="8" fill="url(#hdr-cyan-ipc)"/>
+    <rect y="18" width="495" height="6" fill="#0891b2"/>
+    <text x="14" y="16" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#ffffff">
+      IPC3 Protocol Subsystem: Classic Fixed Header &amp; SRAM Mailboxes
+    </text>
+
+    <g transform="translate(14, 34)">
+      <!-- Box 3A: Envelope Structure -->
+      <g transform="translate(0, 0)">
+        <rect width="220" height="198" rx="5" fill="#0f172a" stroke="#0e7490" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#67e8f9">Fixed Header Envelope</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#a5f3fc">struct sof_ipc_cmd_hdr</text>
+
+        <!-- Visual representation of 64-bit header -->
+        <g transform="translate(10, 42)">
+          <rect width="200" height="24" rx="3" fill="#164e63" stroke="#06b6d4" stroke-width="0.8"/>
+          <text x="35" y="16" font-family="monospace" font-size="8" fill="#ffffff">uint32_t cmd</text>
+          <text x="135" y="16" font-family="monospace" font-size="8" fill="#ffffff">uint32_t size</text>
+          <line x1="100" y1="0" x2="100" y2="24" stroke="#06b6d4" stroke-width="0.8"/>
+        </g>
+
+        <text x="10" y="82" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Command Encoding:</text>
+        <text x="10" y="96" font-family="monospace" font-size="7.5" fill="#38bdf8">• GLB_CMD (bits 28..31)</text>
+        <text x="10" y="108" font-family="monospace" font-size="7.5" fill="#38bdf8">• TYPE_CMD (bits 0..27)</text>
+
+        <text x="10" y="126" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Standard Command Sets:</text>
+        <text x="10" y="140" font-family="monospace" font-size="7.5" fill="#94a3b8">• SOF_IPC_GLB_STREAM_MSG</text>
+        <text x="10" y="152" font-family="monospace" font-size="7.5" fill="#94a3b8">• SOF_IPC_GLB_TPLG_MSG</text>
+        <text x="10" y="164" font-family="monospace" font-size="7.5" fill="#94a3b8">• SOF_IPC_GLB_DAI_MSG</text>
+        <text x="10" y="176" font-family="monospace" font-size="7.5" fill="#94a3b8">• SOF_IPC_GLB_PM_MSG</text>
+        <text x="10" y="188" font-family="system-ui, sans-serif" font-size="7.5" fill="#34d399">Platforms: Intel CAVS 1.5 - 2.5, NXP</text>
+      </g>
+
+      <!-- Box 3B: SRAM Mailbox Mechanism -->
+      <g transform="translate(232, 0)">
+        <rect width="235" height="198" rx="5" fill="#0f172a" stroke="#0e7490" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#67e8f9">SRAM Mailbox Windows</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Shared Physical SRAM Apertures</text>
+
+        <!-- Mailbox diagram -->
+        <g transform="translate(10, 44)">
+          <rect width="215" height="34" rx="3" fill="#164e63" stroke="#0891b2" stroke-width="0.8"/>
+          <text x="8" y="14" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#a5f3fc">Inbound Mailbox (Host → DSP)</text>
+          <text x="8" y="26" font-family="monospace" font-size="7.5" fill="#cbd5e1">Offset: 0x0000 | Max payload: 4 KB</text>
+        </g>
+
+        <g transform="translate(10, 86)">
+          <rect width="215" height="34" rx="3" fill="#164e63" stroke="#0891b2" stroke-width="0.8"/>
+          <text x="8" y="14" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#a5f3fc">Outbound Mailbox (DSP → Host)</text>
+          <text x="8" y="26" font-family="monospace" font-size="7.5" fill="#cbd5e1">Offset: 0x1000 | Max payload: 4 KB</text>
+        </g>
+
+        <text x="10" y="136" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#cbd5e1">Doorbell Signaling:</text>
+        <text x="10" y="150" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• H2D Doorbell: Writes payload, asserts bit</text>
+        <text x="10" y="162" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• DSP IRQ: Clears H2D bit on command receipt</text>
+        <text x="10" y="174" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• D2H Doorbell: DSP asserts bit for reply/notify</text>
+        <text x="10" y="186" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Host ISR: Acknowledges D2H, reads Outbox</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- TOP RIGHT: IPC4 Modern Protocol (x=565, y=70, w=495, h=250) -->
+  <g transform="translate(565, 70)" filter="url(#shadow-ipc)">
+    <rect width="495" height="250" rx="8" fill="url(#card-grad-ipc)" stroke="#7c3aed" stroke-width="1.2"/>
+    <rect width="495" height="24" rx="8" fill="url(#hdr-purple-ipc)"/>
+    <rect y="18" width="495" height="6" fill="#7c3aed"/>
+    <text x="14" y="16" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#ffffff">
+      IPC4 Protocol Subsystem: 64-Bit Bitpacked Registers &amp; Direct Gateways
+    </text>
+
+    <g transform="translate(14, 34)">
+      <!-- Box 4A: Bitpacked Register Envelope -->
+      <g transform="translate(0, 0)">
+        <rect width="235" height="198" rx="5" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#d8b4fe">64-Bit Register Envelope</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#c084fc">struct sof_ipc4_msg</text>
+
+        <!-- Primary & Extension registers visualization -->
+        <g transform="translate(10, 42)">
+          <rect width="215" height="22" rx="3" fill="#581c87" stroke="#8b5cf6" stroke-width="0.8"/>
+          <text x="8" y="15" font-family="monospace" font-size="7.5" fill="#ffffff">primary: type[0..4], mod[16..31]</text>
+        </g>
+        <g transform="translate(10, 68)">
+          <rect width="215" height="22" rx="3" fill="#581c87" stroke="#8b5cf6" stroke-width="0.8"/>
+          <text x="8" y="15" font-family="monospace" font-size="7.5" fill="#ffffff">extension: param_id, data_size</text>
+        </g>
+
+        <text x="10" y="104" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Key Architectural Advantages:</text>
+        <text x="10" y="118" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">• <tspan font-weight="700">Zero SRAM Overhead</tspan>: Header-only msgs</text>
+        <text x="10" y="130" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">  (Set pipeline state, Bind/Unbind) in registers</text>
+        <text x="10" y="144" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">• <tspan font-weight="700">Global vs Module Scope</tspan>: Direct targeting</text>
+        <text x="10" y="156" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">  via 16-bit module ID &amp; 8-bit instance ID</text>
+        <text x="10" y="170" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">• <tspan font-weight="700">Multi-Gateway Routing</tspan>: Copier aggregation</text>
+        <text x="10" y="184" font-family="system-ui, sans-serif" font-size="7.5" fill="#34d399">Platforms: Intel ACE 1.x (MTL/ARL) &amp; ACE 3.0 (PTL)</text>
+      </g>
+
+      <!-- Box 4B: Large Config DMA & Notifications -->
+      <g transform="translate(247, 0)">
+        <rect width="220" height="198" rx="5" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#d8b4fe">Large Config &amp; Events</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Extended Payloads &amp; Notifications</text>
+
+        <!-- Large config box -->
+        <g transform="translate(10, 44)">
+          <rect width="200" height="42" rx="3" fill="#581c87" stroke="#7c3aed" stroke-width="0.8"/>
+          <text x="8" y="14" font-family="monospace" font-size="7.5" fill="#f0abfc">SET_LARGE_CONFIG</text>
+          <text x="8" y="26" font-family="monospace" font-size="7.5" fill="#f0abfc">GET_LARGE_CONFIG</text>
+          <text x="8" y="38" font-family="system-ui" font-size="7" fill="#cbd5e1">Payloads &gt; 4 KB stream via Host DMA</text>
+        </g>
+
+        <!-- Unsolicited Notifications -->
+        <g transform="translate(10, 94)">
+          <rect width="200" height="42" rx="3" fill="#581c87" stroke="#7c3aed" stroke-width="0.8"/>
+          <text x="8" y="14" font-family="monospace" font-size="7.5" fill="#f0abfc">SOF_IPC4_GLB_NOTIFICATION</text>
+          <text x="8" y="26" font-family="system-ui" font-size="7" fill="#cbd5e1">Unsolicited telemetry from DSP:</text>
+          <text x="8" y="38" font-family="system-ui" font-size="7" fill="#cbd5e1">Sound Dose, Voice Trigger, Coredumps</text>
+        </g>
+
+        <text x="10" y="152" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#cbd5e1">Client Distribution:</text>
+        <text x="10" y="166" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Dispatches directly to registered clients</text>
+        <text x="10" y="178" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Eliminates host polling overhead entirely</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM: UNIFIED IPC TRANSACTION LIFECYCLE (x=40, y=335, w=1020, h=325) -->
+  <g transform="translate(40, 335)" filter="url(#shadow-ipc)">
+    <rect width="1020" height="325" rx="8" fill="url(#card-grad-ipc)" stroke="#10b981" stroke-width="1.2"/>
+    <rect width="1020" height="24" rx="8" fill="url(#hdr-emerald-ipc)"/>
+    <rect y="18" width="1020" height="6" fill="#059669"/>
+    <text x="14" y="16" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      Unified Linux Driver IPC Transaction Engine (sound/soc/sof/ipc.c) Execution Flow &amp; Timeout Recovery
+    </text>
+
+    <!-- Step-by-Step Flowchart Across 5 Horizontal Columns -->
+    <g transform="translate(16, 36)">
+      <!-- Step 1: Caller Trigger -->
+      <g transform="translate(0, 0)">
+        <rect width="180" height="265" rx="6" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#6ee7b7">1. Caller Ingress</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Kernel Subsystem Triggers</text>
+
+        <rect x="8" y="42" width="164" height="62" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="0.8"/>
+        <text x="12" y="56" font-family="monospace" font-size="7.5" fill="#a7f3d0">• sof_pcm_hw_params()</text>
+        <text x="12" y="70" font-family="monospace" font-size="7.5" fill="#a7f3d0">• sof_pcm_trigger()</text>
+        <text x="12" y="84" font-family="monospace" font-size="7.5" fill="#a7f3d0">• sof_control_load()</text>
+        <text x="12" y="96" font-family="monospace" font-size="7.5" fill="#a7f3d0">• sof_set_control()</text>
+
+        <text x="10" y="122" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#cbd5e1">Dispatch Function:</text>
+        <text x="10" y="136" font-family="monospace" font-size="7.5" fill="#34d399">sof_ipc_tx_message()</text>
+
+        <text x="10" y="156" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Actions Taken:</text>
+        <text x="10" y="170" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Acquire ipc-&gt;tx_mutex</text>
+        <text x="10" y="184" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Assign sequence ID</text>
+        <text x="10" y="198" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Allocate struct</text>
+        <text x="16" y="210" font-family="monospace" font-size="7" fill="#a7f3d0">  snd_sof_ipc_msg</text>
+        <text x="10" y="226" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Initialize waitqueue:</text>
+        <text x="16" y="238" font-family="monospace" font-size="7" fill="#a7f3d0">  init_waitqueue_head</text>
+        <text x="10" y="254" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Reset msg-&gt;complete</text>
+      </g>
+
+      <!-- Arrow 1 -> 2 -->
+      <line x1="184" y1="120" x2="200" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald-ipc)"/>
+
+      <!-- Step 2: Hardware Transmission -->
+      <g transform="translate(204, 0)">
+        <rect width="180" height="265" rx="6" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#6ee7b7">2. HW Transmission</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">snd_sof_dsp_send_msg()</text>
+
+        <rect x="8" y="42" width="164" height="74" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="0.8"/>
+        <text x="12" y="56" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#a7f3d0">Write Payload:</text>
+        <text x="12" y="70" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Copy to SRAM inbox or</text>
+        <text x="12" y="82" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">  pack into primary/ext</text>
+        <text x="12" y="96" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#fcd34d">Assert Doorbell:</text>
+        <text x="12" y="108" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Set H2D doorbell IRQ</text>
+
+        <text x="10" y="132" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#cbd5e1">Caller Sleeping State:</text>
+        <text x="10" y="146" font-family="monospace" font-size="7" fill="#38bdf8">wait_event_timeout(</text>
+        <text x="16" y="158" font-family="monospace" font-size="7" fill="#38bdf8">  msg-&gt;waitq,</text>
+        <text x="16" y="170" font-family="monospace" font-size="7" fill="#38bdf8">  msg-&gt;complete,</text>
+        <text x="16" y="182" font-family="monospace" font-size="7" fill="#38bdf8">  msecs_to_jiffies(</text>
+        <text x="24" y="194" font-family="monospace" font-size="7" fill="#38bdf8">    sdev-&gt;ipc_timeout))</text>
+
+        <text x="10" y="214" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Thread goes to sleep in</text>
+        <text x="14" y="226" font-family="monospace" font-size="7" fill="#a7f3d0">  TASK_UNINTERRUPTIBLE</text>
+        <text x="10" y="240" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Releases CPU core</text>
+        <text x="10" y="254" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Timeout watchdog armed</text>
+      </g>
+
+      <!-- Arrow 2 -> 3 -->
+      <line x1="388" y1="120" x2="404" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald-ipc)"/>
+
+      <!-- Step 3: Target DSP Processing -->
+      <g transform="translate(408, 0)">
+        <rect width="180" height="265" rx="6" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#6ee7b7">3. DSP Processing</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Target Firmware Execution</text>
+
+        <rect x="8" y="42" width="164" height="88" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="0.8"/>
+        <text x="12" y="56" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Hardware IRQ received</text>
+        <text x="12" y="70" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Clear H2D doorbell</text>
+        <text x="12" y="84" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Dispatch message</text>
+        <text x="12" y="98" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Execute pipeline / kcontrol</text>
+        <text x="12" y="112" font-family="system-ui, sans-serif" font-size="7.5" fill="#e2e8f0">• Format reply buffer</text>
+
+        <text x="10" y="146" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#cbd5e1">DSP Return Handshake:</text>
+        <text x="10" y="162" font-family="system-ui, sans-serif" font-size="7.5" fill="#a7f3d0">• Write response payload</text>
+        <text x="14" y="174" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">  to outbox (or ext reg)</text>
+        <text x="10" y="190" font-family="system-ui, sans-serif" font-size="7.5" fill="#a7f3d0">• Assert D2H doorbell IRQ</text>
+        <text x="14" y="202" font-family="system-ui, sans-serif" font-size="7" fill="#94a3b8">  to interrupt host CPU</text>
+
+        <text x="10" y="222" font-family="system-ui, sans-serif" font-size="7.5" fill="#fcd34d">Execution Time:</text>
+        <text x="10" y="236" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">Nominal: 10 µs - 250 µs</text>
+        <text x="10" y="250" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">Max: &lt; 500 ms (timeout limit)</text>
+      </g>
+
+      <!-- Arrow 3 -> 4 -->
+      <line x1="592" y1="120" x2="608" y2="120" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald-ipc)"/>
+
+      <!-- Step 4: Host Interrupt Handling -->
+      <g transform="translate(612, 0)">
+        <rect width="180" height="265" rx="6" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#6ee7b7">4. Host IRQ Handling</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">ISR &amp; Threaded Handler</text>
+
+        <rect x="8" y="42" width="164" height="66" rx="4" fill="#064e3b" stroke="#10b981" stroke-width="0.8"/>
+        <text x="12" y="56" font-family="monospace" font-size="7.5" fill="#a7f3d0">snd_sof_ipc_irq()</text>
+        <text x="12" y="68" font-family="system-ui, sans-serif" font-size="7" fill="#cbd5e1">• Acknowledge D2H IRQ</text>
+        <text x="12" y="80" font-family="system-ui, sans-serif" font-size="7" fill="#cbd5e1">• Mask interrupt line</text>
+        <text x="12" y="92" font-family="system-ui, sans-serif" font-size="7" fill="#cbd5e1">• Return IRQ_WAKE_THREAD</text>
+
+        <text x="10" y="122" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#cbd5e1">Threaded ISR Handler:</text>
+        <text x="10" y="136" font-family="monospace" font-size="7.5" fill="#34d399">snd_sof_ipc_irq_thread()</text>
+        <text x="10" y="152" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Read reply payload</text>
+        <text x="10" y="166" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Match sequence ID</text>
+        <text x="10" y="180" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Mark msg-&gt;complete = true</text>
+        <text x="10" y="196" font-family="system-ui, sans-serif" font-size="7.5" font-weight="700" fill="#34d399">Wake Sleeping Caller:</text>
+        <text x="10" y="210" font-family="monospace" font-size="7.5" fill="#a7f3d0">wake_up(&amp;msg-&gt;waitq);</text>
+
+        <text x="10" y="230" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Unmask D2H IRQ</text>
+        <text x="10" y="244" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• Caller returns status (0)</text>
+      </g>
+
+      <!-- Arrow 4 -> 5 -->
+      <line x1="796" y1="120" x2="812" y2="120" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr-amber-ipc)"/>
+
+      <!-- Step 5: Timeout Recovery & Diagnostics -->
+      <g transform="translate(816, 0)">
+        <rect width="172" height="265" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#fcd34d">5. Timeout Recovery</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#f87171">IPC Watchdog Expired</text>
+
+        <rect x="8" y="42" width="156" height="74" rx="4" fill="#78350f" stroke="#f59e0b" stroke-width="0.8"/>
+        <text x="12" y="56" font-family="system-ui, sans-serif" font-size="7.5" font-weight="700" fill="#fef08a">Timeout Triggered:</text>
+        <text x="12" y="68" font-family="monospace" font-size="7" fill="#fed7aa">ret == 0 (timed out)</text>
+        <text x="12" y="80" font-family="system-ui, sans-serif" font-size="7" fill="#cbd5e1">• DSP hung in tight loop</text>
+        <text x="12" y="92" font-family="system-ui, sans-serif" font-size="7" fill="#cbd5e1">• Lost doorbell interrupt</text>
+        <text x="12" y="104" font-family="system-ui, sans-serif" font-size="7" fill="#cbd5e1">• Bus lockup / panic</text>
+
+        <text x="10" y="130" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#fcd34d">Automatic Diagnostics:</text>
+        <text x="10" y="144" font-family="monospace" font-size="7" fill="#fed7aa">snd_sof_dsp_dbg_dump()</text>
+        <text x="10" y="158" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Dump DSP registers</text>
+        <text x="10" y="170" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Extract stack trace</text>
+        <text x="10" y="182" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Log mailbox contents</text>
+
+        <text x="10" y="202" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#fcd34d">Recovery Action:</text>
+        <text x="10" y="216" font-family="system-ui, sans-serif" font-size="7.5" fill="#f87171">• Abort transaction (-ETIMEDOUT)</text>
+        <text x="10" y="230" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Release tx_mutex</text>
+        <text x="10" y="244" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Optional: Initiate DSP reset</text>
+      </g>
+    </g>
+  </g>
+</svg>
