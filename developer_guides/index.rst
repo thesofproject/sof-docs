@@ -6,13 +6,14 @@ Developer Guides
 
 Sound Open Firmware (SOF) provides comprehensive architectural specifications, developer runbooks, and implementation guides covering the entire audio stack: from low-level DSP firmware and Zephyr RTOS integration to mainline Linux kernel drivers, embedded microcontroller audio bridges, and automated verification suites.
 
-The developer documentation is organized into five core technical pillars:
+The developer documentation is organized into six core technical pillars:
 
 1. :ref:`fw_development_pillar`
-2. :ref:`kernel_driver_pillar`
-3. :ref:`hardware_bringup_pillar`
-4. :ref:`testing_simulation_pillar`
-5. :ref:`telemetry_diagnostics_pillar`
+2. :ref:`algorithm_tuning_pillar`
+3. :ref:`kernel_driver_pillar`
+4. :ref:`hardware_bringup_pillar`
+5. :ref:`testing_simulation_pillar`
+6. :ref:`telemetry_diagnostics_pillar`
 
 ---
 
@@ -65,23 +66,8 @@ Audio Processing Modules & Algorithms
 * :ref:`stft_process` (High-level architecture; also see upstream `STFT Process README <https://github.com/thesofproject/sof/tree/main/src/audio/stft_process/README.md>`_)
 * :ref:`media_codecs` (High-level architecture; also see upstream `Cadence Codec module adapter <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/module/cadence.c>`_ & `Codec README <https://github.com/thesofproject/sof/tree/main/src/audio/codec/README.md>`_)
 
-.. _algorithm-specific-information:
-
-Algorithm Tuning & Implementation Guides
-========================================
-
-Detailed filter design, coefficient generation, and tuning workflows:
-
-.. toctree::
-   :maxdepth: 1
-
-   algorithms/demux/demux.rst
-   algorithms/eq/equalizers_tuning
-   algorithms/src/sample_rate_conversion
-   algorithms/tdfb/time_domain_fixed_beamformer
-
-Pipeline Architecture, Packaging & Modules
-==========================================
+Firmware Architecture, Packaging & Core Subsystems
+==================================================
 
 Core pipeline architecture, firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
 
@@ -123,12 +109,44 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
 
 ---
 
+.. _algorithm_tuning_pillar:
+.. _algorithm-specific-information:
+
+2. Audio Algorithm Tuning, Calibration & Runtime Control (Tuning)
+*****************************************************************
+
+Comprehensive workflows, filter coefficient synthesis, offline tuning tools (GNU Octave, MATLAB, Python), ALSA byte control packaging, Topology 2 and UCM2 integration, and live parameter injection via ``sof-ctl``, ``amixer``, and the Linux kernel ALSA subsystem:
+
+Core Runtime Tuning & Control Infrastructure
+============================================
+
+* :ref:`runtime_tuning_sof_ctl` (Authoritative runtime parameter injection, ABI serialization, and ``sof-ctl`` guide)
+
+Acoustic, Transducer & Array Tuning
+===================================
+
+* :ref:`equalizers_tuning` (Parametric FIR & IIR equalizers, MLS acoustical measurement, and speaker tuning)
+* :ref:`time-domain-fixed-beamformer` (Time-Domain Fixed Beamformer array geometry and spatial filter design)
+* :ref:`sample_rate_conversion` (Polyphase FIR filter design and multi-stage resampling)
+* :ref:`demux` (Multi-channel routing matrix configuration)
+
+.. toctree::
+   :maxdepth: 1
+
+   tuning/runtime_tuning_sof_ctl
+   algorithms/eq/equalizers_tuning
+   algorithms/tdfb/time_domain_fixed_beamformer
+   algorithms/src/sample_rate_conversion
+   algorithms/demux/demux.rst
+
+---
+
 .. _kernel_driver_pillar:
 
-2. Kernel & Host Driver Development (Kernel)
+3. Kernel & Host Driver Development (Kernel)
 ********************************************
 
-Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, virtualization environments, and host tuning utilities.
+Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, virtualization environments, and host testing utilities.
 
 .. toctree::
    :maxdepth: 1
@@ -138,14 +156,13 @@ Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk autho
    topology/topology
    virtualization/virtualization
    virtualization/running
-   tuning/sof-ctl
    ktest/setup_ktest_environment
 
 ---
 
 .. _hardware_bringup_pillar:
 
-3. Hardware & Platform Bringup (HW)
+4. Hardware & Platform Bringup (HW)
 ***********************************
 
 Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors and embedded development boards.
@@ -161,7 +178,7 @@ For embedded microcontroller audio bridges and hostless targets (Teensy 4.1, ESP
 
 .. _testing_simulation_pillar:
 
-4. Testing, Simulation & Toolchains (SDK & Test)
+5. Testing, Simulation & Toolchains (SDK & Test)
 ************************************************
 
 Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulation, automated hardware loopback verification, Zephyr CMake build flags, and fuzzing.
@@ -180,7 +197,7 @@ Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulatio
 
 .. _telemetry_diagnostics_pillar:
 
-5. DSP Telemetry, Logging & Diagnostics (Debug)
+6. DSP Telemetry, Logging & Diagnostics (Debug)
 ***********************************************
 
 Real-time DSP trace streaming over network probes, Zephyr structured logging, compile-time string dictionary extraction (`smex`), `sof-logger`, interactive Zephyr shell, and kernel debug probes.
