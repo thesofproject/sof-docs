@@ -60,8 +60,8 @@ Audio Processing Modules & Algorithms
 * :ref:`kpb_wov` (High-level architecture; also see driver guide :ref:`keyword_detect`)
 * :ref:`tone` (High-level architecture; also see upstream `Tone README <https://github.com/thesofproject/sof/tree/main/src/audio/tone/README.md>`_)
 * :ref:`up_down_mixer` (High-level architecture; also see upstream `Up/Down Mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/up_down_mixer/README.md>`_)
-* :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_)
-* :ref:`level_multiplier` (High-level architecture; also see upstream `Level Multiplier README <https://github.com/thesofproject/sof/tree/main/src/audio/level_multiplier/README.md>`_)
+* :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_ & tuning guide :ref:`level_multiplier_aria_tuning`)
+* :ref:`level_multiplier` (High-level architecture; also see upstream `Level Multiplier README <https://github.com/thesofproject/sof/tree/main/src/audio/level_multiplier/README.md>`_ & tuning guide :ref:`level_multiplier_aria_tuning`)
 * :ref:`phase_vocoder` (High-level architecture; also see upstream `Phase Vocoder source tree <https://github.com/thesofproject/sof/tree/main/src/audio/phase_vocoder>`_)
 * :ref:`stft_process` (High-level architecture; also see upstream `STFT Process README <https://github.com/thesofproject/sof/tree/main/src/audio/stft_process/README.md>`_)
 * :ref:`media_codecs` (High-level architecture; also see upstream `Cadence Codec module adapter <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/module/cadence.c>`_ & `Codec README <https://github.com/thesofproject/sof/tree/main/src/audio/codec/README.md>`_)
@@ -126,6 +126,7 @@ Dynamics & Transducer Protection Tuning
 =======================================
 
 * :ref:`drc_tuning` (Single-band DRC and Multiband DRC compression curves, adaptive ballistics, and speaker protection)
+* :ref:`level_multiplier_aria_tuning` (Level Multiplier Q9.23 precision scaling, zero-overhead fast-path bypass, Aria AGC target pre-amplification boost, 1 ms lookahead circular buffering, and regressive anti-clipping protection)
 * :ref:`smart_amp_tuning` (Smart Amplifier Dynamic Speaker Management, I/V sense feedback calibration, Thiele-Small modeling, thermal and excursion protection)
 * :ref:`sound_dose_tuning` (Sound Dose Evaluator, IEC 61672-1 Class 1 A-weighting, EN 50332 / IEC 62368-1 compliance, HATS acoustic sensitivity calibration, and closed-loop exposure regulation)
 
@@ -144,6 +145,7 @@ Acoustic, Transducer & Array Tuning
 
    tuning/runtime_tuning_sof_ctl
    tuning/drc_tuning
+   tuning/level_multiplier_aria_tuning
    tuning/smart_amp_tuning
    tuning/sound_dose_tuning
    tuning/crossover_tuning
