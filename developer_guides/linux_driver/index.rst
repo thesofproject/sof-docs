@@ -10,4 +10,3 @@ The Sound Open Firmware (SOF) Linux kernel driver subsystem provides upstream AL
 
    architecture
    machine_drivers_quirks
-   third_party/index

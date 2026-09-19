@@ -67,7 +67,7 @@ Audio Processing Modules & Algorithms
 * :ref:`sound_dose` (High-level architecture; also see upstream `Sound Dose README <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_)
 * :ref:`copier_mux_selector` (High-level architecture; also see upstream `Copier README <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux README <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector README <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_)
 * :ref:`pcm_converter` (High-level architecture; also see upstream `PCM converter README <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_)
-* :ref:`kpb_wov` (High-level architecture; also see driver guide :ref:`keyword_detect`)
+* :ref:`kpb_wov` (High-level architecture; also see upstream `KPB source <https://github.com/thesofproject/sof/blob/main/src/audio/kpb.c>`_)
 * :ref:`tone` (High-level architecture; also see upstream `Tone README <https://github.com/thesofproject/sof/tree/main/src/audio/tone/README.md>`_)
 * :ref:`up_down_mixer` (High-level architecture; also see upstream `Up/Down Mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/up_down_mixer/README.md>`_)
 * :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_ & tuning guide :ref:`level_multiplier_aria_tuning`)
@@ -177,7 +177,7 @@ Machine Learning & Speech Feature Extraction
 3. Kernel & Host Driver Development (Kernel)
 ********************************************
 
-Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, virtualization environments, and host testing utilities.
+Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, and host testing utilities.
 
 .. toctree::
    :maxdepth: 1
@@ -185,8 +185,6 @@ Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk autho
    linux_driver/index
    topology2/topology2
    topology/topology
-   virtualization/virtualization
-   virtualization/running
    ktest/setup_ktest_environment
 
 ---
