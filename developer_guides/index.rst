@@ -59,6 +59,7 @@ Audio Processing Modules & Algorithms
 * :ref:`kpb_wov` (High-level architecture; also see driver guide :ref:`keyword_detect`)
 * :ref:`tone` (High-level architecture; also see upstream `Tone README <https://github.com/thesofproject/sof/tree/main/src/audio/tone/README.md>`_)
 * :ref:`up_down_mixer` (High-level architecture; also see upstream `Up/Down Mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/up_down_mixer/README.md>`_)
+* :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_)
 
 .. _algorithm-specific-information:
 
@@ -107,6 +108,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/kpb_wov
    firmware/tone
    firmware/up_down_mixer
+   firmware/aria
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
