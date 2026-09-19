@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { rx: 8px; ry: 8px; stroke-width: 1.5px; }
+      .box-stage { fill: #ffffff; stroke: #cbd5e1; }
+      .box-octave { fill: #fefce8; stroke: #ca8a04; }
+      .box-pkg { fill: #f0fdf4; stroke: #16a34a; }
+      .box-target { fill: #eff6ff; stroke: #2563eb; }
+      .box-step { fill: #ffffff; stroke: #94a3b8; rx: 5px; ry: 5px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #0f172a; }
+      .text-subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #64748b; }
+      .text-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; fill: #1e293b; text-anchor: middle; }
+      .text-sublabel { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #475569; text-anchor: middle; }
+      .text-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; }
+      .line { stroke: #64748b; stroke-width: 1.5px; fill: none; }
+      .line-arrow { stroke: #0284c7; stroke-width: 2px; fill: none; }
+      .arrow-blue { fill: #0284c7; }
+      .badge-num { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 700; fill: #ffffff; text-anchor: middle; }
+    </style>
+    <marker id="arr-bl" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow-blue" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg" />
+
+  <!-- Title & Header -->
+  <text x="30" y="32" class="text-title">End-to-End Crossover Tuning, Offline Synthesis &amp; Live Injection Toolchain</text>
+  <text x="30" y="50" class="text-subtitle">From Acoustic Transducer Characterization to GNU Octave Synthesis, Multi-Target Packaging, and Live DSP Injection</text>
+
+  <!-- ==================== STAGE 1: ACOUSTIC MEASUREMENT ==================== -->
+  <g transform="translate(30, 80)">
+    <rect width="230" height="540" class="box box-stage" />
+    <!-- Stage Header Badge -->
+    <circle cx="28" cy="28" r="14" fill="#0284c7" />
+    <text x="28" y="32" class="badge-num">1</text>
+    <text x="50" y="26" class="text-title" font-size="13">Acoustic Profiling</text>
+    <text x="50" y="40" class="text-subtitle">Speaker Measurement</text>
+
+    <!-- Content Steps -->
+    <rect x="15" y="65" width="200" height="95" class="box-step" />
+    <text x="115" y="85" class="text-label" font-size="11">Measurement Mic</text>
+    <text x="115" y="100" class="text-sublabel">Anechoic / Near-field</text>
+    <text x="115" y="115" class="text-sublabel">Chirp / Stepped Sine / MLS</text>
+    <text x="115" y="130" class="text-sublabel">SoundCheck / Klippel / REW</text>
+
+    <path d="M 115 160 L 115 190" class="line-arrow" marker-end="url(#arr-bl)" />
+
+    <rect x="15" y="190" width="200" height="110" class="box-step" />
+    <text x="115" y="210" class="text-label" font-size="11">Transducer Limits</text>
+    <text x="115" y="228" class="text-sublabel">Woofer: High-freq breakup</text>
+    <text x="115" y="244" class="text-sublabel">Tweeter: Resonance Fs &amp; Xmax</text>
+    <text x="115" y="260" class="text-sublabel">Harmonic Distortion (THD)</text>
+    <text x="115" y="276" class="text-sublabel">Directivity Index (DI)</text>
+
+    <path d="M 115 300 L 115 330" class="line-arrow" marker-end="url(#arr-bl)" />
+
+    <rect x="15" y="330" width="200" height="180" class="box-step" fill="#f8fafc" />
+    <text x="115" y="350" class="text-label" font-size="11" fill="#0369a1">Crossover Decisions</text>
+    <text x="25" y="375" class="text-code" fill="#334155">• Select Cutoffs:</text>
+    <text x="35" y="392" class="text-code" fill="#0284c7">  Fc_low  = 2200 Hz</text>
+    <text x="35" y="408" class="text-code" fill="#0284c7">  (or 3-way/4-way)</text>
+    <text x="25" y="430" class="text-code" fill="#334155">• Ensure Tweeter Fc &gt; 2*Fs</text>
+    <text x="25" y="448" class="text-code" fill="#334155">• Check off-axis polar tilt</text>
+    <text x="25" y="466" class="text-code" fill="#334155">• Sampling rate: 48 kHz</text>
+  </g>
+
+  <!-- Connect Stage 1 to 2 -->
+  <path d="M 260 350 L 290 350" class="line-arrow" marker-end="url(#arr-bl)" />
+
+  <!-- ==================== STAGE 2: OCTAVE SYNTHESIS ==================== -->
+  <g transform="translate(290, 80)">
+    <rect width="250" height="540" class="box box-octave" />
+    <circle cx="28" cy="28" r="14" fill="#d97706" />
+    <text x="28" y="32" class="badge-num">2</text>
+    <text x="50" y="26" class="text-title" font-size="13" fill="#b45309">Octave Filter Engine</text>
+    <text x="50" y="40" class="text-subtitle" fill="#78350f">src/audio/crossover/tune/</text>
+
+    <!-- Script 1 -->
+    <rect x="15" y="65" width="220" height="90" class="box-step" />
+    <text x="125" y="85" class="text-label" font-size="11" fill="#b45309">sof_crossover_gen_coefs.m</text>
+    <text x="25" y="105" class="text-code">• Continuous Butterworth 2nd</text>
+    <text x="25" y="120" class="text-code">• Bilinear transform (s → z)</text>
+    <text x="25" y="135" class="text-code">• Warp freq: 2*fs*tan(wd/(2*fs))</text>
+
+    <path d="M 125 155 L 125 180" class="line-arrow" marker-end="url(#arr-bl)" />
+
+    <!-- Script 2 -->
+    <rect x="15" y="180" width="220" height="90" class="box-step" />
+    <text x="125" y="200" class="text-label" font-size="11" fill="#b45309">sof_crossover_coef_quant.m</text>
+    <text x="25" y="220" class="text-code">• Quantize a1,a2,b0,b1,b2</text>
+    <text x="25" y="235" class="text-code">• Format: 32-bit Q2.30</text>
+    <text x="25" y="250" class="text-code">• Gain: 16384 (1.0 in Q2.14)</text>
+
+    <path d="M 125 270 L 125 295" class="line-arrow" marker-end="url(#arr-bl)" />
+
+    <!-- Script 3 -->
+    <rect x="15" y="295" width="220" height="100" class="box-step" />
+    <text x="125" y="315" class="text-label" font-size="11" fill="#b45309">sof_crossover_generate_config</text>
+    <text x="25" y="335" class="text-code">• Interleave LP &amp; HP biquads</text>
+    <text x="25" y="350" class="text-code">• Set assign_sinks[0..3]</text>
+    <text x="25" y="365" class="text-code">• Insert LR4 merge block</text>
+    <text x="25" y="380" class="text-code">• 2-way: 2 bqs; 3/4-way: 6 bqs</text>
+
+    <path d="M 125 395 L 125 420" class="line-arrow" marker-end="url(#arr-bl)" />
+
+    <!-- Plot Verification -->
+    <rect x="15" y="420" width="220" height="95" class="box-step" fill="#fefce8" stroke="#ca8a04" />
+    <text x="125" y="440" class="text-label" font-size="11" fill="#854d0e">sof_crossover_plot_freq.m</text>
+    <text x="25" y="460" class="text-code">• Verify magnitude sum = 0dB</text>
+    <text x="25" y="475" class="text-code">• Check phase alignment Δφ=0°</text>
+    <text x="25" y="490" class="text-code">• Confirm -24 dB/oct slope</text>
+  </g>
+
+  <!-- Connect Stage 2 to 3 -->
+  <path d="M 540 350 L 570 350" class="line-arrow" marker-end="url(#arr-bl)" />
+
+  <!-- ==================== STAGE 3: PACKAGING TARGETS ==================== -->
+  <g transform="translate(570, 80)">
+    <rect width="230" height="540" class="box box-pkg" />
+    <circle cx="28" cy="28" r="14" fill="#16a34a" />
+    <text x="28" y="32" class="badge-num">3</text>
+    <text x="50" y="26" class="text-title" font-size="13" fill="#15803d">Packaging Formats</text>
+    <text x="50" y="40" class="text-subtitle" fill="#166534">Multi-Target Serializers</text>
+
+    <!-- Target A: Topology 2 -->
+    <rect x="15" y="65" width="200" height="120" class="box-step" />
+    <text x="115" y="85" class="text-label" font-size="11" fill="#15803d">Topology 2 Conf</text>
+    <text x="25" y="105" class="text-code">• sof_tplg2_write.m</text>
+    <text x="25" y="122" class="text-code">• coef_2way_48000_200.conf</text>
+    <text x="25" y="139" class="text-code">• Compiled into .tplg binary</text>
+    <text x="25" y="156" class="text-code">• Boot-time default filters</text>
+
+    <!-- Target B: UCM2 Profile -->
+    <rect x="15" y="210" width="200" height="120" class="box-step" />
+    <text x="115" y="230" class="text-label" font-size="11" fill="#15803d">UCM2 Binary Blob</text>
+    <text x="25" y="250" class="text-code">• sof_ucm_blob_write.m</text>
+    <text x="25" y="267" class="text-code">• coef_2way.bin</text>
+    <text x="25" y="284" class="text-code">• Exported to /usr/share/ucm2</text>
+    <text x="25" y="301" class="text-code">• Per-device acoustic curves</text>
+
+    <!-- Target C: ALSA State -->
+    <rect x="15" y="355" width="200" height="120" class="box-step" />
+    <text x="115" y="375" class="text-label" font-size="11" fill="#15803d">ALSA State (asound.state)</text>
+    <text x="25" y="395" class="text-code">• sof_alsactl_write.m</text>
+    <text x="25" y="412" class="text-code">• coef_2way.txt</text>
+    <text x="25" y="429" class="text-code">• Comma-separated hex words</text>
+    <text x="25" y="446" class="text-code">• systemd alsa-restore</text>
+  </g>
+
+  <!-- Connect Stage 3 to 4 -->
+  <path d="M 800 350 L 830 350" class="line-arrow" marker-end="url(#arr-bl)" />
+
+  <!-- ==================== STAGE 4: LIVE INJECTION & VERIFICATION ==================== -->
+  <g transform="translate(830, 80)">
+    <rect width="240" height="540" class="box box-target" />
+    <circle cx="28" cy="28" r="14" fill="#2563eb" />
+    <text x="28" y="32" class="badge-num">4</text>
+    <text x="50" y="26" class="text-title" font-size="13" fill="#1d4ed8">Live Injection</text>
+    <text x="50" y="40" class="text-subtitle" fill="#1e40af">Lab DUT SSH / sof-ctl</text>
+
+    <!-- Step 1 -->
+    <rect x="15" y="65" width="210" height="95" class="box-step" />
+    <text x="120" y="85" class="text-label" font-size="11" fill="#1d4ed8">1. Enumerate Controls</text>
+    <text x="25" y="105" class="text-code">amixer -Dhw:0 controls | \</text>
+    <text x="25" y="120" class="text-code">  grep -i crossover</text>
+    <text x="25" y="140" class="text-sublabel" text-anchor="start" fill="#2563eb">Locate control numid (e.g. 14)</text>
+
+    <!-- Step 2 -->
+    <rect x="15" y="175" width="210" height="110" class="box-step" />
+    <text x="120" y="195" class="text-label" font-size="11" fill="#1d4ed8">2. Inject via sof-ctl</text>
+    <text x="25" y="215" class="text-code">sof-ctl -Dhw:0 -i 4 \</text>
+    <text x="25" y="230" class="text-code">  -n 14 -p 0 -b \</text>
+    <text x="25" y="245" class="text-code">  -s coef_2way.bin</text>
+    <text x="25" y="265" class="text-sublabel" text-anchor="start" fill="#059669">Live update without stream stop</text>
+
+    <!-- Step 3 -->
+    <rect x="15" y="300" width="210" height="100" class="box-step" />
+    <text x="120" y="320" class="text-label" font-size="11" fill="#1d4ed8">3. Firmware Trace Log</text>
+    <text x="25" y="340" class="text-code">mtrace | grep crossover</text>
+    <text x="25" y="358" class="text-code">"crossover_init_coef_ch"</text>
+    <text x="25" y="375" class="text-code">"num_sinks = 2, status OK"</text>
+
+    <!-- Step 4 -->
+    <rect x="15" y="415" width="210" height="105" class="box-step" fill="#f0fdf4" stroke="#86efac" />
+    <text x="120" y="435" class="text-label" font-size="11" fill="#15803d">4. Acoustic Verification</text>
+    <text x="25" y="455" class="text-code">• Run acoustic sweep</text>
+    <text x="25" y="470" class="text-code">• Check on-axis flat sum</text>
+    <text x="25" y="485" class="text-code">• Measure woofer excursion</text>
+    <text x="25" y="500" class="text-code">• Verify zero notch at Fc</text>
+  </g>
+</svg>
