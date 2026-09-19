@@ -63,6 +63,7 @@ Audio Processing Modules & Algorithms
 * :ref:`level_multiplier` (High-level architecture; also see upstream `Level Multiplier README <https://github.com/thesofproject/sof/tree/main/src/audio/level_multiplier/README.md>`_)
 * :ref:`phase_vocoder` (High-level architecture; also see upstream `Phase Vocoder source tree <https://github.com/thesofproject/sof/tree/main/src/audio/phase_vocoder>`_)
 * :ref:`stft_process` (High-level architecture; also see upstream `STFT Process README <https://github.com/thesofproject/sof/tree/main/src/audio/stft_process/README.md>`_)
+* :ref:`media_codecs` (High-level architecture; also see upstream `Cadence Codec module adapter <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/module/cadence.c>`_ & `Codec README <https://github.com/thesofproject/sof/tree/main/src/audio/codec/README.md>`_)
 
 .. _algorithm-specific-information:
 
@@ -115,6 +116,7 @@ Core pipeline architecture, firmware image packaging, cryptographic signing, loa
    firmware/level_multiplier
    firmware/phase_vocoder
    firmware/stft_process
+   firmware/media_codecs
    rimage/index.rst
    firmware/llext_modules
    firmware/hostless_firmware
