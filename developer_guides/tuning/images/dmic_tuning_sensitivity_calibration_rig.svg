@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradDmic4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadowDmic4" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGradDmic4)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Digital Microphone Acoustic Metrology &amp; Sensitivity Calibration Rig
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    Anechoic Enclosure, Class 1 Reference Transducer, Audio Precision APx555, and Gain Offset Derivation
+  </text>
+
+  <!-- Chamber Container (Left) -->
+  <g transform="translate(30, 85)" filter="url(#shadowDmic4)">
+    <rect width="480" height="525" rx="10" fill="url(#cardGrad4)" stroke="#38bdf8" stroke-width="1.2" />
+    <rect x="0" y="0" width="480" height="32" rx="10" fill="#0284c7" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">
+      ANECHOIC TEST BOX / ACOUSTIC CHAMBER
+    </text>
+
+    <!-- Chamber Wedges Visual -->
+    <g transform="translate(20, 48)">
+      <!-- Chamber Outer Wall -->
+      <rect width="440" height="455" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1.5" />
+      
+      <!-- Anechoic Foam Wedges representation on walls -->
+      <path d="M 10 20 L 25 28 L 10 36 L 25 44 L 10 52 L 25 60 L 10 68 L 25 76 L 10 84 L 25 92 L 10 100 L 25 108 L 10 116 L 25 124 L 10 132 L 25 140 L 10 148 L 25 156 L 10 164 L 25 172 L 10 180" fill="none" stroke="#334155" stroke-width="1.5" />
+      <path d="M 430 20 L 415 28 L 430 36 L 415 44 L 430 52 L 415 60 L 430 68 L 415 76 L 430 84 L 415 92 L 430 100 L 415 108 L 430 116 L 415 124 L 430 132 L 415 140 L 430 148 L 415 156 L 430 164 L 415 172 L 430 180" fill="none" stroke="#334155" stroke-width="1.5" />
+
+      <!-- Acoustic Calibrated Source Speaker -->
+      <g transform="translate(140, 20)">
+        <rect width="160" height="70" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1.2" />
+        <polygon points="170,90 270,90 290,115 150,115" fill="#334155" stroke="#f59e0b" />
+        <text x="220" y="45" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Reference Sound Source</text>
+        <text x="220" y="62" text-anchor="middle" fill="#fcd34d" font-family="sans-serif" font-size="10">94 dBSPL @ 1 kHz (1.0 Pa)</text>
+      </g>
+
+      <!-- Acoustic Sound Waves -->
+      <path d="M 180 135 A 60 25 0 0 0 260 135" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" />
+      <path d="M 160 155 A 90 35 0 0 0 280 155" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" />
+      <path d="M 140 175 A 120 45 0 0 0 300 175" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,3" />
+
+      <!-- Distance marker 50cm / 1m -->
+      <line x1="330" y1="90" x2="330" y2="240" stroke="#64748b" stroke-width="1.5" />
+      <text x="340" y="165" fill="#94a3b8" font-family="monospace" font-size="10.5">d = 0.5 m</text>
+
+      <!-- Reference Microphone (GRAS 40AZ / B&K 4190) -->
+      <g transform="translate(45, 230)">
+        <rect width="155" height="120" rx="6" fill="#1e293b" stroke="#10b981" stroke-width="1.2" />
+        <circle cx="122" cy="20" r="8" fill="#10b981" />
+        <text x="77" y="42" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Reference Mic</text>
+        <text x="77" y="60" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10">B&amp;K 4190 / GRAS 40AZ</text>
+        <text x="77" y="78" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Class 1 Calibrated</text>
+        <text x="77" y="94" text-anchor="middle" fill="#a7f3d0" font-family="monospace" font-size="9.5">50 mV/Pa (±0.1 dB)</text>
+        <text x="77" y="110" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Sound Level Calibrator</text>
+      </g>
+
+      <!-- DUT: DMIC Array -->
+      <g transform="translate(240, 230)">
+        <rect width="165" height="120" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
+        <circle cx="28" cy="20" r="6" fill="#38bdf8" />
+        <circle cx="78" cy="20" r="6" fill="#38bdf8" />
+        <circle cx="128" cy="20" r="6" fill="#38bdf8" />
+        <text x="82" y="42" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Target DUT</text>
+        <text x="82" y="60" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10">Intel Laptop / DUT Array</text>
+        <text x="82" y="78" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">2-ch / 4-ch PDM Microphones</text>
+        <text x="82" y="94" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9.5">SOF Firmware Ingress</text>
+        <text x="82" y="110" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Acoustic Port Ingress</text>
+      </g>
+
+      <!-- Cables Routing Bottom -->
+      <rect x="45" y="375" width="360" height="65" rx="5" fill="#1e293b" stroke="#334155" />
+      <text x="225" y="396" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="10.5" font-weight="700">Measurement Interface Cabling</text>
+      <text x="225" y="414" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">BNC Coaxial Analog Cable: Reference Mic &rarr; Audio Precision Ch 1</text>
+      <text x="225" y="430" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10">USB-C / Ethernet / SSH: Target DUT PCM Capture Stream &rarr; APx555</text>
+    </g>
+  </g>
+
+  <!-- Right Container: Audio Precision & Mathematics -->
+  <g transform="translate(530, 85)" filter="url(#shadowDmic4)">
+    <rect width="440" height="525" rx="10" fill="url(#cardGrad4)" stroke="#10b981" stroke-width="1.2" />
+    <rect x="0" y="0" width="440" height="32" rx="10" fill="#047857" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">
+      ANALYSIS SYSTEM &amp; SENSITIVITY CALIBRATION
+    </text>
+
+    <!-- Block 1: APx555 Analyzer -->
+    <g transform="translate(20, 48)">
+      <rect width="400" height="110" rx="6" fill="#0f172a" stroke="#10b981" />
+      <rect x="0" y="0" width="400" height="22" rx="6" fill="#047857" fill-opacity="0.3" />
+      <text x="15" y="16" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Audio Precision APx555 / Metrology Host</text>
+      
+      <text x="15" y="40" fill="#f8fafc" font-family="sans-serif" font-size="10.5">Stimulus Generator: 1 kHz Sine @ 94 dBSPL + Log Sweep (20Hz - 20kHz)</text>
+      <text x="15" y="58" fill="#94a3b8" font-family="sans-serif" font-size="10.5">Ch 1 (Analog): Measures True SPL via Calibrated Reference Microphone</text>
+      <text x="15" y="76" fill="#94a3b8" font-family="sans-serif" font-size="10.5">Ch 2-5 (Digital): Records Multi-Channel DMIC PCM Stream from SOF</text>
+      <text x="15" y="96" fill="#38bdf8" font-family="monospace" font-size="10">FFT Window: 64k Rife-Vincent, Averaging: 16x</text>
+    </g>
+
+    <!-- Block 2: Sensitivity Math & Derivation -->
+    <g transform="translate(20, 172)">
+      <rect width="400" height="210" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="22" fill="#f8fafc" font-family="sans-serif" font-size="11.5" font-weight="700">Sensitivity Calibration Formulae:</text>
+
+      <text x="15" y="44" fill="#cbd5e1" font-family="sans-serif" font-size="11">1. Microphone Sensitivity (dBFS at 94 dBSPL):</text>
+      <rect x="15" y="52" width="370" height="28" rx="4" fill="#1e293b" />
+      <text x="200" y="70" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11">
+        S_i = 20 * log10( V_rms_i / V_FS )   [dBFS]
+      </text>
+
+      <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="11">2. Gain Trim Calculation to Target (-26.0 dBFS):</text>
+      <rect x="15" y="106" width="370" height="28" rx="4" fill="#1e293b" />
+      <text x="200" y="124" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="11">
+        ΔG_i [dB] = S_target - S_i,   Trim_i = 10^(ΔG_i / 20)
+      </text>
+
+      <text x="15" y="152" fill="#cbd5e1" font-family="sans-serif" font-size="11">3. Fixed-Point Register Programming (Q1.19 format):</text>
+      <rect x="15" y="160" width="370" height="28" rx="4" fill="#1e293b" />
+      <text x="200" y="178" text-anchor="middle" fill="#fcd34d" font-family="monospace" font-size="11">
+        OUT_GAIN = round( Trim_i * 2^19 ) &amp; 0x000FFFFF
+      </text>
+      <text x="15" y="200" fill="#94a3b8" font-family="sans-serif" font-size="10">
+        In IPC4 copier: gain_coeffs[i] encoded in Q10 format (round(Trim_i * 1024))
+      </text>
+    </g>
+
+    <!-- Block 3: Sample Lab Results -->
+    <g transform="translate(20, 395)">
+      <rect width="400" height="115" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="20" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Typical Production Tolerances &amp; Trims:</text>
+      <text x="15" y="38" fill="#94a3b8" font-family="monospace" font-size="10">• Raw Mic 0: -25.2 dBFS &rarr; Trim = -0.8 dB &rarr; OUT_GAIN = 478,550 (0x074D56)</text>
+      <text x="15" y="56" fill="#94a3b8" font-family="monospace" font-size="10">• Raw Mic 1: -26.9 dBFS &rarr; Trim = +0.9 dB &rarr; OUT_GAIN = 581,510 (0x08E086)</text>
+      <text x="15" y="74" fill="#94a3b8" font-family="monospace" font-size="10">• Post-Trim Delta: &lt; 0.05 dB across all array elements</text>
+      <text x="15" y="94" fill="#34d399" font-family="sans-serif" font-size="9.5" font-weight="700">
+        Result: 100% Phase Coherence &amp; Optimal Beamformer Null Depth
+      </text>
+    </g>
+  </g>
+</svg>

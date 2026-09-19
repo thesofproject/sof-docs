@@ -1,0 +1,225 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradDmic5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadowDmic5" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGradDmic5)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    End-to-End DMIC Tuning &amp; Calibration Toolchain Workflow
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    From Transducer Metrology &amp; Decimation Synthesis to Topology2 / NHLT Blobs and Live Runtime Injection
+  </text>
+
+  <!-- Flowchart: 5 Horizontal Stages -->
+  <g transform="translate(25, 85)" filter="url(#shadowDmic5)">
+    <!-- Stage 1 -->
+    <g transform="translate(0, 0)">
+      <rect width="175" height="420" rx="8" fill="url(#cardGrad5)" stroke="#38bdf8" stroke-width="1.2" />
+      <rect x="0" y="0" width="175" height="30" rx="8" fill="#0284c7" fill-opacity="0.3" />
+      <text x="87" y="20" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">STAGE 1: HARDWARE</text>
+      
+      <text x="12" y="52" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">MEMS Specification</text>
+      <text x="12" y="70" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Clock range (0.768 - 4.8M)</text>
+      <text x="12" y="86" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Duty cycle limits (40-60%)</text>
+      <text x="12" y="102" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Nom. Sensitivity (-26 dBFS)</text>
+      <text x="12" y="118" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• AOP (120 - 135 dBSPL)</text>
+      <text x="12" y="134" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• SNR (64 - 72 dBA)</text>
+
+      <line x1="12" y1="150" x2="163" y2="150" stroke="#334155" />
+
+      <text x="12" y="172" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Acoustic Enclosure</text>
+      <text x="12" y="190" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Port hole diameter &amp; depth</text>
+      <text x="12" y="206" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Mesh acoustic resistance</text>
+      <text x="12" y="222" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Gasket seal integrity</text>
+      <text x="12" y="238" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Inter-element spacing d</text>
+
+      <line x1="12" y1="254" x2="163" y2="254" stroke="#334155" />
+
+      <text x="12" y="276" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Target Use-Cases</text>
+      <text x="12" y="294" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Dual-mic Laptop (48k/16k)</text>
+      <text x="12" y="310" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Quad-mic Conference (48k)</text>
+      <text x="12" y="326" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Edge WOV (&lt;1mW 16k)</text>
+
+      <rect x="12" y="360" width="151" height="42" rx="4" fill="#0f172a" stroke="#38bdf8" />
+      <text x="87" y="378" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="9.5">Platform IO Clock</text>
+      <text x="87" y="394" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">19.2M / 38.4M</text>
+    </g>
+
+    <!-- Arrow 1 -> 2 -->
+    <line x1="175" y1="210" x2="192" y2="210" stroke="#64748b" stroke-width="2" />
+    <polygon points="192,206 199,210 192,214" fill="#64748b" />
+
+    <!-- Stage 2 -->
+    <g transform="translate(195, 0)">
+      <rect width="175" height="420" rx="8" fill="url(#cardGrad5)" stroke="#3b82f6" stroke-width="1.2" />
+      <rect x="0" y="0" width="175" height="30" rx="8" fill="#1e40af" fill-opacity="0.3" />
+      <text x="87" y="20" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-size="11" font-weight="700">STAGE 2: FILTER TUNE</text>
+
+      <text x="12" y="52" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Decimation Synthesis</text>
+      <text x="12" y="70" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Run sof_dmic_tool.py</text>
+      <text x="12" y="86" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Search valid (clkdiv, M_cic)</text>
+      <text x="12" y="102" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Verify OSR &gt;= 50</text>
+      <text x="12" y="118" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Duty cycle verification</text>
+      <text x="12" y="134" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Match dual-FIFO modes</text>
+
+      <line x1="12" y1="150" x2="163" y2="150" stroke="#334155" />
+
+      <text x="12" y="172" fill="#93c5fd" font-family="sans-serif" font-size="11" font-weight="700">FIR Filter Selection</text>
+      <text x="12" y="190" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Invert Sinc^5 CIC droop</text>
+      <text x="12" y="206" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Ripple: &lt; 0.1 dB</text>
+      <text x="12" y="222" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Stopband: &gt; 90 dB</text>
+      <text x="12" y="238" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Tap check: &lt;= 250 taps</text>
+
+      <line x1="12" y1="254" x2="163" y2="254" stroke="#334155" />
+
+      <text x="12" y="276" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Shift &amp; Headroom</text>
+      <text x="12" y="294" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Calculate cic_shift</text>
+      <text x="12" y="310" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Normalize to 22-bit</text>
+      <text x="12" y="326" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• FIR coefficient scaling</text>
+
+      <rect x="12" y="360" width="151" height="42" rx="4" fill="#0f172a" stroke="#3b82f6" />
+      <text x="87" y="378" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="9.5">sof_dmic_tool.py</text>
+      <text x="87" y="394" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">Calculates Register Set</text>
+    </g>
+
+    <!-- Arrow 2 -> 3 -->
+    <line x1="370" y1="210" x2="387" y2="210" stroke="#64748b" stroke-width="2" />
+    <polygon points="387,206 394,210 387,214" fill="#64748b" />
+
+    <!-- Stage 3 -->
+    <g transform="translate(390, 0)">
+      <rect width="175" height="420" rx="8" fill="url(#cardGrad5)" stroke="#10b981" stroke-width="1.2" />
+      <rect x="0" y="0" width="175" height="30" rx="8" fill="#047857" fill-opacity="0.3" />
+      <text x="87" y="20" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">STAGE 3: CALIBRATION</text>
+
+      <text x="12" y="52" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Anechoic Metrology</text>
+      <text x="12" y="70" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• APx555 sound generator</text>
+      <text x="12" y="86" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• 94 dBSPL @ 1kHz acoustic</text>
+      <text x="12" y="102" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Class 1 ref mic return</text>
+      <text x="12" y="118" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Capture DUT PCM array</text>
+
+      <line x1="12" y1="134" x2="163" y2="134" stroke="#334155" />
+
+      <text x="12" y="156" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">Channel Gain Trim</text>
+      <text x="12" y="174" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• S_i = 20*log10(V_rms/V_FS)</text>
+      <text x="12" y="190" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Trim_i = S_target - S_i</text>
+      <text x="12" y="206" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• OUT_GAIN_LEFT/R (Q1.19)</text>
+      <text x="12" y="222" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Balance to &lt; 0.05 dB delta</text>
+
+      <line x1="12" y1="238" x2="163" y2="238" stroke="#334155" />
+
+      <text x="12" y="260" fill="#a855f7" font-family="sans-serif" font-size="11" font-weight="700">DC &amp; Phase Match</text>
+      <text x="12" y="278" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• DCCOMP HPF selection</text>
+      <text x="12" y="294" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Time constant (TC0-TC7)</text>
+      <text x="12" y="310" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Inter-mic phase delta check</text>
+      <text x="12" y="326" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• TDFB FIR alignment</text>
+
+      <rect x="12" y="360" width="151" height="42" rx="4" fill="#0f172a" stroke="#10b981" />
+      <text x="87" y="378" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="9.5">Channel Trims</text>
+      <text x="87" y="394" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">Bit-Exact Multipliers</text>
+    </g>
+
+    <!-- Arrow 3 -> 4 -->
+    <line x1="565" y1="210" x2="582" y2="210" stroke="#64748b" stroke-width="2" />
+    <polygon points="582,206 589,210 582,214" fill="#64748b" />
+
+    <!-- Stage 4 -->
+    <g transform="translate(585, 0)">
+      <rect width="175" height="420" rx="8" fill="url(#cardGrad5)" stroke="#f59e0b" stroke-width="1.2" />
+      <rect x="0" y="0" width="175" height="30" rx="8" fill="#b45309" fill-opacity="0.3" />
+      <text x="87" y="20" text-anchor="middle" fill="#fcd34d" font-family="sans-serif" font-size="11" font-weight="700">STAGE 4: BLOB BUILD</text>
+
+      <text x="12" y="52" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">ACPI NHLT Tables</text>
+      <text x="12" y="70" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Endpoint descriptor</text>
+      <text x="12" y="86" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Array geometry (x, y, z)</text>
+      <text x="12" y="102" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Mic types (cardioid/omni)</text>
+      <text x="12" y="118" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• nhlt-*-dmic-*.bin</text>
+
+      <line x1="12" y1="134" x2="163" y2="134" stroke="#334155" />
+
+      <text x="12" y="156" fill="#fcd34d" font-family="sans-serif" font-size="11" font-weight="700">Topology 2 Config</text>
+      <text x="12" y="174" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• dais/dmic.conf</text>
+      <text x="12" y="190" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• dmic-default.conf</text>
+      <text x="12" y="206" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• PDM_MIC_A/B_ENABLE</text>
+      <text x="12" y="222" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Unmute ramp ms</text>
+
+      <line x1="12" y1="238" x2="163" y2="238" stroke="#334155" />
+
+      <text x="12" y="260" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Compilation</text>
+      <text x="12" y="278" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• alsatplg -c sof-*.conf</text>
+      <text x="12" y="294" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Builds .tplg binary</text>
+      <text x="12" y="310" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Verifies token bindings</text>
+
+      <rect x="12" y="360" width="151" height="42" rx="4" fill="#0f172a" stroke="#f59e0b" />
+      <text x="87" y="378" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="9.5">alsatplg / nhlt</text>
+      <text x="87" y="394" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">Generates Target Binaries</text>
+    </g>
+
+    <!-- Arrow 4 -> 5 -->
+    <line x1="760" y1="210" x2="777" y2="210" stroke="#64748b" stroke-width="2" />
+    <polygon points="777,206 784,210 777,214" fill="#64748b" />
+
+    <!-- Stage 5 -->
+    <g transform="translate(780, 0)">
+      <rect width="170" height="420" rx="8" fill="url(#cardGrad5)" stroke="#a855f7" stroke-width="1.2" />
+      <rect x="0" y="0" width="170" height="30" rx="8" fill="#6b21a8" fill-opacity="0.3" />
+      <text x="85" y="20" text-anchor="middle" fill="#d8b4fe" font-family="sans-serif" font-size="11" font-weight="700">STAGE 5: TARGET RUN</text>
+
+      <text x="12" y="52" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Target DUT Deploy</text>
+      <text x="12" y="70" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• /lib/firmware/intel/sof/</text>
+      <text x="12" y="86" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Deploy .tplg &amp; NHLT</text>
+      <text x="12" y="102" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Reload driver / reboot</text>
+
+      <line x1="12" y1="118" x2="158" y2="118" stroke="#334155" />
+
+      <text x="12" y="140" fill="#d8b4fe" font-family="sans-serif" font-size="11" font-weight="700">Runtime Injection</text>
+      <text x="12" y="158" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• sof-ctl -s (IPC4 copier)</text>
+      <text x="12" y="174" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• DMIC_SET_GAIN_COEFFS</text>
+      <text x="12" y="190" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• On-the-fly sensitivity trim</text>
+
+      <line x1="12" y1="206" x2="158" y2="206" stroke="#334155" />
+
+      <text x="12" y="228" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">Acoustic Sign-Off</text>
+      <text x="12" y="246" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• THD+N &lt; 0.5% @ 94 dBSPL</text>
+      <text x="12" y="262" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Flat Freq Response ±1dB</text>
+      <text x="12" y="278" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Phase coherence &lt; 3°</text>
+      <text x="12" y="294" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Beamformer DI &gt;= 5.5 dB</text>
+      <text x="12" y="310" fill="#94a3b8" font-family="sans-serif" font-size="9.5">• Zero click/pop on unmute</text>
+
+      <rect x="12" y="360" width="146" height="42" rx="4" fill="#0f172a" stroke="#a855f7" />
+      <text x="85" y="378" text-anchor="middle" fill="#c084fc" font-family="monospace" font-size="9.5">Live Verification</text>
+      <text x="85" y="394" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">arecord &amp; APx555</text>
+    </g>
+  </g>
+
+  <!-- Bottom Global Banner -->
+  <g transform="translate(25, 520)" filter="url(#shadowDmic5)">
+    <rect width="950" height="90" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.2" />
+    <text x="20" y="25" fill="#38bdf8" font-family="sans-serif" font-size="12" font-weight="700">
+      Production Deployment &amp; Continuous Integration Verification Pipeline
+    </text>
+    <text x="20" y="46" fill="#94a3b8" font-family="sans-serif" font-size="11">
+      1. Run <tspan fill="#f8fafc" font-family="monospace">sof_dmic_tool.py --fs 48000,16000 --ioclk 38.4e6</tspan> to generate bit-exact decimation settings and FIR taps.
+    </text>
+    <text x="20" y="64" fill="#94a3b8" font-family="sans-serif" font-size="11">
+      2. Measure DUT array in anechoic box, derive gain trim delta, update <tspan fill="#f8fafc" font-family="monospace">OUT_GAIN_LEFT/RIGHT</tspan> in topology or inject via <tspan fill="#f8fafc" font-family="monospace">sof-ctl</tspan>.
+    </text>
+    <text x="20" y="82" fill="#34d399" font-family="sans-serif" font-size="11">
+      3. Validate beamformer directionality, noise suppression depth, and wake-on-voice trigger accuracy under real acoustic conditions.
+    </text>
+  </g>
+</svg>

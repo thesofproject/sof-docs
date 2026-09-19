@@ -51,16 +51,20 @@ modules:
       - "Decoupled clock domain bridging"
 
   - id: dmic
-    name: "Digital Microphone (DMIC) Decimation"
+    name: "Digital Microphone (DMIC) Decimation & Array Tuning"
     source: "SOF"
     category: "Foundational DSP"
     status: "Upstream"
-    description: "Hardware PDM receiver, multi-stage CIC decimation, and FIR compensator filter."
+    tuning_guide: "developer_guides/tuning/dmic_tuning"
+    description: "Hardware PDM ingress, 5th-order CIC comb decimation, multirate FIR droop compensation, DC-offset compensation, and multichannel array acoustic calibration."
     simd: ["Hardware Accelerator", "Scalar C"]
     key_features:
-      - "High-performance PDM clock divider matching dual FIFOs"
-      - "Cascaded Integrator-Comb (CIC) decimation with FIR compensation"
-      - "Octave tuning tool for passband ripple (<0.1 dB) and stopband (>95 dB)"
+      - "5th-order Cascaded Integrator-Comb (CIC) filter with up to 31x decimation"
+      - "Multirate droop-compensating FIR filters with passband ripple < 0.1 dB and stopband > 90 dB"
+      - "Dual-FIFO mode matching for concurrent 48 kHz communications and 16 kHz wake-on-voice"
+      - "Acoustic sensitivity calibration and inter-channel gain trimming for beamforming arrays"
+      - "Automated logarithmic unmute gain ramping eliminating stream start pops"
+      - "Standalone Python calibration CLI (sof_dmic_tool.py) and ACPI NHLT / Topology 2 integration"
 
   - id: demux
     name: "Audio Demux"
