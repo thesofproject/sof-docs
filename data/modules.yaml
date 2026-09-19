@@ -341,6 +341,18 @@ modules:
       - "Low false-reject and false-alarm rates"
 
   # --- Codecs & Compression ---
+  - id: media_codecs
+    name: "Media Codecs (Cadence XA & Compress-Offload)"
+    source: "SOF / Cadence"
+    category: "Codecs & Compression"
+    status: "Upstream"
+    description: "Hardware-accelerated compressed audio offload decoders and encoders using the Cadence Xtensa Audio (XA) standard."
+    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    key_features:
+      - "ALSA compress-offload playback (MP3, AAC, Vorbis, PCM passthrough) and capture (MP3 enc)"
+      - "Standardized Cadence Xtensa Audio (XA) four-class memory tables and state machine"
+      - "Deep-buffer DMA host wakeup suppression enabling prolonged C10 deep sleep"
+
   - id: aac_dec
     name: "AAC Decoder"
     source: "FFmpeg"
