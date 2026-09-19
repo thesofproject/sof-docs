@@ -244,16 +244,18 @@ modules:
       - "Single contiguous buffer layout and zero-copy polar memory overlay"
 
   - id: smart_amp
-    name: "Smart Amp Protection"
+    name: "Smart Amp Protection (DSM)"
     source: "SOF"
     category: "Speaker Protection"
     status: "Upstream"
-    description: "Speaker protection algorithm monitoring voltage/current feedback to maximize loudness safely."
+    description: "Closed-loop dynamic speaker management monitoring real-time voltage/current (I/V) feedback to maximize loudness and prevent mechanical and thermal destruction."
     simd: ["HiFi 3", "HiFi 4", "Scalar C"]
     key_features:
-      - "Real-time voice coil temperature estimation"
-      - "Membrane excursion limiting"
-      - "Maximizes acoustic output without damage"
+      - "Real-time voice coil temperature estimation via continuous Re(t) tracking"
+      - "Nonlinear membrane excursion prediction and adaptive high-pass limiting"
+      - "Closed-loop hardware I/V sense feedback via SoundWire and I2S/TDM"
+      - "Two-layer modular architecture supporting Maxim DSM and vendor engines"
+      - "Live runtime parameter injection and telemetry readback via sof-ctl"
 
   - id: sound_dose
     name: "Sound Dose & Exposure"

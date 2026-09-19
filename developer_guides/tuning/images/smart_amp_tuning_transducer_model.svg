@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 620" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .card { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 8px; }
+      .subcard { fill: #21262d; stroke: #30363d; stroke-width: 1; rx: 6px; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 500; fill: #8b949e; }
+      .section-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #79c0ff; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 500; fill: #c9d1d9; }
+      .label-bold { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; fill: #f0f6fc; }
+      .code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #e6edf3; }
+      .code-accent { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #3fb950; font-weight: 600; }
+      .code-orange { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #f0883e; }
+      .code-purple { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #d2a8ff; }
+      .code-red { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #ff7b72; }
+      .line { stroke: #58a6ff; stroke-width: 2; fill: none; }
+      .line-dashed { stroke: #8b949e; stroke-width: 1.5; stroke-dasharray: 4,4; fill: none; }
+      .arrow { fill: #58a6ff; }
+      .node-elec { fill: #1f2937; stroke: #58a6ff; stroke-width: 1.5; rx: 5px; }
+      .node-mech { fill: #1c2724; stroke: #3fb950; stroke-width: 1.5; rx: 5px; }
+      .node-therm { fill: #311c23; stroke: #ff7b72; stroke-width: 1.5; rx: 5px; }
+      .node-acoust { fill: #291d38; stroke: #bc8cff; stroke-width: 1.5; rx: 5px; }
+    </style>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#bc8cff" />
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#ff7b72" />
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="620" class="bg" />
+
+  <!-- Header Block -->
+  <text x="35" y="38" class="title">Electro-Acoustic Transducer Physics &amp; Lumped Parameter Model</text>
+  <text x="35" y="58" class="subtitle">Coupled Electrical, Mechanical, Acoustical, and Thermal Domains for Micro-Speaker DSM Algorithms</text>
+
+  <!-- ==================== 1. ELECTRICAL DOMAIN ==================== -->
+  <rect x="35" y="80" width="320" height="240" class="card" />
+  <rect x="45" y="90" width="300" height="26" class="subcard" />
+  <text x="55" y="108" class="section-title" fill="#58a6ff">1. Electrical Domain (Voice Coil)</text>
+
+  <!-- Electrical circuit components -->
+  <rect x="55" y="130" width="130" height="40" class="node-elec" />
+  <text x="65" y="146" class="label-bold">Re(T) Voice Coil DC</text>
+  <text x="65" y="162" class="code-orange">Re(T) = Re0[1+αΔT]</text>
+
+  <rect x="205" y="130" width="130" height="40" class="node-elec" />
+  <text x="215" y="146" class="label-bold">Le(x) Inductance</text>
+  <text x="215" y="162" class="code-accent">Le(x) · di(t)/dt</text>
+
+  <rect x="55" y="185" width="280" height="42" class="node-elec" />
+  <text x="65" y="202" class="label-bold">Back-EMF (Electromotive Coupling)</text>
+  <text x="65" y="218" class="code-purple">e_emf(t) = Bl(x) · v(t) = Bl(x) · dx/dt</text>
+
+  <!-- Differential Equation -->
+  <rect x="55" y="240" width="280" height="65" class="subcard" />
+  <text x="65" y="258" class="label" fill="#8b949e">Electrical Voltage Equation:</text>
+  <text x="65" y="278" class="code" fill="#58a6ff">u(t) = Re(T)·i(t) + Le(x)·di/dt + Bl(x)·v(t)</text>
+  <text x="65" y="295" class="subtitle" font-size="10px">Measured by Smart Amp I/V sense ADCs in real-time</text>
+
+  <!-- ==================== 2. MECHANICAL DOMAIN ==================== -->
+  <rect x="390" y="80" width="330" height="240" class="card" />
+  <rect x="400" y="90" width="310" height="26" class="subcard" />
+  <text x="410" y="108" class="section-title" fill="#3fb950">2. Mechanical Domain (Suspension &amp; Mass)</text>
+
+  <rect x="410" y="130" width="135" height="40" class="node-mech" />
+  <text x="420" y="146" class="label-bold">Mms Moving Mass</text>
+  <text x="420" y="162" class="code-accent">Diaphragm + Coil</text>
+
+  <rect x="565" y="130" width="135" height="40" class="node-mech" />
+  <text x="575" y="146" class="label-bold">Cms(x) Compliance</text>
+  <text x="575" y="162" class="code-orange">Kms(x) = 1 / Cms(x)</text>
+
+  <rect x="410" y="185" width="290" height="42" class="node-mech" />
+  <text x="420" y="202" class="label-bold">Lorentz Driving Force</text>
+  <text x="420" y="218" class="code-purple">F_lorentz(t) = Bl(x) · i(t)</text>
+
+  <!-- Mechanical Equation -->
+  <rect x="410" y="240" width="290" height="65" class="subcard" />
+  <text x="420" y="258" class="label" fill="#8b949e">Newton's 2nd Law (Equation of Motion):</text>
+  <text x="420" y="278" class="code" fill="#3fb950">F(t) = Mms·d²x/dt² + Rms·dx/dt + x(t)/Cms</text>
+  <text x="420" y="295" class="subtitle" font-size="10px">Displacement x(t) strictly limited to Xmax</text>
+
+  <!-- ==================== 3. ACOUSTIC DOMAIN ==================== -->
+  <rect x="755" y="80" width="310" height="240" class="card" />
+  <rect x="765" y="90" width="290" height="26" class="subcard" />
+  <text x="775" y="108" class="section-title" fill="#bc8cff">3. Acoustic Radiation (Acoustics)</text>
+
+  <rect x="775" y="130" width="130" height="40" class="node-acoust" />
+  <text x="785" y="146" class="label-bold">Sd Radiating Area</text>
+  <text x="785" y="162" class="code-purple">Effective Piston</text>
+
+  <rect x="915" y="130" width="130" height="40" class="node-acoust" />
+  <text x="925" y="146" class="label-bold">Vas Volume</text>
+  <text x="925" y="162" class="code-accent">Equivalent Box</text>
+
+  <rect x="775" y="185" width="270" height="42" class="node-acoust" />
+  <text x="785" y="202" class="label-bold">Acoustic Radiated Pressure</text>
+  <text x="785" y="218" class="code-orange">p(r, t) = (ρ0 · Sd / 2πr) · d²x/dt²</text>
+
+  <rect x="775" y="240" width="270" height="65" class="subcard" />
+  <text x="785" y="258" class="label" fill="#8b949e">Efficiency &amp; Acoustic Output:</text>
+  <text x="785" y="278" class="code" fill="#bc8cff">η0 = (ρ0 · Bl² · Sd²) / (2πc · Mms² · Re)</text>
+  <text x="785" y="295" class="subtitle" font-size="10px">Typically &lt; 0.5% in smartphone/laptop micro-speakers</text>
+
+  <!-- Inter-domain Coupling Arrows -->
+  <path d="M 355 205 L 405 205" class="line" marker-end="url(#arrow-blue)" />
+  <text x="365" y="198" class="code" font-size="9px" fill="#58a6ff">Bl·i</text>
+
+  <path d="M 720 205 L 770 205" class="line" stroke="#3fb950" marker-end="url(#arrow-green)" />
+  <text x="730" y="198" class="code" font-size="9px" fill="#3fb950">Sd·v</text>
+
+  <!-- ==================== 4. THERMAL DOMAIN (VOICE COIL HEATING) ==================== -->
+  <rect x="35" y="340" width="685" height="255" class="card" />
+  <rect x="45" y="350" width="665" height="26" class="subcard" />
+  <text x="55" y="368" class="section-title" fill="#ff7b72">4. Thermal Dynamic Model (Voice Coil &amp; Magnet Temperature Tracking)</text>
+
+  <!-- Dual-Pole Thermal Network Diagram -->
+  <rect x="55" y="390" width="150" height="85" class="node-therm" />
+  <text x="65" y="408" class="label-bold">Voice Coil Node (Tv)</text>
+  <text x="65" y="425" class="code-orange">P_loss = i_rms² · Re(T)</text>
+  <text x="65" y="442" class="code">C_th,vc: ~0.05 J/K</text>
+  <text x="65" y="459" class="code-red">τ_vc = 1.0 - 2.5 sec</text>
+
+  <path d="M 205 432 L 265 432" class="line" stroke="#ff7b72" marker-end="url(#arrow-red)" />
+  <text x="215" y="423" class="code" font-size="9px" fill="#ff7b72">R_th,vc</text>
+
+  <rect x="270" y="390" width="165" height="85" class="node-therm" />
+  <text x="280" y="408" class="label-bold">Magnet Node (Tm)</text>
+  <text x="280" y="425" class="code">Thermal Mass Dissipation</text>
+  <text x="280" y="442" class="code">C_th,mag: ~2.0 J/K</text>
+  <text x="280" y="459" class="code-red">τ_mag = 120 - 300 sec</text>
+
+  <path d="M 435 432 L 495 432" class="line" stroke="#ff7b72" marker-end="url(#arrow-red)" />
+  <text x="445" y="423" class="code" font-size="9px" fill="#ff7b72">R_th,amb</text>
+
+  <rect x="500" y="390" width="130" height="85" class="node-elec" />
+  <text x="510" y="408" class="label-bold">Chassis Ambient</text>
+  <text x="510" y="425" class="code">T_ambient: 25 - 45°C</text>
+  <text x="510" y="442" class="code-accent">Infinite Heat Sink</text>
+  <text x="510" y="459" class="subtitle" font-size="10px">Enclosure body</text>
+
+  <!-- Thermal equations box -->
+  <rect x="55" y="488" width="645" height="95" class="subcard" />
+  <text x="65" y="506" class="label-bold">Online Temperature Estimation from Real-Time Voice Coil Resistance:</text>
+  <text x="65" y="526" class="code-orange">Tv(t) = T0 + (1 / α_Cu) · [ ( Re(t) / Re0 ) - 1 ]</text>
+  <text x="430" y="526" class="code" fill="#8b949e">where α_Cu = 0.00393 / °C (Copper)</text>
+  <text x="65" y="547" class="code-red">Safe Operating Limits:  T_warn = 95°C  |  T_limit = 115°C  |  T_cutoff = 130°C</text>
+  <text x="65" y="568" class="subtitle">Micro-speakers convert &gt;99% of electrical power to heat. Exceeding T_limit melts voice coil adhesives.</text>
+
+  <!-- ==================== 5. THIELE-SMALL PARAMETER TABLE ==================== -->
+  <rect x="740" y="340" width="325" height="255" class="card" />
+  <rect x="750" y="350" width="305" height="26" class="subcard" />
+  <text x="760" y="368" class="section-title" fill="#d2a8ff">5. Key Thiele-Small Parameters</text>
+
+  <g transform="translate(755, 388)">
+    <text x="5" y="16" class="code-accent">Fs</text>
+    <text x="55" y="16" class="label">Resonance Freq</text>
+    <text x="210" y="16" class="code">750 - 950 Hz</text>
+
+    <text x="5" y="36" class="code-accent">Re</text>
+    <text x="55" y="36" class="label">DC Resistance</text>
+    <text x="210" y="36" class="code">6.5 - 8.0 Ω</text>
+
+    <text x="5" y="56" class="code-accent">Qts</text>
+    <text x="55" y="56" class="label">Total Quality Factor</text>
+    <text x="210" y="56" class="code">1.2 - 2.5</text>
+
+    <text x="5" y="76" class="code-accent">Bl</text>
+    <text x="55" y="76" class="label">Force Factor</text>
+    <text x="210" y="76" class="code">0.95 - 1.25 N/A</text>
+
+    <text x="5" y="96" class="code-accent">Mms</text>
+    <text x="55" y="96" class="label">Moving Mass</text>
+    <text x="210" y="96" class="code">45 - 80 mg</text>
+
+    <text x="5" y="116" class="code-accent">Cms</text>
+    <text x="55" y="116" class="label">Compliance</text>
+    <text x="210" y="116" class="code">0.3 - 0.7 mm/N</text>
+
+    <text x="5" y="136" class="code-red">Xmax</text>
+    <text x="55" y="136" class="label-bold" fill="#ff7b72">Max Safe Excursion</text>
+    <text x="210" y="136" class="code-red">0.40 - 0.55 mm</text>
+
+    <text x="5" y="156" class="code-red">Xmech</text>
+    <text x="55" y="156" class="label-bold" fill="#ff7b72">Damage Boundary</text>
+    <text x="210" y="156" class="code-red">0.65 - 0.80 mm</text>
+
+    <text x="5" y="176" class="code-orange">Tmax</text>
+    <text x="55" y="176" class="label-bold" fill="#f0883e">Max Coil Temp</text>
+    <text x="210" y="176" class="code-orange">110 - 125 °C</text>
+  </g>
+</svg>
