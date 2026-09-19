@@ -3,34 +3,94 @@
 Build and Run Testbench
 #######################
 
-First, you'll need to install some dependencies to run the testbench:
+This guide covers building the SOF Testbench from source, preparing audio test streams, executing native simulations, and running quick sanity checks.
+
+Prerequisites and System Dependencies
+*************************************
+
+Before compiling testbench, install the required build tools, audio format converters, analysis packages, and memory validation utilities:
 
 .. code-block:: bash
 
-   sudo apt install valgrind bc # For Ubuntu/Debian
-   sudo dnf install valgrind bc # For Fedora
+   # Ubuntu / Debian
+   sudo apt install cmake ninja-build build-essential valgrind sox ffmpeg \
+                    alsa-utils libasound2-dev octave octave-signal octave-io
 
-Retrieve the required firmware from the ``thesofproject`` repository in
-Github as described in :ref:`build-from-scratch`. Start a shell at the
-firmware repository top level in the ``$SOF_WORKSPACE/sof`` directory as also described.
+   # Fedora / RHEL
+   sudo dnf install cmake ninja-build gcc gcc-c++ valgrind sox ffmpeg \
+                    alsa-utils alsa-lib-devel octave octave-signal
+
+Building the Testbench
+**********************
+
+Testbench can be compiled using either standard CMake commands or the provided build automation scripts.
+
+Method 1: Building with ``rebuild-testbench.sh`` (Recommended)
+==============================================================
+
+The `thesofproject/sof <https://github.com/thesofproject/sof>`_ repository includes ``scripts/rebuild-testbench.sh`` to automate configuration, compilation, and installation:
 
 .. code-block:: bash
 
-   cd "$SOF_WORKSPACE"/sof
+   cd $SOF_WORKSPACE/sof
 
-Run the following scripts to build the test pipelines, build the testbench,
-and run the testbench with the provided quick check script:
-
-.. code-block:: bash
-
-   ./scripts/build-tools.sh -t
+   # 1. Build native host testbench (defaults to IPC4 sof-testbench4)
    ./scripts/rebuild-testbench.sh
+
+   # 2. Build testbench topologies
+   ./scripts/build-tools.sh -Y
+
+By default, the script compiles native x86-64/ARM binaries into ``tools/testbench/build_testbench/install/bin/``.
+
+Building for Cycle-Accurate Xtensa DSP Simulation
+-------------------------------------------------
+
+To build testbench for execution inside the Cadence Xtensa simulator (``xt-run``), pass the platform target flag ``-p <platform>``:
+
+.. code-block:: bash
+
+   export XTENSA_TOOLS_ROOT=~/xtensa/XtDevTools
+   export ZEPHYR_TOOLCHAIN_VARIANT=xt-clang
+
+   # Rebuild testbench targeting Intel Meteor Lake (MTL) / Arrow Lake (ARL)
+   ./scripts/rebuild-testbench.sh -p mtl
+
+   # Or target Tiger Lake (TGL)
+   ./scripts/rebuild-testbench.sh -p tgl
+
+This creates the Xtensa simulator executable at ``tools/testbench/build_xt_testbench/sof-testbench4`` along with the environment setup script ``tools/testbench/build_xt_testbench/xtrun_env.sh``.
+
+Method 2: Direct CMake Build
+============================
+
+For fine-grained control over compiler flags, sanitizers, or build types:
+
+.. code-block:: bash
+
+   cd $SOF_WORKSPACE/sof/tools/testbench
+
+   # Configure with AddressSanitizer and Debug symbols
+   cmake -B build_testbench \
+         -DCMAKE_BUILD_TYPE=Debug \
+         -DCMAKE_C_FLAGS="-fsanitize=address,undefined -g" \
+         -DCMAKE_INSTALL_PREFIX=build_testbench/install
+
+   # Compile and install
+   cmake --build build_testbench -j$(nproc) --target install
+
+Quick Sanity Verification (``host-testbench.sh``)
+*************************************************
+
+To confirm that the testbench build and audio processing components are functioning properly, execute the quick sanity script:
+
+.. code-block:: bash
+
+   cd $SOF_WORKSPACE/sof
    ./scripts/host-testbench.sh
 
-The current version of ``host-testbench.sh`` outputs the following text if
-the previous steps are successful:
+The script runs automated zero-input and chirp tests across core audio modules:
 
-::
+.. code-block:: text
 
    ==========================================================
    test volume with ./volume_run.sh 16 16 48000 zeros_in.raw volume_out.raw
@@ -45,82 +105,142 @@ the previous steps are successful:
    eqiir test passed!
    eqiir_out size check passed!
 
-Note that more items are slated to be tested in this check so the output
-will likely change. The testbench can be used for audio quality tests and
-debugging new components under development.
+Running Simulations with ``sof-testbench-helper.sh``
+****************************************************
 
-host-testbench.sh
-=================
-
-In our example, the ``host-testbench.sh`` script shows that the IIR EQ test
-is run with the following commands:
+The ``scripts/sof-testbench-helper.sh`` script simplifies test execution by automatically converting input WAV files to raw PCM formats, locating the appropriate component benchmark topologies, executing testbench, and converting the processed output back to WAV:
 
 .. code-block:: bash
 
-   cd tools/test/audio
-   head -c 10240 < /dev/zero > zeros_in.raw
-   ./eqiir_run.sh 16 16 48000 zeros_in.raw eqiir_out.raw
+   cd $SOF_WORKSPACE/sof
 
-The directory that contains ``eqiir_run.sh`` is entered first. Next, a file
-of 10240 bytes of zeros is created. As 16-bit data, it corresponds to 2560
-frames of S16_LE format stereo frames (4 bytes per frame). At a 48 kHz rate,
-it corresponds to 5.3 ms of audio stream. Audio test signals are usually
-longer but this is sufficient for the quick testbench health check.
+   # 1. Process an audio file through the IIR Equalizer
+   scripts/sof-testbench-helper.sh -m eqiir -i /usr/share/sounds/alsa/Front_Center.wav -o out_eqiir.wav
 
-To process a music file with an under-development SOF component, a utility
-to convert from wav, mp3, etc. to raw S16_LE/S24_LE/S32_LE format is needed.
-The next command installs from the Ubuntu packages repository a lot of useful
-tools for audio files converting, viewing, recording, playing, and editing.
-FFMPEG can be used to import/export formats that the simpler tools ``sox``
-and ``ecasound`` do not support. The last three items are light audio
-waveform viewers and players with some editing and mixing capabilities.
-Also, digital audio workstation (DAW) software such as Ardour, Qtractor, and
-MusE can be used but there's more effort in using them for small quick tasks
-such as in the following case.
+   # 2. Test Dynamic Range Compressor (DRC) with 32-bit audio
+   scripts/sof-testbench-helper.sh -m drc -b 32 -i /usr/share/sounds/alsa/Front_Center.wav -o out_drc.wav
+
+   # 3. Check Volume component for memory corruption with Valgrind
+   scripts/sof-testbench-helper.sh -v -m volume
+
+   # 4. Run cycle-accurate Xtensa simulation with profiling
+   scripts/sof-testbench-helper.sh -x -m eqiir -p profile-eqiir.txt
+
+Helper Script Options
+=====================
+
+.. list-table::
+   :widths: 15 20 65
+   :header-rows: 1
+
+   * - Option
+     - Default
+     - Description
+   * - ``-m <module>``
+     - ``gain``
+     - Target processing module (e.g., ``volume``, ``eqiir``, ``eqfir``, ``drc``, ``dcblock``, ``tdfb``).
+   * - ``-i <wav_file>``
+     - ``Front_Center.wav``
+     - Input RIFF WAV audio file.
+   * - ``-o <wav_file>``
+     - None
+     - Destination WAV file for processed audio.
+   * - ``-b <bits>``
+     - ``32``
+     - Bit depth: ``16``, ``24``, or ``32`` bits.
+   * - ``-r <rate>``
+     - ``48000``
+     - Input sample rate in Hz.
+   * - ``-R <rate>``
+     - ``48000``
+     - Output sample rate in Hz (for testing sample rate conversion).
+   * - ``-c <channels>``
+     - ``2``
+     - Number of input and output audio channels.
+   * - ``-n <pipelines>``
+     - ``1,2``
+     - Pipeline IDs to instantiate (e.g., ``1,2`` for playback, ``3,4`` for capture).
+   * - ``-t <tplg>``
+     - Auto-detected
+     - Force a custom topology file (e.g., ``production/sof-hda-generic.tplg``).
+   * - ``-v``
+     - Disabled
+     - Execute testbench under Valgrind memory analysis.
+   * - ``-x``
+     - Disabled
+     - Execute testbench in the Cadence Xtensa simulator (``xt-run``).
+   * - ``-p <file>``
+     - None
+     - Save Xtensa profiling output report (use with ``-x``).
+
+Manual Simulation Run (Step-by-Step)
+************************************
+
+If you need to invoke ``sof-testbench4`` directly for customized pipeline testing or debugging:
+
+Step 1: Prepare Raw PCM Audio Input
+===================================
+
+The testbench consumes raw PCM binary files (headerless interleaved samples). Use ``sox`` to convert an existing audio file:
 
 .. code-block:: bash
 
-   sudo apt install alsa-utils pulseaudio-utils sox ecasound ffmpeg audacity snd-gtk-pulse mhwaveedit
+   # Convert standard WAV file to 32-bit 48 kHz stereo raw PCM
+   sox --encoding signed-integer /usr/share/sounds/alsa/Front_Left.wav \
+       -L -r 48000 -c 2 -b 32 in.raw
 
-A sample music or voice or test signal file is needed. The above alsa-utils
-package contains some wav files. The sound (and many other file types)
-characteristics can be easily checked using this file command:
+   # Or synthesize a 3-second 997 Hz sine test tone at -3 dBFS
+   sox -n --encoding signed-integer -L -r 48000 -c 2 -b 32 in.raw \
+       synth 3 sine 997 norm -3
 
-.. code-block:: bash
+Step 2: Execute the Testbench Binary
+====================================
 
-   $ file /usr/share/sounds/alsa/Front_Center.wav
-   /usr/share/sounds/alsa/Front_Center.wav: RIFF (little-endian) data, WAVE audio, Microsoft PCM, 16 bit, mono 48000 Hz
-
-This file has the correct default 48 kHz rate and 16 bits samples but it is
-in a single channel format (mono). To fix it for testing, run the following
-example command. Sox automatically converts the sample format to stereo by
-duplicating the channels. Also the rate would be converted if the file would
-be 44100 Hz sampled.
+Invoke ``sof-testbench4`` with the prepared input file, output file, and target topology:
 
 .. code-block:: bash
 
-   sox /usr/share/sounds/alsa/Front_Center.wav --encoding signed-integer -L -r 48000 -c 2 -b 16 audio_in.raw
+   tools/testbench/build_testbench/install/bin/sof-testbench4 \
+       -r 48000 -c 2 -b S32_LE -p 1,2 \
+       -t tools/build_tools/topology/topology2/development/sof-hda-benchmark-eqiir32.tplg \
+       -i in.raw -o out.raw
 
-Now the testbench can be executed for the input file and the output can be
-converted back to wav format:
+Step 3: Convert and Listen to Processed Audio
+=============================================
 
-.. code-block:: bash
-
-   ./eqiir_run.sh 16 16 48000 audio_in.raw audio_out.raw
-   sox --encoding signed-integer -L -r 48000 -c 2 -b 16 audio_out.raw audio_out.wav
-
-The file can be played from the command line with the following command or
-it can be launched to an audio editor tool such as mhWaveEdit:
+Convert the raw output file back to a standard WAV container and verify the acoustic output:
 
 .. code-block:: bash
 
-   paplay audio_out.wav
-   mhwaveedit audio_out.wav
+   # Convert raw output to WAV
+   sox --encoding signed-integer -L -r 48000 -c 2 -b 32 out.raw out.wav
 
-.. figure:: fig_mhwaveedit.png
+   # Listen using standard ALSA playback
+   aplay out.wav
 
-   Viewing the result with mhWaveEdit
+   # Or inspect the waveform graphically in Audacity
+   audacity out.wav &
 
-Select the green **play** icon to play the clip in the application. Use the
-mouse to zoom in on audio waveform details. Select the yellow **play** icon
-to play a selected area.
+Testing Capture and Full-Duplex Pipelines
+*****************************************
+
+In SOF Topology 2.0 benchmark topologies:
+
+* **Playback Pipelines**: Typically consist of Host Copier (Pipeline 1) and DAI Copier (Pipeline 2). Specified via ``-p 1,2``.
+* **Capture Pipelines**: Typically consist of DAI Copier (Pipeline 3) and Host Copier (Pipeline 4). Specified via ``-p 3,4``:
+
+  .. code-block:: bash
+
+     tools/testbench/build_testbench/install/bin/sof-testbench4 \
+         -r 48000 -c 2 -b S32_LE -p 3,4 \
+         -t tools/build_tools/topology/topology2/development/sof-hda-benchmark-volume32.tplg \
+         -i dmic_in.raw -o host_out.raw
+
+* **Full-Duplex Testing**: Specified via ``-p 1,2,3,4`` with comma-separated inputs and outputs:
+
+  .. code-block:: bash
+
+     tools/testbench/build_testbench/install/bin/sof-testbench4 \
+         -r 48000 -c 2 -b S32_LE -p 1,2,3,4 \
+         -t tools/build_tools/topology/topology2/development/sof-hda-benchmark-volume32.tplg \
+         -i pb_in.raw,cap_in.raw -o pb_out.raw,cap_out.raw

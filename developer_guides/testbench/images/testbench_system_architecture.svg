@@ -1,0 +1,274 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="720" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">SOF Host Audio Pipeline Testbench Architecture</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">Accelerated offline audio pipeline simulation: Topology parsing (IPC3/IPC4), component lifecycle emulation, simulated file I/O, and multi-target execution</text>
+  </g>
+
+  <!-- TOP CONTAINER: User & Test Automation Layer -->
+  <g transform="translate(40, 78)">
+    <rect width="1120" height="135" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(20, 14)">
+      <rect width="26" height="26" rx="6" fill="#0284c7" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">1</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Testbench Automation &amp; Control Orchestration</text>
+      <text x="760" y="18" fill="#38bdf8" font-size="11" font-family="monospace">CLI / Shell Scripts / GNU Octave Test Harness</text>
+    </g>
+
+    <g transform="translate(20, 48)">
+      <!-- Automation Scripts -->
+      <g transform="translate(0, 0)">
+        <rect width="340" height="72" rx="6" fill="#1e293b" stroke="#0284c7" stroke-width="1.2" />
+        <text x="12" y="18" fill="#38bdf8" font-size="12" font-weight="600">Test Harness &amp; Helper Scripts</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/sof-testbench-helper.sh (-m &lt;mod&gt;)</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/rebuild-testbench.sh (-p &lt;plat&gt;)</text>
+        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/host-testbench.sh (quick sanity)</text>
+      </g>
+
+      <!-- Testbench Binaries -->
+      <g transform="translate(360, 0)">
+        <rect width="360" height="72" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="12" y="18" fill="#c084fc" font-size="12" font-weight="600">Testbench CLI Execution Binaries</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• sof-testbench4 (IPC4 / CAVS &amp; ACE tplg2)</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• sof-testbench3 (IPC3 / Legacy topologies)</text>
+        <text x="12" y="64" fill="#cbd5e1" font-size="10">Options: -t tplg -i in.raw -o out.raw -p 1,2 -b S32_LE</text>
+      </g>
+
+      <!-- Dynamic Control Scripts -->
+      <g transform="translate(740, 0)">
+        <rect width="340" height="72" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1.2" />
+        <text x="12" y="18" fill="#fbbf24" font-size="12" font-weight="600">Dynamic Runtime Control Sequencer</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• -s controls.sh (amixer / sof-ctl script)</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• In-stream volume sweeps &amp; mute toggles</text>
+        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• Runtime EQ coefficient blob switching</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- MIDDLE CONTAINER: Core Testbench Engine & Firmware Emulation Subsystem -->
+  <g transform="translate(40, 228)">
+    <rect width="1120" height="305" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(20, 14)">
+      <rect width="26" height="26" rx="6" fill="#7c3aed" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">2</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Core Testbench Firmware Emulation Engine</text>
+      <text x="750" y="18" fill="#c084fc" font-size="11" font-family="monospace">10x to 100x Faster Than Real Time Execution</text>
+    </g>
+
+    <!-- Topology Parsing & IPC Emulation -->
+    <g transform="translate(20, 48)">
+      <rect width="300" height="240" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="12" y="20" fill="#38bdf8" font-size="13" font-weight="bold">Topology &amp; IPC Dispatcher</text>
+      <text x="12" y="38" fill="#94a3b8" font-size="10">topology_ipc4.c / topology_ipc3.c</text>
+      
+      <g transform="translate(10, 48)">
+        <rect width="280" height="52" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#e2e8f0" font-size="10" font-weight="600">Binary Topology Parsing (.tplg):</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• Decodes manifest, tokens, and widgets</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Maps pipeline IDs (-p 1,2 playback / -p 3,4 capture)</text>
+      </g>
+
+      <g transform="translate(10, 108)">
+        <rect width="280" height="58" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#e2e8f0" font-size="10" font-weight="600">IPC Mailbox Emulation:</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• tb_ipc_message() &amp; tb_mq_cmd_tx_rx()</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Module creation, binding, and memory setup</text>
+        <text x="8" y="54" fill="#94a3b8" font-size="9">• Pipeline trigger: START, PAUSE, STOP, RESET</text>
+      </g>
+
+      <g transform="translate(10, 174)">
+        <rect width="280" height="54" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#e2e8f0" font-size="10" font-weight="600">Simulated Scheduling Domain:</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• Drives pipeline period ticks in batch loops</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Synchronous, deterministic stream progress</text>
+      </g>
+    </g>
+
+    <!-- Audio Processing Pipeline Graph -->
+    <g transform="translate(340, 48)">
+      <rect width="440" height="240" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+      <text x="14" y="20" fill="#c084fc" font-size="13" font-weight="bold">SOF Audio Processing Pipeline Graph</text>
+      <text x="14" y="38" fill="#94a3b8" font-size="10">Unmodified DSP Firmware Component Execution (C / SIMD / Float)</text>
+
+      <!-- Simulated Pipeline Nodes -->
+      <g transform="translate(14, 48)">
+        <!-- File Ingest -->
+        <rect x="0" y="0" width="90" height="52" rx="6" fill="#0284c7" stroke="#38bdf8" stroke-width="1" />
+        <text x="45" y="20" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">file (Source)</text>
+        <text x="45" y="34" fill="#e0f2fe" font-size="8" text-anchor="middle">Host Copier Sub</text>
+        <text x="45" y="44" fill="#e0f2fe" font-size="8" text-anchor="middle">Reads in.raw</text>
+
+        <!-- Arrow -->
+        <path d="M 90 26 L 110 26" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arrowCyan)" fill="none" />
+
+        <!-- Comp 1: Volume -->
+        <rect x="110" y="0" width="95" height="52" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="157" y="20" fill="#c084fc" font-size="10" font-weight="bold" text-anchor="middle">Volume / Gain</text>
+        <text x="157" y="34" fill="#cbd5e1" font-size="8" text-anchor="middle">Linear Ramp / Fade</text>
+        <text x="157" y="44" fill="#94a3b8" font-size="8" text-anchor="middle">comp_copy()</text>
+
+        <!-- Arrow -->
+        <path d="M 205 26 L 225 26" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arrowPurple)" fill="none" />
+
+        <!-- Comp 2: EQ IIR / FIR -->
+        <rect x="225" y="0" width="95" height="52" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="272" y="20" fill="#c084fc" font-size="10" font-weight="bold" text-anchor="middle">EQ (IIR / FIR)</text>
+        <text x="272" y="34" fill="#cbd5e1" font-size="8" text-anchor="middle">Biquad Filterbank</text>
+        <text x="272" y="44" fill="#94a3b8" font-size="8" text-anchor="middle">comp_copy()</text>
+
+        <!-- Arrow -->
+        <path d="M 320 26 L 340 26" stroke="#c084fc" stroke-width="1.5" marker-end="url(#arrowPurple)" fill="none" />
+
+        <!-- File Sink -->
+        <rect x="340" y="0" width="80" height="52" rx="6" fill="#059669" stroke="#34d399" stroke-width="1" />
+        <text x="380" y="20" fill="#ffffff" font-size="10" font-weight="bold" text-anchor="middle">file (Sink)</text>
+        <text x="380" y="34" fill="#d1fae5" font-size="8" text-anchor="middle">DAI Copier Sub</text>
+        <text x="380" y="44" fill="#d1fae5" font-size="8" text-anchor="middle">Writes out.raw</text>
+      </g>
+
+      <!-- Buffer & Lifecycle details -->
+      <g transform="translate(14, 110)">
+        <rect width="406" height="54" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#f8fafc" font-size="10" font-weight="600">Circular Audio Buffer Subsystem:</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• Period-based buffer allocation (size = channels × rate × period / 1000)</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Strict read/write pointer updates, underrun/overrun boundary tracking</text>
+      </g>
+
+      <g transform="translate(14, 172)">
+        <rect width="406" height="56" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#f8fafc" font-size="10" font-weight="600">Component Lifecycle Hooks Under Test:</text>
+        <text x="8" y="32" fill="#38bdf8" font-size="9" font-family="monospace">new() -> params() -> prepare() -> [copy() x N] -> reset() -> free()</text>
+        <text x="8" y="46" fill="#94a3b8" font-size="9">Validates component states without physical hardware reloads</text>
+      </g>
+    </g>
+
+    <!-- Simulated File Endpoints -->
+    <g transform="translate(800, 48)">
+      <rect width="300" height="240" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1.2" />
+      <text x="14" y="20" fill="#34d399" font-size="13" font-weight="bold">Simulated Audio File Endpoints</text>
+      <text x="14" y="38" fill="#94a3b8" font-size="10">Binary PCM File I/O (file.c)</text>
+
+      <g transform="translate(10, 48)">
+        <rect width="280" height="52" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#38bdf8" font-size="10" font-weight="600">Virtual Audio Source (-i in.raw):</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• Raw binary PCM or ASCII text formatted samples</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Synthesized test tones, chirps, pink noise, or music</text>
+      </g>
+
+      <g transform="translate(10, 108)">
+        <rect width="280" height="58" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#34d399" font-size="10" font-weight="600">Virtual Audio Sink (-o out.raw):</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• Captures processed output stream sample-by-sample</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Multi-output support (up to 4 sinks: o1.raw,o2.raw,...)</text>
+        <text x="8" y="54" fill="#94a3b8" font-size="9">• Instant conversion to WAV via sox for listening/analysis</text>
+      </g>
+
+      <g transform="translate(10, 174)">
+        <rect width="280" height="54" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#fbbf24" font-size="10" font-weight="600">Format Flexibility:</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">• Formats: S16_LE, S24_LE, S32_LE, Float</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• Rates: 8 kHz to 384 kHz | Channels: 1 to 8 ch</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM CONTAINER: Multi-Target Execution & Verification Toolchains -->
+  <g transform="translate(40, 548)">
+    <rect width="1120" height="152" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(20, 14)">
+      <rect width="26" height="26" rx="6" fill="#d97706" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">3</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Multi-Target Execution, Profiling &amp; Quality Toolchains</text>
+    </g>
+
+    <g transform="translate(20, 48)">
+      <!-- Native Host Target -->
+      <g transform="translate(0, 0)">
+        <rect width="350" height="88" rx="6" fill="#1e293b" stroke="#0284c7" stroke-width="1.2" />
+        <text x="12" y="18" fill="#38bdf8" font-size="12" font-weight="600">Native Host (x86-64 / ARM / RISC-V)</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• Ultra-fast simulation (10x–100x real-time)</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">• Valgrind: --leak-check=full --track-origins=yes</text>
+        <text x="12" y="62" fill="#e2e8f0" font-size="10" font-family="monospace">• Sanitizers: AddressSanitizer (ASan) &amp; UBSan</text>
+        <text x="12" y="76" fill="#e2e8f0" font-size="10" font-family="monospace">• Interactive Debuggers: GDB &amp; LLDB breakpoints</text>
+      </g>
+
+      <!-- Xtensa Cycle-Accurate Simulator -->
+      <g transform="translate(370, 0)">
+        <rect width="360" height="88" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="12" y="18" fill="#c084fc" font-size="12" font-weight="600">Xtensa Simulator (xt-run &amp; xt-gprof)</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• Cycle-accurate Cadence Xtensa core models</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">• Accurate MCPS estimation per component</text>
+        <text x="12" y="62" fill="#e2e8f0" font-size="10" font-family="monospace">• xt-gprof: Flat &amp; call-graph hotspot profiling</text>
+        <text x="12" y="76" fill="#e2e8f0" font-size="10" font-family="monospace">• Target platforms: MTL, TGL, PTL, I.MX8</text>
+      </g>
+
+      <!-- Objective Audio Quality -->
+      <g transform="translate(750, 0)">
+        <rect width="330" height="88" rx="6" fill="#1e293b" stroke="#059669" stroke-width="1.2" />
+        <text x="12" y="18" fill="#34d399" font-size="12" font-weight="600">Objective AES17 Audio Quality (Octave)</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• process_test.m automated test runner</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">• Metrics: Gain, Frequency Response, THD+N</text>
+        <text x="12" y="62" fill="#e2e8f0" font-size="10" font-family="monospace">• Dynamic Range: CCIR-RMS acoustic metrics</text>
+        <text x="12" y="76" fill="#e2e8f0" font-size="10" font-family="monospace">• Chirp spectrogram &amp; pass/fail threshold gates</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows -->
+  <path d="M 200 213 L 200 228" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" fill="none" />
+  <path d="M 950 213 L 950 228" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)" fill="none" />
+  <path d="M 600 533 L 600 548" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)" fill="none" />
+</svg>
