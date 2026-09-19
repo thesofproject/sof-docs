@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" />
+      <stop offset="100%" stop-color="#f97316" />
+    </linearGradient>
+
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#ef4444" />
+    </marker>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Header -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#headerGrad)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 327: Sound Open Firmware (SOF) Fuzzing Framework Architecture
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      Dual-Engine Platform: LLVM libFuzzer on Zephyr native_sim &amp; AFL++ on Host Audio Testbench
+    </text>
+  </g>
+
+  <!-- SECTION 1: Input Generation & Mutation Engine (Top Tier) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="1040" height="110" rx="8" fill="url(#cardGrad)" stroke="#f97316" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#c2410c" />
+    <rect x="0" y="20" width="1040" height="8" fill="#c2410c" />
+    <text x="16" y="19" fill="#fff7ed" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      1. Input Generation, Protocol Dictionaries &amp; Mutation Engine
+    </text>
+
+    <!-- Sub-boxes -->
+    <g transform="translate(16, 38)">
+      <!-- Seed Corpus -->
+      <rect x="0" y="0" width="310" height="60" rx="6" fill="#0f172a" stroke="#ea580c" stroke-width="1" />
+      <text x="12" y="18" fill="#fb923c" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Seed Corpus &amp; Coverage Feedback</text>
+      <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">./fuzz_corpus/ &amp; valid IPC packets</text>
+      <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Edge coverage triggers seed promotion &amp; persistence</text>
+
+      <!-- Dictionaries -->
+      <rect x="330" y="0" width="350" height="60" rx="6" fill="#0f172a" stroke="#ea580c" stroke-width="1" />
+      <text x="12" y="18" fill="#fb923c" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Automated Protocol Dictionaries</text>
+      <text x="12" y="34" fill="#fed7aa" font-size="9.5" font-family="monospace">scripts/gen_fuzz_ipc4_dict.py -> ipc4.dict</text>
+      <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Harvests headers: msg_tgt, rsp, type, state enums</text>
+
+      <!-- Mutation Engine -->
+      <rect x="700" y="0" width="308" height="60" rx="6" fill="#0f172a" stroke="#ea580c" stroke-width="1" />
+      <text x="12" y="18" fill="#fb923c" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Genetic Mutation Strategies</text>
+      <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="system-ui, sans-serif">Bit-flips, byte additions, integer boundaries</text>
+      <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Dictionary token splicing &amp; crossover mutators</text>
+    </g>
+  </g>
+
+  <!-- Connectors from Input to Engines -->
+  <path d="M 280 215 L 280 255" stroke="#f97316" stroke-width="2" fill="none" marker-end="url(#arrRed)" />
+  <path d="M 800 215 L 800 255" stroke="#f97316" stroke-width="2" fill="none" marker-end="url(#arrRed)" />
+
+  <!-- SECTION 2: Dual Fuzzing Engines (Middle Tier) -->
+  <!-- Engine 1: libFuzzer on Zephyr native_sim (Left Column) -->
+  <g transform="translate(30, 260)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#0891b2" />
+    <rect x="0" y="20" width="505" height="8" fill="#0891b2" />
+    <text x="16" y="19" fill="#ecfeff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      Engine 1: LLVM libFuzzer on Zephyr native_sim (IPC Protocols)
+    </text>
+
+    <!-- Sub-elements in Engine 1 -->
+    <g transform="translate(14, 38)">
+      <!-- Box E1.1: Build & Harness -->
+      <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+      <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Zephyr Target Build &amp; Clang libFuzzer Harness</text>
+      <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">scripts/fuzz.sh -i 4 -t 300 -s address -j $(nproc)</text>
+      <text x="10" y="48" fill="#a5f3fc" font-size="9" font-family="monospace">boards/native_sim_libfuzzer.conf (-fsanitize=fuzzer)</text>
+      <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Compiles for native_sim (i386 32-bit or x86_64) generating zephyr.exe</text>
+
+      <!-- Box E1.2: POSIX Mailbox Bridge -->
+      <rect x="0" y="74" width="477" height="66" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+      <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">POSIX IPC Mailbox Injection Bridge (posix/fuzz.c)</text>
+      <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)</text>
+      <text x="10" y="47" fill="#a5f3fc" font-size="9" font-family="monospace">-> fuzz_isr() triggers simulated DSP hardware mailbox interrupt</text>
+      <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Passes raw payload into in-memory mailbox without network or driver IO</text>
+
+      <!-- Box E1.3: Target Subsystems -->
+      <rect x="0" y="148" width="477" height="96" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+      <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Targeted Firmware Subsystems</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">IPC4 Message Decoder:</tspan> <tspan font-family="monospace" fill="#cbd5e1">ipc4/handler.c, handler-kernel.c</tspan></text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Large Config Protocol:</tspan> Multi-fragment module parameters</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Pipeline &amp; Module Binding:</tspan> Dynamic instantiation &amp; bind</text>
+      <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">IPC3 Legacy Protocol:</tspan> <tspan font-family="monospace" fill="#cbd5e1">ipc3/handler.c, host-page-table.c</tspan></text>
+    </g>
+  </g>
+
+  <!-- Engine 2: AFL++ on Host Testbench (Right Column) -->
+  <g transform="translate(565, 260)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#7e22ce" />
+    <rect x="0" y="20" width="505" height="8" fill="#7e22ce" />
+    <text x="16" y="19" fill="#faf5ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      Engine 2: AFL++ on Host Audio Testbench (Topology &amp; Processing)
+    </text>
+
+    <!-- Sub-elements in Engine 2 -->
+    <g transform="translate(14, 38)">
+      <!-- Box E2.1: Build & Instrumentation -->
+      <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+      <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">AFL++ Instrumentation Build</text>
+      <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">export SOF_AFL=/usr/bin/afl-clang-fast</text>
+      <text x="10" y="48" fill="#d8b4fe" font-size="9" font-family="monospace">./scripts/rebuild-testbench.sh -f</text>
+      <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Compiles sof-testbench4 with LLVM branch coverage trampolines</text>
+
+      <!-- Box E2.2: Forkserver Execution -->
+      <rect x="0" y="74" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+      <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">AFL++ Forkserver &amp; Persistent Pipeline Execution</text>
+      <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">afl-fuzz -i tplg_in/ -o findings/ -- ./sof-testbench4 \</text>
+      <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">  -t @@ -p 1,2 -i in.raw -o out.raw</text>
+      <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">High-throughput forkserver swaps mutated topology file at @@</text>
+
+      <!-- Box E2.3: Target Subsystems -->
+      <rect x="0" y="148" width="477" height="96" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+      <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Targeted Subsystems &amp; Data Structures</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Topology 2.0 Binary Parser:</tspan> Corrupted tokens, bad UUIDs</text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Widget Parameter Ingestion:</tspan> Out-of-bounds filter coeffs</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Circular Buffer Management:</tspan> Corrupted wrap pointers</text>
+      <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Audio DSP Processing Loop:</tspan> Denormals, NaNs, zero division</text>
+    </g>
+  </g>
+
+  <!-- Connectors Down to Monitoring & Triage -->
+  <path d="M 280 555 L 280 585" stroke="#06b6d4" stroke-width="2" fill="none" marker-end="url(#arrCyan)" />
+  <path d="M 820 555 L 820 585" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrPurple)" />
+
+  <!-- SECTION 3: Sanitizers & Triaging (Bottom Tier) -->
+  <g transform="translate(30, 590)">
+    <rect x="0" y="0" width="1040" height="125" rx="8" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="1040" height="8" fill="#047857" />
+    <text x="16" y="19" fill="#ecfdf5" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      3. Sanitizer Diagnostics, Crash Triaging &amp; CI Regression Gate
+    </text>
+
+    <!-- Sub-boxes in Bottom Section -->
+    <g transform="translate(16, 36)">
+      <!-- Sanitizers Box -->
+      <rect x="0" y="0" width="310" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Compiler Sanitizers (ASan &amp; UBSan)</text>
+      <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#a7f3d0">AddressSanitizer:</tspan> Out-of-bounds, use-after-free</text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-family="monospace" fill="#a7f3d0">UndefinedBehavior:</tspan> Overflow, invalid shift, null</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Immediate abort &amp; memory shadow map dump</text>
+
+      <!-- Crash Triage Box -->
+      <rect x="330" y="0" width="350" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Crash Reproduction &amp; Triage Workflow</text>
+      <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">gdb -tui ./build-fuzz/zephyr/zephyr.exe \</text>
+      <text x="10" y="49" fill="#e2e8f0" font-size="9.5" font-family="monospace">  -ex 'run &gt; _ ./crash-&lt;sha256&gt;'</text>
+      <text x="10" y="64" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Input testcase minimization via <tspan font-family="monospace">afl-tmin</tspan> or libFuzzer</text>
+
+      <!-- CI Pipeline Box -->
+      <rect x="700" y="0" width="308" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">GitHub Actions CI Enforcement</text>
+      <text x="10" y="34" fill="#a7f3d0" font-size="9.5" font-family="monospace">.github/workflows/ipc_fuzzer.yml</text>
+      <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Matrix execution across IPC3 &amp; IPC4</text>
+      <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Uploads crash artifacts &amp; blocks PR merge</text>
+    </g>
+  </g>
+</svg>
