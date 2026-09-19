@@ -122,6 +122,11 @@ Core Runtime Tuning & Control Infrastructure
 
 * :ref:`runtime_tuning_sof_ctl` (Authoritative runtime parameter injection, ABI serialization, and ``sof-ctl`` guide)
 
+Dynamics & Transducer Protection Tuning
+=======================================
+
+* :ref:`drc_tuning` (Single-band DRC and Multiband DRC compression curves, adaptive ballistics, and speaker protection)
+
 Acoustic, Transducer & Array Tuning
 ===================================
 
@@ -134,10 +139,12 @@ Acoustic, Transducer & Array Tuning
    :maxdepth: 1
 
    tuning/runtime_tuning_sof_ctl
+   tuning/drc_tuning
    algorithms/eq/equalizers_tuning
    algorithms/tdfb/time_domain_fixed_beamformer
    algorithms/src/sample_rate_conversion
    algorithms/demux/demux.rst
+
 
 ---
 
