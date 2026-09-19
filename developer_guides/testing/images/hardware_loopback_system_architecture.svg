@@ -1,0 +1,302 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+    <marker id="arrowRose" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#f43f5e" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="720" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Hardware Audio Loopback Verification System Architecture</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">End-to-end physical verification: Host test runner, embedded USB bridges (ESP32-P4 / Teensy 4.1), physical DAI links, target DUTs, and Saleae bus analysis</text>
+  </g>
+
+  <!-- TOP CONTAINER: Host Test Station & Orchestration Layer -->
+  <g transform="translate(40, 78)">
+    <rect width="1120" height="150" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(20, 16)">
+      <rect width="28" height="28" rx="6" fill="#0284c7" />
+      <text x="14" y="19" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle">1</text>
+      <text x="38" y="19" fill="#f8fafc" font-size="16" font-weight="600">Host Automated Test Orchestrator (Linux Workstation / CI Runner)</text>
+      <text x="750" y="19" fill="#38bdf8" font-size="12" font-family="monospace">Ubuntu 24.04 LTS / ALSA / Python 3.12</text>
+    </g>
+
+    <!-- Sub-boxes within Host Orchestrator -->
+    <g transform="translate(20, 52)">
+      <!-- Automation Scripts -->
+      <g transform="translate(0, 0)">
+        <rect width="260" height="82" rx="8" fill="#1e293b" stroke="#0284c7" stroke-width="1.2" />
+        <text x="14" y="22" fill="#38bdf8" font-size="13" font-weight="600">Test Harness Runners</text>
+        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• test_p4_loopback.py</text>
+        <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• test_teensy_loopback.py</text>
+        <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• capmat (capture matrix)</text>
+      </g>
+
+      <!-- ALSA Audio Subsystem -->
+      <g transform="translate(275, 0)">
+        <rect width="260" height="82" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="14" y="22" fill="#c084fc" font-size="13" font-weight="600">ALSA UAC2 Audio Subsystem</text>
+        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• aplay / speaker-test (Tx tone)</text>
+        <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• arecord (Rx bitstream capture)</text>
+        <text x="14" y="74" fill="#cbd5e1" font-size="11">16–384 kHz / S16–S32_LE / TDM</text>
+      </g>
+
+      <!-- DSP Acoustic Engine -->
+      <g transform="translate(550, 0)">
+        <rect width="265" height="82" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1.2" />
+        <text x="14" y="22" fill="#34d399" font-size="13" font-weight="600">Acoustic Analysis Engine</text>
+        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• FFT Tone Peak &amp; Harmonics</text>
+        <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• SNR / THD+N / Dynamic Range</text>
+        <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• Bit-Exact Differential Comparator</text>
+      </g>
+
+      <!-- Saleae & Serial Controller -->
+      <g transform="translate(830, 0)">
+        <rect width="250" height="82" rx="8" fill="#1e293b" stroke="#d97706" stroke-width="1.2" />
+        <text x="14" y="22" fill="#fbbf24" font-size="13" font-weight="600">Instrumentation &amp; Control</text>
+        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• saleae-tool (gRPC 10430)</text>
+        <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• UART Shell (ttyACM / by-id)</text>
+        <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• SSH DUT Executor (with timeout)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- MIDDLE LEFT: Embedded Audio Test Bridges -->
+  <g transform="translate(40, 244)">
+    <rect width="360" height="315" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(18, 16)">
+      <rect width="26" height="26" rx="6" fill="#7c3aed" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">2</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Embedded Audio Test Bridges</text>
+    </g>
+
+    <!-- ESP32-P4 Loopback Pair -->
+    <g transform="translate(18, 48)">
+      <rect width="324" height="126" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+      <text x="12" y="19" fill="#c084fc" font-size="12" font-weight="600">ESP32-P4 Dual RISC-V @ 400 MHz (UAC2 Bridges)</text>
+      
+      <!-- Pallas -->
+      <g transform="translate(10, 28)">
+        <rect width="146" height="86" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+        <text x="8" y="16" fill="#38bdf8" font-size="11" font-weight="bold">Pallas (Board 3)</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="10">Role: Clock Provider Tx</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">hw:CARD=Pallas</text>
+        <text x="8" y="64" fill="#94a3b8" font-size="9">I2S DOUT: Pin 7 (GPIO 23)</text>
+        <text x="8" y="78" fill="#94a3b8" font-size="9">BCLK: Pin 11 | WS: Pin 12</text>
+      </g>
+
+      <!-- Ceres -->
+      <g transform="translate(168, 28)">
+        <rect width="146" height="86" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1" />
+        <text x="8" y="16" fill="#34d399" font-size="11" font-weight="bold">Ceres (Board 4)</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="10">Role: Clock Consumer Rx</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">hw:CARD=Ceres</text>
+        <text x="8" y="64" fill="#94a3b8" font-size="9">I2S DIN: Pin 13 (GPIO 20)</text>
+        <text x="8" y="78" fill="#94a3b8" font-size="9">BCLK: Pin 11 | WS: Pin 12</text>
+      </g>
+    </g>
+
+    <!-- Teensy 4.1 Loopback Pair -->
+    <g transform="translate(18, 184)">
+      <rect width="324" height="118" rx="8" fill="#1e293b" stroke="#059669" stroke-width="1.2" />
+      <text x="12" y="19" fill="#34d399" font-size="12" font-weight="600">Teensy 4.1 Cortex-M7 @ 600 MHz (SAI / SPDIF)</text>
+      
+      <!-- Board A -->
+      <g transform="translate(10, 28)">
+        <rect width="146" height="78" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+        <text x="8" y="16" fill="#38bdf8" font-size="11" font-weight="bold">Board A (Provider Tx)</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">Audio PLL4: 688.128 MHz</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">Pin 14: SPDIF Out</text>
+        <text x="8" y="64" fill="#94a3b8" font-size="9">Pin 7: SAI1 Tx Data</text>
+      </g>
+
+      <!-- Board B -->
+      <g transform="translate(168, 28)">
+        <rect width="146" height="78" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1" />
+        <text x="8" y="16" fill="#34d399" font-size="11" font-weight="bold">Board B (Consumer Rx)</text>
+        <text x="8" y="32" fill="#94a3b8" font-size="9">UAC2 Async Feedback</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">Pin 15: SPDIF In</text>
+        <text x="8" y="64" fill="#94a3b8" font-size="9">Pin 8: SAI1 Rx Data</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- MIDDLE CENTER: Physical Bus Wiring & Signal Interconnect -->
+  <g transform="translate(420, 244)">
+    <rect width="360" height="315" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(18, 16)">
+      <rect width="26" height="26" rx="6" fill="#0284c7" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">3</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Physical Bus Wiring &amp; Clocking</text>
+    </g>
+
+    <!-- Signal Buses -->
+    <g transform="translate(18, 48)">
+      <!-- I2S/TDM Bus -->
+      <rect width="324" height="66" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="12" y="18" fill="#38bdf8" font-size="12" font-weight="bold">I2S / TDM Multi-Channel Bus</text>
+      <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• BCLK: 1.536–24.576 MHz (2ch / 8ch TDM)</text>
+      <text x="12" y="52" fill="#e2e8f0" font-size="10" font-family="monospace">• WS / FSYNC: 16–384 kHz (DIN / DOUT)</text>
+
+      <!-- PDM Bus -->
+      <g transform="translate(0, 74)">
+        <rect width="324" height="66" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1" />
+        <text x="12" y="18" fill="#fbbf24" font-size="12" font-weight="bold">PDM Digital Microphone Bus</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• PDM_CLK: 1.024–3.072 MHz (64x OSR)</text>
+        <text x="12" y="52" fill="#e2e8f0" font-size="10" font-family="monospace">• PDM_DATA: Dual-edge DMIC Injection</text>
+      </g>
+
+      <!-- S/PDIF Bus -->
+      <g transform="translate(0, 148)">
+        <rect width="324" height="54" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1" />
+        <text x="12" y="18" fill="#c084fc" font-size="12" font-weight="bold">S/PDIF Coaxial / Optical Link</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• BMC @ 3.072–12.288 MHz (IEC 60958-3)</text>
+      </g>
+
+      <!-- Clock Role Switching -->
+      <g transform="translate(0, 210)">
+        <rect width="324" height="42" rx="6" fill="#0f172a" stroke="#64748b" stroke-width="1" />
+        <text x="10" y="16" fill="#f8fafc" font-size="10" font-weight="bold">Runtime Clock Role Switching:</text>
+        <text x="10" y="32" fill="#38bdf8" font-size="9" font-family="monospace">amixer cset name='SSP0 Clock Role' 'Provider' | 'Consumer'</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- MIDDLE RIGHT: Target DUT Hardware -->
+  <g transform="translate(800, 244)">
+    <rect width="360" height="315" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(18, 16)">
+      <rect width="26" height="26" rx="6" fill="#059669" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">4</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Physical Target DUTs</text>
+    </g>
+
+    <!-- Spider DUT -->
+    <g transform="translate(18, 48)">
+      <rect width="324" height="126" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="12" y="19" fill="#38bdf8" font-size="12" font-weight="bold">Spider DUT (Tiger Lake / CAVS 2.5)</text>
+      <text x="12" y="36" fill="#94a3b8" font-size="10">SSH: root@spider | Relay 2 Power-Cycle</text>
+      
+      <g transform="translate(10, 44)">
+        <rect width="304" height="70" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#e2e8f0" font-size="10" font-family="monospace">40-Pin Header I2S0 (hw:sofhdadsp,0):</text>
+        <text x="8" y="32" fill="#cbd5e1" font-size="9">Pin 12 (BCLK), Pin 35 (WS), Pin 38 (DIN), Pin 40 (DOUT)</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">DMIC / WOV Array (hw:sofhdadsp,10 / 11):</text>
+        <text x="8" y="62" fill="#cbd5e1" font-size="9">Spider PDM Clock Provider $\to$ ESP32-P4 Sigma-Delta Injector</text>
+      </g>
+    </g>
+
+    <!-- Aphid & Dragon Fly DUTs -->
+    <g transform="translate(18, 184)">
+      <rect width="324" height="118" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="12" y="19" fill="#34d399" font-size="12" font-weight="bold">Aphid (PTL ACE 3.0) &amp; Dragon Fly (ARL ACE 1.5)</text>
+      
+      <g transform="translate(10, 28)">
+        <rect width="304" height="78" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+        <text x="8" y="16" fill="#f8fafc" font-size="10" font-weight="600">Aphid DUT (Panther Lake / Relay 1):</text>
+        <text x="8" y="30" fill="#94a3b8" font-size="9">• PDM DMIC Capture (GPIO 4 CLK, GPIO 5 Data In)</text>
+        <text x="8" y="44" fill="#94a3b8" font-size="9">• I2S0 Consumer/Provider Verification (hw:sofhdadsp,0)</text>
+        <text x="8" y="60" fill="#f8fafc" font-size="10" font-weight="600">Dragon Fly DUT (Arrow Lake / Battery No-Relay):</text>
+        <text x="8" y="72" fill="#94a3b8" font-size="9">• I2S &amp; Display Audio / D3 Suspend-Resume Loopback</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM CONTAINER: Bus Analyzer & Electrical Safety -->
+  <g transform="translate(40, 574)">
+    <rect width="1120" height="126" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(20, 14)">
+      <rect width="24" height="24" rx="5" fill="#d97706" />
+      <text x="12" y="17" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">5</text>
+      <text x="32" y="17" fill="#f8fafc" font-size="14" font-weight="600">Hardware Bus Instrumentation, Timing Verification &amp; Safety Isolation</text>
+    </g>
+
+    <g transform="translate(20, 44)">
+      <!-- Saleae Logic Pro 8 -->
+      <g transform="translate(0, 0)">
+        <rect width="525" height="70" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1.2" />
+        <text x="12" y="18" fill="#fbbf24" font-size="12" font-weight="600">Saleae Logic Pro 8 High-Speed Bus Analyzer (500 MS/s Digital, 50 MS/s Analog)</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Period Jitter: σ_T (RMS) &lt; 2.5 ns | Peak-to-Peak Jitter &lt; 8.0 ns</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• Clock Symmetry: Duty Cycle 50.0% ± 2.0% | Setup/Hold Margin Verification</text>
+        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• Logic 2 Automated Protocol Decoders (I2S, TDM, PDM, S/PDIF BMC)</text>
+      </g>
+
+      <!-- Relay & Hardware Safety -->
+      <g transform="translate(545, 0)">
+        <rect width="535" height="70" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="1.2" />
+        <text x="12" y="18" fill="#f43f5e" font-size="12" font-weight="600">Hardware Relay Control &amp; Critical Port Protection</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Relay 1 (Aphid PTL) &amp; Relay 2 (Spider TGL) Automated Power-Cycle (TCP 8081)</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• Live Power Telemetry Stream: Voltage / Current / Power Benchmarks (TCP 8080)</text>
+        <text x="12" y="64" fill="#fca5a5" font-size="10" font-weight="bold">• CRITICAL SAFETY: /dev/ttyACM1 (ESP32-C3 Power Controller) Strictly Locked</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows & Lines -->
+  <!-- Top Host to Embedded Bridges -->
+  <path d="M 220 228 L 220 244" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" fill="none" />
+  <!-- Top Host to DUT -->
+  <path d="M 980 228 L 980 244" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)" fill="none" />
+  <!-- Embedded Bridges to Physical DAI Bus -->
+  <path d="M 400 380 L 420 380" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" fill="none" />
+  <!-- Physical DAI Bus to Target DUTs -->
+  <path d="M 780 380 L 800 380" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" fill="none" />
+  <!-- DAI Bus down to Saleae Analyzer -->
+  <path d="M 600 559 L 600 574" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)" fill="none" />
+</svg>
