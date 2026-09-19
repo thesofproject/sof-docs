@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradWflow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGradW" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadowW" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGradWflow)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    End-to-End Level Multiplier &amp; Aria AGC Tuning Workflow
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+    From Acoustic Metrology to Q9.23 Sensitivity Trims, Dynamic Headroom Sizing, Topology 2 &amp; DUT Verification
+  </text>
+
+  <!-- 5 Stage Cards -->
+  <!-- Stage 1: Acoustic Metrology -->
+  <g transform="translate(25, 90)" filter="url(#shadowW)">
+    <rect width="175" height="420" rx="10" fill="url(#cardGradW)" stroke="#0284c7" stroke-width="1.5" />
+    <rect width="175" height="34" rx="10" fill="#0284c7" />
+    <text x="87" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">
+      STAGE 1: METROLOGY
+    </text>
+
+    <text x="15" y="60" fill="#38bdf8" font-family="sans-serif" font-size="10.5" font-weight="700">Acoustic Testing</text>
+    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Anechoic chamber</text>
+    <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• 94 dBSPL @ 1 kHz</text>
+    <text x="15" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Class 1 reference mic</text>
+    <text x="15" y="134" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• APx555 analyzer</text>
+
+    <rect x="10" y="155" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="175" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">Raw Capture</text>
+    <text x="20" y="195" fill="#94a3b8" font-family="sans-serif" font-size="9">Ch 0: -24.5 dBFS</text>
+    <text x="20" y="210" fill="#94a3b8" font-family="sans-serif" font-size="9">Ch 1: -26.0 dBFS</text>
+    <text x="20" y="225" fill="#94a3b8" font-family="sans-serif" font-size="9">Spread: 1.5 dB</text>
+
+    <rect x="10" y="255" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="275" text-anchor="middle" fill="#f43f5e" font-family="sans-serif" font-size="10" font-weight="700">Dynamic Headroom</text>
+    <text x="20" y="295" fill="#94a3b8" font-family="sans-serif" font-size="9">Max SPL: 120 dBSPL</text>
+    <text x="20" y="310" fill="#94a3b8" font-family="sans-serif" font-size="9">AOP margin: 26 dB</text>
+    <text x="20" y="325" fill="#94a3b8" font-family="sans-serif" font-size="9">ASR Target: -20 dBFS</text>
+
+    <rect x="10" y="355" width="155" height="50" rx="5" fill="#1e293b" stroke="#0284c7" stroke-width="1" />
+    <text x="87" y="375" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9.5" font-weight="700">Output: S_meas</text>
+    <text x="87" y="392" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="8.5">Per-channel sens vector</text>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 200 300 L 218 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlueWflow)" />
+
+  <!-- Stage 2: Sensitivity Calibration (Level Multiplier) -->
+  <g transform="translate(220, 90)" filter="url(#shadowW)">
+    <rect width="175" height="420" rx="10" fill="url(#cardGradW)" stroke="#0369a1" stroke-width="1.5" />
+    <rect width="175" height="34" rx="10" fill="#0369a1" />
+    <text x="87" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">
+      STAGE 2: LEVEL MULT
+    </text>
+
+    <text x="15" y="60" fill="#38bdf8" font-family="sans-serif" font-size="10.5" font-weight="700">Sensitivity Trim</text>
+    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Target: -26.0 dBFS</text>
+    <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• ΔG = S_t - S_m</text>
+    <text x="15" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Linear Q9.23 scaling</text>
+    <text x="15" y="134" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Shift = 23 bits</text>
+
+    <rect x="10" y="155" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="175" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-size="10" font-weight="700">Fast-Path Check</text>
+    <text x="20" y="195" fill="#cbd5e1" font-family="sans-serif" font-size="9">If ΔG == 0.0 dB:</text>
+    <text x="20" y="210" fill="#34d399" font-family="monospace" font-size="9">Gain = 0x00800000</text>
+    <text x="20" y="225" fill="#10b981" font-family="sans-serif" font-size="8.5">Bypass active loops</text>
+
+    <rect x="10" y="255" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="275" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">Python Tool</text>
+    <text x="20" y="295" fill="#94a3b8" font-family="monospace" font-size="8.5">sof_level_multiplier_</text>
+    <text x="20" y="308" fill="#94a3b8" font-family="monospace" font-size="8.5">aria_tool.py</text>
+    <text x="20" y="325" fill="#a5f3fc" font-family="sans-serif" font-size="8.5">calibrate --target -26</text>
+
+    <rect x="10" y="355" width="155" height="50" rx="5" fill="#1e293b" stroke="#0369a1" stroke-width="1" />
+    <text x="87" y="375" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9.5" font-weight="700">Output: Q9.23 Gains</text>
+    <text x="87" y="392" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="8.5">Per-channel 32-bit words</text>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 395 300 L 413 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlueWflow)" />
+
+  <!-- Stage 3: Dynamic Headroom Tuning (Aria AGC) -->
+  <g transform="translate(415, 90)" filter="url(#shadowW)">
+    <rect width="175" height="420" rx="10" fill="url(#cardGradW)" stroke="#0d9488" stroke-width="1.5" />
+    <rect width="175" height="34" rx="10" fill="#0d9488" />
+    <text x="87" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">
+      STAGE 3: ARIA AGC
+    </text>
+
+    <text x="15" y="60" fill="#2dd4bf" font-family="sans-serif" font-size="10.5" font-weight="700">Mode Selection</text>
+    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Mode 0: 0 dB (Bypass)</text>
+    <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Mode 1: +6 dB (Close)</text>
+    <text x="15" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Mode 2: +12 dB (Mid)</text>
+    <text x="15" y="134" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Mode 3: +18 dB (Far)</text>
+
+    <rect x="10" y="155" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="175" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">1 ms Lookahead</text>
+    <text x="20" y="195" fill="#cbd5e1" font-family="sans-serif" font-size="9">Circular buffer delay</text>
+    <text x="20" y="210" fill="#cbd5e1" font-family="sans-serif" font-size="9">10-state min search</text>
+    <text x="20" y="225" fill="#34d399" font-family="sans-serif" font-size="8.5">Linear ramp interpolation</text>
+
+    <rect x="10" y="255" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="275" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">Simulation Run</text>
+    <text x="20" y="295" fill="#94a3b8" font-family="monospace" font-size="8.5">sof_level_multiplier_</text>
+    <text x="20" y="308" fill="#94a3b8" font-family="monospace" font-size="8.5">aria_tool.py aria-sim</text>
+    <text x="20" y="325" fill="#a5f3fc" font-family="sans-serif" font-size="8.5">--att 2 --peak -6</text>
+
+    <rect x="10" y="355" width="155" height="50" rx="5" fill="#1e293b" stroke="#0d9488" stroke-width="1" />
+    <text x="87" y="375" text-anchor="middle" fill="#2dd4bf" font-family="sans-serif" font-size="9.5" font-weight="700">Output: Att Mode</text>
+    <text x="87" y="392" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="8.5">att = 0, 1, 2, or 3</text>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 590 300 L 608 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlueWflow)" />
+
+  <!-- Stage 4: Topology 2 & Blob Packaging -->
+  <g transform="translate(610, 90)" filter="url(#shadowW)">
+    <rect width="175" height="420" rx="10" fill="url(#cardGradW)" stroke="#059669" stroke-width="1.5" />
+    <rect width="175" height="34" rx="10" fill="#059669" />
+    <text x="87" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">
+      STAGE 4: PACKAGING
+    </text>
+
+    <text x="15" y="60" fill="#34d399" font-family="sans-serif" font-size="10.5" font-weight="700">IPC4 Packaging</text>
+    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Level Mult blob (4B)</text>
+    <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Aria blob (4B att)</text>
+    <text x="15" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Base module config</text>
+    <text x="15" y="134" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• ABI header binding</text>
+
+    <rect x="10" y="155" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="175" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">Topology 2</text>
+    <text x="20" y="195" fill="#cbd5e1" font-family="sans-serif" font-size="9">level_multiplier.conf</text>
+    <text x="20" y="210" fill="#cbd5e1" font-family="sans-serif" font-size="9">aria.conf widget</text>
+    <text x="20" y="225" fill="#cbd5e1" font-family="sans-serif" font-size="8.5">mixout-aria-gain pipeline</text>
+
+    <rect x="10" y="255" width="155" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="87" y="275" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">alsatplg Build</text>
+    <text x="20" y="295" fill="#94a3b8" font-family="monospace" font-size="8.5">alsatplg -c sof-...</text>
+    <text x="20" y="308" fill="#94a3b8" font-family="monospace" font-size="8.5">-o sof-aria.tplg</text>
+    <text x="20" y="325" fill="#10b981" font-family="sans-serif" font-size="8.5">Binary compiler build</text>
+
+    <rect x="10" y="355" width="155" height="50" rx="5" fill="#1e293b" stroke="#059669" stroke-width="1" />
+    <text x="87" y="375" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5" font-weight="700">Output: .tplg &amp; .bin</text>
+    <text x="87" y="392" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="8.5">Target topology binary</text>
+  </g>
+
+  <!-- Arrow 4 -> 5 -->
+  <path d="M 785 300 L 803 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlueWflow)" />
+
+  <!-- Stage 5: Target DUT Deployment & Sign-Off -->
+  <g transform="translate(805, 90)" filter="url(#shadowW)">
+    <rect width="170" height="420" rx="10" fill="url(#cardGradW)" stroke="#a855f7" stroke-width="1.5" />
+    <rect width="170" height="34" rx="10" fill="#a855f7" />
+    <text x="85" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="11" font-weight="700">
+      STAGE 5: VERIFICATION
+    </text>
+
+    <text x="15" y="60" fill="#c084fc" font-family="sans-serif" font-size="10.5" font-weight="700">Target DUT</text>
+    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Spider / Aphid / ARL</text>
+    <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Deploy .tplg via scp</text>
+    <text x="15" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Driver reload</text>
+    <text x="15" y="134" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Confirm UUIDs in dmesg</text>
+
+    <rect x="10" y="155" width="150" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="75" y="175" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">Acoustic Sign-Off</text>
+    <text x="15" y="195" fill="#cbd5e1" font-family="sans-serif" font-size="9">Linear boost: ±0.1 dB</text>
+    <text x="15" y="210" fill="#34d399" font-family="sans-serif" font-size="9">Peak clamp: 0.00 dBFS</text>
+    <text x="15" y="225" fill="#34d399" font-family="sans-serif" font-size="8.5">Flat factor: 0.00 (clean)</text>
+
+    <rect x="10" y="255" width="150" height="85" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="75" y="275" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">Live Control</text>
+    <text x="15" y="295" fill="#cbd5e1" font-family="monospace" font-size="8.5">amixer cset ...</text>
+    <text x="15" y="310" fill="#cbd5e1" font-family="monospace" font-size="8.5">sof-ctl -D hw:0 -s</text>
+    <text x="15" y="325" fill="#a5f3fc" font-family="sans-serif" font-size="8.5">Runtime injection</text>
+
+    <rect x="10" y="355" width="150" height="50" rx="5" fill="#1e293b" stroke="#a855f7" stroke-width="1" />
+    <text x="75" y="375" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="9.5" font-weight="700">Passed Sign-Off</text>
+    <text x="75" y="392" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-size="8.5">Optimal ASR Accuracy</text>
+  </g>
+
+  <!-- Bottom Command Summary Banner -->
+  <g transform="translate(25, 530)">
+    <rect width="950" height="85" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="25" y="24" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">
+      Production Deployment &amp; Calibration Command Pipeline:
+    </text>
+    <text x="25" y="44" fill="#cbd5e1" font-family="monospace" font-size="9.5">
+      1. python3 tools/tune/level_multiplier_aria/sof_level_multiplier_aria_tool.py calibrate --sens -24.5 -26.0 -25.2 -27.1 --target -26.0
+    </text>
+    <text x="25" y="60" fill="#cbd5e1" font-family="monospace" font-size="9.5">
+      2. python3 tools/tune/level_multiplier_aria/sof_level_multiplier_aria_tool.py build-blob --gain-db 1.5 --out lvmult_ch0.bin
+    </text>
+    <text x="25" y="76" fill="#cbd5e1" font-family="monospace" font-size="9.5">
+      3. ssh root@&lt;dut&gt; 'sof-ctl -D hw:0 -n "level_multiplier.1.1.extctl" -s /tmp/lvmult_ch0.bin &amp;&amp; amixer -c 0 cset name="aria.1.1.extctl" 2'
+    </text>
+  </g>
+
+  <!-- Markers -->
+  <defs>
+    <marker id="arrowBlueWflow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+    </marker>
+  </defs>
+</svg>

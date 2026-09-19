@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradRamp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGradR" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="rampWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#38bdf8" />
+    </linearGradient>
+    <filter id="shadowR" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="620" rx="14" fill="url(#bgGradRamp)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title & Subtitle -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Aria 1 ms Lookahead Circular Buffer &amp; Linear Ramp Engine
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+    Timeline Phasing (t + 1ms vs t), 10-State Minimum Envelope Search &amp; Sample-by-Sample Anti-Zipper Interpolation
+  </text>
+
+  <!-- Upper Half: Timeline Phasing & Circular Buffer -->
+  <g transform="translate(30, 85)" filter="url(#shadowR)">
+    <rect width="940" height="195" rx="10" fill="url(#cardGradR)" stroke="#334155" stroke-width="1.5" />
+    <rect width="940" height="30" rx="10" fill="#334155" />
+    <text x="470" y="20" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">
+      Timeline Phasing Across 1 ms Execution Window
+    </text>
+
+    <!-- Future Audio Block (t + 1ms) -->
+    <g transform="translate(30, 48)">
+      <rect width="250" height="125" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1.5" />
+      <text x="125" y="24" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">
+        Future Stream: t + 1 ms
+      </text>
+      <text x="125" y="42" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">
+        Source DMA Buffer
+      </text>
+
+      <rect x="15" y="55" width="220" height="32" rx="4" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="125" y="75" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="10">
+        aria_algo_calc_gain()
+      </text>
+      <text x="125" y="105" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">
+        Scans chunk peak: max_data
+      </text>
+      <text x="125" y="117" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="8.5">
+        Calculates gain before peak hits output
+      </text>
+    </g>
+
+    <!-- Arrow 1: Future to Circular Ring -->
+    <path d="M 280 110 L 335 110" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowBlueRamp)" />
+
+    <!-- Circular Delay Buffer Block -->
+    <g transform="translate(345, 48)">
+      <rect width="250" height="125" rx="8" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" />
+      <text x="125" y="24" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">
+        1 ms Circular Ring Buffer
+      </text>
+      <text x="125" y="42" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">
+        cd-&gt;data_addr .. cd-&gt;data_end
+      </text>
+
+      <rect x="15" y="55" width="220" height="32" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1" />
+      <text x="125" y="75" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="10">
+        cir_buf_copy() &amp; cir_buf_wrap()
+      </text>
+      <text x="125" y="105" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">
+        Holds 48 samples/ch (at 48 kHz)
+      </text>
+      <text x="125" y="117" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-size="8.5">
+        Strict 1.000 ms invariant delay
+      </text>
+    </g>
+
+    <!-- Arrow 2: Circular Ring to Delayed Audio -->
+    <path d="M 595 110 L 650 110" stroke="#10b981" stroke-width="2" marker-end="url(#arrowGreenRamp)" />
+
+    <!-- Delayed Audio Output Block (t) -->
+    <g transform="translate(660, 48)">
+      <rect width="250" height="125" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1.5" />
+      <text x="125" y="24" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">
+        Delayed Stream: t (Now)
+      </text>
+      <text x="125" y="42" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">
+        Sink Egress Buffer
+      </text>
+
+      <rect x="15" y="55" width="220" height="32" rx="4" fill="#1e293b" stroke="#10b981" stroke-width="1" />
+      <text x="125" y="75" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="10">
+        cd-&gt;aria_get_data()
+      </text>
+      <text x="125" y="105" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">
+        Multiplies delayed audio by ramped gain
+      </text>
+      <text x="125" y="117" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="8.5" font-weight="600">
+        Zipper-free protected output
+      </text>
+    </g>
+  </g>
+
+  <!-- Lower Left: 10-State Minimum Envelope Follower -->
+  <g transform="translate(30, 295)" filter="url(#shadowR)">
+    <rect width="455" height="305" rx="10" fill="url(#cardGradR)" stroke="#334155" stroke-width="1.5" />
+    <rect width="455" height="30" rx="10" fill="#0284c7" />
+    <text x="227" y="20" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">
+      10-State Sliding Window Minimum-Envelope Search
+    </text>
+
+    <!-- State table diagram -->
+    <text x="20" y="55" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">
+      Sliding Gain History Array: <tspan fill="#38bdf8" font-family="monospace">cd-&gt;gains[0..9]</tspan>
+    </text>
+
+    <!-- 10 State Boxes -->
+    <g transform="translate(20, 68)">
+      <!-- Past states 0..7 -->
+      <rect x="0" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="18" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S0</text>
+      <rect x="41" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="59" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S1</text>
+      <rect x="82" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="100" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S2</text>
+      <rect x="123" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="141" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S3</text>
+      <rect x="164" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="182" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S4</text>
+      <rect x="205" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="223" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S5</text>
+      <rect x="246" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="264" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S6</text>
+      <rect x="287" y="0" width="36" height="32" rx="3" fill="#1e293b" stroke="#475569" stroke-width="1" />
+      <text x="305" y="20" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="10">S7</text>
+      <!-- Active state 8 -->
+      <rect x="328" y="0" width="38" height="32" rx="3" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="347" y="20" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="10" font-weight="700">S8</text>
+      <!-- Future state 9 -->
+      <rect x="371" y="0" width="38" height="32" rx="3" fill="#d97706" stroke="#fbbf24" stroke-width="1.5" />
+      <text x="390" y="20" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="10" font-weight="700">S9</text>
+    </g>
+
+    <!-- Lookahead Minimum Search Logic -->
+    <rect x="20" y="115" width="415" height="75" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="135" fill="#38bdf8" font-family="sans-serif" font-size="10.5" font-weight="700">
+      Minimum Envelope Algorithm:
+    </text>
+    <text x="30" y="153" fill="#cbd5e1" font-family="monospace" font-size="9.5">
+      gain_begin = min(gains[gain_state + 2 .. gain_state + 9])
+    </text>
+    <text x="30" y="172" fill="#cbd5e1" font-family="monospace" font-size="9.5">
+      gain_end   = min(gains[gain_state + 3 .. gain_state + 10])
+    </text>
+
+    <!-- Acoustic Benefit Callout -->
+    <rect x="20" y="200" width="415" height="90" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1" />
+    <text x="30" y="222" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">
+      Lookahead Attack Envelope Benefit:
+    </text>
+    <text x="30" y="242" fill="#cbd5e1" font-family="sans-serif" font-size="10">
+      • Inspecting 10 future/sliding states identifies incoming loud peaks.
+    </text>
+    <text x="30" y="260" fill="#cbd5e1" font-family="sans-serif" font-size="10">
+      • Gain begins ducking <tspan fill="#34d399" font-weight="600">prior to peak arrival</tspan>, smoothing the attenuation.
+    </text>
+    <text x="30" y="278" fill="#cbd5e1" font-family="sans-serif" font-size="10">
+      • Post-transient release recovers smoothly across frames without pumping.
+    </text>
+  </g>
+
+  <!-- Lower Right: Continuous Per-Sample Linear Interpolation Ramp -->
+  <g transform="translate(515, 295)" filter="url(#shadowR)">
+    <rect width="455" height="305" rx="10" fill="url(#cardGradR)" stroke="#334155" stroke-width="1.5" />
+    <rect width="455" height="30" rx="10" fill="#0d9488" />
+    <text x="227" y="20" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">
+      Per-Sample Linear Interpolation Ramp Engine
+    </text>
+
+    <!-- Interpolation Equations -->
+    <rect x="20" y="45" width="415" height="60" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <text x="30" y="65" fill="#2dd4bf" font-family="sans-serif" font-size="10.5" font-weight="700">Slope &amp; Step Derivation:</text>
+    <text x="30" y="83" fill="#cbd5e1" font-family="monospace" font-size="10">
+      step = (gain_end - gain_begin) / frames
+    </text>
+    <text x="30" y="98" fill="#a7f3d0" font-family="monospace" font-size="9.5">
+      gain[n+1] = gain[n] + step (evaluated per audio frame)
+    </text>
+
+    <!-- Visual Waveform Comparison: Step vs Ramp -->
+    <!-- Bad step curve: shows square edge jump with splatter -->
+    <g transform="translate(20, 115)">
+      <rect width="200" height="95" rx="5" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+      <text x="100" y="18" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="9.5" font-weight="700">
+        Naive Step Change (No Ramp)
+      </text>
+      <!-- Step polyline -->
+      <polyline points="20,70 95,70 95,35 180,35" fill="none" stroke="#f43f5e" stroke-width="2.5" />
+      <circle cx="95" cy="52" r="8" fill="none" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="2,2" />
+      <text x="100" y="88" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="8.5">
+        Discontinuity: Zipper Noise &amp; Clicks
+      </text>
+    </g>
+
+    <!-- Good ramp curve: smooth linear slope -->
+    <g transform="translate(235, 115)">
+      <rect width="200" height="95" rx="5" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <text x="100" y="18" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5" font-weight="700">
+        Aria Linear Interpolation Ramp
+      </text>
+      <!-- Continuous slope polyline -->
+      <polyline points="20,70 180,35" fill="none" stroke="#10b981" stroke-width="2.5" />
+      <text x="100" y="88" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="8.5">
+        C0 Continuity: Artifact-Free
+      </text>
+    </g>
+
+    <!-- HiFi5 Hardware Circular Addressing Callout -->
+    <rect x="20" y="220" width="415" height="70" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="30" y="238" fill="#38bdf8" font-family="sans-serif" font-size="10.5" font-weight="700">
+      Tensilica HiFi5 Hardware Circular Addressing:
+    </text>
+    <text x="30" y="256" fill="#cbd5e1" font-family="monospace" font-size="9.5">
+      AE_SETCBEGIN0 / AE_SETCEND0 → Dedicated HW Registers
+    </text>
+    <text x="30" y="274" fill="#94a3b8" font-family="sans-serif" font-size="9">
+      AE_L32X2_XC &amp; AE_S32X2_XC1 execute auto-wrap in 0 cycles!
+    </text>
+  </g>
+
+  <!-- Markers -->
+  <defs>
+    <marker id="arrowBlueRamp" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowGreenRamp" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981" />
+    </marker>
+  </defs>
+</svg>

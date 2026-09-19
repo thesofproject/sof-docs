@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradSigChain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGradSig" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="fastPathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="ariaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <filter id="shadowSig" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="620" rx="14" fill="url(#bgGradSigChain)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title & Subtitle -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Dual-Stage Dynamic Range Architecture: Level Multiplier &amp; Aria AGC
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+    Static Q9.23 Sensor Alignment (0 ms Latency) + Dynamic Lookahead Regressive Pre-Amplification (1 ms Invariant Latency)
+  </text>
+
+  <!-- Stage 1: Audio Ingress -->
+  <g transform="translate(30, 85)" filter="url(#shadowSig)">
+    <rect width="160" height="420" rx="10" fill="url(#cardGradSig)" stroke="#475569" stroke-width="1.5" />
+    <rect width="160" height="34" rx="10" fill="#334155" />
+    <text x="80" y="22" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="700">Audio Ingress</text>
+
+    <!-- Content -->
+    <rect x="15" y="55" width="130" height="70" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+    <text x="80" y="75" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">DMIC / SoundWire</text>
+    <text x="80" y="93" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">DAI Copier Gateway</text>
+    <text x="80" y="110" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">S24_4LE / S32_LE</text>
+
+    <rect x="15" y="145" width="130" height="70" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="80" y="165" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="11" font-weight="700">Raw Capture Bus</text>
+    <text x="80" y="183" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Multi-Channel Ring</text>
+    <text x="80" y="200" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="9">fs = 16k / 48k</text>
+
+    <rect x="15" y="235" width="130" height="150" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="80" y="258" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Acoustic Specs</text>
+    <text x="25" y="280" fill="#94a3b8" font-family="sans-serif" font-size="10">• Sens: -26 dBFS</text>
+    <text x="25" y="300" fill="#94a3b8" font-family="sans-serif" font-size="10">• Spread: ±1.5 dB</text>
+    <text x="25" y="320" fill="#94a3b8" font-family="sans-serif" font-size="10">• Gasket leakage</text>
+    <text x="25" y="340" fill="#94a3b8" font-family="sans-serif" font-size="10">• Port mesh resist</text>
+    <text x="25" y="365" fill="#f43f5e" font-family="sans-serif" font-size="9" font-weight="600">Requires Trim</text>
+  </g>
+
+  <!-- Arrow Ingress -> Level Multiplier -->
+  <path d="M 190 295 L 225 295" stroke="#38bdf8" stroke-width="2.5" fill="none" marker-end="url(#arrowBlue)" />
+
+  <!-- Stage 2: Level Multiplier Subsystem -->
+  <g transform="translate(230, 85)" filter="url(#shadowSig)">
+    <rect width="250" height="420" rx="10" fill="url(#cardGradSig)" stroke="#0284c7" stroke-width="1.5" />
+    <rect width="250" height="34" rx="10" fill="#0284c7" />
+    <text x="125" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">Stage 1: Level Multiplier (0 ms)</text>
+
+    <!-- Bypass Decision Block -->
+    <path d="M 125 55 L 210 95 L 125 135 L 40 95 Z" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" />
+    <text x="125" y="90" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">Gain == 0 dB?</text>
+    <text x="125" y="105" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">0x00800000</text>
+
+    <!-- Fast Path Bypass Branch -->
+    <path d="M 210 95 L 235 95 L 235 170 L 195 170" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="4,3" />
+    <text x="238" y="130" fill="#10b981" font-family="sans-serif" font-size="9" font-weight="700" transform="rotate(90 238 130)">FAST-PATH</text>
+
+    <rect x="55" y="150" width="140" height="42" rx="6" fill="#064e3b" stroke="#34d399" stroke-width="1" />
+    <text x="125" y="167" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">source_to_sink_copy()</text>
+    <text x="125" y="182" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="9">Zero-Math Memory Copy</text>
+
+    <!-- Active Path Branch -->
+    <path d="M 125 135 L 125 210" fill="none" stroke="#38bdf8" stroke-width="2" />
+    <text x="135" y="180" fill="#38bdf8" font-family="sans-serif" font-size="9" font-weight="600">Gain != 0dB</text>
+
+    <rect x="15" y="210" width="220" height="115" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+    <text x="125" y="230" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Q9.23 Scaling Core</text>
+    <text x="25" y="250" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Range: -138.47 dB to +48.17 dB</text>
+    <text x="25" y="270" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Shift: 23 bits (S16, S24, S32)</text>
+    <text x="25" y="290" fill="#cbd5e1" font-family="sans-serif" font-size="10">• Saturation: Symmetric 24/32-bit</text>
+    <text x="25" y="310" fill="#a5f3fc" font-family="sans-serif" font-size="9">y[n] = q_multsr_sat(x[n], gain, 23)</text>
+
+    <!-- Runtime Control Plane -->
+    <rect x="15" y="340" width="220" height="65" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1" />
+    <text x="125" y="358" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="10" font-weight="700">IPC4 Control Handler</text>
+    <text x="125" y="375" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Payload: 4-byte Q9.23 integer</text>
+    <text x="125" y="392" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9">UUID: 56:74:39:30:61:46:44:46...</text>
+  </g>
+
+  <!-- Arrow Level Multiplier -> Aria -->
+  <path d="M 480 295 L 515 295" stroke="#38bdf8" stroke-width="2.5" fill="none" marker-end="url(#arrowBlue)" />
+
+  <!-- Stage 3: Aria Subsystem -->
+  <g transform="translate(520, 85)" filter="url(#shadowSig)">
+    <rect width="270" height="420" rx="10" fill="url(#cardGradSig)" stroke="#0d9488" stroke-width="1.5" />
+    <rect width="270" height="34" rx="10" fill="#0d9488" />
+    <text x="135" y="22" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="700">Stage 2: Aria Dynamic AGC (1 ms)</text>
+
+    <!-- Lookahead Peak Detector -->
+    <rect x="15" y="50" width="240" height="60" rx="6" fill="#0f172a" stroke="#2dd4bf" stroke-width="1" />
+    <text x="135" y="70" text-anchor="middle" fill="#2dd4bf" font-family="sans-serif" font-size="11" font-weight="700">Lookahead Peak Detection (t + 1ms)</text>
+    <text x="135" y="87" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">max_data = max(|x[k, ch]|) in future chunk</text>
+    <text x="135" y="102" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Target Boost: 0, +6, +12, +18 dB (att = 0..3)</text>
+
+    <!-- Regressive Evaluator & State History -->
+    <rect x="15" y="120" width="240" height="65" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+    <text x="135" y="138" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">Regressive Gain Evaluator</text>
+    <text x="135" y="155" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="9">If max_data &gt; A_thresh: G_reg = A_FS / max_data</text>
+    <text x="135" y="172" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">10-State Sliding Window Minimum Search</text>
+
+    <!-- 1 ms Circular Delay Buffer -->
+    <rect x="15" y="195" width="240" height="55" rx="6" fill="#1e293b" stroke="#f59e0b" stroke-width="1" />
+    <text x="135" y="215" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">1 ms Circular Delay Buffer (t)</text>
+    <text x="135" y="232" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">Stores 1 ms history in cd-&gt;data_addr</text>
+    <text x="135" y="244" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="8.5">Invariant Latency (active &amp; bypass modes)</text>
+
+    <!-- Linear Ramp & Output Multiplier -->
+    <rect x="15" y="260" width="240" height="65" rx="6" fill="#064e3b" stroke="#34d399" stroke-width="1" />
+    <text x="135" y="278" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">Per-Sample Linear Ramp &amp; Clamp</text>
+    <text x="135" y="295" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9">step = (gain_end - gain_begin) / frames</text>
+    <text x="135" y="312" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="9" font-weight="600">Peak Clamped Strictly &lt;= 0 dBFS (No Clipping!)</text>
+
+    <!-- Control Plane -->
+    <rect x="15" y="335" width="240" height="70" rx="6" fill="#1e293b" stroke="#475569" stroke-width="1" />
+    <text x="135" y="353" text-anchor="middle" fill="#e2e8f0" font-family="sans-serif" font-size="10" font-weight="700">Aria Runtime Control</text>
+    <text x="135" y="370" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Param ID: ARIA_SET_ATTENUATION (1)</text>
+    <text x="135" y="385" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9">UUID: 6d:16:f7:99:2c:37:ef:43...</text>
+  </g>
+
+  <!-- Arrow Aria -> Egress -->
+  <path d="M 790 295 L 825 295" stroke="#34d399" stroke-width="2.5" fill="none" marker-end="url(#arrowGreen)" />
+
+  <!-- Stage 4: Downstream Audio Egress -->
+  <g transform="translate(830, 85)" filter="url(#shadowSig)">
+    <rect width="140" height="420" rx="10" fill="url(#cardGradSig)" stroke="#475569" stroke-width="1.5" />
+    <rect width="140" height="34" rx="10" fill="#334155" />
+    <text x="70" y="22" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="13" font-weight="700">Sink Egress</text>
+
+    <rect x="12" y="55" width="116" height="65" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
+    <text x="70" y="75" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">TDFB</text>
+    <text x="70" y="93" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">Beamformer</text>
+    <text x="70" y="110" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Spatial Array Filter</text>
+
+    <rect x="12" y="135" width="116" height="65" rx="6" fill="#0f172a" stroke="#a855f7" stroke-width="1" />
+    <text x="70" y="155" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="11" font-weight="700">RTNR</text>
+    <text x="70" y="173" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">Noise Suppressor</text>
+    <text x="70" y="190" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Stationary Cleaning</text>
+
+    <rect x="12" y="215" width="116" height="65" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+    <text x="70" y="235" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">ASR / Telephony</text>
+    <text x="70" y="253" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10">Speech Engine</text>
+    <text x="70" y="270" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">Optimal WER Level</text>
+
+    <rect x="12" y="295" width="116" height="110" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1" />
+    <text x="70" y="318" text-anchor="middle" fill="#fbbf24" font-family="sans-serif" font-size="10" font-weight="700">Total Latency</text>
+    <text x="70" y="340" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="14" font-weight="700">1.000 ms</text>
+    <text x="70" y="360" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">(0 ms LvMult +</text>
+    <text x="70" y="375" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9">1 ms Aria Ring)</text>
+    <text x="70" y="395" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-size="8.5" font-weight="600">Deterministic</text>
+  </g>
+
+  <!-- Bottom Comparison Banner -->
+  <g transform="translate(30, 525)">
+    <rect width="940" height="75" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="25" y="25" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Architectural Division of Responsibility:</text>
+    <text x="25" y="45" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">
+      • <tspan fill="#38bdf8" font-weight="600">Level Multiplier</tspan>: Static precision calibration across channels (-138.47 dB to +48.17 dB in Q9.23), zero latency, fast-path bypass at 0 dB.
+    </text>
+    <text x="25" y="63" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">
+      • <tspan fill="#2dd4bf" font-weight="600">Aria AGC</tspan>: Dynamic target pre-amplification boost (0, 6, 12, 18 dB), instant regressive ducking, 1 ms lookahead, zero flat-top clipping.
+    </text>
+  </g>
+
+  <!-- Markers -->
+  <defs>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399" />
+    </marker>
+  </defs>
+</svg>
