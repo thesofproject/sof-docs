@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="kernelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#1e1b4b" />
+    </linearGradient>
+    <linearGradient id="funcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#064e3b" />
+    </linearGradient>
+    <linearGradient id="featGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#78350f" />
+    </linearGradient>
+
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <marker id="arrIndigo" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#818cf8" />
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="680" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 26)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Modular Topology Model: Functional &amp; Feature Topologies</text>
+    <text x="0" y="46" fill="#94a3b8" font-size="13">Dynamic kernel assembly of per-endpoint functional sub-topologies overlaid with modular audio feature layers</text>
+  </g>
+
+  <!-- Left Column: Linux Driver Runtime Discovery (sof-function-topology-lib.c) -->
+  <g transform="translate(40, 85)">
+    <rect width="320" height="560" rx="10" fill="url(#kernelGrad)" stroke="#6366f1" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="320" height="38" rx="10" fill="#4338ca" fill-opacity="0.7" stroke="#6366f1" stroke-width="1" />
+    <text x="16" y="24" fill="#ffffff" font-size="13" font-weight="700">1. Kernel Discovery &amp; Matching</text>
+
+    <!-- ACPI Inspection -->
+    <g transform="translate(16, 52)">
+      <rect width="288" height="110" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="12" y="22" fill="#818cf8" font-size="11" font-weight="700">ACPI DSDT &amp; SDCA MATCHING</text>
+      <text x="12" y="38" fill="#e2e8f0" font-size="10">Discovers hardware link descriptors:</text>
+      <text x="12" y="54" fill="#cbd5e1" font-size="10" font-family="monospace">• Link 0: SimpleJack (Headset)</text>
+      <text x="12" y="68" fill="#cbd5e1" font-size="10" font-family="monospace">• Link 1-2: SmartAmp (2 Speakers)</text>
+      <text x="12" y="82" fill="#cbd5e1" font-size="10" font-family="monospace">• Link 4: SmartMic (SDW Mic)</text>
+      <text x="12" y="96" fill="#cbd5e1" font-size="10" font-family="monospace">• PCH: 2ch / 4ch DMIC Array</text>
+    </g>
+
+    <!-- Function Topology Lib Engine -->
+    <g transform="translate(16, 175)">
+      <rect width="288" height="155" rx="6" fill="#1e293b" stroke="#6366f1" stroke-width="1.2" />
+      <text x="12" y="22" fill="#a5b4fc" font-size="11" font-weight="700">sof-function-topology-lib.c</text>
+      <text x="12" y="40" fill="#cbd5e1" font-size="10" font-family="monospace">mach-&gt;get_function_tplg_files()</text>
+
+      <rect x="12" y="50" width="264" height="60" rx="4" fill="#0f172a" stroke="#475569" />
+      <text x="18" y="66" fill="#94a3b8" font-size="9">Naming convention:</text>
+      <text x="18" y="80" fill="#38bdf8" font-size="9" font-family="monospace">sof-&lt;platform&gt;-&lt;func&gt;-id&lt;BE_ID&gt;.tplg</text>
+      <text x="18" y="96" fill="#64748b" font-size="9">Platform prefix only required for DMIC (NHLT)</text>
+
+      <text x="12" y="126" fill="#e2e8f0" font-size="10">Resolves BE link IDs dynamically</text>
+      <text x="12" y="142" fill="#94a3b8" font-size="9">Calls <tspan font-family="monospace">firmware_request_nowarn()</tspan></text>
+    </g>
+
+    <!-- Why Split Topologies -->
+    <g transform="translate(16, 345)">
+      <rect width="288" height="185" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="12" y="22" fill="#f87171" font-size="11" font-weight="700">ELIMINATING CARTESIAN EXPLOSION</text>
+      <text x="12" y="40" fill="#cbd5e1" font-size="10">Monolithic topologies require:</text>
+      <text x="12" y="56" fill="#fca5a5" font-size="10" font-family="monospace">N_amps * M_mics * K_jacks * H_hdmis</text>
+      <text x="12" y="72" fill="#fca5a5" font-size="10">= Hundreds of duplicate tplg files!</text>
+
+      <line x1="12" y1="84" x2="276" y2="84" stroke="#334155" stroke-width="1" />
+
+      <text x="12" y="100" fill="#34d399" font-size="10" font-weight="600">Split Topology Solution:</text>
+      <text x="12" y="116" fill="#94a3b8" font-size="9">• 1 Jack file (reused everywhere)</text>
+      <text x="12" y="130" fill="#94a3b8" font-size="9">• 1 Amplifier file per link count</text>
+      <text x="12" y="144" fill="#94a3b8" font-size="9">• 1 DMIC file per platform</text>
+      <text x="12" y="158" fill="#94a3b8" font-size="9">• Modular feature overlays</text>
+      <text x="12" y="172" fill="#38bdf8" font-size="9" font-weight="600">Total binary footprint reduced by 85%</text>
+    </g>
+  </g>
+
+  <!-- Connectors Col 1 -> Col 2 -->
+  <path d="M 360 250 L 415 250" stroke="#818cf8" stroke-width="2.5" marker-end="url(#arrIndigo)" />
+
+  <!-- Middle Column: Split Functional Topologies (Base Endpoints) -->
+  <g transform="translate(420, 85)">
+    <rect width="360" height="560" rx="10" fill="url(#funcGrad)" stroke="#059669" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="360" height="38" rx="10" fill="#047857" fill-opacity="0.7" stroke="#059669" stroke-width="1" />
+    <text x="16" y="24" fill="#ffffff" font-size="13" font-weight="700">2. Loaded Functional Topologies</text>
+
+    <!-- Function Topo 1: SDCA Jack -->
+    <g transform="translate(16, 52)">
+      <rect width="328" height="85" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="12" y="22" fill="#34d399" font-size="11" font-weight="700">HEADSET JACK (SDCA)</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-sdca-jack-id0.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 0 (Headphone / Headset)</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Pipeline: FE 0 (PB) / BE 1, FE 10 (Cap) / BE 11</text>
+      <text x="245" y="22" fill="#6ee7b7" font-size="9" font-weight="600">BE ID: 0</text>
+    </g>
+
+    <!-- Function Topo 2: SDCA Smart Amp -->
+    <g transform="translate(16, 147)">
+      <rect width="328" height="85" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="12" y="22" fill="#34d399" font-size="11" font-weight="700">SMART AMPLIFIERS (1 TO 4 AMPS)</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-sdca-2amp-id2.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 2 (Speaker Stereo Amp)</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Pipeline: FE 20 (Host Playback) -&gt; BE 21 (DAI)</text>
+      <text x="245" y="22" fill="#6ee7b7" font-size="9" font-weight="600">BE ID: 2</text>
+    </g>
+
+    <!-- Function Topo 3: SDCA Smart Mic -->
+    <g transform="translate(16, 242)">
+      <rect width="328" height="85" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="12" y="22" fill="#34d399" font-size="11" font-weight="700">SMART MICROPHONE (SDW MIC)</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-sdca-mic-id4.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 4 (SDW Capture Stream)</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Pipeline: BE 41 (SDW DAI) -&gt; FE 40 (Host)</text>
+      <text x="245" y="22" fill="#6ee7b7" font-size="9" font-weight="600">BE ID: 4</text>
+    </g>
+
+    <!-- Function Topo 4: PCH DMIC -->
+    <g transform="translate(16, 337)">
+      <rect width="328" height="85" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="12" y="22" fill="#34d399" font-size="11" font-weight="700">PCH DMIC ARRAY (PLATFORM SPECIFIC)</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-ptl-dmic-2ch-id5.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 10 (Host DMIC0 Capture)</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Includes platform NHLT blob for Intel PTL/MTL</text>
+      <text x="245" y="22" fill="#6ee7b7" font-size="9" font-weight="600">BE ID: 5</text>
+    </g>
+
+    <!-- Function Topo 5: HDMI Display -->
+    <g transform="translate(16, 432)">
+      <rect width="328" height="85" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="12" y="22" fill="#34d399" font-size="11" font-weight="700">INTEL DISPLAY AUDIO (HDMI)</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-hdmi-pcm5-id7.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 5, 6, 7 (HDMI 1, 2, 3)</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Pipelines: Host 50, 60, 70 -&gt; DAI 51, 61, 71</text>
+      <text x="245" y="22" fill="#6ee7b7" font-size="9" font-weight="600">BE ID: 7</text>
+    </g>
+
+    <!-- Lower Status -->
+    <text x="16" y="542" fill="#a7f3d0" font-size="10" font-weight="600">Sequential Dynamic Ingestion: 5 independent graphs unified in ALSA</text>
+  </g>
+
+  <!-- Connectors Col 2 -> Col 3 -->
+  <path d="M 780 250 L 835 250" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrGreen)" />
+
+  <!-- Right Column: Feature Topologies Layering -->
+  <g transform="translate(840, 85)">
+    <rect width="320" height="560" rx="10" fill="url(#featGrad)" stroke="#d97706" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="320" height="38" rx="10" fill="#b45309" fill-opacity="0.7" stroke="#d97706" stroke-width="1" />
+    <text x="16" y="24" fill="#ffffff" font-size="13" font-weight="700">3. Modular Feature Topologies</text>
+
+    <!-- Feature 1: Speaker Echo Reference -->
+    <g transform="translate(16, 52)">
+      <rect width="288" height="110" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="12" y="22" fill="#fbbf24" font-size="11" font-weight="700">SPEAKER ECHO REFERENCE</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-sdca-amp-ref.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 12 (SDW Echo Ref)</text>
+      <text x="12" y="68" fill="#cbd5e1" font-size="9">Bridges speaker mixout to capture AEC</text>
+      <text x="12" y="82" fill="#64748b" font-size="9">Overlays without changing amplifier BE</text>
+      <text x="12" y="96" fill="#38bdf8" font-size="9">Zero HW pin impact</text>
+    </g>
+
+    <!-- Feature 2: 2-Way Crossover Filter -->
+    <g transform="translate(16, 175)">
+      <rect width="288" height="125" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="12" y="22" fill="#fbbf24" font-size="11" font-weight="700">2-WAY SPEAKER CROSSOVER</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">sof-sdca-2amp-id2-xover.tplg</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">Channels: 4 (Low-L, Low-R, Hi-L, Hi-R)</text>
+      <text x="12" y="68" fill="#cbd5e1" font-size="9">Inserts Linkwitz-Riley 4th Order EQIIR</text>
+      <text x="12" y="82" fill="#cbd5e1" font-size="9">Binds Channel Selector (Stereo to 4ch)</text>
+      <text x="12" y="96" fill="#64748b" font-size="9">Bi-amplified acoustic speaker tuning</text>
+      <text x="12" y="112" fill="#38bdf8" font-size="9">Replaces flat speaker backend</text>
+    </g>
+
+    <!-- Feature 3: Deep Buffer Low-Power Stream -->
+    <g transform="translate(16, 312)">
+      <rect width="288" height="110" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="12" y="22" fill="#fbbf24" font-size="11" font-weight="700">DEEP BUFFER AUDIO STREAM</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">DEEP_BUF_SPK=true</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCM ID: 31 (Jack) / 35 (Speaker)</text>
+      <text x="12" y="68" fill="#cbd5e1" font-size="9">Extended host DMA buffer (4000 µs)</text>
+      <text x="12" y="82" fill="#64748b" font-size="9">Routes to mixout.1 / mixout.21</text>
+      <text x="12" y="96" fill="#38bdf8" font-size="9">D0ix / S0ix Power Saving</text>
+    </g>
+
+    <!-- Layering Outcome -->
+    <g transform="translate(16, 435)">
+      <rect width="288" height="100" rx="6" fill="#0f172a" stroke="#fbbf24" stroke-width="1" stroke-dasharray="3,3" />
+      <text x="12" y="22" fill="#fbbf24" font-size="11" font-weight="700">COMPOSITE SOUND CARD GRAPH</text>
+      <text x="12" y="38" fill="#e2e8f0" font-size="9">ASoC dynamically links all widgets:</text>
+      <text x="12" y="52" fill="#cbd5e1" font-size="9">• DAPM controls &amp; mixer kcontrols exposed</text>
+      <text x="12" y="66" fill="#cbd5e1" font-size="9">• Zero IPC overhead or pipeline stalls</text>
+      <text x="12" y="80" fill="#34d399" font-size="9" font-weight="600">• Full platform audio functionality ready</text>
+    </g>
+  </g>
+</svg>
