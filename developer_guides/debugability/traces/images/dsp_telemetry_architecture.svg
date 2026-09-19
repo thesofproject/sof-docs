@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Header -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#headerGrad)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 329: Sound Open Firmware (SOF) DSP Telemetry, Logging &amp; Trace Streaming Architecture
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      Asynchronous Zero-Overhead Logging: Build-Time smex Extraction, Trace DMA Ring Buffers &amp; TCP Probe Server (Port 9999)
+    </text>
+  </g>
+
+  <!-- SECTION 1: Build-Time String Extraction & Dictionary Pipeline (Top Tier) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="1040" height="115" rx="8" fill="url(#cardGrad)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#0369a1" />
+    <rect x="0" y="20" width="1040" height="8" fill="#0369a1" />
+    <text x="16" y="19" fill="#f0f9ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      1. Build-Time String Extraction &amp; Metadata Catalog Pipeline (smex)
+    </text>
+
+    <!-- Sub-cards -->
+    <g transform="translate(16, 38)">
+      <!-- Card 1.1: Zephyr Logging Source -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="310" height="64" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+        <text x="12" y="18" fill="#38bdf8" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Zephyr Logging Macro Calls</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">LOG_MODULE_REGISTER(eq_fir, ...)</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Format strings stored in .static_log_entries section</text>
+      </g>
+
+      <!-- Card 1.2: smex Dictionary Extractor -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="350" height="64" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+        <text x="12" y="18" fill="#38bdf8" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">smex Metadata Extraction Tool</text>
+        <text x="12" y="34" fill="#7dd3fc" font-size="9.5" font-family="monospace">smex -l sof-tgl.ldc -e build/zephyr.elf</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Extracts catalog (.ldc); embeds 32-bit entry IDs in FW</text>
+      </g>
+
+      <!-- Card 1.3: Compact Image -->
+      <g transform="translate(700, 0)">
+        <rect x="0" y="0" width="308" height="64" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+        <text x="12" y="18" fill="#38bdf8" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Zero-Overhead Firmware Image</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">sof-tgl.ri / sof-mtl.ri</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">No text strings in DSP memory; ~10-20 cycles per log</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors from Build to Runtime -->
+  <path d="M 280 220 L 280 255" stroke="#0284c7" stroke-width="2" fill="none" marker-end="url(#arrCyan)" />
+  <path d="M 800 220 L 800 255" stroke="#0284c7" stroke-width="2" fill="none" marker-end="url(#arrCyan)" />
+
+  <!-- SECTION 2: Runtime Streaming & Host Ingestion (Middle Tier) -->
+  <!-- Left Column: DSP Core & Hardware Trace DMA -->
+  <g transform="translate(30, 260)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#7e22ce" />
+    <rect x="0" y="20" width="505" height="8" fill="#7e22ce" />
+    <text x="16" y="19" fill="#faf5ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2A. Audio DSP Core &amp; Hardware Trace DMA Subsystem
+    </text>
+
+    <!-- Sub-cards inside Left Column -->
+    <g transform="translate(14, 38)">
+      <!-- Card 2A.1: SRAM Trace Ring Buffer -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Internal DSP SRAM Trace Ring Buffer</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">trace_buf [8 KB / 16 KB lockless circular buffer]</text>
+        <text x="10" y="48" fill="#d8b4fe" font-size="9" font-family="monospace">Packet: [timestamp:64b | log_entry_id:32b | params:4x32b]</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Lockless atomic writes from audio pipeline processing threads</text>
+      </g>
+
+      <!-- Card 2A.2: Background Trace DMA -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Autonomous Hardware Trace DMA Controller</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">dma_trace_enable() -> background burst transfers</text>
+        <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">Transfers trace chunks to host memory window without CPU polling</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Audio pipelines execute uninterrupted with strict sub-ms latency</text>
+      </g>
+
+      <!-- Card 2A.3: Host Window Handshake -->
+      <g transform="translate(0, 148)">
+        <rect x="0" y="0" width="477" height="96" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">DSP Memory Window &amp; IPC Handshake</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Host SRAM Window 3:</tspan> Accessible via host PCIe MMIO BAR</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Trace Position Notification:</tspan> <tspan font-family="monospace" fill="#e2e8f0">SOF_IPC_TRACE_DMA_POSITION</tspan></text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">Watermark Thresholds:</tspan> Triggers DMA burst before buffer wrap</text>
+        <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">D0ix Retention:</tspan> Flushes pending traces before entering low-power sleep</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Column: Linux Driver & Host Ingestion -->
+  <g transform="translate(565, 260)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="505" height="8" fill="#047857" />
+    <text x="16" y="19" fill="#ecfdf5" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2B. Linux Driver Ingestion &amp; sof-logger Decoding
+    </text>
+
+    <!-- Sub-cards inside Right Column -->
+    <g transform="translate(14, 38)">
+      <!-- Card 2B.1: Kernel Driver debugfs -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Linux Kernel Driver (sound/soc/sof)</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">/sys/kernel/debug/sof/trace [Continuous debugfs stream]</text>
+        <text x="10" y="48" fill="#a7f3d0" font-size="9" font-family="monospace">snd-sof-probes logging_boot_enable=1 [Early boot logging]</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Manages host DMA ring buffer and wakeups on trace events</text>
+      </g>
+
+      <!-- Card 2B.2: sof-logger Utility -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">sof-logger Binary Trace Decoder</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">sof-logger -t -d /path/to/sof-tgl.ldc -l /sys/.../trace</text>
+        <text x="10" y="47" fill="#a7f3d0" font-size="9" font-family="monospace">Resolves entry ID -> source file, line, function, printf format</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Live streaming (-t), file dump (-i/-o), timestamp sync</text>
+      </g>
+
+      <!-- Card 2B.3: Output & Filtering -->
+      <g transform="translate(0, 148)">
+        <rect x="0" y="0" width="477" height="96" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Trace Output &amp; Production Diagnostics</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Microsecond Timestamps:</tspan> Hardware DSP clock synchronization</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Log Level Filtering:</tspan> <tspan font-family="monospace" fill="#e2e8f0">--level &lt;1..4&gt;</tspan> (ERR, WRN, INF, DBG)</text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Module Categorization:</tspan> Per-component prefix (ipc, pipe, dai)</text>
+        <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">Automated Test Capture:</tspan> Integrated with Twister, CTest, ktest</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors Down to Network Probe Server -->
+  <path d="M 280 555 L 280 585" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrAmber)" />
+  <path d="M 820 555 L 820 585" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrAmber)" />
+
+  <!-- SECTION 3: Remote Network Probe Server & Telemetry (Bottom Tier) -->
+  <g transform="translate(30, 590)">
+    <rect x="0" y="0" width="1040" height="125" rx="8" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#b45309" />
+    <rect x="0" y="20" width="1040" height="8" fill="#b45309" />
+    <text x="16" y="19" fill="#fef3c7" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      3. Remote Network Probe Server (Port 9999) &amp; Live Telemetry Ecosystem
+    </text>
+
+    <!-- Sub-cards in Bottom Section -->
+    <g transform="translate(16, 36)">
+      <!-- Server Daemon -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="310" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">TCP Probe Server (sof_probe_server)</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="monospace">sof_probe_server -c 3 -d 0 -p 9999 -v</text>
+        <text x="10" y="49" fill="#fde68a" font-size="9" font-family="system-ui, sans-serif">• ALSA compress capture (/dev/snd/comprC*D*)</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">• 1MB circular buffer decouples extraction from network</text>
+      </g>
+
+      <!-- Host Python Client -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="350" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Remote Python Client (sof_probe_client.py)</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">python3 sof_probe_client.py --host &lt;dut&gt; -p 9999 \</text>
+        <text x="10" y="49" fill="#e2e8f0" font-size="9.5" font-family="monospace">  --display ascii --out /tmp/probe_live.bin</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">High-throughput TCP stream over private lab LAN</text>
+      </g>
+
+      <!-- dut-monitor Dashboard -->
+      <g transform="translate(700, 0)">
+        <rect x="0" y="0" width="308" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Integrated dut-monitor Dashboard</text>
+        <text x="10" y="34" fill="#fde68a" font-size="9.5" font-family="system-ui, sans-serif">Live multi-pane telemetry console</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Auto-connects to port 9999 (Section 4 logs)</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">• Correlates FW logs with live power (port 8080)</text>
+      </g>
+    </g>
+  </g>
+</svg>
