@@ -1,0 +1,301 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 780" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }
+      .box { fill: #161b22; stroke: #30363d; stroke-width: 1.5px; rx: 8px; }
+      .box-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; }
+      .box-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; }
+      .card { fill: #21262d; stroke: #30363d; stroke-width: 1px; rx: 6px; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; fill: #e6edf3; }
+      .card-desc { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 10.5px; fill: #8b949e; }
+      .badge { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10px; font-weight: 600; rx: 4px; }
+      .arrow { stroke: #58a6ff; stroke-width: 1.8px; fill: none; stroke-dasharray: none; marker-end: url(#arrow-blue); }
+      .arrow-orange { stroke: #d29922; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-orange-marker); }
+      .arrow-green { stroke: #3fb950; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-green-marker); }
+      .arrow-purple { stroke: #bc8cff; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-purple-marker); }
+      .flow-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10px; fill: #79c0ff; font-weight: 500; }
+    </style>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow-orange-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#d29922"/>
+    </marker>
+    <marker id="arrow-green-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3fb950"/>
+    </marker>
+    <marker id="arrow-purple-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#bc8cff"/>
+    </marker>
+    <filter id="drop-shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1180" height="780" class="bg" />
+
+  <!-- Header -->
+  <g transform="translate(30, 20)">
+    <text x="0" y="24" class="title">SOF Zephyr CMake &amp; West Build Architecture</text>
+    <text x="0" y="44" class="subtitle">Multi-stage pipeline: West meta-tool orchestration, Kconfig/DTS code generation, Ninja compilation, and post-build artifact packaging</text>
+  </g>
+
+  <!-- Stage 1: Build Inputs & Manifests -->
+  <g transform="translate(30, 75)">
+    <rect width="255" height="670" class="box" filter="url(#drop-shadow)" />
+    <rect x="0" y="0" width="255" height="38" rx="8" fill="#1f2937" />
+    <text x="14" y="24" class="box-header" fill="#58a6ff">1. Declarative Inputs &amp; Manifests</text>
+    
+    <!-- West Meta-Tool -->
+    <g transform="translate(12, 50)">
+      <rect width="231" height="85" class="card" />
+      <text x="10" y="20" class="card-title">West Multi-Repo Manifest</text>
+      <text x="10" y="38" class="card-desc">west.yml (Revision tracking)</text>
+      <text x="10" y="54" class="card-desc">modules/audio/sof (Core repo)</text>
+      <text x="10" y="70" class="card-desc">zephyr/ (Kernel RTOS base)</text>
+    </g>
+
+    <!-- Board DTS & Hardware -->
+    <g transform="translate(12, 148)">
+      <rect width="231" height="92" class="card" />
+      <text x="10" y="20" class="card-title">Device Tree Hardware Defs</text>
+      <text x="10" y="38" class="card-desc">&lt;board&gt;.dts (SoC &amp; memory layout)</text>
+      <text x="10" y="54" class="card-desc">intel_adsp_*.dtsi / imx*.dtsi</text>
+      <text x="10" y="70" class="card-desc">Overlays: *.overlay (Audio nodes)</text>
+      <text x="10" y="86" class="card-desc">DAI interfaces: SSP, SoundWire, DMIC</text>
+    </g>
+
+    <!-- Kconfig Features -->
+    <g transform="translate(12, 252)">
+      <rect width="231" height="98" class="card" />
+      <text x="10" y="20" class="card-title">Kconfig Feature Toggles</text>
+      <text x="10" y="38" class="card-desc">Base prj.conf &amp; app/Kconfig</text>
+      <text x="10" y="54" class="card-desc">Board defconfig: boards/&lt;board&gt;.conf</text>
+      <text x="10" y="70" class="card-desc">Snippets: -S debug, -S llext</text>
+      <text x="10" y="86" class="card-desc">Extra: FILE:EXTRA_CONF_FILE</text>
+    </g>
+
+    <!-- Source Tree -->
+    <g transform="translate(12, 362)">
+      <rect width="231" height="98" class="card" />
+      <text x="10" y="20" class="card-title">SOF Firmware Source Code</text>
+      <text x="10" y="38" class="card-desc">src/audio/ (Processing components)</text>
+      <text x="10" y="54" class="card-desc">src/ipc/ (IPC3 &amp; IPC4 handlers)</text>
+      <text x="10" y="70" class="card-desc">src/math/ (Fixed/float DSP kernels)</text>
+      <text x="10" y="86" class="card-desc">zephyr/wrapper.c (RTOS bridge)</text>
+    </g>
+
+    <!-- Toolchain Options -->
+    <g transform="translate(12, 472)">
+      <rect width="231" height="182" class="card" />
+      <text x="10" y="20" class="card-title">Target Toolchain Selection</text>
+      <text x="10" y="38" class="card-desc">ZEPHYR_TOOLCHAIN_VARIANT=</text>
+      
+      <rect x="10" y="48" width="211" height="34" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="64" class="card-title" font-size="11px" fill="#58a6ff">llvm (Shared Clang Toolchain)</text>
+      <text x="16" y="76" class="card-desc" font-size="9.5px">IAS Policy: Mandatory Integrated Asm</text>
+
+      <rect x="10" y="88" width="211" height="34" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="104" class="card-title" font-size="11px" fill="#d29922">xt-clang (Cadence Xtensa XCC)</text>
+      <text x="16" y="116" class="card-desc" font-size="9.5px">Proprietary DSP cores &amp; HiFi SIMD</text>
+
+      <rect x="10" y="128" width="211" height="34" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="144" class="card-title" font-size="11px" fill="#3fb950">zephyr (Zephyr SDK GCC)</text>
+      <text x="16" y="156" class="card-desc" font-size="9.5px">Open-source cross-compilers</text>
+    </g>
+  </g>
+
+  <!-- Connectors Stage 1 -> Stage 2 -->
+  <path d="M 285 240 L 325 240" class="arrow" />
+  <path d="M 285 350 L 325 350" class="arrow" />
+  <path d="M 285 530 L 325 530" class="arrow" />
+
+  <!-- Stage 2: Configuration & Code Generation -->
+  <g transform="translate(325, 75)">
+    <rect width="255" height="670" class="box" filter="url(#drop-shadow)" />
+    <rect x="0" y="0" width="255" height="38" rx="8" fill="#1f2937" />
+    <text x="14" y="24" class="box-header" fill="#d29922">2. Config &amp; Code Generation</text>
+
+    <!-- CMake Configuration Engine -->
+    <g transform="translate(12, 50)">
+      <rect width="231" height="125" class="card" />
+      <text x="10" y="20" class="card-title">CMake Configuration Engine</text>
+      <text x="10" y="38" class="card-desc">app/CMakeLists.txt &amp; zephyr/CMake</text>
+      <text x="10" y="54" class="card-desc">Detects toolchain, arch, &amp; target</text>
+      <text x="10" y="70" class="card-desc">Injects -DEXTRA_CFLAGS</text>
+      <text x="10" y="86" class="card-desc">Configures module search paths</text>
+      <text x="10" y="102" class="card-desc">Evaluates target dependencies</text>
+      <text x="10" y="118" class="card-desc">Sets up build.ninja rules</text>
+    </g>
+
+    <!-- Device Tree Compiler (dtc) -->
+    <g transform="translate(12, 190)">
+      <rect width="231" height="120" class="card" />
+      <text x="10" y="20" class="card-title">Device Tree Compiler (dtc)</text>
+      <text x="10" y="38" class="card-desc">Merges board DTS with overlays</text>
+      <text x="10" y="54" class="card-desc">Validates DTS YAML bindings</text>
+      <text x="10" y="70" class="card-desc">Generates zephyr.dts</text>
+      <rect x="10" y="78" width="211" height="32" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="94" class="card-title" font-size="10.5px" fill="#79c0ff">devicetree_generated.h</text>
+      <text x="16" y="106" class="card-desc" font-size="9px">Hardware register macros &amp; IRQ vectors</text>
+    </g>
+
+    <!-- Kconfig Configuration Phase -->
+    <g transform="translate(12, 325)">
+      <rect width="231" height="135" class="card" />
+      <text x="10" y="20" class="card-title">Kconfig Dependency Engine</text>
+      <text x="10" y="38" class="card-desc">Parses visible config tree</text>
+      <text x="10" y="54" class="card-desc">Resolves selects, prompts &amp; defaults</text>
+      <text x="10" y="70" class="card-desc">Merges fragments &amp; snippets</text>
+      <rect x="10" y="80" width="211" height="45" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="96" class="card-title" font-size="10.5px" fill="#79c0ff">zephyr/.config &amp; autoconf.h</text>
+      <text x="16" y="110" class="card-desc" font-size="9px">C macros: #define CONFIG_COMP_VOLUME 1</text>
+      <text x="16" y="121" class="card-desc" font-size="9px">IPC version: CONFIG_IPC_MAJOR_4=y</text>
+    </g>
+
+    <!-- Linker Script Preprocessing -->
+    <g transform="translate(12, 475)">
+      <rect width="231" height="180" class="card" />
+      <text x="10" y="20" class="card-title">Linker Script Preprocessing</text>
+      <text x="10" y="38" class="card-desc">Processes linker.ld through cpp</text>
+      <text x="10" y="54" class="card-desc">Memory architecture mapping:</text>
+      <text x="20" y="72" class="card-desc" fill="#e6edf3">• L2 HP-SRAM (High Perf Audio)</text>
+      <text x="20" y="88" class="card-desc" fill="#e6edf3">• LP-SRAM (Low Power Audio)</text>
+      <text x="20" y="104" class="card-desc" fill="#e6edf3">• System IMR / Host DRAM buffers</text>
+      <text x="20" y="120" class="card-desc" fill="#e6edf3">• DSP Vector tables &amp; caches</text>
+      <rect x="10" y="132" width="211" height="36" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="148" class="card-title" font-size="10.5px" fill="#79c0ff">linker.cmd</text>
+      <text x="16" y="161" class="card-desc" font-size="9px">Target memory layout &amp; section rules</text>
+    </g>
+  </g>
+
+  <!-- Connectors Stage 2 -> Stage 3 -->
+  <path d="M 580 250 L 620 250" class="arrow" />
+  <path d="M 580 390 L 620 390" class="arrow" />
+  <path d="M 580 560 L 620 560" class="arrow" />
+
+  <!-- Stage 3: Compilation & Section Linking -->
+  <g transform="translate(620, 75)">
+    <rect width="255" height="670" class="box" filter="url(#drop-shadow)" />
+    <rect x="0" y="0" width="255" height="38" rx="8" fill="#1f2937" />
+    <text x="14" y="24" class="box-header" fill="#3fb950">3. Compilation &amp; Linking</text>
+
+    <!-- Ninja Parallel Build Engine -->
+    <g transform="translate(12, 50)">
+      <rect width="231" height="90" class="card" />
+      <text x="10" y="20" class="card-title">Ninja Parallel Execution</text>
+      <text x="10" y="38" class="card-desc">Schedules compile jobs across nproc</text>
+      <text x="10" y="54" class="card-desc">Invokes target clang / xcc compiler</text>
+      <text x="10" y="70" class="card-desc">Enforces strict -Werror &amp; diagnostics</text>
+      <text x="10" y="84" class="card-desc">Automatic header dependency graph</text>
+    </g>
+
+    <!-- Target Libraries Compilation -->
+    <g transform="translate(12, 155)">
+      <rect width="231" height="175" class="card" />
+      <text x="10" y="20" class="card-title">Firmware Object Libraries</text>
+      
+      <rect x="10" y="32" width="211" height="40" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="48" class="card-title" font-size="11px" fill="#3fb950">libzephyr.a (RTOS Subsystem)</text>
+      <text x="16" y="64" class="card-desc" font-size="9.5px">Kernel, threads, locks, device drivers, power</text>
+
+      <rect x="10" y="78" width="211" height="40" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="94" class="card-title" font-size="11px" fill="#58a6ff">libsof.a (SOF Audio Engine)</text>
+      <text x="16" y="110" class="card-desc" font-size="9.5px">Pipelines, buffer management, IPC, scheduling</text>
+
+      <rect x="10" y="124" width="211" height="40" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="140" class="card-title" font-size="11px" fill="#bc8cff">libsof_modules.a (Audio Modules)</text>
+      <text x="16" y="156" class="card-desc" font-size="9.5px">Volume, EQ, SRC, DRC, TDFB, Level Mult</text>
+    </g>
+
+    <!-- Linker Execution -->
+    <g transform="translate(12, 345)">
+      <rect width="231" height="110" class="card" />
+      <text x="10" y="20" class="card-title">Linker Section Resolution</text>
+      <text x="10" y="38" class="card-desc">Links object libraries with linker.cmd</text>
+      <text x="10" y="54" class="card-desc">Resolves cross-module symbols</text>
+      <text x="10" y="70" class="card-desc">Places .text, .rodata, .data, .bss</text>
+      <text x="10" y="86" class="card-desc">Performs dead-code stripping (-gc-sections)</text>
+      <text x="10" y="102" class="card-desc">Validates memory section boundaries</text>
+    </g>
+
+    <!-- Unstripped ELF Output -->
+    <g transform="translate(12, 470)">
+      <rect width="231" height="185" class="card" />
+      <text x="10" y="20" class="card-title">Primary Output: zephyr.elf</text>
+      <text x="10" y="38" class="card-desc">Unstripped firmware executable</text>
+      
+      <rect x="10" y="48" width="211" height="60" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="66" class="card-title" font-size="10.5px" fill="#e6edf3">DWARF 4 / 5 Debug Symbols</text>
+      <text x="16" y="80" class="card-desc" font-size="9.5px">Enables source-level debugging in GDB</text>
+      <text x="16" y="94" class="card-desc" font-size="9.5px">Memory address maps &amp; symbol tables</text>
+
+      <rect x="10" y="114" width="211" height="60" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="16" y="132" class="card-title" font-size="10.5px" fill="#e6edf3">Static Trace Log Strings</text>
+      <text x="16" y="146" class="card-desc" font-size="9.5px">Stores raw format strings in .static_log</text>
+      <text x="16" y="160" class="card-desc" font-size="9.5px">UUID descriptors &amp; component metadata</text>
+    </g>
+  </g>
+
+  <!-- Connectors Stage 3 -> Stage 4 -->
+  <path d="M 875 510 L 915 240" class="arrow-orange" />
+  <path d="M 875 560 L 915 400" class="arrow-green" />
+  <path d="M 875 610 L 915 570" class="arrow-purple" />
+
+  <!-- Stage 4: Post-Processing & Production Artifacts -->
+  <g transform="translate(915, 75)">
+    <rect width="235" height="670" class="box" filter="url(#drop-shadow)" />
+    <rect x="0" y="0" width="235" height="38" rx="8" fill="#1f2937" />
+    <text x="14" y="24" class="box-header" fill="#bc8cff">4. Post-Processing &amp; Packaging</text>
+
+    <!-- Tool 1: smex String Extraction -->
+    <g transform="translate(10, 50)">
+      <rect width="215" height="150" class="card" />
+      <text x="10" y="20" class="card-title">smex: Trace Dictionary</text>
+      <text x="10" y="38" class="card-desc">Extracts strings from zephyr.elf</text>
+      <text x="10" y="54" class="card-desc">Assigns integer IDs to log entries</text>
+      <text x="10" y="70" class="card-desc">Reduces DSP memory footprint</text>
+      <rect x="10" y="80" width="195" height="58" rx="4" fill="#161b22" stroke="#d29922" />
+      <text x="16" y="98" class="card-title" font-size="11px" fill="#d29922">sof-&lt;platform&gt;.ldc</text>
+      <text x="16" y="114" class="card-desc" font-size="9.5px">Log dictionary file deployed to host</text>
+      <text x="16" y="128" class="card-desc" font-size="9.5px">Decodes real-time DSP trace DMA</text>
+    </g>
+
+    <!-- Tool 2: rimage Cryptographic Signing -->
+    <g transform="translate(10, 215)">
+      <rect width="215" height="230" class="card" />
+      <text x="10" y="20" class="card-title">rimage: Binary Packaging</text>
+      <text x="10" y="38" class="card-desc">Parses target platform TOML config</text>
+      <text x="10" y="54" class="card-desc">Constructs extended manifest v2.5</text>
+      <text x="10" y="70" class="card-desc">Computes SHA-256 / SHA-384 hashes</text>
+      <text x="10" y="86" class="card-desc">Signs with RSA PKCS#1 v1.5 key:</text>
+      <text x="20" y="104" class="card-desc" fill="#e6edf3">• community (Public test key)</text>
+      <text x="20" y="120" class="card-desc" fill="#e6edf3">• dbgkey (Debug silicon key)</text>
+      <text x="20" y="136" class="card-desc" fill="#e6edf3">• production (OEM private key)</text>
+      
+      <rect x="10" y="150" width="195" height="65" rx="4" fill="#161b22" stroke="#3fb950" />
+      <text x="16" y="170" class="card-title" font-size="11px" fill="#3fb950">sof-&lt;platform&gt;.ri</text>
+      <text x="16" y="186" class="card-desc" font-size="9.5px">Signed production binary</text>
+      <text x="16" y="202" class="card-desc" font-size="9.5px">Verified by Intel CSE / Boot ROM</text>
+    </g>
+
+    <!-- Tool 3: LLEXT Packaging -->
+    <g transform="translate(10, 460)">
+      <rect width="215" height="195" class="card" />
+      <text x="10" y="20" class="card-title">llext-pack: Dynamic Modules</text>
+      <text x="10" y="38" class="card-desc">Compiles standalone audio modules</text>
+      <text x="10" y="54" class="card-desc">Embeds exported symbols table</text>
+      <text x="10" y="70" class="card-desc">Resolves relocation entries</text>
+      <text x="10" y="86" class="card-desc">Packages rimage container header</text>
+      <rect x="10" y="98" width="195" height="58" rx="4" fill="#161b22" stroke="#bc8cff" />
+      <text x="16" y="116" class="card-title" font-size="11px" fill="#bc8cff">&lt;module&gt;.llext</text>
+      <text x="16" y="132" class="card-desc" font-size="9.5px">Dynamically loaded at runtime via</text>
+      <text x="16" y="146" class="card-desc" font-size="9.5px">IPC4 MODULE_LOAD / INIT messages</text>
+      
+      <text x="10" y="176" class="card-desc" font-size="9.5px" fill="#8b949e">Target: /lib/firmware/intel/sof-ipc4/</text>
+    </g>
+  </g>
+</svg>
