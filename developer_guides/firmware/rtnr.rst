@@ -545,7 +545,7 @@ To ensure that the open-source community, continuous integration (CI) test matri
      void RTKMA_API_S32_Default(...);
 
 * **Circular Buffer Passthrough**:
-  Rather than performing dummy mathematical operations, the stub executes ``rtnr_stub_passthrough``, invoking ``cir_buf_copy`` across the ``audio_stream_rtnr`` descriptors:
+  Rather than performing placeholder mathematical operations, the stub executes ``rtnr_stub_passthrough``, invoking ``cir_buf_copy`` across the ``audio_stream_rtnr`` descriptors:
 
   .. math::
 

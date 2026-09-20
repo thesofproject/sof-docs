@@ -223,7 +223,7 @@
           • <tspan font-family="monospace" fill="#c084fc">S/PDIF Optical/Coaxial</tspan>: High-fidelity 24-bit audio stream output.
         </text>
         <text x="12" y="74" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">
-          • Dynamic Provider/Consumer clock switching (<tspan font-family="monospace">sof mode i2s master|slave</tspan>).
+          • Dynamic Provider/Consumer clock switching (<tspan font-family="monospace">sof mode i2s provider|consumer</tspan>).
         </text>
       </g>
     </g>
@@ -249,7 +249,7 @@
         <text x="12" y="18" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#6ee7b7">Diagnostic &amp; Control CLI (UART / USB CDC ACM)</text>
         <text x="12" y="34" font-family="monospace" font-size="8" fill="#34d399">sof status</text>
         <text x="90" y="34" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">: Print pipelines, sample rate, MAC, route, volume</text>
-        <text x="12" y="48" font-family="monospace" font-size="8" fill="#34d399">sof mode &lt;i2s|pdm&gt; &lt;master|slave|dmic&gt;</text>
+        <text x="12" y="48" font-family="monospace" font-size="8" fill="#34d399">sof mode &lt;i2s|pdm&gt; &lt;provider|consumer|dmic&gt;</text>
         <text x="240" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">: Switch clocking mode</text>
         <text x="12" y="62" font-family="monospace" font-size="8" fill="#34d399">sof vol &lt;pb|cap&gt; &lt;dB&gt;  |  sof mute &lt;pb|cap&gt; &lt;on|off&gt;</text>
         <text x="12" y="76" font-family="monospace" font-size="8" fill="#34d399">sof eq|drc|tdfb &lt;enable|bypass&gt;  |  sof tone &lt;on|off&gt;</text>

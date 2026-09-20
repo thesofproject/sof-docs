@@ -3,7 +3,7 @@
 Build and Run Testbench
 #######################
 
-This guide covers building the SOF Testbench from source, preparing audio test streams, executing native simulations, and running quick sanity checks.
+This guide covers building the SOF Testbench from source, preparing audio test streams, executing native simulations, and running quick verification checks.
 
 Prerequisites and System Dependencies
 *************************************
@@ -78,10 +78,10 @@ For fine-grained control over compiler flags, sanitizers, or build types:
    # Compile and install
    cmake --build build_testbench -j$(nproc) --target install
 
-Quick Sanity Verification (``host-testbench.sh``)
-*************************************************
+Quick Verification (``host-testbench.sh``)
+*******************************************
 
-To confirm that the testbench build and audio processing components are functioning properly, execute the quick sanity script:
+To confirm that the testbench build and audio processing components are functioning properly, execute the quick verification script:
 
 .. code-block:: bash
 

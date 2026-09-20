@@ -141,7 +141,7 @@
         <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#f0abfc">SOF Audio Bridge (Clock Consumer)</text>
         <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">ESP32-P4 (Target Audio Bridge)</text>
         <text x="10" y="50" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Clock Configuration:</text>
-        <text x="10" y="64" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_SLAVE</text>
+        <text x="10" y="64" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_CONSUMER</text>
         <text x="10" y="76" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_DMIC</text>
         <text x="10" y="94" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">FIFO Synchronization:</text>
         <text x="10" y="108" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">• GDMA follows DUT ticks</text>

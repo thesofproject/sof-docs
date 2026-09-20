@@ -364,7 +364,7 @@ Offline tuning scripts in SOF automate the generation of production artifacts fo
 
 The helper ``sof_tplg2_write.m`` converts binary blobs into ALSA Topology 2 configuration syntax:
 
-1. Validates the ABI header sanity using ``sof_check_blob_header()``.
+1. Validates the ABI header integrity using ``sof_check_blob_header()``.
 2. Strips the 8-byte ALSA TLV container header, retaining only the clean ABI header and payload.
 3. Formats bytes into an 8-column hexadecimal text block conforming to ``Object.Base.data`` syntax:
 

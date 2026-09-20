@@ -73,7 +73,7 @@
         <text x="12" y="18" fill="#38bdf8" font-size="12" font-weight="600">Test Harness &amp; Helper Scripts</text>
         <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/sof-testbench-helper.sh (-m &lt;mod&gt;)</text>
         <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/rebuild-testbench.sh (-p &lt;plat&gt;)</text>
-        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/host-testbench.sh (quick sanity)</text>
+        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• scripts/host-testbench.sh (quick verification)</text>
       </g>
 
       <!-- Testbench Binaries -->
