@@ -16,7 +16,11 @@ This comprehensive, step-by-step developer guide walks through the end-to-end en
 End-to-End Workflow Overview
 ****************************
 
-Creating and integrating an audio module follows a rigorous 10-step development lifecycle:
+Creating and integrating an audio module follows a structured 10-step development lifecycle. While the full process covers end-to-end component creation, specific stages are optional optimizations or development velocity boosters:
+
+* **Core Implementation Path (Mandatory)**: Steps 1, 2, 3, 6, 7, and 10 form the essential path required to author, configure, build, and deploy a functioning audio component on target hardware.
+* **Optimization Stages (Steps 4 & 5 - Optional)**: Steps 4 (Memory Tiering & Cold Code) and 5 (SIMD Alignment & Vectorization) are optimizations. During initial functional prototyping or algorithmic bringup, developers can use standard portable C scalar code and default memory allocations. Once functional correctness is established, apply cold-code memory tiering (Step 4) to conserve scarce DSP SRAM and implement SIMD vectorization with strict byte alignment (Step 5) to minimize MCPS and meet production performance targets.
+* **Host Bringup, Velocity & Performance Analysis (Steps 8 & 9 - Optional)**: Steps 8 (Host Testbench) and 9 (Cadence xt-run) are optional stages designed for debugging, performance analysis, and accelerating development velocity. Instead of waiting for slow embedded flash cycles, driver reloads, or board reboots, developers can bring up and validate their module on the host workstation first (Step 8) at 10x-100x real-time speed. Cadence ``xt-run`` (Step 9) provides cycle-accurate MCPS budget verification and hotspot profiling before deploying to physical DSP hardware.
 
 .. figure:: images/module_development_lifecycle.svg
    :alt: SOF Audio Module Engineering Lifecycle
@@ -26,41 +30,52 @@ Creating and integrating an audio module follows a rigorous 10-step development 
    Figure 320: End-to-end engineering workflow for creating and integrating an audio module in Sound Open Firmware.
 
 .. list-table:: Audio Module Implementation Stages
-   :widths: 10 25 65
+   :widths: 10 25 15 50
    :header-rows: 1
 
    * - Step
      - Stage Name
+     - Requirement
      - Primary Responsibilities & Artifacts
    * - **Step 1**
      - Directory Structure & Taxonomy
+     - **Mandatory**
      - Establish module source tree under ``src/audio/<module>/`` with standard file roles.
    * - **Step 2**
      - Headers & Interface Callbacks
+     - **Mandatory**
      - Implement ``struct module_interface`` lifecycle hooks (init, prepare, process, config, free).
    * - **Step 3**
      - UUID Generation & Endianness
+     - **Mandatory**
      - Generate RFC 4122 UUID, register in ``uuid-registry.txt``, and format for Topology 2 / IPC4.
    * - **Step 4**
      - Memory Placement & Cold Code
-     - Optimize scarce DSP SRAM by isolating cold setup routines (``__cold``) from real-time paths.
+     - **Optional** (Optimization)
+     - Optimize scarce DSP SRAM by isolating cold setup routines (``__cold``) from real-time paths. Can be deferred during initial functional prototyping.
    * - **Step 5**
      - Vector Alignment & SIMD Kernels
-     - Guarantee 8/16/32-byte data alignment for Tensilica HiFi, ARM Helium/Neon, and RISC-V SIMD.
+     - **Optional** (Optimization)
+     - Guarantee 8/16/32-byte data alignment for Tensilica HiFi, ARM Helium/Neon, and RISC-V SIMD. Modules can run portable C reference loops initially.
    * - **Step 6**
      - CMake & Kconfig Integration
+     - **Mandatory**
      - Declare build symbols, source targets, in-tree/LLEXT rules, and verify across 3 toolchains.
    * - **Step 7**
      - ALSA Topology 2.0 Integration
+     - **Mandatory**
      - Author component widget definition, attach mixer/byte controls, and compile topology.
    * - **Step 8**
      - Host Testbench Verification
-     - Execute rapid offline WAV-to-WAV pipeline simulations and check memory leaks with Valgrind.
+     - **Optional** (Velocity & Debug)
+     - Rapid offline WAV-to-WAV pipeline simulation, dynamic IPC control validation, and Valgrind memory checks to debug and bring up the module on the host first, dramatically increasing development velocity.
    * - **Step 9**
      - Cadence xt-run Simulation
-     - Run cycle-accurate DSP simulation, compute MCPS budgets, and profile hotspots with ``xt-gprof``.
+     - **Optional** (Perf Analysis)
+     - Run cycle-accurate DSP simulation, compute MCPS budgets, and profile hotspots with ``xt-gprof`` for in-depth performance analysis before deploying to hardware.
    * - **Step 10**
      - Build & Target Deployment
+     - **Mandatory**
      - Compile signed firmware image, stage deployable tree, transfer to target, and reload driver.
 
 ---
@@ -433,8 +448,13 @@ The build system executes ``scripts/gen-uuid-reg.py`` to automatically generate:
 
 ---
 
-Step 4: Memory Tiering & Cold-Code Placement
-********************************************
+Step 4: Memory Tiering & Cold-Code Placement (Optional - Optimization)
+**********************************************************************
+
+.. note::
+   **Optimization Stage**:
+
+   Step 4 is an **optional optimization**. For early functional prototyping and initial proof-of-concept bringup, standard memory placement functions work out of the box without special section attributes. This step becomes important when preparing production firmware builds to minimize precious internal DSP SRAM consumption, avoid cache thrashing, and meet platform low-power memory budgets.
 
 Digital signal processors feature complex, non-uniform memory architectures (NUMA). On Intel cAVS and ACE platforms, memory consists of:
 1. **L1 High-Speed Instruction/Data SRAM & Tightly-Coupled Memory (TCM)**: Ultra-fast, single-cycle access, strictly limited capacity (e.g. 64 KB - 512 KB per core).
@@ -492,8 +512,13 @@ The module adapter framework provides managed memory allocators tracked per modu
 
 ---
 
-Step 5: Vector Data Alignment & SIMD Optimization
-*************************************************
+Step 5: Vector Data Alignment & SIMD Optimization (Optional - Optimization)
+***************************************************************************
+
+.. note::
+   **Optimization Stage**:
+
+   Step 5 is an **optional optimization**. SOF audio modules typically start with a portable scalar C reference implementation in ``<mod>-generic.c`` that runs correctly across all architectures. Once the baseline audio algorithm is functionally verified, you can optionally implement architecture-specific SIMD vector acceleration (e.g. Tensilica HiFi 3/4/5, ARM Neon/Helium, RISC-V Vector) and enforce strict hardware memory alignment to maximize throughput and minimize MCPS.
 
 To achieve real-time throughput within strict battery power budgets, audio DSP algorithms rely heavily on Single Instruction, Multiple Data (SIMD) vector processing.
 
@@ -754,8 +779,20 @@ Compile the topology binary using ``alsatplg``:
 
 ---
 
-Step 8: Verification with Host Testbench
-****************************************
+Step 8: Verification with Host Testbench (Optional - Velocity & Debug)
+**********************************************************************
+
+.. tip::
+   **Host-First Bringup & Velocity Accelerator**:
+
+   Step 8 is **optional** but strongly recommended to **increase development velocity, perform offline debugging, and conduct initial performance analysis**. 
+
+   Bringing up a new DSP module directly on embedded target hardware involves compiling full firmware images, staging binaries, reloading kernel drivers, and inspecting remote dmesg/probe logs. The **Host Testbench** (:ref:`testbench`) allows you to bring up and debug your module on your host workstation first:
+
+   * **Rapid Iteration**: Execute rapid offline WAV-to-WAV simulations running **10x to 100x faster than real time** without requiring physical DSP hardware or embedded boot servers.
+   * **Host Debugging**: Run under standard native debuggers (GDB, LLDB), trace audio sample transformations frame-by-frame, and inspect internal component state directly.
+   * **IPC Control Scripting**: Inject dynamic mixer controls, mute switches, and byte parameter presets using shell scripts (``controls.sh``) to verify IPC handling before topology deployment.
+   * **Memory Leak Detection**: Catch memory leaks, out-of-bounds array indexing, and uninitialized reads immediately using Valgrind and AddressSanitizer (ASan).
 
 The **Host Testbench** (:ref:`testbench`) provides rapid offline pipeline simulation running **10x to 100x faster than real time** on development workstations without requiring DSP hardware.
 
@@ -825,8 +862,20 @@ Verify zero memory leaks and clean pointer deallocations:
 
 ---
 
-Step 9: Cycle-Accurate Simulation with Cadence xt-run
-*****************************************************
+Step 9: Cycle-Accurate Simulation with Cadence xt-run (Optional - Performance Analysis)
+***************************************************************************************
+
+.. note::
+   **Performance Analysis & Profiling Stage**:
+
+   Step 9 is **optional** and is used for **cycle-accurate performance analysis, MCPS budget verification, and compiler optimization profiling**. 
+
+   While the Host Testbench (Step 8) validates algorithmic correctness and IPC behavior on the host PC, ``xt-run`` (:ref:`xtrun`) simulates the exact Tensilica Xtensa DSP core pipeline, register files, and cache hierarchy. It enables developers to:
+
+   * Measure exact hardware execution cycles per audio processing frame.
+   * Compute precise Million Cycles Per Second (MCPS) budgets across diverse sample rates and channel counts.
+   * Profile hotspots and call graphs with ``xt-gprof`` to confirm that time-critical inner loops are fully vectorized by the compiler rather than executing scalar fallback paths.
+   * Validate audio algorithms against hardware alignment faults (such as unaligned load/store exceptions) before deploying to real physical silicon.
 
 To evaluate the mathematical precision and computational efficiency of SIMD vector kernels, run cycle-accurate DSP simulation using the **Cadence Xtensa Simulator** (``xt-run``, see :ref:`xtrun`).
 
