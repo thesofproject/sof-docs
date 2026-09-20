@@ -235,6 +235,12 @@ SOF Linux Maintainers
    * - Intel
      - Kai Vehmanen
      - `@kv2019i <https://github.com/kv2019i>`_
+   * - Intel
+     - Peter Ujfalusi
+     - `@ujfalusi <https://github.com/ujfalusi>`_
+   * - Intel
+     - Bard Liao
+     - `@bardliao <https://github.com/bardliao>`_
    * - NXP
      - Daniel Baluta
      - `@dbaluta <https://github.com/dbaluta>`_
