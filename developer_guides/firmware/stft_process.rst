@@ -806,7 +806,7 @@ Test the component within the SOF testbench without requiring target hardware:
 .. code-block:: bash
 
    # Define workspace root
-   export SOF_WORKSPACE=/home/lrg/work
+   export SOF_WORKSPACE=${HOME}/work
 
    # Execute testbench with 16-bit PCM configuration
    sof-testbench -p -i input_16k.wav -o output_stft_16k.wav \

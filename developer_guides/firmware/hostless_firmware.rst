@@ -284,17 +284,17 @@ The clocking mode of physical interfaces (I2S and PDM) is governed by ``sof_stat
 3. **DMIC Injector Mode**:
    Specialized clocking configuration where the host DUT drives the PDM clock line, and the hostless bridge generates a phase-aligned PDM microphone bitstream on the data pin, simulating hardware digital microphones for driver automated testing.
 
-Dual-Card Pre-Commit Loopback Rig
-=================================
+Example: Dual-Card Loopback Test Rig
+=====================================
 
-To prevent regressions in driver registers, DMA controllers, and processing components, hostless boards are deployed in paired cross-over test configurations:
+To prevent regressions in driver registers, DMA controllers, and processing components, hostless boards can be deployed in paired cross-over test configurations:
 
-.. list-table:: Header J1 Hardware Cross-Jumper Interconnect (Pallas Tx to Ceres Rx)
+.. list-table:: Example: Header J1 Hardware Cross-Jumper Interconnect (Clock Provider Tx to Clock Consumer Rx)
    :widths: 25 25 50
    :header-rows: 1
 
-   * - Pallas Pin (Provider Tx)
-     - Ceres Pin (Consumer Rx)
+   * - Transmitter Pin (Provider Tx)
+     - Receiver Pin (Consumer Rx)
      - Signal Description & Hardware Verification
    * - **Pin 2 (GPIO 20)**
      - **Pin 2 (GPIO 20)**
@@ -304,7 +304,7 @@ To prevent regressions in driver registers, DMA controllers, and processing comp
      - I2S Frame Sync (FSYNC / Word Select, 48.000 kHz)
    * - **Pin 6 (GPIO 22)**
      - **Pin 8 (GPIO 23)**
-     - I2S Audio Data Out (Pallas DOUT) to Data In (Ceres DIN)
+     - I2S Audio Data Out (Transmitter DOUT) to Data In (Receiver DIN)
    * - **Pin 10 (GPIO 24)**
      - **Pin 10 (GPIO 24)**
      - PDM Microphone Clock (PDM_CLK, 3.072 MHz)
@@ -503,8 +503,15 @@ Build the firmware using Zephyr's ``west`` tool:
    # Flash board over USB serial
    west flash
 
-   # Verify audio loopback playback and capture
-   python3 scripts/test_p4_loopback.py --mode i2s
+   # Verify audio loopback playback and capture using ALSA utilities:
+   # 1. Start capture stream on receiver
+   arecord -D hw:CARD=P4,DEV=0 -r 48000 -f S16_LE -c 2 -d 4 capture.wav &
+
+   # 2. Play test tone through transmitter
+   aplay -D hw:CARD=P4,DEV=0 -r 48000 -f S16_LE -c 2 test_1000hz.wav
+
+   # Alternatively, execute an automated loopback test harness:
+   # python3 <path_to_tests>/test_loopback.py --mode i2s
 
 Troubleshooting & Diagnostic Matrix
 ***********************************

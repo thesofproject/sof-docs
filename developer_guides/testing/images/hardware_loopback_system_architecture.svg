@@ -79,9 +79,9 @@
       <g transform="translate(0, 0)">
         <rect width="260" height="82" rx="8" fill="#1e293b" stroke="#0284c7" stroke-width="1.2" />
         <text x="14" y="22" fill="#38bdf8" font-size="13" font-weight="600">Test Harness Runners</text>
-        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• test_p4_loopback.py</text>
-        <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• test_teensy_loopback.py</text>
-        <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• capmat (capture matrix)</text>
+        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• Loopback test runner</text>
+        <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• Automated Python suites</text>
+        <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• Capture matrix scripts</text>
       </g>
 
       <!-- ALSA Audio Subsystem -->
@@ -128,22 +128,22 @@
       <rect width="324" height="126" rx="8" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
       <text x="12" y="19" fill="#c084fc" font-size="12" font-weight="600">ESP32-P4 Dual RISC-V @ 400 MHz (UAC2 Bridges)</text>
       
-      <!-- Pallas -->
+      <!-- Bridge 1 (Tx) -->
       <g transform="translate(10, 28)">
         <rect width="146" height="86" rx="6" fill="#0f172a" stroke="#38bdf8" stroke-width="1" />
-        <text x="8" y="16" fill="#38bdf8" font-size="11" font-weight="bold">Pallas (Board 3)</text>
+        <text x="8" y="16" fill="#38bdf8" font-size="11" font-weight="bold">Bridge Card 1</text>
         <text x="8" y="32" fill="#94a3b8" font-size="10">Role: Clock Provider Tx</text>
-        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">hw:CARD=Pallas</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">hw:CARD=&lt;bridge1&gt;</text>
         <text x="8" y="64" fill="#94a3b8" font-size="9">I2S DOUT: Pin 7 (GPIO 23)</text>
         <text x="8" y="78" fill="#94a3b8" font-size="9">BCLK: Pin 11 | WS: Pin 12</text>
       </g>
 
-      <!-- Ceres -->
+      <!-- Bridge 2 (Rx) -->
       <g transform="translate(168, 28)">
         <rect width="146" height="86" rx="6" fill="#0f172a" stroke="#34d399" stroke-width="1" />
-        <text x="8" y="16" fill="#34d399" font-size="11" font-weight="bold">Ceres (Board 4)</text>
+        <text x="8" y="16" fill="#34d399" font-size="11" font-weight="bold">Bridge Card 2</text>
         <text x="8" y="32" fill="#94a3b8" font-size="10">Role: Clock Consumer Rx</text>
-        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">hw:CARD=Ceres</text>
+        <text x="8" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">hw:CARD=&lt;bridge2&gt;</text>
         <text x="8" y="64" fill="#94a3b8" font-size="9">I2S DIN: Pin 13 (GPIO 20)</text>
         <text x="8" y="78" fill="#94a3b8" font-size="9">BCLK: Pin 11 | WS: Pin 12</text>
       </g>

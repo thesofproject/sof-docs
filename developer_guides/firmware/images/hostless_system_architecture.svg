@@ -269,7 +269,7 @@
           • <tspan font-family="monospace" fill="#34d399">sof bt status|broadcast|scan</tspan>: LE Audio Auracast broadcast management.
         </text>
         <text x="12" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">
-          • Standalone pre-commit loopback validation (<tspan font-family="monospace" fill="#fcd34d">test_p4_loopback.py</tspan>, <tspan font-family="monospace" fill="#fcd34d">test_teensy_loopback.py</tspan>).
+          • Standalone audio loopback validation (<tspan font-family="monospace" fill="#fcd34d">automated test scripts</tspan> or <tspan font-family="monospace" fill="#fcd34d">ALSA tools</tspan>).
         </text>
       </g>
     </g>

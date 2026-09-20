@@ -378,7 +378,7 @@ deploying, and validating SOF kernels on a GRUB2 target DUT.
    # 2. Host Build and Path Variables
    # ------------------------------------------------------------------------------
    THIS_DIR := ${PWD}
-   BUILD_DIR = /home/lrg/work/linux-ktest-tgl
+   BUILD_DIR = ${HOME}/work/linux-ktest
    OUTPUT_DIR = ${THIS_DIR}/build-tgl
    LOG_FILE = ${OUTPUT_DIR}/ktest-execution.log
 
@@ -606,7 +606,7 @@ Create a dedicated bisection configuration file ``~/work/sof-ktest-run/sof-bisec
    CLEAR_LOG = 1
 
    THIS_DIR := ${PWD}
-   BUILD_DIR = /home/lrg/work/linux-ktest-tgl
+   BUILD_DIR = ${HOME}/work/linux-ktest
    OUTPUT_DIR = ${THIS_DIR}/build-tgl
    LOG_FILE = ${OUTPUT_DIR}/ktest-bisect.log
 
@@ -622,7 +622,7 @@ Create a dedicated bisection configuration file ``~/work/sof-ktest-run/sof-bisec
    GRUB_REBOOT = grub-reboot
 
    REBOOT = timeout 15 ssh -o ConnectTimeout=5 $SSH_USER@$MACHINE 'sudo reboot > /dev/null 2>&1 &'
-   POWER_CYCLE = echo "r2 toggle" | nc 127.0.0.1 8081; sleep 10
+   POWER_CYCLE = <power-cycle-command>; sleep 10
 
    POST_INSTALL = ssh $SSH_USER@$MACHINE "mkinitramfs -o /boot/initrd.img-${LOCALVERSION} ${KERNEL_VERSION}"
 
