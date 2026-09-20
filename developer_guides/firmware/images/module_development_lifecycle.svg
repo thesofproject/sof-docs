@@ -56,7 +56,7 @@
       SOF Audio Module Engineering Lifecycle
     </text>
     <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
-      10-Step Workflow: C Implementation, Alignment, Build Systems, ALSA Topology, Simulation, and Target Deployment
+      10-Step Workflow: Core C, Optimizations (Steps 4-5), Build Systems, Host Bringup &amp; Analysis (Steps 8-9), and Deployment
     </text>
   </g>
 
@@ -110,24 +110,31 @@
     <!-- Step 4 Card -->
     <g transform="translate(12, 354)">
       <rect width="221" height="92" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <rect x="8" y="8" width="55" height="16" rx="3" fill="#1e3a8a"/>
-      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">STEP 4</text>
-      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Cold Code &amp; SRAM</text>
-      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• __cold on init() and free()</text>
-      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• assert_can_be_cold() in teardown</text>
-      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#fbbf24">• ZERO allocations in process()</text>
+      <rect x="8" y="7" width="55" height="15" rx="3" fill="#1e3a8a"/>
+      <text x="14" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#93c5fd">STEP 4</text>
+      <text x="70" y="19" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">Cold Code &amp; SRAM</text>
+      
+      <rect x="8" y="26" width="205" height="15" rx="3" fill="#1e3a8a" fill-opacity="0.5" stroke="#3b82f6" stroke-width="0.8"/>
+      <text x="14" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700" fill="#93c5fd">OPTIONAL: MEMORY OPTIMIZATION</text>
+
+      <text x="10" y="53" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• __cold on init() and free()</text>
+      <text x="10" y="67" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• assert_can_be_cold() in teardown</text>
+      <text x="10" y="81" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#fbbf24">• ZERO allocations in process()</text>
     </g>
 
     <!-- Step 5 Card -->
     <g transform="translate(12, 454)">
       <rect width="221" height="96" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
-      <rect x="8" y="8" width="55" height="16" rx="3" fill="#1e3a8a"/>
-      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">STEP 5</text>
-      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">SIMD Vector Alignment</text>
-      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 8-byte (HiFi 3), 16-byte (HiFi 4)</text>
-      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• mod_balloc_align(mod, sz, 16)</text>
-      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• __aligned(16) on delay lines</text>
-      <text x="10" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#f87171">• Prevents EXCCAUSE = 9 crashes</text>
+      <rect x="8" y="7" width="55" height="15" rx="3" fill="#1e3a8a"/>
+      <text x="14" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#93c5fd">STEP 5</text>
+      <text x="70" y="19" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600" fill="#e2e8f0">SIMD Vector Alignment</text>
+      
+      <rect x="8" y="26" width="205" height="15" rx="3" fill="#1e3a8a" fill-opacity="0.5" stroke="#3b82f6" stroke-width="0.8"/>
+      <text x="14" y="37" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="700" fill="#93c5fd">OPTIONAL: SIMD OPTIMIZATION</text>
+
+      <text x="10" y="53" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• 8-byte (HiFi 3), 16-byte (HiFi 4)</text>
+      <text x="10" y="67" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• mod_balloc_align(mod, sz, 16)</text>
+      <text x="10" y="81" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#f87171">• Prevents EXCCAUSE = 9 crashes</text>
     </g>
   </g>
 
@@ -190,8 +197,8 @@
     <rect width="245" height="565" rx="10" fill="url(#card-grad-mod)" stroke="#059669" stroke-width="1.5"/>
     <rect width="245" height="42" rx="10" fill="url(#hdr-phase3)"/>
     <rect y="32" width="245" height="10" fill="url(#hdr-phase3)"/>
-    <text x="16" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">
-      PHASE 3: SIMULATION &amp; PROFILING
+    <text x="16" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#ffffff">
+      PHASE 3: SIMULATION &amp; PROFILING (OPTIONAL)
     </text>
 
     <!-- Step 8 Card -->
@@ -201,19 +208,22 @@
       <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">STEP 8</text>
       <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Host Testbench</text>
       
-      <text x="10" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Rapid Offline Simulation:</text>
-      <text x="10" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 10x - 100x faster than real-time</text>
-      <text x="10" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• WAV in.raw -> Testbench -> out.raw</text>
+      <rect x="8" y="28" width="205" height="16" rx="3" fill="#064e3b" fill-opacity="0.6" stroke="#059669" stroke-width="0.8"/>
+      <text x="11" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="7.8" font-weight="700" fill="#6ee7b7">OPTIONAL: HOST 1ST BRINGUP &amp; DEBUG</text>
+
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#34d399">Rapid Host Velocity:</text>
+      <text x="10" y="73" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• 10x - 100x faster than real-time</text>
+      <text x="10" y="87" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Bring up on host 1st without DSP</text>
       
-      <text x="10" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Dynamic Control Scripting:</text>
-      <text x="10" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• -s controls.sh (amixer &amp; sof-ctl)</text>
-      <text x="10" y="134" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Injects live coefficient blobs</text>
+      <text x="10" y="108" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#34d399">Dynamic Control Scripting:</text>
+      <text x="10" y="123" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• -s controls.sh (amixer &amp; sof-ctl)</text>
+      <text x="10" y="137" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Injects live coefficient blobs</text>
       
-      <text x="10" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Memory Leak Detection:</text>
-      <text x="10" y="176" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Valgrind memory verification</text>
-      <text x="10" y="192" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• AddressSanitizer &amp; UBSan</text>
-      <text x="10" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6ee7b7">Command:</text>
-      <text x="10" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#a7f3d0">scripts/sof-testbench-helper.sh -v</text>
+      <text x="10" y="158" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#34d399">Debug &amp; Leak Detection:</text>
+      <text x="10" y="173" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Valgrind memory verification</text>
+      <text x="10" y="187" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Debug with host GDB / AddressSanitizer</text>
+      <text x="10" y="208" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#6ee7b7">Command:</text>
+      <text x="10" y="222" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#a7f3d0">scripts/sof-testbench-helper.sh -v</text>
     </g>
 
     <!-- Step 9 Card -->
@@ -221,21 +231,24 @@
       <rect width="221" height="242" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
       <rect x="8" y="8" width="55" height="16" rx="3" fill="#064e3b"/>
       <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">STEP 9</text>
-      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Cadence xt-run Simulation</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Cadence xt-run</text>
       
-      <text x="10" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Cycle-Accurate DSP Core:</text>
-      <text x="10" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Exact Tensilica HiFi3/4/5 registers</text>
-      <text x="10" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Cache hit/miss stall modeling</text>
+      <rect x="8" y="28" width="205" height="16" rx="3" fill="#064e3b" fill-opacity="0.6" stroke="#059669" stroke-width="0.8"/>
+      <text x="11" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="7.8" font-weight="700" fill="#6ee7b7">OPTIONAL: CYCLE &amp; PERF ANALYSIS</text>
+
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#34d399">Cycle-Accurate DSP Core:</text>
+      <text x="10" y="73" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Exact Tensilica HiFi3/4/5 registers</text>
+      <text x="10" y="87" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Cache hit/miss stall modeling</text>
       
-      <text x="10" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">MCPS Budget Verification:</text>
-      <text x="10" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Million Cycles Per Second math</text>
-      <text x="10" y="134" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Verifies load &lt; allocation budget</text>
+      <text x="10" y="108" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#34d399">MCPS Budget Verification:</text>
+      <text x="10" y="123" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Million Cycles Per Second math</text>
+      <text x="10" y="137" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Verifies load &lt; allocation budget</text>
       
-      <text x="10" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Call-Graph Hotspot Profiling:</text>
-      <text x="10" y="176" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• xt-gprof call-tree generation</text>
-      <text x="10" y="192" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Validates SIMD inner loop uptake</text>
-      <text x="10" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6ee7b7">Command:</text>
-      <text x="10" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#a7f3d0">scripts/sof-testbench-helper.sh -x</text>
+      <text x="10" y="158" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#34d399">Call-Graph Hotspot Profiling:</text>
+      <text x="10" y="173" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• xt-gprof call-tree generation</text>
+      <text x="10" y="187" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• Validates SIMD inner loop uptake</text>
+      <text x="10" y="208" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#6ee7b7">Command:</text>
+      <text x="10" y="222" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#a7f3d0">scripts/sof-testbench-helper.sh -x</text>
     </g>
   </g>
 
