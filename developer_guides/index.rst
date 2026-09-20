@@ -108,8 +108,12 @@ Firmware Packaging, Dynamic Modules & Subsystems
 
 Firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
 
+* :ref:`rimage` (Firmware binary packaging, Intel cAVS and ACE partition manifests, cryptographic signing with MeCSS / CSE, hardware authorization keys, and multi-module extended manifest structures)
+* :ref:`llext_modules` (Zephyr Loadable Linkable Extensions (LLEXT) dynamic loading framework, ELF relocation mechanics, manifest export, and runtime on-demand module binding over IPC4)
+* :ref:`sof_hostless_firmware` (Embedded standalone firmware architecture for microcontrollers without a host processor, autonomous pipeline creation, clock provider/consumer bridges, and interactive Zephyr shell diagnostics)
+
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    rimage/index.rst
    firmware/llext_modules
@@ -177,10 +181,15 @@ Machine Learning & Speech Feature Extraction
 3. Kernel & Host Driver Development (Kernel)
 ********************************************
 
-Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, and host testing utilities.
+Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, and host testing utilities:
+
+* :ref:`sof_linux_driver` (Linux kernel ASoC driver architecture, multi-vendor DSP core abstraction, IPC3/IPC4 protocol layers, ACPI/PCI platform probing, DMI machine quirks, runtime PM, and stream DMA management)
+* :ref:`topology2` (ALSA Topology 2.0 architecture, split functional model, pre-processor token parsing, widget and pipeline definition syntax, hardware DAI graph routing, and dynamic UCM2 integration)
+* :ref:`topology` (Legacy ALSA Topology 1.0 architecture, M4 macro expansion templates, pipeline graph generation, and backward-compatibility guidelines)
+* :ref:`setup-ktest-environment` (Automated Linux kernel testing and bisection framework with ktest, rapid git bisect workflows, automated kernel build/deploy, and headless serial console validation)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    linux_driver/index
    topology2/topology2
@@ -194,14 +203,16 @@ Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk autho
 4. Hardware & Platform Bringup (HW)
 ***********************************
 
-Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors and embedded development boards.
+Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors and embedded development boards:
+
+* :ref:`sof_imx_user_guide` (NXP i.MX8 platform integration, ARM Cortex-M and Tensilica DSP memory mappings, EDMA channel routing, SAI audio serial interfaces, and Linux BSP bringup)
+* :ref:`sof_hostless_firmware` (Embedded microcontroller platforms including Teensy 4.1, ESP32-P4, and ESP32-C6, GPIO pinout definitions, 1.8V to 3.3V level shifting, and autonomous audio bridging)
+* :ref:`sof_hardware_loopback_testing` (Hardware loopback test harnesses, I2S and PDM clock provider/consumer synchronization, and rate/format verification matrices)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    nxp/sof_imx_user_guide
-
-For embedded microcontroller audio bridges and hostless targets (Teensy 4.1, ESP32-P4, ESP32-C6), see :ref:`sof_hostless_firmware` and :ref:`sof_hardware_loopback_testing`.
 
 ---
 
@@ -210,10 +221,17 @@ For embedded microcontroller audio bridges and hostless targets (Teensy 4.1, ESP
 5. Testing, Simulation & Toolchains (SDK & Test)
 ************************************************
 
-Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulation, automated hardware loopback verification, Zephyr CMake build flags, and fuzzing.
+Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulation, automated hardware loopback verification, Zephyr CMake build flags, cycle-accurate simulation, and protocol fuzzing:
+
+* :ref:`unit_tests` (Unit testing architecture with Zephyr Ztest framework and Twister test runner, fixture lifecycle, mock dependencies, and automated CI test matrix execution)
+* :ref:`sof_hardware_loopback_testing` (Automated hardware audio verification, ESP32-P4 and Teensy 4.1 audio bridges, I2S and PDM clock mode switching, and capture matrix validation)
+* :ref:`testbench` (Host audio pipeline simulation tool, native x86-64 and ARM execution, topology verification, dynamic runtime control scripting, and acoustic output analysis)
+* :ref:`cmake` (Zephyr CMake build system architecture, comprehensive 3-toolchain guide comparing Cadence Xtensa Tools, Zephyr SDK, and experimental LLVM/Clang with mandatory Integrated Assembler)
+* :ref:`xtrun` (Cycle-accurate Cadence Xtensa simulator verification (``xt-run``), Million Cycles Per Second (MCPS) profiling, memory trace dumping, and ISS verification runbooks)
+* :ref:`sof_fuzzing` (Firmware security fuzzing framework, LLVM LibFuzzer integration, IPC mailbox protocol testing, topology fuzzing, and AddressSanitizer/UBSan vulnerability detection)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    unit_tests
    testing/hardware_loopback
