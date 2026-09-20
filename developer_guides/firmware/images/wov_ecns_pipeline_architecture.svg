@@ -1,0 +1,318 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-wov" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-wov" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Header Gradients -->
+    <linearGradient id="hdr-ll" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="hdr-dp-ecns" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="hdr-dp-kpb" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0369a1"/>
+      <stop offset="100%" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="hdr-dp-wov" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="hdr-arb" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6d28d9"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-teal" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#2dd4bf"/>
+    </marker>
+    <marker id="arr-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#fbbf24"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-rose" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f43f5e"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-wov" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="740" rx="12" fill="url(#bg-wov)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      Multi-Slot WOV &amp; ECNS Dual-Stream Pipeline Architecture
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      wcl-uaol-wov-002: 4-Channel DMIC Capture, 20ms DP ECNS, 2.0s KPB Pre-roll, Concurrent WOV Slots, and Notifier Bus
+    </text>
+  </g>
+
+  <!-- ==================== COLUMN 1: HARDWARE CAPTURE (P100) ==================== -->
+  <g transform="translate(40, 85)" filter="url(#shadow-wov)">
+    <rect width="180" height="240" rx="8" fill="url(#card-wov)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="8" fill="url(#hdr-ll)"/>
+    <rect y="24" width="180" height="10" fill="url(#hdr-ll)"/>
+    <text x="12" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Pipeline 100: DAI CAPTURE
+    </text>
+    <text x="12" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#60a5fa">
+      Core 0 • LL 1ms (16 frames)
+    </text>
+
+    <!-- DAI Copier Widget -->
+    <g transform="translate(10, 60)">
+      <rect width="160" height="70" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">dai-copier.1 (dmic01)</text>
+      <text x="10" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• 4-Channel Native 16 kHz</text>
+      <text x="10" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#64748b">  Ch 0,1: Primary Mics</text>
+      <text x="10" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#64748b">  Ch 2,3: Echo Reference</text>
+    </g>
+
+    <!-- Mixin 100.1 Widget -->
+    <g transform="translate(10, 145)">
+      <rect width="160" height="55" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#e2e8f0">mixin.100.1</text>
+      <text x="10" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• 4ch S16_LE Pass-through</text>
+    </g>
+  </g>
+
+  <!-- Connect P100 -> P105 -->
+  <path d="M 220 250 L 260 250" stroke="#38bdf8" stroke-width="2" marker-end="url(#arr-cyan)"/>
+  <text x="226" y="242" font-family="monospace" font-size="9" fill="#38bdf8">4ch 16k</text>
+
+  <!-- ==================== COLUMN 2: ECNS DP PROCESSING (P105) ==================== -->
+  <g transform="translate(260, 85)" filter="url(#shadow-wov)">
+    <rect width="210" height="380" rx="8" fill="url(#card-wov)" stroke="#14b8a6" stroke-width="1.5"/>
+    <rect width="210" height="34" rx="8" fill="url(#hdr-dp-ecns)"/>
+    <rect y="24" width="210" height="10" fill="url(#hdr-dp-ecns)"/>
+    <text x="12" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Pipeline 105: ECNS DP
+    </text>
+    <text x="12" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#2dd4bf">
+      Core 0 • DP 20ms (320 frames)
+    </text>
+
+    <!-- Mixout 105.1 -->
+    <g transform="translate(10, 60)">
+      <rect width="190" height="42" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" fill="#e2e8f0">mixout.105.1</text>
+      <text x="10" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">4ch input buffer (ibs = 2560 B)</text>
+    </g>
+
+    <!-- ECNS Widget -->
+    <g transform="translate(10, 115)">
+      <rect width="190" height="135" rx="5" fill="#042f2e" stroke="#0d9488" stroke-width="1.5"/>
+      <text x="10" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#5eead4">ecns.105.1 (AEC &amp; NS)</text>
+      <text x="10" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#ccfbf1">• Multi-Pin Audio Contract</text>
+      <text x="10" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#99f6e4">• 4ch in (2 Mic + 2 Echo Ref)</text>
+      <text x="10" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" fill="#2dd4bf">Pin 0: Ch 0 Mono Clean</text>
+      <text x="10" y="82" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">  obs = 640 B (to KPB)</text>
+      <text x="10" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" fill="#2dd4bf">Pin 1: Ch 0,1 Stereo Clean</text>
+      <text x="10" y="114" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">  obs = 1280 B (to Host PCM 10)</text>
+    </g>
+
+    <!-- Mixin 105.1 (Pin 0) -->
+    <g transform="translate(10, 260)">
+      <rect width="190" height="45" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">mixin.105.1 (KPB Branch)</text>
+      <text x="10" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">1ch mono clean speech</text>
+    </g>
+
+    <!-- Mixin 105.2 (Pin 1) -->
+    <g transform="translate(10, 315)">
+      <rect width="190" height="45" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">mixin.105.2 (Host Branch)</text>
+      <text x="10" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">2ch stereo clean speech</text>
+    </g>
+  </g>
+
+  <!-- Connect ECNS Pin 0 -> KPB (P106) -->
+  <path d="M 470 282 L 510 282" stroke="#2dd4bf" stroke-width="2" marker-end="url(#arr-teal)"/>
+  <text x="473" y="274" font-family="monospace" font-size="9" fill="#2dd4bf">1ch clean</text>
+
+  <!-- Connect ECNS Pin 1 -> P107 Host Capture -->
+  <path d="M 470 338 L 490 338 L 490 565 L 510 565" fill="none" stroke="#2dd4bf" stroke-width="2" marker-end="url(#arr-teal)"/>
+  <text x="476" y="555" font-family="monospace" font-size="9" fill="#2dd4bf">2ch clean</text>
+
+  <!-- ==================== COLUMN 3: KPB HISTORY BUFFER (P106) ==================== -->
+  <g transform="translate(510, 85)" filter="url(#shadow-wov)">
+    <rect width="180" height="280" rx="8" fill="url(#card-wov)" stroke="#0ea5e9" stroke-width="1.5"/>
+    <rect width="180" height="34" rx="8" fill="url(#hdr-dp-kpb)"/>
+    <rect y="24" width="180" height="10" fill="url(#hdr-dp-kpb)"/>
+    <text x="12" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      Pipeline 106: KPB BUFFER
+    </text>
+    <text x="12" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#38bdf8">
+      Core 0 • DP 20ms (320 frames)
+    </text>
+
+    <!-- Mixout 106.1 -->
+    <g transform="translate(10, 60)">
+      <rect width="160" height="42" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">mixout.106.1</text>
+      <text x="10" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">1ch mono input</text>
+    </g>
+
+    <!-- KPB Widget -->
+    <g transform="translate(10, 115)">
+      <rect width="160" height="85" rx="5" fill="#082f49" stroke="#0284c7" stroke-width="1.5"/>
+      <text x="10" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#7dd3fc">kpb.106.1</text>
+      <text x="10" y="38" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#bae6fd">• 2.0s Pre-roll Ring Buffer</text>
+      <text x="10" y="52" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#bae6fd">• Size: 64 KB mono S16_LE</text>
+      <text x="10" y="68" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#fca5a5">• Drains on NOTIFIER event</text>
+    </g>
+
+    <!-- Mixin 106.1 (Fan-out) -->
+    <g transform="translate(10, 212)">
+      <rect width="160" height="50" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="10" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#e2e8f0">mixin.106.1 (Fan-Out)</text>
+      <text x="10" y="36" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">3-way splitter to WOV slots</text>
+    </g>
+  </g>
+
+  <!-- Connect KPB Mixin -> 3 WOV Slots -->
+  <path d="M 670 320 L 705 320 L 705 150 L 730 150" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <path d="M 670 320 L 730 320" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+  <path d="M 670 320 L 705 320 L 705 480 L 730 480" fill="none" stroke="#38bdf8" stroke-width="1.5" marker-end="url(#arr-cyan)"/>
+
+  <!-- ==================== COLUMN 4: MULTI-SLOT DETECTORS (P101, P102, P103) ==================== -->
+  <!-- Slot 0: Strawberry -->
+  <g transform="translate(730, 85)" filter="url(#shadow-wov)">
+    <rect width="170" height="130" rx="6" fill="url(#card-wov)" stroke="#d97706" stroke-width="1.2"/>
+    <rect width="170" height="24" rx="6" fill="url(#hdr-dp-wov)"/>
+    <rect y="16" width="170" height="8" fill="url(#hdr-dp-wov)"/>
+    <text x="8" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">
+      Pipeline 101 • Slot 0 (Core 0)
+    </text>
+    <text x="8" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" fill="#fde68a">DP 10ms (160 frames)</text>
+    <text x="8" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">• mixout.101.1</text>
+    <text x="8" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">• mfcc.101.1 (Mel-40 10ms)</text>
+    <text x="8" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#fca5a5">• mww.101.1 "strawberry"</text>
+    <text x="8" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">  (or custom algorithm)</text>
+  </g>
+
+  <!-- Slot 1: Banana -->
+  <g transform="translate(730, 245)" filter="url(#shadow-wov)">
+    <rect width="170" height="130" rx="6" fill="url(#card-wov)" stroke="#d97706" stroke-width="1.2"/>
+    <rect width="170" height="24" rx="6" fill="url(#hdr-dp-wov)"/>
+    <rect y="16" width="170" height="8" fill="url(#hdr-dp-wov)"/>
+    <text x="8" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">
+      Pipeline 102 • Slot 1 (Core 0)
+    </text>
+    <text x="8" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" fill="#fde68a">DP 10ms (160 frames)</text>
+    <text x="8" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">• mixout.102.1</text>
+    <text x="8" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">• mfcc.102.1 (Mel-40 10ms)</text>
+    <text x="8" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#fef08a">• mww.102.1 "banana"</text>
+    <text x="8" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">  (or custom algorithm)</text>
+  </g>
+
+  <!-- Slot 2: Orange (Core 1 Cross-Core Scheduling!) -->
+  <g transform="translate(730, 405)" filter="url(#shadow-wov)">
+    <rect width="170" height="130" rx="6" fill="url(#card-wov)" stroke="#ea580c" stroke-width="1.5"/>
+    <rect width="170" height="24" rx="6" fill="#c2410c"/>
+    <rect y="16" width="170" height="8" fill="#c2410c"/>
+    <text x="8" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">
+      Pipeline 103 • Slot 2 (Core 1)
+    </text>
+    <text x="8" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" fill="#fed7aa">Cross-Core Offload • DP 10ms</text>
+    <text x="8" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">• mixout.103.1</text>
+    <text x="8" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">• mfcc.103.1 (Mel-40 10ms)</text>
+    <text x="8" y="90" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#fdba74">• mww.103.1 "orange"</text>
+    <text x="8" y="106" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">  (or custom algorithm)</text>
+  </g>
+
+  <!-- Connect 3 Slots -> WOV Arbiter -->
+  <path d="M 900 150 L 935 150 L 935 290 L 950 290" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <path d="M 900 310 L 950 310" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+  <path d="M 900 470 L 935 470 L 935 330 L 950 330" fill="none" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#arr-amber)"/>
+
+  <!-- ==================== COLUMN 5: WOV ARBITER & HOST PCMS ==================== -->
+  <!-- Pipeline 104: WOV Arbiter & PCM 11 -->
+  <g transform="translate(950, 230)" filter="url(#shadow-wov)">
+    <rect width="120" height="175" rx="6" fill="url(#card-wov)" stroke="#8b5cf6" stroke-width="1.5"/>
+    <rect width="120" height="26" rx="6" fill="url(#hdr-arb)"/>
+    <rect y="18" width="120" height="8" fill="url(#hdr-arb)"/>
+    <text x="8" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#ffffff">
+      Pipeline 104: ARBITER
+    </text>
+    <text x="8" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" fill="#c084fc">Core 0 • LL 1ms</text>
+    
+    <g transform="translate(6, 52)">
+      <rect width="108" height="50" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="6" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" fill="#d8b4fe">wov_arbiter.104.1</text>
+      <text x="6" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" fill="#cbd5e1">• 3 in pins, 1 out</text>
+      <text x="6" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" fill="#fde047">• wov_active_slot</text>
+    </g>
+
+    <g transform="translate(6, 110)">
+      <rect width="108" height="50" rx="4" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+      <text x="6" y="16" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="700" fill="#86efac">host-copier.11</text>
+      <text x="6" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="8" font-weight="600" fill="#bbf7d0">hw:0,11 (PCM 11)</text>
+      <text x="6" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" fill="#dcfce7">1ch 16k WOV Audio</text>
+    </g>
+  </g>
+
+  <!-- Pipeline 107: ECNS Host Copier & PCM 10 -->
+  <g transform="translate(510, 520)" filter="url(#shadow-wov)">
+    <rect width="260" height="110" rx="6" fill="url(#card-wov)" stroke="#16a34a" stroke-width="1.5"/>
+    <rect width="260" height="26" rx="6" fill="#15803d"/>
+    <rect y="18" width="260" height="8" fill="#15803d"/>
+    <text x="12" y="17" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="700" fill="#ffffff">
+      Pipeline 107: ECNS HOST CAPTURE (Core 0 • LL 1ms)
+    </text>
+    
+    <g transform="translate(10, 36)">
+      <rect width="110" height="60" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="8" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#e2e8f0">mixout.107.1</text>
+      <text x="8" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">2ch clean input</text>
+      <text x="8" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#64748b">from mixin.105.2</text>
+    </g>
+
+    <g transform="translate(130, 36)">
+      <rect width="120" height="60" rx="4" fill="#14532d" stroke="#16a34a" stroke-width="1"/>
+      <text x="8" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#86efac">host-copier.10</text>
+      <text x="8" y="34" font-family="system-ui, -apple-system, sans-serif" font-size="9" font-weight="600" fill="#bbf7d0">hw:0,10 (PCM 10)</text>
+      <text x="8" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#dcfce7">2ch 16k Clean Comm</text>
+    </g>
+  </g>
+
+  <!-- Connect mixout.107.1 to host-copier.10 -->
+  <path d="M 630 585 L 640 585" stroke="#16a34a" stroke-width="2" marker-end="url(#arr-teal)"/>
+
+  <!-- ==================== SOF NOTIFIER EVENT BUS (BOTTOM OVERVIEW) ==================== -->
+  <g transform="translate(40, 650)">
+    <rect width="1030" height="65" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"/>
+    <text x="16" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#a5b4fc">
+      SOF NOTIFIER INTER-MODULE EVENT BUS:
+    </text>
+    <text x="16" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#e0e7ff">
+      • NOTIFIER_ID_KPB_CLIENT_EVT: Winning detector commands KPB to drain 2.0s pre-roll buffer to active slot.
+    </text>
+    <text x="16" y="56" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#e0e7ff">
+      • NOTIFIER_ID_WOV_DETECT: Winning detector notifies Arbiter (slot_id) • NOTIFIER_ID_WOV_CTRL: Arbiter broadcasts PAUSE to sibling slots.
+    </text>
+  </g>
+</svg>

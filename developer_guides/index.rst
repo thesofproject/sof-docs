@@ -125,11 +125,13 @@ How-To Developer Guides & Module Integration
 Step-by-step developer runbooks for authoring new audio components, porting third-party audio algorithms, configuring builds, declaring topology widgets, and verifying execution:
 
 * :ref:`module_creation_integration_guide` (End-to-end walkthrough on authoring a new DSP audio processing module or integrating third-party algorithms: header structures, CMakeLists.txt, Kconfig, UUID registration, cold-code memory placement, SIMD vector data alignment, ALSA Topology 2.0 configuration, multi-toolchain compilation, device deployment, and simulation with Host Testbench and Cadence xt-run)
+* :ref:`wov_ecns_pipeline_guide` (Architectural walkthrough on customizing complex multi-pipeline Wake-on-Voice (WOV) and Echo Cancellation & Noise Suppression (ECNS) topologies from the wcl-uaol-wov branch: replacing keyword detectors and acoustic echo cancellers, managing SOF Notifier inter-module arbitration, tuning Data Processing (DP) scheduling periods, cross-core affinity, and ALSA Topology 2.0 graph routing)
 
 .. toctree::
    :hidden:
 
    firmware/module_integration_guide
+   firmware/wov_ecns_pipeline_guide
 
 ---
 
