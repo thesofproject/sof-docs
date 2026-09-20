@@ -279,7 +279,7 @@ The clocking mode of physical interfaces (I2S and PDM) is governed by ``sof_stat
    The internal audio PLL drives external DACs, smart amplifiers, and codecs.
 
 2. **Clock Consumer Mode**:
-   The microcontroller disables its internal bit-clock dividers and synchronizes its DMA receiver/transmitter to external BCLK and FSYNC lines driven by a host DUT (such as Intel Tiger Lake CAVS or Panther Lake ACE). The microcontroller FIFO tracks external word clocks with zero phase slip.
+   The microcontroller disables its internal bit-clock dividers and synchronizes its DMA receiver/transmitter to external BCLK and FSYNC lines driven by a host DUT (such as Intel Tiger Lake CAVS or Panther Lake ACE). The microcontroller FIFO tracks external word clocks with zero phase slip. Note that platforms with 1.8V digital I/O (such as Intel Panther Lake) require an inline bidirectional 1.8V to 3.3V voltage level shifter when interfacing with 3.3V microcontroller GPIOs to prevent electrical overstress and ensure signal logic thresholds are met.
 
 3. **DMIC Injector Mode**:
    Specialized clocking configuration where the host DUT drives the PDM clock line, and the hostless bridge generates a phase-aligned PDM microphone bitstream on the data pin, simulating hardware digital microphones for driver automated testing.
@@ -331,7 +331,7 @@ Diagnostic Command Reference
      - Description & Operational Behavior
    * - ``sof status``
      - Dumps complete firmware telemetry: active pipelines, sample rate, MAC address, clock mode, route, volume, mute, and algorithm bypass states.
-   * - ``sof mode <i2s|pdm> <master|slave|dmic>``
+   * - ``sof mode <i2s|pdm> <provider|consumer|dmic>``
      - Dynamically switches clocking roles without rebooting the microcontroller.
    * - ``sof vol <pb|cap> <dB>``
      - Adjusts playback or capture volume in decibels (e.g. ``sof vol pb -6``).
@@ -367,7 +367,7 @@ Example Interactive Shell Session
      Playback Pipeline: RUNNING
      Capture Pipeline:  RUNNING
      Active Interface:  I2S0
-     Clock Mode:        SLAVE (Default)
+     Clock Mode:        CONSUMER (Default)
      Audio Route:       USB <-> DAI (Default)
      BT Audio Stream:   DISABLED
      Sample Rate:       48000 Hz
@@ -379,8 +379,8 @@ Example Interactive Shell Session
      Capture EQ:        ENABLED
    ========================================
 
-   uart:~$ sof mode i2s master
-   Configured I2S0 clock mode to MASTER (BCLK: 1536 kHz, FSYNC: 48 kHz).
+   uart:~$ sof mode i2s provider
+   Configured I2S0 clock mode to PROVIDER (BCLK: 1536 kHz, FSYNC: 48 kHz).
 
    uart:~$ sof tone on 1000
    Generating 1000 Hz sine wave on Playback Pipeline...
@@ -528,7 +528,7 @@ Troubleshooting & Diagnostic Matrix
      - Verify asynchronous rate feedback endpoint in ``usb_audio.c``; ensure feedback interval is 1 ms and DMA period matches ``frames_per_sched`` (48 frames at 48 kHz).
    * - **Buffer Starvation (XRUN)**
      - Microcontroller configured as Clock Provider while connected to an active Clock Provider DUT.
-     - Switch clocking role: execute ``sof mode i2s slave`` via the shell so microcontroller FIFOs synchronize to incoming external BCLK/FSYNC.
+     - Switch clocking role: execute ``sof mode i2s consumer`` via the shell so microcontroller FIFOs synchronize to incoming external BCLK/FSYNC.
    * - **Static Noise on Floating-Point Processing**
      - Bit-depth quantization mismatch between S16_LE buffers and FLOAT processing modules.
      - Check ``struct sof_static_buffer`` declarations; ensure PCM converters or format flags match module capability masks (e.g. S16_LE for Volume, FLOAT for EQ/DRC).

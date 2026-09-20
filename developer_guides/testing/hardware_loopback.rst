@@ -179,14 +179,67 @@ As an illustrative wiring configuration, an Intel Tiger Lake (TGL / cAVS 2.5) DU
 Example: Panther Lake (ACE 3.0) PDM & I2S Pin Map
 -------------------------------------------------
 
-As an illustrative example of an ACE-generation platform with a capture-only digital microphone interface, an Intel Panther Lake (PTL / ACE 3.0) DUT connects to an ESP32-P4 bridge card where the DUT generates the PDM clock and the bridge injects a modulated bitstream:
+As an illustrative example of an ACE-generation platform with a capture-only digital microphone interface, an Intel Panther Lake (PTL / ACE 3.0) DUT connects to an ESP32-P4 bridge card where the DUT generates the PDM clock and the bridge injects a modulated bitstream.
 
-* **PDM Bit Clock (GPIO 4 / Pin 18)**: Driven by DUT DMIC IP into ESP32-P4.
-* **PDM Modulated Data Out (GPIO 5 / Pin 16)**: Sigma-Delta bitstream driven by ESP32-P4 into DUT DMIC capture.
-* **I2S Bit Clock (GPIO 21 / Pin 11)**: Bidirectional BCLK for I2S audio verification.
-* **I2S Frame Sync (GPIO 22 / Pin 12)**: Bidirectional WS / LRCLK for I2S audio verification.
-* **I2S Data In (GPIO 20 / Pin 13)**: DUT Playback -> Host Capture.
-* **I2S Data Out (GPIO 23 / Pin 7)**: Host Playback -> DUT Record.
+.. warning::
+
+   **Mandatory Voltage Level Shifting (1.8V CMOS vs. 3.3V LVCMOS)**:
+   Intel Panther Lake digital I/O banks (including PDM DMIC and I2S/SSP pads) operate at **1.8V logic levels** (:math:`V_{\text{DDIO}} = 1.8\text{ V}`), whereas the ESP32-P4 microcontroller GPIO pins operate at **3.3V logic levels** (:math:`V_{\text{DD}} = 3.3\text{ V}`).
+
+   * **Electrical Overstress (EOS) Risk**: Exposing 1.8V Panther Lake SoC pads directly to 3.3V signals driven by the ESP32-P4 violates the maximum input voltage tolerance (typically :math:`V_{\text{IN,max}} \le 1.8\text{ V} + 0.3\text{ V} = 2.1\text{ V}`) and risks permanent damage to the silicon I/O buffers or internal ESD clamping diodes.
+   * **Logic High Threshold Incompatibility**: When Panther Lake drives 1.8V signals (such as the PDM bit clock or I2S BCLK/WS) directly into the ESP32-P4, the 1.8V high-level output voltage (:math:`V_{\text{OH}} \approx 1.8\text{ V}`) falls well below the ESP32-P4 minimum input high threshold (:math:`V_{\text{IH,min}} = 0.75 \times V_{\text{DD}} \approx 2.475\text{ V}`). This leads to floating logic levels, severe timing jitter, or missed clock edges.
+   * **Level Shifter Circuit Requirement**: An inline bidirectional, high-speed voltage level translator (such as a Texas Instruments TXS0108E, TXB0108, or equivalent auto-direction sensing translator) must be installed between the Panther Lake DUT and the ESP32-P4.
+   * **Power and Ground Tie**: Connect the level translator Port A reference rail (:math:`V_{\text{CCA}}`) to the DUT 1.8V supply, Port B reference rail (:math:`V_{\text{CCB}}`) to the ESP32-P4 3.3V supply, and maintain a common, low-impedance ground (GND) across both systems.
+
+.. list-table:: Panther Lake (1.8V) to ESP32-P4 (3.3V) Interconnect with Inline Level Shifter
+   :widths: 18 18 24 20 20
+   :header-rows: 1
+
+   * - Signal Name
+     - Target DUT Pin (1.8V)
+     - Level Shifter Channel (1.8V <-> 3.3V)
+     - ESP32-P4 GPIO (3.3V)
+     - Signal Direction
+   * - **PDM Bit Clock**
+     - PDM_CLK
+     - A1 (1.8V) -> B1 (3.3V)
+     - GPIO 4 (Pin 18)
+     - DUT Output -> Bridge Input (Clock Provider)
+   * - **PDM Modulated Data**
+     - PDM_DATA
+     - A2 (1.8V) <- B2 (3.3V)
+     - GPIO 5 (Pin 16)
+     - Bridge Output -> DUT Input (PDM Stream Injector)
+   * - **I2S Bit Clock (BCLK)**
+     - I2S_BCLK
+     - A3 (1.8V) <-> B3 (3.3V)
+     - GPIO 21 (Pin 11)
+     - Bidirectional (Provider or Consumer)
+   * - **I2S Frame Sync (WS)**
+     - I2S_FS / WS
+     - A4 (1.8V) <-> B4 (3.3V)
+     - GPIO 22 (Pin 12)
+     - Bidirectional (Provider or Consumer)
+   * - **I2S Data Out (SDO)**
+     - I2S_TXD
+     - A5 (1.8V) -> B5 (3.3V)
+     - GPIO 20 (Pin 13)
+     - DUT Output -> Bridge Input (Host Capture)
+   * - **I2S Data In (SDI)**
+     - I2S_RXD
+     - A6 (1.8V) <- B6 (3.3V)
+     - GPIO 23 (Pin 7)
+     - Bridge Output -> DUT Input (Host Playback)
+   * - **Digital Ground**
+     - Common GND
+     - GND Bus
+     - GND (Pin 14 / Pin 20)
+     - Reference Ground
+   * - **Reference Supplies**
+     - 1.8V Rail
+     - VCCA (1.8V) / VCCB (3.3V)
+     - 3.3V Rail (Pin 1)
+     - Shifter Voltage Reference
 
 Teensy 4.1 Audio Bridge (NXP i.MX RT1062)
 =========================================
