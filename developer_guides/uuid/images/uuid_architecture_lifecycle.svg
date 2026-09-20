@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 714" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="emeraldCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#022c22" stop-opacity="0.45" />
+    </linearGradient>
+    <linearGradient id="cyanCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#082f49" stop-opacity="0.45" />
+    </linearGradient>
+    <linearGradient id="purpleCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6d28d9" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#2e1065" stop-opacity="0.45" />
+    </linearGradient>
+    <linearGradient id="amberCard" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#b45309" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#451a03" stop-opacity="0.45" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 z" fill="#10b981" />
+    </marker>
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 z" fill="#a855f7" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="714" fill="url(#bgGrad)" rx="10" />
+
+  <!-- ========================================== -->
+  <!-- Header Card                                -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 16)">
+    <rect x="0" y="0" width="1060" height="54" rx="8" fill="url(#headerGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="6" height="54" rx="3" fill="#38bdf8" />
+    <text x="24" y="24" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700">Figure 332: Sound Open Firmware (SOF) Global UUID Architecture &amp; Subsystem Lifecycle</text>
+    <text x="24" y="44" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">End-to-End Component Identification: Registry, Zephyr Firmware Core, ALSA Topology 2, Host Kernel &amp; Telemetry</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- Tier 1: Specification & Registry Tier      -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 82)">
+    <rect x="0" y="0" width="1060" height="136" rx="8" fill="#131c2e" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="24" fill="#10b981" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">1. SPECIFICATION &amp; GLOBAL REGISTRY TIER</text>
+
+    <!-- Sub-card 1A: uuid-registry.txt -->
+    <g transform="translate(20, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#emeraldCard)" stroke="#059669" stroke-width="1" />
+      <text x="14" y="20" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Global Registry: uuid-registry.txt</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Single Source of Truth (SSOT) in source tree</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Format: &lt;8-4-4-16 hex UUID&gt; &lt;C_symbol_name&gt;</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Strict alphabetical sorting; collision-free</text>
+    </g>
+
+    <!-- Sub-card 1B: gen-uuid-reg.py -->
+    <g transform="translate(366, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#emeraldCard)" stroke="#059669" stroke-width="1" />
+      <text x="14" y="20" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Generator: scripts/gen-uuid-reg.py</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Validates 128-bit hex format and uniqueness</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Generates include/generated/uuid-registry.h</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Emits _UUIDREG_&lt;sym&gt; &amp; UUIDREG_STR_&lt;SYM&gt;</text>
+    </g>
+
+    <!-- Sub-card 1C: sdk-create-module.py -->
+    <g transform="translate(712, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#emeraldCard)" stroke="#059669" stroke-width="1" />
+      <text x="14" y="20" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Module Scaffolding &amp; Allocation</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; scripts/sdk-create-module.py new module wizard</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Allocates random v4 UUID via Python uuid.uuid4()</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Converts to SOF 8-4-4-16 &amp; inserts into registry</text>
+    </g>
+  </g>
+
+  <!-- Connectors Tier 1 -> Tier 2 -->
+  <line x1="183" y1="218" x2="183" y2="238" stroke="#10b981" stroke-width="2" marker-end="url(#arrowEmerald)" />
+  <line x1="529" y1="218" x2="529" y2="238" stroke="#10b981" stroke-width="2" marker-end="url(#arrowEmerald)" />
+  <line x1="875" y1="218" x2="875" y2="238" stroke="#10b981" stroke-width="2" marker-end="url(#arrowEmerald)" />
+
+  <!-- ========================================== -->
+  <!-- Tier 2: Firmware Core & Linker Tier        -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 240)">
+    <rect x="0" y="0" width="1060" height="136" rx="8" fill="#131c2e" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="24" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">2. FIRMWARE CORE &amp; LINKER PLACEMENT TIER</text>
+
+    <!-- Sub-card 2A: Declaration Macros -->
+    <g transform="translate(20, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#cyanCard)" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="20" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Firmware UUID Declaration Macros</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; SOF_DEFINE_REG_UUID(name): references registry</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; SOF_DEFINE_UUID(): explicit literal definition</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; struct sof_uuid: uint32_t a, b, c; uint8_t d[8]</text>
+    </g>
+
+    <!-- Sub-card 2B: Zephyr Iterable Sections -->
+    <g transform="translate(366, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#cyanCard)" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="20" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Zephyr Iterable Sections (.rodata)</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; STRUCT_SECTION_ITERABLE(sof_uuid_entry, ...)</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Linked into firmware .rodata iterable array</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Only actively referenced UUIDs retained in ROM</text>
+    </g>
+
+    <!-- Sub-card 2C: Tracing Context & LLEXT -->
+    <g transform="translate(712, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#cyanCard)" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="20" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Trace Context &amp; LLEXT Manifests</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; DECLARE_TR_CTX: binds UUID to trace engine</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; DECLARE_MODULE_ADAPTER: module entry binding</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; SOF_LLEXT_MODULE_MANIFEST: .module section</text>
+    </g>
+  </g>
+
+  <!-- Connectors Tier 2 -> Tier 3 -->
+  <line x1="183" y1="376" x2="183" y2="396" stroke="#0284c7" stroke-width="2" marker-end="url(#arrowCyan)" />
+  <line x1="529" y1="376" x2="529" y2="396" stroke="#0284c7" stroke-width="2" marker-end="url(#arrowCyan)" />
+  <line x1="875" y1="376" x2="875" y2="396" stroke="#0284c7" stroke-width="2" marker-end="url(#arrowCyan)" />
+
+  <!-- ========================================== -->
+  <!-- Tier 3: Topology & Kernel Driver Tier      -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 398)">
+    <rect x="0" y="0" width="1060" height="136" rx="8" fill="#131c2e" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="24" fill="#c084fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">3. TOPOLOGY &amp; HOST KERNEL DRIVER TIER</text>
+
+    <!-- Sub-card 3A: ALSA Topology 2 -->
+    <g transform="translate(20, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#purpleCard)" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="20" fill="#d8b4fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">ALSA Topology 2.0 (alsatplg)</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; DefineAttribute.uuid &amp; token comp.uuid</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Token SOF_TKN_COMP_UUID (405) in binary tplg</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Wire bytes format: "0c:10:9d:8b:78:6d:8f:41:..."</text>
+    </g>
+
+    <!-- Sub-card 3B: Kernel Topology Parser -->
+    <g transform="translate(366, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#purpleCard)" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="20" fill="#d8b4fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Linux Kernel Topology Parser</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; sound/soc/sof/ipc*-topology.c: comp_ext_tokens</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Parses UUID token into snd_sof_widget.uuid (guid_t)</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Fallback to comp type if sof_is_uuid_nil()</text>
+    </g>
+
+    <!-- Sub-card 3C: Dynamic Module Loader -->
+    <g transform="translate(712, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#purpleCard)" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="20" fill="#d8b4fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">IPC4 Dynamic Module Loading</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; sof_ipc4_find_module_by_uuid() matches libraries</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; On-demand load: /lib/firmware/&lt;prefix&gt;/%pUL.bin</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Dispatches IPC4 library load to DSP memory</text>
+    </g>
+  </g>
+
+  <!-- Connectors Tier 3 -> Tier 4 -->
+  <line x1="183" y1="534" x2="183" y2="554" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPurple)" />
+  <line x1="529" y1="534" x2="529" y2="554" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPurple)" />
+  <line x1="875" y1="534" x2="875" y2="554" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrowPurple)" />
+
+  <!-- ========================================== -->
+  <!-- Tier 4: Telemetry & sof-logger Tier        -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 556)">
+    <rect x="0" y="0" width="1060" height="136" rx="8" fill="#131c2e" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="24" fill="#fbbf24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" letter-spacing="0.5">4. TELEMETRY, SMEX &amp; SOF-LOGGER DECODING TIER</text>
+
+    <!-- Sub-card 4A: SMEX Dictionary Extractor -->
+    <g transform="translate(20, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#amberCard)" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="20" fill="#fde68a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">SMEX Tool (.static_uuid_entries)</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Reads .static_uuid_entries section from ELF</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Serializes snd_sof_uids_header (SND_SOF_UIDS_SIG)</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Appends UUID table to target .ldc dictionary</text>
+    </g>
+
+    <!-- Sub-card 4B: Runtime Trace DMA -->
+    <g transform="translate(366, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#amberCard)" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="20" fill="#fde68a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Runtime Trace DMA Packets</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Log entries carry 32-bit UUID entry pointer</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Minimal DMA overhead (4 bytes vs 16 bytes string)</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Flushed to host SRAM window / debugfs trace</text>
+    </g>
+
+    <!-- Sub-card 4C: sof-logger Decoding -->
+    <g transform="translate(712, 36)">
+      <rect x="0" y="0" width="326" height="86" rx="6" fill="url(#amberCard)" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="20" fill="#fde68a" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Live sof-logger Human Decoding</text>
+      <text x="14" y="38" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Cross-references 32-bit pointer against .ldc UIDs</text>
+      <text x="14" y="54" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Resolves entry name: [volume.1], [mixer.2]</text>
+      <text x="14" y="70" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Real-time console trace output with zero DSP cost</text>
+    </g>
+  </g>
+</svg>

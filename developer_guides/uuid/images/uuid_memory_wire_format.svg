@@ -1,0 +1,312 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 690" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <!-- Byte Cell Gradients -->
+    <linearGradient id="byteAGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="byteBGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="byteCGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="byteDGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="690" fill="url(#bgGrad)" rx="10" />
+
+  <!-- ========================================== -->
+  <!-- Header Card                                -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 16)">
+    <rect x="0" y="0" width="1060" height="54" rx="8" fill="url(#headerGrad)" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="6" height="54" rx="3" fill="#38bdf8" />
+    <text x="24" y="24" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="700">Figure 333: UUID Data Representation, Endianness &amp; Wire Format Translation</text>
+    <text x="24" y="44" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">Structural Mapping: Canonical RFC 4122 vs SOF Registry vs Little-Endian Memory vs ALSA Topology 2 vs Linux Kernel GUID</text>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- Section 1: String Formats Comparison       -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 82)">
+    <rect x="0" y="0" width="1060" height="112" rx="8" fill="#131c2e" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="22" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">1. STRING FORMAT COMPARISON (RFC 4122 CANONICAL vs SOF REGISTRY)</text>
+
+    <!-- Sub-card 1A: Canonical RFC 4122 -->
+    <g transform="translate(20, 32)">
+      <rect x="0" y="0" width="500" height="68" rx="6" fill="url(#cardGrad)" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="18" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">Canonical RFC 4122 UUID (8-4-4-4-12 Canonical String)</text>
+      <g transform="translate(14, 28)">
+        <text x="0" y="18" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="700">8b9d100c</text>
+        <text x="70" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="80" y="18" fill="#34d399" font-family="monospace" font-size="13" font-weight="700">6d78</text>
+        <text x="116" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="126" y="18" fill="#c084fc" font-family="monospace" font-size="13" font-weight="700">418f</text>
+        <text x="162" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="172" y="18" fill="#fbbf24" font-family="monospace" font-size="13" font-weight="700">90a3</text>
+        <text x="208" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="218" y="18" fill="#fbbf24" font-family="monospace" font-size="13" font-weight="700">e0e805d0852b</text>
+      </g>
+      <text x="14" y="60" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Standard 5-group hex notation emitted by Linux uuidgen and Python uuid.uuid4()</text>
+    </g>
+
+    <!-- Sub-card 1B: SOF Registry Format -->
+    <g transform="translate(540, 32)">
+      <rect x="0" y="0" width="500" height="68" rx="6" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1" />
+      <text x="14" y="18" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">SOF Registry Format (8-4-4-16 in uuid-registry.txt)</text>
+      <g transform="translate(14, 28)">
+        <text x="0" y="18" fill="#38bdf8" font-family="monospace" font-size="13" font-weight="700">8b9d100c</text>
+        <text x="70" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="80" y="18" fill="#34d399" font-family="monospace" font-size="13" font-weight="700">6d78</text>
+        <text x="116" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="126" y="18" fill="#c084fc" font-family="monospace" font-size="13" font-weight="700">418f</text>
+        <text x="162" y="18" fill="#64748b" font-family="monospace" font-size="13">-</text>
+        <text x="172" y="18" fill="#fbbf24" font-family="monospace" font-size="13" font-weight="700">90a3e0e805d0852b</text>
+        <text x="330" y="18" fill="#f8fafc" font-family="monospace" font-size="13" font-weight="700">host</text>
+      </g>
+      <text x="14" y="60" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Fourth hyphen omitted: matches uint8_t d[8] contiguous byte array in struct sof_uuid</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- Section 2: C Structure Mapping             -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 204)">
+    <rect x="0" y="0" width="1060" height="136" rx="8" fill="#131c2e" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="22" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">2. FIRMWARE C DATA STRUCTURE: struct sof_uuid (include/sof/lib/uuid.h)</text>
+
+    <!-- Sub-card 2A: Field a -->
+    <g transform="translate(20, 34)">
+      <rect x="0" y="0" width="242" height="88" rx="6" fill="url(#cardGrad)" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="20" fill="#38bdf8" font-family="monospace" font-size="12" font-weight="700">uint32_t a;</text>
+      <text x="14" y="38" fill="#f8fafc" font-family="monospace" font-size="12">0x8b9d100c</text>
+      <text x="14" y="56" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; 32-bit dword (4 bytes)</text>
+      <text x="14" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Little-Endian byte-reversed</text>
+    </g>
+
+    <!-- Sub-card 2B: Field b -->
+    <g transform="translate(282, 34)">
+      <rect x="0" y="0" width="242" height="88" rx="6" fill="url(#cardGrad)" stroke="#059669" stroke-width="1" />
+      <text x="14" y="20" fill="#34d399" font-family="monospace" font-size="12" font-weight="700">uint16_t b;</text>
+      <text x="14" y="38" fill="#f8fafc" font-family="monospace" font-size="12">0x6d78</text>
+      <text x="14" y="56" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; 16-bit word (2 bytes)</text>
+      <text x="14" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Little-Endian byte-reversed</text>
+    </g>
+
+    <!-- Sub-card 2C: Field c -->
+    <g transform="translate(544, 34)">
+      <rect x="0" y="0" width="242" height="88" rx="6" fill="url(#cardGrad)" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="20" fill="#c084fc" font-family="monospace" font-size="12" font-weight="700">uint16_t c;</text>
+      <text x="14" y="38" fill="#f8fafc" font-family="monospace" font-size="12">0x418f</text>
+      <text x="14" y="56" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; 16-bit word (2 bytes)</text>
+      <text x="14" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Little-Endian byte-reversed</text>
+    </g>
+
+    <!-- Sub-card 2D: Field d[8] -->
+    <g transform="translate(806, 34)">
+      <rect x="0" y="0" width="234" height="88" rx="6" fill="url(#cardGrad)" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="20" fill="#fbbf24" font-family="monospace" font-size="12" font-weight="700">uint8_t d[8];</text>
+      <text x="14" y="38" fill="#f8fafc" font-family="monospace" font-size="11">{ 0x90, 0xa3, 0xe0, ... }</text>
+      <text x="14" y="56" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; 8-byte array (8 bytes)</text>
+      <text x="14" y="74" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">&#x2022; Exact ordered byte sequence</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- Section 3: Physical Memory / Wire Bytes    -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 350)">
+    <rect x="0" y="0" width="1060" height="150" rx="8" fill="#131c2e" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="22" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">3. PHYSICAL MEMORY &amp; WIRE SERIALIZATION (16 BYTES IN LITTLE-ENDIAN DSP / HOST MEMORY)</text>
+
+    <!-- The 16 Byte Cells -->
+    <g transform="translate(20, 34)">
+      <!-- Byte 0 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteAGrad)" stroke="#38bdf8" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">0c</text>
+        <text x="10" y="42" fill="#e0f2fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 0</text>
+      </g>
+      <!-- Byte 1 -->
+      <g transform="translate(64, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteAGrad)" stroke="#38bdf8" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">10</text>
+        <text x="10" y="42" fill="#e0f2fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 1</text>
+      </g>
+      <!-- Byte 2 -->
+      <g transform="translate(128, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteAGrad)" stroke="#38bdf8" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">9d</text>
+        <text x="10" y="42" fill="#e0f2fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 2</text>
+      </g>
+      <!-- Byte 3 -->
+      <g transform="translate(192, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteAGrad)" stroke="#38bdf8" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">8b</text>
+        <text x="10" y="42" fill="#e0f2fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 3</text>
+      </g>
+
+      <!-- Separator Line -->
+      <line x1="258" y1="6" x2="258" y2="46" stroke="#475569" stroke-width="2" stroke-dasharray="4 2" />
+
+      <!-- Byte 4 -->
+      <g transform="translate(266, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteBGrad)" stroke="#34d399" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">78</text>
+        <text x="10" y="42" fill="#d1fae5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 4</text>
+      </g>
+      <!-- Byte 5 -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteBGrad)" stroke="#34d399" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">6d</text>
+        <text x="10" y="42" fill="#d1fae5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 5</text>
+      </g>
+
+      <!-- Separator Line -->
+      <line x1="396" y1="6" x2="396" y2="46" stroke="#475569" stroke-width="2" stroke-dasharray="4 2" />
+
+      <!-- Byte 6 -->
+      <g transform="translate(404, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteCGrad)" stroke="#c084fc" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">8f</text>
+        <text x="10" y="42" fill="#f3e8ff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 6</text>
+      </g>
+      <!-- Byte 7 -->
+      <g transform="translate(468, 0)">
+        <rect x="0" y="0" width="60" height="52" rx="4" fill="url(#byteCGrad)" stroke="#c084fc" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">41</text>
+        <text x="10" y="42" fill="#f3e8ff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 7</text>
+      </g>
+
+      <!-- Separator Line -->
+      <line x1="534" y1="6" x2="534" y2="46" stroke="#475569" stroke-width="2" stroke-dasharray="4 2" />
+
+      <!-- Byte 8 -->
+      <g transform="translate(542, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">90</text>
+        <text x="8" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 8</text>
+      </g>
+      <!-- Byte 9 -->
+      <g transform="translate(602, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">a3</text>
+        <text x="8" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 9</text>
+      </g>
+      <!-- Byte 10 -->
+      <g transform="translate(662, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">e0</text>
+        <text x="6" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 10</text>
+      </g>
+      <!-- Byte 11 -->
+      <g transform="translate(722, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">e8</text>
+        <text x="6" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 11</text>
+      </g>
+      <!-- Byte 12 -->
+      <g transform="translate(782, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">05</text>
+        <text x="6" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 12</text>
+      </g>
+      <!-- Byte 13 -->
+      <g transform="translate(842, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">d0</text>
+        <text x="6" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 13</text>
+      </g>
+      <!-- Byte 14 -->
+      <g transform="translate(902, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">85</text>
+        <text x="6" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 14</text>
+      </g>
+      <!-- Byte 15 -->
+      <g transform="translate(962, 0)">
+        <rect x="0" y="0" width="56" height="52" rx="4" fill="url(#byteDGrad)" stroke="#fbbf24" stroke-width="1.5" />
+        <text x="14" y="24" fill="#ffffff" font-family="monospace" font-size="14" font-weight="700">2b</text>
+        <text x="6" y="42" fill="#fef3c7" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">Byte 15</text>
+      </g>
+    </g>
+
+    <!-- Explanatory legend below cells -->
+    <g transform="translate(20, 96)">
+      <rect x="0" y="0" width="1020" height="40" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="14" y="16" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">&#x2190; Little-Endian Word Swap: </text>
+      <text x="194" y="16" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">Notice that 0x8b9d100c is stored as 0c:10:9d:8b, 0x6d78 as 78:6d, and 0x418f as 8f:41.</text>
+      <text x="14" y="32" fill="#fbbf24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700">&#x2192; Preserved Array Order: </text>
+      <text x="194" y="32" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11">The final 8 bytes d[0..7] are stored in verbatim order (90 a3 e0 e8 05 d0 85 2b) without reversal.</text>
+    </g>
+  </g>
+
+  <!-- ========================================== -->
+  <!-- Section 4: External Subsystems             -->
+  <!-- ========================================== -->
+  <g transform="translate(20, 510)">
+    <rect x="0" y="0" width="1060" height="162" rx="8" fill="#131c2e" stroke="#334155" stroke-width="1.5" filter="url(#shadow)" />
+    <text x="20" y="22" fill="#38bdf8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700">4. SUBSYSTEM TRANSLATIONS &amp; REPRESENTATIONS</text>
+
+    <!-- Sub-card 4A: ALSA Topology 2.0 -->
+    <g transform="translate(20, 32)">
+      <rect x="0" y="0" width="326" height="116" rx="6" fill="url(#cardGrad)" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="20" fill="#d8b4fe" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">ALSA Topology 2.0 (.conf)</text>
+      <text x="14" y="40" fill="#a78bfa" font-family="monospace" font-size="11">uuid "0c:10:9d:8b:78:6d:8f:41:</text>
+      <text x="50" y="56" fill="#a78bfa" font-family="monospace" font-size="11">90:a3:e0:e8:05:d0:85:2b"</text>
+      <text x="14" y="76" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Colon-delimited 16-byte wire string</text>
+      <text x="14" y="90" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Matches physical memory layout verbatim</text>
+      <text x="14" y="104" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Encoded into SOF_TKN_COMP_UUID (405)</text>
+    </g>
+
+    <!-- Sub-card 4B: Linux Kernel Driver -->
+    <g transform="translate(366, 32)">
+      <rect x="0" y="0" width="326" height="116" rx="6" fill="url(#cardGrad)" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="20" fill="#7dd3fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Linux Kernel Driver (guid_t)</text>
+      <text x="14" y="40" fill="#38bdf8" font-family="monospace" font-size="11">8b9d100c-6d78-418f-</text>
+      <text x="50" y="56" fill="#38bdf8" font-family="monospace" font-size="11">90a3-e0e805d0852b</text>
+      <text x="14" y="76" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Populated into snd_sof_widget.uuid</text>
+      <text x="14" y="90" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Kernel prints GUID using %pUL (Little-Endian)</text>
+      <text x="14" y="104" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Used by sof_ipc4_find_module_by_uuid()</text>
+    </g>
+
+    <!-- Sub-card 4C: Loadable Binary -->
+    <g transform="translate(712, 32)">
+      <rect x="0" y="0" width="326" height="116" rx="6" fill="url(#cardGrad)" stroke="#059669" stroke-width="1" />
+      <text x="14" y="20" fill="#34d399" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="700">Dynamic Module File (%pUL.bin)</text>
+      <text x="14" y="40" fill="#34d399" font-family="monospace" font-size="10">/lib/firmware/intel/sof-ipc4-lib/</text>
+      <text x="14" y="56" fill="#34d399" font-family="monospace" font-size="10">8b9d100c-6d78-418f-90a3-....bin</text>
+      <text x="14" y="76" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Loadable library file named via kasprintf</text>
+      <text x="14" y="90" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Ingested via request_firmware()</text>
+      <text x="14" y="104" fill="#cbd5e1" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10">&#x2022; Dispatched to DSP via IPC4 library load</text>
+    </g>
+  </g>
+</svg>
