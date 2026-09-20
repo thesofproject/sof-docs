@@ -66,7 +66,7 @@ Firmware builds have the shell disabled by default to minimize memory footprint 
    # Build Tiger Lake firmware with Zephyr shell enabled
    ./sof/scripts/xtensa-build-zephyr.py tgl -o app/shell_overlay.conf
 
-   # Build Panther Lake (Aphid) firmware with shell enabled
+   # Build Panther Lake (PTL) firmware with shell enabled
    ./sof/scripts/xtensa-build-zephyr.py ptl -o app/shell_overlay.conf
 
 The ``shell_overlay.conf`` configuration enables the following Kconfig options:

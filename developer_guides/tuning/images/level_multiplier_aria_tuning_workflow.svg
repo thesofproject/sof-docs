@@ -170,7 +170,7 @@
     </text>
 
     <text x="15" y="60" fill="#c084fc" font-family="sans-serif" font-size="10.5" font-weight="700">Target DUT</text>
-    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Spider / Aphid / ARL</text>
+    <text x="15" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• TGL / PTL / ARL DUTs</text>
     <text x="15" y="98" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Deploy .tplg via scp</text>
     <text x="15" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Driver reload</text>
     <text x="15" y="134" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">• Confirm UUIDs in dmesg</text>

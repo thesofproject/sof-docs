@@ -226,32 +226,32 @@
       <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Physical Target DUTs</text>
     </g>
 
-    <!-- Spider DUT -->
+    <!-- Target DUT 1 (Tiger Lake) -->
     <g transform="translate(18, 48)">
       <rect width="324" height="126" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
-      <text x="12" y="19" fill="#38bdf8" font-size="12" font-weight="bold">Spider DUT (Tiger Lake / CAVS 2.5)</text>
-      <text x="12" y="36" fill="#94a3b8" font-size="10">SSH: root@spider | Relay 2 Power-Cycle</text>
+      <text x="12" y="19" fill="#38bdf8" font-size="12" font-weight="bold">Target DUT 1 (Tiger Lake / cAVS 2.5)</text>
+      <text x="12" y="36" fill="#94a3b8" font-size="10">SSH: root@&lt;dut-1&gt; | Relay Power-Cycle</text>
       
       <g transform="translate(10, 44)">
         <rect width="304" height="70" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
         <text x="8" y="16" fill="#e2e8f0" font-size="10" font-family="monospace">40-Pin Header I2S0 (hw:sofhdadsp,0):</text>
         <text x="8" y="32" fill="#cbd5e1" font-size="9">Pin 12 (BCLK), Pin 35 (WS), Pin 38 (DIN), Pin 40 (DOUT)</text>
         <text x="8" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">DMIC / WOV Array (hw:sofhdadsp,10 / 11):</text>
-        <text x="8" y="62" fill="#cbd5e1" font-size="9">Spider PDM Clock Provider $\to$ ESP32-P4 Sigma-Delta Injector</text>
+        <text x="8" y="62" fill="#cbd5e1" font-size="9">DUT PDM Clock Provider $\to$ ESP32-P4 Sigma-Delta Injector</text>
       </g>
     </g>
 
-    <!-- Aphid & Dragon Fly DUTs -->
+    <!-- Target DUTs (PTL & ARL) -->
     <g transform="translate(18, 184)">
       <rect width="324" height="118" rx="8" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
-      <text x="12" y="19" fill="#34d399" font-size="12" font-weight="bold">Aphid (PTL ACE 3.0) &amp; Dragon Fly (ARL ACE 1.5)</text>
+      <text x="12" y="19" fill="#34d399" font-size="12" font-weight="bold">Target DUT 2 (PTL ACE 3.0) &amp; Target DUT 3 (ARL ACE 1.5)</text>
       
       <g transform="translate(10, 28)">
         <rect width="304" height="78" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
-        <text x="8" y="16" fill="#f8fafc" font-size="10" font-weight="600">Aphid DUT (Panther Lake / Relay 1):</text>
+        <text x="8" y="16" fill="#f8fafc" font-size="10" font-weight="600">Target DUT 2 (Panther Lake / Relay-Controlled):</text>
         <text x="8" y="30" fill="#94a3b8" font-size="9">• PDM DMIC Capture (GPIO 4 CLK, GPIO 5 Data In)</text>
         <text x="8" y="44" fill="#94a3b8" font-size="9">• I2S0 Consumer/Provider Verification (hw:sofhdadsp,0)</text>
-        <text x="8" y="60" fill="#f8fafc" font-size="10" font-weight="600">Dragon Fly DUT (Arrow Lake / Battery No-Relay):</text>
+        <text x="8" y="60" fill="#f8fafc" font-size="10" font-weight="600">Target DUT 3 (Arrow Lake / Direct Reboot):</text>
         <text x="8" y="72" fill="#94a3b8" font-size="9">• I2S &amp; Display Audio / D3 Suspend-Resume Loopback</text>
       </g>
     </g>
@@ -281,7 +281,7 @@
       <g transform="translate(545, 0)">
         <rect width="535" height="70" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="1.2" />
         <text x="12" y="18" fill="#f43f5e" font-size="12" font-weight="600">Hardware Relay Control &amp; Critical Port Protection</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Relay 1 (Aphid PTL) &amp; Relay 2 (Spider TGL) Automated Power-Cycle (TCP 8081)</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Hardware Relay Automated Power-Cycle (TCP 8081)</text>
         <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• Live Power Telemetry Stream: Voltage / Current / Power Benchmarks (TCP 8080)</text>
         <text x="12" y="64" fill="#fca5a5" font-size="10" font-weight="bold">• CRITICAL SAFETY: /dev/ttyACM1 (ESP32-C3 Power Controller) Strictly Locked</text>
       </g>

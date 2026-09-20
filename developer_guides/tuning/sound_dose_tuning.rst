@@ -658,7 +658,7 @@ Interactive Live Injection Runbook & Troubleshooting
 Target DUT SSH Deployment Sequence
 ----------------------------------
 
-Execute the following commands on the host to configure, calibrate, and verify the Sound Dose module on a target DUT (e.g. Spider, Aphid, or Dragon Fly):
+Execute the following commands on the host to configure, calibrate, and verify the Sound Dose module on a target DUT:
 
 1. **Synthesize Acoustic Setup Blob**:
    Generate a binary sensitivity blob for an over-ear headset measured at 96.0 dBA SPL:
@@ -672,7 +672,7 @@ Execute the following commands on the host to configure, calibrate, and verify t
 
    .. code-block:: bash
 
-      timeout 15 ssh root@spider "amixer controls | grep -i 'Sound Dose'"
+      timeout 15 ssh root@<dut> "amixer controls | grep -i 'Sound Dose'"
 
    *Example Output*:
 
@@ -688,16 +688,16 @@ Execute the following commands on the host to configure, calibrate, and verify t
 
    .. code-block:: bash
 
-      scp setup_sens_96db.bin root@spider:/tmp/
-      timeout 15 ssh root@spider "sof-ctl -i 4 -n 42 -p 0 -b -s /tmp/setup_sens_96db.bin"
+      scp setup_sens_96db.bin root@<dut>:/tmp/
+      timeout 15 ssh root@<dut> "sof-ctl -i 4 -n 42 -p 0 -b -s /tmp/setup_sens_96db.bin"
 
 4. **Verify Live Exposure Telemetry**:
    Read back the 1-second telemetry payload:
 
    .. code-block:: bash
 
-      timeout 15 ssh root@spider "sof-ctl -i 4 -n 45 -p 0 -b -g /tmp/sound_dose_data.bin"
-      scp root@spider:/tmp/sound_dose_data.bin /tmp/
+      timeout 15 ssh root@<dut> "sof-ctl -i 4 -n 45 -p 0 -b -g /tmp/sound_dose_data.bin"
+      scp root@<dut>:/tmp/sound_dose_data.bin /tmp/
       python3 sof_sound_dose_tool.py parse /tmp/sound_dose_data.bin
 
 5. **Test Protective Gain Attenuation**:
@@ -706,8 +706,8 @@ Execute the following commands on the host to configure, calibrate, and verify t
    .. code-block:: bash
 
       python3 sof_sound_dose_tool.py gen-gain --gain -10.0 --out gain_m10db.bin
-      scp gain_m10db.bin root@spider:/tmp/
-      timeout 15 ssh root@spider "sof-ctl -i 4 -n 44 -p 0 -b -s /tmp/gain_m10db.bin"
+      scp gain_m10db.bin root@<dut>:/tmp/
+      timeout 15 ssh root@<dut> "sof-ctl -i 4 -n 44 -p 0 -b -s /tmp/gain_m10db.bin"
 
 Diagnostic Troubleshooting Matrix
 ---------------------------------

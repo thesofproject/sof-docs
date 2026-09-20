@@ -212,7 +212,7 @@ Running Probe Server on DUT
 
 .. code-block:: bash
 
-   # Launch probe server on target DUT (Spider, Dragon Fly, Aphid)
+   # Launch probe server on target DUT
    timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
        'nohup /usr/local/bin/sof_probe_server -c 3 -d 0 -p 9999 -v > /tmp/probe_server.log 2>&1 &'
 
@@ -225,17 +225,17 @@ On the development workstation, run ``sof_probe_client.py``:
 
    # Stream and save raw binary probe data
    python3 tools/sof-probe-server/sof_probe_client.py \
-       --host spider --port 9999 \
-       --output /tmp/spider_probe_data.bin
+       --host <dut-ip> --port 9999 \
+       --output /tmp/dut_probe_data.bin
 
    # Display live ASCII logs decoded from probe stream
    python3 tools/sof-probe-server/sof_probe_client.py \
-       --host spider --port 9999 \
+       --host <dut-ip> --port 9999 \
        --display ascii
 
    # Preview raw packet headers in hexadecimal
    python3 tools/sof-probe-server/sof_probe_client.py \
-       --host spider --port 9999 \
+       --host <dut-ip> --port 9999 \
        --display hex
 
 Integrated dut-monitor Multi-Pane Dashboard
@@ -253,14 +253,14 @@ The ``snd-sof-probes`` kernel module provides the ``logging_boot_enable`` parame
 .. code-block:: bash
 
    # 1. Enable boot logging in kernel module
-   timeout 20 ssh -o ConnectTimeout=5 root@dragon-fly '
+   timeout 20 ssh -o ConnectTimeout=5 root@<dut> '
        rmmod snd_sof_probes 2>/dev/null
        modprobe snd_sof_probes logging_boot_enable=1
        dmesg | grep "logging_boot"
    '
 
    # 2. Start probe server and initiate dummy stream to drain pre-buffered logs (up to 4 KB)
-   timeout 15 ssh -o ConnectTimeout=5 root@dragon-fly '
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> '
        pkill -f sof_probe_server; pkill aplay; sleep 1
        nohup /usr/local/bin/sof_probe_server -c 3 -d 0 -p 9999 -v > /tmp/probe.log 2>&1 &
        nohup aplay -D hw:0 -r 48000 -c 2 -f S16_LE /dev/zero > /dev/null 2>&1 &
@@ -268,7 +268,7 @@ The ``snd-sof-probes`` kernel module provides the ``logging_boot_enable`` parame
 
    # 3. Stream early boot trace to workstation
    timeout 60 python3 tools/sof-probe-server/sof_probe_client.py \
-       --host dragon-fly --port 9999 --display ascii --out /tmp/boot_trace.bin
+       --host <dut-ip> --port 9999 --display ascii --out /tmp/boot_trace.bin
 
 Subsequent test sessions can be launched back-to-back without reloading the kernel driver, as the ``fw_probe_active`` state machine tracks extraction state across multiple stream lifetimes.
 
@@ -277,20 +277,20 @@ Subsequent test sessions can be launched back-to-back without reloading the kern
 Intel Arrow Lake mtrace Buffer Extraction
 *****************************************
 
-On Arrow Lake (ARL-S / Dragon Fly) platforms running ACE 1.5, firmware logs can also be retrieved directly from the hardware ``mtrace`` buffer:
+On Intel Arrow Lake (ARL-S) platforms running ACE 1.5, firmware logs can also be retrieved directly from the hardware ``mtrace`` buffer:
 
 .. code-block:: bash
 
    # Start mtrace reader prior to test execution or driver reload
-   timeout 15 ssh -o ConnectTimeout=5 root@dragon-fly \
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
        'nohup ./mtrace-reader.py > /tmp/fw_mtrace.log 2>&1 &'
 
    # Execute test audio pipeline
-   timeout 30 ssh -o ConnectTimeout=5 root@dragon-fly \
+   timeout 30 ssh -o ConnectTimeout=5 root@<dut> \
        'aplay -D hw:0 -r 48000 -c 2 -f S16_LE /dev/zero -d 5'
 
    # Retrieve formatted mtrace log
-   scp root@dragon-fly:/tmp/fw_mtrace.log ./fw_mtrace.log
+   scp root@<dut>:/tmp/fw_mtrace.log ./fw_mtrace.log
 
    # Terminate reader
-   timeout 15 ssh -o ConnectTimeout=5 root@dragon-fly 'pkill -f mtrace-reader'
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> 'pkill -f mtrace-reader'

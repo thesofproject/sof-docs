@@ -55,7 +55,7 @@ physical silicon.
      - Real DAI buses (I2S, PDM, S/PDIF), clock provider/consumer sync.
      - **Minutes**; physical silicon interface verification.
    * - **Tier 5: Silicon DUTs**
-     - Physical Boards (Spider, Dragon Fly, Aphid)
+     - Physical Target Hardware (cAVS & ACE Platforms)
      - Mainline Linux kernel ALSA driver, IPC pumps, power D0ix/D3.
      - **Minutes to Hours**; end-to-end production verification.
 
@@ -214,22 +214,22 @@ Xtensa core descriptors, toolchain versions, and DSP capabilities:
    :header-rows: 1
 
    * - SOF Platform
-     - DUT Target
+     - Hardware Platform
      - Xtensa Core Descriptor
      - Toolchain Version
      - DSP Architecture
    * - ``tgl``
-     - Spider
+     - Tiger Lake
      - ``cavs2x_LX6HiFi3_2017_8``
      - ``RG-2017.8-linux``
      - LX6 + HiFi 3 SIMD
    * - ``tgl-h``
-     - Spider (H)
+     - Tiger Lake-H
      - ``cavs2x_LX6HiFi3_2017_8``
      - ``RG-2017.8-linux``
      - LX6 + HiFi 3 SIMD
    * - ``mtl``
-     - Dragon Fly
+     - Meteor Lake / Arrow Lake
      - ``ace10_LX7HiFi4_2022_10``
      - ``RI-2022.10-linux``
      - LX7 + HiFi 4 SIMD + VFPU
@@ -239,7 +239,7 @@ Xtensa core descriptors, toolchain versions, and DSP capabilities:
      - ``RI-2022.10-linux``
      - LX7 + HiFi 4 SIMD
    * - ``ptl``
-     - Aphid
+     - Panther Lake
      - ``ace30_LX7HiFi4_PIF``
      - ``RI-2022.10-linux``
      - LX7 + HiFi 4 SIMD + PIF
@@ -292,7 +292,7 @@ these variables based on the target platform argument:
 
 .. code-block:: bash
 
-   # Source environment parameters for Intel Panther Lake (PTL / Aphid)
+   # Source environment parameters for Intel Panther Lake (PTL)
    source scripts/set_xtensa_params.sh ptl
 
    # Verify exported core and toolchain settings
