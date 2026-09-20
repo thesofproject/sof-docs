@@ -161,7 +161,7 @@ def generate_modules_table():
 def parse_fw_version(body):
     if not body:
         return "N/A"
-    matches = re.findall(r'SOF\s*(v?\d+\.\d+(?:\.\d+)?)', body, re.IGNORECASE)
+    matches = re.findall(r'SOF\s*(?:version\s*|release\s*)?(v?\d+\.\d+(?:\.\d+)?)', body, re.IGNORECASE)
     matches += re.findall(r'https://github.com/thesofproject/sof/releases/tag/(v\d+\.\d+(?:\.\d+)?)', body)
     normalized = []
     for m in matches:
