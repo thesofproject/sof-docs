@@ -297,7 +297,7 @@ Follow this step-by-step procedure to determine the acoustic sensitivity paramet
 Wideband Headphone Characteristic Voltage (WBCV)
 ------------------------------------------------
 
-For standalone playback devices complying with **EN 50332-2**, measure the maximum electrical output voltage :math:`V_{\text{max}}` delivered into a standard :math:`32\,\Omega` resistive dummy load. Under EN 50332-2 Clause 4:
+For standalone playback devices complying with **EN 50332-2**, measure the maximum electrical output voltage :math:`V_{\text{max}}` delivered into a standard :math:`32\,\Omega` resistive test load. Under EN 50332-2 Clause 4:
 
 .. math::
 

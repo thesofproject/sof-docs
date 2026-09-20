@@ -309,7 +309,7 @@ Sound Open Firmware provides standard tuning presets configured for common sampl
      - 0.9922
      - 0.9974
      - ~37 ms
-     - High-fidelity music playback, studio monitors, mastering pipelines.
+     - High-fidelity music playback, studio monitors, audio post-production pipelines.
    * - **40 Hz**
      - 0.9844
      - 0.9948

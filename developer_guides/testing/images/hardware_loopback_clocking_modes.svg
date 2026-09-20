@@ -128,7 +128,7 @@
         <rect width="240" height="110" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
         <text x="12" y="20" fill="#38bdf8" font-size="13" font-weight="bold">Target DUT (SOF DSP)</text>
         <text x="12" y="38" fill="#94a3b8" font-size="11">Clock Role: Consumer</text>
-        <text x="12" y="56" fill="#e2e8f0" font-size="10" font-family="monospace">• Slaves to external BCLK &amp; WS</text>
+        <text x="12" y="56" fill="#e2e8f0" font-size="10" font-family="monospace">• Synchronizes to external BCLK &amp; WS</text>
         <text x="12" y="72" fill="#e2e8f0" font-size="10" font-family="monospace">• Transmits DOUT on external clock</text>
         <text x="12" y="90" fill="#cbd5e1" font-size="10">Tests clock skew &amp; bit-slip immunity</text>
       </g>

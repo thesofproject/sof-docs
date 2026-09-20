@@ -317,7 +317,7 @@ C Preprocessor TOML Templates (``*.toml.h``)
 
 To synchronize firmware module IDs and Kconfig features with Rimage, platform templates (e.g. ``ptl.toml.h``) leverage the C preprocessor:
 
-.. code-block:: c
+.. code-block:: text
 
    /* Excerpt from ptl.toml.h */
    #include "platform-ptl.toml"

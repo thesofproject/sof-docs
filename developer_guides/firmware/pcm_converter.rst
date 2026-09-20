@@ -585,7 +585,7 @@ Channel routing is governed by a packed 32-bit configuration word (``chmap``). E
 * **Nibble 0** (Bits 3..0): Specifies the source channel index copied into Sink Channel 0.
 * **Nibble 1** (Bits 7..4): Specifies the source channel index copied into Sink Channel 1.
 * **Nibble** :math:`k` (Bits :math:`4k+3 \dots 4k`): Specifies the source channel index copied into Sink Channel :math:`k`.
-* **The Identity Mapping** (``DUMMY_CHMAP``):
+* **The Identity Mapping** (``IDENTITY_CHMAP``):
   ``0x76543210`` maps source channel 0 to sink 0, source 1 to sink 1, up to source 7 to sink 7.
 
 The Special ``0xF`` Mute Nibble & Out-of-Bounds Protection

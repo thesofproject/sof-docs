@@ -165,7 +165,7 @@ SOF provides three standard wrapper scripts located in ``scripts/`` to streamlin
 2. ``scripts/sof-testbench-helper.sh``:
    High-level test runner that handles WAV-to-RAW audio format conversions via ``sox``, locates default component benchmark topologies, executes testbench, and converts output back to WAV with a single command.
 3. ``scripts/host-testbench.sh``:
-   Quick sanity test suite that compiles and runs smoke tests for Volume, SRC, and IIR Equalizer components, verifying exit codes and output file sizes.
+   Quick verification test suite that compiles and runs smoke tests for Volume, SRC, and IIR Equalizer components, verifying exit codes and output file sizes.
 
 Quick Start: Simulating an Audio Pipeline
 *****************************************
