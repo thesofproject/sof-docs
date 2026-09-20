@@ -59,7 +59,7 @@
   <!-- Header -->
   <g transform="translate(40, 24)">
     <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Hardware Audio Loopback Verification System Architecture</text>
-    <text x="0" y="44" fill="#94a3b8" font-size="13">End-to-end physical verification: Host test runner, embedded USB bridges (ESP32-P4 / Teensy 4.1), physical DAI links, target DUTs, and Saleae bus analysis</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">End-to-end physical verification: Host test runner, embedded USB bridges (ESP32-P4 / Teensy 4.1), physical DAI links, target DUTs, and power relay control</text>
   </g>
 
   <!-- TOP CONTAINER: Host Test Station & Orchestration Layer -->
@@ -102,11 +102,11 @@
         <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• Bit-Exact Differential Comparator</text>
       </g>
 
-      <!-- Saleae & Serial Controller -->
+      <!-- Instrumentation & Control -->
       <g transform="translate(830, 0)">
         <rect width="250" height="82" rx="8" fill="#1e293b" stroke="#d97706" stroke-width="1.2" />
         <text x="14" y="22" fill="#fbbf24" font-size="13" font-weight="600">Instrumentation &amp; Control</text>
-        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• saleae-tool (gRPC 10430)</text>
+        <text x="14" y="42" fill="#e2e8f0" font-size="11" font-family="monospace">• Relay Controller (TCP 8081)</text>
         <text x="14" y="58" fill="#e2e8f0" font-size="11" font-family="monospace">• UART Shell (ttyACM / by-id)</text>
         <text x="14" y="74" fill="#e2e8f0" font-size="11" font-family="monospace">• SSH DUT Executor (with timeout)</text>
       </g>
@@ -258,24 +258,24 @@
     </g>
   </g>
 
-  <!-- BOTTOM CONTAINER: Bus Analyzer & Electrical Safety -->
+  <!-- BOTTOM CONTAINER: Hardware Safety Isolation & Power Telemetry -->
   <g transform="translate(40, 574)">
     <rect width="1120" height="126" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
     
     <g transform="translate(20, 14)">
       <rect width="24" height="24" rx="5" fill="#d97706" />
       <text x="12" y="17" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">5</text>
-      <text x="32" y="17" fill="#f8fafc" font-size="14" font-weight="600">Hardware Bus Instrumentation, Timing Verification &amp; Safety Isolation</text>
+      <text x="32" y="17" fill="#f8fafc" font-size="14" font-weight="600">Hardware Safety Isolation, Power Telemetry &amp; Remote Relay Control</text>
     </g>
 
     <g transform="translate(20, 44)">
-      <!-- Saleae Logic Pro 8 -->
+      <!-- Power Telemetry -->
       <g transform="translate(0, 0)">
         <rect width="525" height="70" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1.2" />
-        <text x="12" y="18" fill="#fbbf24" font-size="12" font-weight="600">Saleae Logic Pro 8 High-Speed Bus Analyzer (500 MS/s Digital, 50 MS/s Analog)</text>
-        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Period Jitter: σ_T (RMS) &lt; 2.5 ns | Peak-to-Peak Jitter &lt; 8.0 ns</text>
-        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• Clock Symmetry: Duty Cycle 50.0% ± 2.0% | Setup/Hold Margin Verification</text>
-        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• Logic 2 Automated Protocol Decoders (I2S, TDM, PDM, S/PDIF BMC)</text>
+        <text x="12" y="18" fill="#fbbf24" font-size="12" font-weight="600">Live Power Telemetry &amp; Rail Current Benchmarks</text>
+        <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Live Power Telemetry Stream: Voltage / Current / Power (TCP 8080)</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• D3 Suspend-Resume Power Profiling &amp; Idle Drain Verification</text>
+        <text x="12" y="64" fill="#e2e8f0" font-size="10" font-family="monospace">• Multi-Rail Power Measurement during High-Load Audio Pipelines</text>
       </g>
 
       <!-- Relay & Hardware Safety -->
@@ -283,7 +283,7 @@
         <rect width="535" height="70" rx="6" fill="#1e293b" stroke="#f43f5e" stroke-width="1.2" />
         <text x="12" y="18" fill="#f43f5e" font-size="12" font-weight="600">Hardware Relay Control &amp; Critical Port Protection</text>
         <text x="12" y="36" fill="#e2e8f0" font-size="10" font-family="monospace">• Hardware Relay Automated Power-Cycle (TCP 8081)</text>
-        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• Live Power Telemetry Stream: Voltage / Current / Power Benchmarks (TCP 8080)</text>
+        <text x="12" y="50" fill="#e2e8f0" font-size="10" font-family="monospace">• Automated Recovery from Kernel Panic &amp; DSP Audio Hangs</text>
         <text x="12" y="64" fill="#fca5a5" font-size="10" font-weight="bold">• CRITICAL SAFETY: /dev/ttyACM1 (ESP32-C3 Power Controller) Strictly Locked</text>
       </g>
     </g>
@@ -298,6 +298,4 @@
   <path d="M 400 380 L 420 380" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" fill="none" />
   <!-- Physical DAI Bus to Target DUTs -->
   <path d="M 780 380 L 800 380" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" fill="none" />
-  <!-- DAI Bus down to Saleae Analyzer -->
-  <path d="M 600 559 L 600 574" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)" fill="none" />
 </svg>

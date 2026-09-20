@@ -20,7 +20,7 @@ By coupling physical Device Under Test (DUT) hardware—including Intel cAVS and
    :width: 100%
    :align: center
 
-   Hardware Audio Loopback System Architecture across host test runners, embedded bridges, physical DAI buses, target DUTs, and Saleae bus analyzers.
+   Hardware Audio Loopback System Architecture across host test runners, embedded bridges, physical DAI buses, target DUTs, and power relay controllers.
 
 System Architecture
 *******************
@@ -47,8 +47,8 @@ The SOF hardware loopback architecture is structured into five operational tiers
    * **S/PDIF Coaxial Link**: Biphase Mark Coded (BMC) IEC 60958-3 digital audio stream running at line rates up to 12.288 MHz.
    * **Common Reference Ground Network**: Low-impedance common ground reference preventing ground loop hum and logic threshold floating.
 
-5. **Hardware Instrumentation and Safety Isolation**:
-   A **Saleae Logic Pro 8** high-speed logic analyzer monitors physical bus transitions, measuring clock frequency, duty cycle, and RMS period jitter. Lab power distribution is managed via a dedicated ESP32-C3 relay server with strict port lockout policies.
+5. **Hardware Safety Isolation and Power Control**:
+   Lab power distribution and target DUT power-cycling are managed via a dedicated relay server with strict port lockout policies.
 
 Audio Test Bridge Hardware and Pinout Specifications
 ****************************************************
@@ -647,101 +647,6 @@ For stereo loops carrying identical dual-channel mono test tones, bit-exact diff
 
 In I2S loopback mode, :math:`\Delta_{\max}` must equal **0** (perfect bit-exact symmetry).
 
-Saleae Logic Pro 8 High-Speed Bus Analysis
-******************************************
-
-When troubleshooting signal integrity or verifying new hardware revisions, a **Saleae Logic Pro 8** USB logic analyzer connects to physical DAI lines for automated measurement.
-
-Automated Bus Analysis Tools
-=============================
-
-Automated logic analyzer captures can be controlled via CLI utilities (such as a local ``saleae-tool`` utility or the Saleae Logic 2 automation API):
-
-.. code-block:: bash
-
-   # 1. Start headless Logic 2 automation server (TCP port 10430)
-   saleae-tool start-server
-
-   # 2. Sweep all 8 digital channels to discover active clock signals
-   saleae-tool capture-digital -c 0,1,2,3,4,5,6,7 -s 0.2
-
-   # 3. Verify I2S clock frequencies, symmetry, and frame rates
-   saleae-tool verify-i2s --bclk 0 --ws 1 --rate 48000 --channels 2 --bits 32
-
-   # 4. Verify PDM digital microphone clock (3.072 MHz at 64x OSR)
-   saleae-tool verify-pdm --clk 2 --rate 48000 --osr 64
-
-Timing and Jitter Metrics
-=========================
-
-From captured transition edge timestamps :math:`t_i`, the analyzer computes:
-
-* **Mean Period and Average Frequency**:
-  
-  .. math::
-
-     \bar{T} = \frac{1}{M} \sum_{i=1}^{M} (t_{\text{rise}, i+1} - t_{\text{rise}, i}), \quad f_{\text{avg}} = \frac{1}{\bar{T}}
-
-* **RMS Period Jitter**:
-  
-  .. math::
-
-     \text{Jitter}_{\text{RMS}} = \sigma_T = \sqrt{\frac{1}{M}\sum_{i=1}^{M} (T_i - \bar{T})^2}
-
-* **Duty Cycle Symmetry**:
-  
-  .. math::
-
-     \text{Duty Cycle} = \frac{\bar{t}_{\text{high}}}{\bar{t}_{\text{high}} + \bar{t}_{\text{low}}} \times 100\%
-
-  Audio bit clocks must satisfy :math:`50.0\% \pm 2.0\%` duty cycle.
-
-Automated Python Logic Capture with Protocol Decoding
-======================================================
-
-Custom automated test scripts attach protocol decoders directly to the capture session:
-
-.. code-block:: python
-
-   import os
-   from saleae import automation
-
-   # Ensure clean local environment
-   for k in ['http_proxy', 'https_proxy', 'all_proxy', 'grpc_proxy']:
-       os.environ.pop(k, None)
-   os.environ['no_proxy'] = 'localhost,127.0.0.1'
-
-   with automation.Manager.connect(address="127.0.0.1", port=10430) as manager:
-       # Configure digital channels
-       device_config = automation.LogicDeviceConfiguration(
-           enabled_digital_channels=[0, 1, 2],
-           digital_sample_rate=500_000_000,
-           digital_threshold_volts=3.3
-       )
-       capture_config = automation.CaptureConfiguration(
-           capture_mode=automation.TimedCaptureMode(duration_seconds=0.5)
-       )
-
-       with manager.start_capture(device_configuration=device_config,
-                                  capture_configuration=capture_config) as capture:
-           capture.wait()
-
-           # Attach I2S protocol decoder
-           i2s_analyzer = capture.add_analyzer(
-               "I2S",
-               label="I2S Audio Decoder",
-               settings={
-                   "Clock": 0,            # BCLK channel index
-                   "Frame": 1,            # WS / LRCLK channel index
-                   "Data": 2,             # DOUT channel index
-                   "Bits per Frame": 32
-               }
-           )
-
-           # Export decoded frames
-           capture.export_data_table(filepath="/tmp/i2s_decoded.csv",
-                                     analyzers=[i2s_analyzer])
-
 Hardware Troubleshooting and Diagnostics
 ****************************************
 
@@ -756,16 +661,16 @@ When audio loopback tests fail or exhibit low SNR, apply the following diagnosti
      - Diagnostic & Remediation Procedure
    * - **Low SNR (< 70 dB) or Harsh Buzz**
      - Ground Loop / Floating Logic Reference
-     - Ensure dedicated black ground leads link header ground pins (ESP32-P4 Pin 14/20) directly to target DUT ground pins. Verify :math:`V_{\text{dc}} \approx 0.0\text{ V}` using ``saleae-tool capture-analog``.
+     - Ensure dedicated black ground leads link header ground pins (ESP32-P4 Pin 14/20) directly to target DUT ground pins. Verify :math:`V_{\text{dc}} \approx 0.0\text{ V}` across common ground connections with a multimeter or probe.
    * - **Channel Swapping (Left / Right Inverted)**
      - Word Select (WS) Polarity Inversion
      - Check whether topology DAI config specifies ``SOF_DAI_CLK_INV_FRAME``. In standard Philips I2S, WS LOW corresponds to Left Channel (Channel 0). If inverted, modify the topology DAI node or add ``amixer cset name='SSP0 Invert Frame' 1``.
    * - **Bit-Slip / Metallic Distortion**
      - Setup / Hold Violation or Phase Offset
-     - The first data bit (MSB) must occur exactly 1 BCLK cycle after the WS edge transition. If MSB is transmitted on clock 0, the audio words will be shifted left by 1 bit, causing a 6 dB boost and harsh clipping. Verify edge timing in Saleae Logic.
+     - The first data bit (MSB) must occur exactly 1 BCLK cycle after the WS edge transition. If MSB is transmitted on clock 0, the audio words will be shifted left by 1 bit, causing a 6 dB boost and harsh clipping. Verify edge timing and clock phase alignment with an oscilloscope or bus analyzer.
    * - **Silence / 0 dB SNR in PDM Mode**
      - Missing DMIC Clock or Pin Conflict
-     - The DUT must drive the PDM clock into ESP32-P4 GPIO 4. Verify with ``saleae-tool verify-pdm --clk 4`` that the clock is actively toggling at 3.072 MHz. If absent, inspect the DUT DMIC driver status via ``dmesg | grep snd_soc_dmic``.
+     - The DUT must drive the PDM clock into ESP32-P4 GPIO 4. Verify that the clock is actively toggling at the expected nominal rate (e.g. 3.072 MHz). If absent, inspect the DUT DMIC driver status via ``dmesg | grep snd_soc_dmic``.
    * - **Buffer Underruns / Dropped Frames**
      - DMA Burst Size or Host Scheduling Jitter
      - Verify ALSA period size and buffer size parameters (e.g., ``--period-size=480 --buffer-size=1920``). Ensure CPU frequency scaling governors on the host test station are locked to ``performance`` mode.
