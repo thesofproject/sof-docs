@@ -119,6 +119,18 @@ Firmware image packaging, cryptographic signing, loadable modules, and standalon
    firmware/llext_modules
    firmware/hostless_firmware
 
+How-To Developer Guides & Module Integration
+============================================
+
+Step-by-step developer runbooks for authoring new audio components, porting third-party audio algorithms, configuring builds, declaring topology widgets, and verifying execution:
+
+* :ref:`module_creation_integration_guide` (End-to-end walkthrough on authoring a new DSP audio processing module or integrating third-party algorithms: header structures, CMakeLists.txt, Kconfig, UUID registration, cold-code memory placement, SIMD vector data alignment, ALSA Topology 2.0 configuration, multi-toolchain compilation, device deployment, and simulation with Host Testbench and Cadence xt-run)
+
+.. toctree::
+   :hidden:
+
+   firmware/module_integration_guide
+
 ---
 
 .. _algorithm_tuning_pillar:
