@@ -277,6 +277,18 @@ modules:
       - "Smooth per-frame exponential slew gain limiter (0.05 dB/frame) eliminating clicks and pops"
       - "Acoustic laboratory HATS calibration, rolling 7-day CSD tracking, and runtime control via sof-ctl"
 
+  - id: dolby_processing
+    name: "Dolby Audio Processing (DAP)"
+    source: "Dolby"
+    category: "Audio Enhancement"
+    status: "Vendor Extension"
+    description: "Integrated audio post-processing suite delivering volume leveling, dialog enhancement, and virtual surround sound."
+    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    key_features:
+      - "Intelligent volume leveling and dynamic range management"
+      - "Dialog enhancer and surround sound virtualizer"
+      - "Custom speaker acoustic tuning and distortion limiting"
+
   # --- Voice, Telephony & Speech ---
   - id: tdfb
     name: "Beamformer (TDFB)"
@@ -534,6 +546,18 @@ modules:
       - "Spherical 3D sound positioning"
       - "Convolution-based HRTF binaural rendering"
       - "Dynamic listener and source orientation"
+
+  - id: dts_processing
+    name: "DTS Audio Processing / DTS:X"
+    source: "DTS"
+    category: "Spatial Audio"
+    status: "Vendor Extension"
+    description: "Multichannel spatial audio rendering, virtual surround sound, and speaker/headphone acoustic optimization."
+    simd: ["HiFi 3", "HiFi 4", "HiFi 5", "Scalar C"]
+    key_features:
+      - "Multichannel immersive 3D surround sound virtualization"
+      - "Speaker and headphone acoustic correction and tuning"
+      - "Dynamic dialog clarity enhancement and bass management"
 
   # --- Diagnostics & Tools ---
   - id: probes_telemetry

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <rect width="40" height="40" rx="8" fill="#1B2A4A"/>
+  <!-- SOF four equalizer bars -->
+  <rect x="7.5" y="16" width="4" height="14" rx="2" fill="#38BDF8"/>
+  <rect x="14.5" y="11" width="4" height="22" rx="2" fill="#38BDF8"/>
+  <rect x="21.5" y="6" width="4" height="30" rx="2" fill="#00E5FF"/>
+  <rect x="28.5" y="15" width="4" height="16" rx="2" fill="#38BDF8"/>
+</svg>

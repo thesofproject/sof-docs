@@ -41,10 +41,38 @@ VENDOR_MAP = {
     "Emulation": ("qemu", "images/vendors/qemu.svg"),
 }
 
+PROVIDER_MAP = {
+    "SOF": ("sof", "images/vendors/sof.svg"),
+    "FFmpeg": ("ffmpeg", "images/vendors/ffmpeg.svg"),
+    "WebRTC": ("webrtc", "images/vendors/webrtc.svg"),
+    "Google": ("google", "images/vendors/google.svg"),
+    "Realtek": ("realtek", "images/vendors/realtek.svg"),
+    "Cadence": ("cadence", "images/vendors/cadence.svg"),
+    "SOF / Cadence": ("cadence", "images/vendors/cadence.svg"),
+    "Steam Audio": ("steam", "images/vendors/steam.svg"),
+    "DTS": ("dts", "images/vendors/dts.svg"),
+    "Dolby": ("dolby", "images/vendors/dolby.svg"),
+    "Intel": ("intel", "images/vendors/intel.svg"),
+}
+
 def write_vendor_substitutions(f, prefix="icon"):
     """Write image substitutions for vendor icons into the RST file."""
     for vendor, (vendor_key, icon_rel_path) in VENDOR_MAP.items():
         sub_name = f"{prefix}_{vendor_key}"
+        f.write(f".. |{sub_name}| image:: /{icon_rel_path}\n")
+        f.write("   :width: 18px\n")
+        f.write("   :height: 18px\n")
+        f.write("   :align: middle\n")
+        f.write("   :class: vendor-icon\n\n")
+
+def write_provider_substitutions(f, prefix="icon_prov"):
+    """Write image substitutions for algorithm provider icons into the RST file."""
+    seen_keys = set()
+    for provider, (prov_key, icon_rel_path) in PROVIDER_MAP.items():
+        if prov_key in seen_keys:
+            continue
+        seen_keys.add(prov_key)
+        sub_name = f"{prefix}_{prov_key}"
         f.write(f".. |{sub_name}| image:: /{icon_rel_path}\n")
         f.write("   :width: 18px\n")
         f.write("   :height: 18px\n")
@@ -57,6 +85,13 @@ def get_vendor_cell(vendor_raw, prefix="icon"):
         sub_name = f"{prefix}_{sub_info[0]}"
         return f"|{sub_name}| {vendor_raw}"
     return vendor_raw
+
+def get_provider_cell(provider_raw, prefix="icon_prov"):
+    sub_info = PROVIDER_MAP.get(provider_raw)
+    if sub_info:
+        sub_name = f"{prefix}_{sub_info[0]}"
+        return f"|{sub_name}| {provider_raw}"
+    return provider_raw
 
 def generate_platforms_table():
     platforms_file = DATA_DIR / "platforms.yaml"
@@ -141,19 +176,22 @@ def generate_modules_table():
     out_file.parent.mkdir(parents=True, exist_ok=True)
 
     with open(out_file, "w", encoding="utf-8") as f:
+        write_provider_substitutions(f, prefix="icon_prov")
+
         f.write(".. csv-table:: SOF Supported Audio Processing Modules & Algorithms\n")
-        f.write('   :header: "Algorithm", "Source", "Category", "SIMD", "Key Capabilities", "Status"\n')
-        f.write("   :widths: 17, 8, 14, 21, 28, 12\n\n")
+        f.write('   :header: "Provider", "Algorithm", "Category", "SIMD", "Key Capabilities", "Status"\n')
+        f.write("   :widths: 14, 18, 14, 18, 26, 10\n\n")
 
         for m in modules:
-            name = m.get("name", "")
             source = m.get("source", "SOF")
+            prov_cell = get_provider_cell(source, prefix="icon_prov")
+            name = m.get("name", "")
             cat = m.get("category", "")
             simd = ", ".join(m.get("simd", [])) if isinstance(m.get("simd"), list) else m.get("simd", "")
             feats = "; ".join(m.get("key_features", []))
             status = m.get("status", "Upstream")
 
-            row = f'   "{name}", "{source}", "{cat}", "{simd}", "{feats}", "{status}"\n'
+            row = f'   "{prov_cell}", "{name}", "{cat}", "{simd}", "{feats}", "{status}"\n'
             f.write(row)
 
     print(f"Generated {out_file} ({len(modules)} modules)")
