@@ -20,9 +20,10 @@ standardizes:
   and runtime hardware overlays (``.overlay``).
 * **Feature Selection & Toggles**: Standardized Kconfig configuration trees, board defconfigs,
   and modular snippets.
-* **Multi-Toolchain Backends**: Out-of-the-box support for the shared LLVM/Clang toolchain
-  (with mandatory Integrated Assembler), Cadence Xtensa XCC/XCLANG compilers, and the official
-  Zephyr SDK.
+* **Multi-Toolchain Backends**: Out-of-the-box support across three distinct compiler backends:
+  Cadence Xtensa Tools (the production default for Xtensa DSP targets), the official
+  Zephyr SDK (generating compliant binaries across targets, without SIMD on Xtensa),
+  and the experimental LLVM/Clang toolchain (compiling HiFi for Xtensa SIMD).
 * **Post-Processing & Security Pipelines**: Automated trace string dictionary extraction
   (``smex``) and cryptographic RSA binary signing (``rimage``) to generate production-ready
   firmware images (``.ri``) and dynamic loadable modules (``.llext``).
@@ -243,49 +244,184 @@ CMake:
 
    west build -v -d build-ptl
 
-Toolchain Backends & Compiler Policies
---------------------------------------
+Supported Toolchains & Compiler Policies
+----------------------------------------
 
-The active compiler toolchain is controlled via the ``ZEPHYR_TOOLCHAIN_VARIANT`` environment
-variable.
+Sound Open Firmware supports three compiler toolchain backends, controlled via the
+``ZEPHYR_TOOLCHAIN_VARIANT`` environment variable or build script options:
 
-Shared LLVM / Clang Toolchain (Default for Intel Targets)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1. **Cadence Xtensa Tools (XCC / xt-clang)**: **Default for Xtensa DSP targets**.
+   A production-grade proprietary compiler suite delivering full Cadence HiFi vector SIMD
+   optimizations, vendor-tuned scheduling, and hardware core configuration support.
+2. **Zephyr SDK (GCC Cross-Compilers)**: The official open-source toolchain provided by the
+   Zephyr Project. It builds fully compliant binaries for each target architecture, but operates
+   **without SIMD on Xtensa** (falling back to portable standard C scalar math).
+3. **LLVM / Clang Toolchain (Open-Source Xtensa Fork)**: **Experimental**.
+   An open-source Clang/LLVM development effort that compiles **HiFi for Xtensa SIMD** without
+   requiring proprietary Cadence licenses, while enforcing a mandatory Integrated Assembler (IAS) policy.
 
-SOF utilizes a modern, shared LLVM/Clang toolchain for Intel cAVS and ACE platforms:
+.. list-table:: SOF Toolchain Capabilities & Comparison Matrix
+   :widths: 22 18 22 20 18
+   :header-rows: 1
+
+   * - Toolchain Backend
+     - Role & Status
+     - Xtensa SIMD Support
+     - Target Architecture Scope
+     - License Requirement
+   * - **Cadence Xtensa Tools**
+     - **Default for Xtensa**
+     - Full HiFi2 / HiFi3 / HiFi4 / HiFi5 SIMD
+     - Intel cAVS/ACE, NXP i.MX DSPs
+     - Proprietary (Tensilica License)
+   * - **Zephyr SDK Cross-Compilers**
+     - Standard Open-Source
+     - **No SIMD on Xtensa** (Scalar C fallback)
+     - All targets (Xtensa, ARM, RISC-V)
+     - Open-Source (Apache 2.0 / GPL)
+   * - **LLVM / Clang (Xtensa Fork)**
+     - **Experimental Open-Source**
+     - **HiFi Xtensa SIMD** (Vectorized)
+     - Intel cAVS / ACE DSP targets
+     - Open-Source (Apache 2.0 with LLVM Exception)
+
+Cadence Xtensa Tools (Default for Xtensa Targets)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Cadence Tensilica ``xt-clang`` and legacy ``xcc`` compilers represent the production default
+toolchain for all Xtensa-based DSP targets (including Intel cAVS 1.8/2.5, Intel ACE 1.5/2.0/3.0,
+and NXP i.MX audio DSPs).
+
+* **Full HiFi SIMD Vectorization**: Generates bit-exact vector code targeting Cadence HiFi2, HiFi3,
+  HiFi4, and HiFi5 SIMD engines. Critical audio processing blocks (such as Equalizer IIR/FIR, Volume,
+  SRC, and Dynamic Range Compression) achieve peak cycle efficiency and minimal latency using
+  hand-tuned vendor DSP intrinsics.
+* **Licensing & Registry Requirements**: Requires an installed and licensed Cadence Xtensa
+  Development Tools package (``XtDevTools``) matching the specific target core configuration
+  overlay (e.g. ``intel_adsp_ace30_ptl``).
+
+**Environment Setup**:
 
 .. code-block:: bash
 
-   export ZEPHYR_TOOLCHAIN_VARIANT=llvm
-   export LLVM_TOOLCHAIN_PATH=~/work/llvm-project/build
+   # Point to the Cadence XtDevTools installation and builds registry
+   export XTENSA_TOOLS_ROOT=/opt/xtensa/XtDevTools/install/tools/RI-2023.11-linux
+   export XTENSA_BUILDS_DIR=/opt/xtensa/XtDevTools/install/builds/RI-2023.11-linux
+   export XTENSA_SYSTEM=${XTENSA_BUILDS_DIR}/intel_adsp_ace30_ptl/config
 
-.. important::
-
-   **Integrated Assembler (IAS) Mandatory Policy**:
-   All Clang builds for Xtensa DSP targets must utilize Clang's native Integrated Assembler
-   (``-fintegrated-as``). The legacy GNU external assembler (``as``) is strictly prohibited.
-   Firmware assembly files must comply with LLVM MC assembly syntax.
-
-Cadence Xtensa XCC / XCLANG Toolchain
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-For proprietary Xtensa HiFi DSP cores requiring Cadence compiler optimizations:
-
-.. code-block:: bash
-
+   # Select Cadence compiler variant (xt-clang or xcc)
    export ZEPHYR_TOOLCHAIN_VARIANT=xt-clang
-   export XTENSA_TOOLS_ROOT=~/xtensa/XtDevTools
-   export XTENSA_BUILDS_DIR=~/xtensa/builds
 
-Zephyr SDK Cross-Compilers (GCC)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Building SOF with Cadence Tools**:
 
-For ARM Cortex-M targets (Teensy 4.1) and general open-source evaluation:
+* **Single-Target Build with West**:
+
+  .. code-block:: bash
+
+     # Build Panther Lake (PTL / ACE 3.0) firmware using Cadence xt-clang
+     west build -b intel_adsp_ace30_ptl -d build-ptl-cadence app/
+
+* **Multi-Target Batch Build**:
+
+  When ``XTENSA_TOOLS_ROOT`` is defined in the shell environment, the build orchestration
+  script automatically defaults to Cadence tools:
+
+  .. code-block:: bash
+
+     # Batch compile Intel platforms with Cadence default toolchain
+     ./scripts/xtensa-build-zephyr.py tgl mtl ptl
+
+Zephyr SDK Cross-Compilers (Compliant Targets, No Xtensa SIMD)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The official **Zephyr SDK** contains open-source GNU cross-compilers (GCC) maintained by the
+Zephyr Project.
+
+* **Target Coverage**: The Zephyr SDK is the standard, official toolchain for non-Xtensa targets,
+  such as ARM Cortex-M microcontrollers (Teensy 4.1) and RISC-V platforms (ESP32-P4).
+* **Compliance on Xtensa**: The Zephyr SDK can compile valid, structurally compliant firmware
+  binaries for each supported Xtensa target architecture.
+* **No SIMD on Xtensa**: Upstream GCC does not support Cadence Tensilica HiFi coprocessor vector
+  extensions, registers, or intrinsic instructions. Consequently, all audio processing modules
+  and mathematical algorithms fall back to portable standard C scalar math. Resulting firmware
+  images execute correctly with full Zephyr RTOS and SOF IPC driver compatibility, but operate
+  without hardware vector SIMD acceleration.
+
+**Environment Setup**:
 
 .. code-block:: bash
 
+   # Set toolchain variant to Zephyr SDK
    export ZEPHYR_TOOLCHAIN_VARIANT=zephyr
-   export ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk
+   export ZEPHYR_SDK_INSTALL_DIR=/opt/zephyr-sdk-0.16.8
+
+**Building SOF with Zephyr SDK**:
+
+* **Single-Target Build with West**:
+
+  .. code-block:: bash
+
+     # Build compliant Panther Lake (PTL) binary without Xtensa SIMD
+     ZEPHYR_TOOLCHAIN_VARIANT=zephyr \
+     west build -b intel_adsp_ace30_ptl -d build-ptl-zephyr app/
+
+     # Build Teensy 4.1 ARM Cortex-M7 audio bridge
+     ZEPHYR_TOOLCHAIN_VARIANT=zephyr \
+     west build -b teensy41 -d build-teensy app/
+
+* **Multi-Target Batch Build**:
+
+  The build orchestration script provides the dedicated ``-z`` (``--zephyrsdk``) flag to
+  explicitly force Zephyr SDK compilation, even when Cadence tools are installed:
+
+  .. code-block:: bash
+
+     # Force build of all targets using the Zephyr SDK
+     ./scripts/xtensa-build-zephyr.py -z tgl mtl ptl
+
+LLVM / Clang Toolchain (Experimental Open-Source with HiFi SIMD)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The **LLVM / Clang toolchain** is an experimental open-source development compiler with an
+out-of-tree Xtensa architecture target developed for Sound Open Firmware.
+
+* **HiFi SIMD on Xtensa**: In contrast to GCC, the Xtensa LLVM backend is actively engineered
+  to compile **HiFi for Xtensa SIMD**, enabling vector register allocation, instruction scheduling,
+  and audio DSP intrinsics within an open-source toolchain.
+* **Experimental Status**: The LLVM Xtensa backend is currently experimental and undergoing
+  active upstreaming and compiler validation.
+* **Mandatory Integrated Assembler (IAS) Policy**:
+  All Clang builds for Xtensa DSP targets must utilize Clang's native Integrated Assembler
+  (``-fintegrated-as``). The legacy GNU external assembler (``as``) is strictly prohibited.
+  Firmware assembly source files (``.S``) must strictly comply with LLVM MC assembly syntax.
+
+**Environment Setup**:
+
+.. code-block:: bash
+
+   # Configure LLVM toolchain environment
+   export ZEPHYR_TOOLCHAIN_VARIANT=llvm
+   export LLVM_TOOLCHAIN_PATH=${HOME}/work/llvm-project/build
+
+**Building SOF with LLVM / Clang**:
+
+* **Single-Target Build with West**:
+
+  .. code-block:: bash
+
+     # Build Panther Lake (PTL) with experimental LLVM HiFi SIMD
+     ZEPHYR_TOOLCHAIN_VARIANT=llvm \
+     LLVM_TOOLCHAIN_PATH=${HOME}/work/llvm-project/build \
+     west build -b intel_adsp_ace30_ptl -d build-ptl-llvm app/
+
+* **Multi-Target Batch Build**:
+
+  .. code-block:: bash
+
+     # Batch compile with experimental LLVM backend
+     ZEPHYR_TOOLCHAIN_VARIANT=llvm \
+     LLVM_TOOLCHAIN_PATH=${HOME}/work/llvm-project/build \
+     ./scripts/xtensa-build-zephyr.py ptl
 
 Kconfig Customization & Snippets
 --------------------------------

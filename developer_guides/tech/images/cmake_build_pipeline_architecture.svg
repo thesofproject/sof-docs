@@ -95,16 +95,16 @@
       <text x="10" y="38" class="card-desc">ZEPHYR_TOOLCHAIN_VARIANT=</text>
       
       <rect x="10" y="48" width="211" height="34" rx="4" fill="#161b22" stroke="#30363d" />
-      <text x="16" y="64" class="card-title" font-size="11px" fill="#58a6ff">llvm (Shared Clang Toolchain)</text>
-      <text x="16" y="76" class="card-desc" font-size="9.5px">IAS Policy: Mandatory Integrated Asm</text>
+      <text x="16" y="64" class="card-title" font-size="11px" fill="#d29922">xt-clang (Cadence - Default)</text>
+      <text x="16" y="76" class="card-desc" font-size="9.5px">Default for Xtensa / Full HiFi SIMD</text>
 
       <rect x="10" y="88" width="211" height="34" rx="4" fill="#161b22" stroke="#30363d" />
-      <text x="16" y="104" class="card-title" font-size="11px" fill="#d29922">xt-clang (Cadence Xtensa XCC)</text>
-      <text x="16" y="116" class="card-desc" font-size="9.5px">Proprietary DSP cores &amp; HiFi SIMD</text>
+      <text x="16" y="104" class="card-title" font-size="11px" fill="#3fb950">zephyr (Zephyr SDK GCC)</text>
+      <text x="16" y="116" class="card-desc" font-size="9.5px">Compliant binaries / No Xtensa SIMD</text>
 
       <rect x="10" y="128" width="211" height="34" rx="4" fill="#161b22" stroke="#30363d" />
-      <text x="16" y="144" class="card-title" font-size="11px" fill="#3fb950">zephyr (Zephyr SDK GCC)</text>
-      <text x="16" y="156" class="card-desc" font-size="9.5px">Open-source cross-compilers</text>
+      <text x="16" y="144" class="card-title" font-size="11px" fill="#58a6ff">llvm (Clang - Experimental)</text>
+      <text x="16" y="156" class="card-desc" font-size="9.5px">Experimental / HiFi Xtensa SIMD + IAS</text>
     </g>
   </g>
 
