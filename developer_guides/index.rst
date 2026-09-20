@@ -256,7 +256,7 @@ Performance Profiling, Binary Manifests & Identifiers
 * :ref:`uuid` (Universal Unique Identifier subsystem, global registry in ``uuid-registry.txt``, little-endian word swap wire format translation, ALSA Topology 2.0 token declarations, and IPC4 on-demand dynamic module loading)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    debugability/index
    debugability/traces/index
