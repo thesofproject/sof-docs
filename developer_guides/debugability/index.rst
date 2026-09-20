@@ -86,15 +86,14 @@ Select the appropriate diagnostic tool based on the observed system behavior:
 
 ---
 
-Subsystem Developer Guides
-**************************
+.. seealso::
 
-.. toctree::
-   :maxdepth: 2
+   For dedicated specifications, architectural deep-dives, and step-by-step developer runbooks for each observability subsystem, refer to the individual guides in the :ref:`telemetry_diagnostics_pillar`:
 
-   traces/index
-   coredump-reader/index
-   probes/index
-   shell/index
-   perf-counters/index
-   ri-info/index
+   * :ref:`dbg-traces`: Compile-time dictionary extraction, lockless trace DMA buffers, and live ``sof-logger`` decoding.
+   * :ref:`dbg-coredump-reader`: Native Zephyr RTOS coredump, memory window register preservation, and interactive GDB backtrace analysis.
+   * :ref:`dbg-probes`: Dynamic audio buffer probe points, ALSA Compress Offload (``crecord``), and high-throughput TCP probe server (port 9999).
+   * :ref:`dbg-zephyr-shell`: Zero-IPC interactive Zephyr memory window shell, ``cavstool.py`` terminal bridge, and thread/stack monitoring.
+   * :ref:`dbg-perf-counters`: Hardware Tensilica CCOUNT registers, platform timers, and mathematical MCPS calculation formulas.
+   * :ref:`dbg-ri-info`: Firmware binary manifests, partition directories, module manifests, and cryptographic signature validation.
+   * :ref:`uuid`: Universal Unique Identifier (UUID) registry, little-endian wire format translation, and IPC4 dynamic module loading.

@@ -229,10 +229,40 @@ Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulatio
 6. DSP Telemetry, Logging & Diagnostics (Debug)
 ***********************************************
 
-Real-time DSP trace streaming over network probes, Zephyr structured logging, compile-time string dictionary extraction (`smex`), `sof-logger`, interactive Zephyr shell, and kernel debug probes.
+Comprehensive observability and diagnostic frameworks for hard real-time DSP firmware: real-time trace DMA streaming, compile-time string dictionary extraction (``smex``), offline and live log decoding (``sof-logger``), zero-IPC interactive Zephyr memory shells, post-mortem coredump crash analysis, live audio buffer probing, performance cycle budgeting, and firmware binary manifest validation.
+
+Observability Portal & Framework Architecture
+=============================================
+
+* :ref:`sof_debugability_portal` (Primary observability overview, zero-overhead asynchronous tracing, multi-tier diagnostic framework breakdown, and symptom-based diagnostic decision tree)
+
+Real-Time Tracing & Network Telemetry
+=====================================
+
+* :ref:`dbg-traces` (Compile-time string dictionary extraction with ``smex`` and ``.ldc`` catalogs, lockless internal SRAM circular trace DMA buffers, Linux kernel debugfs interface, boot-time logging via ``snd-sof-probes``, and live console decoding via ``sof-logger``)
+* :ref:`dbg-probes` (Dynamic ALSA widget buffer injection and extraction tap points across processing DAGs, ALSA Compress Offload capture via ``crecord``, stream demultiplexing with ``sof-probes -p``, and high-throughput TCP network probe daemon on port 9999 streaming to ``dut-monitor``)
+
+Crash Diagnostics, Shell & Runtime Inspection
+=============================================
+
+* :ref:`dbg-coredump-reader` (Native Zephyr RTOS coredump subsystem, Intel ADSP memory window backend, fatal CPU exception vector capture, register preservation, and interactive post-mortem GDB backtrace analysis with ``coredump_gdbserver.py``)
+* :ref:`dbg-zephyr-shell` (Zero-IPC interactive Zephyr shell over shared DSP SRAM memory windows, host ``cavstool.py`` pseudo-terminal bridge, real-time thread state and stack high-water mark inspection, and low-power D0ix/D3 suspend/resume resilience)
+
+Performance Profiling, Binary Manifests & Identifiers
+=====================================================
+
+* :ref:`dbg-perf-counters` (Hardware cycle counters via Tensilica CCOUNT registers, 64-bit platform timers, mathematical Million Cycles Per Second (MCPS) budget formulation, and component benchmarking)
+* :ref:`dbg-ri-info` (Signed firmware binary manifest formats across cAVS and ACE architectures, partition directories, CSE manifests, Intel digital signature certificates, and manifest inspection tooling)
+* :ref:`uuid` (Universal Unique Identifier subsystem, global registry in ``uuid-registry.txt``, little-endian word swap wire format translation, ALSA Topology 2.0 token declarations, and IPC4 on-demand dynamic module loading)
 
 .. toctree::
    :maxdepth: 1
 
    debugability/index
-   uuid/index.rst
+   debugability/traces/index
+   debugability/coredump-reader/index
+   debugability/probes/index
+   debugability/shell/index
+   debugability/perf-counters/index
+   debugability/ri-info/index
+   uuid/index
