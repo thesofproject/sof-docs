@@ -1,0 +1,287 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad-mod" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-grad-mod" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Phase Header Gradients -->
+    <linearGradient id="hdr-phase1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <linearGradient id="hdr-phase2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="hdr-phase3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="hdr-phase4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-mod" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="680" rx="12" fill="url(#bg-grad-mod)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Audio Module Engineering Lifecycle
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      10-Step Workflow: C Implementation, Alignment, Build Systems, ALSA Topology, Simulation, and Target Deployment
+    </text>
+  </g>
+
+  <!-- Flow Arrow Lines Between Phase Columns -->
+  <path d="M 285 365 L 315 365" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arr-blue)"/>
+  <path d="M 545 365 L 575 365" stroke="#c084fc" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arr-purple)"/>
+  <path d="M 805 365 L 835 365" stroke="#34d399" stroke-width="2" stroke-dasharray="4,4" marker-end="url(#arr-emerald)"/>
+
+  <!-- ==================== PHASE 1: CORE C IMPLEMENTATION ==================== -->
+  <g transform="translate(40, 85)" filter="url(#shadow-mod)">
+    <rect width="245" height="565" rx="10" fill="url(#card-grad-mod)" stroke="#2563eb" stroke-width="1.5"/>
+    <rect width="245" height="42" rx="10" fill="url(#hdr-phase1)"/>
+    <rect y="32" width="245" height="10" fill="url(#hdr-phase1)"/>
+    <text x="16" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">
+      PHASE 1: C IMPLEMENTATION
+    </text>
+
+    <!-- Step 1 Card -->
+    <g transform="translate(12, 54)">
+      <rect width="221" height="92" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#1e3a8a"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">STEP 1</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Directory Structure</text>
+      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Create src/audio/&lt;module&gt;/</text>
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• &lt;mod&gt;.h, &lt;mod&gt;.c, &lt;mod&gt;-generic.c</text>
+      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• &lt;mod&gt;-ipc4.c parameter binding</text>
+    </g>
+
+    <!-- Step 2 Card -->
+    <g transform="translate(12, 154)">
+      <rect width="221" height="92" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#1e3a8a"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">STEP 2</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Adapter Lifecycle</text>
+      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• struct module_interface ops</text>
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• init, prepare, process, free</text>
+      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• LOG_MODULE_REGISTER() logging</text>
+    </g>
+
+    <!-- Step 3 Card -->
+    <g transform="translate(12, 254)">
+      <rect width="221" height="92" rx="6" fill="#0f172a" stroke="#ef4444" stroke-width="1.2"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#7f1d1d"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#fca5a5">STEP 3</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#f87171">UUID &amp; Endianness</text>
+      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#cbd5e1">• uuidgen &amp; uuid-registry.txt</text>
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#fca5a5">• WATCH OUT: Word-swap for TPLG</text>
+      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#fca5a5">  af:e1:2d:a6:64:59:2e:4e:...</text>
+    </g>
+
+    <!-- Step 4 Card -->
+    <g transform="translate(12, 354)">
+      <rect width="221" height="92" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#1e3a8a"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">STEP 4</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Cold Code &amp; SRAM</text>
+      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• __cold on init() and free()</text>
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• assert_can_be_cold() in teardown</text>
+      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="600" fill="#fbbf24">• ZERO allocations in process()</text>
+    </g>
+
+    <!-- Step 5 Card -->
+    <g transform="translate(12, 454)">
+      <rect width="221" height="96" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#1e3a8a"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">STEP 5</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">SIMD Vector Alignment</text>
+      <text x="10" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 8-byte (HiFi 3), 16-byte (HiFi 4)</text>
+      <text x="10" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• mod_balloc_align(mod, sz, 16)</text>
+      <text x="10" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• __aligned(16) on delay lines</text>
+      <text x="10" y="88" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#f87171">• Prevents EXCCAUSE = 9 crashes</text>
+    </g>
+  </g>
+
+  <!-- ==================== PHASE 2: BUILD & TOPOLOGY ==================== -->
+  <g transform="translate(300, 85)" filter="url(#shadow-mod)">
+    <rect width="245" height="565" rx="10" fill="url(#card-grad-mod)" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect width="245" height="42" rx="10" fill="url(#hdr-phase2)"/>
+    <rect y="32" width="245" height="10" fill="url(#hdr-phase2)"/>
+    <text x="16" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">
+      PHASE 2: BUILD &amp; TOPOLOGY
+    </text>
+
+    <!-- Step 6 Card -->
+    <g transform="translate(12, 54)">
+      <rect width="221" height="240" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#581c87"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">STEP 6</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">CMake &amp; Kconfig</text>
+      
+      <text x="10" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">Kconfig Definition:</text>
+      <text x="10" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• config COMP_&lt;MOD&gt; (y / m / n)</text>
+      <text x="10" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• config COMP_&lt;MOD&gt;_HIFI4</text>
+      
+      <text x="10" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">CMakeLists.txt Dispatch:</text>
+      <text x="10" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• add_local_sources(sof ...)</text>
+      <text x="10" y="134" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Dynamic LLEXT packaging</text>
+      
+      <text x="10" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">3-Toolchain Compatibility:</text>
+      <text x="10" y="176" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 1. Cadence Xtensa (xt-clang)</text>
+      <text x="10" y="192" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 2. Zephyr SDK (GCC)</text>
+      <text x="10" y="208" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 3. Shared LLVM / Clang</text>
+      <text x="10" y="224" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#a855f7">   (Mandatory IAS Policy)</text>
+    </g>
+
+    <!-- Step 7 Card -->
+    <g transform="translate(12, 308)">
+      <rect width="221" height="242" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#581c87"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">STEP 7</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">ALSA Topology 2.0</text>
+      
+      <text x="10" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">Widget Declaration:</text>
+      <text x="10" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Class.Widget."&lt;mod&gt;" { ... }</text>
+      <text x="10" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• type "effect", no_pm "true"</text>
+      <text x="10" y="92" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• num_input/output_pins = 1</text>
+      
+      <text x="10" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">Control Bindings:</text>
+      <text x="10" y="134" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Object.Control.mixer."1" switch</text>
+      <text x="10" y="150" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Object.Control.bytes."1" blobs</text>
+      <text x="10" y="166" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• get/put token handlers (259)</text>
+      
+      <text x="10" y="192" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">Topology Compilation:</text>
+      <text x="10" y="208" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• alsatplg -c pipeline.conf \</text>
+      <text x="10" y="224" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">          -o production.tplg</text>
+    </g>
+  </g>
+
+  <!-- ==================== PHASE 3: SIMULATION & PROFILING ==================== -->
+  <g transform="translate(560, 85)" filter="url(#shadow-mod)">
+    <rect width="245" height="565" rx="10" fill="url(#card-grad-mod)" stroke="#059669" stroke-width="1.5"/>
+    <rect width="245" height="42" rx="10" fill="url(#hdr-phase3)"/>
+    <rect y="32" width="245" height="10" fill="url(#hdr-phase3)"/>
+    <text x="16" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">
+      PHASE 3: SIMULATION &amp; PROFILING
+    </text>
+
+    <!-- Step 8 Card -->
+    <g transform="translate(12, 54)">
+      <rect width="221" height="240" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#064e3b"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">STEP 8</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Host Testbench</text>
+      
+      <text x="10" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Rapid Offline Simulation:</text>
+      <text x="10" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• 10x - 100x faster than real-time</text>
+      <text x="10" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• WAV in.raw -> Testbench -> out.raw</text>
+      
+      <text x="10" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Dynamic Control Scripting:</text>
+      <text x="10" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• -s controls.sh (amixer &amp; sof-ctl)</text>
+      <text x="10" y="134" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Injects live coefficient blobs</text>
+      
+      <text x="10" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Memory Leak Detection:</text>
+      <text x="10" y="176" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Valgrind memory verification</text>
+      <text x="10" y="192" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• AddressSanitizer &amp; UBSan</text>
+      <text x="10" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6ee7b7">Command:</text>
+      <text x="10" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#a7f3d0">scripts/sof-testbench-helper.sh -v</text>
+    </g>
+
+    <!-- Step 9 Card -->
+    <g transform="translate(12, 308)">
+      <rect width="221" height="242" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="55" height="16" rx="3" fill="#064e3b"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">STEP 9</text>
+      <text x="70" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Cadence xt-run Simulation</text>
+      
+      <text x="10" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Cycle-Accurate DSP Core:</text>
+      <text x="10" y="60" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Exact Tensilica HiFi3/4/5 registers</text>
+      <text x="10" y="76" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Cache hit/miss stall modeling</text>
+      
+      <text x="10" y="102" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">MCPS Budget Verification:</text>
+      <text x="10" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Million Cycles Per Second math</text>
+      <text x="10" y="134" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Verifies load &lt; allocation budget</text>
+      
+      <text x="10" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">Call-Graph Hotspot Profiling:</text>
+      <text x="10" y="176" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• xt-gprof call-tree generation</text>
+      <text x="10" y="192" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#94a3b8">• Validates SIMD inner loop uptake</text>
+      <text x="10" y="214" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#6ee7b7">Command:</text>
+      <text x="10" y="228" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#a7f3d0">scripts/sof-testbench-helper.sh -x</text>
+    </g>
+  </g>
+
+  <!-- ==================== PHASE 4: TARGET DEPLOYMENT ==================== -->
+  <g transform="translate(820, 85)" filter="url(#shadow-mod)">
+    <rect width="240" height="565" rx="10" fill="url(#card-grad-mod)" stroke="#d97706" stroke-width="1.5"/>
+    <rect width="240" height="42" rx="10" fill="url(#hdr-phase4)"/>
+    <rect y="32" width="240" height="10" fill="url(#hdr-phase4)"/>
+    <text x="16" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#ffffff">
+      PHASE 4: TARGET DEPLOYMENT
+    </text>
+
+    <!-- Step 10 Card -->
+    <g transform="translate(10, 54)">
+      <rect width="220" height="496" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <rect x="8" y="8" width="60" height="16" rx="3" fill="#78350f"/>
+      <text x="14" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#fcd34d">STEP 10</text>
+      <text x="74" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="11.5" font-weight="600" fill="#e2e8f0">Target Hardware</text>
+      
+      <text x="10" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#f59e0b">1. Signed Binary Build:</text>
+      <text x="10" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• xtensa-build-zephyr.py -p &lt;plt&gt;</text>
+      <text x="10" y="82" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">  --deployable-build</text>
+      <text x="10" y="98" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• rimage manifests &amp; CSE signing</text>
+
+      <text x="10" y="130" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#f59e0b">2. File System Staging:</text>
+      <text x="10" y="148" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• /lib/firmware/intel/sof/ipc4/</text>
+      <text x="10" y="164" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">  - sof-&lt;plt&gt;.ri (base firmware)</text>
+      <text x="10" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">  - sof-&lt;plt&gt;.ldc (string catalog)</text>
+      <text x="10" y="196" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• /lib/firmware/intel/sof-ipc4-tplg/</text>
+      <text x="10" y="212" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">  - production topology file</text>
+
+      <text x="10" y="244" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#f59e0b">3. Driver Module Reload:</text>
+      <text x="10" y="262" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• modprobe -r snd_sof_pci_...</text>
+      <text x="10" y="278" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• modprobe snd_sof_pci_...</text>
+      <text x="10" y="294" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• dmesg inspection</text>
+
+      <text x="10" y="326" font-family="system-ui, -apple-system, sans-serif" font-size="10.5" font-weight="600" fill="#f59e0b">4. Live System Validation:</text>
+      <text x="10" y="344" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• aplay -l (soundcard detection)</text>
+      <text x="10" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• amixer sget &lt;control&gt;</text>
+      <text x="10" y="376" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• sof-ctl runtime injection</text>
+      <text x="10" y="392" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" fill="#94a3b8">• TCP probe server (port 9999)</text>
+
+      <rect x="8" y="420" width="204" height="64" rx="4" fill="#1e293b" stroke="#f59e0b" stroke-width="1"/>
+      <text x="16" y="438" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="600" fill="#fcd34d">Target Verification Status:</text>
+      <text x="16" y="454" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">✓ Driver probed successfully</text>
+      <text x="16" y="468" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#e2e8f0">✓ Audio streaming glitch-free</text>
+    </g>
+  </g>
+</svg>
