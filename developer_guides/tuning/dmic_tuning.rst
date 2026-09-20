@@ -780,7 +780,7 @@ Diagnostic Troubleshooting Matrix
      - Re-evaluate ``cic_shift`` using ``sof_dmic_tool.py``. Ensure :math:`\text{cic\_shift} \ge B_{\text{needed}} - 22`.
    * - **Severe Noise Floor Rise / Modulator Hash**
      - Non-compliant clock duty cycle (:math:`< 40\%`) from odd ``clkdiv``
-     - Measure ``PDM_CLK`` on Saleae logic analyzer or oscilloscope
+     - Measure ``PDM_CLK`` on a logic analyzer or oscilloscope
      - Avoid odd dividers that yield duty cycles outside :math:`[40\%, 60\%]`; select higher :math:`f_{\text{io}}` clock.
    * - **Degraded Beamformer Null Depth (< 15 dB)**
      - Channel gain spread :math:`> 0.5\text{ dB}` or acoustic port leakage
