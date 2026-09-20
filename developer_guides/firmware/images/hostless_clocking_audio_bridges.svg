@@ -167,12 +167,12 @@
       <g transform="translate(0, 0)">
         <rect width="330" height="230" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1"/>
         <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">Board 1: Transmitter (Clock Provider Tx)</text>
-        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Pallas (ESP32-P4) / Board A (Teensy 4.1)</text>
+        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Transmitter (ESP32-P4 / Teensy 4.1)</text>
 
         <rect y="44" width="330" height="1" fill="#1e293b"/>
 
         <text x="12" y="62" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">1. USB Audio Playback Stream (Host PC)</text>
-        <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">aplay -D hw:Pallas,0 test_1000hz.wav</text>
+        <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">aplay -D hw:&lt;card_tx&gt;,0 test_1000hz.wav</text>
 
         <text x="12" y="96" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">2. Hardware Clock Generation (Provider):</text>
         <text x="24" y="110" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">• APLL / Audio PLL4 generates 48.000 kHz FSYNC</text>
@@ -194,9 +194,9 @@
         <text x="14" y="36" font-family="system-ui, sans-serif" font-size="8" fill="#6ee7b7">Direct Board-to-Board Interconnect</text>
 
         <g transform="translate(10, 48)">
-          <text x="0" y="14" font-family="monospace" font-size="8" fill="#fef08a">Pallas (J1)</text>
+          <text x="0" y="14" font-family="monospace" font-size="8" fill="#fef08a">Tx Card (J1)</text>
           <text x="120" y="14" font-family="system-ui" font-size="8" fill="#cbd5e1">Signal</text>
-          <text x="200" y="14" font-family="monospace" font-size="8" fill="#fef08a">Ceres (J1)</text>
+          <text x="200" y="14" font-family="monospace" font-size="8" fill="#fef08a">Rx Card (J1)</text>
 
           <line y1="20" x2="275" y2="20" stroke="#047857" stroke-width="0.8"/>
 
@@ -234,7 +234,7 @@
       <g transform="translate(655, 0)">
         <rect width="330" height="230" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1"/>
         <text x="12" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#6ee7b7">Board 2: Receiver (Clock Consumer Rx)</text>
-        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Ceres (ESP32-P4) / Board B (Teensy 4.1)</text>
+        <text x="12" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Receiver (ESP32-P4 / Teensy 4.1)</text>
 
         <rect y="44" width="330" height="1" fill="#1e293b"/>
 
@@ -242,7 +242,7 @@
         <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">sof mode i2s consumer  |  sof mode pdm consumer</text>
 
         <text x="12" y="96" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">2. Hardware Capture &amp; Recording:</text>
-        <text x="24" y="110" font-family="monospace" font-size="8" fill="#34d399">arecord -D hw:Ceres,0 -r 48000 cap.wav</text>
+        <text x="24" y="110" font-family="monospace" font-size="8" fill="#34d399">arecord -D hw:&lt;card_rx&gt;,0 -r 48000 cap.wav</text>
 
         <text x="12" y="130" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">3. Automated Pre-Commit Acceptance Criteria:</text>
         <text x="24" y="144" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• <tspan font-weight="700" fill="#38bdf8">I2S SNR</tspan>: <tspan fill="#4ade80">&gt; 80.0 dB</tspan> (Nominal: <tspan font-weight="700" fill="#4ade80">93.9 dB</tspan>)</text>

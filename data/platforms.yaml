@@ -615,7 +615,6 @@ platforms:
       - N/A
     zephyr_target: esp32p4
     target_alias: esp32-p4
-    test_dut: "Pallas (Tx) / Ceres (Rx) Loopback Pair"
     status: Active Integration
     notes: "Essential test card for automated I2S/PDM loopback verification across target DUTs"
 

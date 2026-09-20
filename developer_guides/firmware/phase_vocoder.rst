@@ -870,7 +870,7 @@ Execute the automated testbench runner scripts to verify time-stretching accurac
 .. code-block:: bash
 
    # Define workspace root
-   export SOF_WORKSPACE=/home/lrg/work
+   export SOF_WORKSPACE=${HOME}/work
 
    # Run 16-bit PCM testbench execution with automated speed sweep
    tools/tune/phase_vocoder/phase_vocoder_s16.sh input_speech.wav output_s16.wav

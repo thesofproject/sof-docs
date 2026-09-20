@@ -28,7 +28,7 @@ System Architecture
 The SOF hardware loopback architecture is structured into five operational tiers:
 
 1. **Host Automated Test Orchestration**:
-   A Linux workstation runs automated Python test suites (such as ``test_p4_loopback.py``, ``test_teensy_loopback.py``, and the ``capmat`` capture matrix suite). The orchestrator coordinates stream generation, stream capture, DUT control over network SSH, serial UART console configuration, and acoustic analysis.
+   A Linux workstation runs automated audio loopback test suites (using Python test runners, ALSA command-line streaming utilities, or capture matrix scripts). The orchestrator coordinates stream generation, stream capture, DUT control over network SSH, serial UART console configuration, and acoustic analysis.
 
 2. **ALSA USB Audio Class 2.0 (UAC2) Subsystem**:
    The test bridges enumerate as standard, class-compliant USB Audio Class 2.0 multi-channel audio devices on the host. Standard ALSA utilities (``aplay``, ``arecord``, ``speaker-test``) stream multi-rate audio bitstreams into and out of the bridge hardware.
@@ -36,8 +36,8 @@ The SOF hardware loopback architecture is structured into five operational tiers
 3. **Embedded Audio Test Bridges**:
    Dedicated microcontrollers bridge host USB audio to physical digital audio buses:
    
-   * **ESP32-P4 (Dual RISC-V @ 400 MHz)**: High-performance controller with single-precision floating-point unit (FPU) and General Direct Memory Access (GDMA). Configured as dual-card loopback pairs (**Pallas** and **Ceres**) or dedicated target DUT bridges.
-   * **Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 @ 600 MHz)**: High-speed audio platform featuring on-chip Audio PLL4 (688.128 MHz), Synchronous Audio Interface (SAI), and native S/PDIF transceivers. Configured as a cross-connected pair (**Board A** and **Board B**).
+   * **ESP32-P4 (Dual RISC-V @ 400 MHz)**: High-performance controller with single-precision floating-point unit (FPU) and General Direct Memory Access (GDMA). Configured as dual-card loopback pairs (Transmitter and Receiver) or dedicated target DUT bridges.
+   * **Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 @ 600 MHz)**: High-speed audio platform featuring on-chip Audio PLL4 (688.128 MHz), Synchronous Audio Interface (SAI), and native S/PDIF transceivers. Configured as a cross-connected pair (Board A and Board B).
 
 4. **Physical Digital Audio Interfaces (DAI)**:
    Physical header wiring links the bridges directly to DUT expansion headers:
@@ -60,10 +60,10 @@ ESP32-P4 Dual RISC-V Audio Bridge
 
 The ESP32-P4 Function EV Board provides dual 400 MHz RISC-V cores with hardware FPU, supporting full-duplex 32-bit floating-point DSP processing, parametric Equalization (EQ), and Dynamic Range Compression (DRC) with only 10.4% CPU load.
 
-Physical Jumper Wiring: Pallas Tx to Ceres Rx Loopback Pair
------------------------------------------------------------
+Example: Dual-Card Loopback Wiring (Transmitter to Receiver)
+-------------------------------------------------------------
 
-For automated pre-commit testing without requiring a physical DUT boot, **Pallas (Board 3)** and **Ceres (Board 4)** are cross-connected back-to-back using 7 jumper wires on header J1:
+For automated loopback testing without requiring a physical DUT boot, two bridge boards (Transmitter Board and Receiver Board) can be cross-connected back-to-back using 7 jumper wires on header J1:
 
 .. list-table::
    :widths: 8 18 24 24 16 10
@@ -71,8 +71,8 @@ For automated pre-commit testing without requiring a physical DUT boot, **Pallas
 
    * - Wire #
      - Bus / Signal
-     - Pallas (Board 3 - Provider Tx)
-     - Ceres (Board 4 - Consumer Rx)
+     - Transmitter (Provider Tx)
+     - Receiver (Consumer Rx)
      - Header J1 Pins
      - Color
    * - 1
@@ -267,16 +267,16 @@ To ensure reproducible test automation across reboots and USB reconnections, dev
      - ESP32-P4
      - ``/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B7B030033-if00``
      - ``dut2_i2s`` (``hw:Audio_1,0``), ``dut2_pdm`` (``hw:Audio_1,1``)
-   * - **Pallas (Board 3)**
+   * - **ESP32-P4 Bridge 1**
      - Loopback Provider Tx
      - ESP32-P4
      - ``/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B7B029802-if00``
-     - ``hw:CARD=Pallas,DEV=0`` (``pallas_tx``)
-   * - **Ceres (Board 4)**
+     - ``hw:CARD=Bridge1,DEV=0`` (``bridge1_tx``)
+   * - **ESP32-P4 Bridge 2**
      - Loopback Consumer Rx
      - ESP32-P4
      - ``/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B7B029471-if00``
-     - ``hw:CARD=Ceres,DEV=0`` (``ceres_rx``)
+     - ``hw:CARD=Bridge2,DEV=0`` (``bridge2_rx``)
    * - **Teensy 4.1 Board A**
      - Loopback Provider Tx
      - i.MX RT1062
@@ -423,26 +423,30 @@ Automated Test Runners and Pre-Commit Gates
 
 Automated Python test scripts execute loopback verification on local host and CI runners.
 
-ESP32-P4 Loopback Test Suite (``test_p4_loopback.py``)
-======================================================
+Automated ESP32-P4 Loopback Verification
+=========================================
 
 .. note::
 
-   **Mandatory Pre-Commit Verification Policy**:
-   Before committing any changes to Zephyr DAI drivers (GDMA, I2S, PDM registers) or SOF pipeline components (volume, EQ, mixer), developers and AI agents must run and pass the automated loopback verification test suite in both I2S and PDM modes using the physical Pallas :math:`\leftrightarrow` Ceres hardware link.
+   **Automated Loopback Verification Policy**:
+   Before committing changes to Zephyr DAI drivers (GDMA, I2S, PDM registers) or SOF pipeline components (volume, EQ, mixer), run and verify automated loopback tests in both I2S and PDM modes across the physical loopback hardware link.
 
-Execute the test suite with a single command:
+Execute automated verification tests:
 
 .. code-block:: bash
 
-   # Run complete pre-commit suite (I2S, PDM, DMIC, and Bluetooth LE Audio)
-   python3 /home/lrg/.gemini/config/skills/sof-esp32-p4/scripts/test_p4_loopback.py --mode all
+   # Run complete automated verification suite (both I2S and PDM)
+   python3 <path_to_tests>/test_loopback.py --mode all
 
    # Run targeted I2S loopback validation at 48 kHz
-   python3 /home/lrg/.gemini/config/skills/sof-esp32-p4/scripts/test_p4_loopback.py --mode i2s --rate 48000 --freq 1000.0
+   python3 <path_to_tests>/test_loopback.py --mode i2s --rate 48000 --freq 1000.0
 
    # Run PDM digital microphone loopback validation
-   python3 /home/lrg/.gemini/config/skills/sof-esp32-p4/scripts/test_p4_loopback.py --mode pdm --rate 48000
+   python3 <path_to_tests>/test_loopback.py --mode pdm --rate 48000
+
+   # Alternatively, verify directly using standard ALSA streaming utilities:
+   aplay -D hw:CARD=Bridge1,DEV=0 -r 48000 -f S16_LE -c 2 test_1000hz.wav &
+   arecord -D hw:CARD=Bridge2,DEV=0 -r 48000 -f S16_LE -c 2 -d 5 capture.wav
 
 Pre-Commit Acceptance Thresholds:
 
@@ -476,27 +480,24 @@ Pre-Commit Acceptance Thresholds:
      - **7 / 7 Passed**
      - 100% Over-The-Air streaming (> 1500 packets)
 
-Teensy 4.1 Loopback Test Suite (``test_teensy_loopback.py``)
-============================================================
+Automated Teensy 4.1 Loopback Verification
+===========================================
 
 The Teensy 4.1 test harness validates S/PDIF transceiver compliance and multi-channel SAI1 I2S streaming between Board A and Board B:
 
 .. code-block:: bash
 
-   cd /home/lrg/work/sof-teensy
-   source .venv/bin/activate
-
    # 1. Verify S/PDIF Hardware Loopback (Pin 14 Tx -> Pin 15 Rx)
-   python3 scripts/test_teensy_loopback.py --interface spdif --rate 48000
+   python3 <path_to_tests>/test_loopback.py --interface spdif --rate 48000
 
    # 2. Verify SAI1 I2S Hardware Loopback (Pins 7, 8, 20, 21, 23)
-   python3 scripts/test_teensy_loopback.py --interface i2s --rate 48000
+   python3 <path_to_tests>/test_loopback.py --interface i2s --rate 48000
 
    # 3. High-resolution 96 kHz S/PDIF verification
-   python3 scripts/test_teensy_loopback.py --interface spdif --rate 96000 --min-snr 75.0
+   python3 <path_to_tests>/test_loopback.py --interface spdif --rate 96000 --min-snr 75.0
 
-Target DUT Capture Matrix Verification (``capmat``)
-===================================================
+Target DUT Capture Matrix Verification (``capmat`` / Automated ALSA Tests)
+==========================================================================
 
 For target DUTs, loopback tests execute across ALSA devices using remote execution with mandatory timeouts:
 
@@ -598,10 +599,10 @@ Saleae Logic Pro 8 High-Speed Bus Analysis
 
 When troubleshooting signal integrity or verifying new hardware revisions, a **Saleae Logic Pro 8** USB logic analyzer connects to physical DAI lines for automated measurement.
 
-The ``saleae-tool`` CLI Utility
-===============================
+Automated Bus Analysis Tools
+=============================
 
-The lab provides an integrated CLI tool (``saleae-tool``) located at ``/home/lrg/bin/saleae-tool``:
+Automated logic analyzer captures can be controlled via CLI utilities (such as a local ``saleae-tool`` utility or the Saleae Logic 2 automation API):
 
 .. code-block:: bash
 
