@@ -93,7 +93,7 @@ The SOF SDK provides a complete toolkit connecting source code authoring to comp
 
            runtime_diag [label="Live Probing & Telemetry\n(TCP Probe Server 9999, DMA Probes)", width=3.3, fixedsize=shape, fillcolor="#d2b4de"];
            sim_qemu [label="QEMU DSP Simulators\n(ptl-sim, tgl-sim in CI)", fillcolor="#d7bde2"];
-           dut_boards [label="Target DUTs & Hardware Boards\n(Spider TGL, Dragon Fly ARL, Aphid PTL, Teensy 4.1)", width=3.3, fixedsize=shape, fillcolor="#d2b4de"];
+           dut_boards [label="Target DUTs & Hardware Boards\n(Tiger Lake TGL, Arrow Lake ARL, Panther Lake PTL, Teensy 4.1)", width=3.3, fixedsize=shape, fillcolor="#d2b4de"];
 
            sim_tb [label="Host Testbench\n(Bit-Exact Audio Testing)", fillcolor="#d7bde2"];
            esp_bridges [label="ESP32-P4 Audio Bridges\n(I2S / PDM Loopback Cards)", fillcolor="#d2b4de"];

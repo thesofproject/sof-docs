@@ -120,7 +120,7 @@
       <g transform="translate(0, 0)">
         <rect width="215" height="190" rx="6" fill="#0f172a" stroke="#7c3aed" stroke-width="0.8"/>
         <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">Host DUT (Clock Provider)</text>
-        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Spider (TGL) / Aphid (PTL)</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Tiger Lake (TGL) / Panther Lake (PTL)</text>
         <text x="10" y="50" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">DSP Audio Interface:</text>
         <text x="10" y="64" font-family="monospace" font-size="8" fill="#c084fc">• Intel cAVS 2.5 / ACE 3.0</text>
         <text x="10" y="76" font-family="monospace" font-size="8" fill="#c084fc">• SSP / I2S / PDM Port</text>
@@ -139,7 +139,7 @@
       <g transform="translate(252, 0)">
         <rect width="215" height="190" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
         <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#f0abfc">SOF Audio Bridge (Clock Consumer)</text>
-        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">ESP32-P4 (Spider/Aphid Bridge)</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">ESP32-P4 (Target Audio Bridge)</text>
         <text x="10" y="50" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Clock Configuration:</text>
         <text x="10" y="64" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_SLAVE</text>
         <text x="10" y="76" font-family="monospace" font-size="8" fill="#fbcfe8">• SOF_CLOCK_DMIC</text>
@@ -239,7 +239,7 @@
         <rect y="44" width="330" height="1" fill="#1e293b"/>
 
         <text x="12" y="62" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">1. Clock Configuration (Consumer):</text>
-        <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">sof mode i2s slave  |  sof mode pdm slave</text>
+        <text x="24" y="76" font-family="monospace" font-size="8" fill="#34d399">sof mode i2s consumer  |  sof mode pdm consumer</text>
 
         <text x="12" y="96" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">2. Hardware Capture &amp; Recording:</text>
         <text x="24" y="110" font-family="monospace" font-size="8" fill="#34d399">arecord -D hw:Ceres,0 -r 48000 cap.wav</text>

@@ -679,12 +679,12 @@ SOF allows acoustic engineers to inject new calibration profiles, adjust safety 
 Step 1: Discovering Smart Amplifier ALSA Controls on the DUT
 ============================================================
 
-Log into the target DUT (Spider, Dragon Fly, or Aphid) over lab SSH and enumerate the available ALSA byte controls:
+Log into the target DUT over lab SSH and enumerate the available ALSA byte controls:
 
 .. code-block:: bash
 
    # Enumerate all byte controls matching Smart Amp on soundcard 0
-   timeout 15 ssh -o ConnectTimeout=5 root@spider 'amixer -c 0 scontrols | grep -i "smart_amp\|dsm"'
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> 'amixer -c 0 scontrols | grep -i "smart_amp\|dsm"'
 
 Expected output:
 
@@ -697,7 +697,7 @@ To inspect the raw control index and element numbers:
 
 .. code-block:: bash
 
-   timeout 15 ssh -o ConnectTimeout=5 root@spider 'amixer -c 0 cget name="Smart Amp Model"'
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> 'amixer -c 0 cget name="Smart Amp Model"'
 
 Step 2: Live Calibration Parameter Injection
 ============================================
@@ -707,10 +707,10 @@ Transmit the newly synthesized calibration binary blob (``smart_amp_model.bin``)
 .. code-block:: bash
 
    # Copy generated binary blob to target DUT
-   scp smart_amp_model.bin root@spider:/tmp/smart_amp_model.bin
+   scp smart_amp_model.bin root@<dut>:/tmp/smart_amp_model.bin
 
    # Inject parameter blob via sof-ctl while playback is active
-   timeout 15 ssh -o ConnectTimeout=5 root@spider \
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
        'sof-ctl -D hw:0 -n "Smart Amp Model" -s /tmp/smart_amp_model.bin'
 
 Verification in Kernel DSP Trace Logs
@@ -720,7 +720,7 @@ Inspect the real-time DSP trace log buffer to confirm that the generic layer rec
 
 .. code-block:: bash
 
-   timeout 15 ssh -o ConnectTimeout=5 root@spider 'dmesg | grep -i "smart_amp"'
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> 'dmesg | grep -i "smart_amp"'
 
 Expected firmware output:
 
@@ -738,7 +738,7 @@ To read back live diagnostic metrics from the inner model during active audio pl
 .. code-block:: bash
 
    # Dump the binary telemetry response from the running firmware
-   timeout 15 ssh -o ConnectTimeout=5 root@spider \
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
        'sof-ctl -D hw:0 -n "Smart Amp Model" -g /tmp/dsm_telemetry.bin && od -tx4 /tmp/dsm_telemetry.bin | head -n 12'
 
 Automated Python Live Poller
@@ -756,7 +756,7 @@ Use the following monitoring snippet to stream real-time voice coil temperature 
    import time
 
 
-   def poll_telemetry(dut_host="root@spider"):
+   def poll_telemetry(dut_host="root@<dut>"):
      cmd = f"ssh -o ConnectTimeout=5 {dut_host} 'sof-ctl -D hw:0 -n \"Smart Amp Model\" -g /tmp/live.bin && cat /tmp/live.bin'"
      proc = subprocess.run(
          cmd,

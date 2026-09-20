@@ -130,12 +130,12 @@ The following table summarizes primary target boards supported in SOF:
    * - Platform Alias
      - Zephyr Board Target (``-b``)
      - DSP Architecture
-     - Lab DUT / Hardware
+     - Hardware Platform / Target
      - Default IPC
    * - ``tgl``
      - ``intel_adsp_cavs25``
      - CAVS 2.5 (Tiger Lake)
-     - **Spider** DUT
+     - Tiger Lake Reference Board / DUT
      - IPC4 / IPC3
    * - ``tgl-h``
      - ``intel_adsp_cavs25_tgph``
@@ -145,7 +145,7 @@ The following table summarizes primary target boards supported in SOF:
    * - ``mtl``
      - ``intel_adsp_ace15_mtpm``
      - ACE 1.5 (Meteor Lake)
-     - **Dragon Fly** (ARL-S)
+     - Meteor Lake / Arrow Lake-S (ARL-S)
      - IPC4
    * - ``lnl``
      - ``intel_adsp_ace20_lnl``
@@ -155,7 +155,7 @@ The following table summarizes primary target boards supported in SOF:
    * - ``ptl``
      - ``intel_adsp_ace30_ptl``
      - ACE 3.0 (Panther Lake)
-     - **Aphid** DUT
+     - Panther Lake Reference Board / DUT
      - IPC4
    * - ``ptl-sim``
      - ``intel_adsp_ace30_ptl_sim``
@@ -200,13 +200,13 @@ Standard Build Commands
 
 .. code-block:: bash
 
-   # 1. Build Tiger Lake (TGL) firmware for Spider DUT
+   # 1. Build Tiger Lake (TGL) firmware for target DUT
    west build -b intel_adsp_cavs25 -d build-tgl app/
 
-   # 2. Build Arrow Lake (ARL-S / MTL) firmware for Dragon Fly DUT
+   # 2. Build Arrow Lake (ARL-S / MTL) firmware for target DUT
    west build -b intel_adsp_ace15_mtpm -d build-arl app/
 
-   # 3. Build Panther Lake (PTL) firmware for Aphid DUT
+   # 3. Build Panther Lake (PTL) firmware for target DUT
    west build -b intel_adsp_ace30_ptl -d build-ptl app/
 
    # 4. Build Teensy 4.1 standalone audio bridge firmware
@@ -413,9 +413,9 @@ Deploy these artifacts directly to target DUTs:
 
 .. code-block:: bash
 
-   # Deploy to Aphid (PTL)
-   scp build-sof-staging/sof/intel/sof-ipc4/ptl/sof-ptl.ri root@aphid:/lib/firmware/intel/sof-ipc4/ptl/
-   scp build-sof-staging/sof/intel/sof-ipc4/ptl/sof-ptl.ldc root@aphid:/lib/firmware/intel/sof-ipc4/ptl/
+   # Deploy to target DUT (e.g. Panther Lake PTL)
+   scp build-sof-staging/sof/intel/sof-ipc4/ptl/sof-ptl.ri root@<dut>:/lib/firmware/intel/sof-ipc4/ptl/
+   scp build-sof-staging/sof/intel/sof-ipc4/ptl/sof-ptl.ldc root@<dut>:/lib/firmware/intel/sof-ipc4/ptl/
 
 Static Memory Footprint Analysis
 --------------------------------

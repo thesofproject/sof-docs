@@ -697,7 +697,7 @@ Advanced Environments: Network Boot and Relays
 PXE / TFTP / NFS Diskless Lab Integration
 =========================================
 
-In laboratory environments where DUTs (such as Spider or Dragon Fly) boot over
+In laboratory environments where DUTs boot over
 the network using PXE/TFTP for the kernel and NFS for the root filesystem,
 ``ktest.pl`` can be adapted to write binaries directly to host server export
 paths rather than transferring over SSH:
@@ -708,7 +708,7 @@ paths rather than transferring over SSH:
    POST_BUILD = cp ${OUTPUT_DIR}/arch/x86/boot/bzImage /srv/tftp/bzImage-test
 
    # Install modules directly into NFS rootfs
-   POST_INSTALL = make O=${OUTPUT_DIR} modules_install INSTALL_MOD_PATH=/srv/nfs/spider-rootfs/
+   POST_INSTALL = make O=${OUTPUT_DIR} modules_install INSTALL_MOD_PATH=/srv/nfs/<dut>-rootfs/
 
 Hardware Relay Power Management
 ===============================
@@ -719,8 +719,8 @@ USB-controlled relay bank:
 
 .. code-block:: ini
 
-   # Example: Trigger Relay 2 toggle via TCP socket control server
-   POWER_CYCLE = echo "r2 toggle" | nc 127.0.0.1 8081; sleep 8
+   # Example: Trigger relay toggle via TCP socket control server
+   POWER_CYCLE = echo "<relay_id> toggle" | nc 127.0.0.1 8081; sleep 8
 
 .. _ktest-troubleshooting:
 

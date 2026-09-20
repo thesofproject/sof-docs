@@ -132,9 +132,9 @@
       <g transform="translate(0, 78)">
         <rect x="0" y="0" width="342" height="110" rx="6" fill="#0f172a" stroke="#9333ea" stroke-width="1" />
         <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Supported Target DSP Cores</text>
-        <text x="10" y="35" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel cAVS 2.5 (Spider):</tspan> <tspan font-family="monospace" fill="#e2e8f0">cavs2x_LX6HiFi3_2017_8</tspan></text>
+        <text x="10" y="35" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel cAVS 2.5 (Tiger Lake):</tspan> <tspan font-family="monospace" fill="#e2e8f0">cavs2x_LX6HiFi3_2017_8</tspan></text>
         <text x="10" y="52" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 1.5/2.0 (ARL/LNL):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace10_LX7HiFi4_2022_10</tspan></text>
-        <text x="10" y="69" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 3.0 (Aphid PTL):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace30_LX7HiFi4_PIF</tspan></text>
+        <text x="10" y="69" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 3.0 (Panther Lake):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace30_LX7HiFi4_PIF</tspan></text>
         <text x="10" y="86" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Intel ACE 4.0 (Nova Lake):</tspan> <tspan font-family="monospace" fill="#e2e8f0">ace4px_HiFi5MMU_PIF_nlib</tspan></text>
         <text x="10" y="103" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#a855f7">NXP / AMD / MTK:</tspan> <tspan font-family="monospace" fill="#cbd5e1">hifi4_nxp, LX7_HiFi5, mt8186</tspan></text>
       </g>

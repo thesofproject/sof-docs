@@ -676,7 +676,7 @@ Query the ALSA mixer on the target DUT to locate the Crossover byte control:
 .. code-block:: bash
 
    # Connect to DUT over SSH and inspect controls
-   ssh root@spider "amixer -Dhw:0 controls | grep -i crossover"
+   ssh root@<dut> "amixer -Dhw:0 controls | grep -i crossover"
 
 Expected output:
 
@@ -708,10 +708,10 @@ Transfer and inject the binary blob directly into the running DSP pipeline:
 .. code-block:: bash
 
    # Copy blob to DUT
-   scp tools/ctl/ipc4/crossover/coef_2way.bin root@spider:/tmp/crossover_new.bin
+   scp tools/ctl/ipc4/crossover/coef_2way.bin root@<dut>:/tmp/crossover_new.bin
 
    # Inject blob into ALSA control numid 14 using IPC4 Large Config Set
-   ssh root@spider "sof-ctl -Dhw:0 -i 4 -n 14 -p 0 -b -s /tmp/crossover_new.bin"
+   ssh root@<dut> "sof-ctl -Dhw:0 -i 4 -n 14 -p 0 -b -s /tmp/crossover_new.bin"
 
 Step 4: Verify Active Coefficients & DSP Trace Logs
 ===================================================
@@ -721,16 +721,16 @@ Verify that the DSP processed and applied the new coefficients:
 .. code-block:: bash
 
    # Read back active coefficients from DSP memory
-   ssh root@spider "sof-ctl -Dhw:0 -i 4 -n 14 -p 0 -r -o /tmp/crossover_readback.bin"
+   ssh root@<dut> "sof-ctl -Dhw:0 -i 4 -n 14 -p 0 -r -o /tmp/crossover_readback.bin"
 
    # Verify byte-level integrity
-   ssh root@spider "cmp /tmp/crossover_new.bin /tmp/crossover_readback.bin && echo 'COEFFICIENTS MATCH'"
+   ssh root@<dut> "cmp /tmp/crossover_new.bin /tmp/crossover_readback.bin && echo 'COEFFICIENTS MATCH'"
 
 Inspect the firmware trace stream:
 
 .. code-block:: bash
 
-   ssh root@spider "mtrace | grep -i crossover"
+   ssh root@<dut> "mtrace | grep -i crossover"
 
 Expected DSP log output:
 

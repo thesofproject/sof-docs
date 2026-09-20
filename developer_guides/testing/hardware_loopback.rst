@@ -13,7 +13,7 @@ While host-based unit tests (such as Zephyr Ztest and Twister) and kernel driver
 * **Acoustic and Spectral Degradation**: Non-linear harmonic distortion (THD), clipping, or signal-to-noise ratio (SNR) degradation introduced by integer-to-float conversions, Equalizer (EQ) filter quantization, or Dynamic Range Compression (DRC) rounding.
 * **Digital Microphone Modulation Faults**: Phase cancellation or decimated noise in Pulse Density Modulation (PDM) streams sampled on rising vs. falling clock edges.
 
-By coupling physical Device Under Test (DUT) hardware—including **Spider** (Tiger Lake / CAVS 2.5), **Aphid** (Panther Lake / ACE 3.0), and **Dragon Fly** (Arrow Lake / ACE 1.5)—with dedicated embedded audio test bridges (**ESP32-P4** and **Teensy 4.1**), SOF automated test suites validate complete audio pipelines in both **Clock Provider** and **Clock Consumer** modes without requiring manual oscilloscope probing.
+By coupling physical Device Under Test (DUT) hardware—including Intel cAVS and ACE platforms (such as Tiger Lake, Panther Lake, and Arrow Lake)—with dedicated embedded audio test bridges (**ESP32-P4** and **Teensy 4.1**), SOF automated test suites validate complete audio pipelines in both **Clock Provider** and **Clock Consumer** modes without requiring manual oscilloscope probing.
 
 .. figure:: images/hardware_loopback_system_architecture.svg
    :alt: End-to-End Hardware Audio Loopback Verification System Architecture
@@ -36,7 +36,7 @@ The SOF hardware loopback architecture is structured into five operational tiers
 3. **Embedded Audio Test Bridges**:
    Dedicated microcontrollers bridge host USB audio to physical digital audio buses:
    
-   * **ESP32-P4 (Dual RISC-V @ 400 MHz)**: High-performance controller with single-precision floating-point unit (FPU) and General Direct Memory Access (GDMA). Configured as dual-card loopback pairs (**Pallas** and **Ceres**) or dedicated DUT bridges (**Spider** and **Aphid**).
+   * **ESP32-P4 (Dual RISC-V @ 400 MHz)**: High-performance controller with single-precision floating-point unit (FPU) and General Direct Memory Access (GDMA). Configured as dual-card loopback pairs (**Pallas** and **Ceres**) or dedicated target DUT bridges.
    * **Teensy 4.1 (NXP i.MX RT1062 Cortex-M7 @ 600 MHz)**: High-speed audio platform featuring on-chip Audio PLL4 (688.128 MHz), Synchronous Audio Interface (SAI), and native S/PDIF transceivers. Configured as a cross-connected pair (**Board A** and **Board B**).
 
 4. **Physical Digital Audio Interfaces (DAI)**:
@@ -118,10 +118,10 @@ For automated pre-commit testing without requiring a physical DUT boot, **Pallas
      - Pin 20 <-> Pin 20
      - Black
 
-Spider DUT to ESP32-P4 Board 1 Pin Map
---------------------------------------
+Example: Tiger Lake (cAVS 2.5) 40-Pin Header DUT to ESP32-P4 Pin Map
+-----------------------------------------------------------------------
 
-Spider (Tiger Lake / CAVS 2.5) connects to ESP32-P4 Board 1 via its 40-pin expansion header for ``capmat`` capture matrix and loopback testing:
+As an illustrative wiring configuration, an Intel Tiger Lake (TGL / cAVS 2.5) DUT connects to an ESP32-P4 bridge card via its 40-pin expansion header for ``capmat`` capture matrix and loopback testing:
 
 .. list-table::
    :widths: 16 20 16 22 14 12
@@ -129,7 +129,7 @@ Spider (Tiger Lake / CAVS 2.5) connects to ESP32-P4 Board 1 via its 40-pin expan
 
    * - Signal
      - Function
-     - Spider 40-Pin Header
+     - Target DUT 40-Pin Header
      - Intel TGL SoC Pad
      - ESP32-P4 GPIO
      - Direction (ESP32-P4)
@@ -146,17 +146,17 @@ Spider (Tiger Lake / CAVS 2.5) connects to ESP32-P4 Board 1 via its 40-pin expan
      - GPIO 22 (Pin 12)
      - Input (Consumer) / Output (Provider)
    * - **I2S_DIN**
-     - Spider Capture In
+     - DUT Capture In
      - Pin 38
      - ``74:INT34C5:00``
      - GPIO 23 (Pin 7 DOUT)
-     - Output (Host Playback -> Spider Record)
+     - Output (Host Playback -> DUT Record)
    * - **I2S_DOUT**
-     - Spider Playback Out
+     - DUT Playback Out
      - Pin 40
      - ``73:INT34C5:00``
      - GPIO 20 (Pin 13 DIN)
-     - Input (Spider Playback -> Host Capture)
+     - Input (DUT Playback -> Host Capture)
    * - **PDM_CLK**
      - PDM Clock
      - Header Pin
@@ -168,7 +168,7 @@ Spider (Tiger Lake / CAVS 2.5) connects to ESP32-P4 Board 1 via its 40-pin expan
      - Header Pin
      - DMIC Sigma-Delta Data
      - GPIO 5 (Pin 16)
-     - Output (Host -> Spider DMIC Record)
+     - Output (Host -> DUT DMIC Record)
    * - **GND**
      - Common Ground
      - Pins 6, 14, 39
@@ -176,17 +176,17 @@ Spider (Tiger Lake / CAVS 2.5) connects to ESP32-P4 Board 1 via its 40-pin expan
      - GND (Pins 14, 20)
      - Reference Ground
 
-Aphid DUT to ESP32-P4 Board 2 Pin Map
--------------------------------------
+Example: Panther Lake (ACE 3.0) PDM & I2S Pin Map
+-------------------------------------------------
 
-Aphid (Panther Lake / ACE 3.0) connects to ESP32-P4 Board 2. Aphid operates with a capture-only digital microphone interface where the DUT generates the PDM clock and the bridge injects a modulated bitstream:
+As an illustrative example of an ACE-generation platform with a capture-only digital microphone interface, an Intel Panther Lake (PTL / ACE 3.0) DUT connects to an ESP32-P4 bridge card where the DUT generates the PDM clock and the bridge injects a modulated bitstream:
 
-* **PDM Bit Clock (GPIO 4 / Pin 18)**: Driven by Aphid DMIC IP into ESP32-P4.
-* **PDM Modulated Data Out (GPIO 5 / Pin 16)**: Sigma-Delta bitstream driven by ESP32-P4 into Aphid DMIC capture.
-* **I2S Bit Clock (GPIO 21 / Pin 11)**: Bidirectional BCLK for I2S0 audio verification.
-* **I2S Frame Sync (GPIO 22 / Pin 12)**: Bidirectional WS / LRCLK for I2S0 audio verification.
-* **I2S Data In (GPIO 20 / Pin 13)**: Aphid Playback -> Host Capture.
-* **I2S Data Out (GPIO 23 / Pin 7)**: Host Playback -> Aphid Record.
+* **PDM Bit Clock (GPIO 4 / Pin 18)**: Driven by DUT DMIC IP into ESP32-P4.
+* **PDM Modulated Data Out (GPIO 5 / Pin 16)**: Sigma-Delta bitstream driven by ESP32-P4 into DUT DMIC capture.
+* **I2S Bit Clock (GPIO 21 / Pin 11)**: Bidirectional BCLK for I2S audio verification.
+* **I2S Frame Sync (GPIO 22 / Pin 12)**: Bidirectional WS / LRCLK for I2S audio verification.
+* **I2S Data In (GPIO 20 / Pin 13)**: DUT Playback -> Host Capture.
+* **I2S Data Out (GPIO 23 / Pin 7)**: Host Playback -> DUT Record.
 
 Teensy 4.1 Audio Bridge (NXP i.MX RT1062)
 =========================================
@@ -258,15 +258,15 @@ To ensure reproducible test automation across reboots and USB reconnections, dev
      - Persistent By-ID Device Path
      - ALSA Card Name / Devices
    * - **ESP32-P4 Board 1**
-     - Spider DUT (TGL)
+     - Target DUT 1 (cAVS 2.5)
      - ESP32-P4
      - ``/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B7B029850-if00``
-     - ``spider_i2s`` (``hw:Audio,0``), ``spider_pdm`` (``hw:Audio,1``)
+     - ``dut1_i2s`` (``hw:Audio,0``), ``dut1_pdm`` (``hw:Audio,1``)
    * - **ESP32-P4 Board 2**
-     - Aphid DUT (PTL)
+     - Target DUT 2 (ACE 3.0)
      - ESP32-P4
      - ``/dev/serial/by-id/usb-1a86_USB_Single_Serial_5B7B030033-if00``
-     - ``aphid_i2s`` (``hw:Audio_1,0``), ``aphid_pdm`` (``hw:Audio_1,1``)
+     - ``dut2_i2s`` (``hw:Audio_1,0``), ``dut2_pdm`` (``hw:Audio_1,1``)
    * - **Pallas (Board 3)**
      - Loopback Provider Tx
      - ESP32-P4
@@ -495,26 +495,26 @@ The Teensy 4.1 test harness validates S/PDIF transceiver compliance and multi-ch
    # 3. High-resolution 96 kHz S/PDIF verification
    python3 scripts/test_teensy_loopback.py --interface spdif --rate 96000 --min-snr 75.0
 
-Spider and Aphid Capture Matrix (``capmat``)
-============================================
+Target DUT Capture Matrix Verification (``capmat``)
+===================================================
 
 For target DUTs, loopback tests execute across ALSA devices using remote execution with mandatory timeouts:
 
 .. code-block:: bash
 
-   # 1. Spider DUT I2S Loopback: Transmit tone from host ESP32-P4 and record on Spider
-   timeout 15 ssh -o ConnectTimeout=5 root@spider \
-     'arecord -D hw:sofhdadsp,0 -f S16_LE -r 48000 -c 2 -d 5 /tmp/spider_i2s_rx.wav' &
+   # 1. Target DUT I2S Loopback: Transmit tone from host ESP32-P4 and record on DUT
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
+     'arecord -D hw:sofhdadsp,0 -f S16_LE -r 48000 -c 2 -d 5 /tmp/dut_i2s_rx.wav' &
    
    # Transmit 440 Hz tone from host
-   speaker-test -D spider_i2s -r 48000 -c 2 -t sine -f 440 -l 1
+   speaker-test -D dut_i2s -r 48000 -c 2 -t sine -f 440 -l 1
 
-   # 2. Aphid DUT PDM DMIC Injection: Transmit modulated PDM from host and record on Aphid
-   timeout 15 ssh -o ConnectTimeout=5 root@aphid \
-     'arecord -D hw:sofhdadsp,1 -f S16_LE -r 48000 -c 2 -d 5 /tmp/aphid_dmic_cap.wav' &
+   # 2. Target DUT PDM DMIC Injection: Transmit modulated PDM from host and record on DUT
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
+     'arecord -D hw:sofhdadsp,1 -f S16_LE -r 48000 -c 2 -d 5 /tmp/dut_dmic_cap.wav' &
    
    # Stream PDM test tone from host
-   speaker-test -D aphid_pdm -r 48000 -c 2 -t sine -f 880 -l 1
+   speaker-test -D dut_pdm -r 48000 -c 2 -t sine -f 880 -l 1
 
 Acoustic Signal Processing and Analysis Algorithms
 **************************************************
@@ -702,7 +702,7 @@ When audio loopback tests fail or exhibit low SNR, apply the following diagnosti
      - Diagnostic & Remediation Procedure
    * - **Low SNR (< 70 dB) or Harsh Buzz**
      - Ground Loop / Floating Logic Reference
-     - Ensure dedicated black ground leads link header ground pins (ESP32-P4 Pin 14/20) directly to target DUT ground pins (Spider Pin 6/14/39). Verify :math:`V_{\text{dc}} \approx 0.0\text{ V}` using ``saleae-tool capture-analog``.
+     - Ensure dedicated black ground leads link header ground pins (ESP32-P4 Pin 14/20) directly to target DUT ground pins. Verify :math:`V_{\text{dc}} \approx 0.0\text{ V}` using ``saleae-tool capture-analog``.
    * - **Channel Swapping (Left / Right Inverted)**
      - Word Select (WS) Polarity Inversion
      - Check whether topology DAI config specifies ``SOF_DAI_CLK_INV_FRAME``. In standard Philips I2S, WS LOW corresponds to Left Channel (Channel 0). If inverted, modify the topology DAI node or add ``amixer cset name='SSP0 Invert Frame' 1``.
@@ -717,4 +717,4 @@ When audio loopback tests fail or exhibit low SNR, apply the following diagnosti
      - Verify ALSA period size and buffer size parameters (e.g., ``--period-size=480 --buffer-size=1920``). Ensure CPU frequency scaling governors on the host test station are locked to ``performance`` mode.
    * - **Unresponsive DUT during Capture**
      - DSP Kernel Panic or Audio Hang
-     - Ensure all remote SSH commands are wrapped with ``timeout 15 ssh -o ConnectTimeout=5 root@<dut> '...'``. Power-cycle Spider via Relay 2 (``echo "r2 toggle" | nc 127.0.0.1 8081``) or Aphid via Relay 1 (``echo "r1 toggle" | nc 127.0.0.1 8081``).
+     - Ensure all remote SSH commands are wrapped with ``timeout 15 ssh -o ConnectTimeout=5 root@<dut> '...'``. Power-cycle the target DUT via networked relay if supported (e.g. ``echo "<relay_id> toggle" | nc 127.0.0.1 8081``) or trigger a soft reboot.

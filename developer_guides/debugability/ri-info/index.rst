@@ -103,7 +103,7 @@ Dumps complete RSA public key modulus, exponent, and signature arrays:
 Boot Authentication Troubleshooting
 ***********************************
 
-When deploying firmware to pre-production development boards (Spider, Dragon Fly, Aphid), secure boot failures typically manifest as a DSP ROM stall (``ROM_STATUS = 0x80000000`` or timeout):
+When deploying firmware to pre-production development boards and target DUTs, secure boot failures typically manifest as a DSP ROM stall (``ROM_STATUS = 0x80000000`` or timeout):
 
 1. **Verify Community vs Production Key**:
    In ``--headers`` output, inspect the Modulus line:

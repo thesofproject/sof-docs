@@ -912,7 +912,7 @@ The output file contains the fully resolved object graph, allowing developers to
 Target DUT Verification Commands
 ================================
 
-Once deployed to ``/lib/firmware/intel/sof-ipc4/`` on the target DUT (Spider, Aphid, or Dragon Fly), verify topology loading and ALSA device registration:
+Once deployed to ``/lib/firmware/intel/sof-ipc4/`` on the target DUT (e.g. Tiger Lake, Panther Lake, or Arrow Lake), verify topology loading and ALSA device registration:
 
 .. code-block:: bash
 

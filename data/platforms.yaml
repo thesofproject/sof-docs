@@ -22,7 +22,6 @@ platforms:
       - IPC3
     zephyr_target: intel_adsp_cavs25
     target_alias: tgl
-    test_dut: Spider
     status: Mainline Active
 
   - id: tgl_h
@@ -204,7 +203,6 @@ platforms:
       - IPC4
     zephyr_target: intel_adsp_ace15_mtlm
     target_alias: arl-s
-    test_dut: Dragon Fly
     status: Mainline Active
 
   - id: lnl
@@ -245,7 +243,6 @@ platforms:
       - IPC4
     zephyr_target: intel_ace30_ptl
     target_alias: ptl
-    test_dut: Aphid
     status: Mainline Active
 
   - id: wcl
@@ -620,7 +617,7 @@ platforms:
     target_alias: esp32-p4
     test_dut: "Pallas (Tx) / Ceres (Rx) Loopback Pair"
     status: Active Integration
-    notes: "Essential test card for automated I2S/PDM loopback verification across Spider and Aphid"
+    notes: "Essential test card for automated I2S/PDM loopback verification across target DUTs"
 
   - id: esp32_c6
     vendor: Espressif

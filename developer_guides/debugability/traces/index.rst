@@ -229,7 +229,7 @@ On remote development and automated validation setups (DUTs), running ``sof-logg
 .. code-block:: text
 
    +--------------------------+                 +--------------------------+
-   |   Target DUT (Spider)    |                 | Host Analysis Workstation|
+   |        Target DUT        |                 | Host Analysis Workstation|
    |                          |                 |                          |
    | [ DSP Trace DMA ]        |                 |                          |
    |         |                |                 |                          |
@@ -248,7 +248,7 @@ Running the Probe Server on Target DUT
 .. code-block:: bash
 
    # Launch probe server on target board in background
-   timeout 15 ssh -o ConnectTimeout=5 root@spider \
+   timeout 15 ssh -o ConnectTimeout=5 root@<dut> \
        'nohup /usr/local/bin/sof_probe_server -c 3 -d 0 -p 9999 -v > /tmp/probe_server.log 2>&1 &'
 
 Streaming via Host Python Client
@@ -259,8 +259,8 @@ On the host workstation, stream and preview logs over the network:
 .. code-block:: bash
 
    # Connect to DUT probe server and stream live ASCII log output
-   python3 ~/work/sof-tgl/tools/sof-probe-server/sof_probe_client.py \
-       --host spider --port 9999 --display ascii --out /tmp/spider_trace.bin
+   python3 tools/sof-probe-server/sof_probe_client.py \
+       --host <dut-ip> --port 9999 --display ascii --out /tmp/dut_trace.bin
 
 Integrated dut-monitor Dashboard
 ================================
