@@ -805,8 +805,8 @@ SOF is an open-source firmware ecosystem deployed across diverse silicon platfor
      - Open-source GCC cross-compiler
      - ``ZEPHYR_TOOLCHAIN_VARIANT=zephyr ./scripts/xtensa-build-zephyr.py -p ptl``
    * - **3. Experimental LLVM/Clang**
-     - Shared LLVM toolchain with mandatory IAS
-     - ``ZEPHYR_TOOLCHAIN_VARIANT=llvm ./scripts/xtensa-build-zephyr.py -p ptl``
+     - Open-source Xtensa Clang with IAS (`fork README <https://github.com/lgirdwood/llvm-project/blob/llvm-stable/README.md>`_)
+     - ``./scripts/xtensa-build-zephyr.py -p ptl --llvm-clang /path/to/llvm-project/build --build-dir-suffix -llvm``
 
 ---
 
