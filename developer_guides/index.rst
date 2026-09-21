@@ -200,6 +200,7 @@ Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk autho
 * :ref:`sof_linux_driver` (Linux kernel ASoC driver architecture, multi-vendor DSP core abstraction, IPC3/IPC4 protocol layers, ACPI/PCI platform probing, DMI machine quirks, runtime PM, and stream DMA management)
 * :ref:`topology2` (ALSA Topology 2.0 architecture, split functional model, pre-processor token parsing, widget and pipeline definition syntax, hardware DAI graph routing, and dynamic UCM2 integration)
 * :ref:`topology` (Legacy ALSA Topology 1.0 architecture, M4 macro expansion templates, pipeline graph generation, and backward-compatibility guidelines)
+* :ref:`ucm2_guide` (ALSA Use Case Manager v2 (UCM2) architecture, card directory layouts, syntax versions 2–7, device definitions, jack detection, sequence verbs, volume mixer remapping, PipeWire/WirePlumber integration, and step-by-step authoring and debugging workflows)
 * :ref:`setup-ktest-environment` (Automated Linux kernel testing and bisection framework with ktest, rapid git bisect workflows, automated kernel build/deploy, and headless serial console validation)
 
 .. toctree::
@@ -208,6 +209,7 @@ Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk autho
    linux_driver/index
    topology2/topology2
    topology/topology
+   ucm/ucm2_guide
    ktest/setup_ktest_environment
 
 ---

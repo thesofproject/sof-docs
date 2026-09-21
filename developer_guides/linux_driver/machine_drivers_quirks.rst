@@ -165,8 +165,12 @@ Reload the audio drivers or reboot the system:
 ALSA Use Case Manager (UCM2) Integration
 ****************************************
 
-Once the kernel machine driver binds the audio card and exposes ALSA mixer controls, user-space audio servers (PipeWire, PulseAudio) rely on **ALSA Use Case Manager (UCM2)** configuration profiles:
+Once the kernel machine driver binds the audio card and exposes ALSA mixer controls, user-space audio servers (PipeWire, WirePlumber, PulseAudio) rely on **ALSA Use Case Manager v2 (UCM2)** configuration profiles to discover logical endpoints, manage automated jack sensing, and bind hardware volume sliders:
 
-* UCM profiles reside in `/usr/share/alsa/ucm2/`.
-* Profiles map kernel mixer controls (e.g., `Speaker Switch`, `Headphone Volume`, `PGA Boost`) to standardized audio verbs (`HiFi`, `Record`, `VoiceCall`).
-* For newly quirked platforms, ensure appropriate UCM device configurations exist to automatically manage routing, volume levels, and jack detection events.
+* **Profile Locations**: Standard configurations reside under ``/usr/share/alsa/ucm2/conf.d/<CardDriver>/`` (matched via the driver string exported in ``/proc/asound/cards``).
+* **Card Components Export**: Machine drivers convey discovered hardware SKU variations (such as microphone channel counts or codec variants) by calling ``snd_component_add()``, populated as ``${CardComponents}`` in UCM2.
+* **Standard Audio Verbs & Devices**: Profiles map low-level kcontrols (e.g., ``Speaker Switch``, ``Headphone Volume``, ``PGA Boost``) into standardized logical endpoints (``Speaker``, ``Headphones``, ``Mic``, ``Headset``, ``HDMI``) under the ``HiFi`` use case verb.
+* **Jack Detection & Hardware Auto-Muting**: UCM2 monitors hardware jack kcontrols (e.g., ``Headphone Jack``) to automatically trigger speaker attenuation and transfer active stream routes.
+
+For the comprehensive, step-by-step authoring walkthrough, syntax version reference, and diagnostic runbooks, consult the authoritative :ref:`ucm2_guide`.
+
