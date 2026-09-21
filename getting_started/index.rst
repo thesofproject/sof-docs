@@ -263,94 +263,38 @@ The SOF build script ``xtensa-build-zephyr.py`` automatically checks for ``XTENS
 Optional: LLVM / Clang Xtensa Toolchain (Open-Source Fork)
 ----------------------------------------------------------
 
-For open-source development on Intel ADSP Xtensa targets without a Cadence license, use the open-source Xtensa LLVM/Clang development fork (`llvm-project <https://github.com/lgirdwood/llvm-project.git>`_).
+For open-source development on Intel ADSP Xtensa targets without a Cadence license, Sound Open Firmware supports the open-source Xtensa LLVM/Clang toolchain maintained in Liam Girdwood's fork:
 
-1. **Clone and Build LLVM/Clang Compiler**:
+* **Repository**: `lgirdwood/llvm-project <https://github.com/lgirdwood/llvm-project>`_
+* **Development Branch**: ``llvm-stable``
+* **Setup Guide & Instructions**: `llvm-project README.md <https://github.com/lgirdwood/llvm-project/blob/llvm-stable/README.md>`_
 
-   .. code-block:: bash
+.. important::
 
-      cd ${SOF_WORKSPACE}
+   The `fork README <https://github.com/lgirdwood/llvm-project/blob/llvm-stable/README.md>`_ is the authoritative Single Source of Truth for building and configuring the Xtensa Clang toolchain. Always refer directly to the README for the exact, up-to-date instructions on:
 
-      # Clone the Xtensa development fork (llvm-stable branch)
-      git clone -b llvm-stable https://github.com/lgirdwood/llvm-project.git
-      cd llvm-project
+   1. **Configuring and Building LLVM/Clang**: Building LLVM, Clang, and LLD with the experimental Xtensa target enabled (``-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="Xtensa"``).
+   2. **Compiling compiler-rt Builtins**: Running ``./scripts/build_windowed_rt.sh`` to build required runtime builtins for the Xtensa Windowed ABI with HiFi coprocessors disabled at boot.
+   3. **Integrating Workspace Branches**: Pulling the required ``llvm-stable`` development branches into your workspace repositories (``sof``, ``zephyr``, and ``modules/hal/xtensa``).
+   4. **Building SOF Firmware**: Invoking the SOF build script with ``--llvm-clang``:
 
-      # Configure and build LLVM and Clang
-      cmake -G Ninja -S llvm -B build \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DLLVM_ENABLE_PROJECTS="clang;lld" \
-        -DLLVM_TARGETS_TO_BUILD="host" \
-        -DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="Xtensa" \
-        -DLLVM_ENABLE_ASSERTIONS=OFF \
-        -DLLVM_OPTIMIZED_TABLEGEN=ON
+      .. code-block:: bash
 
-      ninja -C build
+         cd ${SOF_WORKSPACE}
+         source .venv/bin/activate
 
-2. **Build compiler-rt Builtins**:
+         # Meteor Lake / Arrow Lake (mtl / arl)
+         ./sof/scripts/xtensa-build-zephyr.py -p mtl --llvm-clang /path/to/llvm-project/build --build-dir-suffix -llvm
 
-   Intel ADSP targets require specific builtins to be compiled with correct target features (windowed ABI, HiFi coprocessor disabled to prevent boot-time exceptions):
+         # Tiger Lake (tgl)
+         ./sof/scripts/xtensa-build-zephyr.py -p tgl --llvm-clang /path/to/llvm-project/build --build-dir-suffix -llvm
 
-   .. code-block:: bash
-
-      # Compile and install compiler-rt builtins for Xtensa Windowed ABI
-      ./scripts/build_windowed_rt.sh
-
-      # (Optional) For Call0 ABI if needed:
-      # ./scripts/build_call0_rt.sh
-
-3. **Integrate Fork Development Branches into Workspace**:
-
-   Pull the required ``llvm-stable`` development branches into your workspace repositories:
-
-   .. code-block:: bash
-
-      cd ${SOF_WORKSPACE}
-
-      # 1. SOF repository
-      cd sof
-      git remote add lgirdwood https://github.com/lgirdwood/sof.git
-      git fetch lgirdwood llvm-stable
-      git checkout -b llvm-stable-work
-      git pull lgirdwood llvm-stable
-      cd ..
-
-      # 2. Zephyr repository
-      cd zephyr
-      git remote add lgirdwood https://github.com/lgirdwood/zephyr.git
-      git fetch lgirdwood llvm-stable
-      git checkout -b llvm-stable-work
-      git pull lgirdwood llvm-stable
-      cd ..
-
-      # 3. Xtensa HAL repository (modules/hal/xtensa)
-      cd modules/hal/xtensa
-      git remote add lgirdwood https://github.com/lgirdwood/hal_xtensa.git
-      git fetch lgirdwood llvm-stable
-      git checkout -b llvm-stable-work
-      git pull lgirdwood llvm-stable
-      cd ../../..
-
-4. **Build SOF Using Clang**:
-
-   Pass ``--llvm-clang`` pointing to your LLVM build directory:
-
-   .. code-block:: bash
-
-      cd ${SOF_WORKSPACE}
-      source .venv/bin/activate
-
-      # Meteor Lake / Arrow Lake (mtl / arl)
-      ./sof/scripts/xtensa-build-zephyr.py -p mtl --llvm-clang ${SOF_WORKSPACE}/llvm-project/build --build-dir-suffix -llvm
-
-      # Tiger Lake (tgl)
-      ./sof/scripts/xtensa-build-zephyr.py -p tgl --llvm-clang ${SOF_WORKSPACE}/llvm-project/build --build-dir-suffix -llvm
-
-      # Panther Lake (ptl)
-      ./sof/scripts/xtensa-build-zephyr.py -p ptl --llvm-clang ${SOF_WORKSPACE}/llvm-project/build --build-dir-suffix -llvm
+         # Panther Lake (ptl)
+         ./sof/scripts/xtensa-build-zephyr.py -p ptl --llvm-clang /path/to/llvm-project/build --build-dir-suffix -llvm
 
 .. note::
 
-   **Integrated Assembler (IAS) Mandatory Policy**: All compilation targeting Xtensa via LLVM Clang must use the LLVM Integrated Assembler (IAS) (enabled by default with ``-fintegrated-as -mtext-section-literals -mlongcalls``). Never pass ``-fno-integrated-as``, as legacy GNU Assembler (GAS) cannot resolve label-difference relocations on Xtensa branch trampolines.
+   **Integrated Assembler (IAS) Mandatory Policy**: All compilation targeting Xtensa via LLVM Clang must use the LLVM Integrated Assembler (IAS) (enabled by default with ``-fintegrated-as -mtext-section-literals -mlongcalls``). Never pass ``-fno-integrated-as``, as the legacy external GNU Assembler (GAS) cannot resolve label-difference relocations on Xtensa branch trampolines.
 
 Step 4: Build Firmware Images
 =============================

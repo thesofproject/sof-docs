@@ -390,38 +390,37 @@ out-of-tree Xtensa architecture target developed for Sound Open Firmware.
   and audio DSP intrinsics within an open-source toolchain.
 * **Experimental Status**: The LLVM Xtensa backend is currently experimental and undergoing
   active upstreaming and compiler validation.
+* **Authoritative Toolchain & Instructions**:
+  The Xtensa LLVM/Clang compiler, Windowed ABI runtime builtins, and required branch integrations
+  are maintained in Liam Girdwood's fork:
+
+  * **Repository**: `lgirdwood/llvm-project <https://github.com/lgirdwood/llvm-project>`_
+  * **Development Branch**: ``llvm-stable``
+  * **Setup Guide**: Follow the `llvm-project README.md <https://github.com/lgirdwood/llvm-project/blob/llvm-stable/README.md>`_
+    for step-by-step instructions on building the compiler, building ``compiler-rt`` builtins, and checking out
+    the required ``llvm-stable`` branches across ``sof``, ``zephyr``, and ``modules/hal/xtensa``.
+
 * **Mandatory Integrated Assembler (IAS) Policy**:
   All Clang builds for Xtensa DSP targets must utilize Clang's native Integrated Assembler
   (``-fintegrated-as``). The legacy GNU external assembler (``as``) is strictly prohibited.
   Firmware assembly source files (``.S``) must strictly comply with LLVM MC assembly syntax.
 
-**Environment Setup**:
+**Building SOF with LLVM / Clang**:
+
+Compilation targeting Intel ADSP platforms via Clang is invoked through ``xtensa-build-zephyr.py`` using the
+``--llvm-clang`` flag pointing to the LLVM build directory. The build script automatically generates the
+target compiler wrapper that translates compiler flags and configures the LLVM Integrated Assembler:
 
 .. code-block:: bash
 
-   # Configure LLVM toolchain environment
-   export ZEPHYR_TOOLCHAIN_VARIANT=llvm
-   export LLVM_TOOLCHAIN_PATH=${HOME}/work/llvm-project/build
+   cd ${SOF_WORKSPACE}
+   source .venv/bin/activate
 
-**Building SOF with LLVM / Clang**:
+   # Single-target build (Panther Lake / ACE 3.0)
+   ./sof/scripts/xtensa-build-zephyr.py -p ptl --llvm-clang ${HOME}/work/llvm-project/build --build-dir-suffix -llvm
 
-* **Single-Target Build with West**:
-
-  .. code-block:: bash
-
-     # Build Panther Lake (PTL) with experimental LLVM HiFi SIMD
-     ZEPHYR_TOOLCHAIN_VARIANT=llvm \
-     LLVM_TOOLCHAIN_PATH=${HOME}/work/llvm-project/build \
-     west build -b intel_adsp_ace30_ptl -d build-ptl-llvm app/
-
-* **Multi-Target Batch Build**:
-
-  .. code-block:: bash
-
-     # Batch compile with experimental LLVM backend
-     ZEPHYR_TOOLCHAIN_VARIANT=llvm \
-     LLVM_TOOLCHAIN_PATH=${HOME}/work/llvm-project/build \
-     ./scripts/xtensa-build-zephyr.py ptl
+   # Multi-target batch build
+   ./sof/scripts/xtensa-build-zephyr.py -p tgl mtl ptl --llvm-clang ${HOME}/work/llvm-project/build --build-dir-suffix -llvm
 
 Kconfig Customization & Snippets
 --------------------------------
