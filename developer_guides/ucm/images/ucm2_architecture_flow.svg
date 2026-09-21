@@ -1,0 +1,329 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="50%" stop-color="#0EA5E9"/>
+      <stop offset="100%" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="layerHardwareGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="layerKernelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#131D2E"/>
+    </linearGradient>
+    <linearGradient id="layerUcmGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#182334"/>
+    </linearGradient>
+    <linearGradient id="layerServerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#121D2F"/>
+    </linearGradient>
+    <linearGradient id="layerToolsGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#1A2433"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#38BDF8"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#A855F7"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M1,1 L7,4 L1,7 Z" fill="#F59E0B"/>
+    </marker>
+  </defs>
+
+  <style>
+    .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 18px; font-weight: 700; fill: #FFFFFF; }
+    .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #94A3B8; }
+    .layer-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 13px; font-weight: 700; fill: #F1F5F9; letter-spacing: 0.5px; }
+    .layer-badge { font-family: monospace; font-size: 10px; font-weight: 600; fill: #38BDF8; }
+    .box-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 600; fill: #F8FAFC; }
+    .box-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; fill: #94A3B8; line-height: 1.4; }
+    .code-text { font-family: monospace; font-size: 10px; fill: #38BDF8; }
+    .code-param { font-family: monospace; font-size: 10px; fill: #F59E0B; }
+    .code-comment { font-family: monospace; font-size: 9.5px; fill: #64748B; font-style: italic; }
+    .tag { font-family: monospace; font-size: 9px; font-weight: 600; padding: 2px 5px; border-radius: 4px; }
+  </style>
+
+  <!-- Canvas Background -->
+  <rect width="1100" height="820" rx="12" fill="url(#bgGrad)" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Top Title Bar -->
+  <rect x="25" y="20" width="1050" height="52" rx="8" fill="#1E293B" stroke="#0284C7" stroke-width="1.2" filter="url(#cardShadow)"/>
+  <rect x="25" y="20" width="6" height="52" rx="3" fill="url(#headerGrad)"/>
+  <text x="45" y="44" class="title">Figure 256: ALSA Use Case Manager v2 (UCM2) Architectural Stack, Matching Engine &amp; Debug Workflow</text>
+  <text x="45" y="61" class="subtitle">Complete translation hierarchy: Hardware Codecs/DSPs → ASoC Machine Drivers → UCM2 Configuration → PipeWire/WirePlumber → Applications</text>
+
+  <!-- ===================================================================== -->
+  <!-- LEFT COLUMN: ARCHITECTURAL HIERARCHY (X: 25 to 765, Width: 740)      -->
+  <!-- ===================================================================== -->
+
+  <!-- LAYER 4: User-Space Audio Servers (Y: 85, H: 125) -->
+  <g transform="translate(25, 85)">
+    <rect width="740" height="125" rx="8" fill="url(#layerServerGrad)" stroke="#3B82F6" stroke-width="1" filter="url(#cardShadow)"/>
+    <rect x="12" y="10" width="716" height="24" rx="4" fill="#1E293B" stroke="#2563EB" stroke-width="0.8"/>
+    <text x="24" y="26" class="layer-title">LAYER 4: USER-SPACE AUDIO SERVERS &amp; SESSION MANAGEMENT</text>
+    <text x="610" y="26" class="layer-badge" fill="#60A5FA">[SPA-ACP / PulseAudio]</text>
+
+    <!-- PipeWire / WirePlumber Box -->
+    <g transform="translate(15, 42)">
+      <rect width="350" height="72" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="12" y="20" class="box-title">PipeWire / WirePlumber (SPA-ACP Engine)</text>
+      <text x="12" y="36" class="box-desc">• Discovers cards via ALSA UCM2 API (<tspan class="code-text">snd_use_case_mgr</tspan>)</text>
+      <text x="12" y="52" class="box-desc">• Translates <tspan class="code-text">SectionDevice</tspan> into dynamic Sink / Source Nodes</text>
+      <text x="12" y="66" class="box-desc">• Automatic route &amp; port switching on Jack events (<tspan class="code-param">JackControl</tspan>)</text>
+    </g>
+
+    <!-- PulseAudio Module Box -->
+    <g transform="translate(375, 42)">
+      <rect width="350" height="72" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="12" y="20" class="box-title">PulseAudio (module-alsa-card + UCM)</text>
+      <text x="12" y="36" class="box-desc">• Ingests <tspan class="code-text">SectionVerb."HiFi"</tspan> as high-level card profile</text>
+      <text x="12" y="52" class="box-desc">• Priority arbitration (<tspan class="code-param">PlaybackPriority / CapturePriority</tspan>)</text>
+      <text x="12" y="66" class="box-desc">• Volume slider tracking via <tspan class="code-text">PlaybackMixerElem</tspan></text>
+    </g>
+  </g>
+
+  <!-- Flow Connector: Server to UCM2 -->
+  <path d="M395, 210 L395, 230" stroke="#38BDF8" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrowCyan)"/>
+
+  <!-- LAYER 3: ALSA Use Case Manager v2 (UCM2) Engine (Y: 232, H: 255) -->
+  <g transform="translate(25, 232)">
+    <rect width="740" height="255" rx="8" fill="url(#layerUcmGrad)" stroke="#0284C7" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <rect x="12" y="10" width="716" height="24" rx="4" fill="#1E293B" stroke="#0284C7" stroke-width="0.8"/>
+    <text x="24" y="26" class="layer-title">LAYER 3: ALSA USE CASE MANAGER v2 (UCM2) CONFIGURATION &amp; DISPATCH ENGINE</text>
+    <text x="645" y="26" class="layer-badge" fill="#38BDF8">[Syntax 2–7]</text>
+
+    <!-- Top-Level Config & Matching Box -->
+    <g transform="translate(15, 42)">
+      <rect width="230" height="198" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="12" y="20" class="box-title">1. Matching &amp; Primary Entry</text>
+      <text x="12" y="38" class="code-text">/usr/share/alsa/ucm2/ucm.conf</text>
+      <text x="12" y="54" class="box-desc">• Looks up <tspan class="code-param">${CardDriver}</tspan> in <tspan class="code-text">conf.d/</tspan></text>
+      <text x="12" y="70" class="box-desc">• Fallback to kernel sysfs driver</text>
+      <text x="12" y="86" class="box-desc">• Evaluates <tspan class="code-param">DefineRegex</tspan> &amp; <tspan class="code-param">If</tspan> blocks:</text>
+      <text x="20" y="102" class="code-comment">  If.dmic { Needle "cfg-dmics:" }</text>
+      <text x="12" y="118" class="box-desc">• Resolves modular includes:</text>
+      <text x="20" y="134" class="code-comment">  Include.init.File "/codecs/..."</text>
+      <text x="20" y="148" class="code-comment">  Include.card-init.File "..."</text>
+      <text x="12" y="168" class="box-desc">• Dispatches top use cases:</text>
+      <text x="20" y="184" class="code-text">  SectionUseCase."HiFi"</text>
+    </g>
+
+    <!-- Use Case & Sequence Verbs Box -->
+    <g transform="translate(255, 42)">
+      <rect width="230" height="198" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="12" y="20" class="box-title">2. Use Case Verbs &amp; Transitions</text>
+      <text x="12" y="38" class="code-text">SectionVerb { ... }</text>
+      <text x="12" y="54" class="box-desc">• Global hardware state initialization</text>
+      <text x="12" y="70" class="box-desc">• Transition control sequences:</text>
+      <text x="20" y="86" class="code-text">  EnableSequence [</text>
+      <text x="28" y="100" class="code-param">    disdevall ""</text>
+      <text x="28" y="114" class="code-param">    cset "name='Speaker...' 1"</text>
+      <text x="20" y="128" class="code-text">  ]</text>
+      <text x="20" y="144" class="code-text">  DisableSequence [ ... ]</text>
+      <text x="12" y="162" class="box-desc">• Value definitions:</text>
+      <text x="20" y="178" class="code-param">  Value.TQ "HiFi"</text>
+      <text x="20" y="192" class="code-param">  Value.PlaybackPCM "..."</text>
+    </g>
+
+    <!-- Logical Devices & Jack Control Box -->
+    <g transform="translate(495, 42)">
+      <rect width="230" height="198" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="12" y="20" class="box-title">3. SectionDevice Declarations</text>
+      <text x="12" y="38" class="code-text">SectionDevice."Speaker" { ... }</text>
+      <text x="12" y="52" class="code-text">SectionDevice."Headphones" { ... }</text>
+      <text x="12" y="66" class="code-text">SectionDevice."Mic" / "Mic1" { ... }</text>
+      <text x="12" y="84" class="box-desc">• Hardware Endpoints &amp; Binding:</text>
+      <text x="20" y="100" class="code-param">  PlaybackPCM "hw:${CardId},0"</text>
+      <text x="20" y="114" class="code-param">  PlaybackMixerElem "Speaker"</text>
+      <text x="20" y="128" class="code-param">  JackControl "Headphone Jack"</text>
+      <text x="20" y="142" class="code-param">  JackHWMute "Speaker"</text>
+      <text x="12" y="160" class="box-desc">• Hardware TLV tuning injection:</text>
+      <text x="20" y="176" class="code-text">  cset-tlv "name='...' file.bin"</text>
+      <text x="12" y="192" class="box-desc">• Device priority: <tspan class="code-param">PlaybackPriority 100</tspan></text>
+    </g>
+  </g>
+
+  <!-- Flow Connector: UCM2 to Kernel ASoC -->
+  <path d="M395, 487 L395, 507" stroke="#10B981" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrowGreen)"/>
+
+  <!-- LAYER 2: Linux Kernel ASoC Layer (Y: 510, H: 130) -->
+  <g transform="translate(25, 510)">
+    <rect width="740" height="130" rx="8" fill="url(#layerKernelGrad)" stroke="#10B981" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <rect x="12" y="10" width="716" height="24" rx="4" fill="#1E293B" stroke="#059669" stroke-width="0.8"/>
+    <text x="24" y="26" class="layer-title">LAYER 2: LINUX KERNEL ASOC DRIVERS &amp; DYNAMIC ATTRIBUTES</text>
+    <text x="615" y="26" class="layer-badge" fill="#34D399">[sound/soc/sof/]</text>
+
+    <!-- ASoC Machine Driver Box -->
+    <g transform="translate(15, 42)">
+      <rect width="230" height="76" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="10" y="18" class="box-title">ASoC Machine Drivers</text>
+      <text x="10" y="34" class="box-desc">• <tspan class="code-text">sof_sdw</tspan> (SoundWire multi-codec)</text>
+      <text x="10" y="48" class="box-desc">• <tspan class="code-text">snd_soc_sof_hda_dsp</tspan> (HDA / DMIC)</text>
+      <text x="10" y="62" class="box-desc">• DMI Quirks &amp; board override tables</text>
+    </g>
+
+    <!-- Component String Exporter Box -->
+    <g transform="translate(255, 42)">
+      <rect width="230" height="76" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="10" y="18" class="box-title">Card Components String</text>
+      <text x="10" y="34" class="code-param">${CardComponents}</text>
+      <text x="10" y="48" class="box-desc">• <tspan class="code-text">cfg-dmics:4</tspan> (4-mic DMIC array)</text>
+      <text x="10" y="62" class="box-desc">• <tspan class="code-text">hs:rt5682 spk:max98357a</tspan></text>
+    </g>
+
+    <!-- ALSA Core & sysfs Interface Box -->
+    <g transform="translate(495, 42)">
+      <rect width="230" height="76" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="10" y="18" class="box-title">ALSA Core &amp; sysfs</text>
+      <text x="10" y="34" class="code-text">/proc/asound/cards</text>
+      <text x="10" y="48" class="box-desc">• <tspan class="code-param">CardDriver</tspan>: "sof-hda-dsp"</text>
+      <text x="10" y="62" class="box-desc">• Kernel device: <tspan class="code-text">/sys/class/sound/...</tspan></text>
+    </g>
+  </g>
+
+  <!-- Flow Connector: Kernel to Hardware -->
+  <path d="M395, 640 L395, 660" stroke="#F59E0B" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrowAmber)"/>
+
+  <!-- LAYER 1: Hardware, Codecs & DSP Topology (Y: 662, H: 130) -->
+  <g transform="translate(25, 662)">
+    <rect width="740" height="130" rx="8" fill="url(#layerHardwareGrad)" stroke="#F59E0B" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <rect x="12" y="10" width="716" height="24" rx="4" fill="#1E293B" stroke="#D97706" stroke-width="0.8"/>
+    <text x="24" y="26" class="layer-title">LAYER 1: HARDWARE CODECS, PHYSICAL JACKS &amp; DSP TOPOLOGY 2.0</text>
+    <text x="635" y="26" class="layer-badge" fill="#FBBF24">[ASoC DAIs / DSP]</text>
+
+    <!-- Physical Endpoints Box -->
+    <g transform="translate(15, 42)">
+      <rect width="230" height="76" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="10" y="18" class="box-title">Physical Audio Endpoints</text>
+      <text x="10" y="34" class="box-desc">• Stereo Speaker Amplifiers (I2S/SDW)</text>
+      <text x="10" y="48" class="box-desc">• 3.5mm Headset / Headphone Jack</text>
+      <text x="10" y="62" class="box-desc">• 4-ch PDM Digital Microphone Array</text>
+    </g>
+
+    <!-- Codecs & Transceivers Box -->
+    <g transform="translate(255, 42)">
+      <rect width="230" height="76" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="10" y="18" class="box-title">Audio Codecs &amp; Bridges</text>
+      <text x="10" y="34" class="box-desc">• Realtek ALC5682 / ALC711 (SoundWire)</text>
+      <text x="10" y="48" class="box-desc">• Maxim MAX98357A / MAX98373 Amp</text>
+      <text x="10" y="62" class="box-desc">• Intel Display Audio (HDMI / DP)</text>
+    </g>
+
+    <!-- SOF DSP Topology 2.0 Graph Box -->
+    <g transform="translate(495, 42)">
+      <rect width="230" height="76" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <text x="10" y="18" class="box-title">SOF DSP Topology 2.0 Graph</text>
+      <text x="10" y="34" class="box-desc">• Host Copier PCM 0 (Playback / Capture)</text>
+      <text x="10" y="48" class="box-desc">• Volume, EQ FIR/IIR, DRC, DSM Amp</text>
+      <text x="10" y="62" class="box-desc">• Low-level kcontrols &amp; DAPM routes</text>
+    </g>
+  </g>
+
+  <!-- ===================================================================== -->
+  <!-- RIGHT COLUMN: DIAGNOSTICS & DEBUG WORKFLOW (X: 785 to 1075, W: 290)   -->
+  <!-- ===================================================================== -->
+  <g transform="translate(785, 85)">
+    <rect width="290" height="707" rx="8" fill="url(#layerToolsGrad)" stroke="#A855F7" stroke-width="1.2" filter="url(#cardShadow)"/>
+    <rect x="12" y="10" width="266" height="26" rx="4" fill="#1E293B" stroke="#7E22CE" stroke-width="0.8"/>
+    <text x="24" y="27" class="layer-title">DIAGNOSTIC &amp; DEBUG SUITE</text>
+    <text x="220" y="27" class="layer-badge" fill="#C084FC">[CLI Tools]</text>
+
+    <!-- Step 1: Hardware Discovery -->
+    <g transform="translate(12, 46)">
+      <rect width="266" height="88" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <circle cx="16" cy="16" r="10" fill="#2563EB"/>
+      <text x="13" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">1</text>
+      <text x="32" y="19" class="box-title">Hardware &amp; PCM Discovery</text>
+      <text x="12" y="38" class="code-text">$ aplay -l &amp;&amp; arecord -l</text>
+      <text x="12" y="52" class="box-desc">List ALSA cards and PCM device numbers</text>
+      <text x="12" y="68" class="code-text">$ cat /proc/asound/cards</text>
+      <text x="12" y="80" class="box-desc">Identify exact driver name for UCM matching</text>
+    </g>
+
+    <!-- Step 2: Mixer Controls Dump -->
+    <g transform="translate(12, 142)">
+      <rect width="266" height="100" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <circle cx="16" cy="16" r="10" fill="#0D9488"/>
+      <text x="13" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">2</text>
+      <text x="32" y="19" class="box-title">Mixer Controls &amp; Jack Events</text>
+      <text x="12" y="38" class="code-text">$ amixer -c 0 contents</text>
+      <text x="12" y="52" class="box-desc">Find kcontrols for volume &amp; routing</text>
+      <text x="12" y="68" class="code-text">$ amixer -c 0 events</text>
+      <text x="12" y="82" class="box-desc">Watch physical Jack plug/unplug events</text>
+      <text x="12" y="94" class="code-comment">  event: "Headphone Jack" = on/off</text>
+    </g>
+
+    <!-- Step 3: Manual Path Verification -->
+    <g transform="translate(12, 250)">
+      <rect width="266" height="92" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <circle cx="16" cy="16" r="10" fill="#059669"/>
+      <text x="13" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">3</text>
+      <text x="32" y="19" class="box-title">Manual Path Bringup</text>
+      <text x="12" y="38" class="code-text">$ amixer -c 0 cset name='...' on</text>
+      <text x="12" y="52" class="box-desc">Verify signal path before writing UCM</text>
+      <text x="12" y="68" class="code-text">$ speaker-test -D hw:0,0 -c 2</text>
+      <text x="12" y="82" class="code-text">$ arecord -D hw:0,1 -f dat test.wav</text>
+    </g>
+
+    <!-- Step 4: UCM2 Syntax Validation -->
+    <g transform="translate(12, 350)">
+      <rect width="266" height="106" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <circle cx="16" cy="16" r="10" fill="#D97706"/>
+      <text x="13" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">4</text>
+      <text x="32" y="19" class="box-title">UCM2 Syntax &amp; Dump Validation</text>
+      <text x="12" y="38" class="code-text">$ alsaucm -c hw:0 dump text</text>
+      <text x="12" y="52" class="box-desc">Parses entire tree; catches syntax/file errors</text>
+      <text x="12" y="68" class="code-text">$ alsaucm -c hw:0 reload</text>
+      <text x="12" y="82" class="box-desc">Reloads UCM profile without rebooting</text>
+      <text x="12" y="96" class="code-text">$ alsaucm -c hw:0 get _alibcfg</text>
+    </g>
+
+    <!-- Step 5: Interactive Execution -->
+    <g transform="translate(12, 464)">
+      <rect width="266" height="100" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <circle cx="16" cy="16" r="10" fill="#DC2626"/>
+      <text x="13" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">5</text>
+      <text x="32" y="19" class="box-title">Interactive Mode &amp; strace</text>
+      <text x="12" y="38" class="code-text">$ alsaucm -i -c hw:0</text>
+      <text x="12" y="52" class="box-desc">Step-by-step verb &amp; device execution:</text>
+      <text x="20" y="66" class="code-comment">  set _verb HiFi; set _enadev Speaker</text>
+      <text x="12" y="82" class="code-text">$ strace alsaucm ... 2&gt;&amp;1 | grep cset</text>
+      <text x="12" y="94" class="box-desc">Pinpoint failed ioctl or missing kcontrol</text>
+    </g>
+
+    <!-- Step 6: Audio Server Inspection -->
+    <g transform="translate(12, 572)">
+      <rect width="266" height="120" rx="6" fill="#0F172A" stroke="#334155" stroke-width="0.8"/>
+      <circle cx="16" cy="16" r="10" fill="#9333EA"/>
+      <text x="13" y="20" font-family="sans-serif" font-size="11" font-weight="bold" fill="#FFFFFF">6</text>
+      <text x="32" y="19" class="box-title">PipeWire / WirePlumber Tracing</text>
+      <text x="12" y="38" class="code-text">$ spa-acp-tool -vvv -c 0</text>
+      <text x="12" y="52" class="box-desc">Simulate WirePlumber profile &amp; device map</text>
+      <text x="12" y="68" class="code-text">$ systemctl --user restart wireplumber</text>
+      <text x="12" y="82" class="code-text">$ WIREPLUMBER_DEBUG="spa.*:5" \</text>
+      <text x="24" y="94" class="code-text">    wireplumber</text>
+      <text x="12" y="110" class="box-desc">Inspect real-time alsa-ucm device binding</text>
+    </g>
+  </g>
+</svg>
