@@ -68,7 +68,7 @@
       Figure 329: Sound Open Firmware (SOF) DSP Telemetry, Logging &amp; Trace Streaming Architecture
     </text>
     <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
-      Asynchronous Zero-Overhead Logging: Build-Time smex Extraction, Trace DMA Ring Buffers &amp; TCP Probe Server (Port 9999)
+      Asynchronous Zero-Overhead Logging: Zephyr Logging Subsystem, Trace DMA Ring Buffers &amp; mtrace Backend (Intel ADSP)
     </text>
   </g>
 
@@ -78,7 +78,7 @@
     <rect x="0" y="0" width="1040" height="28" rx="8" fill="#0369a1" />
     <rect x="0" y="20" width="1040" height="8" fill="#0369a1" />
     <text x="16" y="19" fill="#f0f9ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
-      1. Build-Time String Extraction &amp; Metadata Catalog Pipeline (smex)
+      1. Build-Time String Extraction &amp; Metadata Catalog Pipeline
     </text>
 
     <!-- Sub-cards -->
@@ -94,9 +94,9 @@
       <!-- Card 1.2: smex Dictionary Extractor -->
       <g transform="translate(330, 0)">
         <rect x="0" y="0" width="350" height="64" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
-        <text x="12" y="18" fill="#38bdf8" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">smex Metadata Extraction Tool</text>
-        <text x="12" y="34" fill="#7dd3fc" font-size="9.5" font-family="monospace">smex -l sof-tgl.ldc -e build/zephyr.elf</text>
-        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Extracts catalog (.ldc); embeds 32-bit entry IDs in FW</text>
+        <text x="12" y="18" fill="#38bdf8" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Build-Time Metadata Extraction</text>
+        <text x="12" y="34" fill="#7dd3fc" font-size="9.5" font-family="monospace">Generates Log Dictionary Catalog (.ldc)</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Strips format strings from FW binary; embeds 32-bit entry IDs</text>
       </g>
 
       <!-- Card 1.3: Compact Image -->
@@ -161,7 +161,7 @@
     <rect x="0" y="0" width="505" height="28" rx="8" fill="#047857" />
     <rect x="0" y="20" width="505" height="8" fill="#047857" />
     <text x="16" y="19" fill="#ecfdf5" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
-      2B. Linux Driver Ingestion &amp; sof-logger Decoding
+      2B. Linux Driver Ingestion &amp; Host-Side Log Decoding
     </text>
 
     <!-- Sub-cards inside Right Column -->
@@ -178,10 +178,10 @@
       <!-- Card 2B.2: sof-logger Utility -->
       <g transform="translate(0, 74)">
         <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
-        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">sof-logger Binary Trace Decoder</text>
-        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">sof-logger -t -d /path/to/sof-tgl.ldc -l /sys/.../trace</text>
-        <text x="10" y="47" fill="#a7f3d0" font-size="9" font-family="monospace">Resolves entry ID -> source file, line, function, printf format</text>
-        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Live streaming (-t), file dump (-i/-o), timestamp sync</text>
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">mtrace-reader.py (Intel ADSP)</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">python3 mtrace-reader.py &gt; /tmp/fw_mtrace.log</text>
+        <text x="10" y="47" fill="#a7f3d0" font-size="9" font-family="monospace">Reads firmware logs from hardware mtrace buffer</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Enable with: modprobe snd_sof sof_debug=1</text>
       </g>
 
       <!-- Card 2B.3: Output & Filtering -->
