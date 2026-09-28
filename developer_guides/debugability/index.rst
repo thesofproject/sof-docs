@@ -8,7 +8,7 @@ Sound Open Firmware (SOF) provides an asynchronous, zero-overhead diagnostic and
 
 To provide continuous visibility into the firmware runtime without compromising acoustic deadlines, SOF decouples event generation from data transmission through a multi-tier observability stack:
 
-* **Compile-Time String Metadata Extraction (:ref:`dbg-traces`)**: Format strings and filenames are stripped from the firmware binary by the ``smex`` tool into an external dictionary file (``.ldc``), leaving compact 32-bit entry IDs and packed arguments in firmware text.
+* **Compile-Time String Metadata Extraction (:ref:`dbg-traces`)**: SOF uses the Zephyr logging dictionary
 * **Autonomous Hardware Trace DMA**: Log entries and performance metrics are written to high-speed internal SRAM circular buffers and transferred to host memory windows by background DMA engines without CPU intervention.
 * **Network-Accessible Telemetry Server (:ref:`dbg-probes`)**: High-throughput daemon (``sof_probe_server``) streaming live trace DMA packets over TCP port ``9999`` to remote development clients and the multi-pane ``dut-monitor`` dashboard.
 * **Zero-Allocation Fatal Crash Preservation (:ref:`dbg-coredump-reader`)**: Dedicated hardware memory window backends preserve CPU register windows, call stacks, and exception causes upon fatal CPU traps for GDB post-mortem backtrace analysis.
@@ -23,7 +23,7 @@ To provide continuous visibility into the firmware runtime without compromising 
      - Host Ingestion Interface
      - Primary Use Case & Capabilities
    * - **DSP Traces & Telemetry**
-     - Compile-time ``smex`` extraction, Zephyr logging, internal SRAM ring buffers, background trace DMA.
+     - Compile-time dictionary extraction, Zephyr logging, internal SRAM ring buffers, background trace DMA.
      - Linux kernel debugfs (``/sys/kernel/debug/sof/trace``) & ``sof-logger``.
      - Real-time event tracing, state transition verification, microsecond timing benchmarks, module logging.
    * - **Crash Diagnostics & Coredump**
@@ -90,7 +90,7 @@ Select the appropriate diagnostic tool based on the observed system behavior:
 
    For dedicated specifications, architectural deep-dives, and step-by-step developer runbooks for each observability subsystem, refer to the individual guides in the :ref:`telemetry_diagnostics_pillar`:
 
-   * :ref:`dbg-traces`: Compile-time dictionary extraction, lockless trace DMA buffers, and live ``sof-logger`` decoding.
+   * :ref:`dbg-traces`: Compile-time dictionary extraction, lockless trace DMA buffers, and log decoding.
    * :ref:`dbg-coredump-reader`: Native Zephyr RTOS coredump, memory window register preservation, and interactive GDB backtrace analysis.
    * :ref:`dbg-probes`: Dynamic audio buffer probe points, ALSA Compress Offload (``crecord``), and high-throughput TCP probe server (port 9999).
    * :ref:`dbg-zephyr-shell`: Zero-IPC interactive Zephyr memory window shell, ``cavstool.py`` terminal bridge, and thread/stack monitoring.

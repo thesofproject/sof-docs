@@ -95,8 +95,8 @@
       <g transform="translate(330, 0)">
         <rect x="0" y="0" width="350" height="64" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
         <text x="12" y="18" fill="#38bdf8" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Build-Time Metadata Extraction</text>
-        <text x="12" y="34" fill="#7dd3fc" font-size="9.5" font-family="monospace">Generates Log Dictionary Catalog (.ldc)</text>
-        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Strips format strings from FW binary; embeds 32-bit entry IDs</text>
+        <text x="12" y="34" fill="#7dd3fc" font-size="9.5" font-family="monospace">Generates log_dictionary.json (optional)</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Zephyr log dictionary; maps entry IDs to source strings</text>
       </g>
 
       <!-- Card 1.3: Compact Image -->

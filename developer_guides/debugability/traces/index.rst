@@ -19,7 +19,12 @@ Architecture Overview
 
 The SOF logging infrastructure is split into three decoupled operational stages:
 
-1. **Build-Time Dictionary Extraction**: C source strings and format specifications are stripped from the target executable and saved into an external Log Dictionary Catalog (``.ldc``), embedding only 32-bit metadata IDs into the firmware binary.
+1. **Build-Time Log Dictionary (Optional)**: SOF uses the `Zephyr logging dictionary
+   <https://docs.zephyrproject.org/latest/samples/subsys/logging/dictionary/README.html>`_
+   (``log_dictionary.json``) produced during the firmware build. The dictionary maps compact
+   binary log entry IDs back to their source strings, enabling offline decoding of captured
+   log data. Generating the dictionary is optional; it is not required for basic log
+   streaming with ``mtrace-reader.py``.
 2. **Runtime Execution & Autonomous DMA**: The DSP core writes fixed-size binary trace packets into an internal SRAM circular ring buffer. A dedicated background hardware DMA channel transfers trace chunks to a shared host memory window without stalling audio pipeline processing loops.
 3. **Host-Side Ingestion & Real-Time Decoding**: A Zephyr logging backend transports log entries from the DSP to the host. The backend is hardware-specific: on Intel ADSPs the ``mtrace-reader.py`` utility reads from the hardware ``mtrace`` buffer; other platforms rely on their own transport mechanisms.
 
