@@ -42,6 +42,19 @@ The Doxygen documentation covers the entire public firmware and host-shared inte
 * **Source Code Graphs & File Browsing**:
   Full source file tree, header include dependency graphs, and function call/caller graphs.
 
+Subsystem C API References
+**************************
+
+.. toctree::
+   :maxdepth: 1
+
+   ipc4
+   modules
+   pipeline
+   components
+   rtos
+   math
+
 Building API Documentation Locally
 **********************************
 
