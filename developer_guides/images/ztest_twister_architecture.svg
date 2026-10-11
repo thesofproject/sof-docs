@@ -1,0 +1,253 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="680" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 26)">
+    <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Zephyr Ztest &amp; Twister Test Automation Architecture for SOF</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">Continuous test automation: Testcase discovery, multi-target execution (native_sim, QEMU, Hardware), Ztest suite fixtures, and coverage</text>
+  </g>
+
+  <!-- Left Column: Twister Test Orchestrator -->
+  <g transform="translate(40, 85)">
+    <!-- Container Card -->
+    <rect width="360" height="465" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="360" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="20" cy="21" r="5" fill="#38bdf8" />
+    <text x="35" y="26" fill="#f1f5f9" font-size="14" font-weight="700">Twister Test Orchestrator (Runner)</text>
+
+    <!-- Sub-Box 1: Test Discovery -->
+    <g transform="translate(18, 56)">
+      <rect width="324" height="88" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="22" fill="#38bdf8" font-size="12" font-weight="700">Testcase YAML Discovery</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">Scans test/ztest/**/testcase.yaml</text>
+      <text x="14" y="60" fill="#94a3b8" font-size="11">Filters: tags, platform_allow, min_ram</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Automated scenario matrix expansion</text>
+    </g>
+
+    <!-- Sub-Box 2: Parallel Build & Execution -->
+    <g transform="translate(18, 154)">
+      <rect width="324" height="92" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="14" y="22" fill="#f1f5f9" font-size="12" font-weight="700">Parallel Compilation &amp; Execution</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">west twister -p native_sim -j$(nproc)</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">Multi-core Ninja builds &amp; parallel runs</text>
+      <text x="14" y="78" fill="#34d399" font-size="10">Sub-second test dispatch per suite</text>
+    </g>
+
+    <!-- Sub-Box 3: Test Filtering & CLI Directives -->
+    <g transform="translate(18, 256)">
+      <rect width="324" height="92" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="22" fill="#c084fc" font-size="12" font-weight="700">Targeted Filtering &amp; Debug Flags</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">-s sof.unit.math | -T test/ztest/unit/</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">--inline-logs | --verbose | --valgrind</text>
+      <text x="14" y="78" fill="#94a3b8" font-size="10">Selective execution &amp; live failure logging</text>
+    </g>
+
+    <!-- Sub-Box 4: Reports & Artifacts -->
+    <g transform="translate(18, 358)">
+      <rect width="324" height="92" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="14" y="22" fill="#34d399" font-size="12" font-weight="700">Reporting &amp; Coverage Engine</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">twister-out/twister.xml (JUnit format)</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">--coverage (gcov + lcov HTML reports)</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Integrated with GitHub Actions CI pipeline</text>
+    </g>
+  </g>
+
+  <!-- Center Column: Target Execution Platforms -->
+  <g transform="translate(425, 85)">
+    <!-- Container Card -->
+    <rect width="350" height="465" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="350" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="20" cy="21" r="5" fill="#a855f7" />
+    <text x="35" y="26" fill="#f1f5f9" font-size="14" font-weight="700">Target Execution Environments</text>
+
+    <!-- Environment 1: native_sim (POSIX Host Sandbox) -->
+    <g transform="translate(16, 56)">
+      <rect width="318" height="124" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1.5" />
+      <rect x="12" y="10" width="104" height="20" rx="4" fill="#0369a1" />
+      <text x="18" y="24" fill="#f0f9ff" font-size="10" font-weight="700">DEFAULT: native_sim</text>
+      <text x="126" y="24" fill="#38bdf8" font-size="12" font-weight="700">POSIX Host Sandbox</text>
+      <text x="12" y="48" fill="#cbd5e1" font-size="11">Direct x86_64 host user space binary</text>
+      <text x="12" y="66" fill="#cbd5e1" font-size="11">Executes full SOF C/ASM logic natively</text>
+      <text x="12" y="84" fill="#94a3b8" font-size="11">Supports ASan / UBSan / Valgrind memory audits</text>
+      <text x="12" y="104" fill="#34d399" font-size="10">Primary target for algorithms, math, &amp; pipelines</text>
+    </g>
+
+    <!-- Environment 2: QEMU Architecture Emulation -->
+    <g transform="translate(16, 190)">
+      <rect width="318" height="118" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="22" fill="#c084fc" font-size="12" font-weight="700">QEMU Instruction Emulators</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">Platforms: qemu_xtensa | qemu_cortex_m3</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">Architecture-accurate instruction testing</text>
+      <text x="14" y="78" fill="#94a3b8" font-size="11">Validates Xtensa HiFi SIMD &amp; ARM Thumb code</text>
+      <text x="14" y="98" fill="#64748b" font-size="10">Runs without requiring physical silicon</text>
+    </g>
+
+    <!-- Environment 3: Physical Hardware Testing -->
+    <g transform="translate(16, 318)">
+      <rect width="318" height="132" rx="8" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="22" fill="#fbbf24" font-size="12" font-weight="700">Physical Silicon DUTs (--device-testing)</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">Hardware: Teensy 4.1 | ESP32-P4 | TGL | PTL</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">Flashes firmware via JTAG / UART runners</text>
+      <text x="14" y="78" fill="#94a3b8" font-size="11">Captures real hardware cycle counters &amp; DMA</text>
+      <text x="14" y="98" fill="#94a3b8" font-size="11">Automated board farm execution</text>
+      <text x="14" y="118" fill="#fb7185" font-size="10">Validates true hardware peripheral timing</text>
+    </g>
+  </g>
+
+  <!-- Right Column: SOF Ztest Suites & Mock Framework -->
+  <g transform="translate(800, 85)">
+    <!-- Container Card -->
+    <rect width="360" height="465" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="360" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="20" cy="21" r="5" fill="#10b981" />
+    <text x="35" y="26" fill="#f1f5f9" font-size="14" font-weight="700">SOF Ztest Suites &amp; Mock Framework</text>
+
+    <!-- Sub-Box 1: Ztest v3 Test Suites -->
+    <g transform="translate(18, 56)">
+      <rect width="324" height="96" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <text x="14" y="22" fill="#34d399" font-size="12" font-weight="700">Ztest v3 Test Suite Registration</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">ZTEST_SUITE(name, pred, setup, bef, aft, td)</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">ZTEST(suite, test_case) | ZTEST_F(suite, ...)</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Scoped setup &amp; teardown fixture isolation</text>
+    </g>
+
+    <!-- Sub-Box 2: SOF Mock Subsystems -->
+    <g transform="translate(18, 162)">
+      <rect width="324" height="96" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="22" fill="#38bdf8" font-size="12" font-weight="700">SOF Framework Mocks</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">sys_comp_init() | mock_buffer_new()</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">Mock IPC message dispatch &amp; topology</text>
+      <text x="14" y="78" fill="#94a3b8" font-size="10">Simulates full pipeline graphs in user space</text>
+    </g>
+
+    <!-- Sub-Box 3: Fake Function Framework (FFF) -->
+    <g transform="translate(18, 268)">
+      <rect width="324" height="92" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="22" fill="#c084fc" font-size="12" font-weight="700">Fake Function Framework (FFF)</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">#include &lt;zephyr/fff.h&gt;</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">FAKE_VALUE_FUNC / FAKE_VOID_FUNC</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Stubs hardware DAI, interrupts, and clocks</text>
+    </g>
+
+    <!-- Sub-Box 4: Assertions & Validations -->
+    <g transform="translate(18, 370)">
+      <rect width="324" height="80" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="14" y="22" fill="#34d399" font-size="12" font-weight="700">Rich Ztest Assertions</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">zassert_equal | zassert_mem_equal</text>
+      <text x="14" y="62" fill="#cbd5e1" font-size="11">zassert_not_null | zassert_unreachable</text>
+    </g>
+  </g>
+
+  <!-- Bottom Pipeline Flow Indicators -->
+  <g transform="translate(40, 565)">
+    <rect width="1120" height="90" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="20" y="24" fill="#94a3b8" font-size="11" font-weight="700" letter-spacing="0.05em">CONTINUOUS TEST EXECUTION LIFECYCLE</text>
+
+    <!-- Step 1 -->
+    <g transform="translate(20, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#0284c7" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">1</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Scan &amp; Discover</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">testcase.yaml files</text>
+    </g>
+    <path d="M 194 57 L 208 57" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" />
+
+    <!-- Step 2 -->
+    <g transform="translate(214, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#7c3aed" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">2</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Build with Ninja</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">Compile native / QEMU</text>
+    </g>
+    <path d="M 388 57 L 402 57" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" />
+
+    <!-- Step 3 -->
+    <g transform="translate(408, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#d97706" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">3</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Execute Suites</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">native_sim / target run</text>
+    </g>
+    <path d="M 582 57 L 596 57" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)" />
+
+    <!-- Step 4 -->
+    <g transform="translate(602, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#059669" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">4</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Verify Fixtures</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">zassert &amp; FFF checks</text>
+    </g>
+    <path d="M 776 57 L 790 57" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)" />
+
+    <!-- Step 5 -->
+    <g transform="translate(796, 36)">
+      <rect width="160" height="42" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#0284c7" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">5</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Audit Memory</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">ASan / leak detection</text>
+    </g>
+    <path d="M 962 57 L 976 57" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" />
+
+    <!-- Step 6 -->
+    <g transform="translate(982, 36)">
+      <rect width="122" height="42" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#10b981" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">6</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Output Reports</text>
+      <text x="34" y="33" fill="#34d399" font-size="9">JUnit &amp; Coverage</text>
+    </g>
+  </g>
+</svg>

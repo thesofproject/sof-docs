@@ -4,8 +4,23 @@
 Developer Guides
 ################
 
-Firmware Development (FW)
-*************************
+Sound Open Firmware (SOF) provides comprehensive architectural specifications, developer runbooks, and implementation guides covering the entire audio stack: from low-level DSP firmware and Zephyr RTOS integration to mainline Linux kernel drivers, embedded microcontroller audio bridges, and automated verification suites.
+
+The developer documentation is organized into six core technical pillars:
+
+1. :ref:`fw_development_pillar`
+2. :ref:`algorithm_tuning_pillar`
+3. :ref:`kernel_driver_pillar`
+4. :ref:`hardware_bringup_pillar`
+5. :ref:`testing_simulation_pillar`
+6. :ref:`telemetry_diagnostics_pillar`
+
+---
+
+.. _fw_development_pillar:
+
+1. Firmware Development (FW)
+****************************
 
 Guides and specifications for developing, compiling, and debugging DSP firmware components, Zephyr RTOS integration, audio processing algorithms, dynamic modules, and firmware image signing.
 
@@ -17,106 +32,271 @@ The SOF firmware repository maintains detailed, up-to-date specifications for ea
 Core Infrastructure & Pipeline
 ------------------------------
 
-* `Pipeline Architecture <https://github.com/thesofproject/sof/tree/main/src/audio/pipeline/README.md>`_
-* `Audio Buffer Management <https://github.com/thesofproject/sof/tree/main/src/audio/buffers/README.md>`_
-* `Scheduler <https://github.com/thesofproject/sof/tree/main/src/schedule/README.md>`_
-* `Module Framework <https://github.com/thesofproject/sof/tree/main/src/module/README.md>`_
-* `Module Adapter & IADK Integration <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_
-* `IPC Infrastructure (IPC3 & IPC4) <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_
-* `Firmware Initialization & Boot <https://github.com/thesofproject/sof/tree/main/src/init/README.md>`_
+* :ref:`pipeline_architecture` (High-level architecture; also see upstream `pipeline README <https://github.com/thesofproject/sof/tree/main/src/audio/pipeline/README.md>`_)
+* :ref:`module_framework` (High-level architecture; also see upstream `module README <https://github.com/thesofproject/sof/tree/main/src/module/README.md>`_ & `module adapter README <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/README.md>`_)
+* :ref:`scheduler_architecture` (High-level architecture; also see upstream `scheduler README <https://github.com/thesofproject/sof/tree/main/src/schedule/README.md>`_)
+* :ref:`audio_buffer_management` (High-level architecture; also see upstream `buffer README <https://github.com/thesofproject/sof/tree/main/src/audio/buffers/README.md>`_)
+* :ref:`ipc_infrastructure` (High-level architecture; also see upstream `IPC README <https://github.com/thesofproject/sof/tree/main/src/ipc/README.md>`_)
+* :ref:`fw_init_boot` (High-level architecture; also see upstream `init README <https://github.com/thesofproject/sof/tree/main/src/init/README.md>`_)
+
+.. toctree::
+   :hidden:
+
+   firmware/pipeline_architecture
+   firmware/module_framework
+   firmware/scheduler_architecture
+   firmware/audio_buffer_management
+   firmware/ipc_infrastructure
+   firmware/fw_init_boot
 
 Audio Processing Modules & Algorithms
 -------------------------------------
 
-* `Volume Control <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_
-* `Mixer & Mixin / Mixout <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_
-* `Sample Rate Converter (SRC) <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_
-* `Parametric EQ (FIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `EQ (IIR) <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_
-* `Dynamic Range Compressor (DRC) <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_
-* `Crossover <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_
-* `DC Blocker <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_
-* `Time-Domain Fixed Beamformer (TDFB) <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_
-* `RTNR Noise Reduction <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_
-* `TensorFlow Lite Micro (TFLM) <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_
-* `MFCC Feature Extraction <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_
-* `Smart Amp Protection <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_
-* `Sound Dose Evaluator <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_
-* `Copier <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_
-* `PCM Format Converter <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_
-
-.. _algorithm-specific-information:
-
-Algorithm Tuning & Implementation Guides
-========================================
-
-Detailed filter design, coefficient generation, and tuning workflows:
-
-.. toctree::
-   :maxdepth: 1
-
-   algorithms/demux/demux.rst
-   algorithms/eq/equalizers_tuning
-   algorithms/src/sample_rate_conversion
-   algorithms/tdfb/time_domain_fixed_beamformer
-
-Firmware Packaging & Dynamic Modules
-====================================
+* :ref:`volume_module` (High-level architecture; also see upstream `volume README <https://github.com/thesofproject/sof/tree/main/src/audio/volume/README.md>`_)
+* :ref:`mixin_mixout` (High-level architecture; also see upstream `mixin_mixout README <https://github.com/thesofproject/sof/tree/main/src/audio/mixin_mixout/README.md>`_ & `mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/mixer/README.md>`_)
+* :ref:`src_asrc` (High-level architecture; also see upstream `SRC README <https://github.com/thesofproject/sof/tree/main/src/audio/src/README.md>`_ & `ASRC README <https://github.com/thesofproject/sof/tree/main/src/audio/asrc/README.md>`_)
+* :ref:`eq_fir_iir` (High-level architecture; also see upstream `FIR README <https://github.com/thesofproject/sof/tree/main/src/audio/eq_fir/README.md>`_ & `IIR README <https://github.com/thesofproject/sof/tree/main/src/audio/eq_iir/README.md>`_)
+* :ref:`drc_multiband_drc` (High-level architecture; also see upstream `DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/drc/README.md>`_ & `Multiband DRC README <https://github.com/thesofproject/sof/tree/main/src/audio/multiband_drc/README.md>`_)
+* :ref:`crossover` (High-level architecture; also see upstream `crossover README <https://github.com/thesofproject/sof/tree/main/src/audio/crossover/README.md>`_)
+* :ref:`dcblock` (High-level architecture; also see upstream `dcblock README <https://github.com/thesofproject/sof/tree/main/src/audio/dcblock/README.md>`_)
+* :ref:`tdfb` (High-level architecture; also see upstream `tdfb README <https://github.com/thesofproject/sof/tree/main/src/audio/tdfb/README.md>`_ & tuning guide :ref:`time-domain-fixed-beamformer`)
+* :ref:`rtnr` (High-level architecture; also see upstream `RTNR README <https://github.com/thesofproject/sof/tree/main/src/audio/rtnr/README.md>`_)
+* :ref:`tflm` (High-level architecture; also see upstream `TFLM README <https://github.com/thesofproject/sof/tree/main/src/audio/tensorflow/README.md>`_)
+* :ref:`mfcc` (High-level architecture; also see upstream `MFCC README <https://github.com/thesofproject/sof/tree/main/src/audio/mfcc/README.md>`_)
+* :ref:`smart_amp` (High-level architecture; also see upstream `Smart Amp README <https://github.com/thesofproject/sof/tree/main/src/audio/smart_amp/README.md>`_)
+* :ref:`sound_dose` (High-level architecture; also see upstream `Sound Dose README <https://github.com/thesofproject/sof/tree/main/src/audio/sound_dose/README.md>`_)
+* :ref:`copier_mux_selector` (High-level architecture; also see upstream `Copier README <https://github.com/thesofproject/sof/tree/main/src/audio/copier/README.md>`_, `Mux README <https://github.com/thesofproject/sof/tree/main/src/audio/mux/README.md>`_ & `Selector README <https://github.com/thesofproject/sof/tree/main/src/audio/selector/README.md>`_)
+* :ref:`pcm_converter` (High-level architecture; also see upstream `PCM converter README <https://github.com/thesofproject/sof/tree/main/src/audio/pcm_converter/README.md>`_)
+* :ref:`kpb_wov` (High-level architecture; also see upstream `KPB source <https://github.com/thesofproject/sof/blob/main/src/audio/kpb.c>`_)
+* :ref:`tone` (High-level architecture; also see upstream `Tone README <https://github.com/thesofproject/sof/tree/main/src/audio/tone/README.md>`_)
+* :ref:`up_down_mixer` (High-level architecture; also see upstream `Up/Down Mixer README <https://github.com/thesofproject/sof/tree/main/src/audio/up_down_mixer/README.md>`_)
+* :ref:`aria` (High-level architecture; also see upstream `Aria README <https://github.com/thesofproject/sof/tree/main/src/audio/aria/README.md>`_ & tuning guide :ref:`level_multiplier_aria_tuning`)
+* :ref:`level_multiplier` (High-level architecture; also see upstream `Level Multiplier README <https://github.com/thesofproject/sof/tree/main/src/audio/level_multiplier/README.md>`_ & tuning guide :ref:`level_multiplier_aria_tuning`)
+* :ref:`phase_vocoder` (High-level architecture; also see upstream `Phase Vocoder source tree <https://github.com/thesofproject/sof/tree/main/src/audio/phase_vocoder>`_)
+* :ref:`stft_process` (High-level architecture; also see upstream `STFT Process README <https://github.com/thesofproject/sof/tree/main/src/audio/stft_process/README.md>`_)
+* :ref:`media_codecs` (High-level architecture; also see upstream `Cadence Codec module adapter <https://github.com/thesofproject/sof/tree/main/src/audio/module_adapter/module/cadence.c>`_ & `Codec README <https://github.com/thesofproject/sof/tree/main/src/audio/codec/README.md>`_)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
+
+   firmware/volume_module
+   firmware/mixin_mixout
+   firmware/src_asrc
+   firmware/eq_fir_iir
+   firmware/drc_multiband_drc
+   firmware/crossover
+   firmware/dcblock
+   firmware/tdfb
+   firmware/tflm
+   firmware/mfcc
+   firmware/smart_amp
+   firmware/sound_dose
+   firmware/copier_mux_selector
+   firmware/pcm_converter
+   firmware/rtnr
+   firmware/kpb_wov
+   firmware/tone
+   firmware/up_down_mixer
+   firmware/aria
+   firmware/level_multiplier
+   firmware/phase_vocoder
+   firmware/stft_process
+   firmware/media_codecs
+
+Firmware Packaging, Dynamic Modules & Subsystems
+================================================
+
+Firmware image packaging, cryptographic signing, loadable modules, and standalone hostless embedded firmware:
+
+* :ref:`rimage` (Firmware binary packaging, Intel cAVS and ACE partition manifests, cryptographic signing with MeCSS / CSE, hardware authorization keys, and multi-module extended manifest structures)
+* :ref:`llext_modules` (Zephyr Loadable Linkable Extensions (LLEXT) dynamic loading framework, ELF relocation mechanics, manifest export, and runtime on-demand module binding over IPC4)
+* :ref:`sof_hostless_firmware` (Embedded standalone firmware architecture for microcontrollers without a host processor, autonomous pipeline creation, clock provider/consumer bridges, and interactive Zephyr shell diagnostics)
+
+.. toctree::
+   :hidden:
 
    rimage/index.rst
    firmware/llext_modules
-   loadable_modules/lmdk_user_guide
+   firmware/hostless_firmware
 
-DSP Telemetry, Probes & Debugging
-=================================
+How-To Developer Guides & Module Integration
+============================================
 
-.. toctree::
-   :maxdepth: 1
+Step-by-step developer runbooks for authoring new audio components, porting third-party audio algorithms, configuring builds, declaring topology widgets, and verifying execution:
 
-   debugability/index
-   uuid/index.rst
-
-Kernel & Host Driver Development (Kernel)
-*****************************************
-
-Guides for Linux ASoC kernel driver developers, topology authors, virtualization environments, and host tuning utilities.
+* :ref:`module_creation_integration_guide` (End-to-end walkthrough on authoring a new DSP audio processing module or integrating third-party algorithms: header structures, CMakeLists.txt, Kconfig, UUID registration, cold-code memory placement, SIMD vector data alignment, ALSA Topology 2.0 configuration, multi-toolchain compilation, device deployment, and simulation with Host Testbench and Cadence xt-run)
+* :ref:`wov_ecns_pipeline_guide` (Architectural walkthrough on customizing complex multi-pipeline Wake-on-Voice (WOV) and Echo Cancellation & Noise Suppression (ECNS) topologies from the wcl-uaol-wov branch: replacing keyword detectors and acoustic echo cancellers, managing SOF Notifier inter-module arbitration, tuning Data Processing (DP) scheduling periods, cross-core affinity, and ALSA Topology 2.0 graph routing)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
+
+   firmware/module_integration_guide
+   firmware/wov_ecns_pipeline_guide
+
+---
+
+.. _algorithm_tuning_pillar:
+.. _algorithm-specific-information:
+
+2. Audio Algorithm Tuning, Calibration & Runtime Control (Tuning)
+*****************************************************************
+
+Comprehensive workflows, filter coefficient synthesis, offline tuning tools (GNU Octave, MATLAB, Python), ALSA byte control packaging, Topology 2 and UCM2 integration, and live parameter injection via ``sof-ctl``, ``amixer``, and the Linux kernel ALSA subsystem:
+
+Core Runtime Tuning & Control Infrastructure
+============================================
+
+* :ref:`runtime_tuning_sof_ctl` (Authoritative runtime parameter injection, ABI serialization, and ``sof-ctl`` guide)
+
+Dynamics & Transducer Protection Tuning
+=======================================
+
+* :ref:`drc_tuning` (Single-band DRC and Multiband DRC compression curves, adaptive ballistics, and speaker protection)
+* :ref:`level_multiplier_aria_tuning` (Level Multiplier Q9.23 precision scaling, zero-overhead fast-path bypass, Aria AGC target pre-amplification boost, 1 ms lookahead circular buffering, and regressive anti-clipping protection)
+* :ref:`smart_amp_tuning` (Smart Amplifier Dynamic Speaker Management, I/V sense feedback calibration, Thiele-Small modeling, thermal and excursion protection)
+* :ref:`sound_dose_tuning` (Sound Dose Evaluator, IEC 61672-1 Class 1 A-weighting, EN 50332 / IEC 62368-1 compliance, HATS acoustic sensitivity calibration, and closed-loop exposure regulation)
+
+Acoustic, Transducer & Array Tuning
+===================================
+
+* :ref:`crossover_tuning` (Linkwitz-Riley LR4 2-way, 3-way, and 4-way crossover filter design, phase-alignment merge, and multi-driver speaker tuning)
+* :ref:`dmic_tuning` (Digital Microphone acoustic calibration, 5th-order CIC and FIR decimation design, dual-FIFO mode matching, and array sensitivity/phase alignment)
+* :ref:`equalizers_tuning` (Parametric FIR & IIR equalizers, MLS acoustical measurement, and speaker tuning)
+* :ref:`time-domain-fixed-beamformer` (Time-Domain Fixed Beamformer array geometry and spatial filter design)
+* :ref:`sample_rate_conversion` (Polyphase FIR filter design and multi-stage resampling)
+* :ref:`demux` (Multi-channel routing matrix configuration)
+
+Machine Learning & Speech Feature Extraction
+============================================
+
+* :ref:`mfcc_tuning` (Mel-Frequency Cepstral Coefficients (MFCC), triangular Mel filterbank design, Slaney normalization, Whisper-compatible Mel spectrogram scaling, Voice Activity Detection (VAD), and TensorFlow Lite Micro (TFLM) keyword spotting co-design)
+
+.. toctree::
+   :hidden:
+
+   tuning/runtime_tuning_sof_ctl
+   tuning/drc_tuning
+   tuning/level_multiplier_aria_tuning
+   tuning/smart_amp_tuning
+   tuning/sound_dose_tuning
+   tuning/crossover_tuning
+   tuning/dmic_tuning
+   tuning/mfcc_tuning
+   algorithms/eq/equalizers_tuning
+   algorithms/tdfb/time_domain_fixed_beamformer
+   algorithms/src/sample_rate_conversion
+   algorithms/demux/demux.rst
+
+
+---
+
+.. _kernel_driver_pillar:
+
+3. Kernel & Host Driver Development (Kernel)
+********************************************
+
+Guides for Linux ASoC kernel driver developers, machine drivers, DMI quirk authoring, topology configurations, and host testing utilities:
+
+* :ref:`sof_linux_driver` (Linux kernel ASoC driver architecture, multi-vendor DSP core abstraction, IPC3/IPC4 protocol layers, ACPI/PCI platform probing, DMI machine quirks, runtime PM, and stream DMA management)
+* :ref:`topology2` (ALSA Topology 2.0 architecture, split functional model, pre-processor token parsing, widget and pipeline definition syntax, hardware DAI graph routing, and dynamic UCM2 integration)
+* :ref:`topology` (Legacy ALSA Topology 1.0 architecture, M4 macro expansion templates, pipeline graph generation, and backward-compatibility guidelines)
+* :ref:`ucm2_guide` (ALSA Use Case Manager v2 (UCM2) architecture, card directory layouts, syntax versions 2–7, device definitions, jack detection, sequence verbs, volume mixer remapping, PipeWire/WirePlumber integration, and step-by-step authoring and debugging workflows)
+* :ref:`setup-ktest-environment` (Automated Linux kernel testing and bisection framework with ktest, rapid git bisect workflows, automated kernel build/deploy, and headless serial console validation)
+
+.. toctree::
+   :hidden:
 
    linux_driver/index
    topology2/topology2
    topology/topology
-   virtualization/virtualization
-   virtualization/running
-   tuning/sof-ctl
+   ucm/ucm2_guide
    ktest/setup_ktest_environment
 
-Hardware & Platform-Specific Guides (HW)
-****************************************
+---
 
-Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors, legacy architectures, and embedded development boards.
+.. _hardware_bringup_pillar:
+
+4. Hardware & Platform Bringup (HW)
+***********************************
+
+Hardware integration, platform memory layouts, boot architectures, and bringup checklists across silicon vendors and embedded development boards:
+
+* :ref:`sof_imx_user_guide` (NXP i.MX8 platform integration, ARM Cortex-M and Tensilica DSP memory mappings, EDMA channel routing, SAI audio serial interfaces, and Linux BSP bringup)
+* :ref:`sof_hostless_firmware` (Embedded microcontroller platforms including Teensy 4.1, ESP32-P4, and ESP32-C6, GPIO pinout definitions, 1.8V to 3.3V level shifting, and autonomous audio bridging)
+* :ref:`sof_hardware_loopback_testing` (Hardware loopback test harnesses, I2S and PDM clock provider/consumer synchronization, and rate/format verification matrices)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    nxp/sof_imx_user_guide
-   setup_special_device/setup_up_2_board
 
-Simulation, Testing & Toolchain (SDK)
-*************************************
+---
 
-Verification frameworks, host audio simulation, fuzzing, and compiler toolchains.
+.. _testing_simulation_pillar:
+
+5. Testing, Simulation & Toolchains (SDK & Test)
+************************************************
+
+Unit testing with Zephyr Ztest and Twister runner, host audio pipeline simulation, automated hardware loopback verification, Zephyr CMake build flags, cycle-accurate simulation, and protocol fuzzing:
+
+* :ref:`unit_tests` (Unit testing architecture with Zephyr Ztest framework and Twister test runner, fixture lifecycle, mock dependencies, and automated CI test matrix execution)
+* :ref:`sof_hardware_loopback_testing` (Automated hardware audio verification, ESP32-P4 and Teensy 4.1 audio bridges, I2S and PDM clock mode switching, and capture matrix validation)
+* :ref:`testbench` (Host audio pipeline simulation tool, native x86-64 and ARM execution, topology verification, dynamic runtime control scripting, and acoustic output analysis)
+* :ref:`cmake` (Zephyr CMake build system architecture, comprehensive 3-toolchain guide comparing Cadence Xtensa Tools, Zephyr SDK, and experimental LLVM/Clang with mandatory Integrated Assembler)
+* :ref:`xtrun` (Cycle-accurate Cadence Xtensa simulator verification (``xt-run``), Million Cycles Per Second (MCPS) profiling, memory trace dumping, and ISS verification runbooks)
+* :ref:`sof_fuzzing` (Firmware security fuzzing framework, LLVM LibFuzzer integration, IPC mailbox protocol testing, topology fuzzing, and AddressSanitizer/UBSan vulnerability detection)
 
 .. toctree::
-   :maxdepth: 1
+   :hidden:
 
    unit_tests
-   tech/cmake
+   testing/hardware_loopback
    testbench/index
+   tech/cmake
    xtrun/index
    fuzzing/index
-   tech/compile_wsl
 
+---
+
+.. _telemetry_diagnostics_pillar:
+
+6. DSP Telemetry, Logging & Diagnostics (Debug)
+***********************************************
+
+Comprehensive observability and diagnostic frameworks for hard real-time DSP firmware: real-time trace DMA streaming, compile-time string dictionary extraction (``smex``), offline and live log decoding (``sof-logger``), zero-IPC interactive Zephyr memory shells, post-mortem coredump crash analysis, live audio buffer probing, performance cycle budgeting, and firmware binary manifest validation.
+
+Observability Portal & Framework Architecture
+=============================================
+
+* :ref:`sof_debugability_portal` (Primary observability overview, zero-overhead asynchronous tracing, multi-tier diagnostic framework breakdown, and symptom-based diagnostic decision tree)
+
+Real-Time Tracing & Network Telemetry
+=====================================
+
+* :ref:`dbg-traces` (Compile-time string dictionary extraction with ``smex`` and ``.ldc`` catalogs, lockless internal SRAM circular trace DMA buffers, Linux kernel debugfs interface, boot-time logging via ``snd-sof-probes``, and live console decoding via ``sof-logger``)
+* :ref:`dbg-probes` (Dynamic ALSA widget buffer injection and extraction tap points across processing DAGs, ALSA Compress Offload capture via ``crecord``, stream demultiplexing with ``sof-probes -p``, and high-throughput TCP network probe daemon on port 9999 streaming to ``dut-monitor``)
+
+Crash Diagnostics, Shell & Runtime Inspection
+=============================================
+
+* :ref:`dbg-coredump-reader` (Native Zephyr RTOS coredump subsystem, Intel ADSP memory window backend, fatal CPU exception vector capture, register preservation, and interactive post-mortem GDB backtrace analysis with ``coredump_gdbserver.py``)
+* :ref:`dbg-zephyr-shell` (Zero-IPC interactive Zephyr shell over shared DSP SRAM memory windows, host ``cavstool.py`` pseudo-terminal bridge, real-time thread state and stack high-water mark inspection, and low-power D0ix/D3 suspend/resume resilience)
+
+Performance Profiling, Binary Manifests & Identifiers
+=====================================================
+
+* :ref:`dbg-perf-counters` (Hardware cycle counters via Tensilica CCOUNT registers, 64-bit platform timers, mathematical Million Cycles Per Second (MCPS) budget formulation, and component benchmarking)
+* :ref:`dbg-ri-info` (Signed firmware binary manifest formats across cAVS and ACE architectures, partition directories, CSE manifests, Intel digital signature certificates, and manifest inspection tooling)
+* :ref:`uuid` (Universal Unique Identifier subsystem, global registry in ``uuid-registry.txt``, little-endian word swap wire format translation, ALSA Topology 2.0 token declarations, and IPC4 on-demand dynamic module loading)
+
+.. toctree::
+   :hidden:
+
+   debugability/index
+   debugability/traces/index
+   debugability/coredump-reader/index
+   debugability/probes/index
+   debugability/shell/index
+   debugability/perf-counters/index
+   debugability/ri-info/index
+   uuid/index

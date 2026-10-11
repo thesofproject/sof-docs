@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradDmic1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="mathGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#1e1b4b" stop-opacity="0.9" />
+    </linearGradient>
+    <filter id="shadowDmic1" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGradDmic1)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header / Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Digital Microphone (DMIC) Hardware Decimation Architecture
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    1-Bit PDM Ingress, 5th-Order CIC Comb Filtering, FIR Droop Compensation, and DC/Gain Trimming
+  </text>
+
+  <!-- Main Pipeline Container -->
+  <g transform="translate(30, 80)" filter="url(#shadowDmic1)">
+    <rect width="940" height="230" rx="10" fill="url(#cardGrad1)" stroke="#38bdf8" stroke-width="1.5" />
+    <rect x="0" y="0" width="940" height="32" rx="10" fill="#0284c7" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">
+      HARDWARE SIGNAL PROCESSING CHAIN: PDM STREAM TO LINEAR PCM OUTPUT
+    </text>
+
+    <!-- Block 1: MEMS PDM Ingress -->
+    <g transform="translate(15, 48)">
+      <rect width="130" height="162" rx="6" fill="#0f172a" stroke="#475569" />
+      <rect x="0" y="0" width="130" height="24" rx="6" fill="#334155" />
+      <text x="65" y="16" text-anchor="middle" fill="#f1f5f9" font-family="sans-serif" font-size="11" font-weight="700">MEMS PDM Ingress</text>
+      
+      <circle cx="65" cy="50" r="16" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="65" y="54" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">MIC</text>
+      
+      <text x="65" y="80" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">1-Bit PDM</text>
+      <text x="65" y="98" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">f_pdm: 0.768 - 4.8 MHz</text>
+      <text x="65" y="114" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9.5">Dual-Edge DDR Mic</text>
+      <text x="65" y="130" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Rising: Mic A (L)</text>
+      <text x="65" y="145" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Falling: Mic B (R)</text>
+    </g>
+
+    <!-- Arrow 1 -->
+    <line x1="145" y1="129" x2="168" y2="129" stroke="#64748b" stroke-width="2" />
+    <polygon points="168,125 176,129 168,133" fill="#64748b" />
+
+    <!-- Block 2: 5th-Order CIC Decimator -->
+    <g transform="translate(176, 48)">
+      <rect width="165" height="162" rx="6" fill="#0f172a" stroke="#3b82f6" stroke-width="1.2" />
+      <rect x="0" y="0" width="165" height="24" rx="6" fill="#1e40af" fill-opacity="0.4" />
+      <text x="82" y="16" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-size="11" font-weight="700">Stage 1: CIC Decimator</text>
+      
+      <text x="82" y="44" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">5th-Order Comb</text>
+      <text x="82" y="60" text-anchor="middle" fill="#60a5fa" font-family="monospace" font-size="10.5">H_cic(z) = [ (1-z^-M)/(1-z^-1) ]^5</text>
+      <text x="82" y="80" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Decim Factor: M_cic (5 to 31)</text>
+      <text x="82" y="96" text-anchor="middle" fill="#f59e0b" font-family="monospace" font-size="10.5">DC Gain: G = M_cic^5</text>
+      <text x="82" y="114" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Internal Accum: 26 Bits</text>
+      <text x="82" y="132" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">CIC_CONTROL / CONFIG</text>
+      <text x="82" y="148" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="9.5">COMB_COUNT = M_cic - 1</text>
+    </g>
+
+    <!-- Arrow 2 -->
+    <line x1="341" y1="129" x2="363" y2="129" stroke="#64748b" stroke-width="2" />
+    <polygon points="363,125 371,129 363,133" fill="#64748b" />
+
+    <!-- Block 3: Arithmetic Shifter & Headroom Scaling -->
+    <g transform="translate(371, 48)">
+      <rect width="145" height="162" rx="6" fill="#0f172a" stroke="#f59e0b" stroke-width="1.2" />
+      <rect x="0" y="0" width="145" height="24" rx="6" fill="#b45309" fill-opacity="0.4" />
+      <text x="72" y="16" text-anchor="middle" fill="#fcd34d" font-family="sans-serif" font-size="11" font-weight="700">Bit Alignment</text>
+      
+      <text x="72" y="44" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">CIC Shift Engine</text>
+      <text x="72" y="62" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="10">cic_shift: -8 to +4</text>
+      <text x="72" y="82" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Aligns 26b CIC accumulator</text>
+      <text x="72" y="98" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">to 22b FIR Input Path</text>
+      <text x="72" y="118" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="9.5">b_needed = floor(log2(G)+1)+1</text>
+      <text x="72" y="134" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="9.5">shift = b_needed - 22</text>
+      <text x="72" y="150" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5">Headroom Protection</text>
+    </g>
+
+    <!-- Arrow 3 -->
+    <line x1="516" y1="129" x2="538" y2="129" stroke="#64748b" stroke-width="2" />
+    <polygon points="538,125 546,129 538,133" fill="#64748b" />
+
+    <!-- Block 4: FIR Decimator & Droop Compensator -->
+    <g transform="translate(546, 48)">
+      <rect width="170" height="162" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1.2" />
+      <rect x="0" y="0" width="170" height="24" rx="6" fill="#047857" fill-opacity="0.4" />
+      <text x="85" y="16" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="11" font-weight="700">Stage 2: FIR Decimator</text>
+      
+      <text x="85" y="44" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Multirate FIR Filter</text>
+      <text x="85" y="62" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="10">Decim Factor: M_fir (2 to 15)</text>
+      <text x="85" y="80" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Taps: Up to 250 (Symm/RAM)</text>
+      <text x="85" y="96" text-anchor="middle" fill="#6ee7b7" font-family="sans-serif" font-size="10">Inverts Sinc^5 Passband Droop</text>
+      <text x="85" y="114" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Passband Ripple: &lt; 0.1 dB</text>
+      <text x="85" y="130" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Stopband Atten: &gt; 90 dB</text>
+      <text x="85" y="148" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="9.5">PDM_COEFFICIENT_A / B</text>
+    </g>
+
+    <!-- Arrow 4 -->
+    <line x1="716" y1="129" x2="738" y2="129" stroke="#64748b" stroke-width="2" />
+    <polygon points="738,125 746,129 738,133" fill="#64748b" />
+
+    <!-- Block 5: DC Offset & Gain Trim -->
+    <g transform="translate(746, 48)">
+      <rect width="180" height="162" rx="6" fill="#0f172a" stroke="#a855f7" stroke-width="1.2" />
+      <rect x="0" y="0" width="180" height="24" rx="6" fill="#6b21a8" fill-opacity="0.4" />
+      <text x="90" y="16" text-anchor="middle" fill="#d8b4fe" font-family="sans-serif" font-size="11" font-weight="700">Stage 3: DC &amp; Gain Trim</text>
+      
+      <text x="90" y="44" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Acoustic Calibration</text>
+      <text x="90" y="62" text-anchor="middle" fill="#c084fc" font-family="sans-serif" font-size="10">DCCOMP: 1st-Order HPF</text>
+      <text x="90" y="78" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9.5">y[n] = x[n]-x[n-1] + a*y[n-1]</text>
+      <text x="90" y="96" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="10">Time Constants: TC0 - TC7</text>
+      <text x="90" y="114" text-anchor="middle" fill="#e879f9" font-family="sans-serif" font-size="10">Channel Gain Trim: 20-Bit</text>
+      <text x="90" y="130" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9.5">OUT_GAIN_LEFT / RIGHT</text>
+      <text x="90" y="148" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5">Linear 24b/32b PCM Output</text>
+    </g>
+  </g>
+
+  <!-- Bottom Details Grid: Mathematical Properties & Hardware Registers -->
+  <g transform="translate(30, 330)">
+    <!-- Card 1: Decimation & Frequency Math -->
+    <g transform="translate(0, 0)" filter="url(#shadowDmic1)">
+      <rect width="455" height="280" rx="10" fill="url(#cardGrad1)" stroke="#334155" stroke-width="1.2" />
+      <rect x="0" y="0" width="455" height="32" rx="10" fill="#1e293b" />
+      <text x="20" y="21" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">
+        Decimation Mathematics &amp; Clock Relations
+      </text>
+
+      <!-- Content -->
+      <g transform="translate(20, 48)">
+        <text x="0" y="15" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">1. Total Oversampling Ratio (OSR):</text>
+        <rect x="0" y="24" width="415" height="32" rx="4" fill="#0f172a" stroke="#334155" />
+        <text x="207" y="45" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="12">OSR = M_cic * M_fir = f_pdm / f_s &gt;= 50 (40 for &gt;48kHz)</text>
+
+        <text x="0" y="78" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">2. PDM Sampling Clock Generation:</text>
+        <rect x="0" y="87" width="415" height="32" rx="4" fill="#0f172a" stroke="#334155" />
+        <text x="207" y="108" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="12">f_pdm = f_io / clkdiv,   clkdiv in [clkdiv_min, clkdiv_max]</text>
+
+        <text x="0" y="141" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">3. FIR Hardware Maximum Tap Constraint:</text>
+        <rect x="0" y="150" width="415" height="32" rx="4" fill="#0f172a" stroke="#334155" />
+        <text x="207" y="171" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-size="12">N_taps &lt;= min( 250, floor(f_io / (2 * f_s)) - 5 )</text>
+
+        <text x="0" y="202" fill="#94a3b8" font-family="sans-serif" font-size="11.5">
+          • At f_io = 19.2 MHz and f_s = 48 kHz: Max FIR taps = min(250, 195) = 195
+        </text>
+        <text x="0" y="220" fill="#94a3b8" font-family="sans-serif" font-size="11.5">
+          • At f_io = 38.4 MHz and f_s = 48 kHz: Max FIR taps = min(250, 395) = 250
+        </text>
+      </g>
+    </g>
+
+    <!-- Card 2: Key Hardware Registers & Word Lengths -->
+    <g transform="translate(485, 0)" filter="url(#shadowDmic1)">
+      <rect width="455" height="280" rx="10" fill="url(#cardGrad1)" stroke="#334155" stroke-width="1.2" />
+      <rect x="0" y="0" width="455" height="32" rx="10" fill="#1e293b" />
+      <text x="20" y="21" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">
+        Intel DSP DMIC Register Map &amp; Quantization
+      </text>
+
+      <!-- Table format inside SVG -->
+      <g transform="translate(20, 45)">
+        <!-- Table Header -->
+        <rect x="0" y="0" width="415" height="24" fill="#1e3a8a" fill-opacity="0.5" rx="3" />
+        <text x="10" y="16" fill="#93c5fd" font-family="sans-serif" font-size="11" font-weight="700">Register</text>
+        <text x="140" y="16" fill="#93c5fd" font-family="sans-serif" font-size="11" font-weight="700">Bitfield / Precision</text>
+        <text x="280" y="16" fill="#93c5fd" font-family="sans-serif" font-size="11" font-weight="700">Function / Range</text>
+
+        <!-- Row 1 -->
+        <line x1="0" y1="28" x2="415" y2="28" stroke="#334155" />
+        <text x="10" y="44" fill="#f8fafc" font-family="monospace" font-size="10.5">MIC_CONTROL</text>
+        <text x="140" y="44" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 15:8 (8-bit)</text>
+        <text x="280" y="44" fill="#38bdf8" font-family="sans-serif" font-size="10.5">PDM_CLKDIV = clkdiv - 2</text>
+
+        <!-- Row 2 -->
+        <line x1="0" y1="52" x2="415" y2="52" stroke="#334155" />
+        <text x="10" y="68" fill="#f8fafc" font-family="monospace" font-size="10.5">CIC_CONFIG</text>
+        <text x="140" y="68" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 15:8 (8-bit)</text>
+        <text x="280" y="68" fill="#38bdf8" font-family="sans-serif" font-size="10.5">COMB_COUNT = M_cic - 1</text>
+
+        <!-- Row 3 -->
+        <line x1="0" y1="76" x2="415" y2="76" stroke="#334155" />
+        <text x="10" y="92" fill="#f8fafc" font-family="monospace" font-size="10.5">CIC_CONFIG</text>
+        <text x="140" y="92" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 27:24 (4-bit)</text>
+        <text x="280" y="92" fill="#f59e0b" font-family="sans-serif" font-size="10.5">CIC_SHIFT (-8 to +4)</text>
+
+        <!-- Row 4 -->
+        <line x1="0" y1="100" x2="415" y2="100" stroke="#334155" />
+        <text x="10" y="116" fill="#f8fafc" font-family="monospace" font-size="10.5">FIR_CONFIG_A/B</text>
+        <text x="140" y="116" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 20:16 (5-bit)</text>
+        <text x="280" y="116" fill="#38bdf8" font-family="sans-serif" font-size="10.5">FIR_DECIM = M_fir - 1</text>
+
+        <!-- Row 5 -->
+        <line x1="0" y1="124" x2="415" y2="124" stroke="#334155" />
+        <text x="10" y="140" fill="#f8fafc" font-family="monospace" font-size="10.5">FIR_CONFIG_A/B</text>
+        <text x="140" y="140" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 7:0 (8-bit)</text>
+        <text x="280" y="140" fill="#34d399" font-family="sans-serif" font-size="10.5">FIR_LENGTH = N_taps - 1</text>
+
+        <!-- Row 6 -->
+        <line x1="0" y1="148" x2="415" y2="148" stroke="#334155" />
+        <text x="10" y="164" fill="#f8fafc" font-family="monospace" font-size="10.5">OUT_GAIN_LEFT/R</text>
+        <text x="140" y="164" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 19:0 (20-bit)</text>
+        <text x="280" y="164" fill="#a855f7" font-family="sans-serif" font-size="10.5">Channel Gain Multiplier</text>
+
+        <!-- Row 7 -->
+        <line x1="0" y1="172" x2="415" y2="172" stroke="#334155" />
+        <text x="10" y="188" fill="#f8fafc" font-family="monospace" font-size="10.5">DC_OFFSET_L/R</text>
+        <text x="140" y="188" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Bits 21:0 (22-bit)</text>
+        <text x="280" y="188" fill="#a855f7" font-family="sans-serif" font-size="10.5">Hardware DC Correction</text>
+
+        <rect x="0" y="204" width="415" height="24" rx="4" fill="#1e293b" stroke="#475569" />
+        <text x="207" y="220" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10.5" font-weight="700">
+          FIR Coeff RAM: Up to 250 x 20-bit (or packed 24-bit) tap coefficients
+        </text>
+      </g>
+    </g>
+  </g>
+</svg>

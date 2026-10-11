@@ -35,11 +35,11 @@ To install or upgrade the firmware binaries on a Linux host or target DUT:
 .. code-block:: bash
 
    # 1. Download the release archive (replace with your desired version)
-   curl -L -O https://github.com/thesofproject/sof-bin/releases/download/v2025.12.2/sof-bin-2025.12.2.tar.gz
+   curl -L -O https://github.com/thesofproject/sof-bin/releases/download/v2026.09/sof-bin-2026.09.tar.gz
 
    # 2. Extract the archive
-   tar -xzf sof-bin-2025.12.2.tar.gz
-   cd sof-bin-2025.12.2
+   tar -xzf sof-bin-2026.09.tar.gz
+   cd sof-bin-2026.09
 
    # 3. Run the installer script (copies firmware & topologies to /lib/firmware/)
    sudo ./install.sh

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 520" width="850" height="520" style="background-color:#ffffff; font-family:DejaVu Sans, Arial, sans-serif;">
+<text x="425.0" y="35" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">Adaptive 4-Zone Release Ballistics vs Static Decay</text>
+<line x1="100.0" y1="60" x2="100.0" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="100.0" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">0 ms</text>
+<line x1="216.66666666666666" y1="60" x2="216.66666666666666" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="216.66666666666666" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">50 ms</text>
+<line x1="333.3333333333333" y1="60" x2="333.3333333333333" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="333.3333333333333" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">100 ms</text>
+<line x1="450.0" y1="60" x2="450.0" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="450.0" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">150 ms</text>
+<line x1="566.6666666666666" y1="60" x2="566.6666666666666" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="566.6666666666666" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">200 ms</text>
+<line x1="683.3333333333334" y1="60" x2="683.3333333333334" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="683.3333333333334" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">250 ms</text>
+<line x1="800.0" y1="60" x2="800.0" y2="440" stroke="#eaeded" stroke-width="1.2"/>
+<text x="800.0" y="462" text-anchor="middle" font-size="11" fill="#7f8c8d">300 ms</text>
+<line x1="100" y1="440.0" x2="800" y2="440.0" stroke="#eaeded" stroke-width="1.2"/>
+<text x="88" y="444.0" text-anchor="end" font-size="11" fill="#7f8c8d">-15 dB</text>
+<line x1="100" y1="364.0" x2="800" y2="364.0" stroke="#eaeded" stroke-width="1.2"/>
+<text x="88" y="368.0" text-anchor="end" font-size="11" fill="#7f8c8d">-12 dB</text>
+<line x1="100" y1="288.0" x2="800" y2="288.0" stroke="#eaeded" stroke-width="1.2"/>
+<text x="88" y="292.0" text-anchor="end" font-size="11" fill="#7f8c8d">-9 dB</text>
+<line x1="100" y1="212.0" x2="800" y2="212.0" stroke="#eaeded" stroke-width="1.2"/>
+<text x="88" y="216.0" text-anchor="end" font-size="11" fill="#7f8c8d">-6 dB</text>
+<line x1="100" y1="136.0" x2="800" y2="136.0" stroke="#eaeded" stroke-width="1.2"/>
+<text x="88" y="140.0" text-anchor="end" font-size="11" fill="#7f8c8d">-3 dB</text>
+<line x1="100" y1="60.0" x2="800" y2="60.0" stroke="#eaeded" stroke-width="1.2"/>
+<text x="88" y="64.0" text-anchor="end" font-size="11" fill="#7f8c8d">0 dB</text>
+<rect x="100" y="313.3333333333333" width="700" height="126.66666666666669" fill="#fdedec" opacity="0.6"/>
+<text x="785" y="380.66666666666663" text-anchor="end" font-size="10.5" font-weight="bold" fill="#7f8c8d">Zone 1 (Fast Transient Exit: rz1 = 0.09)</text>
+<rect x="100" y="212.0" width="700" height="101.33333333333331" fill="#fef9e7" opacity="0.6"/>
+<text x="785" y="266.66666666666663" text-anchor="end" font-size="10.5" font-weight="bold" fill="#7f8c8d">Zone 2 (Mid-Level Recovery: rz2 = 0.16)</text>
+<rect x="100" y="110.66666666666666" width="700" height="101.33333333333334" fill="#ebf5fb" opacity="0.6"/>
+<text x="785" y="165.33333333333331" text-anchor="end" font-size="10.5" font-weight="bold" fill="#7f8c8d">Zone 3 (Decelerating Smooth Decay: rz3 = 0.42)</text>
+<rect x="100" y="60.0" width="700" height="50.66666666666666" fill="#eafaf1" opacity="0.6"/>
+<text x="785" y="89.33333333333333" text-anchor="end" font-size="10.5" font-weight="bold" fill="#7f8c8d">Zone 4 (Harmonic Preservation: rz4 = 0.98)</text>
+<path d="M 100.0,440.0 L 104.7,432.5 L 109.3,425.1 L 114.0,417.9 L 118.7,410.8 L 123.3,403.8 L 128.0,397.0 L 132.7,390.4 L 137.3,383.8 L 142.0,377.4 L 146.7,371.1 L 151.3,365.0 L 156.0,358.9 L 160.7,353.0 L 165.3,347.2 L 170.0,341.5 L 174.7,335.9 L 179.3,330.5 L 184.0,325.1 L 188.7,319.9 L 193.3,314.7 L 198.0,309.7 L 202.7,304.7 L 207.3,299.9 L 212.0,295.1 L 216.7,290.5 L 221.3,285.9 L 226.0,281.4 L 230.7,277.1 L 235.3,272.8 L 240.0,268.5 L 244.7,264.4 L 249.3,260.4 L 254.0,256.4 L 258.7,252.5 L 263.3,248.7 L 268.0,245.0 L 272.7,241.3 L 277.3,237.7 L 282.0,234.2 L 286.7,230.7 L 291.3,227.4 L 296.0,224.0 L 300.7,220.8 L 305.3,217.6 L 310.0,214.5 L 314.7,211.4 L 319.3,208.4 L 324.0,205.5 L 328.7,202.6 L 333.3,199.8 L 338.0,197.0 L 342.7,194.3 L 347.3,191.7 L 352.0,189.0 L 356.7,186.5 L 361.3,184.0 L 366.0,181.5 L 370.7,179.1 L 375.3,176.8 L 380.0,174.5 L 384.7,172.2 L 389.3,170.0 L 394.0,167.8 L 398.7,165.7 L 403.3,163.6 L 408.0,161.5 L 412.7,159.5 L 417.3,157.5 L 422.0,155.6 L 426.7,153.7 L 431.3,151.9 L 436.0,150.0 L 440.7,148.2 L 445.3,146.5 L 450.0,144.8 L 454.7,143.1 L 459.3,141.5 L 464.0,139.9 L 468.7,138.3 L 473.3,136.7 L 478.0,135.2 L 482.7,133.7 L 487.3,132.3 L 492.0,130.8 L 496.7,129.4 L 501.3,128.0 L 506.0,126.7 L 510.7,125.4 L 515.3,124.1 L 520.0,122.8 L 524.7,121.6 L 529.3,120.4 L 534.0,119.2 L 538.7,118.0 L 543.3,116.8 L 548.0,115.7 L 552.7,114.6 L 557.3,113.5 L 562.0,112.5 L 566.7,111.4 L 571.3,110.4 L 576.0,109.4 L 580.7,108.4 L 585.3,107.5 L 590.0,106.5 L 594.7,105.6 L 599.3,104.7 L 604.0,103.8 L 608.7,103.0 L 613.3,102.1 L 618.0,101.3 L 622.7,100.5 L 627.3,99.7 L 632.0,98.9 L 636.7,98.1 L 641.3,97.3 L 646.0,96.6 L 650.7,95.9 L 655.3,95.2 L 660.0,94.5 L 664.7,93.8 L 669.3,93.1 L 674.0,92.5 L 678.7,91.8 L 683.3,91.2 L 688.0,90.6 L 692.7,90.0 L 697.3,89.4 L 702.0,88.8 L 706.7,88.2 L 711.3,87.7 L 716.0,87.1 L 720.7,86.6 L 725.3,86.1 L 730.0,85.5 L 734.7,85.0 L 739.3,84.5 L 744.0,84.1 L 748.7,83.6 L 753.3,83.1 L 758.0,82.7 L 762.7,82.2 L 767.3,81.8 L 772.0,81.3 L 776.7,80.9 L 781.3,80.5 L 786.0,80.1 L 790.7,79.7 L 795.3,79.3 L 800.0,78.9" fill="none" stroke="#e74c3c" stroke-width="2.8" stroke-dasharray="6,4" stroke-linecap="round"/>
+<path d="M 100.0,440.0 L 104.7,430.9 L 109.3,421.8 L 114.0,412.6 L 118.7,403.5 L 123.3,394.4 L 128.0,385.3 L 132.7,376.2 L 137.3,367.0 L 142.0,357.9 L 146.7,348.8 L 151.3,339.7 L 156.0,330.6 L 160.7,321.4 L 165.3,312.3 L 170.0,307.8 L 174.7,303.2 L 179.3,298.6 L 184.0,294.1 L 188.7,289.5 L 193.3,285.0 L 198.0,280.4 L 202.7,275.8 L 207.3,271.3 L 212.0,266.7 L 216.7,262.2 L 221.3,257.6 L 226.0,253.0 L 230.7,248.5 L 235.3,243.9 L 240.0,239.4 L 244.7,234.8 L 249.3,230.2 L 254.0,225.7 L 258.7,221.1 L 263.3,216.6 L 268.0,212.0 L 272.7,207.4 L 277.3,205.4 L 282.0,203.4 L 286.7,201.4 L 291.3,199.3 L 296.0,197.3 L 300.7,195.3 L 305.3,193.3 L 310.0,191.2 L 314.7,189.2 L 319.3,187.2 L 324.0,185.1 L 328.7,183.1 L 333.3,181.1 L 338.0,179.1 L 342.7,177.0 L 347.3,175.0 L 352.0,173.0 L 356.7,171.0 L 361.3,168.9 L 366.0,166.9 L 370.7,164.9 L 375.3,162.9 L 380.0,160.8 L 384.7,158.8 L 389.3,156.8 L 394.0,154.7 L 398.7,152.7 L 403.3,150.7 L 408.0,148.7 L 412.7,146.6 L 417.3,144.6 L 422.0,142.6 L 426.7,140.6 L 431.3,138.5 L 436.0,136.5 L 440.7,134.5 L 445.3,132.5 L 450.0,130.4 L 454.7,128.4 L 459.3,126.4 L 464.0,124.3 L 468.7,122.3 L 473.3,120.3 L 478.0,118.3 L 482.7,116.2 L 487.3,114.2 L 492.0,112.2 L 496.7,110.2 L 501.3,109.4 L 506.0,108.6 L 510.7,107.9 L 515.3,107.1 L 520.0,106.4 L 524.7,105.6 L 529.3,104.8 L 534.0,104.1 L 538.7,103.3 L 543.3,102.6 L 548.0,101.8 L 552.7,101.0 L 557.3,100.3 L 562.0,99.5 L 566.7,98.8 L 571.3,98.0 L 576.0,97.2 L 580.7,96.5 L 585.3,95.7 L 590.0,95.0 L 594.7,94.2 L 599.3,93.4 L 604.0,92.7 L 608.7,91.9 L 613.3,91.2 L 618.0,90.4 L 622.7,89.6 L 627.3,88.9 L 632.0,88.1 L 636.7,87.4 L 641.3,86.6 L 646.0,85.8 L 650.7,85.1 L 655.3,84.3 L 660.0,83.6 L 664.7,82.8 L 669.3,82.0 L 674.0,81.3 L 678.7,80.5 L 683.3,79.8 L 688.0,79.0 L 692.7,78.2 L 697.3,77.5 L 702.0,76.7 L 706.7,76.0 L 711.3,75.2 L 716.0,74.4 L 720.7,73.7 L 725.3,72.9 L 730.0,72.2 L 734.7,71.4 L 739.3,70.6 L 744.0,69.9 L 748.7,69.1 L 753.3,68.4 L 758.0,67.6 L 762.7,66.8 L 767.3,66.1 L 772.0,65.3 L 776.7,64.6 L 781.3,63.8 L 786.0,63.0 L 790.7,62.3 L 795.3,61.5 L 800.0,60.8" fill="none" stroke="#2980b9" stroke-width="3.5" stroke-linecap="round"/>
+<text x="158.33333333333331" y="364.0" font-size="11" font-weight="bold" fill="#2980b9">Fast Initial Recovery (Eliminates Pumping)</text>
+<text x="356.66666666666663" y="141.06666666666666" font-size="11" font-weight="bold" fill="#27ae60">Smooth Asymptotic Tail (Zero Harmonic Distortion)</text>
+<line x1="100" y1="60" x2="100" y2="440" stroke="#2c3e50" stroke-width="2"/>
+<line x1="100" y1="440" x2="800" y2="440" stroke="#2c3e50" stroke-width="2"/>
+<text x="450.0" y="495" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c3e50">Time Elapsed (ms)</text>
+<text x="35" y="250.0" text-anchor="middle" font-size="13" font-weight="bold" fill="#2c3e50" transform="rotate(-90 35 250.0)">Gain Reduction (dB)</text>
+<rect x="125" y="350" width="280" height="70" rx="6" fill="#ffffff" stroke="#bdc3c7" stroke-width="1.2" filter="drop-shadow(2px 2px 4px rgba(0,0,0,0.08))"/>
+<line x1="140" y1="374" x2="175" y2="374" stroke="#2980b9" stroke-width="3.5"/>
+<text x="185" y="378" font-size="11" font-weight="bold" fill="#2c3e50">SOF Adaptive 4-Zone Release</text>
+<line x1="140" y1="398" x2="175" y2="398" stroke="#e74c3c" stroke-width="2.8" stroke-dasharray="6,4"/>
+<text x="185" y="402" font-size="11" fill="#7f8c8d">Single Static Exponential Decay</text>
+</svg>

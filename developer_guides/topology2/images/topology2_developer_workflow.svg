@@ -1,0 +1,234 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="track1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f2942" />
+    </linearGradient>
+    <linearGradient id="track2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#193326" />
+    </linearGradient>
+    <linearGradient id="track3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#3b1f14" />
+    </linearGradient>
+
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="680" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 26)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Topology 2.0 Developer Workflows</text>
+    <text x="0" y="46" fill="#94a3b8" font-size="13">Structured step-by-step authoring procedures for new DSP modules, audio pipelines, and silicon platforms</text>
+  </g>
+
+  <!-- Track 1: Creating a New Module (Component/Widget) -->
+  <g transform="translate(40, 85)">
+    <rect width="360" height="560" rx="10" fill="url(#track1Grad)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect width="360" height="42" rx="10" fill="#0369a1" fill-opacity="0.7" stroke="#0284c7" stroke-width="1" />
+    <circle cx="20" cy="21" r="9" fill="#0284c7" />
+    <text x="20" y="25" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">1</text>
+    <text x="36" y="26" fill="#ffffff" font-size="13" font-weight="700">TRACK 1: New Module (Widget)</text>
+
+    <!-- Step 1.1 -->
+    <g transform="translate(16, 56)">
+      <rect width="328" height="78" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="11" font-weight="700">STEP 1: Create Component Class File</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">include/components/&lt;module&gt;.conf</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Declare <tspan fill="#f1f5f9">Class.Widget."my_comp"</tspan></text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Include &lt;include/components/widget-common.conf&gt;</text>
+    </g>
+
+    <line x1="180" y1="138" x2="180" y2="150" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)" />
+
+    <!-- Step 1.2 -->
+    <g transform="translate(16, 154)">
+      <rect width="328" height="88" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="11" font-weight="700">STEP 2: Declare Attributes &amp; Qualifiers</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">DefineAttribute."index" / "instance"</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Constructor: <tspan fill="#f1f5f9">!constructor [ "index" "instance" ]</tspan></text>
+      <text x="12" y="66" fill="#94a3b8" font-size="9">Mandatory pins: <tspan fill="#f1f5f9">!mandatory [ "num_input_pins" ... ]</tspan></text>
+      <text x="12" y="80" fill="#94a3b8" font-size="9">Immutable properties: <tspan fill="#f1f5f9">!immutable [ "uuid" "type" ]</tspan></text>
+    </g>
+
+    <line x1="180" y1="246" x2="180" y2="258" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)" />
+
+    <!-- Step 1.3 -->
+    <g transform="translate(16, 262)">
+      <rect width="328" height="88" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="11" font-weight="700">STEP 3: Bind ALSA Controls &amp; Formats</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">Object.Control.mixer."1" / bytes."1"</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Switch handlers: <tspan fill="#f1f5f9">get 259 / put 259</tspan></text>
+      <text x="12" y="66" fill="#94a3b8" font-size="9">Byte controls for algorithm filter tuning blobs</text>
+      <text x="12" y="80" fill="#94a3b8" font-size="9">Audio formats: 16-bit, 24-in-32, 32-bit LE</text>
+    </g>
+
+    <line x1="180" y1="354" x2="180" y2="366" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)" />
+
+    <!-- Step 1.4 -->
+    <g transform="translate(16, 370)">
+      <rect width="328" height="78" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+      <text x="12" y="20" fill="#38bdf8" font-size="11" font-weight="700">STEP 4: Assign Defaults &amp; UUID</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">uuid "af:e1:2d:a6:64:59:2e:4e:..."</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Component type: <tspan fill="#f1f5f9">"effect"</tspan>, <tspan fill="#f1f5f9">no_pm "true"</tspan></text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Unique instance qualifier enforced per pipeline</text>
+    </g>
+
+    <line x1="180" y1="452" x2="180" y2="464" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)" />
+
+    <!-- Step 1.5 -->
+    <g transform="translate(16, 468)">
+      <rect width="328" height="78" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1.2" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 5: Validate &amp; Unit Test</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">alsatplg -p -c test.conf -o test.tplg</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Verify ABI token generation and symbol binding</text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Inspect widgets via <tspan font-family="monospace">alsatplg -P</tspan></text>
+    </g>
+  </g>
+
+  <!-- Track 2: Creating a New Pipeline -->
+  <g transform="translate(420, 85)">
+    <rect width="360" height="560" rx="10" fill="url(#track2Grad)" stroke="#059669" stroke-width="1.5" filter="url(#shadow)" />
+    <rect width="360" height="42" rx="10" fill="#047857" fill-opacity="0.7" stroke="#059669" stroke-width="1" />
+    <circle cx="20" cy="21" r="9" fill="#059669" />
+    <text x="20" y="25" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">2</text>
+    <text x="36" y="26" fill="#ffffff" font-size="13" font-weight="700">TRACK 2: New Pipeline Template</text>
+
+    <!-- Step 2.1 -->
+    <g transform="translate(16, 56)">
+      <rect width="328" height="78" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 1: Define Pipeline Class</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">include/pipelines/cavs/&lt;name&gt;.conf</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Declare <tspan fill="#f1f5f9">Class.Pipeline."my-pipeline"</tspan></text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Include &lt;include/pipelines/pipeline-common.conf&gt;</text>
+    </g>
+
+    <line x1="180" y1="138" x2="180" y2="150" stroke="#34d399" stroke-width="2" marker-end="url(#arrGreen)" />
+
+    <!-- Step 2.2 -->
+    <g transform="translate(16, 154)">
+      <rect width="328" height="88" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 2: Set Scheduling Attributes</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">period 1000, priority 0, core 0</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Timing: <tspan fill="#f1f5f9">time_domain "timer" / "dma"</tspan></text>
+      <text x="12" y="66" fill="#94a3b8" font-size="9">Direction: <tspan fill="#f1f5f9">"playback" / "capture"</tspan></text>
+      <text x="12" y="80" fill="#94a3b8" font-size="9">Dynamic pipeline flag: <tspan fill="#f1f5f9">dynamic_pipeline 1</tspan></text>
+    </g>
+
+    <line x1="180" y1="246" x2="180" y2="258" stroke="#34d399" stroke-width="2" marker-end="url(#arrGreen)" />
+
+    <!-- Step 2.3 -->
+    <g transform="translate(16, 262)">
+      <rect width="328" height="88" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 3: Instantiate Internal Widgets</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">Object.Widget { host-copier."1", gain."1" }</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">FE: Host Copier -&gt; Gain -&gt; <tspan fill="#38bdf8">mixin."1"</tspan></text>
+      <text x="12" y="66" fill="#94a3b8" font-size="9">BE: <tspan fill="#34d399">mixout."1"</tspan> -&gt; EQ/DRC -&gt; DAI Copier</text>
+      <text x="12" y="80" fill="#94a3b8" font-size="9">Allocate intermediate ring buffers</text>
+    </g>
+
+    <line x1="180" y1="354" x2="180" y2="366" stroke="#34d399" stroke-width="2" marker-end="url(#arrGreen)" />
+
+    <!-- Step 2.4 -->
+    <g transform="translate(16, 370)">
+      <rect width="328" height="78" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 4: Define Intra-Pipeline Routes</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">Object.Base.route [ { source gain.$index.1 ... } ]</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Link internal components linearly</text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Dynamic variable <tspan font-family="monospace">$index</tspan> maps to instantiated pipeline ID</text>
+    </g>
+
+    <line x1="180" y1="452" x2="180" y2="464" stroke="#34d399" stroke-width="2" marker-end="url(#arrGreen)" />
+
+    <!-- Step 2.5 -->
+    <g transform="translate(16, 468)">
+      <rect width="328" height="78" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1.2" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 5: Bind to ALSA PCM in Top-Level</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">Object.PCM.pcm."0" { ... }</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Enforce Stride-10 rule (<tspan fill="#f1f5f9">Pipeline ID = PCM ID * 10</tspan>)</text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Add cross-routes between FE mixin and BE mixout</text>
+    </g>
+  </g>
+
+  <!-- Track 3: Creating a New Platform -->
+  <g transform="translate(800, 85)">
+    <rect width="360" height="560" rx="10" fill="url(#track3Grad)" stroke="#d97706" stroke-width="1.5" filter="url(#shadow)" />
+    <rect width="360" height="42" rx="10" fill="#b45309" fill-opacity="0.7" stroke="#d97706" stroke-width="1" />
+    <circle cx="20" cy="21" r="9" fill="#d97706" />
+    <text x="20" y="25" fill="#ffffff" font-size="11" font-weight="700" text-anchor="middle">3</text>
+    <text x="36" y="26" fill="#ffffff" font-size="13" font-weight="700">TRACK 3: New Silicon Platform</text>
+
+    <!-- Step 3.1 -->
+    <g transform="translate(16, 56)">
+      <rect width="328" height="78" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1" />
+      <text x="12" y="20" fill="#fbbf24" font-size="11" font-weight="700">STEP 1: Create Platform Config File</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">platform/intel/&lt;platform&gt;.conf</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Define SoC generations (<tspan fill="#f1f5f9">tgl, mtl, lnl, ptl</tspan>)</text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Support NXP i.MX, AMD, Mediatek targets</text>
+    </g>
+
+    <line x1="180" y1="138" x2="180" y2="150" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrAmber)" />
+
+    <!-- Step 3.2 -->
+    <g transform="translate(16, 154)">
+      <rect width="328" height="88" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1" />
+      <text x="12" y="20" fill="#fbbf24" font-size="11" font-weight="700">STEP 2: Define Hardware Parameters</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">Define { SSP_BLOB_VERSION 0x105 ... }</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">DMIC driver version: <tspan fill="#f1f5f9">DMIC_DRIVER_VERSION 3</tspan></text>
+      <text x="12" y="66" fill="#94a3b8" font-size="9">Audio cardinal clock: <tspan fill="#f1f5f9">BT_MCLK 24576000</tspan></text>
+      <text x="12" y="80" fill="#94a3b8" font-size="9">HDMI display count: <tspan fill="#f1f5f9">NUM_HDMIS 3</tspan></text>
+    </g>
+
+    <line x1="180" y1="246" x2="180" y2="258" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrAmber)" />
+
+    <!-- Step 3.3 -->
+    <g transform="translate(16, 262)">
+      <rect width="328" height="88" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1" />
+      <text x="12" y="20" fill="#fbbf24" font-size="11" font-weight="700">STEP 3: Hook via IncludeByKey</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">IncludeByKey.PLATFORM { "new_plat" ... }</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Inject into top-level <tspan font-family="monospace">cavs-sdw.conf</tspan></text>
+      <text x="12" y="66" fill="#94a3b8" font-size="9">Enable dynamic conditional macro switching</text>
+      <text x="12" y="80" fill="#94a3b8" font-size="9">Zero modification to base pipeline templates</text>
+    </g>
+
+    <line x1="180" y1="354" x2="180" y2="366" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrAmber)" />
+
+    <!-- Step 3.4 -->
+    <g transform="translate(16, 370)">
+      <rect width="328" height="78" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1" />
+      <text x="12" y="20" fill="#fbbf24" font-size="11" font-weight="700">STEP 4: Register CMake Target Tuple</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">production/tplg-targets-&lt;family&gt;.cmake</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Tuple: <tspan fill="#f1f5f9">"base-conf\;out-name\;PLATFORM=..."</tspan></text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Hook into <tspan font-family="monospace">add_alsatplg2_command()</tspan></text>
+    </g>
+
+    <line x1="180" y1="452" x2="180" y2="464" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrAmber)" />
+
+    <!-- Step 3.5 -->
+    <g transform="translate(16, 468)">
+      <rect width="328" height="78" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1.2" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">STEP 5: Build &amp; Deploy on DUT</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10" font-family="monospace">make topologies2</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="9">Deploy to <tspan font-family="monospace">/lib/firmware/intel/sof-ipc4/</tspan></text>
+      <text x="12" y="66" fill="#64748b" font-size="9">Verify with <tspan font-family="monospace">aplay -l</tspan> &amp; <tspan font-family="monospace">amixer controls</tspan></text>
+    </g>
+  </g>
+</svg>

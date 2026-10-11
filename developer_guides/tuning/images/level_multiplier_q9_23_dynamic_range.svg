@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradQ923" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGradQ" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="rangeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a8a" />
+      <stop offset="35%" stop-color="#0284c7" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="85%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+    <filter id="shadowQ" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="600" rx="14" fill="url(#bgGradQ923)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Header -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Fixed-Point Q9.23 Number System &amp; Dynamic Range
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+    32-Bit Word Allocation, 186.64 dB Dynamic Span, Fast-Path Unity Point &amp; Universal 23-Bit Right-Shift
+  </text>
+
+  <!-- Section 1: 32-Bit Word Memory Layout -->
+  <g transform="translate(30, 85)" filter="url(#shadowQ)">
+    <rect width="940" height="110" rx="10" fill="url(#cardGradQ)" stroke="#334155" stroke-width="1.5" />
+    <text x="25" y="25" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">32-Bit Signed Q9.23 Word Memory Organization</text>
+
+    <!-- Bit visual boxes -->
+    <!-- Sign bit: bit 31 -->
+    <rect x="25" y="40" width="60" height="42" rx="4" fill="#dc2626" stroke="#f87171" stroke-width="1.5" />
+    <text x="55" y="58" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="12" font-weight="700">b31</text>
+    <text x="55" y="74" text-anchor="middle" fill="#fecaca" font-family="sans-serif" font-size="9">Sign (s)</text>
+
+    <!-- Integer bits: bits 30..23 (8 bits) -->
+    <rect x="95" y="40" width="220" height="42" rx="4" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+    <text x="205" y="58" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="12" font-weight="700">b30 . . . . . . . . b23</text>
+    <text x="205" y="74" text-anchor="middle" fill="#bae6fd" font-family="sans-serif" font-size="9">8 Integer Bits (Magnitude: 0 .. 255)</text>
+
+    <!-- Fractional bits: bits 22..0 (23 bits) -->
+    <rect x="325" y="40" width="590" height="42" rx="4" fill="#047857" stroke="#34d399" stroke-width="1.5" />
+    <text x="620" y="58" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="12" font-weight="700">b22 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . b0</text>
+    <text x="620" y="74" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="9">23 Fractional Bits (Quantization Step: Δ = 2^-23 ≈ 1.19209 × 10^-7)</text>
+
+    <text x="25" y="98" fill="#94a3b8" font-family="monospace" font-size="10">Linear Equation: Gain = (-1)^s × [ (b30..b23) + (b22..b0) / 2^23 ]</text>
+  </g>
+
+  <!-- Section 2: Dynamic Range Scale Bar -->
+  <g transform="translate(30, 210)" filter="url(#shadowQ)">
+    <rect width="940" height="135" rx="10" fill="url(#cardGradQ)" stroke="#334155" stroke-width="1.5" />
+    <text x="25" y="24" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">Full Dynamic Range &amp; Critical Operating Setpoints</text>
+
+    <!-- Gradient Bar -->
+    <rect x="25" y="40" width="890" height="24" rx="5" fill="url(#rangeGrad)" stroke="#475569" stroke-width="1" />
+
+    <!-- Ticks & Markers -->
+    <!-- Mute / Zero -->
+    <line x1="35" y1="36" x2="35" y2="70" stroke="#f8fafc" stroke-width="2" />
+    <text x="35" y="85" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10" font-weight="700">-∞ dB</text>
+    <text x="35" y="99" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">0x00000000</text>
+    <text x="35" y="112" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8.5">Complete Mute</text>
+
+    <!-- Minimum Non-Zero LSB -->
+    <line x1="160" y1="36" x2="160" y2="70" stroke="#38bdf8" stroke-width="2" />
+    <text x="160" y="85" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">-138.47 dB</text>
+    <text x="160" y="99" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">0x00000001</text>
+    <text x="160" y="112" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="8.5">1 LSB (2^-23)</text>
+
+    <!-- -20 dB -->
+    <line x1="330" y1="36" x2="330" y2="68" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="2,2" />
+    <text x="330" y="85" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">-20.0 dB</text>
+    <text x="330" y="99" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">0x000CCCCD</text>
+    <text x="330" y="112" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8.5">0.1000×</text>
+
+    <!-- Unity Fast-Path: 0 dB -->
+    <line x1="510" y1="34" x2="510" y2="72" stroke="#10b981" stroke-width="3" />
+    <circle cx="510" cy="52" r="7" fill="#10b981" stroke="#ffffff" stroke-width="2" />
+    <text x="510" y="85" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="11" font-weight="700">0.00 dB (Unity)</text>
+    <text x="510" y="99" text-anchor="middle" fill="#a7f3d0" font-family="monospace" font-size="9.5" font-weight="700">0x00800000</text>
+    <text x="510" y="114" text-anchor="middle" fill="#10b981" font-family="sans-serif" font-size="9" font-weight="700">FAST-PATH BYPASS</text>
+
+    <!-- +20 dB -->
+    <line x1="720" y1="36" x2="720" y2="68" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="2,2" />
+    <text x="720" y="85" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="9.5">+20.0 dB</text>
+    <text x="720" y="99" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">0x05000000</text>
+    <text x="720" y="112" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8.5">10.000×</text>
+
+    <!-- Maximum Positive Gain -->
+    <line x1="895" y1="36" x2="895" y2="70" stroke="#f43f5e" stroke-width="2" />
+    <text x="895" y="85" text-anchor="middle" fill="#f43f5e" font-family="sans-serif" font-size="10" font-weight="700">+48.17 dB</text>
+    <text x="895" y="99" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">0x7FFFFFFF</text>
+    <text x="895" y="112" text-anchor="middle" fill="#f43f5e" font-family="sans-serif" font-size="8.5">Max Boost (256.0×)</text>
+  </g>
+
+  <!-- Section 3: PCM Format Kernels & Shift Mathematics -->
+  <g transform="translate(30, 360)" filter="url(#shadowQ)">
+    <rect width="590" height="215" rx="10" fill="url(#cardGradQ)" stroke="#334155" stroke-width="1.5" />
+    <text x="20" y="24" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">Universal Shift Mathematics (Q_SHIFT_BITS Macro)</text>
+
+    <!-- S16 row -->
+    <rect x="15" y="38" width="560" height="50" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+    <text x="25" y="58" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="700">S16_LE</text>
+    <text x="95" y="58" fill="#cbd5e1" font-family="monospace" font-size="10">Shift = 15 + 23 - 15 = <tspan fill="#34d399" font-weight="700">23 bits</tspan></text>
+    <text x="95" y="75" fill="#94a3b8" font-family="sans-serif" font-size="9">q_multsr_sat_32x32_16(*x, gain, 23) → Clamps to [-32768, 32767]</text>
+
+    <!-- S24 row -->
+    <rect x="15" y="95" width="560" height="50" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+    <text x="25" y="115" fill="#34d399" font-family="monospace" font-size="11" font-weight="700">S24_4LE</text>
+    <text x="95" y="115" fill="#cbd5e1" font-family="monospace" font-size="10">Shift = 23 + 23 - 23 = <tspan fill="#34d399" font-weight="700">23 bits</tspan></text>
+    <text x="95" y="132" fill="#94a3b8" font-family="sans-serif" font-size="9">q_multsr_sat_32x32_24(sign_extend_s24(*x), gain, 23) → Clamps to [-2^23, 2^23 - 1]</text>
+
+    <!-- S32 row -->
+    <rect x="15" y="152" width="560" height="50" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+    <text x="25" y="172" fill="#fbbf24" font-family="monospace" font-size="11" font-weight="700">S32_LE</text>
+    <text x="95" y="172" fill="#cbd5e1" font-family="monospace" font-size="10">Shift = 31 + 23 - 31 = <tspan fill="#34d399" font-weight="700">23 bits</tspan></text>
+    <text x="95" y="189" fill="#94a3b8" font-family="sans-serif" font-size="9">q_multsr_sat_32x32(*x, gain, 23) → Full 64-bit product saturated to [-2^31, 2^31 - 1]</text>
+  </g>
+
+  <!-- Section 4: Fast-Path Zero-Overhead Callout -->
+  <g transform="translate(635, 360)" filter="url(#shadowQ)">
+    <rect width="335" height="215" rx="10" fill="url(#cardGradQ)" stroke="#10b981" stroke-width="1.5" />
+    <rect width="335" height="30" rx="10" fill="#064e3b" />
+    <text x="167" y="20" text-anchor="middle" fill="#a7f3d0" font-family="sans-serif" font-size="11" font-weight="700">Zero-Overhead Fast-Path Bypass</text>
+
+    <text x="20" y="55" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Condition:</text>
+    <text x="20" y="73" fill="#34d399" font-family="monospace" font-size="11">cd-&gt;gain == 0x00800000</text>
+
+    <text x="20" y="100" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">Execution Bypass:</text>
+    <text x="20" y="118" fill="#94a3b8" font-family="sans-serif" font-size="10">• Bypasses multiplication loops</text>
+    <text x="20" y="136" fill="#94a3b8" font-family="sans-serif" font-size="10">• Bypasses bit-shifting &amp; saturation</text>
+    <text x="20" y="154" fill="#38bdf8" font-family="monospace" font-size="10">source_to_sink_copy()</text>
+    <text x="20" y="172" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Wide 64/128-bit block memory copy</text>
+
+    <rect x="15" y="183" width="305" height="24" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="167" y="199" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">0.000 ms Latency | Minimal CPC</text>
+  </g>
+</svg>

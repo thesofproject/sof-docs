@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 620" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { rx: 8px; ry: 8px; stroke-width: 1.5px; }
+      .box-core { fill: #ffffff; stroke: #cbd5e1; }
+      .box-state { fill: #fefce8; stroke: #ca8a04; }
+      .box-biquad { fill: #eff6ff; stroke: #3b82f6; }
+      .box-math { fill: #f8fafc; stroke: #94a3b8; }
+      .box-out { fill: #ecfdf5; stroke: #10b981; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 16px; font-weight: 700; fill: #0f172a; }
+      .text-subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #64748b; }
+      .text-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; font-weight: 700; fill: #1e293b; text-anchor: middle; }
+      .text-sublabel { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #64748b; text-anchor: middle; }
+      .text-code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10.5px; fill: #0f172a; }
+      .line { stroke: #64748b; stroke-width: 1.5px; fill: none; }
+      .line-stream { stroke: #2563eb; stroke-width: 2px; fill: none; }
+      .arrow { fill: #64748b; }
+      .arrow-blue { fill: #2563eb; }
+      .node-circ { fill: #2563eb; }
+    </style>
+    <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow" />
+    </marker>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow-blue" />
+    </marker>
+  </defs>
+
+  <rect width="100%" height="100%" class="bg" />
+
+  <!-- Title & Header -->
+  <text x="30" y="32" class="text-title">SOF Crossover Firmware Execution Engine &amp; Direct-Form Biquad Core</text>
+  <text x="30" y="50" class="text-subtitle">Fixed-Point Q2.30 Arithmetic, 64-Bit Accumulators, and Cascaded LR4 Biquad Filter States</text>
+
+  <!-- ==================== LEFT: CHANNEL PROCESSING FLOW ==================== -->
+  <g transform="translate(30, 75)">
+    <rect width="580" height="520" class="box box-core" />
+    <text x="20" y="25" class="text-title" font-size="14">Per-Channel Crossover Processing Loop (crossover_generic.c)</text>
+    <text x="20" y="42" class="text-subtitle">Processes block of N frames across each audio channel independently</text>
+
+    <!-- Outer Loop Box -->
+    <rect x="20" y="60" width="540" height="440" rx="6" ry="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="35" y="80" class="text-code" font-weight="700" fill="#0369a1">for (ch = 0; ch &lt; nch; ch++) {</text>
+    <text x="50" y="100" class="text-code" fill="#475569">state = &amp;cd-&gt;state[ch]; /* Lowpass[3] &amp; Highpass[3] */</text>
+
+    <!-- Inner Frame Loop -->
+    <rect x="40" y="115" width="500" height="340" rx="6" ry="6" fill="#ffffff" stroke="#cbd5e1" />
+    <text x="55" y="135" class="text-code" font-weight="700" fill="#0369a1">for (i = 0; i &lt; frames; i++) {</text>
+
+    <!-- Sample Read -->
+    <rect x="65" y="150" width="450" height="42" rx="4" ry="4" fill="#eff6ff" stroke="#93c5fd" />
+    <text x="80" y="170" class="text-code">1. Read Sample:</text>
+    <text x="190" y="170" class="text-code" font-weight="700">x = audio_stream_read_frag(source, idx);</text>
+    <text x="80" y="185" class="text-sublabel" text-anchor="start" fill="#2563eb">S16/S24/S32 normalized to 32-bit Q1.31 format</text>
+
+    <!-- Split Function Call -->
+    <rect x="65" y="205" width="450" height="60" rx="4" ry="4" class="box-state" />
+    <text x="80" y="225" class="text-code" font-weight="700" fill="#b45309">2. Dynamic Split Dispatch:</text>
+    <text x="80" y="242" class="text-code" fill="#78350f">cd-&gt;crossover_split(x_in, out, state);</text>
+    <text x="80" y="257" class="text-sublabel" text-anchor="start" fill="#92400e">• 2-way: crossover_generic_split_2way() → out[0..1]</text>
+
+    <!-- Multi-Sink Output Write Loop -->
+    <rect x="65" y="280" width="450" height="120" rx="4" ry="4" class="box-out" />
+    <text x="80" y="300" class="text-code" font-weight="700" fill="#065f46">3. Multi-Sink Scatter / Write:</text>
+    <text x="80" y="318" class="text-code" fill="#047857">for (j = 0; j &lt; num_sinks; j++) {</text>
+    <text x="100" y="336" class="text-code" fill="#047857">if (!bsinks[j]) continue; /* skip inactive pins */</text>
+    <text x="100" y="354" class="text-code" fill="#047857">y = audio_stream_write_frag(bsinks[j], idx);</text>
+    <text x="100" y="372" class="text-code" font-weight="700" fill="#065f46">*y = sat_int32(Q_SHIFT_RND(out[j], 31, valid_bits));</text>
+    <text x="80" y="390" class="text-code" fill="#047857">}</text>
+
+    <text x="55" y="445" class="text-code" font-weight="700" fill="#0369a1">} /* end frames */</text>
+    <text x="35" y="485" class="text-code" font-weight="700" fill="#0369a1">} /* end channels */</text>
+  </g>
+
+  <!-- ==================== RIGHT: BIQUAD DIRECT-FORM STRUCTURE ==================== -->
+  <g transform="translate(630, 75)">
+    <rect width="420" height="520" class="box box-core" />
+    <text x="20" y="25" class="text-title" font-size="14">LR4 Biquad Cascade &amp; State Memory</text>
+    <text x="20" y="42" class="text-subtitle">One LR4 Filter = 2 Identical 2nd-Order Biquads in Series</text>
+
+    <!-- Series Box -->
+    <rect x="20" y="60" width="380" height="120" rx="6" ry="6" fill="#f8fafc" stroke="#cbd5e1" />
+    <text x="200" y="80" class="text-label" font-size="11">LR4 Filter Architecture (4-Pole, -24 dB/oct)</text>
+
+    <!-- Biquad 1 -->
+    <rect x="35" y="95" width="130" height="45" class="box box-biquad" />
+    <text x="100" y="115" class="text-label" font-size="10" fill="#1e40af">Biquad 1 (DF1)</text>
+    <text x="100" y="128" class="text-sublabel" font-size="9">2nd Order Butterworth</text>
+
+    <path d="M 165 117 L 210 117" class="line-stream" marker-end="url(#arr-b)" />
+    <text x="187" y="110" class="text-sublabel" font-size="8">w(n)</text>
+
+    <!-- Biquad 2 -->
+    <rect x="210" y="95" width="130" height="45" class="box box-biquad" />
+    <text x="275" y="115" class="text-label" font-size="10" fill="#1e40af">Biquad 2 (DF1)</text>
+    <text x="275" y="128" class="text-sublabel" font-size="9">Identical Coefficients</text>
+
+    <path d="M 340 117 L 375 117" class="line-stream" marker-end="url(#arr-b)" />
+    <text x="360" y="110" class="text-sublabel" font-size="8">y(n)</text>
+
+    <!-- Difference Equation Box -->
+    <rect x="20" y="195" width="380" height="135" rx="6" ry="6" class="box-math" />
+    <text x="35" y="215" class="text-code" font-weight="700" fill="#0f172a">Biquad Difference Equation:</text>
+    <text x="35" y="238" font-family="ui-monospace, monospace" font-size="10" fill="#2563eb">y[n] = b0*x[n] + b1*x[n-1] + b2*x[n-2]</text>
+    <text x="75" y="256" font-family="ui-monospace, monospace" font-size="10" fill="#dc2626">- a1*y[n-1] - a2*y[n-2]</text>
+    
+    <text x="35" y="280" class="text-code" font-size="10" fill="#475569">Accumulator: 64-bit signed int64_t</text>
+    <text x="35" y="298" class="text-code" font-size="10" fill="#475569">Coefficients: Q2.30 format (±2.0 range)</text>
+    <text x="35" y="316" class="text-code" font-size="10" fill="#475569">Shift / Gain: Q2.14 post-scale multiplier</text>
+
+    <!-- State Memory Struct Box -->
+    <rect x="20" y="345" width="380" height="155" rx="6" ry="6" fill="#ffffff" stroke="#cbd5e1" />
+    <text x="35" y="365" class="text-code" font-weight="700" fill="#b45309">State Allocation (struct crossover_state):</text>
+    <text x="35" y="385" class="text-code" font-size="10" fill="#334155">• lowpass[3]: 3 LR4 stages (delay x[n-1,2], y[n-1,2])</text>
+    <text x="35" y="403" class="text-code" font-size="10" fill="#334155">• highpass[3]: 3 LR4 stages (delay history)</text>
+    <text x="35" y="421" class="text-code" font-size="10" fill="#334155">• Delay slots per LR4: 4 words per channel</text>
+    <text x="35" y="439" class="text-code" font-size="10" fill="#334155">• Total delay RAM per stereo channel: 48 words</text>
+    <text x="35" y="457" class="text-code" font-weight="700" fill="#059669">• Reset on STREAM_STOP via crossover_reset_state()</text>
+    <text x="35" y="475" class="text-code" font-size="9" fill="#64748b">  Prevents residual ringing / pops on subsequent stream start</text>
+  </g>
+</svg>

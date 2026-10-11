@@ -1,0 +1,269 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="panelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="roseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+    <marker id="arrowRose" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fb7185" />
+    </marker>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1200" height="680" fill="url(#bgGrad)" />
+
+  <!-- Title Header -->
+  <g transform="translate(40, 28)">
+    <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">ktest.pl Automated Kernel Testing &amp; Deployment Architecture</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">Continuous host-to-target test automation: Git worktree compilation, fail-safe grub-reboot lifecycle, and ALSA/SOF validation</text>
+  </g>
+
+  <!-- Left Column: Host Development Workstation -->
+  <g transform="translate(40, 85)">
+    <!-- Container Card -->
+    <rect width="360" height="465" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="360" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="20" cy="21" r="5" fill="#38bdf8" />
+    <text x="35" y="26" fill="#f1f5f9" font-size="14" font-weight="700">Host Workstation (Build Engine)</text>
+
+    <!-- Sub-Box 1: Git Worktrees -->
+    <g transform="translate(18, 56)">
+      <rect width="324" height="84" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="22" fill="#38bdf8" font-size="12" font-weight="700">Kernel Git Worktree</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">~/work/linux-sof (sound/soc/sof)</text>
+      <text x="14" y="60" fill="#64748b" font-size="10">Branch isolation across DUT platforms (TGL / PTL / ARL)</text>
+    </g>
+
+    <!-- Sub-Box 2: Out-of-tree Build -->
+    <g transform="translate(18, 150)">
+      <rect width="324" height="96" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="14" y="22" fill="#f1f5f9" font-size="12" font-weight="700">Out-Of-Tree Build Engine</text>
+      <text x="14" y="42" fill="#94a3b8" font-size="11">make O=build/ -j$(nproc) bzImage</text>
+      <text x="14" y="60" fill="#94a3b8" font-size="11">make O=build/ modules_install</text>
+      <text x="14" y="80" fill="#34d399" font-size="10">Clean source tree preserved for rapid bisection</text>
+    </g>
+
+    <!-- Sub-Box 3: ktest.pl Controller -->
+    <g transform="translate(18, 256)">
+      <rect width="324" height="104" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <text x="14" y="22" fill="#c084fc" font-size="12" font-weight="700">ktest.pl Test Orchestrator</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">Configuration: ktest-sof.conf</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">Modes: boot | bisect | patchcheck</text>
+      <text x="14" y="80" fill="#94a3b8" font-size="10">SSH connection keeper &amp; log monitor</text>
+    </g>
+
+    <!-- Sub-Box 4: Deployment & Console Monitor -->
+    <g transform="translate(18, 370)">
+      <rect width="324" height="80" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="14" y="22" fill="#f1f5f9" font-size="12" font-weight="700">SSH &amp; Console Watchdog</text>
+      <text x="14" y="42" fill="#94a3b8" font-size="11">SCP binary deployer | grub-reboot trigger</text>
+      <text x="14" y="62" fill="#94a3b8" font-size="11">Serial / early-printk capture (cat /dev/ttyUSB0)</text>
+    </g>
+  </g>
+
+  <!-- Center Column: Network, Transports & Recovery -->
+  <g transform="translate(425, 85)">
+    <!-- Container Card -->
+    <rect width="350" height="465" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="350" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="20" cy="21" r="5" fill="#a855f7" />
+    <text x="35" y="26" fill="#f1f5f9" font-size="14" font-weight="700">Control &amp; Transport Channels</text>
+
+    <!-- Channel 1: SSH / SCP -->
+    <g transform="translate(16, 56)">
+      <rect width="318" height="88" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="22" fill="#38bdf8" font-size="12" font-weight="700">SSH / SCP Remote Deployment</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">scp bzImage root@dut:/boot/vmlinuz-test</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">rsync lib/modules/ root@dut:/lib/modules/</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Passwordless root SSH key authentication</text>
+    </g>
+
+    <!-- Channel 2: Boot Control Command -->
+    <g transform="translate(16, 154)">
+      <rect width="318" height="92" rx="8" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="14" y="22" fill="#fbbf24" font-size="12" font-weight="700">Boot Manager Control</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">ssh root@dut 'grub-reboot "test"'</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">ssh root@dut 'sudo reboot &amp;'</text>
+      <text x="14" y="78" fill="#94a3b8" font-size="10">Arms transient boot-once state in grubenv</text>
+    </g>
+
+    <!-- Channel 3: Serial Console & Logging -->
+    <g transform="translate(16, 256)">
+      <rect width="318" height="88" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="14" y="22" fill="#34d399" font-size="12" font-weight="700">Serial &amp; Kernel Log Streaming</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">UART / earlyprintk / tracepoint monitor</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">TCP probe server / dmesg collector</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Detects kernel panic or successful login prompt</text>
+    </g>
+
+    <!-- Channel 4: Power Cycle & Hardware Recovery -->
+    <g transform="translate(16, 354)">
+      <rect width="318" height="96" rx="8" fill="#0f172a" stroke="#e11d48" stroke-width="1" />
+      <text x="14" y="22" fill="#fb7185" font-size="12" font-weight="700">Fail-Safe Hardware Recovery</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">Network Relay / PDU / soft reboot fallback</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">If DUT freezes on test kernel $\to$ cycle power</text>
+      <text x="14" y="80" fill="#f43f5e" font-size="10">Target automatically falls back to safe kernel!</text>
+    </g>
+  </g>
+
+  <!-- Right Column: Target Device Under Test (DUT) -->
+  <g transform="translate(800, 85)">
+    <!-- Container Card -->
+    <rect width="360" height="465" rx="12" fill="url(#panelGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    <rect width="360" height="42" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <circle cx="20" cy="21" r="5" fill="#10b981" />
+    <text x="35" y="26" fill="#f1f5f9" font-size="14" font-weight="700">Target DUT (SOF Hardware)</text>
+
+    <!-- Sub-Box 1: Boot Manager & Dual Kernel -->
+    <g transform="translate(18, 56)">
+      <rect width="324" height="110" rx="8" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <text x="14" y="22" fill="#34d399" font-size="12" font-weight="700">GRUB2 Boot Environment (/boot/grub/grubenv)</text>
+      <!-- Safe Kernel -->
+      <rect x="14" y="32" width="296" height="32" rx="4" fill="#064e3b" stroke="#059669" stroke-width="1" />
+      <text x="24" y="52" fill="#6ee7b7" font-size="11" font-weight="600">saved_entry: Known-Safe Kernel (Default)</text>
+      <!-- Test Kernel -->
+      <rect x="14" y="70" width="296" height="32" rx="4" fill="#78350f" stroke="#d97706" stroke-width="1" />
+      <text x="24" y="90" fill="#fde68a" font-size="11" font-weight="600">next_entry: Test Kernel (1-Shot via grub-reboot)</text>
+    </g>
+
+    <!-- Sub-Box 2: Target File System -->
+    <g transform="translate(18, 176)">
+      <rect width="324" height="88" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="14" y="22" fill="#f1f5f9" font-size="12" font-weight="700">Target Boot &amp; Module Storage</text>
+      <text x="14" y="42" fill="#94a3b8" font-size="11">/boot/vmlinuz-test &amp; initrd.img-test</text>
+      <text x="14" y="60" fill="#94a3b8" font-size="11">/lib/modules/&lt;kernel-ver&gt;/sound/soc/sof/</text>
+      <text x="14" y="78" fill="#64748b" font-size="10">Isolated from distro production kernel binaries</text>
+    </g>
+
+    <!-- Sub-Box 3: Audio Subsystem & Hardware DSP -->
+    <g transform="translate(18, 274)">
+      <rect width="324" height="96" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="14" y="22" fill="#38bdf8" font-size="12" font-weight="700">SOF Audio Subsystem &amp; DSP Core</text>
+      <text x="14" y="42" fill="#cbd5e1" font-size="11">snd_sof_pci_intel_* / snd_sof_intel_hda</text>
+      <text x="14" y="60" fill="#cbd5e1" font-size="11">Hardware: TGL (CAVS 2.5) | MTL/ARL | PTL (ACE 3.0)</text>
+      <text x="14" y="78" fill="#94a3b8" font-size="10">IPC message pump &amp; DMA trace buffer</text>
+    </g>
+
+    <!-- Sub-Box 4: Automated Post-Boot Verification -->
+    <g transform="translate(18, 380)">
+      <rect width="324" height="70" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="14" y="20" fill="#34d399" font-size="12" font-weight="700">Post-Boot Test Script (TEST = ...)</text>
+      <text x="14" y="38" fill="#cbd5e1" font-size="11">aplay -l | arecord | amixer | sof-test</text>
+      <text x="14" y="56" fill="#34d399" font-size="10">Exit 0 = Test Pass | Exit Non-Zero = Test Fail</text>
+    </g>
+  </g>
+
+  <!-- Bottom Pipeline Flow Indicators -->
+  <g transform="translate(40, 565)">
+    <rect width="1120" height="90" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="20" y="24" fill="#94a3b8" font-size="11" font-weight="700" letter-spacing="0.05em">EXECUTION LIFECYCLE (AUTOMATED FEEDBACK LOOP)</text>
+
+    <!-- Step 1 -->
+    <g transform="translate(20, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#0284c7" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">1</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Compile Kernel</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">bzImage &amp; modules</text>
+    </g>
+    <!-- Arrow -->
+    <path d="M 194 57 L 208 57" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" />
+
+    <!-- Step 2 -->
+    <g transform="translate(214, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#7c3aed" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">2</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Deploy via SSH</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">SCP /boot &amp; /lib/modules</text>
+    </g>
+    <!-- Arrow -->
+    <path d="M 388 57 L 402 57" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" />
+
+    <!-- Step 3 -->
+    <g transform="translate(408, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#d97706" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">3</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">grub-reboot "test"</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">Arm next_entry boot-once</text>
+    </g>
+    <!-- Arrow -->
+    <path d="M 582 57 L 596 57" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrowAmber)" />
+
+    <!-- Step 4 -->
+    <g transform="translate(602, 36)">
+      <rect width="168" height="42" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#059669" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">4</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Reboot &amp; Probe</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">1-Shot test kernel boots</text>
+    </g>
+    <!-- Arrow -->
+    <path d="M 776 57 L 790 57" stroke="#34d399" stroke-width="2" marker-end="url(#arrowEmerald)" />
+
+    <!-- Step 5 -->
+    <g transform="translate(796, 36)">
+      <rect width="160" height="42" rx="6" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#0284c7" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">5</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">ALSA / SOF Smoke</text>
+      <text x="34" y="33" fill="#94a3b8" font-size="9">Run test script via SSH</text>
+    </g>
+    <!-- Arrow -->
+    <path d="M 962 57 L 976 57" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" />
+
+    <!-- Step 6 -->
+    <g transform="translate(982, 36)">
+      <rect width="122" height="42" rx="6" fill="#0f172a" stroke="#10b981" stroke-width="1" />
+      <circle cx="16" cy="21" r="10" fill="#10b981" />
+      <text x="12" y="25" fill="#ffffff" font-size="11" font-weight="700">6</text>
+      <text x="34" y="19" fill="#f8fafc" font-size="10" font-weight="600">Pass / Panic</text>
+      <text x="34" y="33" fill="#34d399" font-size="9">Auto-recovers</text>
+    </g>
+  </g>
+</svg>

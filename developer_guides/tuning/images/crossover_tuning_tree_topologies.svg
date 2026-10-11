@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #f8fafc; }
+      .box { rx: 8px; ry: 8px; stroke-width: 1.5px; }
+      .box-input { fill: #e0f2fe; stroke: #0284c7; }
+      .box-lr4 { fill: #f1f5f9; stroke: #475569; }
+      .box-merge { fill: #fef3c7; stroke: #d97706; stroke-dasharray: 4,3; }
+      .box-out-low { fill: #ecfdf5; stroke: #059669; }
+      .box-out-mid { fill: #fefce8; stroke: #ca8a04; }
+      .box-out-high { fill: #eff6ff; stroke: #2563eb; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 15px; font-weight: 700; fill: #0f172a; }
+      .text-subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #64748b; }
+      .text-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 12px; fill: #334155; }
+      .text-label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 11px; font-weight: 600; fill: #1e293b; text-anchor: middle; }
+      .text-sublabel { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10px; fill: #64748b; text-anchor: middle; }
+      .line { stroke: #64748b; stroke-width: 1.5px; fill: none; }
+      .line-accent { stroke: #0284c7; stroke-width: 2px; fill: none; }
+      .arrow { fill: #64748b; }
+      .arrow-accent { fill: #0284c7; }
+      .badge { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 10px; fill: #0284c7; font-weight: 600; }
+    </style>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 8 5 L 0 9 z" class="arrow-accent" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="100%" height="100%" class="bg" />
+
+  <!-- Title & Header -->
+  <text x="30" y="35" class="text-title" font-size="18">SOF Crossover Filter Tree Topologies &amp; Phase-Alignment Architecture</text>
+  <text x="30" y="55" class="text-subtitle">Recursive Linkwitz-Riley 4th-Order (LR4, -24 dB/oct) Splitting with All-Pass Phase Equalization</text>
+
+  <!-- ==================== TOPOLOGY 1: 2-WAY SPLIT ==================== -->
+  <g transform="translate(30, 80)">
+    <rect width="1040" height="150" rx="10" ry="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="20" y="25" class="text-title" fill="#0369a1">1. Two-Way Crossover (Woofer / Tweeter Split)</text>
+    <text x="20" y="42" class="text-subtitle">Single crossover frequency (Fc_low). Symmetrical 4-pole phase shift (360° rotation) on both branches.</text>
+
+    <!-- Input Node -->
+    <rect x="50" y="70" width="100" height="42" class="box box-input" />
+    <text x="100" y="88" class="text-label">x(n) In</text>
+    <text x="100" y="102" class="text-sublabel">Full Bandwidth</text>
+
+    <!-- Branch Connection -->
+    <path d="M 150 91 L 220 91" class="line-accent" marker-end="url(#arrow-blue)" />
+    <circle cx="220" cy="91" r="3.5" fill="#0284c7" />
+
+    <!-- LP0 -->
+    <path d="M 220 91 L 220 65 L 260 65" class="line" marker-end="url(#arrow)" />
+    <rect x="260" y="45" width="160" height="40" class="box box-lr4" />
+    <text x="340" y="62" class="text-label">LR4 LP0 (Fc_low)</text>
+    <text x="340" y="76" class="text-sublabel">2x Biquad Low-Pass (-24dB/oct)</text>
+
+    <!-- HP0 -->
+    <path d="M 220 91 L 220 117 L 260 117" class="line" marker-end="url(#arrow)" />
+    <rect x="260" y="97" width="160" height="40" class="box box-lr4" />
+    <text x="340" y="114" class="text-label">LR4 HP0 (Fc_low)</text>
+    <text x="340" y="128" class="text-sublabel">2x Biquad High-Pass (+24dB/oct)</text>
+
+    <!-- Outputs -->
+    <path d="M 420 65 L 480 65" class="line" marker-end="url(#arrow)" />
+    <rect x="480" y="45" width="180" height="40" class="box box-out-low" />
+    <text x="570" y="62" class="text-label" fill="#065f46">assign_sink[0]: LOW</text>
+    <text x="570" y="76" class="text-sublabel" fill="#047857">Woofer Driver (0 to Fc_low)</text>
+
+    <path d="M 420 117 L 480 117" class="line" marker-end="url(#arrow)" />
+    <rect x="480" y="97" width="180" height="40" class="box box-out-high" />
+    <text x="570" y="114" class="text-label" fill="#1e40af">assign_sink[1]: HIGH</text>
+    <text x="570" y="128" class="text-sublabel" fill="#2563eb">Tweeter Driver (Fc_low to Fs/2)</text>
+
+    <!-- Info Box -->
+    <rect x="710" y="52" width="300" height="75" rx="6" ry="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="725" y="74" class="text-body" font-weight="600" fill="#334155">Acoustic Properties:</text>
+    <text x="725" y="94" class="text-body" font-size="11">• -6 dB at Fc_low; in-phase sum is 0 dB flat</text>
+    <text x="725" y="110" class="text-body" font-size="11">• Total biquads: 2 (LP0, HP0) = 14 words</text>
+  </g>
+
+  <!-- ==================== TOPOLOGY 2: 3-WAY SPLIT WITH MERGE ==================== -->
+  <g transform="translate(30, 245)">
+    <rect width="1040" height="230" rx="10" ry="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="20" y="25" class="text-title" fill="#b45309">2. Three-Way Crossover (Woofer / Midrange / Tweeter) with Phase-Alignment Merge</text>
+    <text x="20" y="42" class="text-subtitle">Solves acoustic phase cancellation: LOW path traverses an all-pass LR4 merge block matching the 8-pole latency of MID/HIGH.</text>
+
+    <!-- Input Node -->
+    <rect x="40" y="95" width="90" height="40" class="box box-input" />
+    <text x="85" y="112" class="text-label">x(n) In</text>
+    <text x="85" y="125" class="text-sublabel">Wideband</text>
+
+    <path d="M 130 115 L 175 115" class="line-accent" marker-end="url(#arrow-blue)" />
+    <circle cx="175" cy="115" r="3.5" fill="#0284c7" />
+
+    <!-- First Split Stage -->
+    <!-- LP0 -->
+    <path d="M 175 115 L 175 75 L 205 75" class="line" marker-end="url(#arrow)" />
+    <rect x="205" y="55" width="145" height="40" class="box box-lr4" />
+    <text x="277" y="72" class="text-label">LR4 LP0 (Fc_low)</text>
+    <text x="277" y="86" class="text-sublabel">Stage 1 Split (z1)</text>
+
+    <!-- HP0 -->
+    <path d="M 175 115 L 175 165 L 205 165" class="line" marker-end="url(#arrow)" />
+    <rect x="205" y="145" width="145" height="40" class="box box-lr4" />
+    <text x="277" y="162" class="text-label">LR4 HP0 (Fc_low)</text>
+    <text x="277" y="176" class="text-sublabel">Stage 1 Split (z2)</text>
+
+    <!-- LOW Branch: Phase-Alignment Merge Block -->
+    <path d="M 350 75 L 390 75" class="line" marker-end="url(#arrow)" />
+    
+    <!-- Merge Container Box -->
+    <rect x="390" y="45" width="280" height="60" class="box box-merge" />
+    <text x="530" y="59" class="text-label" fill="#b45309">LR4 Merge: LP1(Fc_high) + HP1(Fc_high)</text>
+    <text x="530" y="73" class="text-sublabel" fill="#92400e">All-Pass Acoustic Equalization (360° phase lag added)</text>
+    <text x="530" y="87" class="text-sublabel" fill="#92400e">y_low = sat_int32(LP1(z1) + HP1(z1))</text>
+
+    <!-- MID / HIGH Branch: Stage 2 Split -->
+    <path d="M 350 165 L 390 165" class="line" marker-end="url(#arrow)" />
+    <circle cx="410" cy="165" r="3.5" fill="#64748b" />
+
+    <!-- LP2 -->
+    <path d="M 410 165 L 410 140 L 450 140" class="line" marker-end="url(#arrow)" />
+    <rect x="450" y="120" width="150" height="40" class="box box-lr4" />
+    <text x="525" y="137" class="text-label">LR4 LP2 (Fc_high)</text>
+    <text x="525" y="151" class="text-sublabel">Extracts Midrange</text>
+
+    <!-- HP2 -->
+    <path d="M 410 165 L 410 190 L 450 190" class="line" marker-end="url(#arrow)" />
+    <rect x="450" y="170" width="150" height="40" class="box box-lr4" />
+    <text x="525" y="187" class="text-label">LR4 HP2 (Fc_high)</text>
+    <text x="525" y="201" class="text-sublabel">Extracts Tweeter Band</text>
+
+    <!-- Final 3 Outputs -->
+    <path d="M 670 75 L 720 75" class="line" marker-end="url(#arrow)" />
+    <rect x="720" y="55" width="170" height="40" class="box box-out-low" />
+    <text x="805" y="72" class="text-label" fill="#065f46">assign_sink[0]: LOW</text>
+    <text x="805" y="86" class="text-sublabel" fill="#047857">Woofer (0 to Fc_low)</text>
+
+    <path d="M 600 140 L 720 140" class="line" marker-end="url(#arrow)" />
+    <rect x="720" y="120" width="170" height="40" class="box box-out-mid" />
+    <text x="805" y="137" class="text-label" fill="#854d0e">assign_sink[1]: MID</text>
+    <text x="805" y="151" class="text-sublabel" fill="#a16207">Midrange (Fc_low to Fc_high)</text>
+
+    <path d="M 600 190 L 720 190" class="line" marker-end="url(#arrow)" />
+    <rect x="720" y="170" width="170" height="40" class="box box-out-high" />
+    <text x="805" y="187" class="text-label" fill="#1e40af">assign_sink[2]: HIGH</text>
+    <text x="805" y="201" class="text-sublabel" fill="#2563eb">Tweeter (Fc_high to Fs/2)</text>
+
+    <!-- Side note on phase -->
+    <rect x="910" y="70" width="115" height="120" rx="6" ry="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="967" y="90" class="text-label" font-size="10">Phase Balance</text>
+    <text x="967" y="110" class="text-sublabel">LOW: 8 poles</text>
+    <text x="967" y="125" class="text-sublabel">(LP0 + Merge)</text>
+    <text x="967" y="145" class="text-sublabel">MID: 8 poles</text>
+    <text x="967" y="160" class="text-sublabel">HIGH: 8 poles</text>
+    <text x="967" y="180" class="badge" text-anchor="middle">Zero Tilt</text>
+  </g>
+
+  <!-- ==================== TOPOLOGY 3: 4-WAY BALANCED TREE ==================== -->
+  <g transform="translate(30, 490)">
+    <rect width="1040" height="210" rx="10" ry="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+    <text x="20" y="25" class="text-title" fill="#047857">3. Four-Way Symmetrical Binary Tree (Subwoofer / Low-Mid / High-Mid / Tweeter)</text>
+    <text x="20" y="42" class="text-subtitle">Dual-stage binary tree. Every acoustic branch naturally traverses exactly two LR4 stages (8 poles), perfectly phase-balanced.</text>
+
+    <!-- Input Node -->
+    <rect x="30" y="95" width="80" height="40" class="box box-input" />
+    <text x="70" y="112" class="text-label">x(n) In</text>
+    <text x="70" y="125" class="text-sublabel">Full Band</text>
+
+    <path d="M 110 115 L 140 115" class="line-accent" marker-end="url(#arrow-blue)" />
+    <circle cx="140" cy="115" r="3.5" fill="#0284c7" />
+
+    <!-- Root Split: LR4 LP1 & HP1 at Fc_mid -->
+    <path d="M 140 115 L 140 80 L 165 80" class="line" marker-end="url(#arrow)" />
+    <rect x="165" y="60" width="140" height="40" class="box box-lr4" />
+    <text x="235" y="77" class="text-label">LR4 LP1 (Fc_mid)</text>
+    <text x="235" y="91" class="text-sublabel">Low Group (z1)</text>
+
+    <path d="M 140 115 L 140 150 L 165 150" class="line" marker-end="url(#arrow)" />
+    <rect x="165" y="130" width="140" height="40" class="box box-lr4" />
+    <text x="235" y="147" class="text-label">LR4 HP1 (Fc_mid)</text>
+    <text x="235" y="161" class="text-sublabel">High Group (z2)</text>
+
+    <!-- Branch 1 Split: LP0 / HP0 at Fc_low -->
+    <path d="M 305 80 L 335 80" class="line" marker-end="url(#arrow)" />
+    <circle cx="345" cy="80" r="3.5" fill="#64748b" />
+
+    <path d="M 345 80 L 345 55 L 375 55" class="line" marker-end="url(#arrow)" />
+    <rect x="375" y="38" width="145" height="34" class="box box-lr4" />
+    <text x="447" y="53" class="text-label" font-size="10">LR4 LP0 (Fc_low)</text>
+    <text x="447" y="65" class="text-sublabel" font-size="9">Subwoofer Split</text>
+
+    <path d="M 345 80 L 345 95 L 375 95" class="line" marker-end="url(#arrow)" />
+    <rect x="375" y="78" width="145" height="34" class="box box-lr4" />
+    <text x="447" y="93" class="text-label" font-size="10">LR4 HP0 (Fc_low)</text>
+    <text x="447" y="105" class="text-sublabel" font-size="9">Mid-Bass Split</text>
+
+    <!-- Branch 2 Split: LP2 / HP2 at Fc_high -->
+    <path d="M 305 150 L 335 150" class="line" marker-end="url(#arrow)" />
+    <circle cx="345" cy="150" r="3.5" fill="#64748b" />
+
+    <path d="M 345 150 L 345 135 L 375 135" class="line" marker-end="url(#arrow)" />
+    <rect x="375" y="118" width="145" height="34" class="box box-lr4" />
+    <text x="447" y="133" class="text-label" font-size="10">LR4 LP2 (Fc_high)</text>
+    <text x="447" y="145" class="text-sublabel" font-size="9">Mid-High Split</text>
+
+    <path d="M 345 150 L 345 175 L 375 175" class="line" marker-end="url(#arrow)" />
+    <rect x="375" y="158" width="145" height="34" class="box box-lr4" />
+    <text x="447" y="173" class="text-label" font-size="10">LR4 HP2 (Fc_high)</text>
+    <text x="447" y="185" class="text-sublabel" font-size="9">Ultra-High Tweeter</text>
+
+    <!-- 4 Final Sinks -->
+    <path d="M 520 55 L 560 55" class="line" marker-end="url(#arrow)" />
+    <rect x="560" y="38" width="195" height="34" class="box box-out-low" />
+    <text x="657" y="53" class="text-label" font-size="10" fill="#065f46">assign_sink[0]: SUB / LOW</text>
+    <text x="657" y="65" class="text-sublabel" font-size="9" fill="#047857">Subwoofer (0 to Fc_low)</text>
+
+    <path d="M 520 95 L 560 95" class="line" marker-end="url(#arrow)" />
+    <rect x="560" y="78" width="195" height="34" class="box box-out-mid" />
+    <text x="657" y="93" class="text-label" font-size="10" fill="#854d0e">assign_sink[1]: MID_LOW</text>
+    <text x="657" y="105" class="text-sublabel" font-size="9" fill="#a16207">Woofer (Fc_low to Fc_mid)</text>
+
+    <path d="M 520 135 L 560 135" class="line" marker-end="url(#arrow)" />
+    <rect x="560" y="118" width="195" height="34" class="box box-out-mid" />
+    <text x="657" y="133" class="text-label" font-size="10" fill="#854d0e">assign_sink[2]: MID_HIGH</text>
+    <text x="657" y="145" class="text-sublabel" font-size="9" fill="#a16207">Squawker (Fc_mid to Fc_high)</text>
+
+    <path d="M 520 175 L 560 175" class="line" marker-end="url(#arrow)" />
+    <rect x="560" y="158" width="195" height="34" class="box box-out-high" />
+    <text x="657" y="173" class="text-label" font-size="10" fill="#1e40af">assign_sink[3]: HIGH</text>
+    <text x="657" y="185" class="text-sublabel" font-size="9" fill="#2563eb">Tweeter (Fc_high to Fs/2)</text>
+
+    <!-- Struct Size Info -->
+    <rect x="785" y="55" width="235" height="120" rx="6" ry="6" fill="#f8fafc" stroke="#e2e8f0" />
+    <text x="800" y="78" class="text-body" font-weight="600" fill="#334155">Memory &amp; Pipeline Cost:</text>
+    <text x="800" y="100" class="text-body" font-size="11">• 6 total LR4 filters (12 biquads)</text>
+    <text x="800" y="118" class="text-body" font-size="11">• 42 words in coef[] array</text>
+    <text x="800" y="136" class="text-body" font-size="11">• Exact 8-pole group delay parity</text>
+    <text x="800" y="154" class="text-body" font-size="11">• Zero acoustic summing ripple</text>
+  </g>
+</svg>

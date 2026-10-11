@@ -1,0 +1,193 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .card { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 8px; }
+      .subcard { fill: #21262d; stroke: #30363d; stroke-width: 1; rx: 6px; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 500; fill: #8b949e; }
+      .section-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #79c0ff; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 500; fill: #c9d1d9; }
+      .label-bold { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; fill: #f0f6fc; }
+      .code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #e6edf3; }
+      .code-accent { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #3fb950; font-weight: 600; }
+      .code-orange { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #f0883e; }
+      .code-purple { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #d2a8ff; }
+      .code-red { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #ff7b72; }
+      .line-blue { stroke: #58a6ff; stroke-width: 2.5; fill: none; }
+      .line-orange { stroke: #f0883e; stroke-width: 2.5; fill: none; }
+      .line-green { stroke: #3fb950; stroke-width: 2; fill: none; }
+      .line-dashed { stroke: #8b949e; stroke-width: 1.5; stroke-dasharray: 4,4; fill: none; }
+      .box-blue { fill: #1f2937; stroke: #58a6ff; stroke-width: 1.5; rx: 6px; }
+      .box-orange { fill: #33221a; stroke: #f0883e; stroke-width: 1.5; rx: 6px; }
+      .box-green { fill: #1c2724; stroke: #3fb950; stroke-width: 1.5; rx: 6px; }
+      .box-purple { fill: #291d38; stroke: #bc8cff; stroke-width: 1.5; rx: 6px; }
+      .box-red { fill: #311c23; stroke: #ff7b72; stroke-width: 1.5; rx: 6px; }
+    </style>
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arr-orange" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f0883e" />
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+  </defs>
+
+  <rect width="1100" height="640" class="bg" />
+
+  <text x="35" y="38" class="title">Closed-Loop Hardware I/V Sense Feedback Architecture</text>
+  <text x="35" y="58" class="subtitle">Feed-Forward Speaker Protection &amp; Real-Time Feedback Current/Voltage Sensing via SoundWire / I2S</text>
+
+  <!-- ==================== HOST & SOF DSP SUBSYSTEM (LEFT) ==================== -->
+  <rect x="35" y="80" width="560" height="525" class="card" />
+  <rect x="45" y="90" width="540" height="26" class="subcard" />
+  <text x="55" y="108" class="section-title" fill="#58a6ff">SOF DSP Firmware Pipeline Architecture</text>
+
+  <!-- Playback Audio Input -->
+  <rect x="55" y="130" width="150" height="45" class="box-blue" />
+  <text x="65" y="148" class="label-bold">Host Audio Stream</text>
+  <text x="65" y="164" class="code">ALSA PCM Playback</text>
+
+  <path d="M 205 152 L 245 152" class="line-blue" marker-end="url(#arr-blue)" />
+
+  <!-- Pre-processing / EQ -->
+  <rect x="245" y="130" width="130" height="45" class="subcard" />
+  <text x="255" y="148" class="label-bold">Volume / EQ</text>
+  <text x="255" y="164" class="code">Equalizer / Gain</text>
+
+  <path d="M 375 152 L 415 152" class="line-blue" marker-end="url(#arr-blue)" />
+
+  <!-- SMART_AMP COMPONENT CONTAINER -->
+  <rect x="55" y="195" width="520" height="280" class="subcard" stroke="#58a6ff" stroke-width="1.5" />
+  <rect x="65" y="205" width="500" height="24" fill="#1f2937" rx="4" />
+  <text x="75" y="221" class="label-bold" fill="#79c0ff">SOF Smart Amp Component (num_input_pins: 2, num_output_pins: 1)</text>
+
+  <!-- Pin 0: Feed Forward In -->
+  <rect x="75" y="240" width="180" height="40" class="box-blue" />
+  <text x="85" y="256" class="label-bold">Pin 0: Feed-Forward (FF)</text>
+  <text x="85" y="272" class="code">Playback (L, R) S32_LE</text>
+
+  <!-- Pin 1: Feedback In -->
+  <rect x="75" y="300" width="180" height="40" class="box-orange" />
+  <text x="85" y="316" class="label-bold">Pin 1: Feedback (FB)</text>
+  <text x="85" y="332" class="code">I/V Sense (IL, VL, IR, VR)</text>
+
+  <!-- Channel Remapping & Format Conv -->
+  <rect x="280" y="240" width="125" height="100" class="subcard" stroke="#8b949e" />
+  <text x="290" y="258" class="label-bold">Generic Layer</text>
+  <text x="290" y="274" class="code-accent">source_ch_map</text>
+  <text x="290" y="290" class="code-orange">feedback_ch_map</text>
+  <text x="290" y="306" class="code">fmt_conv: S16/S24</text>
+  <text x="290" y="322" class="code">Memory Manager</text>
+
+  <!-- Connecting Pins to Generic Layer -->
+  <path d="M 255 260 L 280 260" class="line-blue" marker-end="url(#arr-blue)" />
+  <path d="M 255 320 L 280 320" class="line-orange" marker-end="url(#arr-orange)" />
+
+  <!-- DSM INNER MODEL CONTAINER -->
+  <rect x="425" y="240" width="135" height="155" class="box-purple" />
+  <text x="435" y="258" class="label-bold" fill="#d2a8ff">DSM Inner Model</text>
+  <text x="435" y="274" class="code-orange">Excursion Predict</text>
+  <text x="435" y="290" class="code-red">Thermal Modeling</text>
+  <text x="435" y="306" class="code-accent">Adaptive High-Pass</text>
+  <text x="435" y="322" class="code">Re(t) Impedance</text>
+  <text x="435" y="338" class="code-purple">Dynamic Limiter</text>
+  <text x="435" y="354" class="subtitle" font-size="9px">Maxim DSM / Vendor</text>
+  <text x="435" y="368" class="subtitle" font-size="9px">mod_ops-&gt;ff/fb_proc</text>
+
+  <!-- Connections inside Smart Amp -->
+  <path d="M 405 265 L 425 265" class="line-blue" marker-end="url(#arr-blue)" />
+  <path d="M 405 315 L 425 315" class="line-orange" marker-end="url(#arr-orange)" />
+
+  <!-- Out Pin from DSM to Out Pin -->
+  <rect x="280" y="355" width="125" height="40" class="box-blue" />
+  <text x="290" y="371" class="label-bold">Pin 0 Out (Sink)</text>
+  <text x="290" y="387" class="code">Protected Audio</text>
+
+  <path d="M 425 375 L 405 375" class="line-blue" marker-end="url(#arr-blue)" />
+
+  <!-- Telemetry and Parameter Readback box -->
+  <rect x="75" y="410" width="485" height="55" class="subcard" />
+  <text x="85" y="428" class="label-bold" fill="#ff7b72">Runtime ABI Telemetry &amp; Injection (SOF_SMART_AMP_MODEL / CONFIG)</text>
+  <text x="85" y="445" class="code">IPC4 / ALSA Byte Control &lt;--&gt; Live voice coil temp Tv(t), Re(t), Xpeak, supply voltage</text>
+
+  <!-- FEEDBACK CAPTURE PIPELINE IN DSP -->
+  <rect x="55" y="490" width="520" height="95" class="subcard" stroke="#f0883e" stroke-width="1.5" />
+  <text x="65" y="508" class="label-bold" fill="#f0883e">SOF Capture Pipeline (I/V Sense Demux)</text>
+  <text x="65" y="525" class="code">DAI In (SoundWire / SSP) --&gt; Demux --&gt; Feedback Buffer (sad-&gt;feedback_buf)</text>
+  <text x="65" y="542" class="subtitle">Extracts synchronized current I(t) and terminal voltage V(t) at 48 kHz / 24-bit</text>
+  <text x="65" y="559" class="code-orange">Direction: SOF_IPC_STREAM_CAPTURE | Invalidate &amp; Writeback DMA cache</text>
+
+  <!-- Connect Capture pipeline to Pin 1 -->
+  <path d="M 165 490 L 165 340" class="line-orange" marker-end="url(#arr-orange)" />
+
+  <!-- Connect Pre-processing to Pin 0 -->
+  <path d="M 415 152 L 435 152 L 435 180 L 165 180 L 165 240" class="line-blue" marker-end="url(#arr-blue)" />
+
+  <!-- Output from Smart Amp down to DAI -->
+  <path d="M 342 395 L 342 430 L 610 430" class="line-blue" marker-end="url(#arr-blue)" />
+
+  <!-- ==================== HARDWARE & TRANSDUCER (RIGHT) ==================== -->
+  <rect x="635" y="80" width="430" height="525" class="card" />
+  <rect x="645" y="90" width="410" height="26" class="subcard" />
+  <text x="655" y="108" class="section-title" fill="#3fb950">Hardware Platform &amp; Smart Codec IC</text>
+
+  <!-- Smart Amp IC -->
+  <rect x="655" y="130" width="390" height="230" class="subcard" stroke="#3fb950" stroke-width="1.5" />
+  <text x="670" y="152" class="label-bold" fill="#3fb950">Smart Amplifier Hardware IC (e.g. MAX98373 / CS35L41)</text>
+  <text x="670" y="168" class="subtitle">Digital Audio Interface: SoundWire (SDW) or Multi-slot TDM</text>
+
+  <!-- DAC & Class-D Amp -->
+  <rect x="670" y="185" width="165" height="55" class="box-blue" />
+  <text x="680" y="203" class="label-bold">DAC &amp; Class-D Stage</text>
+  <text x="680" y="219" class="code">H-Bridge Output Stage</text>
+  <text x="680" y="233" class="code-accent">PVDD: 5V - 12V Boost</text>
+
+  <!-- Sense ADCs -->
+  <rect x="670" y="255" width="165" height="85" class="box-orange" />
+  <text x="680" y="273" class="label-bold">On-Die I/V Sense ADCs</text>
+  <text x="680" y="289" class="code">Current ADC: Rsense</text>
+  <text x="680" y="305" class="code">Voltage ADC: Vout</text>
+  <text x="680" y="321" class="code-orange">24-bit @ 48 kHz / 96 kHz</text>
+
+  <!-- Speaker Box -->
+  <rect x="865" y="185" width="165" height="155" class="box-green" />
+  <text x="875" y="205" class="label-bold" fill="#3fb950">Micro-Speaker</text>
+  <text x="875" y="222" class="code-accent">Voice Coil (Re, Le)</text>
+  <text x="875" y="239" class="code">Cone / Diaphragm (Mms)</text>
+  <text x="875" y="256" class="code">Suspension (Cms, Rms)</text>
+  <text x="875" y="273" class="code-red">Excursion x(t) ≤ Xmax</text>
+  <text x="875" y="290" class="code-orange">Temp Tv(t) ≤ Tlimit</text>
+  <text x="875" y="307" class="subtitle" font-size="9px">Acoustic Radiated Pressure</text>
+
+  <!-- Connections inside HW -->
+  <path d="M 835 210 L 865 210" class="line-blue" marker-end="url(#arr-blue)" />
+  <text x="840" y="204" class="code" font-size="9px" fill="#58a6ff">Vout</text>
+
+  <!-- Sense lines from speaker back to sense ADCs -->
+  <path d="M 947 340 L 947 375 L 752 375 L 752 340" class="line-orange" marker-end="url(#arr-orange)" />
+  <text x="780" y="370" class="code-orange" font-size="9px">Kelvin Sensing: I_sense + V_sense</text>
+
+  <!-- BUS RETURN ARROWS -->
+  <!-- SoundWire Tx (playback to amp) -->
+  <path d="M 610 430 L 635 430 L 635 210 L 670 210" class="line-blue" marker-end="url(#arr-blue)" />
+  <text x="590" y="420" class="label-bold" fill="#58a6ff">SDW Tx (Audio)</text>
+
+  <!-- SoundWire Rx (I/V sense back to DSP) -->
+  <path d="M 670 300 L 620 300 L 620 540 L 575 540" class="line-orange" marker-end="url(#arr-orange)" />
+  <text x="590" y="530" class="label-bold" fill="#f0883e">SDW Rx (I/V)</text>
+
+  <!-- Hardware Features summary -->
+  <rect x="655" y="400" width="390" height="185" class="subcard" />
+  <text x="670" y="420" class="label-bold">Key Closed-Loop Advantages in SOF:</text>
+  <text x="670" y="440" class="code-accent">1. Dynamic Headroom Maximization:</text>
+  <text x="670" y="455" class="label" font-size="11px">Plays +6 dB to +10 dB louder than open-loop fixed limiters.</text>
+  <text x="670" y="475" class="code-orange">2. Continuous Re(T) Tracking:</text>
+  <text x="670" y="490" class="label" font-size="11px">Tracks voice coil heat directly without external sensors.</text>
+  <text x="670" y="510" class="code-purple">3. Acoustic Leak &amp; Aging Adaptation:</text>
+  <text x="670" y="525" class="label" font-size="11px">Detects speaker gasket failure, broken mesh, and aging.</text>
+  <text x="670" y="545" class="code-red">4. Thermal Runaway Prevention:</text>
+  <text x="670" y="560" class="label" font-size="11px">Instantly attenuates output before voice coil burns out.</text>
+</svg>

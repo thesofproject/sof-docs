@@ -1,0 +1,230 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="panelGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="purpleGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="amberGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+    <linearGradient id="roseGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#be123c" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="dropShadow2" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowEmerald2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrowPurple2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowAmber2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="680" fill="url(#bgGrad2)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 26)">
+    <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Ztest v3 Suite Execution &amp; Fixture Lifecycle in SOF</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">Detailed execution flow: Suite setup, per-test isolation (before/after), FFF mock reset, assertion evaluation, and teardown</text>
+  </g>
+
+  <!-- Stage 1: Suite Registration Banner -->
+  <g transform="translate(40, 80)">
+    <rect width="1120" height="74" rx="10" fill="url(#panelGrad2)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow2)" />
+    <rect x="16" y="14" width="180" height="24" rx="6" fill="#0284c7" />
+    <text x="24" y="30" fill="#ffffff" font-size="11" font-weight="700">ZTEST_SUITE DEFINITION</text>
+    <text x="210" y="31" fill="#38bdf8" font-size="13" font-weight="700" font-family="monospace">ZTEST_SUITE(sof_vol_suite, predicate, suite_setup, test_before, test_after, suite_teardown);</text>
+    <text x="20" y="58" fill="#94a3b8" font-size="11">Binds optional run predicates, 1-shot suite fixtures (setup/teardown), and per-test isolation hooks (before/after)</text>
+  </g>
+
+  <!-- Stage 2: Suite Setup Hook -->
+  <g transform="translate(40, 170)">
+    <!-- Container -->
+    <rect width="320" height="375" rx="12" fill="url(#panelGrad2)" stroke="#059669" stroke-width="1.5" filter="url(#dropShadow2)" />
+    <rect width="320" height="38" rx="12" fill="#064e3b" stroke="#059669" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#34d399" />
+    <text x="35" y="24" fill="#f1f5f9" font-size="13" font-weight="700">1. Suite Setup (Runs Once)</text>
+
+    <g transform="translate(14, 52)">
+      <rect width="292" height="74" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">Framework Init</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="11">sys_comp_init(sof);</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="10">Initializes mock component registry</text>
+    </g>
+
+    <g transform="translate(14, 136)">
+      <rect width="292" height="78" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">Driver Registration</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="10">sys_comp_module_volume_init();</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="10">Registers volume/eq/mixer driver UUID</text>
+      <text x="12" y="68" fill="#64748b" font-size="9">Populates audio interface vtable</text>
+    </g>
+
+    <g transform="translate(14, 224)">
+      <rect width="292" height="78" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">Fixture Context Allocation</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="10">struct test_fixture *f = malloc(...);</text>
+      <text x="12" y="54" fill="#cbd5e1" font-size="10">return f; /* Passed to all tests */</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Shared testbed context initialization</text>
+    </g>
+
+    <g transform="translate(14, 312)">
+      <rect width="292" height="48" rx="6" fill="#064e3b" stroke="#059669" stroke-width="1" />
+      <text x="12" y="20" fill="#a7f3d0" font-size="11" font-weight="600">Setup Result: Ready</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10">Advances to per-test execution loop</text>
+    </g>
+  </g>
+
+  <!-- Arrow from Suite Setup to Per-Test Loop -->
+  <path d="M 364 350 L 388 350" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrowEmerald2)" />
+
+  <!-- Stage 3: Per-Test Execution Loop (Center Box) -->
+  <g transform="translate(395, 170)">
+    <!-- Container -->
+    <rect width="470" height="375" rx="12" fill="url(#panelGrad2)" stroke="#38bdf8" stroke-width="1.5" filter="url(#dropShadow2)" />
+    <rect width="470" height="38" rx="12" fill="#0369a1" stroke="#38bdf8" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#38bdf8" />
+    <text x="35" y="24" fill="#f1f5f9" font-size="13" font-weight="700">2. Per-Test Execution Loop (Repeated per ZTEST)</text>
+
+    <!-- Sub-Step 1: before() Hook -->
+    <g transform="translate(16, 48)">
+      <rect width="438" height="66" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="18" fill="#38bdf8" font-size="11" font-weight="700">before(fixture) Hook: State Isolation</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10">RESET_FAKE(dma_copy); RESET_FAKE(ipc_send); /* Reset FFF fakes */</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="10">Zero memory buffers &amp; re-initialize per-test fixture state</text>
+    </g>
+
+    <!-- Sub-Step 2: Test Body -->
+    <g transform="translate(16, 122)">
+      <rect width="438" height="114" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <text x="12" y="20" fill="#c084fc" font-size="11" font-weight="700">ZTEST_F(sof_vol_suite, test_case, f): Test Body</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="10">1. dev = comp_new(&amp;ipc_config); /* Instantiate component */</text>
+      <text x="12" y="54" fill="#cbd5e1" font-size="10">2. comp_params(dev, &amp;pcm_params); comp_prepare(dev);</text>
+      <text x="12" y="70" fill="#cbd5e1" font-size="10">3. comp_copy(dev); /* Process audio frames */</text>
+      <text x="12" y="88" fill="#fbbf24" font-size="10">4. zassert_equal(dev-&gt;state, COMP_STATE_ACTIVE, "State err");</text>
+      <text x="12" y="104" fill="#34d399" font-size="10">5. zassert_mem_equal(out_buf, expected_buf, size, "Data err");</text>
+    </g>
+
+    <!-- Sub-Step 3: after() Hook -->
+    <g transform="translate(16, 244)">
+      <rect width="438" height="66" rx="8" fill="#0f172a" stroke="#0284c7" stroke-width="1" />
+      <text x="12" y="18" fill="#38bdf8" font-size="11" font-weight="700">after(fixture) Hook: Verification &amp; Cleanup</text>
+      <text x="12" y="36" fill="#cbd5e1" font-size="10">comp_free(dev); /* Release test component */</text>
+      <text x="12" y="52" fill="#94a3b8" font-size="10">Validate zero memory leaks &amp; verify FFF mock call counts</text>
+    </g>
+
+    <!-- Loop Indicator -->
+    <g transform="translate(16, 318)">
+      <rect width="438" height="44" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1" />
+      <text x="12" y="18" fill="#38bdf8" font-size="10" font-weight="700">Next Test Case</text>
+      <text x="12" y="32" fill="#94a3b8" font-size="9">Advances to test_volume_gain_ramp, test_volume_mute, test_volume_overflow...</text>
+    </g>
+  </g>
+
+  <!-- Arrow from Per-Test Loop to Teardown -->
+  <path d="M 868 350 L 892 350" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrowCyan2)" />
+
+  <!-- Stage 4: Suite Teardown & Results -->
+  <g transform="translate(895, 170)">
+    <!-- Container -->
+    <rect width="265" height="375" rx="12" fill="url(#panelGrad2)" stroke="#d97706" stroke-width="1.5" filter="url(#dropShadow2)" />
+    <rect width="265" height="38" rx="12" fill="#78350f" stroke="#d97706" stroke-width="1.5" />
+    <circle cx="20" cy="19" r="5" fill="#fbbf24" />
+    <text x="35" y="24" fill="#f1f5f9" font-size="13" font-weight="700">3. Suite Teardown &amp; Logs</text>
+
+    <g transform="translate(14, 52)">
+      <rect width="237" height="84" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="12" y="20" fill="#fbbf24" font-size="11" font-weight="700">suite_teardown()</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="10">free(fixture);</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="10">Releases shared pools</text>
+      <text x="12" y="70" fill="#64748b" font-size="9">Deregisters component drivers</text>
+    </g>
+
+    <g transform="translate(14, 146)">
+      <rect width="237" height="106" rx="8" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="12" y="20" fill="#34d399" font-size="11" font-weight="700">Result Aggregation</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="10">Tests: 12 / Passed: 12</text>
+      <text x="12" y="54" fill="#cbd5e1" font-size="10">Failures: 0 / Skipped: 0</text>
+      <text x="12" y="70" fill="#34d399" font-size="10">PASS (Duration: 0.042s)</text>
+      <text x="12" y="90" fill="#94a3b8" font-size="9">Fast host execution</text>
+    </g>
+
+    <g transform="translate(14, 262)">
+      <rect width="237" height="98" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-width="1" />
+      <text x="12" y="20" fill="#c084fc" font-size="11" font-weight="700">Twister Artifacts</text>
+      <text x="12" y="38" fill="#cbd5e1" font-size="10">twister.xml (JUnit)</text>
+      <text x="12" y="54" fill="#cbd5e1" font-size="10">testlog.txt (stdout/stderr)</text>
+      <text x="12" y="70" fill="#cbd5e1" font-size="10">coverage.info (lcov)</text>
+      <text x="12" y="88" fill="#64748b" font-size="9">CI publishable reports</text>
+    </g>
+  </g>
+
+  <!-- Bottom Status Bar -->
+  <g transform="translate(40, 565)">
+    <rect width="1120" height="90" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1.5" />
+    <text x="20" y="22" fill="#94a3b8" font-size="11" font-weight="700" letter-spacing="0.05em">ZTEST V3 ADVANTAGES OVER LEGACY CMOCKA</text>
+
+    <!-- Comparison 1 -->
+    <g transform="translate(20, 32)">
+      <rect width="255" height="50" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="10" y="18" fill="#38bdf8" font-size="10" font-weight="700">Native Zephyr Integration</text>
+      <text x="10" y="32" fill="#cbd5e1" font-size="10">Zero external CMake wrappers</text>
+      <text x="10" y="44" fill="#64748b" font-size="9">Uses native Kconfig &amp; west meta-tool</text>
+    </g>
+
+    <!-- Comparison 2 -->
+    <g transform="translate(290, 32)">
+      <rect width="255" height="50" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="10" y="18" fill="#34d399" font-size="10" font-weight="700">Complete Per-Test Isolation</text>
+      <text x="10" y="32" fill="#cbd5e1" font-size="10">before/after hooks eliminate bleed</text>
+      <text x="10" y="44" fill="#64748b" font-size="9">Fresh mock state for every test case</text>
+    </g>
+
+    <!-- Comparison 3 -->
+    <g transform="translate(560, 32)">
+      <rect width="255" height="50" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="10" y="18" fill="#fbbf24" font-size="10" font-weight="700">Built-in FFF Mocking</text>
+      <text x="10" y="32" fill="#cbd5e1" font-size="10">Type-safe function faking</text>
+      <text x="10" y="44" fill="#64748b" font-size="9">Captures call history &amp; custom returns</text>
+    </g>
+
+    <!-- Comparison 4 -->
+    <g transform="translate(830, 32)">
+      <rect width="270" height="50" rx="6" fill="#0f172a" stroke="#334155" stroke-width="1" />
+      <text x="10" y="18" fill="#c084fc" font-size="10" font-weight="700">Standardized CI Reporting</text>
+      <text x="10" y="32" fill="#cbd5e1" font-size="10">Automated JUnit XML &amp; gcov</text>
+      <text x="10" y="44" fill="#64748b" font-size="9">Integrated GitHub Actions test summaries</text>
+    </g>
+  </g>
+</svg>

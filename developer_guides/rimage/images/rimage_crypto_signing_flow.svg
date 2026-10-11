@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="card-grad-4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-purple-4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="hdr-amber-4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d97706"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="hdr-rose-4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#be123c"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
+    </linearGradient>
+
+    <marker id="arr-purple-4" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+    <marker id="arr-amber-4" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-emerald-4" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+
+    <filter id="shadow-4" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="660" rx="12" fill="url(#bg-grad-4)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Cryptographic Signing Architecture &amp; Hardware Root-of-Trust Authentication
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Dual Signing Modes (Native RSA PKCS#1 v1.5 vs Intel MEU/HSM) and CSME / DSP Boot ROM eFuse Verification
+    </text>
+  </g>
+
+  <!-- Section 1: Top Panel - Build-Time Signing Flows -->
+  <g transform="translate(40, 85)" filter="url(#shadow-4)">
+    <rect width="1020" height="230" rx="10" fill="url(#card-grad-4)" stroke="#7c3aed" stroke-width="1.2"/>
+    <rect width="1020" height="28" rx="10" fill="url(#hdr-purple-4)"/>
+    <rect y="20" width="1020" height="8" fill="#7c3aed"/>
+    <text x="20" y="19" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff">
+      Build-Time Cryptographic Signing: Native Engine vs External Intel MEU / OEM HSM Flow
+    </text>
+
+    <!-- Branch A: Native Rimage Signing -->
+    <g transform="translate(20, 42)">
+      <rect width="470" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="14" y="22" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#c084fc">
+        Flow A: Native Rimage Signing (-k otc_private.pem)
+      </text>
+      <text x="14" y="38" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">
+        Used for Community Builds, Engineering Silicon &amp; Pre-Production Validation
+      </text>
+
+      <!-- Sub-steps -->
+      <g transform="translate(14, 52)">
+        <rect width="442" height="28" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="10" y="18" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+          1. SHA-256 (CAVS) / SHA-384 (ACE) per module .text/.data
+        </text>
+
+        <rect y="34" width="442" height="28" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="10" y="52" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+          2. Hash CSS + CSE + ADSP Manifest Payload Block
+        </text>
+
+        <rect y="68" width="442" height="36" rx="4" fill="#7c3aed" fill-opacity="0.2" stroke="#7c3aed"/>
+        <text x="10" y="84" font-family="ui-monospace, monospace" font-size="9.5" font-weight="600" fill="#e9d5ff">
+          3. RSA-2048/3072 PKCS#1 v1.5 Sign with Private Key
+        </text>
+        <text x="10" y="97" font-family="system-ui, sans-serif" font-size="8.5" fill="#c084fc">
+          Directly generates signed container image (<tspan font-family="ui-monospace, monospace">sof-*.ri</tspan>)
+        </text>
+      </g>
+    </g>
+
+    <!-- Branch B: External MEU / HSM Signing -->
+    <g transform="translate(530, 42)">
+      <rect width="470" height="170" rx="8" fill="#0f172a" stroke="#334155"/>
+      <text x="14" y="22" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#fbbf24">
+        Flow B: Production External Signing (-s meu_offset)
+      </text>
+      <text x="14" y="38" font-family="system-ui, sans-serif" font-size="9.5" fill="#94a3b8">
+        Used for Commercial Tier-1 OEM Production Laptops &amp; Fused Hardware
+      </text>
+
+      <!-- Sub-steps -->
+      <g transform="translate(14, 52)">
+        <rect width="442" height="28" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="10" y="18" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+          1. rimage outputs unsigned .ri.uns &amp; metadata .ri.met
+        </text>
+
+        <rect y="34" width="442" height="28" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="10" y="52" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+          2. Intel MEU Tool / Air-Gapped HSM signs with OEM Key
+        </text>
+
+        <rect y="68" width="442" height="36" rx="4" fill="#d97706" fill-opacity="0.2" stroke="#d97706"/>
+        <text x="10" y="84" font-family="ui-monospace, monospace" font-size="9.5" font-weight="600" fill="#fde68a">
+          3. rimage -q (Resign) or -y (Verify Signature)
+        </text>
+        <text x="10" y="97" font-family="system-ui, sans-serif" font-size="8.5" fill="#fbbf24">
+          Stitches signed headers and validates production cryptographic parameters
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Arrow Connecting Build to Hardware Authentication -->
+  <g transform="translate(550, 325)">
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#a855f7" stroke-width="2.5" marker-end="url(#arr-purple-4)"/>
+    <text x="10" y="18" font-family="system-ui, sans-serif" font-size="9.5" font-weight="700" fill="#c084fc">
+      Loaded on Target DUT
+    </text>
+  </g>
+
+  <!-- Section 2: Bottom Panel - Hardware Boot ROM / CSME Authentication Sequence -->
+  <g transform="translate(40, 365)" filter="url(#shadow-4)">
+    <rect width="1020" height="265" rx="10" fill="url(#card-grad-4)" stroke="#059669" stroke-width="1.2"/>
+    <rect width="1020" height="28" rx="10" fill="url(#hdr-emerald-4)"/>
+    <rect y="20" width="1020" height="8" fill="#059669"/>
+    <text x="20" y="19" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff">
+      Hardware Boot ROM / CSME Authentication Pipeline (Silicon Execution)
+    </text>
+
+    <!-- 4 Step Hardware Pipeline -->
+    <g transform="translate(20, 42)">
+      <!-- Stage 1: eFuse Key Hash Check -->
+      <g transform="translate(0, 0)">
+        <rect width="225" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
+        <circle cx="24" cy="24" r="11" fill="#10b981"/>
+        <text x="24" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+        <text x="44" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">
+          eFuse Root Validation
+        </text>
+
+        <text x="14" y="54" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          Hardware reads Public Key Modulus from CSS header ($MN2).
+        </text>
+        <rect x="10" y="70" width="205" height="38" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="14" y="86" font-family="ui-monospace, monospace" font-size="8.5" fill="#a7f3d0">
+          H(Modulus) == eFuse_Hash?
+        </text>
+        <text x="14" y="100" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">
+          Match against burned OTP fuses
+        </text>
+
+        <text x="14" y="126" font-family="system-ui, sans-serif" font-size="8.5" fill="#fb7185">
+          FAIL ➔ Hard Reset / Lockup
+        </text>
+        <text x="14" y="138" font-family="system-ui, sans-serif" font-size="8.5" fill="#34d399">
+          PASS ➔ Proceed to Step 2
+        </text>
+      </g>
+
+      <!-- Connect 1 -> 2 -->
+      <line x1="230" y1="75" x2="255" y2="75" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald-4)"/>
+
+      <!-- Stage 2: RSA PKCS#1 v1.5 Signature Verification -->
+      <g transform="translate(260, 0)">
+        <rect width="225" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
+        <circle cx="24" cy="24" r="11" fill="#10b981"/>
+        <text x="24" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+        <text x="44" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">
+          CSS RSA Verification
+        </text>
+
+        <text x="14" y="54" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          Decrypts RSA signature using authenticated Public Key.
+        </text>
+        <rect x="10" y="70" width="205" height="38" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="14" y="86" font-family="ui-monospace, monospace" font-size="8.5" fill="#a7f3d0">
+          RSA_Verify(Sig, Manifest)
+        </text>
+        <text x="14" y="100" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">
+          SHA-256 / SHA-384 PKCS#1 v1.5
+        </text>
+
+        <text x="14" y="126" font-family="system-ui, sans-serif" font-size="8.5" fill="#fb7185">
+          FAIL ➔ CSS auth error
+        </text>
+        <text x="14" y="138" font-family="system-ui, sans-serif" font-size="8.5" fill="#34d399">
+          PASS ➔ Proceed to Step 3
+        </text>
+      </g>
+
+      <!-- Connect 2 -> 3 -->
+      <line x1="490" y1="75" x2="515" y2="75" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald-4)"/>
+
+      <!-- Stage 3: Anti-Rollback & PV Check -->
+      <g transform="translate(520, 0)">
+        <rect width="225" height="150" rx="8" fill="#0f172a" stroke="#334155"/>
+        <circle cx="24" cy="24" r="11" fill="#10b981"/>
+        <text x="24" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+        <text x="44" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">
+          SVN &amp; PV Bit Check
+        </text>
+
+        <text x="14" y="54" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          Validates Security Version Number against hardware counter.
+        </text>
+        <rect x="10" y="70" width="205" height="38" rx="4" fill="#1e293b" stroke="#475569"/>
+        <text x="14" y="86" font-family="ui-monospace, monospace" font-size="8.5" fill="#a7f3d0">
+          CSS.svn &gt;= HW_Min_SVN
+        </text>
+        <text x="14" y="100" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">
+          PV Bit matches silicon state
+        </text>
+
+        <text x="14" y="126" font-family="system-ui, sans-serif" font-size="8.5" fill="#fb7185">
+          FAIL ➔ Rollback detected
+        </text>
+        <text x="14" y="138" font-family="system-ui, sans-serif" font-size="8.5" fill="#34d399">
+          PASS ➔ Proceed to Step 4
+        </text>
+      </g>
+
+      <!-- Connect 3 -> 4 -->
+      <line x1="750" y1="75" x2="775" y2="75" stroke="#10b981" stroke-width="2" marker-end="url(#arr-emerald-4)"/>
+
+      <!-- Stage 4: Module Digest Integrity & Execution -->
+      <g transform="translate(780, 0)">
+        <rect width="200" height="150" rx="8" fill="#0f172a" stroke="#10b981"/>
+        <circle cx="24" cy="24" r="11" fill="#10b981"/>
+        <text x="24" y="28" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+        <text x="44" y="27" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#34d399">
+          Core Execution
+        </text>
+
+        <text x="14" y="54" font-family="system-ui, sans-serif" font-size="9.5" fill="#cbd5e1">
+          Validates SHA digests in $AME per module before jumping.
+        </text>
+        <rect x="10" y="70" width="180" height="38" rx="4" fill="#059669" fill-opacity="0.2" stroke="#10b981"/>
+        <text x="14" y="86" font-family="ui-monospace, monospace" font-size="8.5" fill="#a7f3d0">
+          Jump to entry_point
+        </text>
+        <text x="14" y="100" font-family="system-ui, sans-serif" font-size="8" fill="#34d399">
+          DSP Core 0 Released
+        </text>
+
+        <text x="14" y="130" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#34d399">
+          FW BOOT SUCCESS
+        </text>
+      </g>
+    </g>
+
+    <!-- Bottom Note -->
+    <text x="20" y="245" font-family="system-ui, sans-serif" font-size="10.5" fill="#94a3b8">
+      Production Silicon Policy: If any hardware fuse check, RSA signature decryption, or SVN anti-rollback check fails, the DSP Boot ROM terminates boot execution immediately, keeping the audio subsystem in hard D3 state.
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,218 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="card-grad-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Headers -->
+    <linearGradient id="hdr-blue-5" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald-5" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+    <linearGradient id="hdr-purple-5" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <!-- Block Fills -->
+    <linearGradient id="blk-cyan-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#083344"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+    <linearGradient id="blk-indigo-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#3730a3"/>
+    </linearGradient>
+    <linearGradient id="blk-amber-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#451a03"/>
+      <stop offset="100%" stop-color="#b45309"/>
+    </linearGradient>
+    <linearGradient id="blk-rose-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4c0519"/>
+      <stop offset="100%" stop-color="#9f1239"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-blue-5" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#60a5fa"/>
+    </marker>
+    <marker id="arr-emerald-5" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+    <marker id="arr-purple-5" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#c084fc"/>
+    </marker>
+
+    <filter id="shadow-5" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="660" rx="12" fill="url(#bg-grad-5)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Platform Memory Architectures &amp; Virtual Addressing Matrix
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      cAVS (1.5, 1.8, 2.5) vs ACE (1.5, 2.0, 3.0): SRAM Aliasing, Cache Bypass Windows, IMR Layout, and Alignment Rules
+    </text>
+  </g>
+
+  <!-- Left Column: Intel cAVS Architecture (APL, CNL, ICL, TGL) -->
+  <g transform="translate(40, 85)" filter="url(#shadow-5)">
+    <rect width="500" height="340" rx="10" fill="url(#card-grad-5)" stroke="#2563eb" stroke-width="1.2"/>
+    <rect width="500" height="28" rx="10" fill="url(#hdr-blue-5)"/>
+    <rect y="20" width="500" height="8" fill="#2563eb"/>
+    <text x="20" y="19" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff">
+      Intel cAVS Memory Architecture (cAVS 1.5, 1.8, 2.5 / Tiger Lake, Ice Lake)
+    </text>
+
+    <!-- Memory Map Visualization Stack -->
+    <!-- Cached HP-SRAM -->
+    <rect x="25" y="45" width="210" height="52" rx="6" fill="url(#blk-cyan-5)" stroke="#06b6d4" stroke-width="1"/>
+    <text x="35" y="65" font-family="monospace" font-size="11" font-weight="700" fill="#67e8f9">0xBE000000</text>
+    <text x="35" y="80" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#e0f2fe">HP-SRAM (Cached Alias)</text>
+    <text x="35" y="91" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">Code (.text), RoData, Stack, Heap</text>
+
+    <!-- Uncached HP-SRAM Alias -->
+    <rect x="265" y="45" width="210" height="52" rx="6" fill="url(#blk-indigo-5)" stroke="#6366f1" stroke-width="1"/>
+    <text x="275" y="65" font-family="monospace" font-size="11" font-weight="700" fill="#a5b4fc">0x9E000000</text>
+    <text x="275" y="80" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#ede9fe">HP-SRAM (Uncached Alias)</text>
+    <text x="275" y="91" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">IPC Mailboxes, DMA Ring Descriptors</text>
+
+    <!-- Alias mapping connector -->
+    <path d="M 235 71 L 265 71" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <circle cx="250" cy="71" r="3" fill="#38bdf8"/>
+
+    <!-- Cached LP-SRAM -->
+    <rect x="25" y="108" width="210" height="46" rx="6" fill="url(#blk-cyan-5)" stroke="#06b6d4" stroke-width="0.8" opacity="0.85"/>
+    <text x="35" y="126" font-family="monospace" font-size="10.5" font-weight="700" fill="#67e8f9">0xBF000000</text>
+    <text x="35" y="141" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#e0f2fe">LP-SRAM (Cached)</text>
+    <text x="145" y="141" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Low-power retention</text>
+
+    <!-- Uncached LP-SRAM Alias -->
+    <rect x="265" y="108" width="210" height="46" rx="6" fill="url(#blk-indigo-5)" stroke="#6366f1" stroke-width="0.8" opacity="0.85"/>
+    <text x="275" y="126" font-family="monospace" font-size="10.5" font-weight="700" fill="#a5b4fc">0x9F000000</text>
+    <text x="275" y="141" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#ede9fe">LP-SRAM (Uncached)</text>
+    <text x="390" y="141" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Wakeup buffers</text>
+
+    <!-- IMR Window -->
+    <rect x="25" y="165" width="450" height="48" rx="6" fill="url(#blk-amber-5)" stroke="#f59e0b" stroke-width="1"/>
+    <text x="35" y="185" font-family="monospace" font-size="11" font-weight="700" fill="#fbbf24">0xB0000000</text>
+    <text x="135" y="185" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#fef3c7">IMR (Isolated Memory Region) in Host DRAM</text>
+    <text x="35" y="202" font-family="system-ui, sans-serif" font-size="9" fill="#fde68a">Pre-allocated carveout for runtime firmware staging, large buffers, and crashdump capture</text>
+
+    <!-- Key cAVS Characteristics Table -->
+    <rect x="25" y="224" width="450" height="102" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="35" y="242" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">cAVS Memory Management Parameters:</text>
+    <text x="35" y="260" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Cache Bit Mask: <tspan font-family="monospace" fill="#38bdf8">Bit 29 / Bit 30</tspan> controls caching (Uncached = base &amp; ~0x20000000)</text>
+    <text x="35" y="276" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Page Alignment: <tspan font-family="monospace" fill="#38bdf8">4096 bytes (4 KB)</tspan> strictly required by CSE and DMA engines</text>
+    <text x="35" y="292" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Boot Vector: Reset vector mapped at <tspan font-family="monospace" fill="#38bdf8">0xBE000000</tspan> (HP-SRAM entry point)</text>
+    <text x="35" y="308" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Host DMA Load: DMA transfers firmware directly into SRAM before DSP core is reset</text>
+  </g>
+
+  <!-- Right Column: Intel ACE Architecture (MTL, ARL, LNL, PTL) -->
+  <g transform="translate(560, 85)" filter="url(#shadow-5)">
+    <rect width="500" height="340" rx="10" fill="url(#card-grad-5)" stroke="#059669" stroke-width="1.2"/>
+    <rect width="500" height="28" rx="10" fill="url(#hdr-emerald-5)"/>
+    <rect y="20" width="500" height="8" fill="#059669"/>
+    <text x="20" y="19" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff">
+      Intel ACE Memory Architecture (ACE 1.5, 2.0, 3.0 / Arrow Lake, Panther Lake)
+    </text>
+
+    <!-- Memory Map Visualization Stack -->
+    <!-- Cached SRAM -->
+    <rect x="25" y="45" width="210" height="52" rx="6" fill="url(#blk-cyan-5)" stroke="#10b981" stroke-width="1"/>
+    <text x="35" y="65" font-family="monospace" font-size="11" font-weight="700" fill="#6ee7b7">0xA0000000</text>
+    <text x="35" y="80" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#ecfdf5">DSP SRAM (Cached Window)</text>
+    <text x="35" y="91" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">Normal execution, L1/L2 data cached</text>
+
+    <!-- Uncached / Cache-Bypass SRAM Alias -->
+    <rect x="265" y="45" width="210" height="52" rx="6" fill="url(#blk-indigo-5)" stroke="#8b5cf6" stroke-width="1"/>
+    <text x="275" y="65" font-family="monospace" font-size="11" font-weight="700" fill="#c4b5fd">0x40000000</text>
+    <text x="275" y="80" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#f5f3ff">DSP SRAM (Uncached Window)</text>
+    <text x="275" y="91" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">L2 Cache Bypass: IPC, Trace, DMA</text>
+
+    <!-- Alias mapping connector -->
+    <path d="M 235 71 L 265 71" stroke="#34d399" stroke-width="1.5" stroke-dasharray="3,3"/>
+    <circle cx="250" cy="71" r="3" fill="#34d399"/>
+
+    <!-- L2 Cache Subsystem -->
+    <rect x="25" y="108" width="450" height="46" rx="6" fill="#1e293b" stroke="#059669" stroke-width="0.8"/>
+    <text x="35" y="126" font-family="monospace" font-size="10.5" font-weight="700" fill="#34d399">Unified L2 Cache / Memory Subsystem</text>
+    <text x="35" y="141" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">Coherent multi-core DSP cluster (Core 0-3); hardware snooping across DSP cores</text>
+
+    <!-- ACE IMR Window -->
+    <rect x="25" y="165" width="450" height="48" rx="6" fill="url(#blk-amber-5)" stroke="#f59e0b" stroke-width="1"/>
+    <text x="35" y="185" font-family="monospace" font-size="11" font-weight="700" fill="#fbbf24">0xA104A000 / 0xA1000000</text>
+    <text x="205" y="185" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#fef3c7">IMR Boot &amp; Dynamic Module Staging</text>
+    <text x="35" y="202" font-family="system-ui, sans-serif" font-size="9" fill="#fde68a">CSME stages initial payload; LLEXT relocatable modules loaded on demand</text>
+
+    <!-- Key ACE Characteristics Table -->
+    <rect x="25" y="224" width="450" height="102" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+    <text x="35" y="242" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">ACE Memory Management Parameters:</text>
+    <text x="35" y="260" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Uncached Remapping: <tspan font-family="monospace" fill="#34d399">0x40000000</tspan> aliases physical SRAM without cache allocation</text>
+    <text x="35" y="276" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Dynamic Modules: <tspan font-family="monospace" fill="#34d399">Zephyr LLEXT</tspan> relocatable segments mapped dynamically</text>
+    <text x="35" y="292" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Multi-Core Snooping: HW MESI/L2 cache coherency between primary and secondary cores</text>
+    <text x="35" y="308" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• CSME Preload: CSME verifies manifest &amp; copies signed image from Host DRAM into IMR/SRAM</text>
+  </g>
+
+  <!-- Bottom Panel: Segment Mapping & Rimage Alignment Rules -->
+  <g transform="translate(40, 440)" filter="url(#shadow-5)">
+    <rect width="1020" height="195" rx="10" fill="url(#card-grad-5)" stroke="#7c3aed" stroke-width="1.2"/>
+    <rect width="1020" height="28" rx="10" fill="url(#hdr-purple-5)"/>
+    <rect y="20" width="1020" height="8" fill="#7c3aed"/>
+    <text x="20" y="19" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff">
+      Rimage ELF Section Mapping, Page Alignment, and Cache Flush Handshake
+    </text>
+
+    <!-- 3 Sub-blocks in Bottom Panel -->
+    <!-- Sub-block 1: ELF to Memory Window Mapping -->
+    <g transform="translate(20, 42)">
+      <rect width="310" height="135" rx="8" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+      <text x="15" y="22" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#c084fc">1. ELF Section Segmentation</text>
+      <text x="15" y="42" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#38bdf8">.text, .literal</tspan>: SRAM Cached, Executable</text>
+      <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#38bdf8">.rodata</tspan>: SRAM Cached, Read-Only</text>
+      <text x="15" y="74" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#38bdf8">.data, .bss</tspan>: SRAM Cached, Read-Write</text>
+      <text x="15" y="90" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#f59e0b">.shmem, .mailbox</tspan>: SRAM Uncached Alias</text>
+      <text x="15" y="106" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#a855f7">.llext.*</tspan>: Position-independent ELF sections</text>
+      <text x="15" y="122" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">Extracted and validated against TOML limits</text>
+    </g>
+
+    <!-- Sub-block 2: Page Padding & Binary Packing -->
+    <g transform="translate(355, 42)">
+      <rect width="310" height="135" rx="8" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+      <text x="15" y="22" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#38bdf8">2. Alignment &amp; Page Constraints</text>
+      <text x="15" y="42" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#38bdf8">MAN_PAGE_SIZE = 4096 (4 KB)</tspan></text>
+      <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Segment padding to 4KB page boundaries</text>
+      <text x="15" y="74" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• <tspan font-family="monospace" fill="#38bdf8">preload_page_count</tspan> defines boot DMA size</text>
+      <text x="15" y="90" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• CSS / CPD Manifests aligned to 16/64 bytes</text>
+      <text x="15" y="106" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Extended Manifest aligned to 16 bytes</text>
+      <text x="15" y="122" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">Mismatched alignment causes CSME verify fault</text>
+    </g>
+
+    <!-- Sub-block 3: Cache Maintenance Directives -->
+    <g transform="translate(690, 42)">
+      <rect width="310" height="135" rx="8" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+      <text x="15" y="22" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#34d399">3. Cache Coherency Handshake</text>
+      <text x="15" y="42" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Host DMA writes bypass DSP L1/L2 caches</text>
+      <text x="15" y="58" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• DSP invalidates I-Cache before executing code</text>
+      <text x="15" y="74" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Firmware performs <tspan font-family="monospace" fill="#34d399">dcache_writeback</tspan></text>
+      <text x="15" y="90" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• IPC messaging uses uncached window</text>
+      <text x="15" y="106" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">• Shared buffers require fence instructions</text>
+      <text x="15" y="122" font-family="system-ui, sans-serif" font-size="8.5" fill="#64748b">Prevents stale memory hazard between Host &amp; DSP</text>
+    </g>
+  </g>
+</svg>

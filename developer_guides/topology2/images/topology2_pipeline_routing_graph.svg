@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="feGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f2942" />
+    </linearGradient>
+    <linearGradient id="beGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#193326" />
+    </linearGradient>
+    <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#2d1c3a" />
+    </linearGradient>
+
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.35" />
+    </filter>
+
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="680" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 28)">
+    <text x="0" y="24" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">Topology 2.0 Multi-Pipeline Audio Routing Architecture</text>
+    <text x="0" y="46" fill="#94a3b8" font-size="13">Decoupled Front-End (PCM) and Back-End (DAI) pipelines linked via dynamic Mixin/Mixout cross-routes</text>
+  </g>
+
+  <!-- Left: Front-End Playback Domain -->
+  <g transform="translate(40, 85)">
+    <!-- FE Container -->
+    <rect width="460" height="260" rx="10" fill="url(#feGrad)" stroke="#0284c7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect width="460" height="32" rx="10" fill="#0369a1" fill-opacity="0.6" stroke="#0284c7" stroke-width="1" />
+    <text x="16" y="21" fill="#e0f2fe" font-size="13" font-weight="700">FE Pipeline 0: Low-Latency Playback (Host -&gt; Mixin)</text>
+    <text x="350" y="21" fill="#7dd3fc" font-size="11" font-weight="600">Period: 1000 µs</text>
+
+    <!-- Components inside FE 0 -->
+    <!-- Host Copier -->
+    <g transform="translate(20, 50)">
+      <rect width="120" height="70" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="10" y="20" fill="#38bdf8" font-size="11" font-weight="700">HOST COPIER</text>
+      <text x="10" y="36" fill="#f1f5f9" font-size="10" font-family="monospace">host-copier.0.pb</text>
+      <text x="10" y="52" fill="#94a3b8" font-size="9">PCM ID: 0 (Stereo)</text>
+      <text x="10" y="63" fill="#64748b" font-size="9">16/24/32-bit LE</text>
+    </g>
+
+    <!-- Arrow Host -> Gain -->
+    <path d="M 140 85 L 165 85" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)" />
+
+    <!-- Gain / Volume -->
+    <g transform="translate(170, 50)">
+      <rect width="115" height="70" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.2" />
+      <text x="10" y="20" fill="#38bdf8" font-size="11" font-weight="700">VOLUME / GAIN</text>
+      <text x="10" y="36" fill="#f1f5f9" font-size="10" font-family="monospace">gain.0.1</text>
+      <text x="10" y="52" fill="#94a3b8" font-size="9">Control: Playback Vol</text>
+      <text x="10" y="63" fill="#64748b" font-size="9">32-bit Q1.31</text>
+    </g>
+
+    <!-- Arrow Gain -> Mixin -->
+    <path d="M 285 85 L 310 85" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrCyan)" />
+
+    <!-- Mixin 0 -->
+    <g transform="translate(315, 50)">
+      <rect width="125" height="70" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="10" y="20" fill="#38bdf8" font-size="11" font-weight="700">MIXIN COMPONENT</text>
+      <text x="10" y="36" fill="#f1f5f9" font-size="10" font-family="monospace">mixin.0.1</text>
+      <text x="10" y="52" fill="#94a3b8" font-size="9">Output Pin 0 (Shared)</text>
+      <text x="10" y="63" fill="#64748b" font-size="9">Non-blocking source</text>
+    </g>
+
+    <!-- Divider Line -->
+    <line x1="20" y1="135" x2="440" y2="135" stroke="#334155" stroke-width="1" stroke-dasharray="2,2" />
+
+    <!-- FE Pipeline 15: Deep Buffer Playback -->
+    <text x="16" y="155" fill="#fef08a" font-size="12" font-weight="700">FE Pipeline 15: Deep Buffer Playback (PCM ID: 31, Period: 4000 µs)</text>
+
+    <!-- Deep Host Copier -->
+    <g transform="translate(20, 168)">
+      <rect width="120" height="68" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="10" y="20" fill="#fbbf24" font-size="11" font-weight="700">DEEP BUFFER</text>
+      <text x="10" y="36" fill="#f1f5f9" font-size="10" font-family="monospace">host-copier.15.pb</text>
+      <text x="10" y="52" fill="#94a3b8" font-size="9">High latency ring</text>
+      <text x="10" y="62" fill="#64748b" font-size="9">Low power idle</text>
+    </g>
+
+    <path d="M 140 202 L 165 202" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrAmber)" />
+
+    <!-- Deep Gain -->
+    <g transform="translate(170, 168)">
+      <rect width="115" height="68" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.2" />
+      <text x="10" y="20" fill="#fbbf24" font-size="11" font-weight="700">GAIN</text>
+      <text x="10" y="36" fill="#f1f5f9" font-size="10" font-family="monospace">gain.15.1</text>
+      <text x="10" y="52" fill="#94a3b8" font-size="9">Attenuation/Fade</text>
+      <text x="10" y="62" fill="#64748b" font-size="9">32-bit Q1.31</text>
+    </g>
+
+    <path d="M 285 202 L 310 202" stroke="#fbbf24" stroke-width="2" marker-end="url(#arrAmber)" />
+
+    <!-- Deep Mixin 15 -->
+    <g transform="translate(315, 168)">
+      <rect width="125" height="68" rx="6" fill="#1e293b" stroke="#fbbf24" stroke-width="1.5" />
+      <text x="10" y="20" fill="#fbbf24" font-size="11" font-weight="700">MIXIN COMPONENT</text>
+      <text x="10" y="36" fill="#f1f5f9" font-size="10" font-family="monospace">mixin.15.1</text>
+      <text x="10" y="52" fill="#94a3b8" font-size="9">Deep buffer mixin</text>
+      <text x="10" y="62" fill="#64748b" font-size="9">Dynamic connect</text>
+    </g>
+  </g>
+
+  <!-- Center Cross-Route Box -->
+  <g transform="translate(530, 160)">
+    <rect width="140" height="110" rx="8" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3,3" filter="url(#shadow)" />
+    <text x="14" y="24" fill="#38bdf8" font-size="12" font-weight="700">Object.Base.route</text>
+    <text x="14" y="44" fill="#f1f5f9" font-size="10" font-family="monospace">source mixin.0.1</text>
+    <text x="14" y="60" fill="#f1f5f9" font-size="10" font-family="monospace">source mixin.15.1</text>
+    <text x="14" y="78" fill="#34d399" font-size="10" font-family="monospace">sink mixout.1.1</text>
+    <text x="14" y="98" fill="#94a3b8" font-size="9">Dynamic fan-in mix</text>
+  </g>
+
+  <!-- Route Lines FE0/FE15 -> Route Box -> BE1 -->
+  <path d="M 480 120 L 525 185" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrCyan)" />
+  <path d="M 480 236 L 525 215" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrAmber)" />
+  <path d="M 670 215 L 705 215" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrEmerald)" />
+
+  <!-- Right: Back-End Playback Domain -->
+  <g transform="translate(710, 85)">
+    <rect width="450" height="260" rx="10" fill="url(#beGrad)" stroke="#059669" stroke-width="1.5" filter="url(#shadow)" />
+    <rect width="450" height="32" rx="10" fill="#047857" fill-opacity="0.6" stroke="#059669" stroke-width="1" />
+    <text x="16" y="21" fill="#d1fae5" font-size="13" font-weight="700">BE Pipeline 1: Physical Endpoint (Mixout -&gt; DAI)</text>
+    <text x="335" y="21" fill="#a7f3d0" font-size="11" font-weight="600">Period: 1000 µs (LL)</text>
+
+    <!-- Mixout 1 -->
+    <g transform="translate(20, 75)">
+      <rect width="115" height="135" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5" />
+      <text x="10" y="22" fill="#34d399" font-size="11" font-weight="700">MIXOUT</text>
+      <text x="10" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">mixout.1.1</text>
+      <text x="10" y="58" fill="#94a3b8" font-size="9">Sums inputs</text>
+      <text x="10" y="74" fill="#94a3b8" font-size="9">Clipping guard</text>
+      <text x="10" y="90" fill="#94a3b8" font-size="9">Dynamic clients</text>
+      <text x="10" y="112" fill="#64748b" font-size="8">32-bit Accumulator</text>
+    </g>
+
+    <path d="M 135 142 L 155 142" stroke="#34d399" stroke-width="2" marker-end="url(#arrEmerald)" />
+
+    <!-- Processing Block (EQ/DRC) -->
+    <g transform="translate(160, 75)">
+      <rect width="125" height="135" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.2" />
+      <text x="10" y="22" fill="#34d399" font-size="11" font-weight="700">EQ FIR/IIR &amp; DRC</text>
+      <text x="10" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">eqiir.1.1 / drc.1.1</text>
+      <text x="10" y="58" fill="#94a3b8" font-size="9">Tuning Presets</text>
+      <text x="10" y="74" fill="#94a3b8" font-size="9">Biquad filters</text>
+      <text x="10" y="90" fill="#94a3b8" font-size="9">Dynamic peak limiter</text>
+      <text x="10" y="112" fill="#64748b" font-size="8">Byte Controls</text>
+    </g>
+
+    <path d="M 285 142 L 305 142" stroke="#34d399" stroke-width="2" marker-end="url(#arrEmerald)" />
+
+    <!-- DAI Copier -->
+    <g transform="translate(310, 75)">
+      <rect width="120" height="135" rx="6" fill="#1e293b" stroke="#34d399" stroke-width="1.5" />
+      <text x="10" y="22" fill="#34d399" font-size="11" font-weight="700">DAI COPIER</text>
+      <text x="10" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">dai-copier.1.ALH</text>
+      <text x="10" y="58" fill="#94a3b8" font-size="9">Hardware FIFO</text>
+      <text x="10" y="74" fill="#94a3b8" font-size="9">SoundWire / SSP</text>
+      <text x="10" y="90" fill="#94a3b8" font-size="9">DAI Index: 1</text>
+      <text x="10" y="112" fill="#64748b" font-size="8">Audio Clock Domain</text>
+    </g>
+  </g>
+
+  <!-- Bottom: Full Duplex Capture & Acoustic Processing -->
+  <g transform="translate(40, 370)">
+    <rect width="1120" height="270" rx="10" fill="url(#capGrad)" stroke="#7c3aed" stroke-width="1.5" filter="url(#shadow)" />
+    <rect width="1120" height="32" rx="10" fill="#6d28d9" fill-opacity="0.6" stroke="#7c3aed" stroke-width="1" />
+    <text x="16" y="21" fill="#ede9fe" font-size="13" font-weight="700">Capture Pipeline Architecture: Hardware PDM/DMIC -&gt; Pre-Processing -&gt; Host Recording &amp; Echo Cancellation</text>
+    <text x="960" y="21" fill="#c4b5fd" font-size="11" font-weight="600">Duplex Alignment</text>
+
+    <!-- Stage 1: Hardware DAI Copier (DMIC/SSP) -->
+    <g transform="translate(25, 55)">
+      <rect width="145" height="95" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.2" />
+      <text x="12" y="22" fill="#c084fc" font-size="11" font-weight="700">DMIC DAI COPIER</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">dai-copier.41.dmic</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">PCH / SoundWire Mic</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Pipeline 41 (BE)</text>
+      <text x="12" y="82" fill="#64748b" font-size="8">16/48 kHz, 2/4-ch</text>
+    </g>
+
+    <path d="M 170 102 L 195 102" stroke="#c084fc" stroke-width="2" marker-end="url(#arrPurple)" />
+
+    <!-- Stage 2: DC Blocker -->
+    <g transform="translate(200, 55)">
+      <rect width="135" height="95" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.2" />
+      <text x="12" y="22" fill="#c084fc" font-size="11" font-weight="700">DC BLOCKER</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">dcblock.41.1</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">Removes PDM DC bias</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">High-pass 20 Hz</text>
+      <text x="12" y="82" fill="#64748b" font-size="8">Zero Phase shift</text>
+    </g>
+
+    <path d="M 335 102 L 360 102" stroke="#c084fc" stroke-width="2" marker-end="url(#arrPurple)" />
+
+    <!-- Stage 3: Beamformer (TDFB) -->
+    <g transform="translate(365, 55)">
+      <rect width="145" height="95" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.2" />
+      <text x="12" y="22" fill="#c084fc" font-size="11" font-weight="700">BEAMFORMER (TDFB)</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">tdfb.41.1</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">Multi-mic spatial filter</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Steered acoustic beam</text>
+      <text x="12" y="82" fill="#64748b" font-size="8">FIR coefficient blob</text>
+    </g>
+
+    <path d="M 510 102 L 535 102" stroke="#c084fc" stroke-width="2" marker-end="url(#arrPurple)" />
+
+    <!-- Stage 4: AEC (Echo Cancellation with Playback Ref) -->
+    <g transform="translate(540, 55)">
+      <rect width="155" height="95" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.2" />
+      <text x="12" y="22" fill="#c084fc" font-size="11" font-weight="700">ACOUSTIC ECHO CANCEL</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">google-rtc-aec.41.1</text>
+      <text x="12" y="54" fill="#fbbf24" font-size="9">Ref In: Playback Echo</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Far-end cancellation</text>
+      <text x="12" y="82" fill="#64748b" font-size="8">Dual-stream sync</text>
+    </g>
+
+    <!-- Echo Ref feedback line from BE1 to AEC -->
+    <path d="M 1080 220 L 1100 220 L 1100 360 L 620 360 L 620 155" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="3,3" marker-end="url(#arrAmber)" />
+    <text x="820" y="352" fill="#fbbf24" font-size="10" font-weight="600">Echo Reference Feedback Route (mixout.1 -&gt; aec ref)</text>
+
+    <path d="M 695 102 L 720 102" stroke="#c084fc" stroke-width="2" marker-end="url(#arrPurple)" />
+
+    <!-- Stage 5: Noise Reduction (RTNR) -->
+    <g transform="translate(725, 55)">
+      <rect width="145" height="95" rx="6" fill="#1e293b" stroke="#c084fc" stroke-width="1.2" />
+      <text x="12" y="22" fill="#c084fc" font-size="11" font-weight="700">NOISE REDUCTION</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">rtnr.41.1</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">Wiener spectral filter</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Stationary noise floor</text>
+      <text x="12" y="82" fill="#64748b" font-size="8">Real-time bypass switch</text>
+    </g>
+
+    <path d="M 870 102 L 895 102" stroke="#c084fc" stroke-width="2" marker-end="url(#arrPurple)" />
+
+    <!-- Stage 6: Host Capture Copier (FE 40) -->
+    <g transform="translate(900, 55)">
+      <rect width="185" height="95" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1.5" />
+      <text x="12" y="22" fill="#38bdf8" font-size="11" font-weight="700">HOST CAPTURE COPIER</text>
+      <text x="12" y="38" fill="#f1f5f9" font-size="10" font-family="monospace">host-copier.40.capture</text>
+      <text x="12" y="54" fill="#94a3b8" font-size="9">FE Pipeline 40 (PCM ID: 4)</text>
+      <text x="12" y="68" fill="#94a3b8" font-size="9">Clean Voice Audio Stream</text>
+      <text x="12" y="82" fill="#64748b" font-size="8">Host DMA Ring Buffer</text>
+    </g>
+
+    <!-- Lower Diagnostic & Metrics Bar -->
+    <g transform="translate(25, 175)">
+      <rect width="1060" height="70" rx="6" fill="#111827" stroke="#374151" stroke-width="1" />
+      <text x="16" y="24" fill="#9ca3af" font-size="11" font-weight="600">PIPELINE SCHEDULING CONVENTIONS &amp; ATTRIBUTES:</text>
+      <text x="16" y="44" fill="#cbd5e1" font-size="10"><tspan fill="#38bdf8">FE / BE Stride Rule:</tspan> SoundWire uses <tspan font-family="monospace">Pipeline ID = PCM ID * 10</tspan> (FE = N, BE = N+1). HDMI uses stride-10 (<tspan font-family="monospace">Host=N0, DAI=N1</tspan>).</text>
+      <text x="16" y="60" fill="#cbd5e1" font-size="10"><tspan fill="#34d399">Dynamic Connection Points:</tspan> FE pipelines terminate at <tspan font-family="monospace">mixin</tspan>, BE pipelines originate at <tspan font-family="monospace">mixout</tspan>, enabling independent dynamic runtime instantiation.</text>
+    </g>
+  </g>
+</svg>

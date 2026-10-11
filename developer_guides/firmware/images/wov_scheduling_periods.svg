@@ -1,0 +1,213 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="sched-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Background -->
+    <linearGradient id="sched-card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Domain Headers -->
+    <linearGradient id="sched-ll-hdr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="sched-dp-hdr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="sched-core-hdr" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c2410c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+
+    <!-- Shadow -->
+    <filter id="sched-shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="960" height="540" rx="12" fill="url(#sched-bg)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      Low-Latency (LL) vs. Data Processing (DP) Multi-Period Scheduling
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8">
+      Matching Buffer Sizes (IBS/OBS), Execution Domains, and Cross-Core Task Balancing
+    </text>
+  </g>
+
+  <!-- ==================== TIMELINE DIAGRAM ==================== -->
+  <g transform="translate(40, 85)" filter="url(#sched-shadow)">
+    <rect width="880" height="235" rx="8" fill="url(#sched-card)" stroke="#334155" stroke-width="1.5"/>
+    
+    <!-- Time Axis Header -->
+    <text x="20" y="26" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="700" fill="#f8fafc">
+      Execution Timeline Across Scheduling Domains (16 kHz Audio Stream)
+    </text>
+
+    <!-- 1ms LL Timer Ticks -->
+    <g transform="translate(160, 45)">
+      <line x1="0" y1="0" x2="680" y2="0" stroke="#475569" stroke-width="1"/>
+      <!-- Tick marks for 0 to 20 ms -->
+      <!-- 20 ms mapped to 680 px -> 34 px per ms -->
+      <path d="M 0 -4 L 0 4 M 34 -4 L 34 4 M 68 -4 L 68 4 M 102 -4 L 102 4 M 136 -4 L 136 4 M 170 -4 L 170 4 M 204 -4 L 204 4 M 238 -4 L 238 4 M 272 -4 L 272 4 M 306 -4 L 306 4 M 340 -4 L 340 4 M 374 -4 L 374 4 M 408 -4 L 408 4 M 442 -4 L 442 4 M 476 -4 L 476 4 M 510 -4 L 510 4 M 544 -4 L 544 4 M 578 -4 L 578 4 M 612 -4 L 612 4 M 646 -4 L 646 4 M 680 -4 L 680 4" stroke="#64748b" stroke-width="1.5"/>
+      <text x="0" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">0ms</text>
+      <text x="170" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">5ms</text>
+      <text x="340" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#38bdf8">10ms (DP MWW)</text>
+      <text x="510" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#94a3b8">15ms</text>
+      <text x="680" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#2dd4bf">20ms (DP ECNS)</text>
+    </g>
+
+    <!-- Row 1: Low-Latency Domain (1 ms = 16 samples) -->
+    <g transform="translate(20, 80)">
+      <rect width="130" height="28" rx="4" fill="#1e3a8a"/>
+      <text x="65" y="18" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="10" font-weight="700" fill="#bfdbfe">LL Domain (1ms)</text>
+      
+      <!-- 20 small blocks representing 1ms timer ticks -->
+      <g transform="translate(140, 4)">
+        <rect x="0" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="34" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="68" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="102" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="136" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="170" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="204" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="238" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="272" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="306" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="340" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="374" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="408" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="442" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="476" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="510" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="544" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="578" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="612" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="646" width="8" height="20" rx="2" fill="#3b82f6"/>
+        <rect x="680" width="8" height="20" rx="2" fill="#3b82f6"/>
+      </g>
+      <text x="835" y="18" font-family="monospace" font-size="9" fill="#93c5fd">16 samples/tick</text>
+    </g>
+
+    <!-- Row 2: DP Domain (10 ms = 160 samples for MWW Slots) -->
+    <g transform="translate(20, 125)">
+      <rect width="130" height="34" rx="4" fill="#0c4a6e"/>
+      <text x="65" y="16" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#bae6fd">DP 10ms (MWW)</text>
+      <text x="65" y="28" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8" fill="#7dd3fc">160 samples / batch</text>
+
+      <g transform="translate(140, 2)">
+        <!-- 10ms Batch Period 1 -->
+        <rect x="0" width="75" height="30" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1"/>
+        <text x="37" y="15" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#ffffff">Active Burst (2.1ms)</text>
+        <text x="37" y="25" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" fill="#bae6fd">MFCC + TFLM</text>
+        <rect x="75" width="265" height="30" rx="3" fill="#0f172a" stroke="#334155" stroke-dasharray="2,2"/>
+        <text x="207" y="19" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#64748b">Idle / Sleep (7.9ms)</text>
+
+        <!-- 10ms Batch Period 2 -->
+        <rect x="340" width="75" height="30" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1"/>
+        <text x="377" y="15" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#ffffff">Active Burst</text>
+        <text x="377" y="25" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" fill="#bae6fd">MFCC + TFLM</text>
+        <rect x="415" width="265" height="30" rx="3" fill="#0f172a" stroke="#334155" stroke-dasharray="2,2"/>
+        <text x="547" y="19" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#64748b">Idle / Sleep (7.9ms)</text>
+      </g>
+    </g>
+
+    <!-- Row 3: DP Domain (20 ms = 320 samples for ECNS & KPB) -->
+    <g transform="translate(20, 175)">
+      <rect width="130" height="34" rx="4" fill="#042f2e"/>
+      <text x="65" y="16" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#99f6e4">DP 20ms (ECNS)</text>
+      <text x="65" y="28" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8" fill="#5eead4">320 samples / batch</text>
+
+      <g transform="translate(140, 2)">
+        <!-- 20ms Batch Period -->
+        <rect x="0" width="135" height="30" rx="3" fill="#0d9488" stroke="#2dd4bf" stroke-width="1"/>
+        <text x="67" y="15" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#ffffff">Active AEC &amp; NS (4.2ms)</text>
+        <text x="67" y="25" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="7.5" fill="#ccfbf1">Filters 4ch -> 1ch + 2ch</text>
+        <rect x="135" width="545" height="30" rx="3" fill="#0f172a" stroke="#334155" stroke-dasharray="2,2"/>
+        <text x="407" y="19" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#64748b">Idle / Low-Power Sleep (15.8ms)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== THREE SPECIFICATION CARDS AT BOTTOM ==================== -->
+  <!-- Card 1: Buffer Sizing Mathematics -->
+  <g transform="translate(40, 335)" filter="url(#sched-shadow)">
+    <rect width="280" height="180" rx="8" fill="url(#sched-card)" stroke="#14b8a6" stroke-width="1.5"/>
+    <rect width="280" height="28" rx="8" fill="url(#sched-dp-hdr)"/>
+    <rect y="20" width="280" height="8" fill="url(#sched-dp-hdr)"/>
+    <text x="12" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      1. Buffer Sizing Math (IBS / OBS)
+    </text>
+    <g transform="translate(10, 36)">
+      <text x="0" y="14" font-family="monospace" font-size="9" fill="#2dd4bf">IBS = R * (P / 1000) * CH * B</text>
+      <text x="0" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• 20ms 4ch S16_LE (ECNS Input):</text>
+      <text x="10" y="46" font-family="monospace" font-size="8.5" fill="#e2e8f0">16000 * 0.02 * 4 * 2 = 2560 B</text>
+      <text x="0" y="64" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• 20ms 1ch S16_LE (Pin 0 Clean):</text>
+      <text x="10" y="78" font-family="monospace" font-size="8.5" fill="#e2e8f0">16000 * 0.02 * 1 * 2 = 640 B</text>
+      <text x="0" y="96" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• 10ms 1ch S16_LE (MWW Input):</text>
+      <text x="10" y="110" font-family="monospace" font-size="8.5" fill="#e2e8f0">16000 * 0.01 * 1 * 2 = 320 B</text>
+      <text x="0" y="130" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#fca5a5">
+        RULE: IBS/OBS must match period!
+      </text>
+    </g>
+  </g>
+
+  <!-- Card 2: Cross-Core Load Balancing -->
+  <g transform="translate(340, 335)" filter="url(#sched-shadow)">
+    <rect width="280" height="180" rx="8" fill="url(#sched-card)" stroke="#ea580c" stroke-width="1.5"/>
+    <rect width="280" height="28" rx="8" fill="url(#sched-core-hdr)"/>
+    <rect y="20" width="280" height="8" fill="url(#sched-core-hdr)"/>
+    <text x="12" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      2. Multi-Core Affinity Allocation
+    </text>
+    <g transform="translate(10, 36)">
+      <text x="0" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#fdba74">Core 0 (Primary DSP Core):</text>
+      <text x="0" y="30" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• P100 DAI Copier (LL 1ms)</text>
+      <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• P105 ECNS Processing (DP 20ms)</text>
+      <text x="0" y="58" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• P106 KPB History Ring (DP 20ms)</text>
+      <text x="0" y="72" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• P101 Slot 0 &amp; P102 Slot 1 (DP 10ms)</text>
+      
+      <text x="0" y="94" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#fdba74">Core 1 (Secondary DSP Core):</text>
+      <text x="0" y="110" font-family="system-ui, -apple-system, sans-serif" font-size="9" fill="#94a3b8">• P103 Slot 2 (DP 10ms - core_id = 1)</text>
+      <text x="0" y="128" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#fed7aa">
+        Offloads neural network inference.
+      </text>
+    </g>
+  </g>
+
+  <!-- Card 3: Topology LP Mode Directives -->
+  <g transform="translate(640, 335)" filter="url(#sched-shadow)">
+    <rect width="280" height="180" rx="8" fill="url(#sched-card)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect width="280" height="28" rx="8" fill="url(#sched-ll-hdr)"/>
+    <rect y="20" width="280" height="8" fill="url(#sched-ll-hdr)"/>
+    <text x="12" y="18" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      3. Topology Class &amp; lp_mode Flags
+    </text>
+    <g transform="translate(10, 36)">
+      <text x="0" y="14" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#93c5fd">Class.Pipeline."custom-capture":</text>
+      <text x="0" y="28" font-family="monospace" font-size="8.5" fill="#e2e8f0">lp_mode 0  # Low Latency (1ms)</text>
+      <text x="0" y="42" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">Used for: DAI, Arbiter, Host Copiers</text>
+      
+      <text x="0" y="66" font-family="system-ui, -apple-system, sans-serif" font-size="9.5" font-weight="700" fill="#93c5fd">Class.Pipeline."custom-dp-capture":</text>
+      <text x="0" y="80" font-family="monospace" font-size="8.5" fill="#e2e8f0">lp_mode 1  # Data Processing (DP)</text>
+      <text x="0" y="94" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" fill="#94a3b8">Used for: ECNS (20ms), KPB, MWW (10ms)</text>
+
+      <text x="0" y="118" font-family="system-ui, -apple-system, sans-serif" font-size="8.5" font-weight="600" fill="#fde047">
+        time_domain "timer"
+      </text>
+      <text x="0" y="132" font-family="system-ui, -apple-system, sans-serif" font-size="8" fill="#cbd5e1">
+        Enables RTOS tick-driven periodic scheduling.
+      </text>
+    </g>
+  </g>
+</svg>

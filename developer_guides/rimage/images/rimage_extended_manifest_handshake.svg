@@ -1,0 +1,221 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="card-grad-3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-blue-3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald-3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+
+    <filter id="shadow-3" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1100" height="640" rx="12" fill="url(#bg-grad-3)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      Extended Manifest (XMan) Data Structure &amp; Host Kernel Handshake
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Pre-boot metadata extraction in Linux snd-sof driver (<tspan font-family="ui-monospace, monospace" fill="#60a5fa">snd_sof_fw_ext_man_parse()</tspan>) and seamless payload handover to DSP
+    </text>
+  </g>
+
+  <!-- Left Column: Extended Manifest Internal Layout (In Binary .ri) -->
+  <g transform="translate(40, 85)" filter="url(#shadow-3)">
+    <rect width="480" height="430" rx="10" fill="url(#card-grad-3)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect width="480" height="32" rx="10" fill="url(#hdr-blue-3)"/>
+    <rect y="22" width="480" height="10" fill="#2563eb"/>
+    <text x="240" y="21" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      Binary Head: Extended Manifest Structure (.ri file head)
+    </text>
+
+    <!-- Top Header: struct ext_man_header -->
+    <g transform="translate(16, 46)">
+      <rect width="448" height="82" rx="6" fill="#0f172a" stroke="#3b82f6"/>
+      <text x="12" y="20" font-family="ui-monospace, monospace" font-size="11" font-weight="700" fill="#60a5fa">
+        struct ext_man_header (Offset 0x0000)
+      </text>
+      <text x="12" y="38" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+        • magic: 0x6e614d58 <tspan fill="#f59e0b">(ASCII 'XMan' in little-endian)</tspan>
+      </text>
+      <text x="12" y="54" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+        • full_size: Total bytes of Extended Manifest (header + elements + pad)
+      </text>
+      <text x="12" y="70" font-family="ui-monospace, monospace" font-size="9.5" fill="#cbd5e1">
+        • header_size: sizeof(struct ext_man_header) | header_version: 0x01000000
+      </text>
+    </g>
+
+    <!-- Elements Container -->
+    <g transform="translate(16, 138)">
+      <text x="0" y="14" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#94a3b8">
+        Sequential Elements Array (struct ext_man_elem_header, EXT_MAN_ALIGN = 16B):
+      </text>
+
+      <!-- Element 0: FW Version -->
+      <rect y="24" width="448" height="42" rx="5" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="42" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#38bdf8">
+        Type 0: EXT_MAN_ELEM_FW_VERSION
+      </text>
+      <text x="12" y="56" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Major, Minor, Micro, Build Version, ABI Version, Git Commit SHA Tag
+      </text>
+
+      <!-- Element 1: Window Info -->
+      <rect y="72" width="448" height="42" rx="5" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="90" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#38bdf8">
+        Type 1: EXT_MAN_ELEM_WINDOW (SOF_IPC_EXT_WINDOW)
+      </text>
+      <text x="12" y="104" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Host/DSP Shared Memory Windows (Win 0: In/Outbox, Win 1: Debug Trace, Win 2: Stream)
+      </text>
+
+      <!-- Element 2: CC Info -->
+      <rect y="120" width="448" height="42" rx="5" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="138" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#38bdf8">
+        Type 2: EXT_MAN_ELEM_CC_VERSION (Compiler Description)
+      </text>
+      <text x="12" y="152" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Toolchain banner string (e.g. Clang 18.1.0 Xtensa, GCC, or Cadence XCC)
+      </text>
+
+      <!-- Element 3: Probe Info -->
+      <rect y="168" width="448" height="42" rx="5" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="186" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#38bdf8">
+        Type 3: EXT_MAN_ELEM_PROBE_INFO &amp; Type 4: DBG_ABI
+      </text>
+      <text x="12" y="200" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Direct probe point extraction registers and User ABI compatibility token
+      </text>
+
+      <!-- Element 5 & 6: Config Data -->
+      <rect y="216" width="448" height="42" rx="5" fill="#0f172a" stroke="#334155"/>
+      <text x="12" y="234" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#38bdf8">
+        Type 5: CONFIG_DATA &amp; Type 6: PLATFORM_CONFIG_DATA
+      </text>
+      <text x="12" y="248" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Hardware topology configuration hints, IPC capability flags, clock setpoints
+      </text>
+    </g>
+  </g>
+
+  <!-- Flow Arrow from Left to Right -->
+  <g transform="translate(530, 275)">
+    <line x1="0" y1="0" x2="40" y2="0" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#arr-blue)"/>
+    <text x="20" y="-12" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#60a5fa" text-anchor="middle">Parsed By</text>
+  </g>
+
+  <!-- Right Column: Host Kernel Handshake Execution Flow -->
+  <g transform="translate(580, 85)" filter="url(#shadow-3)">
+    <rect width="480" height="430" rx="10" fill="url(#card-grad-3)" stroke="#10b981" stroke-width="1.5"/>
+    <rect width="480" height="32" rx="10" fill="url(#hdr-emerald-3)"/>
+    <rect y="22" width="480" height="10" fill="#059669"/>
+    <text x="240" y="21" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">
+      Linux Host Driver Handshake (sound/soc/sof/loader.c)
+    </text>
+
+    <!-- Execution Steps -->
+    <g transform="translate(16, 44)">
+      <!-- Step 1 -->
+      <rect width="448" height="52" rx="6" fill="#0f172a" stroke="#334155"/>
+      <circle cx="20" cy="26" r="11" fill="#10b981"/>
+      <text x="20" y="30" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+      <text x="40" y="20" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#34d399">
+        Firmware Loading: request_firmware()
+      </text>
+      <text x="40" y="36" font-family="system-ui, sans-serif" font-size="9" fill="#94a3b8">
+        Host fetches <tspan font-family="ui-monospace, monospace" fill="#cbd5e1">sof-&lt;platform&gt;.ri</tspan> from filesystem (<tspan font-family="ui-monospace, monospace">/lib/firmware/intel/sof/</tspan>)
+      </text>
+
+      <!-- Step 2 -->
+      <rect y="58" width="448" height="58" rx="6" fill="#0f172a" stroke="#334155"/>
+      <circle cx="20" cy="87" r="11" fill="#10b981"/>
+      <text x="20" y="91" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+      <text x="40" y="78" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#34d399">
+        Magic Verification: snd_sof_fw_ext_man_parse()
+      </text>
+      <text x="40" y="94" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">
+        if (head->magic == EXT_MAN_MAGIC_NUMBER) { /* 0x6e614d58 */ }
+      </text>
+      <text x="40" y="106" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">
+        Validates header length and major ABI version consistency
+      </text>
+
+      <!-- Step 3 -->
+      <rect y="122" width="448" height="66" rx="6" fill="#0f172a" stroke="#334155"/>
+      <circle cx="20" cy="155" r="11" fill="#10b981"/>
+      <text x="20" y="159" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+      <text x="40" y="142" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#34d399">
+        Element Dispatch Loop: Iterating elem_size
+      </text>
+      <text x="40" y="158" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        Iterates over elements; unknown element types are gracefully skipped:
+      </text>
+      <text x="40" y="174" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8">
+        offset += elem->elem_size; /* Allows forward compatibility */
+      </text>
+
+      <!-- Step 4 -->
+      <rect y="194" width="448" height="60" rx="6" fill="#0f172a" stroke="#334155"/>
+      <circle cx="20" cy="224" r="11" fill="#10b981"/>
+      <text x="20" y="228" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+      <text x="40" y="214" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#34d399">
+        Telemetry &amp; Capability Registration
+      </text>
+      <text x="40" y="230" font-family="system-ui, sans-serif" font-size="9" fill="#cbd5e1">
+        Registers Mailbox base addresses, SRAM windows, debug log buffers
+      </text>
+      <text x="40" y="244" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">
+        Emits kernel log: <tspan font-family="ui-monospace, monospace" fill="#a7f3d0">"Firmware info: version 2.12.0-xxx, build ... Clang 18"</tspan>
+      </text>
+
+      <!-- Step 5 -->
+      <rect y="260" width="448" height="66" rx="6" fill="#059669" fill-opacity="0.15" stroke="#10b981"/>
+      <circle cx="20" cy="293" r="11" fill="#10b981"/>
+      <text x="20" y="297" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">5</text>
+      <text x="40" y="280" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#34d399">
+        Payload Handover: Skip full_size to Signed Manifest
+      </text>
+      <text x="40" y="296" font-family="ui-monospace, monospace" font-size="9" fill="#ffffff">
+        fw_payload = fw->data + ext_man->full_size;
+      </text>
+      <text x="40" y="312" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">
+        Driver transmits the signed CSE/CSS payload to DSP SRAM. Extended Manifest does not consume DSP memory.
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom Explanatory Strip -->
+  <g transform="translate(40, 530)">
+    <rect width="1020" height="85" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#60a5fa">
+      Key Architectural Decoupling:
+    </text>
+    <text x="20" y="48" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">
+      The Extended Manifest acts as an un-signed preamble specifically intended for the Linux host operating system. Because target hardware boot ROMs and CSME coprocessors strictly authenticate cryptographic signatures starting at the CSE partition header (<tspan font-family="ui-monospace, monospace" fill="#cbd5e1">$CPD</tspan>), the driver strips/skips the Extended Manifest prior to initiating DMA boot transfers, ensuring zero impact on internal DSP L1/L2 SRAM memory budgets.
+    </text>
+  </g>
+</svg>

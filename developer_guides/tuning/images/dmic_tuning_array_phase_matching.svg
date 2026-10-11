@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradDmic3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadowDmic3" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Canvas -->
+  <rect width="1000" height="640" rx="14" fill="url(#bgGradDmic3)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Microphone Array Acoustic Geometry &amp; Inter-Channel Phase Matching
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13">
+    Wavefront Propagation Delay, Channel Imbalance, and Beamformer Directivity Degradation
+  </text>
+
+  <!-- Left Card: Acoustic Wavefront Geometry -->
+  <g transform="translate(30, 80)" filter="url(#shadowDmic3)">
+    <rect width="455" height="530" rx="10" fill="url(#cardGrad3)" stroke="#38bdf8" stroke-width="1.2" />
+    <rect x="0" y="0" width="455" height="32" rx="10" fill="#0284c7" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="700">
+      ACOUSTIC WAVE PROPAGATION &amp; ARRAY MODEL
+    </text>
+
+    <!-- Visual: Planar Wave arriving at angle theta -->
+    <g transform="translate(20, 50)">
+      <!-- Wavefront lines -->
+      <line x1="40" y1="30" x2="260" y2="10" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" />
+      <line x1="70" y1="70" x2="290" y2="50" stroke="#38bdf8" stroke-width="2" stroke-dasharray="4,4" />
+      <line x1="100" y1="110" x2="320" y2="90" stroke="#38bdf8" stroke-width="2" />
+      <text x="200" y="30" fill="#38bdf8" font-family="sans-serif" font-size="11">Planar Acoustic Wavefront (Speed c = 343 m/s)</text>
+
+      <!-- Incident Angle Indicator -->
+      <line x1="200" y1="100" x2="160" y2="20" stroke="#fbbf24" stroke-width="1.5" />
+      <text x="140" y="55" fill="#fbbf24" font-family="monospace" font-size="12">θ</text>
+
+      <!-- Microphone Baseline -->
+      <line x1="50" y1="200" x2="370" y2="200" stroke="#64748b" stroke-width="2" />
+      
+      <!-- Mic 1 -->
+      <circle cx="100" cy="200" r="14" fill="#0f172a" stroke="#38bdf8" stroke-width="2" />
+      <text x="100" y="204" text-anchor="middle" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">MIC 1</text>
+      <text x="100" y="230" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Reference Channel</text>
+
+      <!-- Mic 2 -->
+      <circle cx="280" cy="200" r="14" fill="#0f172a" stroke="#34d399" stroke-width="2" />
+      <text x="280" y="204" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">MIC 2</text>
+      <text x="280" y="230" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Delayed Channel</text>
+
+      <!-- Distance d indicator -->
+      <line x1="100" y1="245" x2="280" y2="245" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="100" y1="240" x2="100" y2="250" stroke="#94a3b8" stroke-width="1.5" />
+      <line x1="280" y1="240" x2="280" y2="250" stroke="#94a3b8" stroke-width="1.5" />
+      <text x="190" y="260" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="11">Spacing d = 50 - 70 mm</text>
+
+      <!-- Extra path triangle -->
+      <line x1="280" y1="200" x2="240" y2="140" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="2,2" />
+      <line x1="100" y1="200" x2="240" y2="140" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="2,2" />
+      <text x="280" y="165" fill="#f43f5e" font-family="monospace" font-size="10.5">Δx = d * sin(θ)</text>
+    </g>
+
+    <!-- Mathematical Formulas -->
+    <g transform="translate(20, 320)">
+      <rect width="415" height="185" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="24" fill="#f8fafc" font-family="sans-serif" font-size="11.5" font-weight="700">Theoretical Propagation Delay &amp; Phase:</text>
+      
+      <rect x="15" y="34" width="385" height="30" rx="4" fill="#1e293b" />
+      <text x="207" y="54" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11.5">
+        τ = (d * sin(θ)) / c,   Δφ(f) = 2π * f * τ
+      </text>
+
+      <text x="15" y="84" fill="#cbd5e1" font-family="sans-serif" font-size="11">
+        • At d = 60 mm, Broadside (θ = 0°): τ = 0 μs, Δφ = 0°
+      </text>
+      <text x="15" y="104" fill="#cbd5e1" font-family="sans-serif" font-size="11">
+        • At d = 60 mm, Endfire (θ = 90°): τ = 175 μs (8.4 samples @ 48 kHz)
+      </text>
+
+      <text x="15" y="132" fill="#fbbf24" font-family="sans-serif" font-size="11" font-weight="700">Acoustic Port Realities:</text>
+      <text x="15" y="150" fill="#94a3b8" font-family="sans-serif" font-size="10.5">
+        Manufacturing tolerances cause ±1.0 dB sensitivity spread and
+      </text>
+      <text x="15" y="168" fill="#94a3b8" font-family="sans-serif" font-size="10.5">
+        mesh acoustic resistance induces up to 10° - 15° phase skew!
+      </text>
+    </g>
+  </g>
+
+  <!-- Right Card: Beamformer Impact & Calibration -->
+  <g transform="translate(515, 80)" filter="url(#shadowDmic3)">
+    <rect width="455" height="530" rx="10" fill="url(#cardGrad3)" stroke="#10b981" stroke-width="1.2" />
+    <rect x="0" y="0" width="455" height="32" rx="10" fill="#047857" fill-opacity="0.3" />
+    <text x="20" y="21" fill="#34d399" font-family="sans-serif" font-size="13" font-weight="700">
+      BEAMFORMER SENSITIVITY &amp; CALIBRATION GAIN
+    </text>
+
+    <!-- Polar Pattern Visual Comparison -->
+    <g transform="translate(20, 48)">
+      <rect width="415" height="230" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="22" fill="#f8fafc" font-family="sans-serif" font-size="11.5" font-weight="700">Spatial Directivity Attenuation Comparison (Cardioid Beam)</text>
+
+      <!-- Polar Grid Left: Ideal Calibrated Array -->
+      <g transform="translate(100, 125)">
+        <circle cx="0" cy="0" r="55" fill="none" stroke="#334155" stroke-dasharray="2,2" />
+        <circle cx="0" cy="0" r="35" fill="none" stroke="#334155" stroke-dasharray="2,2" />
+        <line x1="-65" y1="0" x2="65" y2="0" stroke="#475569" />
+        <line x1="0" y1="-65" x2="0" y2="65" stroke="#475569" />
+        
+        <!-- Deep Null Cardioid -->
+        <path d="M 0 -50 C 35 -50 50 -20 50 0 C 50 20 20 40 0 10 C -20 40 -50 20 -50 0 C -50 -20 -35 -50 0 -50 Z" 
+              fill="#10b981" fill-opacity="0.25" stroke="#10b981" stroke-width="2" />
+        <text x="0" y="75" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10.5" font-weight="700">Calibrated Array</text>
+        <text x="0" y="90" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Null Depth: &gt; 28 dB</text>
+      </g>
+
+      <!-- Polar Grid Right: Uncalibrated Mismatched Array -->
+      <g transform="translate(300, 125)">
+        <circle cx="0" cy="0" r="55" fill="none" stroke="#334155" stroke-dasharray="2,2" />
+        <circle cx="0" cy="0" r="35" fill="none" stroke="#334155" stroke-dasharray="2,2" />
+        <line x1="-65" y1="0" x2="65" y2="0" stroke="#475569" />
+        <line x1="0" y1="-65" x2="0" y2="65" stroke="#475569" />
+        
+        <!-- Degraded Cardioid with shallow null -->
+        <path d="M 0 -50 C 35 -50 48 -20 48 0 C 48 20 30 35 0 25 C -30 35 -48 20 -48 0 C -48 -20 -35 -50 0 -50 Z" 
+              fill="#f43f5e" fill-opacity="0.25" stroke="#f43f5e" stroke-width="2" />
+        <text x="0" y="75" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="10.5" font-weight="700">1 dB / 10° Mismatch</text>
+        <text x="0" y="90" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="9.5">Null Depth: Only 11 dB!</text>
+      </g>
+    </g>
+
+    <!-- Compensation Strategy -->
+    <g transform="translate(20, 295)">
+      <rect width="415" height="210" rx="6" fill="#0f172a" stroke="#334155" />
+      <text x="15" y="24" fill="#34d399" font-family="sans-serif" font-size="12" font-weight="700">SOF Dual-Stage Acoustic Calibration:</text>
+      
+      <text x="15" y="50" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">1. Broadband Sensitivity Normalization (Gain Trim):</text>
+      <text x="15" y="68" fill="#94a3b8" font-family="sans-serif" font-size="10.5">
+        Trims individual channel gains via OUT_GAIN_LEFT / RIGHT registers
+      </text>
+      <text x="15" y="86" fill="#38bdf8" font-family="monospace" font-size="10.5">
+        Gain_Trim_i = 10^((Sens_target - Sens_measured_i) / 20)
+      </text>
+
+      <text x="15" y="118" fill="#f8fafc" font-family="sans-serif" font-size="11" font-weight="700">2. Frequency-Dependent Phase Alignment (FIR EQ):</text>
+      <text x="15" y="136" fill="#94a3b8" font-family="sans-serif" font-size="10.5">
+        TDFB / RTNR preprocessing FIR filter compensates mesh acoustic delay:
+      </text>
+      <text x="15" y="154" fill="#34d399" font-family="monospace" font-size="10.5">
+        H_comp_i(f) = |H_ref(f)| / |H_i(f)| * exp(-j * (∠H_i(f) - ∠H_ref(f)))
+      </text>
+      <text x="15" y="180" fill="#fbbf24" font-family="sans-serif" font-size="10.5">
+        Result: Directivity Index restored to theoretical maximum (+6.0 dB)
+      </text>
+    </g>
+  </g>
+</svg>

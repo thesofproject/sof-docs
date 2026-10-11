@@ -1,0 +1,200 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+    <linearGradient id="cardGrad5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="shadow5" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrow5" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#38bdf8"/>
+    </marker>
+    <marker id="arrowGreen5" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#34d399"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="660" fill="url(#bgGrad5)"/>
+  <rect x="15" y="15" width="1170" height="630" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title Header -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="22" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="0.5">End-to-End MFCC &amp; ML Front-End Tuning Workflow</text>
+    <text x="0" y="44" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">5-Stage Engineering Methodology: Model Sizing, Bit-Exact Python Simulation, Topology 2 Blob Packaging, and On-Device Verification</text>
+  </g>
+
+  <!-- 5 Sequential Workflow Columns -->
+  <!-- Stage 1 -->
+  <g transform="translate(40, 100)" filter="url(#shadow5)">
+    <rect width="210" height="400" rx="8" fill="url(#cardGrad5)" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="0" y="0" width="210" height="32" rx="8" fill="#0284c7" fill-opacity="0.3"/>
+    <text x="105" y="21" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">STAGE 1: MODEL SIZING</text>
+
+    <g transform="translate(15, 45)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Target Objective</text>
+      <text x="0" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Select Model Category:</text>
+      <text x="10" y="50" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10">KWS / ASR / Audio Event</text>
+
+      <text x="0" y="72" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Feature Mode</text>
+      <text x="0" y="90" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Mel-Only (80 Bins) for Whisper</text>
+      <text x="0" y="106" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• MFCC (13 Coeffs) for KWS</text>
+
+      <text x="0" y="128" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Temporal Bounds</text>
+      <text x="0" y="146" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Frame: 25 ms (400 smp)</text>
+      <text x="0" y="162" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Hop: 10 ms (160 smp)</text>
+      <text x="0" y="178" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Sample Rate: 16000 Hz</text>
+
+      <text x="0" y="200" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Output Interface</text>
+      <text x="0" y="218" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Standard PCM (zero padded)</text>
+      <text x="0" y="234" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Compressed (variable size)</text>
+
+      <rect x="0" y="260" width="180" height="75" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+      <text x="90" y="280" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">Acoustic Specs Locked</text>
+      <text x="90" y="298" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Input window &amp; hop rate</text>
+      <text x="90" y="312" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">match neural net architecture</text>
+    </g>
+  </g>
+
+  <!-- Arrow 1 -> 2 -->
+  <path d="M 255 300 L 275 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Stage 2 -->
+  <g transform="translate(280, 100)" filter="url(#shadow5)">
+    <rect width="210" height="400" rx="8" fill="url(#cardGrad5)" stroke="#06b6d4" stroke-width="1.5"/>
+    <rect x="0" y="0" width="210" height="32" rx="8" fill="#0891b2" fill-opacity="0.3"/>
+    <text x="105" y="21" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">STAGE 2: PYTHON SIM</text>
+
+    <g transform="translate(15, 45)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Offline Toolchain</text>
+      <text x="0" y="34" fill="#38bdf8" font-family="monospace" font-size="9.5">sof_mfcc_tool.py</text>
+      <text x="0" y="50" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Bit-exact fixed-point math</text>
+
+      <text x="0" y="72" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Filterbank Design</text>
+      <text x="0" y="90" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Triangular centers on Mel</text>
+      <text x="0" y="106" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Slaney area normalization</text>
+      <text x="0" y="122" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Bandpass: 20 Hz to 8 kHz</text>
+
+      <text x="0" y="144" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Dataset Training</text>
+      <text x="0" y="162" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Extract training features</text>
+      <text x="0" y="178" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Train TFLM / Whisper</text>
+      <text x="0" y="194" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Prevent float-fix mismatch</text>
+
+      <rect x="0" y="260" width="180" height="75" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+      <text x="90" y="280" fill="#22d3ee" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">Bit-Exact Parity</text>
+      <text x="90" y="298" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Model trains on exactly what</text>
+      <text x="90" y="312" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">SOF firmware DSP emits</text>
+    </g>
+  </g>
+
+  <!-- Arrow 2 -> 3 -->
+  <path d="M 495 300 L 515 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Stage 3 -->
+  <g transform="translate(520, 100)" filter="url(#shadow5)">
+    <rect width="210" height="400" rx="8" fill="url(#cardGrad5)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="0" y="0" width="210" height="32" rx="8" fill="#2563eb" fill-opacity="0.3"/>
+    <text x="105" y="21" fill="#60a5fa" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">STAGE 3: VAD &amp; DTX</text>
+
+    <g transform="translate(15, 45)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">A-Weighting Table</text>
+      <text x="0" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• IEC 61672-1:2013 curve</text>
+      <text x="0" y="50" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Peaks at 2.5 kHz (vowels)</text>
+
+      <text x="0" y="72" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Threshold Calibration</text>
+      <text x="0" y="90" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Energy threshold (0.30 Q9.23)</text>
+      <text x="0" y="106" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Noise rise α_slow = 0.003</text>
+      <text x="0" y="122" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Hangover = 20 hops (200 ms)</text>
+
+      <text x="0" y="144" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">DTX Duty Cycling</text>
+      <text x="0" y="162" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Trailing hops: 20</text>
+      <text x="0" y="178" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Silence ping interval: 500</text>
+      <text x="0" y="194" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Enable mixer notifications</text>
+
+      <rect x="0" y="260" width="180" height="75" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+      <text x="90" y="280" fill="#60a5fa" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">VAD Sensitivity Sized</text>
+      <text x="90" y="298" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Zero clipping of soft whispers;</text>
+      <text x="90" y="312" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">&gt;85% quiet bandwidth reduction</text>
+    </g>
+  </g>
+
+  <!-- Arrow 3 -> 4 -->
+  <path d="M 735 300 L 755 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Stage 4 -->
+  <g transform="translate(760, 100)" filter="url(#shadow5)">
+    <rect width="210" height="400" rx="8" fill="url(#cardGrad5)" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="0" y="0" width="210" height="32" rx="8" fill="#7e22ce" fill-opacity="0.3"/>
+    <text x="105" y="21" fill="#c084fc" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">STAGE 4: BLOB &amp; TPLG2</text>
+
+    <g transform="translate(15, 45)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Blob Generation</text>
+      <text x="0" y="34" fill="#38bdf8" font-family="monospace" font-size="9.5">sof_mfcc_tool.py build-blob</text>
+      <text x="0" y="50" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• 116-byte packed struct</text>
+      <text x="0" y="66" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• SOF4 IPC4 envelope (144 B)</text>
+
+      <text x="0" y="88" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Topology 2 Config</text>
+      <text x="0" y="106" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• UUID: 73:a7:10:db:a4:...</text>
+      <text x="0" y="122" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Export default.conf / mel80</text>
+      <text x="0" y="138" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Include in alsatplg build</text>
+
+      <text x="0" y="160" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Compile Pipeline</text>
+      <text x="0" y="178" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Build tplg2 binary</text>
+      <text x="0" y="194" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5">• Deploy to /lib/firmware/</text>
+
+      <rect x="0" y="260" width="180" height="75" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+      <text x="90" y="280" fill="#c084fc" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">Topology Signed-Off</text>
+      <text x="90" y="298" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Ready for deployment into</text>
+      <text x="90" y="312" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">target DUT audio topology</text>
+    </g>
+  </g>
+
+  <!-- Arrow 4 -> 5 -->
+  <path d="M 975 300 L 995 300" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrow5)"/>
+
+  <!-- Stage 5 -->
+  <g transform="translate(1000, 100)" filter="url(#shadow5)">
+    <rect width="160" height="400" rx="8" fill="url(#cardGrad5)" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="0" y="0" width="160" height="32" rx="8" fill="#047857" fill-opacity="0.3"/>
+    <text x="80" y="21" fill="#34d399" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" text-anchor="middle">STAGE 5: VERIFY</text>
+
+    <g transform="translate(12, 45)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Target DUT Run</text>
+      <text x="0" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• Reload driver</text>
+      <text x="0" y="50" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• arecord MFCC sink</text>
+
+      <text x="0" y="72" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Live Telemetry</text>
+      <text x="0" y="90" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• Parse data header</text>
+      <text x="0" y="106" fill="#34d399" font-family="monospace" font-size="9.5">magic = 0x6d666363</text>
+      <text x="0" y="122" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• Monitor VAD ctl</text>
+
+      <text x="0" y="144" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">Acoustic Sign-Off</text>
+      <text x="0" y="162" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• Test FAR &amp; FRR</text>
+      <text x="0" y="178" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• Noise robustness</text>
+      <text x="0" y="194" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10">• Benchmark CPC</text>
+
+      <rect x="0" y="260" width="136" height="75" rx="5" fill="#064e3b" stroke="#059669" stroke-width="1"/>
+      <text x="68" y="282" fill="#34d399" font-family="system-ui, sans-serif" font-size="10" font-weight="700" text-anchor="middle">Production Pass</text>
+      <text x="68" y="300" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Low FAR / FRR</text>
+      <text x="68" y="314" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Verified on Hardware</text>
+    </g>
+  </g>
+
+  <!-- Bottom Runbook Command Line Summary -->
+  <g transform="translate(40, 520)" filter="url(#shadow5)">
+    <rect width="1120" height="105" rx="8" fill="url(#cardGrad5)" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="22" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="12" font-weight="700">AUTOMATED TOOLCHAIN COMMAND QUICK-REFERENCE</text>
+
+    <g transform="translate(20, 36)">
+      <text x="0" y="16" fill="#38bdf8" font-family="monospace" font-size="10.5"># Design 80-bin Mel filterbank for Whisper:   python3 sof_mfcc_tool.py design --sample-rate 16000 --num-mel 80 --norm slaney --out mel80.json</text>
+      <text x="0" y="36" fill="#34d399" font-family="monospace" font-size="10.5"># Generate IPC4 Topology 2 config blob:        python3 sof_mfcc_tool.py build-blob --mel-only --num-mel 80 --enable-dtx --out mel80_compress.conf</text>
+      <text x="0" y="56" fill="#c084fc" font-family="monospace" font-size="10.5"># Extract bit-exact features from test audio: python3 sof_mfcc_tool.py extract --in speech.wav --num-ceps 13 --enable-vad --out features.npy</text>
+    </g>
+  </g>
+</svg>

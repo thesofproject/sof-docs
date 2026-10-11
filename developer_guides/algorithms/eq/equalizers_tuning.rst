@@ -3,6 +3,13 @@
 Equalizers, IIR and FIR
 #######################
 
+.. seealso::
+
+   For a high-level firmware architectural overview of both Finite Impulse Response (FIR)
+   and Infinite Impulse Response (IIR) equalizers—including transversal filter structures,
+   Direct Form I biquad cascades, parametric filter topologies, dynamic IPC blob swapping,
+   and SIMD acceleration—see :ref:`eq_fir_iir`.
+
 .. contents::
    :depth: 3
 

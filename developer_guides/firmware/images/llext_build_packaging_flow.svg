@@ -1,0 +1,311 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 660" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad-bld" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+
+    <!-- Card Backgrounds -->
+    <linearGradient id="card-grad-bld" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Stage Headers -->
+    <linearGradient id="hdr-cyan-bld" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="hdr-blue-bld" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="hdr-purple-bld" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+    <linearGradient id="hdr-emerald-bld" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- Markers -->
+    <marker id="arr-cyan-bld" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-blue-bld" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-purple-bld" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#a855f7"/>
+    </marker>
+    <marker id="arr-emerald-bld" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#10b981"/>
+    </marker>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-bld" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="660" rx="12" fill="url(#bg-grad-bld)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF LLEXT Build, Link &amp; Packaging Pipeline
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      From C Source and TOML Header to Relocatable ELF Linking, Rimage Signing (-l), and UUID Deployment Symlinks
+    </text>
+  </g>
+
+  <!-- 4 Stage Columns Across the Width -->
+  <!-- Column 1: Source & Macro Declarations (x=40, w=235) -->
+  <g transform="translate(40, 85)" filter="url(#shadow-bld)">
+    <rect width="235" height="465" rx="10" fill="url(#card-grad-bld)" stroke="#0891b2" stroke-width="1.2"/>
+    <rect width="235" height="28" rx="10" fill="url(#hdr-cyan-bld)"/>
+    <rect y="20" width="235" height="8" fill="#0891b2"/>
+    <text x="14" y="19" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      1. Source &amp; Metadata
+    </text>
+
+    <!-- Sub-boxes in Col 1 -->
+    <g transform="translate(12, 42)">
+      <!-- Box 1.1: Audio Driver Implementation -->
+      <g transform="translate(0, 0)">
+        <rect width="211" height="95" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Module Adapter Driver</text>
+        <text x="10" y="32" font-family="monospace" font-size="8.5" fill="#e0f2fe">src/audio/&lt;module&gt;/</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">• Implements standard API:</text>
+        <text x="16" y="62" font-family="monospace" font-size="8" fill="#38bdf8">module_adapter_ops</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">• init, process, set_config</text>
+        <text x="10" y="88" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Pure algorithm logic + SIMD</text>
+      </g>
+
+      <!-- Box 1.2: LLEXT Macros -->
+      <g transform="translate(0, 105)">
+        <rect width="211" height="105" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">LLEXT Helper Macros</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#a5f3fc">SOF_LLEXT_BUILDINFO</text>
+        <text x="10" y="46" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Emits .mod_buildinfo ABI</text>
+        <text x="10" y="62" font-family="monospace" font-size="8" fill="#a5f3fc">SOF_LLEXT_MODULE_MANIFEST</text>
+        <text x="10" y="74" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Emits .module descriptor:</text>
+        <text x="10" y="86" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">- UUID, entry, affinity</text>
+        <text x="10" y="98" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">- SOF_MAN_MOD_TYPE_LLEXT</text>
+      </g>
+
+      <!-- Box 1.3: TOML Config Header -->
+      <g transform="translate(0, 220)">
+        <rect width="211" height="95" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Config Header: llext.toml.h</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#e0f2fe">#include "platform.toml"</text>
+        <text x="10" y="48" font-family="monospace" font-size="8" fill="#e0f2fe">#include &lt;module.toml&gt;</text>
+        <text x="10" y="64" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">Declares module descriptor:</text>
+        <text x="10" y="78" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">• uuid = UUIDREG_STR_*</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">• affinity, domain, auto_start</text>
+      </g>
+
+      <!-- Box 1.4: Kconfig Tristate -->
+      <g transform="translate(0, 325)">
+        <rect width="211" height="85" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Kconfig Tristate Switch</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#a5f3fc">CONFIG_COMP_&lt;MOD&gt;=m</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">Builds as standalone LLEXT</text>
+        <text x="10" y="62" font-family="monospace" font-size="8" fill="#94a3b8">CONFIG_COMP_&lt;MOD&gt;=y</text>
+        <text x="10" y="74" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">Builds built-in to basefw</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 1 -> 2 -->
+  <line x1="280" y1="315" x2="300" y2="315" stroke="#0891b2" stroke-width="2" marker-end="url(#arr-cyan-bld)"/>
+
+  <!-- Column 2: Compilation & Relocatable Linking (x=305, w=235) -->
+  <g transform="translate(305, 85)" filter="url(#shadow-bld)">
+    <rect width="235" height="465" rx="10" fill="url(#card-grad-bld)" stroke="#2563eb" stroke-width="1.2"/>
+    <rect width="235" height="28" rx="10" fill="url(#hdr-blue-bld)"/>
+    <rect y="20" width="235" height="8" fill="#2563eb"/>
+    <text x="14" y="19" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      2. CMake &amp; Toolchain Link
+    </text>
+
+    <!-- Sub-boxes in Col 2 -->
+    <g transform="translate(12, 42)">
+      <!-- Box 2.1: sof_llext_build() Function -->
+      <g transform="translate(0, 0)">
+        <rect width="211" height="105" rx="6" fill="#0f172a" stroke="#2563eb" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">CMake: sof_llext_build()</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#bfdbfe">sof_llext_build("${module}"</text>
+        <text x="18" y="48" font-family="monospace" font-size="8" fill="#bfdbfe">SOURCES ...</text>
+        <text x="18" y="62" font-family="monospace" font-size="8" fill="#bfdbfe">LIB openmodules</text>
+        <text x="10" y="76" font-family="monospace" font-size="8" fill="#bfdbfe">)</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Calls add_llext_target()</text>
+      </g>
+
+      <!-- Box 2.2: Compiler Flags -->
+      <g transform="translate(0, 115)">
+        <rect width="211" height="95" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">Xtensa Compiler Flags</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#60a5fa">-mtext-section-literals</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Places literal pools inline</text>
+        <text x="10" y="58" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">directly before L32R instructions</text>
+        <text x="10" y="72" font-family="monospace" font-size="8" fill="#60a5fa">-nostdlib -nodefaultlibs</text>
+        <text x="10" y="86" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Eliminates standard library bloat</text>
+      </g>
+
+      <!-- Box 2.3: Relocatable ELF Linking -->
+      <g transform="translate(0, 220)">
+        <rect width="211" height="95" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">Relocatable vs Shared</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#38bdf8">CONFIG_LLEXT_TYPE_ELF_</text>
+        <text x="10" y="46" font-family="monospace" font-size="8" fill="#38bdf8">RELOCATABLE=y (-r)</text>
+        <text x="10" y="60" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Produces relocatable object file</text>
+        <text x="10" y="74" font-family="monospace" font-size="8" fill="#94a3b8">Shared Mode (-shared)</text>
+        <text x="10" y="88" font-family="system-ui, sans-serif" font-size="8" fill="#64748b">Alternative ELF shared library</text>
+      </g>
+
+      <!-- Box 2.4: Object Artifact -->
+      <g transform="translate(0, 325)">
+        <rect width="211" height="85" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#c084fc">Intermediate Output</text>
+        <text x="10" y="36" font-family="monospace" font-size="8.5" fill="#e0e7ff">${module}.llext</text>
+        <text x="10" y="52" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Contains un-resolved imports</text>
+        <text x="10" y="64" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">referencing basefw EXPORT_SYMBOL</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 2 -> 3 -->
+  <line x1="545" y1="315" x2="565" y2="315" stroke="#2563eb" stroke-width="2" marker-end="url(#arr-blue-bld)"/>
+
+  <!-- Column 3: Preprocessing, Size Calc & Rimage Signing (x=570, w=235) -->
+  <g transform="translate(570, 85)" filter="url(#shadow-bld)">
+    <rect width="235" height="465" rx="10" fill="url(#card-grad-bld)" stroke="#7c3aed" stroke-width="1.2"/>
+    <rect width="235" height="28" rx="10" fill="url(#hdr-purple-bld)"/>
+    <rect y="20" width="235" height="8" fill="#7c3aed"/>
+    <text x="14" y="19" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      3. TOML &amp; Rimage Signing
+    </text>
+
+    <!-- Sub-boxes in Col 3 -->
+    <g transform="translate(12, 42)">
+      <!-- Box 3.1: Preprocessing TOML -->
+      <g transform="translate(0, 0)">
+        <rect width="211" height="95" rx="6" fill="#0f172a" stroke="#7c3aed" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">C Preprocessor TOML Gen</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#e9d5ff">gcc -E llext.toml.h -P</text>
+        <text x="10" y="48" font-family="monospace" font-size="8" fill="#e9d5ff">-imacros autoconf.h</text>
+        <text x="10" y="62" font-family="monospace" font-size="8" fill="#e9d5ff">-imacros uuid-registry.h</text>
+        <text x="10" y="78" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">Expands __COUNTER__ and</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">UUIDREG_STR_* to rimage.toml</text>
+      </g>
+
+      <!-- Box 3.2: Python Helpers -->
+      <g transform="translate(0, 105)">
+        <rect width="211" height="95" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">Size &amp; Link Helpers</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#c084fc">llext_offset_calc.py</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Maintains cumulative size</text>
+        <text x="10" y="64" font-family="monospace" font-size="8" fill="#c084fc">llext_link_helper.py</text>
+        <text x="10" y="78" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Sets --text-addr offset based</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">on CONFIG_LIBRARY_BASE_ADDRESS</text>
+      </g>
+
+      <!-- Box 3.3: Rimage Dynamic Signing -->
+      <g transform="translate(0, 210)">
+        <rect width="211" height="105" rx="6" fill="#1e1b4b" stroke="#a855f7" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#f0abfc">Rimage Dynamic Mode (-l)</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#e9d5ff">rimage -l -k key.pem</text>
+        <text x="18" y="48" font-family="monospace" font-size="8" fill="#e9d5ff">-c rimage_config.toml</text>
+        <text x="18" y="62" font-family="monospace" font-size="8" fill="#e9d5ff">-o ${module}.ri ${module}.llext</text>
+        <text x="10" y="78" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">• Preserves dynamic relocations</text>
+        <text x="10" y="92" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">• Computes SHA digests &amp; CSS</text>
+      </g>
+
+      <!-- Box 3.4: XMan Sidecar -->
+      <g transform="translate(0, 325)">
+        <rect width="211" height="85" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#d8b4fe">Extended Manifest Sidecar</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#e0e7ff">${module}.ri.xman</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Contains build version &amp; ABI flags;</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">prepended during packaging</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Flow Arrow 3 -> 4 -->
+  <line x1="810" y1="315" x2="830" y2="315" stroke="#7c3aed" stroke-width="2" marker-end="url(#arr-purple-bld)"/>
+
+  <!-- Column 4: Installation & Deployment Tree (x=835, w=225) -->
+  <g transform="translate(835, 85)" filter="url(#shadow-bld)">
+    <rect width="225" height="465" rx="10" fill="url(#card-grad-bld)" stroke="#059669" stroke-width="1.2"/>
+    <rect width="225" height="28" rx="10" fill="url(#hdr-emerald-bld)"/>
+    <rect y="20" width="225" height="8" fill="#059669"/>
+    <text x="14" y="19" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#ffffff">
+      4. Deployment &amp; Symlinks
+    </text>
+
+    <!-- Sub-boxes in Col 4 -->
+    <g transform="translate(12, 42)">
+      <!-- Box 4.1: Concatenation -->
+      <g transform="translate(0, 0)">
+        <rect width="201" height="95" rx="6" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">xtensa-build-zephyr.py</text>
+        <text x="10" y="34" font-family="system-ui, sans-serif" font-size="8.5" fill="#cbd5e1">Concatenates container:</text>
+        <text x="10" y="48" font-family="monospace" font-size="8" fill="#34d399">.ri.xman + .ri -&gt; .llext</text>
+        <text x="10" y="64" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Places into deployment tree:</text>
+        <text x="10" y="78" font-family="monospace" font-size="7.5" fill="#a7f3d0">/lib/firmware/intel/sof-ipc4/</text>
+        <text x="10" y="90" font-family="monospace" font-size="7.5" fill="#a7f3d0">&lt;platform&gt;/${module}.llext</text>
+      </g>
+
+      <!-- Box 4.2: UUID Symlink Generation -->
+      <g transform="translate(0, 105)">
+        <rect width="201" height="105" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">UUID-Named Symlinks</text>
+        <text x="10" y="34" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Topology references module UUID;</text>
+        <text x="10" y="46" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">driver requests file by UUID:</text>
+        <text x="10" y="60" font-family="monospace" font-size="7.5" fill="#fef08a">${UUID}.bin -&gt; ${module}.llext</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Multi-UUID support (e.g. mixin):</text>
+        <text x="10" y="88" font-family="monospace" font-size="7" fill="#6ee7b7">39656EB2...bin -&gt; mixin.llext</text>
+        <text x="10" y="98" font-family="monospace" font-size="7" fill="#6ee7b7">3C56505A...bin -&gt; mixin.llext</text>
+      </g>
+
+      <!-- Box 4.3: Auxiliary & Shared Libs -->
+      <g transform="translate(0, 220)">
+        <rect width="201" height="95" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">Auxiliary Libraries</text>
+        <text x="10" y="34" font-family="monospace" font-size="8" fill="#34d399">aux\d_*.llext</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Shared algorithmic engines</text>
+        <text x="10" y="62" font-family="monospace" font-size="8" fill="#34d399">openmodules.llext</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Consolidated open-source bundle</text>
+      </g>
+
+      <!-- Box 4.4: Host Loading Ready -->
+      <g transform="translate(0, 325)">
+        <rect width="201" height="85" rx="6" fill="#0f172a" stroke="#334155" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">Ready for Host DMA</text>
+        <text x="10" y="34" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">Linux kernel request_firmware()</text>
+        <text x="10" y="46" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">loads ${UUID}.bin on-demand</text>
+        <text x="10" y="60" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">during pipeline instantiation.</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Bottom Banner Summary -->
+  <g transform="translate(40, 565)">
+    <rect width="1020" height="70" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+    <text x="20" y="24" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#38bdf8">
+      Key Build Guarantee:
+    </text>
+    <text x="155" y="24" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">
+      Modules compile with zero static dependencies on unexported internals; Rimage validates binary layout against platform TOML.
+    </text>
+    <text x="20" y="46" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8">
+      The resulting container encapsulates an Extended Manifest (<tspan font-family="monospace">.xman</tspan>), CSE directory, CSS signature, module descriptor table, and relocatable ELF segments.
+    </text>
+  </g>
+</svg>

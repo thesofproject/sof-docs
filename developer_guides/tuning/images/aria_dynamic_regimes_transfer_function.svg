@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradAriaXfer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1329" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGradXfer" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="clipZoneGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0.3" />
+    </linearGradient>
+    <filter id="shadowXfer" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000000" flood-opacity="0.5" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="620" rx="14" fill="url(#bgGradAriaXfer)" stroke="#334155" stroke-width="1.5" />
+
+  <!-- Title & Subtitle -->
+  <text x="500" y="38" text-anchor="middle" fill="#f8fafc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700">
+    Aria AGC Transfer Functions &amp; Regressive Headroom Dynamics
+  </text>
+  <text x="500" y="60" text-anchor="middle" fill="#94a3b8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12">
+    Target Boost (0/6/12/18 dB), Headroom Knee Thresholds &amp; Mathematical 0 dBFS Clamping Proof
+  </text>
+
+  <!-- Main Plot Area -->
+  <g transform="translate(60, 95)" filter="url(#shadowXfer)">
+    <!-- Plot Box Background -->
+    <rect width="520" height="420" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1.5" />
+
+    <!-- Digital Clipping Forbidden Zone (above 0 dBFS) -->
+    <!-- In our plot, 0 dBFS is at y = 70. The zone y = 15 to 70 represents > 0 dBFS overshoot -->
+    <rect x="50" y="20" width="450" height="60" fill="url(#clipZoneGrad)" />
+    <line x1="50" y1="80" x2="500" y2="80" stroke="#f43f5e" stroke-width="2.5" stroke-dasharray="6,4" />
+    <text x="275" y="55" text-anchor="middle" fill="#f87171" font-family="sans-serif" font-size="11" font-weight="700" letter-spacing="1">
+      DIGITAL OVERFLOW / CLIPPING ZONE (&gt; 0 dBFS)
+    </text>
+    <text x="505" y="84" fill="#f43f5e" font-family="monospace" font-size="11" font-weight="700">0 dBFS (A_FS)</text>
+
+    <!-- Grid Lines -->
+    <!-- X-axis: -36, -30, -24, -18, -12, -6, 0 dBFS -->
+    <!-- Coordinates: x=-36 -> 95, x=-30 -> 162, x=-24 -> 230, x=-18 -> 297, x=-12 -> 365, x=-6 -> 432, x=0 -> 500 -->
+    <!-- Y-axis: -36 -> 380, -30 -> 330, -24 -> 280, -18 -> 230, -12 -> 180, -6 -> 130, 0 -> 80 -->
+    <g stroke="#1e293b" stroke-width="1">
+      <line x1="95" y1="20" x2="95" y2="390" />
+      <line x1="162" y1="20" x2="162" y2="390" />
+      <line x1="230" y1="20" x2="230" y2="390" />
+      <line x1="297" y1="20" x2="297" y2="390" />
+      <line x1="365" y1="20" x2="365" y2="390" />
+      <line x1="432" y1="20" x2="432" y2="390" />
+
+      <line x1="50" y1="380" x2="500" y2="380" />
+      <line x1="50" y1="330" x2="500" y2="330" />
+      <line x1="50" y1="280" x2="500" y2="280" />
+      <line x1="50" y1="230" x2="500" y2="230" />
+      <line x1="50" y1="180" x2="500" y2="180" />
+      <line x1="50" y1="130" x2="500" y2="130" />
+    </g>
+
+    <!-- Axes Labels -->
+    <text x="95" y="405" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">-36</text>
+    <text x="162" y="405" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">-30</text>
+    <text x="230" y="405" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">-24</text>
+    <text x="297" y="405" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">-18</text>
+    <text x="365" y="405" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">-12</text>
+    <text x="432" y="405" text-anchor="middle" fill="#94a3b8" font-family="monospace" font-size="9">-6</text>
+    <text x="500" y="405" text-anchor="middle" fill="#f8fafc" font-family="monospace" font-size="10" font-weight="700">0</text>
+
+    <text x="42" y="384" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9">-36</text>
+    <text x="42" y="334" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9">-30</text>
+    <text x="42" y="284" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9">-24</text>
+    <text x="42" y="234" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9">-18</text>
+    <text x="42" y="184" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9">-12</text>
+    <text x="42" y="134" text-anchor="end" fill="#94a3b8" font-family="monospace" font-size="9">-6</text>
+    <text x="42" y="84" text-anchor="end" fill="#f8fafc" font-family="monospace" font-size="10" font-weight="700">0</text>
+
+    <!-- Axis Titles -->
+    <text x="275" y="420" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11" font-weight="600">
+      Peak Input Amplitude (dBFS)
+    </text>
+    <text x="-230" y="18" text-anchor="middle" fill="#cbd5e1" font-family="sans-serif" font-size="11" font-weight="600" transform="rotate(-90)">
+      Output Amplitude (dBFS)
+    </text>
+
+    <!-- Naive Linear Overflows (Dashed Red Lines) -->
+    <!-- Mode 3 (+18dB): x=-18 to 0 -> y=0 to +18 dB (y: 80 to 20) -->
+    <line x1="297" y1="80" x2="365" y2="25" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3,3" />
+    <!-- Mode 2 (+12dB): x=-12 to 0 -> y=0 to +12 dB (y: 80 to 25) -->
+    <line x1="365" y1="80" x2="432" y2="25" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3,3" />
+    <!-- Mode 1 (+6dB): x=-6 to 0 -> y=0 to +6 dB (y: 80 to 30) -->
+    <line x1="432" y1="80" x2="500" y2="30" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3,3" />
+
+    <!-- ARIA TRANSFER CURVES -->
+    <!-- Curve 0: Mode 0 (att = 0, 0 dB Boost, Bypass) -->
+    <!-- From x=-36 (95, 380) to x=0 (500, 80) -->
+    <polyline points="95,380 500,80" fill="none" stroke="#94a3b8" stroke-width="2.5" />
+
+    <!-- Curve 1: Mode 1 (att = 1, +6 dB Boost) -->
+    <!-- From x=-36 (95, 330) up to knee x=-6.02 (432, 80), then clamped flat to (500, 80) -->
+    <polyline points="95,330 432,80 500,80" fill="none" stroke="#38bdf8" stroke-width="3" />
+    <circle cx="432" cy="80" r="5" fill="#38bdf8" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Curve 2: Mode 2 (att = 2, +12 dB Boost) -->
+    <!-- From x=-36 (95, 280) up to knee x=-12.04 (365, 80), then clamped flat to (500, 80) -->
+    <polyline points="95,280 365,80 500,80" fill="none" stroke="#10b981" stroke-width="3" />
+    <circle cx="365" cy="80" r="5" fill="#10b981" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Curve 3: Mode 3 (att = 3, +18 dB Boost) -->
+    <!-- From x=-36 (95, 230) up to knee x=-18.06 (297, 80), then clamped flat to (500, 80) -->
+    <polyline points="95,230 297,80 500,80" fill="none" stroke="#f59e0b" stroke-width="3" />
+    <circle cx="297" cy="80" r="5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />
+
+    <!-- Curve Labels -->
+    <text x="210" y="240" fill="#f59e0b" font-family="sans-serif" font-size="10" font-weight="700">att = 3 (+18 dB)</text>
+    <text x="260" y="290" fill="#10b981" font-family="sans-serif" font-size="10" font-weight="700">att = 2 (+12 dB)</text>
+    <text x="320" y="340" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">att = 1 (+6 dB)</text>
+    <text x="380" y="390" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="700">att = 0 (0 dB / Bypass)</text>
+
+    <!-- Clamping Callout -->
+    <rect x="350" y="95" width="145" height="26" rx="4" fill="#064e3b" stroke="#34d399" stroke-width="1" />
+    <text x="422" y="112" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="9.5" font-weight="700">
+      Strict 0 dBFS Clamping
+    </text>
+  </g>
+
+  <!-- Right Side Panel: Tables & Mathematical Proof -->
+  <g transform="translate(605, 95)" filter="url(#shadowXfer)">
+    <!-- Card 1: Attenuation Parameter Table -->
+    <rect width="365" height="205" rx="10" fill="url(#cardGradXfer)" stroke="#334155" stroke-width="1.5" />
+    <rect width="365" height="30" rx="10" fill="#334155" />
+    <text x="182" y="20" text-anchor="middle" fill="#f8fafc" font-family="sans-serif" font-size="12" font-weight="700">Aria Headroom Thresholds (A_thresh)</text>
+
+    <!-- Table Header -->
+    <text x="18" y="52" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="700">Mode</text>
+    <text x="65" y="52" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="700">Boost</text>
+    <text x="125" y="52" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="700">Headroom</text>
+    <text x="215" y="52" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="700">A_thresh (Hex)</text>
+    <text x="315" y="52" fill="#94a3b8" font-family="sans-serif" font-size="10" font-weight="700">Ratio</text>
+    <line x1="15" y1="58" x2="350" y2="58" stroke="#334155" stroke-width="1" />
+
+    <!-- Mode 0 -->
+    <text x="25" y="80" fill="#cbd5e1" font-family="monospace" font-size="10">0</text>
+    <text x="65" y="80" fill="#94a3b8" font-family="sans-serif" font-size="10">0 dB</text>
+    <text x="125" y="80" fill="#cbd5e1" font-family="sans-serif" font-size="10">0.00 dBFS</text>
+    <text x="215" y="80" fill="#cbd5e1" font-family="monospace" font-size="10">0x007FFFFF</text>
+    <text x="315" y="80" fill="#94a3b8" font-family="sans-serif" font-size="10">1.0×</text>
+
+    <!-- Mode 1 -->
+    <text x="25" y="112" fill="#38bdf8" font-family="monospace" font-size="10" font-weight="700">1</text>
+    <text x="65" y="112" fill="#38bdf8" font-family="sans-serif" font-size="10" font-weight="700">+6 dB</text>
+    <text x="125" y="112" fill="#38bdf8" font-family="sans-serif" font-size="10">-6.02 dBFS</text>
+    <text x="215" y="112" fill="#38bdf8" font-family="monospace" font-size="10">0x003FFFFF</text>
+    <text x="315" y="112" fill="#38bdf8" font-family="sans-serif" font-size="10">2.0×</text>
+
+    <!-- Mode 2 -->
+    <text x="25" y="144" fill="#10b981" font-family="monospace" font-size="10" font-weight="700">2</text>
+    <text x="65" y="144" fill="#10b981" font-family="sans-serif" font-size="10" font-weight="700">+12 dB</text>
+    <text x="125" y="144" fill="#10b981" font-family="sans-serif" font-size="10">-12.04 dBFS</text>
+    <text x="215" y="144" fill="#10b981" font-family="monospace" font-size="10">0x001FFFFF</text>
+    <text x="315" y="144" fill="#10b981" font-family="sans-serif" font-size="10">4.0×</text>
+
+    <!-- Mode 3 -->
+    <text x="25" y="176" fill="#f59e0b" font-family="monospace" font-size="10" font-weight="700">3</text>
+    <text x="65" y="176" fill="#f59e0b" font-family="sans-serif" font-size="10" font-weight="700">+18 dB</text>
+    <text x="125" y="176" fill="#f59e0b" font-family="sans-serif" font-size="10">-18.06 dBFS</text>
+    <text x="215" y="176" fill="#f59e0b" font-family="monospace" font-size="10">0x000FFFFF</text>
+    <text x="315" y="176" fill="#f59e0b" font-family="sans-serif" font-size="10">8.0×</text>
+
+    <text x="182" y="196" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="8.5">
+      Formula: A_thresh = A_FS &gt;&gt; att = (2^23 - 1) &gt;&gt; att
+    </text>
+
+    <!-- Card 2: Regressive Anti-Clipping Clamping Proof -->
+    <g transform="translate(0, 220)">
+      <rect width="365" height="185" rx="10" fill="url(#cardGradXfer)" stroke="#0284c7" stroke-width="1.5" />
+      <rect width="365" height="30" rx="10" fill="#0284c7" />
+      <text x="182" y="20" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="12" font-weight="700">Mathematical Clamping Invariance</text>
+
+      <text x="15" y="52" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">When peak input <tspan fill="#fbbf24" font-weight="600">max_data &gt; A_thresh</tspan>:</text>
+
+      <rect x="15" y="60" width="335" height="30" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+      <text x="182" y="80" text-anchor="middle" fill="#38bdf8" font-family="monospace" font-size="11">
+        g = floor[ (A_FS × 2^31) / (max_data × 2^att) ]
+      </text>
+
+      <text x="15" y="110" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">Output sample multiplication with shift (31 - att):</text>
+
+      <rect x="15" y="118" width="335" height="30" rx="5" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+      <text x="182" y="138" text-anchor="middle" fill="#34d399" font-family="monospace" font-size="11">
+        y[n] = (x[n] × g) &gt;&gt; (31 - att) = x[n] × (A_FS / max_data)
+      </text>
+
+      <text x="182" y="168" text-anchor="middle" fill="#34d399" font-family="sans-serif" font-size="10" font-weight="700">
+        ∴ |y_peak| = max_data × (A_FS / max_data) ≡ A_FS (0 dBFS)
+      </text>
+    </g>
+  </g>
+
+  <!-- Bottom Explanatory Banner -->
+  <g transform="translate(60, 530)">
+    <rect width="910" height="70" rx="8" fill="#0f172a" stroke="#334155" stroke-width="1" />
+    <text x="25" y="24" fill="#38bdf8" font-family="sans-serif" font-size="11" font-weight="700">Operating Summary:</text>
+    <text x="25" y="44" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">
+      • Signals below <tspan fill="#fbbf24">A_thresh</tspan> receive constant linear pre-amplification boost (e.g. +12 dB) to maximize speech recognition sensitivity.
+    </text>
+    <text x="25" y="60" fill="#cbd5e1" font-family="sans-serif" font-size="10.5">
+      • Sudden shouts or acoustic bursts dynamically compress gain so the peak is locked exactly at <tspan fill="#34d399">0 dBFS</tspan>, entirely avoiding harsh digital distortion.
+    </text>
+  </g>
+</svg>

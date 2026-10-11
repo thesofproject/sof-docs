@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="headerGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow2" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrCyan2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrPurple2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+    <marker id="arrGreen2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrRed2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#ef4444" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad2)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Header -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow2)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#headerGrad2)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 328: In-Tree IPC libFuzzer Execution Lifecycle &amp; Memory Safety Verification
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      Automated Header Harvesting, In-Memory Mailbox Injection, ASan Interception &amp; Crash Minimization
+    </text>
+  </g>
+
+  <!-- STAGE 1: Dictionary Harvesting (Top-Left) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="505" height="280" rx="8" fill="url(#cardGrad2)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#b45309" />
+    <rect x="0" y="20" width="505" height="8" fill="#b45309" />
+    <text x="16" y="19" fill="#fef3c7" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Stage 1: Header Harvesting &amp; Protocol Dictionary Generation
+    </text>
+
+    <!-- Sub-elements inside Stage 1 -->
+    <g transform="translate(14, 38)">
+      <!-- Box 1.1: Source Headers -->
+      <rect x="0" y="0" width="477" height="60" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+      <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Firmware Header Enums (src/include/ipc4/*.h)</text>
+      <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">header.h, module.h, pipeline.h, base_fw.h, error_status.h</text>
+      <text x="10" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Provides exact enum definitions, message types, and state codes</text>
+
+      <!-- Arrow Down -->
+      <path d="M 238 60 L 238 74" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Box 1.2: Generator Script -->
+      <g transform="translate(0, 76)">
+        <rect x="0" y="0" width="477" height="68" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Dictionary Generator (scripts/gen_fuzz_ipc4_dict.py)</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">python3 scripts/gen_fuzz_ipc4_dict.py -o ipc4.dict</text>
+        <text x="10" y="48" fill="#fde68a" font-size="9" font-family="system-ui, sans-serif">Encodes 4-byte LE tokens: msg_tgt|rsp|type into bits 24..30</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Harvests module init IDs, pipeline states, and param IDs</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 238 144 L 238 158" stroke="#f59e0b" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Box 1.3: Dictionary Output -->
+      <g transform="translate(0, 160)">
+        <rect x="0" y="0" width="477" height="68" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">libFuzzer Protocol Dictionary (ipc4.dict)</text>
+        <text x="10" y="33" fill="#cbd5e1" font-size="9" font-family="monospace">GLB_CREATE_PIPELINE="\x00\x00\x00\x01"</text>
+        <text x="10" y="47" fill="#cbd5e1" font-size="9" font-family="monospace">MOD_INIT_INSTANCE="\x00\x00\x00\x61"</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Guarantees mutator splices valid headers past early syntax checks</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- STAGE 2: Build Orchestration (Top-Right) -->
+  <g transform="translate(565, 105)">
+    <rect x="0" y="0" width="505" height="280" rx="8" fill="url(#cardGrad2)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#0284c7" />
+    <rect x="0" y="20" width="505" height="8" fill="#0284c7" />
+    <text x="16" y="19" fill="#f0f9ff" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Stage 2: Target Build Orchestration &amp; Sanitizer Injection
+    </text>
+
+    <!-- Sub-elements inside Stage 2 -->
+    <g transform="translate(14, 38)">
+      <!-- Box 2.1: Orchestration Script -->
+      <rect x="0" y="0" width="477" height="60" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+      <text x="10" y="18" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Fuzzer Build Runner (scripts/fuzz.sh)</text>
+      <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">./scripts/fuzz.sh -i 4 -s address -t 300 -j $(nproc)</text>
+      <text x="10" y="48" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Selects IPC version, compiler sanitizer, and parallel workers</text>
+
+      <!-- Arrow Down -->
+      <path d="M 238 60 L 238 74" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Box 2.2: Kconfig & Compiler Flags -->
+      <g transform="translate(0, 76)">
+        <rect x="0" y="0" width="477" height="68" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+        <text x="10" y="18" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Kconfig Overlay Fragments &amp; Sanitizer Flags</text>
+        <text x="10" y="34" fill="#7dd3fc" font-size="9" font-family="monospace">CONF_FILE="prj.conf;boards/native_sim_libfuzzer.conf;</text>
+        <text x="10" y="48" fill="#7dd3fc" font-size="9" font-family="monospace">configs/fuzz_features.conf;configs/fuzz_asan.conf"</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Injects -fsanitize=fuzzer,address and stub configurations</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 238 144 L 238 158" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Box 2.3: Build Artifact -->
+      <g transform="translate(0, 160)">
+        <rect x="0" y="0" width="477" height="68" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+        <text x="10" y="18" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Output Executable Binary (zephyr.exe)</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">build-fuzz/zephyr/zephyr.exe</text>
+        <text x="10" y="47" fill="#34d399" font-size="9" font-family="system-ui, sans-serif">Native Linux ELF instrumented with libFuzzer and ASan</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Direct host execution without hardware emulator</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors from Top Stages to In-Memory Execution Loop -->
+  <path d="M 282 385 L 282 410" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#arrCyan2)" />
+  <path d="M 817 385 L 817 410" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#arrCyan2)" />
+
+  <!-- STAGE 3: In-Memory Execution Loop (Bottom-Left) -->
+  <g transform="translate(30, 415)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad2)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="505" height="8" fill="#047857" />
+    <text x="16" y="19" fill="#ecfdf5" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Stage 3: Continuous In-Memory Fuzzing Loop
+    </text>
+
+    <!-- Sub-elements inside Stage 3 -->
+    <g transform="translate(14, 38)">
+      <!-- Box 3.1: Mutation & Entry Point -->
+      <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+      <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">libFuzzer Mutator -> LLVMFuzzerTestOneInput</text>
+      <text x="10" y="33" fill="#e2e8f0" font-size="9" font-family="monospace">LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)</text>
+      <text x="10" y="47" fill="#a7f3d0" font-size="9" font-family="system-ui, sans-serif">Mutates input with bit-flips, arithmetic &amp; dictionary tokens</text>
+      <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Stores packet into simulated mailbox buffer posix_fuzz_buf</text>
+
+      <!-- Arrow Down -->
+      <path d="M 238 66 L 238 78" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrGreen2)" />
+
+      <!-- Box 3.2: POSIX ISR Injection -->
+      <g transform="translate(0, 80)">
+        <rect x="0" y="0" width="477" height="74" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">simulated Hardware ISR (src/platform/posix/ipc.c)</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9" font-family="monospace">fuzz_isr() -> triggers simulated hardware mailbox IRQ</text>
+        <text x="10" y="47" fill="#cbd5e1" font-size="9" font-family="monospace">-> ipc_cmd(_hdr) reads header &amp; dispatches command</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Zero driver overhead: 100,000+ executions per second per core</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 238 154 L 238 166" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrGreen2)" />
+
+      <!-- Box 3.3: Coverage & Feedback -->
+      <g transform="translate(0, 168)">
+        <rect x="0" y="0" width="477" height="74" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Coverage Feedback &amp; Seed Promotion</text>
+        <text x="10" y="33" fill="#f1f5f9" font-size="9" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">trace-pc-guard:</tspan> Tracks new code paths and branches</text>
+        <text x="10" y="47" fill="#f1f5f9" font-size="9" font-family="system-ui, sans-serif">• If new branch hit -> save seed to <tspan font-family="monospace" fill="#a7f3d0">./fuzz_corpus/</tspan></text>
+        <text x="10" y="61" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Expands coverage depth into module params &amp; pipeline graphs</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- STAGE 4: Sanitizer Traps & Triaging (Bottom-Right) -->
+  <g transform="translate(565, 415)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad2)" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#b91c1c" />
+    <rect x="0" y="20" width="505" height="8" fill="#b91c1c" />
+    <text x="16" y="19" fill="#fef2f2" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Stage 4: ASan Detection, Crash Artifacting &amp; Triaging
+    </text>
+
+    <!-- Sub-elements inside Stage 4 -->
+    <g transform="translate(14, 38)">
+      <!-- Box 4.1: ASan Interception -->
+      <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+      <text x="10" y="18" fill="#f87171" font-size="11" font-weight="600" font-family="system-ui, sans-serif">AddressSanitizer (ASan) Memory Interception</text>
+      <text x="10" y="33" fill="#fecaca" font-size="9" font-family="system-ui, sans-serif">• Intercepts heap-buffer-overflow, use-after-free, stack-overflow</text>
+      <text x="10" y="47" fill="#fecaca" font-size="9" font-family="system-ui, sans-serif">• Traps undefined behavior via UBSan: integer overflow, null ptr</text>
+      <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Halts execution immediately before corrupted memory write</text>
+
+      <!-- Arrow Down -->
+      <path d="M 238 66 L 238 78" stroke="#ef4444" stroke-width="1.5" fill="none" marker-end="url(#arrRed2)" />
+
+      <!-- Box 4.2: Crash Reproducer Artifact -->
+      <g transform="translate(0, 80)">
+        <rect x="0" y="0" width="477" height="74" rx="6" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+        <text x="10" y="18" fill="#f87171" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Crash Artifact Emission (crash-&lt;sha256&gt;)</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9" font-family="monospace">crash-8a5f3e9c... (exact payload triggering failure)</text>
+        <text x="10" y="47" fill="#fecaca" font-size="9" font-family="system-ui, sans-serif">• Emits shadow memory dump, call stack &amp; allocated chunk</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Uploads artifact automatically to GitHub Actions CI workflow</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 238 154 L 238 166" stroke="#ef4444" stroke-width="1.5" fill="none" marker-end="url(#arrRed2)" />
+
+      <!-- Box 4.3: Debugging & Minimization -->
+      <g transform="translate(0, 168)">
+        <rect x="0" y="0" width="477" height="74" rx="6" fill="#0f172a" stroke="#dc2626" stroke-width="1" />
+        <text x="10" y="18" fill="#f87171" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Interactive GDB Debugging &amp; Testcase Minimization</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="8.5" font-family="monospace">gdb -tui ./build-fuzz/zephyr/zephyr.exe -ex 'run &gt; _ ./crash-...'</text>
+        <text x="10" y="47" fill="#e2e8f0" font-size="8.5" font-family="monospace">./build-fuzz/zephyr/zephyr.exe -minimize_crash=1 ./crash-...</text>
+        <text x="10" y="61" fill="#34d399" font-size="8.5" font-family="system-ui, sans-serif">Reduces reproducer to minimal failing byte payload for unit tests</text>
+      </g>
+    </g>
+  </g>
+</svg>

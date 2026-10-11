@@ -1,0 +1,384 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 750" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad-dla" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b0f19"/>
+    </linearGradient>
+
+    <linearGradient id="card-grad-dla" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Header Gradients -->
+    <linearGradient id="hdr-blue-dla" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-purple-dla" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6d28d9"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-cyan-dla" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-emerald-dla" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-amber-dla" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b45309"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-slate-dla" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#475569"/>
+    </linearGradient>
+
+    <!-- Component Box Gradients -->
+    <linearGradient id="box-comp-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-comp-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#164e63" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-comp-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-comp-emerald" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-comp-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-dla" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arr-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-cyan" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#06b6d4"/>
+    </marker>
+    <marker id="arr-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="750" fill="url(#bg-grad-dla)"/>
+
+  <!-- TITLE BLOCK -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="800" fill="#f8fafc" letter-spacing="-0.5px">
+      SOF Linux Kernel Driver Subsystem Architecture
+    </text>
+    <text x="0" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8">
+      Layered Hierarchy: User Space, ALSA/ASoC Core, SOF Core, IPC Protocols, Platform DSP Ops, and Hardware Buses
+    </text>
+  </g>
+
+  <!-- TIER 1: USER SPACE (y=72, h=62) -->
+  <g transform="translate(40, 72)" filter="url(#shadow-dla)">
+    <rect width="1020" height="62" rx="8" fill="url(#card-grad-dla)" stroke="#3b82f6" stroke-width="1.2"/>
+    <rect width="1020" height="20" rx="8" fill="url(#hdr-blue-dla)"/>
+    <rect y="16" width="1020" height="4" fill="#1d4ed8"/>
+    <text x="14" y="14" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="0.5px">
+      TIER 1: LINUX USER SPACE (AUDIO DAEMONS, LIBS &amp; UTILITIES)
+    </text>
+
+    <!-- Sub-blocks -->
+    <g transform="translate(14, 26)">
+      <!-- Apps & Daemons -->
+      <g transform="translate(0, 4)">
+        <rect width="320" height="26" rx="4" fill="#0f172a" stroke="#1e40af" stroke-width="0.8"/>
+        <text x="8" y="17" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#93c5fd">Audio Servers:</text>
+        <text x="88" y="17" font-family="monospace" font-size="9" fill="#e2e8f0">PipeWire • PulseAudio • CRAS (ChromeOS)</text>
+      </g>
+      <!-- User libraries -->
+      <g transform="translate(335, 4)">
+        <rect width="310" height="26" rx="4" fill="#0f172a" stroke="#1e40af" stroke-width="0.8"/>
+        <text x="8" y="17" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#93c5fd">ALSA Stack:</text>
+        <text x="80" y="17" font-family="monospace" font-size="9" fill="#e2e8f0">alsa-lib • tinyalsa • alsa-ucm (UCM2)</text>
+      </g>
+      <!-- Device nodes -->
+      <g transform="translate(660, 4)">
+        <rect width="332" height="26" rx="4" fill="#0f172a" stroke="#1e40af" stroke-width="0.8"/>
+        <text x="8" y="17" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#93c5fd">Device Nodes:</text>
+        <text x="92" y="17" font-family="monospace" font-size="8.5" fill="#e2e8f0">/dev/snd/pcmC*D*p • controlC* • comprC*</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows: Tier 1 -> Tier 2 -->
+  <line x1="550" y1="134" x2="550" y2="148" stroke="#3b82f6" stroke-width="2" marker-end="url(#arr-blue)"/>
+
+  <!-- TIER 2: ALSA & ASOC CORE FRAMEWORK (y=148, h=72) -->
+  <g transform="translate(40, 148)" filter="url(#shadow-dla)">
+    <rect width="1020" height="72" rx="8" fill="url(#card-grad-dla)" stroke="#8b5cf6" stroke-width="1.2"/>
+    <rect width="1020" height="20" rx="8" fill="url(#hdr-purple-dla)"/>
+    <rect y="16" width="1020" height="4" fill="#6d28d9"/>
+    <text x="14" y="14" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="0.5px">
+      TIER 2: LINUX KERNEL ALSA CORE &amp; ASOC (ALSA SYSTEM ON CHIP) FRAMEWORK (sound/core/, sound/soc/)
+    </text>
+
+    <!-- Sub-blocks -->
+    <g transform="translate(14, 26)">
+      <!-- ALSA Core -->
+      <g transform="translate(0, 4)">
+        <rect width="270" height="34" rx="4" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#c084fc">ALSA Core Subsystem</text>
+        <text x="8" y="28" font-family="monospace" font-size="8" fill="#e2e8f0">pcm_native.c • control.c • compress</text>
+      </g>
+      <!-- ASoC DPCM -->
+      <g transform="translate(282, 4)">
+        <rect width="250" height="34" rx="4" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#c084fc">ASoC DPCM Engine</text>
+        <text x="8" y="28" font-family="system-ui, sans-serif" font-size="8" fill="#e2e8f0">Front-End (FE) ↔ Back-End (BE) Decoupling</text>
+      </g>
+      <!-- ASoC DAPM -->
+      <g transform="translate(544, 4)">
+        <rect width="220" height="34" rx="4" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#c084fc">ASoC DAPM</text>
+        <text x="8" y="28" font-family="system-ui, sans-serif" font-size="8" fill="#e2e8f0">Dynamic Audio Power Routing &amp; Events</text>
+      </g>
+      <!-- ASoC Topology -->
+      <g transform="translate(776, 4)">
+        <rect width="216" height="34" rx="4" fill="#0f172a" stroke="#6d28d9" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#c084fc">ASoC Topology Core</text>
+        <text x="8" y="28" font-family="monospace" font-size="8" fill="#e2e8f0">soc-topology.c (.tplg parser)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows: Tier 2 -> Tier 3 -->
+  <line x1="550" y1="220" x2="550" y2="234" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arr-purple)"/>
+
+  <!-- TIER 3: SOF CORE SUBSYSTEM (snd-sof.ko) (y=234, h=145) -->
+  <g transform="translate(40, 234)" filter="url(#shadow-dla)">
+    <rect width="1020" height="145" rx="8" fill="url(#card-grad-dla)" stroke="#06b6d4" stroke-width="1.5"/>
+    <rect width="1020" height="22" rx="8" fill="url(#hdr-cyan-dla)"/>
+    <rect y="18" width="1020" height="4" fill="#0e7490"/>
+    <text x="14" y="15" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#ffffff" letter-spacing="0.5px">
+      TIER 3: SOF CORE SUBSYSTEM (sound/soc/sof/snd-sof.ko) — GENERIC AUDIO DSP LOGIC &amp; LIFECYCLE
+    </text>
+
+    <!-- 5 Internal Functional Subsystems -->
+    <g transform="translate(12, 30)">
+      <!-- Box 1: Core & Loader -->
+      <g transform="translate(0, 0)">
+        <rect width="190" height="104" rx="5" fill="url(#box-comp-cyan)" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Core &amp; Loader</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#a5f3fc">core.c • loader.c</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• struct snd_sof_dev</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Firmware loading (request_fw)</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Extended Manifest parse</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Boot ROM &amp; handshake</text>
+      </g>
+
+      <!-- Box 2: PCM & Audio Stream -->
+      <g transform="translate(200, 0)">
+        <rect width="190" height="104" rx="5" fill="url(#box-comp-cyan)" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">PCM &amp; Audio Streams</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#a5f3fc">pcm.c • sof-audio.c</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• snd_soc_dai_link ops</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• hw_params &amp; buffer alloc</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Atomic trigger start/stop</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Pointer &amp; wall-clock LLP</text>
+      </g>
+
+      <!-- Box 3: Topology Engine -->
+      <g transform="translate(400, 0)">
+        <rect width="190" height="104" rx="5" fill="url(#box-comp-cyan)" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Topology Engine</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#a5f3fc">topology.c • control.c</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• ASoC widget mapping</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Pipeline instantiation</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Ring buffer allocations</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Kcontrols &amp; byte blobs</text>
+      </g>
+
+      <!-- Box 4: Power Management -->
+      <g transform="translate(600, 0)">
+        <rect width="190" height="104" rx="5" fill="url(#box-comp-cyan)" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Power Management</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#a5f3fc">pm.c (Runtime PM)</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• D0 ↔ D0ix ↔ D3 states</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Context save &amp; restore</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• S0ix &amp; S3 system suspend</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• LLEXT DRAM cold-store</text>
+      </g>
+
+      <!-- Box 5: Unified IPC Core -->
+      <g transform="translate(800, 0)">
+        <rect width="196" height="104" rx="5" fill="url(#box-comp-cyan)" stroke="#0891b2" stroke-width="0.8"/>
+        <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#67e8f9">Unified IPC Engine</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#a5f3fc">ipc.c • stream-ipc.c</text>
+        <text x="10" y="48" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• sof_ipc_tx_message()</text>
+        <text x="10" y="62" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Waitqueue completions</text>
+        <text x="10" y="76" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Sequence tracking</text>
+        <text x="10" y="90" font-family="system-ui, sans-serif" font-size="8" fill="#cbd5e1">• Timeout abort &amp; recovery</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows: Tier 3 -> Tier 4 -->
+  <line x1="330" y1="379" x2="330" y2="394" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr-cyan)"/>
+  <line x1="770" y1="379" x2="770" y2="394" stroke="#06b6d4" stroke-width="2" marker-end="url(#arr-cyan)"/>
+
+  <!-- TIER 4: PROTOCOL LAYER & AUXILIARY CLIENTS (y=394, h=108) -->
+  <g transform="translate(40, 394)" filter="url(#shadow-dla)">
+    <rect width="1020" height="108" rx="8" fill="url(#card-grad-dla)" stroke="#10b981" stroke-width="1.2"/>
+    <rect width="1020" height="20" rx="8" fill="url(#hdr-emerald-dla)"/>
+    <rect y="16" width="1020" height="4" fill="#047857"/>
+    <text x="14" y="14" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="0.5px">
+      TIER 4: PROTOCOL DUALITY (IPC3 / IPC4) &amp; AUXILIARY CLIENT FRAMEWORK (sof-client.c)
+    </text>
+
+    <g transform="translate(12, 28)">
+      <!-- Column 1: IPC3 Protocol Subsystem -->
+      <g transform="translate(0, 0)">
+        <rect width="280" height="72" rx="4" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#6ee7b7">IPC3 Classic (Intel cAVS / NXP)</text>
+        <text x="8" y="28" font-family="monospace" font-size="7.5" fill="#a7f3d0">ipc3.c • ipc3-pcm.c • ipc3-topology.c</text>
+        <text x="8" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Fixed envelope header (sof_ipc_cmd_hdr)</text>
+        <text x="8" y="54" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Shared SRAM Mailbox (Inbox / Outbox)</text>
+        <text x="8" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Doorbell IRQs: H2D interrupt &amp; D2H reply</text>
+      </g>
+
+      <!-- Column 2: IPC4 Protocol Subsystem -->
+      <g transform="translate(290, 0)">
+        <rect width="310" height="72" rx="4" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#6ee7b7">IPC4 Modern (Intel ACE 1.x / 3.x)</text>
+        <text x="8" y="28" font-family="monospace" font-size="7.5" fill="#a7f3d0">ipc4.c • ipc4-pcm.c • ipc4-topology.c</text>
+        <text x="8" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• 64-bit primary + extension register bitfields</text>
+        <text x="8" y="54" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Gateway nodes, Module IDs &amp; Multi-pin routing</text>
+        <text x="8" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Large config DMA &amp; unsolicited notifications</text>
+      </g>
+
+      <!-- Column 3: Auxiliary Client Drivers -->
+      <g transform="translate(610, 0)">
+        <rect width="386" height="72" rx="4" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#6ee7b7">Auxiliary Client Framework (struct snd_sof_client_dev)</text>
+        <text x="8" y="30" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">Probes</tspan> (<tspan font-family="monospace" fill="#a7f3d0">snd-sof-probes.ko</tspan>): Real-time DMA firmware trace &amp; data taps
+        </text>
+        <text x="8" y="44" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">LLEXT Loader</tspan> (<tspan font-family="monospace" fill="#a7f3d0">snd-sof-llext-load.ko</tspan>): Post-silicon relocatable ELF injection
+        </text>
+        <text x="8" y="58" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">
+          • <tspan font-weight="700" fill="#f8fafc">Debug Tools</tspan>: Remote GDB stub (<tspan font-family="monospace">sof-client-fw-gdb</tspan>) &amp; IPC message injectors
+        </text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows: Tier 4 -> Tier 5 -->
+  <line x1="550" y1="502" x2="550" y2="516" stroke="#10b981" stroke-width="2" marker-end="url(#arr-cyan)"/>
+
+  <!-- TIER 5: PLATFORM DSP OPERATIONS & HARDWARE BACKENDS (y=516, h=108) -->
+  <g transform="translate(40, 516)" filter="url(#shadow-dla)">
+    <rect width="1020" height="108" rx="8" fill="url(#card-grad-dla)" stroke="#f59e0b" stroke-width="1.2"/>
+    <rect width="1020" height="20" rx="8" fill="url(#hdr-amber-dla)"/>
+    <rect y="16" width="1020" height="4" fill="#b45309"/>
+    <text x="14" y="14" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="0.5px">
+      TIER 5: PLATFORM DSP OPERATIONS HOOKS (struct snd_sof_dsp_ops) &amp; SILICON BACKENDS
+    </text>
+
+    <!-- 4 Platform Columns -->
+    <g transform="translate(12, 28)">
+      <!-- Intel cAVS -->
+      <g transform="translate(0, 0)">
+        <rect width="240" height="72" rx="4" fill="#0f172a" stroke="#d97706" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#fcd34d">Intel cAVS 1.5 - 2.5</text>
+        <text x="8" y="28" font-family="monospace" font-size="7.5" fill="#fed7aa">intel/hda.c • pci-tgl.c</text>
+        <text x="8" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Skylake, Cannon Lake, Tiger Lake</text>
+        <text x="8" y="54" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• SRAM window &amp; SHIM registers</text>
+        <text x="8" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• HDA DMA stream allocation</text>
+      </g>
+
+      <!-- Intel ACE -->
+      <g transform="translate(250, 0)">
+        <rect width="250" height="72" rx="4" fill="#0f172a" stroke="#d97706" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#fcd34d">Intel ACE 1.x / 2.x / 3.x</text>
+        <text x="8" y="28" font-family="monospace" font-size="7.5" fill="#fed7aa">intel/mtl.c • intel/ptl.c</text>
+        <text x="8" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Meteor Lake, Arrow Lake, Panther Lake</text>
+        <text x="8" y="54" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Decoupled host &amp; link DMA engines</text>
+        <text x="8" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Extended IPC4 mailbox windows</text>
+      </g>
+
+      <!-- NXP i.MX -->
+      <g transform="translate(510, 0)">
+        <rect width="240" height="72" rx="4" fill="#0f172a" stroke="#d97706" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#fcd34d">NXP i.MX Applications</text>
+        <text x="8" y="28" font-family="monospace" font-size="7.5" fill="#fed7aa">imx/imx8.c • imx8m.c</text>
+        <text x="8" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• i.MX8, i.MX8M, i.MX95</text>
+        <text x="8" y="54" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Cadence Tensilica HiFi4 DSP</text>
+        <text x="8" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Shared MU (Messaging Unit) IRQs</text>
+      </g>
+
+      <!-- AMD & Mediatek -->
+      <g transform="translate(760, 0)">
+        <rect width="236" height="72" rx="4" fill="#0f172a" stroke="#d97706" stroke-width="0.8"/>
+        <text x="8" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#fcd34d">AMD ACP &amp; Mediatek</text>
+        <text x="8" y="28" font-family="monospace" font-size="7.5" fill="#fed7aa">amd/acp.c • mediatek/mt8195.c</text>
+        <text x="8" y="42" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Renoir, VanGogh, Phoenix</text>
+        <text x="8" y="54" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Mediatek MT8186 / MT8195 SoC</text>
+        <text x="8" y="66" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Device Tree &amp; ACPI bindings</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Arrows: Tier 5 -> Tier 6 -->
+  <line x1="550" y1="624" x2="550" y2="638" stroke="#f59e0b" stroke-width="2" marker-end="url(#arr-cyan)"/>
+
+  <!-- TIER 6: HARDWARE BUSES & TARGET DSP HARDWARE (y=638, h=88) -->
+  <g transform="translate(40, 638)" filter="url(#shadow-dla)">
+    <rect width="1020" height="88" rx="8" fill="url(#card-grad-dla)" stroke="#64748b" stroke-width="1.2"/>
+    <rect width="1020" height="20" rx="8" fill="url(#hdr-slate-dla)"/>
+    <rect y="16" width="1020" height="4" fill="#334155"/>
+    <text x="14" y="14" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#ffffff" letter-spacing="0.5px">
+      TIER 6: PHYSICAL BUS INTERCONNECTS &amp; TARGET DSP HARDWARE
+    </text>
+
+    <!-- Split into Bus Controllers and Target Hardware -->
+    <g transform="translate(12, 26)">
+      <!-- Left: Bus Layer -->
+      <g transform="translate(0, 0)">
+        <rect width="490" height="52" rx="4" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+        <text x="10" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#94a3b8">Physical Bus Controllers &amp; Firmware Tables</text>
+        <text x="10" y="32" font-family="monospace" font-size="8" fill="#e2e8f0">• PCIe bus (snd-sof-pci.ko) • ACPI discovery (snd-sof-acpi.ko) • Device Tree (OF)</text>
+        <text x="10" y="46" font-family="monospace" font-size="8" fill="#e2e8f0">• SoundWire Link (DISCO tables) • HD-Audio link • SSP/I2S • PDM Microphone array</text>
+      </g>
+
+      <!-- Right: Target Hardware -->
+      <g transform="translate(506, 0)">
+        <rect width="490" height="52" rx="4" fill="#0f172a" stroke="#475569" stroke-width="0.8"/>
+        <text x="10" y="16" font-family="system-ui, sans-serif" font-size="9" font-weight="700" fill="#94a3b8">Target DSP Processing Hardware</text>
+        <text x="10" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#e2e8f0">• DSP Compute Cores: Xtensa LX6 / LX7 / RISC-V with hardware FPU &amp; SIMD DSP engines</text>
+        <text x="10" y="46" font-family="system-ui, sans-serif" font-size="8" fill="#e2e8f0">• Memory Architecture: High-Performance SRAM, Low-Power SRAM, L2 Cache, DMA FIFOs</text>
+      </g>
+    </g>
+  </g>
+</svg>

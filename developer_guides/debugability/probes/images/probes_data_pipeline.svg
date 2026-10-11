@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4" />
+      <stop offset="100%" stop-color="#3b82f6" />
+    </linearGradient>
+
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Header -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#headerGrad)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 331: Audio Buffer Probing &amp; Zephyr Interactive Shell Architecture
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      Intermediate Audio Buffer Injection/Extraction, Compressed Offload Streams &amp; Zero-IPC Memory Window Terminal
+    </text>
+  </g>
+
+  <!-- SECTION 1: Pipeline Audio Buffer Probe Tap Points (Top Tier) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="1040" height="120" rx="8" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="1040" height="8" fill="#047857" />
+    <text x="16" y="19" fill="#ecfdf5" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      1. Live Audio Pipeline Intermediate Buffer Tap Points &amp; Injection Ports
+    </text>
+
+    <!-- Sub-cards -->
+    <g transform="translate(16, 38)">
+      <!-- Card 1.1: Audio Processing Chain -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="310" height="68" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="12" y="18" fill="#34d399" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Audio Processing Chain Tap Points</text>
+        <text x="12" y="34" fill="#a7f3d0" font-size="9.5" font-family="monospace">[Host DMA] -> (B1) -> [EQ] -> (B2) -> [DRC] -> (B3)</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="9" font-family="system-ui, sans-serif">Tap into inter-module circular buffers (B1, B2, B3)</text>
+        <text x="12" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Zero topology reconfiguration needed</text>
+      </g>
+
+      <!-- Card 1.2: Probe Point Attachment -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="350" height="68" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="12" y="18" fill="#34d399" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Dynamic Probe Attachment Interface</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">echo &lt;buffer_id,purpose,stream_tag&gt; > probe_points</text>
+        <text x="12" y="48" fill="#a7f3d0" font-size="9" font-family="system-ui, sans-serif">• IPC3: Monolithic buffer counter (e.g. 7,1,0)</text>
+        <text x="12" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">• IPC4: Bitfield module_id:instance_id:type:index (2,0,0)</text>
+      </g>
+
+      <!-- Card 1.3: Modes -->
+      <g transform="translate(700, 0)">
+        <rect x="0" y="0" width="308" height="68" rx="6" fill="#0f172a" stroke="#059669" stroke-width="1" />
+        <text x="12" y="18" fill="#34d399" font-size="11.5" font-weight="600" font-family="system-ui, sans-serif">Bidirectional Extraction &amp; Injection</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">EXTRACTION:</tspan> Tap and copy audio frames to host</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#34d399">INJECTION:</tspan> Inject test vectors directly into buffer</text>
+        <text x="12" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Isolates algorithm faults from upstream pipelines</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors from Section 1 to Middle Tier -->
+  <path d="M 280 225 L 280 260" stroke="#10b981" stroke-width="2" fill="none" marker-end="url(#arrEmerald)" />
+  <path d="M 820 225 L 820 260" stroke="#06b6d4" stroke-width="2" fill="none" marker-end="url(#arrCyan)" />
+
+  <!-- SECTION 2: Dual Diagnostic Backends (Middle Tier) -->
+  <!-- Left Column: Audio Probe Ingestion (crecord & sof-probes) -->
+  <g transform="translate(30, 265)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#0891b2" />
+    <rect x="0" y="20" width="505" height="8" fill="#0891b2" />
+    <text x="16" y="19" fill="#ecfeff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2A. Audio Probe Capture &amp; Multi-Channel Extraction Pipeline
+    </text>
+
+    <!-- Sub-cards inside Left Column -->
+    <g transform="translate(14, 38)">
+      <!-- Card 2A.1: Compress Capture -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+        <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">ALSA Compress Offload Capture Stream (crecord)</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">crecord -c3 -d0 -b8192 -f4 -FS32_LE -R48000 -C4 extract.dat</text>
+        <text x="10" y="48" fill="#a5f3fc" font-size="9" font-family="monospace">Transfers packed multi-point probe packets over DMA</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Captures up to 16 concurrent probe points in single stream</text>
+      </g>
+
+      <!-- Card 2A.2: sof-probes Demuxing -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+        <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">sof-probes Stream Demultiplexer</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">sof-probes -p extract.dat -> buffer_1.wav, buffer_2.wav</text>
+        <text x="10" y="47" fill="#a5f3fc" font-size="9" font-family="monospace">Parses probe packet headers and separates individual buffers</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Generates standard multi-channel uncompressed WAV files</text>
+      </g>
+
+      <!-- Card 2A.3: Acoustic Verification -->
+      <g transform="translate(0, 148)">
+        <rect x="0" y="0" width="477" height="96" rx="6" fill="#0f172a" stroke="#0891b2" stroke-width="1" />
+        <text x="10" y="18" fill="#67e8f9" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Acoustic Analysis &amp; Differential Verification</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Audacity Inspection:</tspan> Compare pre-EQ vs post-EQ audio visually</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">MATLAB / Octave:</tspan> Compute THD+N, SNR, and frequency response</text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Glitch Hunting:</tspan> Identify buffer dropouts, clicks, or wrap errors</text>
+        <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#38bdf8">Algorithm Tuning:</tspan> Calibrate DRC compression thresholds</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Right Column: Interactive Zephyr Shell -->
+  <g transform="translate(565, 265)">
+    <rect x="0" y="0" width="505" height="295" rx="8" fill="url(#cardGrad)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="505" height="28" rx="8" fill="#7e22ce" />
+    <rect x="0" y="20" width="505" height="8" fill="#7e22ce" />
+    <text x="16" y="19" fill="#faf5ff" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      2B. Interactive Zephyr Shell (In-Memory Terminal Bridge)
+    </text>
+
+    <!-- Sub-cards inside Right Column -->
+    <g transform="translate(14, 38)">
+      <!-- Card 2B.1: Memory Window Backend -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Memory Window Shell Backend</text>
+        <text x="10" y="34" fill="#e2e8f0" font-size="9.5" font-family="monospace">CONFIG_SHELL_BACKEND_ADSP_MEMORY_WINDOW=y</text>
+        <text x="10" y="48" fill="#d8b4fe" font-size="9" font-family="monospace">Bidirectional ring buffer in DSP shared SRAM window</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Zero dependency on IPC; completely immune to IPC deadlocks</text>
+      </g>
+
+      <!-- Card 2B.2: cavstool Host Bridge -->
+      <g transform="translate(0, 74)">
+        <rect x="0" y="0" width="477" height="66" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Host cavstool.py Terminal Bridge</text>
+        <text x="10" y="33" fill="#e2e8f0" font-size="9.5" font-family="monospace">cavstool.py -l -p -> spawns pseudo-terminal /dev/pts/4</text>
+        <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">minicom -p /dev/pts/4 connects standard terminal emulator</text>
+        <text x="10" y="59" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Maps PCIe BARs; transparently monitors DSP boot &amp; handoff</text>
+      </g>
+
+      <!-- Card 2B.3: Interactive Commands -->
+      <g transform="translate(0, 148)">
+        <rect x="0" y="0" width="477" height="96" rx="6" fill="#0f172a" stroke="#7e22ce" stroke-width="1" />
+        <text x="10" y="18" fill="#d8b4fe" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Real-Time DSP Inspection Commands</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">kernel uptime:</tspan> Accurate DSP RTOS tick counter</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">kernel threads:</tspan> Priority, state (running, pending), entry points</text>
+        <text x="10" y="64" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">kernel stacks:</tspan> Per-thread stack high-water mark &amp; overflow check</text>
+        <text x="10" y="79" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• <tspan font-weight="600" fill="#c084fc">sof memory:</tspan> Dynamic heap allocation &amp; pool fragmentation</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connectors Down to Section 3 -->
+  <path d="M 280 560 L 280 590" stroke="#06b6d4" stroke-width="2" fill="none" marker-end="url(#arrCyan)" />
+  <path d="M 820 560 L 820 590" stroke="#a855f7" stroke-width="2" fill="none" marker-end="url(#arrPurple)" />
+
+  <!-- SECTION 3: Low-Power Resilience & D0ix Persistence (Bottom Tier) -->
+  <g transform="translate(30, 595)">
+    <rect x="0" y="0" width="1040" height="120" rx="8" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)" />
+    <rect x="0" y="0" width="1040" height="28" rx="8" fill="#b45309" />
+    <rect x="0" y="20" width="1040" height="8" fill="#b45309" />
+    <text x="16" y="19" fill="#fef3c7" font-size="13" font-weight="700" font-family="system-ui, sans-serif">
+      3. Power Management Resilience &amp; Transparent D0ix / D3 Suspend Recovery
+    </text>
+
+    <!-- Sub-cards in Bottom Section -->
+    <g transform="translate(16, 36)">
+      <!-- Card 3.1: D0ix Sleep -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="310" height="72" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Low-Power D0ix / D3 Sleep State</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• DSP enters low-power clock gating</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Memory window temporarily inoperable</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Terminal appears paused; no kernel crash</text>
+      </g>
+
+      <!-- Card 3.2: Auto-Resume -->
+      <g transform="translate(330, 0)">
+        <rect x="0" y="0" width="350" height="72" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Transparent Wakeup &amp; Auto-Resume</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Audio playback resumes DSP to D0 active</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• cavstool.py detects memory window alive</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Interactive shell session resumes without restarting</text>
+      </g>
+
+      <!-- Card 3.3: Production Hardening -->
+      <g transform="translate(700, 0)">
+        <rect x="0" y="0" width="308" height="72" rx="6" fill="#0f172a" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Zero Runtime Performance Impact</text>
+        <text x="10" y="34" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Probes activate only when stream opened</text>
+        <text x="10" y="49" fill="#f1f5f9" font-size="9.5" font-family="system-ui, sans-serif">• Shell task runs at lowest background priority</text>
+        <text x="10" y="64" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Safe for deployment in development builds</text>
+      </g>
+    </g>
+  </g>
+</svg>

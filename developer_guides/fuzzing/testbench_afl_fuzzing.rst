@@ -1,96 +1,201 @@
 .. _testbench-afl-fuzzing:
 
-Build a Fuzzing Testbench with AFL
-##################################
+Host Audio Pipeline Testbench Fuzzing with AFL++
+################################################
 
-American fuzzy lop (AFL) is a free software fuzzer that can be used to
-detect software bugs. Use these instructions to build and run a testbench
-with AFL.
+.. contents::
+   :local:
+   :depth: 2
 
-Install AFL
-***********
+This guide describes how to fuzz the Sound Open Firmware (SOF) host audio
+pipeline simulation testbench (:ref:`testbench`) using **AFL++**
+(American Fuzzy Lop Plus Plus).
 
-Follow the steps in the `AFL Quick Start Guide <https://github.com/google/AFL/blob/master/docs/QuickStartGuide.txt>`_ to install AFL on your system.
+While the in-tree libFuzzer harness (:ref:`fuzzing-components`) exercises
+low-level IPC message handlers, testbench fuzzing exercises full audio graphs,
+ALSA Topology 2.0 binary parsers, dynamic buffer allocation, and signal
+processing algorithms across multi-component pipelines.
 
-We assume that AFL is installed at:
+---
 
-::
+Prerequisites & Installation
+****************************
 
-   $HOME/work/
+AFL++ is an advanced, coverage-guided fuzzer featuring speed enhancements,
+LLVM-mode instrumentation, novel mutation algorithms, and custom mutator
+plugins.
 
+Installing AFL++ on Debian / Ubuntu
+===================================
 
-Build a testbench with AFL instrumentation
+Install AFL++ and LLVM compiler dependencies via your package manager or
+compile from the upstream repository:
+
+.. code-block:: bash
+
+   # Install AFL++ via apt (Ubuntu 22.04 / 24.04)
+   sudo apt-get update
+   sudo apt-get install -y afl++ clang llvm lld
+
+   # Verify installation and compiler wrappers
+   afl-fuzz --version
+   which afl-clang-fast
+
+---
+
+Building Testbench with AFL++ Instrumentation
+*********************************************
+
+To achieve high execution throughput and edge-coverage tracking,
+``sof-testbench4`` must be compiled using AFL's compiler wrappers
+(``afl-clang-fast`` or ``afl-clang-lto``).
+
+Using rebuild-testbench.sh
+==========================
+
+The SOF repository includes automated fuzzer compiler injection via the ``-f``
+flag in ``scripts/rebuild-testbench.sh``:
+
+.. code-block:: bash
+
+   # Specify AFL++ compiler wrapper path
+   export SOF_AFL=/usr/bin/afl-clang-fast
+
+   # Rebuild testbench with AFL++ instrumentation
+   ./scripts/rebuild-testbench.sh -f
+
+Under the hood, this configures CMake with ``CMAKE_C_COMPILER=afl-clang-fast``
+and builds the testbench binary at:
+
+.. code-block:: text
+
+   tools/testbench/build_testbench/install/bin/sof-testbench4
+
+---
+
+Constructing Input Corpora & Dictionaries
+*****************************************
+
+AFL++ uses a seed corpus directory (``inputs/``) containing representative
+valid files to initialize the mutation engine.
+
+Fuzzing ALSA Topology 2.0 Files
+===============================
+
+When fuzzing topology parsers, the input files are binary topology files
+(``.tplg``). Seed the input corpus with lightweight, pre-compiled topologies
+from the SOF repository:
+
+.. code-block:: bash
+
+   # Create input seed corpus and output findings directories
+   mkdir -p tplg_seeds findings
+
+   # Copy standard benchmark topologies
+   cp tools/topology/topology2/development/sof-hda-benchmark-*.tplg tplg_seeds/
+
+   # Keep only small, diverse topologies (under 10 KB) to maximize fuzzing speed
+   ls -lh tplg_seeds/
+
+Fuzzing Raw Audio Sample Streams
+================================
+
+When fuzzing signal processing algorithms (e.g. Volume, EQ, DRC, Crossover)
+against pathological numerical inputs, seed the corpus with short raw PCM audio
+files (10 to 100 milliseconds):
+
+.. code-block:: bash
+
+   mkdir -p audio_seeds findings
+
+   # Generate a 10 ms sine wave and silence seed using sox
+   sox -n -r 48000 -c 2 -b 32 audio_seeds/sine_48k.raw synth 0.010 sine 1000
+   sox -n -r 48000 -c 2 -b 32 audio_seeds/silence_48k.raw trim 0.0 0.010
+
+---
+
+Launching the Fuzzer
+********************
+
+AFL++ uses the ``@@`` placeholder syntax to designate where the mutated file is
+injected on the target program command line.
+
+Fuzzing Topology Files
+======================
+
+To fuzz topology loading, map the ``-t`` argument of ``sof-testbench4`` to
+``@@``:
+
+.. code-block:: bash
+
+   afl-fuzz -i tplg_seeds/ -o findings/ -m none \
+       -- tools/testbench/build_testbench/install/bin/sof-testbench4 \
+       -t @@ -p 1,2 -i tools/testbench/test_48k_stereo.raw -o /dev/null
+
+CLI Flags Explanation:
+----------------------
+
+* ``-i tplg_seeds/``: Input directory containing initial seed topologies.
+* ``-o findings/``: Output directory where crashes, hangs, and the mutated
+  queue are stored.
+* ``-m none``: Disables memory limits (essential when combining AFL++ with
+  AddressSanitizer).
+* ``-t @@``: Instructs AFL++ to substitute the mutated topology file into the
+  ``-t`` argument.
+* ``-o /dev/null``: Discards processed audio output to eliminate disk write
+  bottlenecks.
+
+Fuzzing Audio Inputs
+====================
+
+To fuzz the audio processing loops of a specific topology pipeline, map the
+input file ``-i`` to ``@@``:
+
+.. code-block:: bash
+
+   afl-fuzz -i audio_seeds/ -o findings/ -m none \
+       -- tools/testbench/build_testbench/install/bin/sof-testbench4 \
+       -t tools/topology/topology2/development/sof-hda-benchmark-volume32.tplg \
+       -p 1,2 -i @@ -o /dev/null
+
+---
+
+Triaging Findings & Minimizing Reproducers
 ******************************************
 
-According to AFL's `README <https://github.com/google/AFL/blob/master/README.md>`_, AFL is a "brute-force fuzzer coupled with an exceedingly
-simple but rock-solid instrumentation-guided genetic algorithm." **You must
-add instrumentation to the code before running a fuzzer in order to get
-potentially useful results; otherwise, you might not get any results.**
+AFL++ classifies findings in the ``findings/`` directory:
 
-When you build AFL from the previous step, an ``afl-gcc`` executable is
-generated; this works as a companion tool that acts as a drop-in
-replacement for ``gcc`` or ``clang``. Before you build the testbench, make
-sure you are compiling code with ``afl-gcc`` in order to add instrumentation
-to the code. The ``host-build-all.sh`` script from the ``scripts/`` directory
-**does exactly this when you run it with the -f option.**
+.. code-block:: text
 
-.. Note::
-   By default, the ``host-build-all.sh`` script assumes you have installed
-   AFL in the ``$HOME/work/ directory``. If you install AFL in any other
-   directory, you must change the path in this script.
+   findings/
+   ├── crashes/          # Inputs triggering unhandled signals or ASan aborts
+   ├── hangs/            # Inputs exceeding execution timeout
+   └── queue/            # Testcases discovering new branch transitions
 
-Run AFL
-*******
+Step 1: Testcase Minimization with afl-tmin
+===========================================
 
-From the AFL directory, run AFL by entering the following:
+When a crash is discovered in ``findings/crashes/``, it often contains
+unnecessary payload bytes. Use ``afl-tmin`` to distill the input to its minimum
+failing byte sequence:
 
-::
+.. code-block:: bash
 
-   ./afl-fuzz -i testcase_dir -o findings_dir /path/to/program [...params...] @@
+   # Minimize crashing topology file
+   afl-tmin -i findings/crashes/id:000000,sig:06,src:000001,op:flip1,... \
+       -o minimized_crash.tplg \
+       -- tools/testbench/build_testbench/install/bin/sof-testbench4 -t @@
 
-AFL assumes that the inputs for the program you wish to fuzz are
-in the form of files. So, you must create a directory that contains these
-input files. This is the ``testcase_dir`` in the above command.
+Step 2: Interactive Debugging under GDB
+=======================================
 
-Since you are fuzzing the testbench, the ``program`` here is testbench.
+Run the minimized crash file under GDB to pinpoint the failing line of code:
 
-``params`` are the different parameters of the program apart from the input
-file.
+.. code-block:: bash
 
-``@@``: Each file from ``testcase_dir`` is substituted in place of this.
-As AFL continues to run, newly-generated testcases are placed in
-``testcase_dir``, and AFL in its further iterations runs with these
-newly-generated testcases.
+   gdb --args tools/testbench/build_testbench/install/bin/sof-testbench4 \
+       -t minimized_crash.tplg -p 1,2 -i tools/testbench/test_48k_stereo.raw -o /dev/null
 
-Example
-*******
-
-**Use AFL to fuzz the volume component of the testbench**
-
-To fuzz the volume component of the testbench, use topology files as inputs
-and place the topology files of volume components in an ``inputs`` directory:
-
-``/home/sof/work/sof/tools/testbench/inputs``
-
-::
-
-   # Add AFL directory to $PATH
-   export PATH=$PATH:$HOME/AFL
-
-   # Go to the testbench directory
-   cd tools/testbench
-
-   # Run the fuzzer
-   afl-fuzz -i inputs/ -o output/ build_testbench/install/bin/testbench -r 48000 -R 48000 -i zeros_in.raw -o volume_out.raw -b S16_LE -t @@
-
-AFL runs and places problem inputs in the provided output directory (-o
-option in the above command). The inputs are well-organized into
-crashes, hangs, etc. Run the testbench with the volume component in
-``gdb`` to assist in figuring out the error.
-
-Reference
----------
-
-`AFL README <https://github.com/google/AFL/blob/master/README.md>`_
-is a good place to learn more about the AFL tool itself as well as the
-various options it provides.
+   (gdb) run
+   (gdb) backtrace
+   (gdb) info locals

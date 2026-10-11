@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1120"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#090d16"/>
+    </linearGradient>
+    <linearGradient id="cardGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <filter id="shadow3" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="660" fill="url(#bgGrad3)"/>
+  <rect x="15" y="15" width="1170" height="630" rx="12" fill="none" stroke="#334155" stroke-width="1.5"/>
+
+  <!-- Title Header -->
+  <g transform="translate(40, 35)">
+    <text x="0" y="22" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="0.5">Feature Representation Evolution: Waveform to 2D ML Tensor</text>
+    <text x="0" y="44" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="13">Dimensionality Reduction from 16 kHz Time Samples to Log Mel Spectrogram (80 Bins) and DCT-II MFCC Cepstra (13 Coefficients)</text>
+  </g>
+
+  <!-- 4 Step Representations Columns -->
+  <!-- Step 1: Raw Time-Domain Audio -->
+  <g transform="translate(40, 95)" filter="url(#shadow3)">
+    <rect width="260" height="360" rx="8" fill="url(#cardGrad3)" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="0" y="0" width="260" height="26" rx="8" fill="#0284c7" fill-opacity="0.3"/>
+    <text x="130" y="18" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle">1. RAW AUDIO (TIME)</text>
+
+    <!-- Waveform Graphic -->
+    <g transform="translate(20, 45)">
+      <rect width="220" height="150" rx="4" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <line x1="10" y1="75" x2="210" y2="75" stroke="#334155" stroke-dasharray="2,2"/>
+      <!-- Simulated Speech Waveform ("Hey SOF") -->
+      <path d="M 15 75 Q 25 72 35 75 Q 45 78 55 75
+               Q 65 30 75 75 Q 85 120 95 75 Q 105 25 115 75 Q 125 125 135 75
+               Q 145 70 155 75 Q 165 45 175 75 Q 185 105 195 75 Q 205 73 210 75"
+            fill="none" stroke="#38bdf8" stroke-width="2"/>
+      <text x="110" y="140" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10" text-anchor="middle">Utterance: "Hey SOF" (1.0 s)</text>
+    </g>
+
+    <!-- Technical Details -->
+    <g transform="translate(20, 215)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Sample Rate:</text>
+      <text x="90" y="16" fill="#38bdf8" font-family="monospace" font-size="11">16,000 smp/s</text>
+
+      <text x="0" y="34" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Total Samples:</text>
+      <text x="90" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">16,000 (32 KB)</text>
+
+      <text x="0" y="52" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Information:</text>
+      <text x="90" y="52" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">Phase + Amplitude</text>
+
+      <text x="0" y="70" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Redundancy:</text>
+      <text x="90" y="70" fill="#f43f5e" font-family="system-ui, sans-serif" font-size="11">Extremely High</text>
+
+      <rect x="0" y="88" width="220" height="42" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="110" y="105" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9.5" text-anchor="middle">Contains raw acoustic pressure;</text>
+      <text x="110" y="120" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9.5" text-anchor="middle">too sparse for compact CNNs.</text>
+    </g>
+  </g>
+
+  <!-- Step 2: Linear STFT Spectrogram -->
+  <g transform="translate(325, 95)" filter="url(#shadow3)">
+    <rect width="260" height="360" rx="8" fill="url(#cardGrad3)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="0" y="0" width="260" height="26" rx="8" fill="#2563eb" fill-opacity="0.3"/>
+    <text x="130" y="18" fill="#60a5fa" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle">2. LINEAR STFT SPECTRUM</text>
+
+    <!-- Spectrogram Heatmap Graphic -->
+    <g transform="translate(20, 45)">
+      <rect width="220" height="150" rx="4" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <!-- Frequency Bins Heatmap Bars -->
+      <rect x="15" y="100" width="190" height="40" fill="#1e3a8a" fill-opacity="0.6"/>
+      <rect x="40" y="110" width="120" height="25" fill="#2563eb" fill-opacity="0.8"/>
+      <rect x="70" y="115" width="60" height="15" fill="#60a5fa"/>
+
+      <!-- Formants F1, F2, F3 -->
+      <path d="M 60 120 Q 90 90 140 115" stroke="#fbbf24" stroke-width="4" fill="none" opacity="0.8"/>
+      <path d="M 60 85 Q 100 65 150 80" stroke="#f59e0b" stroke-width="3" fill="none" opacity="0.7"/>
+      <path d="M 70 50 Q 110 40 160 45" stroke="#d97706" stroke-width="2" fill="none" opacity="0.6"/>
+
+      <!-- High Frequency Waste (sparse/empty) -->
+      <rect x="15" y="10" width="190" height="30" fill="#0f172a" stroke="#1e293b" stroke-dasharray="2,2"/>
+      <text x="110" y="28" fill="#64748b" font-family="system-ui, sans-serif" font-size="9" text-anchor="middle">Sparse High-Freq Tail (&gt; 4 kHz)</text>
+    </g>
+
+    <!-- Technical Details -->
+    <g transform="translate(20, 215)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">FFT Size:</text>
+      <text x="90" y="16" fill="#60a5fa" font-family="monospace" font-size="11">512 points</text>
+
+      <text x="0" y="34" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Output Bins:</text>
+      <text x="90" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">257 freq bins</text>
+
+      <text x="0" y="52" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Frame Hop:</text>
+      <text x="90" y="52" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">10 ms (100 fps)</text>
+
+      <text x="0" y="70" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Data Volume:</text>
+      <text x="90" y="70" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="11">25.7 k-values/s</text>
+
+      <rect x="0" y="88" width="220" height="42" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1"/>
+      <text x="110" y="105" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9.5" text-anchor="middle">Equal 31.25 Hz resolution;</text>
+      <text x="110" y="120" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="9.5" text-anchor="middle">wastes bins on high frequencies.</text>
+    </g>
+  </g>
+
+  <!-- Step 3: Log Mel Spectrogram (80 Bins) -->
+  <g transform="translate(610, 95)" filter="url(#shadow3)">
+    <rect width="260" height="360" rx="8" fill="url(#cardGrad3)" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="0" y="0" width="260" height="26" rx="8" fill="#047857" fill-opacity="0.3"/>
+    <text x="130" y="18" fill="#34d399" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle">3. LOG MEL SPECTROGRAM</text>
+
+    <!-- Mel Spectrogram Graphic -->
+    <g transform="translate(20, 45)">
+      <rect width="220" height="150" rx="4" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <!-- Perceptually balanced formants across full height -->
+      <rect x="15" y="80" width="190" height="60" fill="#064e3b" fill-opacity="0.7"/>
+      <rect x="35" y="90" width="130" height="40" fill="#059669" fill-opacity="0.8"/>
+      <rect x="60" y="100" width="80" height="25" fill="#34d399"/>
+
+      <path d="M 40 115 C 80 85, 110 120, 160 95" stroke="#fde047" stroke-width="5" fill="none"/>
+      <path d="M 45 75 C 85 55, 115 80, 165 60" stroke="#fbbf24" stroke-width="4" fill="none"/>
+      <path d="M 50 35 C 90 25, 120 40, 170 30" stroke="#f59e0b" stroke-width="3" fill="none"/>
+
+      <text x="110" y="142" fill="#34d399" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle">Cochlear Critical Bands (F0..F3)</text>
+    </g>
+
+    <!-- Technical Details -->
+    <g transform="translate(20, 215)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Mel Bins:</text>
+      <text x="90" y="16" fill="#34d399" font-family="monospace" font-size="11">80 bands (Slaney)</text>
+
+      <text x="0" y="34" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Dynamic Span:</text>
+      <text x="90" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">80 dB (top_db clamp)</text>
+
+      <text x="0" y="52" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Data Volume:</text>
+      <text x="90" y="52" fill="#34d399" font-family="system-ui, sans-serif" font-size="11">8.0 k-values/s</text>
+
+      <text x="0" y="70" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Target Model:</text>
+      <text x="90" y="70" fill="#34d399" font-family="system-ui, sans-serif" font-size="11">Whisper / Conformer</text>
+
+      <rect x="0" y="88" width="220" height="42" rx="4" fill="#0f172a" stroke="#059669" stroke-width="1"/>
+      <text x="110" y="105" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle">Standard ASR Feature Representation;</text>
+      <text x="110" y="120" fill="#a7f3d0" font-family="system-ui, sans-serif" font-size="9.5" text-anchor="middle">captures human ear perception.</text>
+    </g>
+  </g>
+
+  <!-- Step 4: MFCC Cepstrogram & ML Tensor -->
+  <g transform="translate(895, 95)" filter="url(#shadow3)">
+    <rect width="265" height="360" rx="8" fill="url(#cardGrad3)" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="0" y="0" width="265" height="26" rx="8" fill="#6b21a8" fill-opacity="0.3"/>
+    <text x="132" y="18" fill="#c084fc" font-family="system-ui, sans-serif" font-size="11" font-weight="700" text-anchor="middle">4. MFCC TENSOR (13 Coeffs)</text>
+
+    <!-- MFCC Cepstrogram Graphic -->
+    <g transform="translate(20, 45)">
+      <rect width="225" height="150" rx="4" fill="#090d16" stroke="#1e293b" stroke-width="1"/>
+      <!-- Grid representing 13 coefficients across time -->
+      <!-- Coeff 0: Log Energy -->
+      <rect x="15" y="130" width="195" height="12" fill="#e11d48"/>
+      <text x="215" y="139" fill="#f43f5e" font-family="monospace" font-size="8" text-anchor="end">c0: Energy</text>
+
+      <!-- Coeff 1: Tilt -->
+      <rect x="15" y="114" width="195" height="12" fill="#d97706"/>
+      <text x="215" y="123" fill="#fbbf24" font-family="monospace" font-size="8" text-anchor="end">c1: Tilt</text>
+
+      <!-- Coeff 2..5: Envelope / Formants -->
+      <rect x="15" y="82" width="195" height="28" fill="#7c3aed" fill-opacity="0.7"/>
+      <text x="215" y="99" fill="#c084fc" font-family="monospace" font-size="8" text-anchor="end">c2-c5: Formants</text>
+
+      <!-- Coeff 6..12: Fine Details -->
+      <rect x="15" y="15" width="195" height="63" fill="#2563eb" fill-opacity="0.4"/>
+      <text x="215" y="45" fill="#60a5fa" font-family="monospace" font-size="8" text-anchor="end">c6-c12: Detail</text>
+    </g>
+
+    <!-- Technical Details -->
+    <g transform="translate(20, 215)">
+      <text x="0" y="16" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Cepstra Count:</text>
+      <text x="95" y="16" fill="#c084fc" font-family="monospace" font-size="11">13 (DCT-II)</text>
+
+      <text x="0" y="34" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Lifter Parameter:</text>
+      <text x="95" y="34" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">L = 22.0 (Sinusoidal)</text>
+
+      <text x="0" y="52" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Data Volume:</text>
+      <text x="95" y="52" fill="#10b981" font-family="system-ui, sans-serif" font-size="11">1.3 k-values/s (92% drop)</text>
+
+      <text x="0" y="70" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11" font-weight="600">Target Model:</text>
+      <text x="95" y="70" fill="#c084fc" font-family="system-ui, sans-serif" font-size="11">TFLM microWakeWord</text>
+
+      <rect x="0" y="88" width="225" height="42" rx="4" fill="#0f172a" stroke="#9333ea" stroke-width="1"/>
+      <text x="112" y="105" fill="#e9d5ff" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" text-anchor="middle">Orthogonal &amp; Decorrelated;</text>
+      <text x="112" y="120" fill="#e9d5ff" font-family="system-ui, sans-serif" font-size="9.5" text-anchor="middle">Ultra-low CPU &amp; RAM footprint.</text>
+    </g>
+  </g>
+
+  <!-- Bottom Comparison Card: Model Architecture Coupling -->
+  <g transform="translate(40, 480)" filter="url(#shadow3)">
+    <rect width="1120" height="145" rx="10" fill="url(#cardGrad3)" stroke="#334155" stroke-width="1.5"/>
+    <text x="20" y="24" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="13" font-weight="700">DOWNSTREAM NEURAL NETWORK INGESTION MATRIX: CHOOSING MEL VS MFCC</text>
+
+    <g transform="translate(20, 38)">
+      <!-- Table Header -->
+      <rect x="0" y="0" width="1080" height="24" fill="#0f172a" rx="4"/>
+      <text x="15" y="16" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700">FEATURE FORMAT</text>
+      <text x="180" y="16" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700">DIMENSIONS</text>
+      <text x="320" y="16" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700">DATA RATE (10ms HOP)</text>
+      <text x="520" y="16" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700">RECOMMENDED ML BACKEND</text>
+      <text x="820" y="16" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700">DSP ADVANTAGES</text>
+
+      <!-- Row 1: Log Mel 80 -->
+      <line x1="0" y1="28" x2="1080" y2="28" stroke="#334155" stroke-width="1"/>
+      <text x="15" y="44" fill="#34d399" font-family="system-ui, sans-serif" font-size="11" font-weight="700">Mel Spectrogram</text>
+      <text x="180" y="44" fill="#f8fafc" font-family="monospace" font-size="11">80 Bins (Q9.23)</text>
+      <text x="320" y="44" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11">8,000 values/sec</text>
+      <text x="520" y="44" fill="#38bdf8" font-family="system-ui, sans-serif" font-size="11">OpenAI Whisper, Conformer ASR</text>
+      <text x="820" y="44" fill="#94a3b8" font-family="system-ui, sans-serif" font-size="11">High acoustic fidelity; speech synthesis/ASR</text>
+
+      <!-- Row 2: MFCC 13 -->
+      <line x1="0" y1="56" x2="1080" y2="56" stroke="#334155" stroke-width="1"/>
+      <text x="15" y="72" fill="#c084fc" font-family="system-ui, sans-serif" font-size="11" font-weight="700">MFCC Cepstra</text>
+      <text x="180" y="72" fill="#f8fafc" font-family="monospace" font-size="11">13 Coeffs (Q9.7)</text>
+      <text x="320" y="72" fill="#f8fafc" font-family="system-ui, sans-serif" font-size="11">1,300 values/sec</text>
+      <text x="520" y="72" fill="#c084fc" font-family="system-ui, sans-serif" font-size="11">TFLM microWakeWord, KWS CNN</text>
+      <text x="820" y="72" fill="#34d399" font-family="system-ui, sans-serif" font-size="11">Decorrelated; minimal SRAM and compute load</text>
+
+      <!-- Row 3: Compressed DTX Mode -->
+      <line x1="0" y1="84" x2="1080" y2="84" stroke="#334155" stroke-width="1"/>
+      <text x="15" y="100" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="11" font-weight="700">DTX-Silenced</text>
+      <text x="180" y="100" fill="#f8fafc" font-family="monospace" font-size="11">Variable Rate</text>
+      <text x="320" y="100" fill="#34d399" font-family="system-ui, sans-serif" font-size="11">&lt; 300 values/sec (idle)</text>
+      <text x="520" y="100" fill="#fbbf24" font-family="system-ui, sans-serif" font-size="11">Edge Wake-on-Voice / Hostless DSP</text>
+      <text x="820" y="100" fill="#f43f5e" font-family="system-ui, sans-serif" font-size="11">&gt; 80% bus sleep duty cycle in quiet rooms</text>
+    </g>
+  </g>
+</svg>

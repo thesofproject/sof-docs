@@ -1,0 +1,257 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad-2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="card-grad-2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- Color Gradients for Layout Layers -->
+    <linearGradient id="layer-xman" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="layer-cse" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="layer-css" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ec4899"/>
+      <stop offset="100%" stop-color="#f472b6"/>
+    </linearGradient>
+    <linearGradient id="layer-desc" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <linearGradient id="layer-mod" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#34d399"/>
+    </linearGradient>
+    <linearGradient id="layer-code" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
+    </linearGradient>
+
+    <filter id="shadow-2" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="720" rx="12" fill="url(#bg-grad-2)" stroke="#1e293b" stroke-width="1.5"/>
+
+  <!-- Title Banner -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f8fafc" letter-spacing="0.3">
+      SOF Binary Firmware Image (.ri) Internal Layout &amp; Header Hierarchy
+    </text>
+    <text x="0" y="44" font-family="system-ui, -apple-system, sans-serif" font-size="12.5" fill="#94a3b8">
+      Byte-level anatomical breakdown of Extended Manifest, Converged Security Headers, Module Descriptors, and Page-Aligned Payload
+    </text>
+  </g>
+
+  <!-- Main Layout Split: Left Stack (Vertical Memory Map), Right Details (Structural Cards) -->
+
+  <!-- LEFT: Vertical Memory Map Column -->
+  <g transform="translate(40, 85)" filter="url(#shadow-2)">
+    <rect width="240" height="520" rx="10" fill="url(#card-grad-2)" stroke="#334155" stroke-width="1.5"/>
+    <text x="120" y="24" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#f8fafc" text-anchor="middle">
+      Binary File Layout (.ri)
+    </text>
+
+    <!-- Block 1: Extended Manifest -->
+    <g transform="translate(15, 38)">
+      <rect width="210" height="54" rx="6" fill="url(#layer-xman)"/>
+      <text x="105" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">Extended Manifest (XMan)</text>
+      <text x="105" y="34" font-family="ui-monospace, monospace" font-size="9.5" fill="#eff6ff" text-anchor="middle">Magic: 0x6e614d58 ('XMan')</text>
+      <text x="105" y="46" font-family="system-ui, sans-serif" font-size="8.5" fill="#dbeafe" text-anchor="middle">Host Driver Metadata (Unsigned)</text>
+    </g>
+
+    <!-- Boundary Marker: Host Skip -->
+    <g transform="translate(15, 96)">
+      <line x1="0" y1="6" x2="210" y2="6" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3 3"/>
+      <text x="105" y="18" font-family="system-ui, sans-serif" font-size="8.5" font-weight="600" fill="#fb7185" text-anchor="middle">
+        Host Driver Skips (offset = full_size)
+      </text>
+    </g>
+
+    <!-- Block 2: CSE Partition Directory Header -->
+    <g transform="translate(15, 118)">
+      <rect width="210" height="54" rx="6" fill="url(#layer-cse)"/>
+      <text x="105" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">CSE Directory ($CPD)</text>
+      <text x="105" y="32" font-family="ui-monospace, monospace" font-size="9.5" fill="#f3e8ff" text-anchor="middle">Magic: 0x44504324 ($CPD)</text>
+      <text x="105" y="45" font-family="system-ui, sans-serif" font-size="8.5" fill="#e9d5ff" text-anchor="middle">Entries: ADSP.man, .met, cavs/ace</text>
+    </g>
+
+    <!-- Block 3: CSS Cryptographic Header -->
+    <g transform="translate(15, 178)">
+      <rect width="210" height="60" rx="6" fill="url(#layer-css)"/>
+      <text x="105" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">CSS Signature ($MN2)</text>
+      <text x="105" y="32" font-family="ui-monospace, monospace" font-size="9.5" fill="#fdf2f8" text-anchor="middle">RSA-2048/3072 Modulus &amp; Exp</text>
+      <text x="105" y="44" font-family="ui-monospace, monospace" font-size="9.5" fill="#fdf2f8" text-anchor="middle">PKCS#1 v1.5 RSA Signature</text>
+      <text x="105" y="55" font-family="system-ui, sans-serif" font-size="8.5" fill="#fce7f3" text-anchor="middle">Vendor: 0x8086 | BCD Date | SVN</text>
+    </g>
+
+    <!-- Block 4: Signed Package & Metadata Ext -->
+    <g transform="translate(15, 244)">
+      <rect width="210" height="42" rx="6" fill="#475569"/>
+      <text x="105" y="16" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#f8fafc" text-anchor="middle">Signed Pkg Info &amp; Meta Ext</text>
+      <text x="105" y="30" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1" text-anchor="middle">V2.5 / ACE 1.5 Security Ext</text>
+    </g>
+
+    <!-- Block 5: FW Descriptor & Module Table -->
+    <g transform="translate(15, 292)">
+      <rect width="210" height="68" rx="6" fill="url(#layer-desc)"/>
+      <text x="105" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">FW Desc ($AM1) &amp; Modules ($AME)</text>
+      <text x="105" y="32" font-family="ui-monospace, monospace" font-size="9.5" fill="#fef3c7" text-anchor="middle">num_modules = N | preload_pages</text>
+      <text x="105" y="45" font-family="system-ui, sans-serif" font-size="8.5" fill="#fde68a" text-anchor="middle">UUID, Affinity Mask, Entry Point</text>
+      <text x="105" y="58" font-family="system-ui, sans-serif" font-size="8.5" fill="#fde68a" text-anchor="middle">SHA-256 / SHA-384 Module Hashes</text>
+    </g>
+
+    <!-- Block 6: Page Padding to 0x2000 / 0x8000 -->
+    <g transform="translate(15, 366)">
+      <rect width="210" height="28" rx="6" fill="#1e293b" stroke="#475569" stroke-dasharray="2 2"/>
+      <text x="105" y="18" font-family="ui-monospace, monospace" font-size="9" fill="#94a3b8" text-anchor="middle">
+        Page Padding (0x00.. MAN_PAGE_SIZE)
+      </text>
+    </g>
+
+    <!-- Block 7: Base FW & Dynamic Modules (.text / .rodata) -->
+    <g transform="translate(15, 400)">
+      <rect width="210" height="105" rx="6" fill="url(#layer-code)"/>
+      <text x="105" y="20" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">Payload: Executable Segments</text>
+      <text x="105" y="36" font-family="ui-monospace, monospace" font-size="9.5" font-weight="600" fill="#0f172a" text-anchor="middle">Module 0 (Base FW Code/Data)</text>
+      <text x="105" y="50" font-family="ui-monospace, monospace" font-size="9" fill="#1e293b" text-anchor="middle">.text (Executable Code Pages)</text>
+      <text x="105" y="64" font-family="ui-monospace, monospace" font-size="9" fill="#1e293b" text-anchor="middle">.rodata (Constants &amp; Tables)</text>
+      <text x="105" y="80" font-family="ui-monospace, monospace" font-size="9.5" font-weight="600" fill="#0f172a" text-anchor="middle">Module 1..N (LLEXT / Dynamic)</text>
+      <text x="105" y="94" font-family="system-ui, sans-serif" font-size="8.5" fill="#1e293b" text-anchor="middle">4KB Page Aligned (MAN_PAGE_SIZE)</text>
+    </g>
+  </g>
+
+  <!-- RIGHT: Detailed Anatomy Cards -->
+
+  <!-- CARD 1: Extended Manifest (XMan) Structure -->
+  <g transform="translate(310, 85)" filter="url(#shadow-2)">
+    <rect width="750" height="155" rx="8" fill="url(#card-grad-2)" stroke="#3b82f6" stroke-width="1.2"/>
+    <rect width="750" height="26" rx="8" fill="url(#layer-xman)"/>
+    <rect y="18" width="750" height="8" fill="#3b82f6"/>
+    <text x="14" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      Header 1: Extended Manifest (struct ext_man_header) — Pre-Boot Host Driver Handshake
+    </text>
+
+    <!-- Content breakdown -->
+    <g transform="translate(14, 34)">
+      <!-- Left side: ext_man_header fields -->
+      <rect width="350" height="110" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="18" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#60a5fa">struct ext_man_header {</text>
+      <text x="24" y="34" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">uint32_t magic;          <tspan fill="#94a3b8">/* 0x6e614d58 ('XMan') */</tspan></text>
+      <text x="24" y="50" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">uint32_t full_size;      <tspan fill="#94a3b8">/* Total size (hdr + elems + pad) */</tspan></text>
+      <text x="24" y="66" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">uint32_t header_size;    <tspan fill="#94a3b8">/* sizeof(struct ext_man_header) */</tspan></text>
+      <text x="24" y="82" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">uint32_t header_version; <tspan fill="#94a3b8">/* EXT_MAN_VERSION (1.0.0) */</tspan></text>
+      <text x="10" y="98" font-family="ui-monospace, monospace" font-size="10" font-weight="600" fill="#60a5fa">};</text>
+
+      <!-- Right side: element list -->
+      <rect x="362" width="360" height="110" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="372" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#60a5fa">
+        Extended Manifest Elements (struct ext_man_elem_header, 16B aligned):
+      </text>
+      <text x="372" y="36" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• Type 0 (EXT_MAN_ELEM_FW_VERSION): Major, Minor, Hotfix, Build, Git Tag</text>
+      <text x="372" y="52" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• Type 1 (EXT_MAN_ELEM_WINDOW): Memory window descriptor (base, size, flags)</text>
+      <text x="372" y="68" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• Type 2 (EXT_MAN_ELEM_CC_VERSION): Compiler description (Clang/XCC version)</text>
+      <text x="372" y="84" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• Type 3 (EXT_MAN_ELEM_PROBE_INFO): Probe extraction &amp; trace buffer mapping</text>
+      <text x="372" y="100" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• Type 4 (EXT_MAN_ELEM_DBG_ABI): User ABI version compatibility handshake</text>
+    </g>
+  </g>
+
+  <!-- CARD 2: Security Headers (CSE & CSS) -->
+  <g transform="translate(310, 252)" filter="url(#shadow-2)">
+    <rect width="750" height="175" rx="8" fill="url(#card-grad-2)" stroke="#ec4899" stroke-width="1.2"/>
+    <rect width="750" height="26" rx="8" fill="url(#layer-css)"/>
+    <rect y="18" width="750" height="8" fill="#ec4899"/>
+    <text x="14" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      Header 2: Security Headers — CSE Directory ($CPD) &amp; CSS Authentication ($MN2)
+    </text>
+
+    <!-- Content breakdown -->
+    <g transform="translate(14, 34)">
+      <!-- Left: CSE Directory -->
+      <rect width="350" height="130" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#c084fc">
+        CSE Partition Directory Header (struct CsePartitionDirHeader_v2_5)
+      </text>
+      <text x="10" y="34" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• header_marker: 0x44504324 ("$CPD")</text>
+      <text x="10" y="48" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• nb_entries: 3 (ADSP.man, ADSP.met, ADSP/cavs)</text>
+      <text x="10" y="62" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• partition_name: "ADSP"</text>
+      <text x="10" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• checksum: CRC32 of partition headers</text>
+      <text x="10" y="92" font-family="system-ui, sans-serif" font-size="9.5" font-weight="600" fill="#a78bfa">Partition Table:</text>
+      <text x="10" y="106" font-family="ui-monospace, monospace" font-size="8.5" fill="#94a3b8">Entry 0: "ADSP.man" (offset=0x5c, len=0x464..0x4b8)</text>
+      <text x="10" y="120" font-family="ui-monospace, monospace" font-size="8.5" fill="#94a3b8">Entry 1: "ADSP.met" (offset=0x4c0) | Entry 2: "ADSP" (offset=0x540)</text>
+
+      <!-- Right: CSS Signature -->
+      <rect x="362" width="360" height="130" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="372" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#f472b6">
+        CSS Cryptographic Header (struct css_header_v2_5)
+      </text>
+      <text x="372" y="34" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• header_id: "$MN2" | module_vendor: 0x8086 (Intel)</text>
+      <text x="372" y="48" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• date: BCD timestamp (yYyy:mm:dd)</text>
+      <text x="372" y="62" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• svn: Security Version Number (Anti-Rollback Counter)</text>
+      <text x="372" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• modulus_size: 256B (RSA-2048) or 384B (RSA-3072)</text>
+      <text x="372" y="90" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• exponent: 4B (0x00010001 = 65537)</text>
+      <text x="372" y="104" font-family="ui-monospace, monospace" font-size="9" fill="#f43f5e">• signature: RSA PKCS#1 v1.5 SHA-256 / SHA-384</text>
+      <text x="372" y="120" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Authenticates entire manifest against fused OEM public key hash</text>
+    </g>
+  </g>
+
+  <!-- CARD 3: Firmware Descriptor & Module Entry Array -->
+  <g transform="translate(310, 439)" filter="url(#shadow-2)">
+    <rect width="750" height="166" rx="8" fill="url(#card-grad-2)" stroke="#10b981" stroke-width="1.2"/>
+    <rect width="750" height="26" rx="8" fill="url(#layer-mod)"/>
+    <rect y="18" width="750" height="8" fill="#10b981"/>
+    <text x="14" y="18" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#0f172a">
+      Header 3: Firmware Descriptor ($AM1) &amp; Module Entries ($AME) — Subsystem Metadata
+    </text>
+
+    <!-- Content breakdown -->
+    <g transform="translate(14, 34)">
+      <!-- Left: FW Desc -->
+      <rect width="250" height="122" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="10" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">
+        FW Descriptor (struct sof_man_fw_desc)
+      </text>
+      <text x="10" y="34" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• struct_id: "$AM1"</text>
+      <text x="10" y="48" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• preload_page_count: Preload size</text>
+      <text x="10" y="62" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• num_module_entries: Total modules</text>
+      <text x="10" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• major/minor/build version</text>
+      <text x="10" y="92" font-family="system-ui, sans-serif" font-size="8.5" fill="#94a3b8">Parsed by DSP Boot ROM to allocate base L2/SRAM heap before executing entry point</text>
+
+      <!-- Right: Module Entries ($AME) -->
+      <rect x="262" width="460" height="122" rx="6" fill="#0f172a" stroke="#334155"/>
+      <text x="272" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="600" fill="#34d399">
+        Module Table Array (struct sof_man_module module_entries[num_modules])
+      </text>
+      <text x="272" y="34" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• struct_id: "$AME" | name[8]: "BASEFW", "VOLUME", "MIXER", etc.</text>
+      <text x="272" y="48" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• uuid: 128-bit RFC 4122 unique component identifier</text>
+      <text x="272" y="62" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• entry_point: Virtual address executed upon thread initialization</text>
+      <text x="272" y="76" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• type: load_type (0=builtin, 1=module, 2=LLEXT, 3=LLEXT_AUX), affinity_mask</text>
+      <text x="272" y="90" font-family="ui-monospace, monospace" font-size="9" fill="#cbd5e1">• segment[3]: text, data, bss (file_offset, v_base_addr, flags, length in 4KB pages)</text>
+      <text x="272" y="104" font-family="ui-monospace, monospace" font-size="9" fill="#fde68a">• hash[32/48]: Cryptographic SHA-256 or SHA-384 digest of module code segment</text>
+    </g>
+  </g>
+
+  <!-- Bottom Legend Bar -->
+  <g transform="translate(40, 620)">
+    <rect width="1020" height="75" rx="8" fill="#1e293b" stroke="#334155"/>
+    <text x="20" y="24" font-family="system-ui, sans-serif" font-size="11.5" font-weight="700" fill="#f8fafc">
+      Memory Alignment &amp; Loading Invariance:
+    </text>
+    <text x="20" y="44" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">
+      1. Extended Manifest (<tspan font-family="ui-monospace, monospace" fill="#60a5fa">0x6e614d58</tspan>) is placed at the exact head of the file. Host kernel parses it and jumps to <tspan font-family="ui-monospace, monospace" fill="#cbd5e1">full_size</tspan>.
+    </text>
+    <text x="20" y="60" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">
+      2. The signed partition begins with CSE ($CPD). All module text/data segments are strictly aligned to <tspan font-family="ui-monospace, monospace" fill="#cbd5e1">MAN_PAGE_SIZE (4096 bytes)</tspan> for direct DSP DMA execution.
+    </text>
+  </g>
+</svg>

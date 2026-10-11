@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 640" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .card { fill: #161b22; stroke: #30363d; stroke-width: 1.5; rx: 8px; }
+      .subcard { fill: #21262d; stroke: #30363d; stroke-width: 1; rx: 6px; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 500; fill: #8b949e; }
+      .section-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; fill: #79c0ff; }
+      .label { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 500; fill: #c9d1d9; }
+      .label-bold { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; fill: #f0f6fc; }
+      .code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #e6edf3; }
+      .code-accent { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #3fb950; font-weight: 600; }
+      .code-orange { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #f0883e; }
+      .code-purple { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #d2a8ff; }
+      .code-red { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 11px; fill: #ff7b72; }
+      .line { stroke: #58a6ff; stroke-width: 2; fill: none; }
+      .line-dashed { stroke: #8b949e; stroke-width: 1.5; stroke-dasharray: 4,4; fill: none; }
+      .box-blue { fill: #1f2937; stroke: #58a6ff; stroke-width: 1.5; rx: 6px; }
+      .box-green { fill: #1c2724; stroke: #3fb950; stroke-width: 1.5; rx: 6px; }
+      .box-purple { fill: #291d38; stroke: #bc8cff; stroke-width: 1.5; rx: 6px; }
+      .box-orange { fill: #33221a; stroke: #f0883e; stroke-width: 1.5; rx: 6px; }
+      .box-red { fill: #311c23; stroke: #ff7b72; stroke-width: 1.5; rx: 6px; }
+    </style>
+    <marker id="arr-b" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#58a6ff" />
+    </marker>
+    <marker id="arr-g" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#3fb950" />
+    </marker>
+    <marker id="arr-p" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#bc8cff" />
+    </marker>
+  </defs>
+
+  <rect width="1100" height="640" class="bg" />
+
+  <text x="35" y="38" class="title">SOF Smart Amplifier Two-Layer Modular Software Architecture</text>
+  <text x="35" y="58" class="subtitle">Decoupling Pipeline Audio Infrastructure (Generic Layer) from Vendor Protection Modeling (Inner Model Layer)</text>
+
+  <!-- ==================== TOP: PIPELINE / COMP OPS INTERFACE ==================== -->
+  <rect x="35" y="80" width="1030" height="70" class="card" />
+  <text x="50" y="102" class="section-title" fill="#58a6ff">SOF Pipeline &amp; Module Framework Interface</text>
+  <g transform="translate(50, 115)">
+    <rect x="0" y="0" width="180" height="26" class="box-blue" />
+    <text x="10" y="17" class="code">comp_ops.create() / init()</text>
+
+    <rect x="200" y="0" width="180" height="26" class="box-blue" />
+    <text x="10" y="17" class="code" transform="translate(200, 0)">comp_ops.prepare()</text>
+
+    <rect x="400" y="0" width="180" height="26" class="box-blue" />
+    <text x="10" y="17" class="code" transform="translate(400, 0)">comp_ops.process()</text>
+
+    <rect x="600" y="0" width="180" height="26" class="box-blue" />
+    <text x="10" y="17" class="code" transform="translate(600, 0)">set_config() / get_config()</text>
+
+    <rect x="800" y="0" width="180" height="26" class="box-blue" />
+    <text x="10" y="17" class="code" transform="translate(800, 0)">comp_ops.reset() / free()</text>
+  </g>
+
+  <!-- ==================== MIDDLE: GENERIC LAYER ==================== -->
+  <rect x="35" y="165" width="1030" height="210" class="card" stroke="#58a6ff" stroke-width="2" />
+  <rect x="45" y="175" width="1010" height="26" class="subcard" />
+  <text x="55" y="193" class="section-title" fill="#58a6ff">Generic Layer (smart_amp.c &amp; smart_amp_generic.c) - struct smart_amp_data</text>
+
+  <!-- Sub-block 1: Memory Manager -->
+  <rect x="55" y="210" width="310" height="150" class="subcard" />
+  <text x="65" y="228" class="label-bold" fill="#79c0ff">Dynamic Memory Block Allocator</text>
+  <text x="65" y="246" class="code-accent">MOD_MEMBLK_PRIVATE</text>
+  <text x="65" y="260" class="subtitle" font-size="10px">Allocated BEFORE inner model init (for handles/state)</text>
+  <text x="65" y="280" class="code-orange">MOD_MEMBLK_FRAME</text>
+  <text x="65" y="294" class="subtitle" font-size="10px">Allocated AFTER init (for internal audio frame buffers)</text>
+  <text x="65" y="314" class="code-purple">MOD_MEMBLK_PARAM</text>
+  <text x="65" y="328" class="subtitle" font-size="10px">Allocated AFTER init (for caldata &amp; parameter tables)</text>
+  <text x="65" y="348" class="code-red">Free on error / smart_amp_free_mod_memories()</text>
+
+  <!-- Sub-block 2: Channel Remapping Matrix -->
+  <rect x="380" y="210" width="310" height="150" class="subcard" />
+  <text x="390" y="228" class="label-bold" fill="#79c0ff">Channel Remapping Matrix</text>
+  <text x="390" y="248" class="code">struct sof_smart_amp_config</text>
+  <text x="390" y="268" class="code-accent">source_ch_map[PLATFORM_MAX_CHANNELS]</text>
+  <text x="390" y="284" class="subtitle" font-size="10px">Maps playback input channels to algorithm feeds</text>
+  <text x="390" y="304" class="code-orange">feedback_ch_map[PLATFORM_MAX_CHANNELS]</text>
+  <text x="390" y="320" class="subtitle" font-size="10px">Maps capture channels to I_sense / V_sense inputs</text>
+  <text x="390" y="340" class="code">Unmapped channels (-1): zeroed via bzero()</text>
+
+  <!-- Sub-block 3: Format Conversion Engine -->
+  <rect x="705" y="210" width="340" height="150" class="subcard" />
+  <text x="715" y="228" class="label-bold" fill="#79c0ff">Sample Format Conversion Matrix</text>
+  <text x="715" y="248" class="code">Input / Stream Formats: S16_LE, S24_4LE, S32_LE</text>
+  <text x="715" y="268" class="code-accent">smart_amp_resolve_mod_fmt()</text>
+  <text x="715" y="284" class="subtitle" font-size="10px">Enforces Inner Model bitdepth ≥ SOF stream bitdepth</text>
+  <text x="715" y="304" class="code-purple">remap_s16_to_b32() : left-shift 16 bits</text>
+  <text x="715" y="322" class="code-purple">remap_s24_to_s32() : left-shift 8 bits</text>
+  <text x="715" y="340" class="code-orange">feed_s32_to_s24()  : Q_SHIFT_RND &amp; sat_int24</text>
+
+  <!-- ==================== CONNECTOR: STRUCT INNER_MODEL_OPS ==================== -->
+  <rect x="35" y="390" width="1030" height="40" class="box-purple" />
+  <text x="50" y="415" class="label-bold" fill="#d2a8ff">Pluggable Interface: struct inner_model_ops (mod_ops)</text>
+  <text x="440" y="415" class="code" font-size="10px">init() | query_memblk_size() | set_memblk() | get_supported_fmts() | set_fmt() | ff_proc() | fb_proc() | get_config() | set_config() | reset()</text>
+
+  <!-- ==================== BOTTOM: INNER MODEL LAYER ==================== -->
+  <rect x="35" y="445" width="1030" height="175" class="card" stroke="#bc8cff" stroke-width="2" />
+  <rect x="45" y="455" width="1010" height="26" class="subcard" />
+  <text x="55" y="473" class="section-title" fill="#bc8cff">Inner Model Layer (Solution-Specific Engine) - struct smart_amp_mod_data_base</text>
+
+  <!-- Inner Model 1: Maxim DSM -->
+  <rect x="55" y="490" width="500" height="115" class="subcard" stroke="#3fb950" />
+  <text x="65" y="508" class="label-bold" fill="#3fb950">CONFIG_MAXIM_DSM (smart_amp_maxim_dsm.c)</text>
+  <text x="65" y="526" class="code">UUID: 0cd84e80-ebd3-11ea-adc10242ac120002</text>
+  <text x="65" y="544" class="code-accent">dsm_api_init() / dsm_api_ff_process() / dsm_api_fb_process()</text>
+  <text x="65" y="562" class="code-orange">circularbuffersize, delayedsamples, Thiele-Small predictor</text>
+  <text x="65" y="580" class="code-red">Volatile Telemetry: maxim_dsm_get_volatile_param() [Tv, Re, Xpeak, Vbat]</text>
+
+  <!-- Inner Model 2: Passthrough / Custom Vendor Wrapper -->
+  <rect x="575" y="490" width="470" height="115" class="subcard" stroke="#8b949e" />
+  <text x="585" y="508" class="label-bold" fill="#c9d1d9">Passthrough / Custom Vendor Models</text>
+  <text x="585" y="526" class="code">CONFIG_MAXIM_DSM=n --&gt; passthru_smart_amp.c (UUID: 64a794f0...)</text>
+  <text x="585" y="544" class="code-accent">smart_amp_test_ipc4.c (UUID: 167a961e-8ae4-11ea-89f1000c29ce1635)</text>
+  <text x="585" y="562" class="subtitle">Enables proprietary 3rd-party vendor libraries (Cirrus, TI, NXP, Goodix)</text>
+  <text x="585" y="580" class="subtitle">Without modifying any SOF core audio buffering or pipeline code</text>
+</svg>

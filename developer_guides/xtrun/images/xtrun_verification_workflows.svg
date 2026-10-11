@@ -1,0 +1,264 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 740" width="100%" height="100%">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+
+    <linearGradient id="blueCard2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#06b6d4" />
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow2" x="-5%" y="-5%" width="110%" height="110%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.45" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrCyan2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#06b6d4" />
+    </marker>
+    <marker id="arrPurple2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#a855f7" />
+    </marker>
+    <marker id="arrGreen2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#10b981" />
+    </marker>
+    <marker id="arrAmber2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 7 4 L 0 7 Z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="740" fill="url(#bgGrad2)" rx="12" />
+  <rect x="1" y="1" width="1098" height="738" fill="none" stroke="#334155" stroke-width="1.5" rx="12" />
+
+  <!-- Header -->
+  <g transform="translate(30, 25)">
+    <rect x="0" y="0" width="1040" height="65" rx="8" fill="#1e293b" stroke="#475569" stroke-width="1" filter="url(#shadow2)" />
+    <path d="M 0 0 L 6 0 L 6 65 L 0 65 Z" fill="url(#headerGrad)" rx="3" />
+    <text x="24" y="27" fill="#f8fafc" font-size="17" font-weight="700" font-family="system-ui, -apple-system, sans-serif">
+      Figure 326: SOF DSP Development &amp; Verification Workflows with xt-run
+    </text>
+    <text x="24" y="48" fill="#94a3b8" font-size="12" font-family="system-ui, -apple-system, sans-serif">
+      SIMD Algorithm Benchmarking, Testbench Multi-Module Profiling &amp; Interactive Source-Level Debugging
+    </text>
+  </g>
+
+  <!-- WORKFLOW A: Standalone SIMD Algorithm Benchmarking (Left Column) -->
+  <g transform="translate(30, 105)">
+    <rect x="0" y="0" width="330" height="605" rx="8" fill="url(#blueCard2)" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="330" height="30" rx="8" fill="#0284c7" />
+    <rect x="0" y="20" width="330" height="10" fill="#0284c7" />
+    <text x="14" y="20" fill="#f0f9ff" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Workflow A: Standalone DSP Kernel Benchmark
+    </text>
+
+    <!-- Content Steps -->
+    <g transform="translate(14, 42)">
+      <!-- Step A1: Source Code -->
+      <rect x="0" y="0" width="302" height="98" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+      <text x="10" y="16" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 1: SIMD Kernel Authoring</text>
+      <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• C source + Tensilica HiFi Intrinsics</text>
+      <text x="10" y="47" fill="#cbd5e1" font-size="9" font-family="monospace">AE_LA16X4_IP, AE_MULAF32S_LH</text>
+      <text x="10" y="62" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Test stimuli &amp; golden reference arrays</text>
+      <text x="10" y="77" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Micro-benchmarking loop (1000 iter)</text>
+      <text x="10" y="91" fill="#cbd5e1" font-size="9" font-family="monospace">x_in[], ref_out[], err_cnt</text>
+
+      <!-- Arrow Down -->
+      <path d="M 151 98 L 151 116" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Step A2: Compilation -->
+      <g transform="translate(0, 118)">
+        <rect x="0" y="0" width="302" height="110" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+        <text x="10" y="16" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 2: Xtensa Cross-Compilation</text>
+        <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Select target core descriptor:</text>
+        <text x="10" y="46" fill="#7dd3fc" font-size="9" font-family="monospace">export XTENSA_CORE=ace30_LX7HiFi4_PIF</text>
+        <text x="10" y="61" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Compile with simulator LSP:</text>
+        <text x="10" y="75" fill="#e2e8f0" font-size="9" font-family="monospace">xt-xcc -O3 -mlsp=sim \</text>
+        <text x="10" y="89" fill="#e2e8f0" font-size="9" font-family="monospace">  -o kernel_bench.elf kernel.c</text>
+        <text x="10" y="103" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Links simulated memory map and C stdio</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 151 228 L 151 246" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Step A3: Execution & Simulation -->
+      <g transform="translate(0, 248)">
+        <rect x="0" y="0" width="302" height="135" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+        <text x="10" y="16" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 3: Cycle-Accurate Execution</text>
+        <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Run with hardware memory modeling:</text>
+        <text x="10" y="47" fill="#7dd3fc" font-size="9" font-family="monospace">xt-run --summary --mem_model \</text>
+        <text x="10" y="61" fill="#7dd3fc" font-size="9" font-family="monospace">  kernel_bench.elf</text>
+        <text x="10" y="77" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Terminal output displays:</text>
+        <text x="10" y="92" fill="#cbd5e1" font-size="9" font-family="monospace">Total Cycles: 184,200</text>
+        <text x="10" y="106" fill="#cbd5e1" font-size="9" font-family="monospace">Instructions: 142,500 (IPC: 0.77)</text>
+        <text x="10" y="120" fill="#cbd5e1" font-size="9" font-family="monospace">D-Cache Misses: 12 (99.8% hit rate)</text>
+        <text x="10" y="132" fill="#cbd5e1" font-size="9" font-family="monospace">Memory Bank Conflicts: 0</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 151 383 L 151 401" stroke="#38bdf8" stroke-width="1.5" fill="none" marker-end="url(#arrCyan2)" />
+
+      <!-- Step A4: Telemetry Analysis -->
+      <g transform="translate(0, 403)">
+        <rect x="0" y="0" width="302" height="145" rx="6" fill="#0f172a" stroke="#0369a1" stroke-width="1" />
+        <text x="10" y="16" fill="#38bdf8" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 4: Metric Evaluation &amp; Optimization</text>
+        <text x="10" y="33" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">1. <tspan font-weight="600" fill="#38bdf8">Cycles Per Sample (CPS):</tspan></text>
+        <text x="10" y="48" fill="#e2e8f0" font-size="9" font-family="monospace">CPS = Cycles / Total Samples = 3.84</text>
+        <text x="10" y="65" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">2. <tspan font-weight="600" fill="#38bdf8">MCPS Budget Calculation:</tspan></text>
+        <text x="10" y="80" fill="#e2e8f0" font-size="9" font-family="monospace">MCPS = (CPS × 48,000) / 10^6 = 0.18</text>
+        <text x="10" y="97" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">3. <tspan font-weight="600" fill="#38bdf8">Bit-Exact Verification:</tspan></text>
+        <text x="10" y="112" fill="#34d399" font-size="9" font-family="monospace">PASSED (max_err = 0, SNR > 120 dB)</text>
+        <text x="10" y="128" fill="#94a3b8" font-size="9" font-family="system-ui, sans-serif">Ensure pipeline alignment &amp; zero bubbles</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- WORKFLOW B: Host Audio Pipeline Testbench Profiling (Middle Column) -->
+  <g transform="translate(385, 105)">
+    <rect x="0" y="0" width="330" height="605" rx="8" fill="url(#blueCard2)" stroke="#a855f7" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="330" height="30" rx="8" fill="#7e22ce" />
+    <rect x="0" y="20" width="330" height="10" fill="#7e22ce" />
+    <text x="14" y="20" fill="#faf5ff" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Workflow B: Testbench &amp; Pipeline Profiling
+    </text>
+
+    <!-- Content Steps -->
+    <g transform="translate(14, 42)">
+      <!-- Step B1: Environment Configuration -->
+      <rect x="0" y="0" width="302" height="98" rx="6" fill="#0f172a" stroke="#6b21a8" stroke-width="1" />
+      <text x="10" y="16" fill="#c084fc" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 1: Environment Orchestration</text>
+      <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Platform parameter loader script:</text>
+      <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">source scripts/set_xtensa_params.sh ptl</text>
+      <text x="10" y="63" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Exports toolchain paths &amp; variables:</text>
+      <text x="10" y="78" fill="#cbd5e1" font-size="9" font-family="monospace">XTENSA_CORE=ace30_LX7HiFi4_PIF</text>
+      <text x="10" y="91" fill="#cbd5e1" font-size="9" font-family="monospace">TOOLCHAIN_VER=RI-2022.10-linux</text>
+
+      <!-- Arrow Down -->
+      <path d="M 151 98 L 151 116" stroke="#a855f7" stroke-width="1.5" fill="none" marker-end="url(#arrPurple2)" />
+
+      <!-- Step B2: Rebuild Testbench -->
+      <g transform="translate(0, 118)">
+        <rect x="0" y="0" width="302" height="110" rx="6" fill="#0f172a" stroke="#6b21a8" stroke-width="1" />
+        <text x="10" y="16" fill="#c084fc" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 2: Xtensa Testbench Compilation</text>
+        <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Cross-compile host testbench binary:</text>
+        <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">./scripts/rebuild-testbench.sh -p ptl</text>
+        <text x="10" y="63" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Links with simulated Xtensa memory:</text>
+        <text x="10" y="78" fill="#cbd5e1" font-size="9" font-family="monospace">-Wl,--sections-placement testbench_xcc</text>
+        <text x="10" y="93" fill="#cbd5e1" font-size="9" font-family="monospace">_sections.txt</text>
+        <text x="10" y="105" fill="#34d399" font-size="9" font-family="system-ui, sans-serif">Produces sof-testbench4 Xtensa ELF</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 151 228 L 151 246" stroke="#a855f7" stroke-width="1.5" fill="none" marker-end="url(#arrPurple2)" />
+
+      <!-- Step B3: Pipeline Simulation -->
+      <g transform="translate(0, 248)">
+        <rect x="0" y="0" width="302" height="135" rx="6" fill="#0f172a" stroke="#6b21a8" stroke-width="1" />
+        <text x="10" y="16" fill="#c084fc" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 3: Topology Execution &amp; Profile</text>
+        <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Execute component topology with -x:</text>
+        <text x="10" y="47" fill="#d8b4fe" font-size="9" font-family="monospace">./scripts/sof-testbench-helper.sh \</text>
+        <text x="10" y="61" fill="#d8b4fe" font-size="9" font-family="monospace">  -x -m drc -t development/drc.tplg \</text>
+        <text x="10" y="75" fill="#d8b4fe" font-size="9" font-family="monospace">  -p profile-ptl-drc.txt</text>
+        <text x="10" y="91" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Simulator records profiling trace:</text>
+        <text x="10" y="106" fill="#e2e8f0" font-size="9" font-family="monospace">xt-run --mem_model --profile=prof.out</text>
+        <text x="10" y="120" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Formats call-graph via xt-gprof:</text>
+        <text x="10" y="132" fill="#e2e8f0" font-size="8.5" font-family="monospace">xt-gprof sof-testbench4 prof.out &gt; txt</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 151 383 L 151 401" stroke="#a855f7" stroke-width="1.5" fill="none" marker-end="url(#arrPurple2)" />
+
+      <!-- Step B4: Multi-Module Automation -->
+      <g transform="translate(0, 403)">
+        <rect x="0" y="0" width="302" height="145" rx="6" fill="#0f172a" stroke="#6b21a8" stroke-width="1" />
+        <text x="10" y="16" fill="#c084fc" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 4: Batch Profiling &amp; Quality Gate</text>
+        <text x="10" y="33" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">• Batch profile all processing modules:</text>
+        <text x="10" y="48" fill="#d8b4fe" font-size="9" font-family="monospace">./scripts/sof-testbench-build-profile.sh \</text>
+        <text x="10" y="62" fill="#d8b4fe" font-size="9" font-family="monospace">  -p ptl -d profile_reports/</text>
+        <text x="10" y="78" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">• Automated AES17 electroacoustic test:</text>
+        <text x="10" y="93" fill="#e2e8f0" font-size="8.5" font-family="monospace">octave --eval "process_test('eqiir', \</text>
+        <text x="10" y="106" fill="#e2e8f0" font-size="8.5" font-family="monospace">  32, 32, 48000, 1, 0, 'xt-run --turbo')</text>
+        <text x="10" y="122" fill="#34d399" font-size="9" font-family="system-ui, sans-serif">Validates THD+N &lt; -100 dB &amp; Gain ±0.05 dB</text>
+        <text x="10" y="136" fill="#94a3b8" font-size="8.5" font-family="system-ui, sans-serif">Enforces MCPS budget limit per block</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- WORKFLOW C: Interactive Source-Level DSP Debugging (Right Column) -->
+  <g transform="translate(740, 105)">
+    <rect x="0" y="0" width="330" height="605" rx="8" fill="url(#blueCard2)" stroke="#10b981" stroke-width="1.5" filter="url(#shadow2)" />
+    <rect x="0" y="0" width="330" height="30" rx="8" fill="#047857" />
+    <rect x="0" y="20" width="330" height="10" fill="#047857" />
+    <text x="14" y="20" fill="#ecfdf5" font-size="12.5" font-weight="700" font-family="system-ui, sans-serif">
+      Workflow C: Interactive Source Debugging
+    </text>
+
+    <!-- Content Steps -->
+    <g transform="translate(14, 42)">
+      <!-- Step C1: Debug Build -->
+      <rect x="0" y="0" width="302" height="98" rx="6" fill="#0f172a" stroke="#065f46" stroke-width="1" />
+      <text x="10" y="16" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 1: Debug Build Configuration</text>
+      <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Compile with DWARF symbols &amp; -O0:</text>
+      <text x="10" y="47" fill="#6ee7b7" font-size="9" font-family="monospace">xt-xcc -g -O0 -mlsp=sim \</text>
+      <text x="10" y="61" fill="#6ee7b7" font-size="9" font-family="monospace">  -o target_debug.elf target.c</text>
+      <text x="10" y="77" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Preserves register state &amp; call frames</text>
+      <text x="10" y="91" fill="#cbd5e1" font-size="9" font-family="monospace">CONFIG_DEBUG=y, CONFIG_NO_OPTIMIZATIONS</text>
+
+      <!-- Arrow Down -->
+      <path d="M 151 98 L 151 116" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrGreen2)" />
+
+      <!-- Step C2: Launch xt-run GDB Server -->
+      <g transform="translate(0, 118)">
+        <rect x="0" y="0" width="302" height="110" rx="6" fill="#0f172a" stroke="#065f46" stroke-width="1" />
+        <text x="10" y="16" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 2: Start Simulator GDB Server</text>
+        <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Start simulator waiting for client:</text>
+        <text x="10" y="47" fill="#6ee7b7" font-size="9" font-family="monospace">xt-run --client-gdb=1234 \</text>
+        <text x="10" y="61" fill="#6ee7b7" font-size="9" font-family="monospace">  --break-on-entry target_debug.elf</text>
+        <text x="10" y="78" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Listens on localhost TCP port 1234</text>
+        <text x="10" y="93" fill="#cbd5e1" font-size="9" font-family="monospace">Waiting for GDB connection...</text>
+        <text x="10" y="105" fill="#34d399" font-size="9" font-family="system-ui, sans-serif">Halts at reset vector / entry point</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 151 228 L 151 246" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrGreen2)" />
+
+      <!-- Step C3: Attach xt-gdb -->
+      <g transform="translate(0, 248)">
+        <rect x="0" y="0" width="302" height="135" rx="6" fill="#0f172a" stroke="#065f46" stroke-width="1" />
+        <text x="10" y="16" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 3: Connect Client Debugger</text>
+        <text x="10" y="32" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Launch Cadence Xtensa GDB client:</text>
+        <text x="10" y="47" fill="#6ee7b7" font-size="9" font-family="monospace">xt-gdb target_debug.elf</text>
+        <text x="10" y="63" fill="#94a3b8" font-size="9.5" font-family="system-ui, sans-serif">• Attach to simulator server session:</text>
+        <text x="10" y="78" fill="#e2e8f0" font-size="9" font-family="monospace">(gdb) target remote localhost:1234</text>
+        <text x="10" y="93" fill="#e2e8f0" font-size="9" font-family="monospace">(gdb) break comp_copy</text>
+        <text x="10" y="107" fill="#e2e8f0" font-size="9" font-family="monospace">(gdb) continue</text>
+        <text x="10" y="122" fill="#34d399" font-size="9" font-family="system-ui, sans-serif">Breakpoint hit at component inner loop</text>
+      </g>
+
+      <!-- Arrow Down -->
+      <path d="M 151 383 L 151 401" stroke="#10b981" stroke-width="1.5" fill="none" marker-end="url(#arrGreen2)" />
+
+      <!-- Step C4: Register Inspection & Diagnosis -->
+      <g transform="translate(0, 403)">
+        <rect x="0" y="0" width="302" height="145" rx="6" fill="#0f172a" stroke="#065f46" stroke-width="1" />
+        <text x="10" y="16" fill="#34d399" font-size="11" font-weight="600" font-family="system-ui, sans-serif">Step 4: Vector State &amp; Memory Inspection</text>
+        <text x="10" y="33" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">1. <tspan font-weight="600" fill="#34d399">HiFi Vector Registers:</tspan></text>
+        <text x="10" y="48" fill="#6ee7b7" font-size="9" font-family="monospace">(gdb) info registers p0 p1 p2</text>
+        <text x="10" y="65" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">2. <tspan font-weight="600" fill="#34d399">72-bit Accumulator Values:</tspan></text>
+        <text x="10" y="80" fill="#6ee7b7" font-size="9" font-family="monospace">(gdb) print $ae_ac0</text>
+        <text x="10" y="97" fill="#f8fafc" font-size="9.5" font-family="system-ui, sans-serif">3. <tspan font-weight="600" fill="#34d399">Circular Buffer Pointers:</tspan></text>
+        <text x="10" y="112" fill="#e2e8f0" font-size="9" font-family="monospace">(gdb) print /x *source-&gt;stream.w_ptr</text>
+        <text x="10" y="127" fill="#f8fafc" font-size="9" font-family="system-ui, sans-serif">Step instruction-by-instruction with <tspan font-family="monospace" fill="#6ee7b7">stepi</tspan></text>
+      </g>
+    </g>
+  </g>
+</svg>

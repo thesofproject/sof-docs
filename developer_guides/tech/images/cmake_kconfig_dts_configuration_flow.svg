@@ -1,0 +1,254 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 720" width="100%" height="100%">
+  <defs>
+    <style>
+      .bg { fill: #0d1117; }
+      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 20px; font-weight: 700; fill: #58a6ff; }
+      .subtitle { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; fill: #8b949e; }
+      .box { fill: #161b22; stroke: #30363d; stroke-width: 1.5px; rx: 8px; }
+      .box-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 14px; font-weight: 600; }
+      .box-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #8b949e; }
+      .card { fill: #21262d; stroke: #30363d; stroke-width: 1px; rx: 6px; }
+      .card-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 12px; font-weight: 600; fill: #e6edf3; }
+      .card-desc { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace; font-size: 10.5px; fill: #8b949e; }
+      .arrow-blue { stroke: #58a6ff; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-blue-marker); }
+      .arrow-orange { stroke: #d29922; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-orange-marker); }
+      .arrow-green { stroke: #3fb950; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-green-marker); }
+      .arrow-purple { stroke: #bc8cff; stroke-width: 1.8px; fill: none; marker-end: url(#arrow-purple-marker); }
+      .pill { rx: 12px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10.5px; font-weight: 600; }
+    </style>
+    <marker id="arrow-blue-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#58a6ff"/>
+    </marker>
+    <marker id="arrow-orange-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#d29922"/>
+    </marker>
+    <marker id="arrow-green-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#3fb950"/>
+    </marker>
+    <marker id="arrow-purple-marker" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#bc8cff"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1180" height="720" class="bg" />
+
+  <!-- Title Header -->
+  <g transform="translate(30, 20)">
+    <text x="0" y="24" class="title">SOF Kconfig, Device Tree &amp; CMake Configuration Hierarchy</text>
+    <text x="0" y="44" class="subtitle">Multi-tier inheritance flow: Hardware descriptions and configuration fragments merge hierarchically into build directives</text>
+  </g>
+
+  <!-- Left: Device Tree Branch (Hardware Layout) -->
+  <g transform="translate(30, 75)">
+    <rect width="360" height="295" class="box" filter="url(#shadow)" />
+    <rect x="0" y="0" width="360" height="36" rx="8" fill="#1f2937" />
+    <text x="14" y="23" class="box-header" fill="#58a6ff">A. Device Tree Hardware Inheritance</text>
+    
+    <!-- SoC dtsi -->
+    <g transform="translate(14, 48)">
+      <rect width="332" height="48" class="card" />
+      <text x="10" y="20" class="card-title">1. Base SoC Description (.dtsi)</text>
+      <text x="10" y="36" class="card-desc">dts/xtensa/intel/intel_adsp_ace30.dtsi (Memory, IRQs, DSP cores)</text>
+    </g>
+
+    <!-- Board dts -->
+    <g transform="translate(14, 106)">
+      <rect width="332" height="48" class="card" />
+      <text x="10" y="20" class="card-title">2. Board Hardware Definition (.dts)</text>
+      <text x="10" y="36" class="card-desc">boards/intel/intel_adsp_ace30_ptl.dts (Clocks, GPIOs, audio DAIs)</text>
+    </g>
+
+    <!-- User Overlays -->
+    <g transform="translate(14, 164)">
+      <rect width="332" height="54" class="card" />
+      <text x="10" y="20" class="card-title">3. Hardware Overlays (*.overlay)</text>
+      <text x="10" y="36" class="card-desc">-DDTC_OVERLAY_FILE="app/boards/intel_adsp_ace30_ptl.overlay"</text>
+      <text x="10" y="48" class="card-desc">Enables auxiliary SSP audio endpoints, SoundWire links, DMIC</text>
+    </g>
+
+    <!-- DTC Processing Node -->
+    <g transform="translate(14, 228)">
+      <rect width="332" height="52" class="card" fill="#1c2128" stroke="#58a6ff" />
+      <text x="10" y="18" class="card-title" fill="#58a6ff">Device Tree Compiler (dtc)</text>
+      <text x="10" y="34" class="card-desc">Merges nodes &amp; generates: build/zephyr/zephyr.dts</text>
+      <text x="10" y="46" class="card-desc">Emits C header: include/generated/zephyr/devicetree_generated.h</text>
+    </g>
+  </g>
+
+  <!-- Left: Kconfig Branch (Feature Toggles) -->
+  <g transform="translate(30, 390)">
+    <rect width="360" height="305" class="box" filter="url(#shadow)" />
+    <rect x="0" y="0" width="360" height="36" rx="8" fill="#1f2937" />
+    <text x="14" y="23" class="box-header" fill="#d29922">B. Kconfig Configuration Precedence</text>
+    
+    <!-- Layer 1: Base prj.conf -->
+    <g transform="translate(14, 48)">
+      <rect width="332" height="42" class="card" />
+      <text x="10" y="18" class="card-title">Level 1: Base Application Config (prj.conf)</text>
+      <text x="10" y="32" class="card-desc">Baseline RTOS &amp; SOF kernel settings (Lowest precedence)</text>
+    </g>
+
+    <!-- Layer 2: Board Defconfig -->
+    <g transform="translate(14, 98)">
+      <rect width="332" height="42" class="card" />
+      <text x="10" y="18" class="card-title">Level 2: Board Defconfig (boards/&lt;board&gt;.conf)</text>
+      <text x="10" y="32" class="card-desc">Hardware-specific defaults (intel_adsp_cavs25.conf, etc.)</text>
+    </g>
+
+    <!-- Layer 3: Snippets & Fragments -->
+    <g transform="translate(14, 148)">
+      <rect width="332" height="52" class="card" />
+      <text x="10" y="18" class="card-title">Level 3: Snippets &amp; Fragments (-S &lt;snippet&gt;)</text>
+      <text x="10" y="32" class="card-desc">snippets/debug/debug.conf (-S debug: verbose trace)</text>
+      <text x="10" y="44" class="card-desc">FILE:EXTRA_CONF_FILE="overlay-llext.conf"</text>
+    </g>
+
+    <!-- Layer 4: CLI Overrides -->
+    <g transform="translate(14, 208)">
+      <rect width="332" height="42" class="card" stroke="#d29922" />
+      <text x="10" y="18" class="card-title" fill="#d29922">Level 4: Command-Line Overrides (-- -DCONFIG_...)</text>
+      <text x="10" y="32" class="card-desc">Direct injection: -DCONFIG_SOF_LOG_LEVEL_DBG=y (Highest)</text>
+    </g>
+
+    <!-- Kconfig Output -->
+    <g transform="translate(14, 258)">
+      <rect width="332" height="36" class="card" fill="#1c2128" stroke="#d29922" />
+      <text x="10" y="16" class="card-title" font-size="11px" fill="#d29922">Output: zephyr/.config &amp; autoconf.h</text>
+      <text x="10" y="28" class="card-desc" font-size="9.5px">Generated C preprocessor symbol definitions</text>
+    </g>
+  </g>
+
+  <!-- Middle: Convergence in CMake Build System -->
+  <g transform="translate(425, 75)">
+    <rect width="390" height="620" class="box" filter="url(#shadow)" />
+    <rect x="0" y="0" width="390" height="36" rx="8" fill="#1f2937" />
+    <text x="14" y="23" class="box-header" fill="#3fb950">C. CMake Build Synthesis &amp; Target Generation</text>
+
+    <!-- Flow Connectors into CMake -->
+    <path d="M 390 220 L 425 220" class="arrow-blue" />
+    <path d="M 390 540 L 425 540" class="arrow-orange" />
+
+    <!-- Section 1: CMake Module Evaluation -->
+    <g transform="translate(16, 48)">
+      <rect width="358" height="110" class="card" />
+      <text x="12" y="20" class="card-title">1. Header &amp; Configuration Ingestion</text>
+      <text x="12" y="38" class="card-desc">Includes autoconf.h and devicetree_generated.h</text>
+      <text x="12" y="54" class="card-desc">Preprocessor checks determine active targets:</text>
+      <rect x="12" y="62" width="334" height="38" rx="4" fill="#161b22" stroke="#30363d" />
+      <text x="18" y="78" class="card-desc" fill="#79c0ff">#if defined(CONFIG_IPC_MAJOR_4)</text>
+      <text x="18" y="92" class="card-desc" fill="#79c0ff">zephyr_library_sources(src/ipc/ipc4/handler.c)</text>
+    </g>
+
+    <!-- Section 2: Conditional Component Registration -->
+    <g transform="translate(16, 170)">
+      <rect width="358" height="165" class="card" />
+      <text x="12" y="20" class="card-title">2. Audio Component Conditional Inclusion</text>
+      <text x="12" y="38" class="card-desc">zephyr_library_sources_ifdef() evaluates Kconfig flags:</text>
+      
+      <g transform="translate(12, 46)">
+        <rect width="334" height="24" rx="3" fill="#161b22" stroke="#30363d" />
+        <text x="8" y="16" class="card-desc" fill="#3fb950">CONFIG_COMP_VOLUME=y</text>
+        <text x="175" y="16" class="card-desc">→ src/audio/volume/volume.c</text>
+      </g>
+      <g transform="translate(12, 74)">
+        <rect width="334" height="24" rx="3" fill="#161b22" stroke="#30363d" />
+        <text x="8" y="16" class="card-desc" fill="#3fb950">CONFIG_COMP_EQ_IIR=y</text>
+        <text x="175" y="16" class="card-desc">→ src/audio/eq_iir/eq_iir.c</text>
+      </g>
+      <g transform="translate(12, 102)">
+        <rect width="334" height="24" rx="3" fill="#161b22" stroke="#30363d" />
+        <text x="8" y="16" class="card-desc" fill="#3fb950">CONFIG_COMP_DRC=y</text>
+        <text x="175" y="16" class="card-desc">→ src/audio/drc/drc.c</text>
+      </g>
+      <g transform="translate(12, 130)">
+        <rect width="334" height="24" rx="3" fill="#161b22" stroke="#30363d" />
+        <text x="8" y="16" class="card-desc" fill="#bc8cff">CONFIG_SOF_LLEXT=y</text>
+        <text x="175" y="16" class="card-desc">→ sof_llext_build() target rules</text>
+      </g>
+    </g>
+
+    <!-- Section 3: Toolchain Compilation Flags -->
+    <g transform="translate(16, 348)">
+      <rect width="358" height="115" class="card" />
+      <text x="12" y="20" class="card-title">3. Toolchain &amp; Compiler Flag Ingestion</text>
+      <text x="12" y="38" class="card-desc">Clang / XCC flags enforced on all targets:</text>
+      <text x="12" y="54" class="card-desc">-Wall -Werror -Wmissing-prototypes</text>
+      <text x="12" y="70" class="card-desc">IAS: -fintegrated-as (Mandatory integrated assembler)</text>
+      <text x="12" y="86" class="card-desc">User flags: -DEXTRA_CFLAGS="-DSOF_DEBUG=1"</text>
+      <text x="12" y="102" class="card-desc">Deterministic paths: sof_append_relative_path_definitions()</text>
+    </g>
+
+    <!-- Section 4: Ninja Generation -->
+    <g transform="translate(16, 475)">
+      <rect width="358" height="130" class="card" fill="#1c2128" stroke="#3fb950" />
+      <text x="12" y="20" class="card-title" fill="#3fb950">4. Ninja Target Generation</text>
+      <text x="12" y="38" class="card-desc">Emits build.ninja with multi-target dependencies:</text>
+      <text x="20" y="56" class="card-desc" fill="#e6edf3">• Target: zephyr_prebuilt.elf (Pre-link pass)</text>
+      <text x="20" y="72" class="card-desc" fill="#e6edf3">• Target: linker.cmd (Section layout)</text>
+      <text x="20" y="88" class="card-desc" fill="#e6edf3">• Target: zephyr.elf (Final linked ELF)</text>
+      <text x="20" y="104" class="card-desc" fill="#e6edf3">• Custom post-build: smex &amp; rimage targets</text>
+    </g>
+  </g>
+
+  <!-- Right: Build Output Artifacts & Reports -->
+  <g transform="translate(850, 75)">
+    <rect width="300" height="620" class="box" filter="url(#shadow)" />
+    <rect x="0" y="0" width="300" height="36" rx="8" fill="#1f2937" />
+    <text x="14" y="23" class="box-header" fill="#bc8cff">D. Output Artifacts &amp; Telemetry</text>
+
+    <!-- Flow Connector Middle -> Right -->
+    <path d="M 815 385 L 850 385" class="arrow-green" />
+
+    <!-- Output 1: zephyr.elf -->
+    <g transform="translate(14, 48)">
+      <rect width="272" height="110" class="card" />
+      <text x="10" y="20" class="card-title">zephyr.elf (ELF Executable)</text>
+      <text x="10" y="38" class="card-desc">Unstripped firmware binary</text>
+      <text x="10" y="54" class="card-desc">Contains full DWARF debug info</text>
+      <text x="10" y="70" class="card-desc">Contains raw format log strings</text>
+      <text x="10" y="86" class="card-desc">Input for smex, GDB, and rimage</text>
+      <text x="10" y="102" class="card-desc">Path: build/zephyr/zephyr.elf</text>
+    </g>
+
+    <!-- Output 2: .ldc Trace Dictionary -->
+    <g transform="translate(14, 170)">
+      <rect width="272" height="110" class="card" />
+      <text x="10" y="20" class="card-title">sof-&lt;plat&gt;.ldc (Log Dictionary)</text>
+      <text x="10" y="38" class="card-desc">Generated by smex utility</text>
+      <text x="10" y="54" class="card-desc">Maps 32-bit log IDs to string formats</text>
+      <text x="10" y="70" class="card-desc">Deployed to host development machine</text>
+      <text x="10" y="86" class="card-desc">Used by sof-logger &amp; probe server</text>
+      <text x="10" y="102" class="card-desc">Path: build/zephyr/sof-&lt;plat&gt;.ldc</text>
+    </g>
+
+    <!-- Output 3: .ri Production Binary -->
+    <g transform="translate(14, 292)">
+      <rect width="272" height="135" class="card" stroke="#3fb950" />
+      <text x="10" y="20" class="card-title" fill="#3fb950">sof-&lt;plat&gt;.ri (Signed Firmware)</text>
+      <text x="10" y="38" class="card-desc">Generated by rimage tool</text>
+      <text x="10" y="54" class="card-desc">Cryptographically signed manifest v2.5</text>
+      <text x="10" y="70" class="card-desc">Target deployment destination:</text>
+      <text x="18" y="86" class="card-desc" fill="#79c0ff">/lib/firmware/intel/sof-ipc4/&lt;plat&gt;/</text>
+      <text x="10" y="102" class="card-desc">Verified by Intel CSE bootloader</text>
+      <text x="10" y="118" class="card-desc">Ready for physical DUT execution</text>
+    </g>
+
+    <!-- Memory Reports & Profiling -->
+    <g transform="translate(14, 440)">
+      <rect width="272" height="165" class="card" fill="#1c2128" stroke="#bc8cff" />
+      <text x="10" y="20" class="card-title" fill="#bc8cff">Build Telemetry &amp; Diagnostics</text>
+      <text x="10" y="38" class="card-desc">ninja rom_report</text>
+      <text x="18" y="52" class="card-desc" font-size="9.5px">• Static Flash / ROM footprint breakdown</text>
+      <text x="10" y="70" class="card-desc">ninja ram_report</text>
+      <text x="18" y="84" class="card-desc" font-size="9.5px">• SRAM allocation per object &amp; symbol</text>
+      <text x="10" y="102" class="card-desc">west build -t menuconfig</text>
+      <text x="18" y="116" class="card-desc" font-size="9.5px">• Interactive terminal Kconfig browser</text>
+      <text x="10" y="134" class="card-desc">twister -T app/</text>
+      <text x="18" y="148" class="card-desc" font-size="9.5px">• Automated test and build validation</text>
+    </g>
+  </g>
+</svg>

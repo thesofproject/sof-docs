@@ -1,0 +1,243 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="bg-grad-psm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0f19"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#0b0f19"/>
+    </linearGradient>
+
+    <linearGradient id="card-grad-psm" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.9"/>
+    </linearGradient>
+
+    <!-- Header Gradients -->
+    <linearGradient id="hdr-blue-psm" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <linearGradient id="hdr-emerald-psm" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+
+    <!-- State Box Gradients -->
+    <linearGradient id="box-state-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e3a8a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-state-emerald" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-state-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#581c87" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <linearGradient id="box-state-amber" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#78350f" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#0f172a" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Drop Shadow Filter -->
+    <filter id="shadow-psm" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arr-blue-psm" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#3b82f6"/>
+    </marker>
+    <marker id="arr-emerald-psm" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#10b981"/>
+    </marker>
+    <marker id="arr-amber-psm" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#f59e0b"/>
+    </marker>
+    <marker id="arr-purple-psm" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 10 5 L 0 8.5 z" fill="#a855f7"/>
+    </marker>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1100" height="680" fill="url(#bg-grad-psm)"/>
+
+  <!-- TITLE BLOCK -->
+  <g transform="translate(40, 20)">
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="19" font-weight="800" fill="#f8fafc" letter-spacing="-0.5px">
+      SOF Audio Streaming &amp; Power State Machines
+    </text>
+    <text x="0" y="40" font-family="system-ui, -apple-system, sans-serif" font-size="12" fill="#94a3b8">
+      Dual-Axis State Machines: ASoC PCM Streaming Lifecycle (pcm.c) and Linux Runtime PM Power Transitions (pm.c)
+    </text>
+  </g>
+
+  <!-- LEFT: ALSA PCM STREAMING LIFECYCLE (x=40, y=70, w=495, h=585) -->
+  <g transform="translate(40, 70)" filter="url(#shadow-psm)">
+    <rect width="495" height="585" rx="8" fill="url(#card-grad-psm)" stroke="#3b82f6" stroke-width="1.2"/>
+    <rect width="495" height="24" rx="8" fill="url(#hdr-blue-psm)"/>
+    <rect y="18" width="495" height="6" fill="#1d4ed8"/>
+    <text x="14" y="16" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      ALSA PCM Stream Lifecycle &amp; DSP Execution (sound/soc/sof/pcm.c)
+    </text>
+
+    <!-- Vertical State Chain -->
+    <g transform="translate(18, 36)">
+      <!-- State 1: OPEN -->
+      <g transform="translate(0, 0)">
+        <rect width="458" height="66" rx="5" fill="url(#box-state-blue)" stroke="#2563eb" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">1. SNDRV_PCM_STATE_OPEN</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#60a5fa">sof_pcm_open(substream)</text>
+        <text x="12" y="46" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Allocates struct snd_sof_pcm_stream; looks up matching DSP pipeline</text>
+        <text x="12" y="58" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Applies hardware constraints (sample rates, channel maps, sample formats)</text>
+      </g>
+
+      <!-- Arrow 1 -> 2 -->
+      <line x1="230" y1="66" x2="230" y2="78" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-blue-psm)"/>
+
+      <!-- State 2: SETUP / HW_PARAMS -->
+      <g transform="translate(0, 78)">
+        <rect width="458" height="76" rx="5" fill="url(#box-state-blue)" stroke="#2563eb" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">2. SNDRV_PCM_STATE_SETUP (HW_PARAMS)</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#60a5fa">sof_pcm_hw_params(substream, params)</text>
+        <text x="12" y="46" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Allocates host DMA ring buffer memory via snd_pcm_lib_malloc_pages()</text>
+        <text x="12" y="58" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Dispatches IPC stream parameters (SOF_IPC_STREAM_PCM_PARAMS or IPC4 pipeline)</text>
+        <text x="12" y="70" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Configures DSP host circular DMA buffer descriptor in shared memory</text>
+      </g>
+
+      <!-- Arrow 2 -> 3 -->
+      <line x1="230" y1="154" x2="230" y2="166" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-blue-psm)"/>
+
+      <!-- State 3: PREPARED -->
+      <g transform="translate(0, 166)">
+        <rect width="458" height="66" rx="5" fill="url(#box-state-blue)" stroke="#2563eb" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">3. SNDRV_PCM_STATE_PREPARED</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#60a5fa">sof_pcm_prepare(substream)</text>
+        <text x="12" y="46" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Resets hardware DMA position registers and circular buffer read/write pointers</text>
+        <text x="12" y="58" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Notifies DSP to prepare pipeline components for immediate playback/capture</text>
+      </g>
+
+      <!-- Arrow 3 -> 4 -->
+      <line x1="230" y1="232" x2="230" y2="244" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-blue-psm)"/>
+
+      <!-- State 4: RUNNING / STREAMING (Special Highlight) -->
+      <g transform="translate(0, 244)">
+        <rect width="458" height="152" rx="5" fill="url(#box-state-emerald)" stroke="#10b981" stroke-width="1.2"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#6ee7b7">4. SNDRV_PCM_STATE_RUNNING (Active Streaming)</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#34d399">sof_pcm_trigger(substream, SNDRV_PCM_TRIGGER_START)</text>
+
+        <g transform="translate(10, 42)">
+          <rect width="438" height="98" rx="4" fill="#0f172a" stroke="#059669" stroke-width="0.8"/>
+          <text x="10" y="16" font-family="system-ui, sans-serif" font-size="8" font-weight="700" fill="#a7f3d0">Real-Time Audio Execution Cycle:</text>
+          <text x="10" y="30" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Hardware DMA Transfer</tspan>: Host DMA controller pushes PCM frames across bus</text>
+          <text x="10" y="44" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">DSP Processing Loop</tspan>: Pipeline scheduler processes 1 ms frames through modules</text>
+          <text x="10" y="58" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Sub-Microsecond Timestamping</tspan>: Linear Link Position (LLP) wall-clock tracking</text>
+          <text x="10" y="72" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Position Reporting</tspan>: sof_pcm_pointer() reports exact hardware frame offset</text>
+          <text x="10" y="86" font-family="system-ui, sans-serif" font-size="7.5" fill="#a7f3d0">snd_pcm_period_elapsed() fires to wake user-space audio applications</text>
+        </g>
+      </g>
+
+      <!-- Arrow 4 -> 5 -->
+      <line x1="230" y1="396" x2="230" y2="408" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#arr-blue-psm)"/>
+
+      <!-- State 5: STOP / TEARDOWN -->
+      <g transform="translate(0, 408)">
+        <rect width="458" height="124" rx="5" fill="url(#box-state-blue)" stroke="#2563eb" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#93c5fd">5. STREAM TEARDOWN &amp; RESOURCE RELEASE</text>
+        <text x="12" y="32" font-family="monospace" font-size="8" fill="#60a5fa">sof_pcm_trigger(STOP) → sof_pcm_hw_free() → sof_pcm_close()</text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">sof_pcm_trigger(STOP)</tspan>: Dispatches IPC trigger to stop DSP pipeline scheduler</text>
+        <text x="12" y="62" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">sof_pcm_hw_free()</tspan>: Informs DSP to free ring buffer; frees host DMA buffer</text>
+        <text x="12" y="76" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">sof_pcm_close()</tspan>: Releases stream structure; notifies Runtime PM (pm_runtime_put)</text>
+        <text x="12" y="94" font-family="system-ui, sans-serif" font-size="7.5" fill="#fcd34d">Optional Intermediary States:</text>
+        <text x="12" y="108" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• PAUSED: trigger(PAUSE_PUSH) freezes stream without tearing down buffers</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- RIGHT: LINUX RUNTIME PM & SYSTEM POWER MANAGEMENT (x=565, y=70, w=495, h=585) -->
+  <g transform="translate(565, 70)" filter="url(#shadow-psm)">
+    <rect width="495" height="585" rx="8" fill="url(#card-grad-psm)" stroke="#10b981" stroke-width="1.2"/>
+    <rect width="495" height="24" rx="8" fill="url(#hdr-emerald-psm)"/>
+    <rect y="18" width="495" height="6" fill="#047857"/>
+    <text x="14" y="16" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#ffffff">
+      Linux Runtime PM &amp; System Suspend States (sound/soc/sof/pm.c)
+    </text>
+
+    <!-- Vertical Power Hierarchy -->
+    <g transform="translate(18, 36)">
+      <!-- Power State 1: D0 Active Streaming -->
+      <g transform="translate(0, 0)">
+        <rect width="458" height="98" rx="5" fill="url(#box-state-emerald)" stroke="#10b981" stroke-width="1"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#6ee7b7">State D0: Full Power Streaming (pm_runtime_active)</text>
+        <text x="12" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Active Audio Streams Present (pm_runtime_get_sync)</text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• DSP Core Clocks: Maximum/boost operational frequency (e.g. 400 MHz)</text>
+        <text x="12" y="60" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Power Rails: All core, SRAM, and audio link voltage rails fully energized</text>
+        <text x="12" y="72" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• DMA Channels: Host and Link DMA engines continuously transferring audio</text>
+        <text x="12" y="84" font-family="system-ui, sans-serif" font-size="7.5" fill="#a7f3d0">• Power Consumption: Full active workload (15 mW - 60 mW depending on SoC)</text>
+      </g>
+
+      <!-- Bidirectional Arrow D0 <-> D0ix -->
+      <g transform="translate(230, 98)">
+        <line x1="0" y1="0" x2="0" y2="18" stroke="#10b981" stroke-width="1.5" marker-end="url(#arr-emerald-psm)"/>
+        <text x="8" y="12" font-family="system-ui, sans-serif" font-size="7" fill="#6ee7b7">Autonomous Clock Gating</text>
+      </g>
+
+      <!-- Power State 2: D0ix Autonomous Low-Power Idle -->
+      <g transform="translate(0, 116)">
+        <rect width="458" height="106" rx="5" fill="url(#box-state-emerald)" stroke="#059669" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#6ee7b7">State D0ix: Autonomous Low-Power Active Idle</text>
+        <text x="12" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Audio Streaming Active, but DSP Execution Units Idle</text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Occurs within 1 ms timer period: DSP processes 1 ms burst in 80 µs, then sleeps</text>
+        <text x="12" y="60" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• DSP cores enter WAITI state; hardware clock-gates execution pipelines</text>
+        <text x="12" y="72" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• SRAM memory banks remain in low-power retention mode</text>
+        <text x="12" y="84" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Host DMA and link interfaces continue autonomous background buffering</text>
+        <text x="12" y="96" font-family="system-ui, sans-serif" font-size="7.5" fill="#34d399">• Power Reduction: 60% - 80% dynamic power savings during streaming</text>
+      </g>
+
+      <!-- Arrow D0/D0ix -> D3hot -->
+      <g transform="translate(230, 222)">
+        <line x1="0" y1="0" x2="0" y2="18" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arr-amber-psm)"/>
+        <text x="8" y="12" font-family="system-ui, sans-serif" font-size="7" fill="#fcd34d">Autosuspend Delay (2000 ms)</text>
+      </g>
+
+      <!-- Power State 3: D3hot Runtime Suspend -->
+      <g transform="translate(0, 240)">
+        <rect width="458" height="106" rx="5" fill="url(#box-state-amber)" stroke="#d97706" stroke-width="0.8"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10" font-weight="700" fill="#fcd34d">State D3hot: Runtime Suspend (pm_runtime_suspend)</text>
+        <text x="12" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">Zero Active Audio Streams; Idle Timer Expired</text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Context Save: Driver executes ctx_save() hook, preserving registers</text>
+        <text x="12" y="60" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• DSP Power-Gating: DSP compute cores power-gated; clocks stopped</text>
+        <text x="12" y="72" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• SRAM Retained: High-Performance SRAM stays retained for fast resume</text>
+        <text x="12" y="84" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• Bus State: PCIe / ACPI controller drops to low-power D3hot state</text>
+        <text x="12" y="96" font-family="system-ui, sans-serif" font-size="7.5" fill="#fcd34d">• Wakeup Latency: Rapid resume within &lt; 5 ms when new stream opens</text>
+      </g>
+
+      <!-- Arrow D3hot -> D3cold -->
+      <g transform="translate(230, 346)">
+        <line x1="0" y1="0" x2="0" y2="18" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arr-purple-psm)"/>
+        <text x="8" y="12" font-family="system-ui, sans-serif" font-size="7" fill="#d8b4fe">System Suspend (S0ix / S3)</text>
+      </g>
+
+      <!-- Power State 4: D3cold System Suspend -->
+      <g transform="translate(0, 364)">
+        <rect width="458" height="168" rx="5" fill="url(#box-state-purple)" stroke="#7c3aed" stroke-width="1"/>
+        <text x="12" y="18" font-family="system-ui, sans-serif" font-size="10.5" font-weight="700" fill="#d8b4fe">State D3cold: Full System Suspend (S0ix Modern Standby / S3)</text>
+        <text x="12" y="32" font-family="system-ui, sans-serif" font-size="8" fill="#94a3b8">System-Wide Sleep; Host OS Inactive</text>
+        <text x="12" y="48" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Complete Hardware Shutdown</tspan>: All DSP power rails completely cut (0 mW)</text>
+        <text x="12" y="62" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">LLEXT Cold-Store Staging</tspan>: llext_manager_dram.c backs up dynamic ELF</text>
+        <text x="18" y="74" font-family="system-ui, sans-serif" font-size="7.5" fill="#94a3b8">  modules into host non-volatile DRAM before power cutoff</text>
+        <text x="12" y="88" font-family="system-ui, sans-serif" font-size="7.5" fill="#cbd5e1">• <tspan font-weight="700" fill="#f8fafc">Seamless Resume Flow (D3cold → D0)</tspan>:</text>
+        <text x="18" y="102" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">1. Power rails energized; Reset released; Boot ROM executes</text>
+        <text x="18" y="114" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">2. Firmware binary reloaded from host memory / IMR cache</text>
+        <text x="18" y="126" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">3. Driver restores kcontrols, volume sliders, and EQ/DRC calibration</text>
+        <text x="18" y="138" font-family="system-ui, sans-serif" font-size="7.5" fill="#e9d5ff">4. LLEXT modules restored; audio pipelines re-instantiated</text>
+        <text x="18" y="152" font-family="system-ui, sans-serif" font-size="7.5" fill="#34d399">Audio resumes transparently without crackles, pops, or user intervention</text>
+      </g>
+    </g>
+  </g>
+</svg>

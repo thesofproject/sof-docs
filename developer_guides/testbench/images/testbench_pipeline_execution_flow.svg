@@ -1,0 +1,274 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="100%" height="100%" style="background:#0f172a; font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="amberGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#d97706" />
+      <stop offset="100%" stop-color="#b45309" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+
+    <!-- Markers -->
+    <marker id="arrowCyan" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#38bdf8" />
+    </marker>
+    <marker id="arrowEmerald" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#34d399" />
+    </marker>
+    <marker id="arrowPurple" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#c084fc" />
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M 0 1 L 6 4 L 0 7 z" fill="#fbbf24" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="720" fill="url(#bgGrad)" />
+
+  <!-- Header -->
+  <g transform="translate(40, 24)">
+    <text x="0" y="22" fill="#f8fafc" font-size="22" font-weight="700" letter-spacing="-0.02em">SOF Testbench Pipeline Execution &amp; Control Lifecycle</text>
+    <text x="0" y="44" fill="#94a3b8" font-size="13">Detailed execution sequence: Topology loading, IPC mailbox simulation, audio buffer scheduling, runtime control scripting, and acoustic output</text>
+  </g>
+
+  <!-- MAIN 3-COLUMN WORKFLOW -->
+
+  <!-- COLUMN 1: Pipeline Construction & Setup -->
+  <g transform="translate(40, 78)">
+    <rect width="360" height="470" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(18, 16)">
+      <rect width="26" height="26" rx="6" fill="#0284c7" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">1</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Topology &amp; Pipeline Setup</text>
+    </g>
+
+    <g transform="translate(18, 52)">
+      <!-- Step 1A: CLI & Topology Ingestion -->
+      <g transform="translate(0, 0)">
+        <rect width="324" height="88" rx="6" fill="#1e293b" stroke="#0284c7" stroke-width="1.2" />
+        <text x="12" y="18" fill="#38bdf8" font-size="12" font-weight="bold">Step 1: Parse CLI &amp; Topology</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• Load -t &lt;topology.tplg&gt;</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9">• Extract pipeline tokens, widgets &amp; routes</text>
+        <text x="12" y="62" fill="#94a3b8" font-size="9">• Filter pipelines: -p 1,2 (play) or -p 3,4 (cap)</text>
+        <text x="12" y="76" fill="#cbd5e1" font-size="9">Topology parser generates IPC command list</text>
+      </g>
+
+      <!-- Step 1B: Emulated IPC Mailbox Dispatch -->
+      <g transform="translate(0, 102)">
+        <rect width="324" height="124" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1.2" />
+        <text x="12" y="18" fill="#c084fc" font-size="12" font-weight="bold">Step 2: IPC Mailbox Dispatch</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• tb_mq_cmd_tx_rx() / tb_ipc_message()</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9">• Module Creation: comp_new() per widget</text>
+        <text x="12" y="62" fill="#94a3b8" font-size="9">• Circular Buffers: rballoc() with period size</text>
+        <text x="12" y="76" fill="#94a3b8" font-size="9">• Module Binding: Connect input/output pins</text>
+        <text x="12" y="90" fill="#94a3b8" font-size="9">• Stream Params: comp_params() configuration</text>
+        <text x="12" y="104" fill="#34d399" font-size="9" font-family="monospace">• Pipeline Prepare: comp_prepare() executed</text>
+        <text x="12" y="118" fill="#94a3b8" font-size="8">Host &amp; DAI copiers replaced with simulated file endpoints</text>
+      </g>
+
+      <!-- Step 1C: Pipeline Trigger -->
+      <g transform="translate(0, 240)">
+        <rect width="324" height="74" rx="6" fill="#1e293b" stroke="#059669" stroke-width="1.2" />
+        <text x="12" y="18" fill="#34d399" font-size="12" font-weight="bold">Step 3: Trigger START</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• COMP_TRIGGER_START dispatched</text>
+        <text x="12" y="48" fill="#94a3b8" font-size="9">• Internal pipeline state transitions to RUNNING</text>
+        <text x="12" y="62" fill="#94a3b8" font-size="9">• Opens input PCM files (-i in.raw)</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- COLUMN 2: Audio Period Scheduling Loop -->
+  <g transform="translate(420, 78)">
+    <rect width="360" height="470" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(18, 16)">
+      <rect width="26" height="26" rx="6" fill="#7c3aed" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">2</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Simulated Period Scheduling Loop</text>
+    </g>
+
+    <g transform="translate(18, 52)">
+      <!-- Execution Loop Container -->
+      <rect width="324" height="395" rx="8" fill="#0f172a" stroke="#7c3aed" stroke-dasharray="4,4" stroke-width="1.5" />
+      <text x="162" y="22" fill="#c084fc" font-size="11" font-weight="bold" text-anchor="middle">Cyclic Audio Period Loop (10x–100x Real Time)</text>
+      
+      <!-- Sub-step A: File Read -->
+      <g transform="translate(12, 34)">
+        <rect width="300" height="54" rx="6" fill="#1e293b" stroke="#38bdf8" stroke-width="1" />
+        <text x="10" y="16" fill="#38bdf8" font-size="10" font-weight="bold">A. file_read() - Virtual Source</text>
+        <text x="10" y="32" fill="#e2e8f0" font-size="9" font-family="monospace">• Reads N audio frames from in.raw</text>
+        <text x="10" y="46" fill="#94a3b8" font-size="9">• Formats: S16_LE / S24_LE / S32_LE into source buffer</text>
+      </g>
+
+      <!-- Sub-step B: Sequential comp_copy() -->
+      <g transform="translate(12, 98)">
+        <rect width="300" height="110" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1" />
+        <text x="10" y="16" fill="#c084fc" font-size="10" font-weight="bold">B. Sequential comp_copy() Processing</text>
+        
+        <!-- Component Nodes in Flow -->
+        <g transform="translate(10, 26)">
+          <rect x="0" y="0" width="80" height="26" rx="4" fill="#312e81" stroke="#818cf8" stroke-width="1" />
+          <text x="40" y="17" fill="#e0e7ff" font-size="9" font-weight="bold" text-anchor="middle">Comp 1 (Vol)</text>
+          
+          <path d="M 80 13 L 96 13" stroke="#818cf8" stroke-width="1.5" marker-end="url(#arrowPurple)" fill="none" />
+          
+          <rect x="100" y="0" width="80" height="26" rx="4" fill="#312e81" stroke="#818cf8" stroke-width="1" />
+          <text x="140" y="17" fill="#e0e7ff" font-size="9" font-weight="bold" text-anchor="middle">Comp 2 (EQ)</text>
+          
+          <path d="M 180 13 L 196 13" stroke="#818cf8" stroke-width="1.5" marker-end="url(#arrowPurple)" fill="none" />
+
+          <rect x="200" y="0" width="76" height="26" rx="4" fill="#312e81" stroke="#818cf8" stroke-width="1" />
+          <text x="238" y="17" fill="#e0e7ff" font-size="9" font-weight="bold" text-anchor="middle">Comp 3 (DRC)</text>
+        </g>
+        <text x="10" y="70" fill="#94a3b8" font-size="9">• Unmodified firmware DSP code executes directly</text>
+        <text x="10" y="84" fill="#94a3b8" font-size="9">• Period size audio frame consumption &amp; production</text>
+        <text x="10" y="98" fill="#94a3b8" font-size="9">• SIMD vector / 32-bit float math on host or Xtensa</text>
+      </g>
+
+      <!-- Sub-step C: File Write -->
+      <g transform="translate(12, 218)">
+        <rect width="300" height="54" rx="6" fill="#1e293b" stroke="#059669" stroke-width="1" />
+        <text x="10" y="16" fill="#34d399" font-size="10" font-weight="bold">C. file_write() - Virtual Sink</text>
+        <text x="10" y="32" fill="#e2e8f0" font-size="9" font-family="monospace">• Flushes processed frames to out.raw</text>
+        <text x="10" y="46" fill="#94a3b8" font-size="9">• Supports up to 4 simultaneous output streams</text>
+      </g>
+
+      <!-- Sub-step D: Buffer & Schedule Updates -->
+      <g transform="translate(12, 282)">
+        <rect width="300" height="96" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="16" fill="#fbbf24" font-size="10" font-weight="bold">D. Pointer &amp; Simulated Time Advance</text>
+        <text x="10" y="32" fill="#e2e8f0" font-size="9" font-family="monospace">• Circular buffer read/write pointer updates</text>
+        <text x="10" y="46" fill="#94a3b8" font-size="9">• Checks for underruns, overruns, and NaN values</text>
+        <text x="10" y="60" fill="#94a3b8" font-size="9">• Advances simulated stream time: t_sim += period_ms</text>
+        <text x="10" y="74" fill="#38bdf8" font-size="9">• Checks for pending runtime control events</text>
+        <text x="10" y="88" fill="#cbd5e1" font-size="8">Repeats until in.raw reaches EOF or iteration limit reached</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- COLUMN 3: Dynamic Controls & Teardown -->
+  <g transform="translate(800, 78)">
+    <rect width="360" height="470" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(18, 16)">
+      <rect width="26" height="26" rx="6" fill="#d97706" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">3</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Dynamic Control &amp; Analysis</text>
+    </g>
+
+    <g transform="translate(18, 52)">
+      <!-- Dynamic Control Injection -->
+      <g transform="translate(0, 0)">
+        <rect width="324" height="150" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1.2" />
+        <text x="12" y="18" fill="#fbbf24" font-size="12" font-weight="bold">Runtime Control Injection (-s script)</text>
+        <text x="12" y="34" fill="#94a3b8" font-size="9">Executes shell commands synchronized to stream time:</text>
+        
+        <g transform="translate(8, 42)">
+          <rect width="308" height="74" rx="4" fill="#0f172a" stroke="#334155" stroke-width="1" />
+          <text x="8" y="16" fill="#38bdf8" font-size="9" font-family="monospace">amixer -c0 cset name='Volume' 40,30</text>
+          <text x="8" y="30" fill="#fbbf24" font-size="9" font-family="monospace">sleep 1   # Correlates to 1.0s of audio</text>
+          <text x="8" y="44" fill="#38bdf8" font-size="9" font-family="monospace">amixer -c0 cset name='DRC switch' off</text>
+          <text x="8" y="58" fill="#38bdf8" font-size="9" font-family="monospace">sof-ctl -c name='IIR Eq' -s eq_blob.txt</text>
+        </g>
+        <text x="12" y="132" fill="#e2e8f0" font-size="9">In-stream parameter updates without reboots</text>
+        <text x="12" y="144" fill="#94a3b8" font-size="8">Verifies smooth coefficient cross-fading &amp; zipper noise</text>
+      </g>
+
+      <!-- Teardown & Deallocation -->
+      <g transform="translate(0, 164)">
+        <rect width="324" height="110" rx="6" fill="#1e293b" stroke="#e11d48" stroke-width="1.2" />
+        <text x="12" y="18" fill="#f43f5e" font-size="12" font-weight="bold">Stream Teardown &amp; Cleanup</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• Trigger STOP &amp; RESET: comp_reset()</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">• Pipeline Destruction: comp_free()</text>
+        <text x="12" y="62" fill="#94a3b8" font-size="9">• Buffer Deallocation: rbfree() verification</text>
+        <text x="12" y="76" fill="#94a3b8" font-size="9">• Valgrind leak scan: 0 memory leaks tolerated</text>
+        <text x="12" y="90" fill="#cbd5e1" font-size="9">Ensures tear-down symmetry and zero dangling pointers</text>
+      </g>
+
+      <!-- Audio Export & Metrics -->
+      <g transform="translate(0, 286)">
+        <rect width="324" height="100" rx="6" fill="#1e293b" stroke="#059669" stroke-width="1.2" />
+        <text x="12" y="18" fill="#34d399" font-size="12" font-weight="bold">Audio Export &amp; Metric Verification</text>
+        <text x="12" y="34" fill="#e2e8f0" font-size="10" font-family="monospace">• sox out.raw out.wav (WAV synthesis)</text>
+        <text x="12" y="48" fill="#e2e8f0" font-size="10" font-family="monospace">• Audacity / mhWaveEdit waveform inspection</text>
+        <text x="12" y="62" fill="#e2e8f0" font-size="10" font-family="monospace">• GNU Octave process_test('eqiir') AES17 suite</text>
+        <text x="12" y="76" fill="#e2e8f0" font-size="10" font-family="monospace">• xt-gprof: MCPS cycle counts per component</text>
+        <text x="12" y="90" fill="#94a3b8" font-size="8">Automated pass/fail verdict returned to CI runner</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- BOTTOM CONTAINER: Summary Flow Banner -->
+  <g transform="translate(40, 560)">
+    <rect width="1120" height="135" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" filter="url(#dropShadow)" />
+    
+    <g transform="translate(20, 14)">
+      <rect width="26" height="26" rx="6" fill="#059669" />
+      <text x="13" y="18" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">4</text>
+      <text x="34" y="18" fill="#f8fafc" font-size="15" font-weight="600">Key Benefits of Host Testbench Simulation in SOF Development</text>
+    </g>
+
+    <g transform="translate(20, 48)">
+      <g transform="translate(0, 0)">
+        <rect width="260" height="70" rx="6" fill="#1e293b" stroke="#0284c7" stroke-width="1" />
+        <text x="10" y="18" fill="#38bdf8" font-size="11" font-weight="bold">Rapid Development Loop</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• Instant compile &amp; run cycle</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• Zero physical DUT flashing delays</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• No hardware lab freeze risks</text>
+      </g>
+
+      <g transform="translate(280, 0)">
+        <rect width="260" height="70" rx="6" fill="#1e293b" stroke="#7c3aed" stroke-width="1" />
+        <text x="10" y="18" fill="#c084fc" font-size="11" font-weight="bold">Deterministic Debugging</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• Standard GDB &amp; LLDB breakpoints</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• Inspect audio buffer contents live</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• Reproduce glitches reliably</text>
+      </g>
+
+      <g transform="translate(560, 0)">
+        <rect width="260" height="70" rx="6" fill="#1e293b" stroke="#d97706" stroke-width="1" />
+        <text x="10" y="18" fill="#fbbf24" font-size="11" font-weight="bold">Memory Safety Assurance</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• Valgrind out-of-bounds detection</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• AddressSanitizer stack corruption checks</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• Catches edge-case buffer overruns</text>
+      </g>
+
+      <g transform="translate(840, 0)">
+        <rect width="240" height="70" rx="6" fill="#1e293b" stroke="#059669" stroke-width="1" />
+        <text x="10" y="18" fill="#34d399" font-size="11" font-weight="bold">Objective Quality Metrics</text>
+        <text x="10" y="34" fill="#94a3b8" font-size="9">• AES17 standard compliance</text>
+        <text x="10" y="48" fill="#94a3b8" font-size="9">• Automated THD+N &amp; SNR sweeps</text>
+        <text x="10" y="62" fill="#94a3b8" font-size="9">• Regression gate before PR merge</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Connective Horizontal Arrows -->
+  <path d="M 400 310 L 420 310" stroke="#38bdf8" stroke-width="2" marker-end="url(#arrowCyan)" fill="none" />
+  <path d="M 780 310 L 800 310" stroke="#c084fc" stroke-width="2" marker-end="url(#arrowPurple)" fill="none" />
+</svg>
