@@ -48,6 +48,9 @@ copybutton_line_continuation_character = "\\"
 sphinx_tabs_disable_tab_closing = True
 sphinx_tabs_disable_css_loading = True
 
+# Suppress duplicate declaration warnings from anonymous structs in Breathe
+suppress_warnings = ['duplicate_declaration.c']
+
 try:
     import myst_parser
     extensions.append('myst_parser')
@@ -249,8 +252,8 @@ def setup(app):
     class BreatheAnonymousUnionFilter(logging.Filter):
         def filter(self, record):
             msg = record.getMessage()
-            # Suppress breathe limitation parsing anonymous union in struct bind_info
-            if "bind_info" in msg or "Expected identifier in nested name" in msg:
+            # Suppress breathe limitation parsing anonymous union/struct members (e.g. bind_info, dp_schedule)
+            if "bind_info" in msg or "Expected identifier in nested name" in msg or "Duplicate C declaration" in msg:
                 return False
             return True
 
