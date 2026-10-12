@@ -27,8 +27,8 @@ Overview of Documented Modules
 
 The Doxygen documentation covers the entire public firmware and host-shared interface:
 
-* **Audio Components & Pipelines**:
-  Core component driver lifecycle (``component.h``), component extensions and buffer helpers (``component_ext.h``), and PCM stream buffer utilities (``audio_stream.h``).
+* **Audio Pipelines & Buffers**:
+  Audio pipeline DAG graphs (``pipeline.h``), component driver lifecycle and ops (``component.h``, ``component_ext.h``), interconnect and lockless ring buffers (``buffer.h``, ``audio_buffer.h``, ``ring_buffer.h``, ``audio_stream.h``), and channel mapping routines (``channel_map.h``).
 
 * **Hardware Drivers & Interfaces**:
   Direct Memory Access (``dma.h``), Digital Audio Interfaces for I2S/SSP, SoundWire/ALH, DMIC/PDM, and HDA (``dai.h``), Power Management runtime (``pm_runtime.h``), and platform hardware timers and interrupt controllers (``platform.h``).
