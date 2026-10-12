@@ -34,7 +34,10 @@ The Doxygen documentation covers the entire public firmware and host-shared inte
   Direct Memory Access (``dma.h``), Digital Audio Interfaces for I2S/SSP, SoundWire/ALH, DMIC/PDM, and HDA (``dai.h``), Power Management runtime (``pm_runtime.h``), and platform hardware timers and interrupt controllers (``platform.h``).
 
 * **Core RTOS & System Services**:
-  Real-time task scheduling (EDF, LL-Timer, LL-DMA, Zephyr DataProcessing threads in ``schedule.h``), spinlocks, mutexes, clocks, and component/pipeline UUID declarations (``uuid.h``).
+  Spinlocks, mutexes, condition variables, clocks, and component/pipeline UUID declarations (``uuid.h``).
+
+* **Scheduling Infrastructure**:
+  Real-time task schedulers (Low-Latency Timer and DMA in ``ll_schedule.h`` and ``ll_schedule_domain.h``, Data Processing preemptible threads in ``dp_schedule.h``, Thread With Budget in ``twb_schedule.h``, and task state machines in ``schedule.h`` and ``rtos/task.h``).
 
 * **Memory Management Infrastructure**:
   Multi-tier system heaps and flags (``rtos/alloc.h``), Virtual Memory Heap (``regions_mm.h``), virtual regions (``vregion.h``), cold DRAM staging (``fast-get.h``), and virtual page mapping (``vpage.h``).
@@ -56,6 +59,7 @@ Subsystem C API References
    pipeline
    components
    memory
+   scheduling
    rtos
    math
 
