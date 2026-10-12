@@ -27,6 +27,9 @@ Overview of Documented Modules
 
 The Doxygen documentation covers the entire public firmware and host-shared interface:
 
+* **Audio Processing Components & Modules**:
+  Unified processing module interface (``module/interface.h``), lifecycle callbacks, streaming endpoints (``sink_api.h``, ``source_api.h``), dynamic LLEXT symbols, and built-in audio components (Volume, Mixer, EQ FIR/IIR, DRC, SRC, ASRC, Crossover, Smart Amp, Sound Dose).
+
 * **Audio Pipelines & Buffers**:
   Audio pipeline DAG graphs (``pipeline.h``), component driver lifecycle and ops (``component.h``, ``component_ext.h``), interconnect and lockless ring buffers (``buffer.h``, ``audio_buffer.h``, ``ring_buffer.h``, ``audio_stream.h``), and channel mapping routines (``channel_map.h``).
 
@@ -55,9 +58,8 @@ Subsystem C API References
    :maxdepth: 1
 
    ipc4
-   modules
-   pipeline
    components
+   pipeline
    memory
    scheduling
    rtos
