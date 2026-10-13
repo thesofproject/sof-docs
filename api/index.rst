@@ -27,14 +27,23 @@ Overview of Documented Modules
 
 The Doxygen documentation covers the entire public firmware and host-shared interface:
 
-* **Audio Components & Pipelines**:
-  Core component driver lifecycle (``component.h``), component extensions and buffer helpers (``component_ext.h``), and PCM stream buffer utilities (``audio_stream.h``).
+* **Audio Processing Components & Modules**:
+  Unified processing module interface (``module/interface.h``), lifecycle callbacks, streaming endpoints (``sink_api.h``, ``source_api.h``), dynamic LLEXT symbols, and built-in audio components (Volume, Mixer, EQ FIR/IIR, DRC, SRC, ASRC, Crossover, Smart Amp, Sound Dose).
+
+* **Audio Pipelines & Buffers**:
+  Audio pipeline DAG graphs (``pipeline.h``), component driver lifecycle and ops (``component.h``, ``component_ext.h``), interconnect and lockless ring buffers (``buffer.h``, ``audio_buffer.h``, ``ring_buffer.h``, ``audio_stream.h``), and channel mapping routines (``channel_map.h``).
 
 * **Hardware Drivers & Interfaces**:
   Direct Memory Access (``dma.h``), Digital Audio Interfaces for I2S/SSP, SoundWire/ALH, DMIC/PDM, and HDA (``dai.h``), Power Management runtime (``pm_runtime.h``), and platform hardware timers and interrupt controllers (``platform.h``).
 
 * **Core RTOS & System Services**:
-  Real-time task scheduling (EDF, LL-Timer, LL-DMA, Zephyr DataProcessing threads in ``schedule.h``), memory allocation heaps (``alloc.h``), and component/pipeline UUID declarations (``uuid.h``).
+  Spinlocks, mutexes, condition variables, clocks, and component/pipeline UUID declarations (``uuid.h``).
+
+* **Scheduling Infrastructure**:
+  Real-time task schedulers (Low-Latency Timer and DMA in ``ll_schedule.h`` and ``ll_schedule_domain.h``, Data Processing preemptible threads in ``dp_schedule.h``, Thread With Budget in ``twb_schedule.h``, and task state machines in ``schedule.h`` and ``rtos/task.h``).
+
+* **Memory Management Infrastructure**:
+  Multi-tier system heaps and flags (``rtos/alloc.h``), Virtual Memory Heap (``regions_mm.h``), virtual regions (``vregion.h``), cold DRAM staging (``fast-get.h``), and virtual page mapping (``vpage.h``).
 
 * **IPC & Host Interfaces**:
   User/Kernel IPC ABI protocols and messaging envelopes (``ipc/header.h``, ``ipc/control.h``), and SRAM Window 0 firmware status registers and telemetry offsets (``kernel/mailbox.h``).
@@ -49,9 +58,10 @@ Subsystem C API References
    :maxdepth: 1
 
    ipc4
-   modules
-   pipeline
    components
+   pipeline
+   memory
+   scheduling
    rtos
    math
 
