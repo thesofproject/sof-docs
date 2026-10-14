@@ -48,6 +48,9 @@ The Doxygen documentation covers the entire public firmware and host-shared inte
 * **IPC & Host Interfaces**:
   User/Kernel IPC ABI protocols and messaging envelopes (``ipc/header.h``, ``ipc/control.h``), and SRAM Window 0 firmware status registers and telemetry offsets (``kernel/mailbox.h``).
 
+* **Telemetry, Logging & Probes**:
+  High-throughput host DMA trace streaming (``dma-trace.h``), dictionary-based logger (``trace-soflogger.h``), audio extraction/injection tap points (``probe/probe.h``, ``probe_dma_frame.h``), performance monitoring and cycle utilization (``telemetry.h``, ``performance_monitor.h``), and Memory Window 2 debug streams (``debug_stream.h``).
+
 * **Source Code Graphs & File Browsing**:
   Full source file tree, header include dependency graphs, and function call/caller graphs.
 
@@ -64,6 +67,7 @@ Subsystem C API References
    scheduling
    rtos
    math
+   telemetry
 
 Building API Documentation Locally
 **********************************
